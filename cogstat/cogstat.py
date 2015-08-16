@@ -692,7 +692,7 @@ class CogStatData:
                             if not norm:
                                 result += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', '+_('group ')+unicode(group)+'.\n<default>'
                                 normal_vars = False
-                        result += '<decision>'+_('Checking for homeogeneity of variance across groups.')+'\n<default>'
+                        result += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
                         hoemogeneity_vars = True
                         p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
                         result += text_result
