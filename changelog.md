@@ -5,6 +5,8 @@ Upcoming release - 1.3.0 (August 2015)
     - All CogStat functions are available in IPython Notebook
     - Import pandas data frame (only in IP NB mode)
 - Filtering based on single variable outlier (only in IP NB mode at the moment)
+- New localization
+    - Bulgarian (thanks to Petia Kojouharova)
 
 ## Fixes
 - Fix memory leak after several analysis (less memory is required)
