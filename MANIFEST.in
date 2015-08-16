@@ -1,0 +1,5 @@
+recursive-include cogstat/docs *
+recursive-include cogstat/locale *
+recursive-include cogstat/resources *
+recursive-include cogstat/sample_data *
+include cogstat/cogstat.ini  # FIXME

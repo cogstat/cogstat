@@ -1,0 +1,15 @@
+"CASE"	"TIME"	"TIME3"	"CONDITION"	"CONDITION2"	"X"	"Y"	"Z"	"W"	"CONST"
+"int"	"nom"	"nom"	"nom"	"nom"	"int"	"int"	"ord"	"nom"	"int"
+1	"night"	"a"	"A"	"A"	10.121	123	32	1	3
+2	"day"	"a"	"B"	"A"	70	76	76	2	3
+2	"night"	"a"	"A"	"A"	27	67	34	1	3
+3	"night"	"a"	"B"	"B"	38		345	3	3
+3	"day"	"s"	"A"	"B"		76	356	1	3
+2	"day"	"s"	"B"	"B"	127		657	1	3
+
+2	"night"		"A"	"B"	68	76	659	2	3
+3	"night"	"s"	"B"	"B"	109	46	758	2	3
+3	"day"	"d"	"A"	"A"	57	75	67	3	3
+3	"day"	"d"	"B"	"B"	71	765	7	1	3
+3	"night"	"d"	"A"	"A"	40	65	76	1	3
+3	"night"	"d"	"B"	"B"	84	765	87	1	3

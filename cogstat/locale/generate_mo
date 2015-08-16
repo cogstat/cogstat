@@ -1,0 +1,5 @@
+for po_path in */LC_MESSAGES
+do
+    echo $po_path/cogstat.mo
+    msgfmt -o $po_path/cogstat.mo $po_path/cogstat.po
+done
