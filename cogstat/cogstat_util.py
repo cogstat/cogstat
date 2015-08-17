@@ -109,17 +109,18 @@ def print_p(p):
 
 
 def precision(data):
-    """
-    Computes the maximal decimal precision in the data.
-    data: list of numbers
+    """Compute the maximal decimal precision in the data.
+    data: pandas series
 
     returns:
         maximum number of decimals in list, or None if data are not numerical
         or empty list was given
     """
+    data = data.dropna()
     if len(data) == 0:
         return None
-    if isinstance(list(data)[0], (int, long, float, complex)):  # or http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
+    if isinstance(data[0], (int, long, float, complex)):
+        # or http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
         return max([len(('%d' % x if int(x) == x else '%s' % x).partition('.')[2]) for x in data])
     else:
         return None

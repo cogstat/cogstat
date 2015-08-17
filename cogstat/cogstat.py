@@ -358,7 +358,7 @@ class CogStatData:
         meas_level, unknown_type = self._meas_lev_vars([var_name])
         text_result=''
         if meas_level in ['int', 'ord', 'unk']:
-            prec = cs_util.precision(self.data_frame[var_name].dropna())+1
+            prec = cs_util.precision(self.data_frame[var_name])+1
         if unknown_type:
             text_result += '<decision>'+warn_unknown_variable+'\n<default>'
         if meas_level in ['int', 'unk']:  # TODO check normality?

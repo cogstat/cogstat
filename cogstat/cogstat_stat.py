@@ -118,7 +118,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     if function == 'N':
         prec = 0
     else:
-        prec = cs_util.precision(pdf[depend_name[0]].dropna())+1
+        prec = cs_util.precision(pdf[depend_name[0]])+1
 
     def format_output(x):
         return '%0.*f' % (prec, x)
@@ -552,7 +552,7 @@ def print_var_stats(pdf, var_names, group_names=None, stat=None):
         elif stat == 'median':
             text_result += _(u'Medians for the variables')
         for var_name in var_names:
-            prec = cs_util.precision(data[var_name].dropna())+1
+            prec = cs_util.precision(data[var_name])+1
             if stat == 'mean':
                 pdf_result.loc[stat_name[stat], var_name] = (u'%0.*f') % (prec, np.mean(data[var_name].dropna()))
             elif stat == 'median':
@@ -573,7 +573,7 @@ def print_var_stats(pdf, var_names, group_names=None, stat=None):
             text_result += _(u'Medians for the groups')
         for group_label, group_data in zip(groups, grouped_data):
             if len(group_data):
-                prec = cs_util.precision(group_data.dropna())+1
+                prec = cs_util.precision(group_data)+1
                 if stat == 'mean':
                     pdf_result.loc[stat_name[stat], group_label] = (u'%0.*f') %(prec, np.mean(group_data.dropna()))
                 elif stat == 'median':
