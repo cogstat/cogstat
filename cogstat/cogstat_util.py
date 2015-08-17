@@ -119,7 +119,7 @@ def precision(data):
     data = data.dropna()
     if len(data) == 0:
         return None
-    if isinstance(data[0], (int, long, float, complex)):
+    if isinstance(data.iloc[0], (int, long, float, complex)):
         # or http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
         return max([len(('%d' % x if int(x) == x else '%s' % x).partition('.')[2]) for x in data])
     else:
