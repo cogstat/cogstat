@@ -249,18 +249,20 @@ class preferences_dialog(QtGui.QDialog, ui.preferences.Ui_Dialog):
     def init_langs(self):
         """Set the available languages.
         """
-        import glob, os
+        import glob
+        import os
 
         def available_langs(domain=None, localedir=None):
+            """Look for available languages"""
             if domain is None:
                 domain = gettext._current_domain
             if localedir is None:
                 localedir = gettext._default_localedir
             files = glob.glob(os.path.join(localedir, '*', 'LC_MESSAGES', '%s.mo' % domain))
-            langs = [file.split(os.path.sep)[-3] for file in files]
+            langs = [file_name.split(os.path.sep)[-3] for file_name in files]
             return langs
 
-        langs = ['en']+available_langs(domain='cogstat', localedir='locale')
+        langs = ['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__))+'/locale')
         
         # TODO is there any automatic method to show the name and not the code 
         # of the languages? Or should we use our own solution (e.g., dictionary)?
