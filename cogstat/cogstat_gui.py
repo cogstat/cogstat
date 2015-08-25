@@ -41,7 +41,7 @@ class StatMainWindow(QtGui.QMainWindow):
         # TODO Maybe all these checking can be removed
         missing_required_components, missing_recommended_components = self._check_installed_components()
         if missing_required_components or missing_recommended_components:
-            QtGui.QMessageBox.critical(self, 'Incomplete installation', u'Install missing component(s): ' + ''.join([x+u', ' for x in missing_required_components+missing_recommended_components])[:-2]+u'.<br><br>'+u'<a href = "https://sites.google.com/site/cogstatprogram/home/telepites">Visit the installation help page</a> to see how to complete the installation.', QtGui.QMessageBox.Ok)
+            QtGui.QMessageBox.critical(self, 'Incomplete installation', u'Install missing component(s): ' + ''.join([x+u', ' for x in missing_required_components+missing_recommended_components])[:-2]+u'.<br><br>'+u'<a href = "https://github.com/cogstat/cogstat/wiki/Installation">Visit the installation help page</a> to see how to complete the installation.', QtGui.QMessageBox.Ok)
             if missing_required_components:
                 sys.exit()
         
@@ -143,7 +143,7 @@ class StatMainWindow(QtGui.QMainWindow):
         # Prepare Output pane
         self.output_pane = QtGui.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
         self.output_pane.setLineWrapMode (QtGui.QTextEdit.NoWrap)
-        self.output_pane.setText(_('<br><b>Welcome to CogStat!</b><br>CogStat makes statistical analysis more simple and efficient.<br>To start working open a data file or paste your data from a spreadsheet.<br>Find more information about CogStat on its <a href = "http://sites.google.com/site/cogstatprogram/">webpage</a>.<br>'))
+        self.output_pane.setText(_('<br><b>Welcome to CogStat!</b><br>CogStat makes statistical analysis more simple and efficient.<br>To start working open a data file or paste your data from a spreadsheet.<br>Find more information about CogStat on its <a href = "https://github.com/cogstat/cogstat/wiki">webpage</a>.<br>'))
         self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
         self.output_pane.setReadOnly(True)
         self.output_pane.setOpenExternalLinks(True)
@@ -516,7 +516,7 @@ class StatMainWindow(QtGui.QMainWindow):
 
     ### Cogstat menu  methods ###
     def _open_help_webpage(self):
-        webbrowser.open(_('http://sites.google.com/site/cogstatprogram/'))
+        webbrowser.open('https://github.com/cogstat/cogstat/wiki')
         
     def _show_preferences(self):
         try:
@@ -526,13 +526,13 @@ class StatMainWindow(QtGui.QMainWindow):
         self.dial_pref.exec_()
     
     def _open_reqfeat_webpage(self):
-        webbrowser.open(_('https://docs.google.com/spreadsheet/viewform?formkey=dEZ2aU0teXdxVEltOHNsLTBmTk9QM2c6MQ#gid=0'))
+        webbrowser.open('https://github.com/cogstat/cogstat/issues')
         
     def _open_reportbug_webpage(self):
-        webbrowser.open(_('https://docs.google.com/spreadsheet/viewform?formkey=dHBNOWJZMTEtNXBYaFlndTZnTEwwX0E6MQ#gid=0'))
+        webbrowser.open('https://github.com/cogstat/cogstat/issues')
         
     def _show_about(self):
-        QtGui.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+_(u'<br>Simple statistical solutions for cognitive scientists<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://sites.google.com/site/cogstatprogram/">Visit CogStat website</a>'%(2012, 2015)))
+        QtGui.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+_(u'<br>Simple statistical solutions for cognitive scientists<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "https://github.com/cogstat/cogstat/wiki">Visit CogStat website</a>'%(2012, 2015)))
 
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""
