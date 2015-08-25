@@ -540,7 +540,7 @@ class CogStatData:
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
                 cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])#, rownames = [x], colnames = [y])
-                descr_result = '%s\n%s\n' % (descr_result, cont_table_data)
+                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
 
         # 3. Plot the descriptive data
         graph2 = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
@@ -655,7 +655,7 @@ class CogStatData:
                 descr_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]], stat='median')
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
-                descr_result = '%s\n%s\n'%(descr_result, cont_table_data)
+                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
 
             # 3. Plot the descriptive data
             graph2 = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
