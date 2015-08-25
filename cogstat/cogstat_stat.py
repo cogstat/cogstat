@@ -870,7 +870,14 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
         graph = fig
     elif meas_level in ['nom']:
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
-            fig, rects = mosaic(data_frame, [groups[0], var_names[0]])
+            # workaround to draw mosaic plots with zero cell, see #1
+            #fig, rects = mosaic(data_frame, [groups[0], var_names[0]])  # previous version
+            ct = pd.crosstab(data_frame[var_names[0]], data_frame[groups[0]]).sort_index(axis='index', ascending=False)\
+                .unstack()
+            if 0 in ct.values:
+                fig, rects = mosaic(ct+1e-9)
+            else:
+                fig, rects = mosaic(ct)
             fig.set_facecolor(csc.bg_col)
             plt.xlabel(groups[0])
             plt.ylabel(var_names[0])  # this does not work - is it a statsmodels mosaicplot limitation?
