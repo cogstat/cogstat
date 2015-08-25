@@ -646,7 +646,8 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
         graph = plt.gcf()
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y]) # TODO use data instead?
-        text_result = '\n%s\n' % (cont_table_data)
+        text_result = '\n%s\n' % cont_table_data.to_html(bold_rows=False).replace('\n', '').\
+            replace('border="1"', 'style="border:1px solid black;"')
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
             #mosaic(data_frame, [x, y])  # Previous version
             if 0 in cont_table_data.values:
