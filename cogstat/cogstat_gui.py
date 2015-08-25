@@ -539,7 +539,7 @@ class StatMainWindow(QtGui.QMainWindow):
         # Intentionally not localized.
         self._busy_signal(True)
         
-        text_output = cs_util.print_versions()
+        text_output = cs_util.reformat_output(cs_util.print_versions())
         
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_output(csc.heading_style_begin + _('System components') + csc.heading_style_end)

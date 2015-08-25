@@ -4,6 +4,7 @@ Various functions for CogStat.
 """
 
 import sys
+import os
 
 import cogstat_config as csc
 
@@ -90,6 +91,7 @@ def print_versions():
     #text_output += 'PyQt QStyle:%s\n' % csc.versions['pyqtstyle']
     text_output += 'R: %s\n' % csc.versions['r']
     text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
+    text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
 
 #    import os
 #    text_output += '\n'
