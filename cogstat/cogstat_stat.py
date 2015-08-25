@@ -656,9 +656,9 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
             else:
                 fig, rects = mosaic(cont_table_data.unstack())
             fig.set_facecolor(csc.bg_col)
-            plt.xlabel(x)
-            plt.ylabel(y)  # this does not work - is it a statsmodels mosaicplot limitation?
-                            # TODO it works, but label is on the top
+            ax = plt.subplot(111)
+            ax.set_xlabel(x)
+            ax.set_ylabel(y)
             plt.title(_('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
             try:
                 graph = plt.gcf()
@@ -724,9 +724,10 @@ def comp_var_graph(data, var_names, meas_level, data_frame):
                 else:
                     fig, rects = mosaic(ct)
                 fig.set_facecolor(csc.bg_col)
+                ax = plt.subplot(111)
+                ax.set_xlabel(var_pair[1])
+                ax.set_ylabel(var_pair[0])
                 plt.title(_('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
-                plt.xlabel(var_pair[1])
-                plt.ylabel(var_pair[0]) # this does not work - is it a statsmodels mosaicplot limitation?
                 try:
                     graph.append(plt.gcf())
                 except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
@@ -886,8 +887,9 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
             else:
                 fig, rects = mosaic(ct)
             fig.set_facecolor(csc.bg_col)
-            plt.xlabel(groups[0])
-            plt.ylabel(var_names[0])  # this does not work - is it a statsmodels mosaicplot limitation?
+            ax = plt.subplot(111)
+            ax.set_xlabel(groups[0])
+            ax.set_ylabel(var_names[0])
             plt.title(_('Mosaic plot of the groups'), fontsize=csc.graph_font_size)
             try:
                 graph = fig
