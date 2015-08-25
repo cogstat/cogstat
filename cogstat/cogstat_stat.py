@@ -648,7 +648,13 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y]) # TODO use data instead?
         text_result = '\n%s\n' % (cont_table_data)
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
-            fig, rects = mosaic(data_frame, [x, y])
+            #mosaic(data_frame, [x, y])  # Previous version
+            if 0 in cont_table_data.values:
+                fig, rects = mosaic(cont_table_data.unstack()+1e-9)
+                # this is a workaround for mosaic limitation, which cannot draw cells with 0 frequency
+                # see https://github.com/cogstat/cogstat/issues/1
+            else:
+                fig, rects = mosaic(cont_table_data.unstack())
             fig.set_facecolor(csc.bg_col)
             plt.xlabel(x)
             plt.ylabel(y)  # this does not work - is it a statsmodels mosaicplot limitation?
