@@ -715,7 +715,14 @@ def comp_var_graph(data, var_names, meas_level, data_frame):
         graph = []
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
             for var_pair in itertools.combinations(var_names, 2):
-                fig, rects = mosaic(data_frame, [var_pair[1], var_pair[0]])
+                # workaround to draw mosaic plots with zero cell, see #1
+                #fig, rects = mosaic(data_frame, [var_pair[1], var_pair[0]]) # previous version
+                ct = pd.crosstab(data_frame[var_pair[0]], data_frame[var_pair[1]]).sort_index(axis='index', ascending=False)\
+                    .unstack()
+                if 0 in ct.values:
+                    fig, rects = mosaic(ct+1e-9)
+                else:
+                    fig, rects = mosaic(ct)
                 fig.set_facecolor(csc.bg_col)
                 plt.title(_('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
                 plt.xlabel(var_pair[1])
