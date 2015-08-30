@@ -39,12 +39,6 @@ msgstr "Függvény: "
 msgid "Value"
 msgstr "Érték"
 
-#: .././cogstat_stat.py:211
-msgid "Freq\tRel freq\tCum freq\tCum rel freq\n"
-""
-msgstr "Gyak\tRel gyak\tKum gyak\tKum rel gyak\n"
-""
-
 #: .././cogstat_stat.py:262 .././cogstat_stat.py:396
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "A legnagyobb beosztás az x tengelyen %d esetet mutat."
@@ -245,18 +239,6 @@ msgstr "Egymintás t-próba eredménye."
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "A páros Wilcoxon-próba két változót igényel."
 
-#: .././cogstat_stat.py:776
-msgid "McNemar test requires two variables."
-msgstr "A McNemar próbához két változó szükséges."
-
-#: .././cogstat_stat.py:806
-msgid "Repeated measures ANOVA requires at least two variables."
-msgstr "Az ismételt méréses VA-hoz legalább két változó szükséges."
-
-#: .././cogstat_stat.py:854
-msgid "Sorry, this function is not available in CogStat yet."
-msgstr "Sajnos ez a funkció nem érhető el a CogStatban egyelőre."
-
 #: .././cogstat_stat.py:832
 msgid "Friedman test requires at least two variables."
 msgstr "A Friedman-próbához legalább két változó szükséges."
@@ -329,10 +311,6 @@ msgstr "A Kruskal-Wallis próba eredménye: "
 msgid "Cramér's V measure of association: "
 msgstr "Cramer V kapcsolati mérőszám: "
 
-#: .././cogstat_stat.py:1132
-msgid "Cramér's V measure of association cannot be computed (devision by zero)."
-msgstr "Cramer V kapcsolati mérőszám nem számolható ki (nullával való osztás). "
-
 #: .././cogstat_stat.py:1136
 msgid "Result of the Pearson's Chi-square test: "
 msgstr "Pearson Khi-négyzet teszt eredménye: "
@@ -393,10 +371,6 @@ msgstr "Az adatok elejének nyomtatása a kiemenetre"
 msgid "&Analysis"
 msgstr "&Elemzés"
 
-#: .././cogstat.py:140 .././cogstat.py:167
-msgid "&Explore variables"
-msgstr "&Változók tulajdonságai"
-
 #: .././cogstat_gui.py:89
 msgid "Ctrl+1"
 msgstr "Ctrl+1"
@@ -404,10 +378,6 @@ msgstr "Ctrl+1"
 #: .././cogstat_gui.py:89
 msgid "Main properties of variables"
 msgstr "A változók főbb tulajdonságai"
-
-#: .././cogstat.py:141 .././cogstat.py:167
-msgid "Explore variable &pairs"
-msgstr "Változó&párok tulajdonságai"
 
 #: .././cogstat_gui.py:90
 msgid "Ctrl+2"
@@ -565,10 +535,6 @@ msgstr "Változó &tulajdonságainak beállítása"
 msgid "&Compare groups and variables"
 msgstr "Csoportok és változók összehasonlítása"
 
-#: .././cogstat.py:194
-msgid "<br><b>Welcome to CogStat!</b><br>CogStat makes statistical analysis more simple and efficient.<br>To start working open a data file or paste your data from a spreadsheet.<br>Find more information about CogStat on its <a href = \"http://sites.google.com/site/cogstatprogram/\">webpage</a>.<br>"
-msgstr "<br><b>Üdvözöljük a CogStatban!</b><br>A CogStattal a statisztikai elemzések egyszerűbbek és hatékonyabbak.<br>A kezdéshez nyisson meg egy adatfájlt, vagy másolja az adatokat a vágólapról a programba.<br>További információ a CogStatról a <a href = \"http://sites.google.com/site/cogstatprogram/\">honlapján</a>.<br>"
-
 #: .././cogstat_gui.py:163
 msgid "Ready"
 msgstr "Kész"
@@ -617,25 +583,9 @@ msgstr "Kimenet törlése"
 msgid "Are you sure you want to delete the output?"
 msgstr "Biztosan töröljük a kimenetet?"
 
-#: .././cogstat.py:577
-msgid "http://sites.google.com/site/cogstatprogram/"
-msgstr "http://sites.google.com/site/cogstatprogram/"
-
-#: .././cogstat.py:587
-msgid "https://docs.google.com/spreadsheet/viewform?formkey=dEZ2aU0teXdxVEltOHNsLTBmTk9QM2c6MQ#gid=0"
-msgstr "https://docs.google.com/spreadsheet/viewform?formkey=dEZ2aU0teXdxVEltOHNsLTBmTk9QM2c6MQ#gid=0"
-
-#: .././cogstat.py:590
-msgid "https://docs.google.com/spreadsheet/viewform?formkey=dHBNOWJZMTEtNXBYaFlndTZnTEwwX0E6MQ#gid=0"
-msgstr "https://docs.google.com/spreadsheet/viewform?formkey=dHBNOWJZMTEtNXBYaFlndTZnTEwwX0E6MQ#gid=0"
-
 #: .././cogstat_gui.py:535
 msgid "About CogStat "
 msgstr "A CogStatról"
-
-#: .././cogstat.py:593
-msgid "<br>Simple statistical solutions for cognitive scientists<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = \"http://sites.google.com/site/cogstatprogram/\">Visit CogStat website</a>"
-msgstr "<br>Egyszerű statisztikai megoldások kognitív kutatóknak<br><br>Copyright © %s-%s Krajcsi Attila<br><br><a href = \"http://sites.google.com/site/cogstatprogram/\">A CogStat honlapja</a>"
 
 #: .././cogstat_gui.py:545
 msgid "System components"
@@ -657,22 +607,6 @@ msgstr "Kilépés megerősítése"
 msgid "Are you sure you want to exit the program?"
 msgstr "Biztosan kilépünk a programból?"
 
-#: .././cogstat_data.py:164
-msgid "There are numbers in the first row. Maybe the first row is not the names of the variables? The first row always should be the name of the variables. You might want to fix it in your data."
-msgstr "Számok vannak az első sorban. Lehet, hogy az első sorban nem a változók nevei vannak? Az első sorban mindig a változó neveinek kell lennie. Érdemes lehet ezt kijavítani az adatokban."
-
-#: .././cogstat_data.py:177
-msgid "Variable name was missing for the column %s. The new automaticly added name is %s."
-msgstr "A változónév hiányzott a(z) %s oszlopból. Az új automatikusan adott név %s."
-
-#: .././cogstat_data.py:188
-msgid "Variable name was already in use in the column %s. The old name was %s. The new name is %s."
-msgstr "A változónév már foglalt volt a(z) %s oszlopban. A régi név %s volt. Az új név %s."
-
-#: .././cogstat_data.py:190
-msgid "You might consider fixing the variable names in your source table."
-msgstr "Érdemes lehet a változó neveket kijavítani a forrás táblában."
-
 #: .././cogstat.py:145
 msgid "The measurement level was not set for all variables. You might consider fixing this in your data source."
 msgstr "A mérési szint nem volt beállítva minden változóra Érdemes lehet ezt javítani a forrás adatokban."
@@ -689,18 +623,6 @@ msgstr "Érdemes lehet a változó neveket kijavítani a forrás táblában."
 msgid "Data"
 msgstr "Adat"
 
-#: .././cogstat_data.py:249
-msgid "clipboard import"
-msgstr "vágólap beolvasás"
-
-#: .././cogstat_data.py:253
-msgid "pandas import"
-msgstr "pandas beolvasás"
-
-#: .././cogstat_data.py:255
-msgid "unknown source"
-msgstr "ismeretlen forrás"
-
 #: .././cogstat.py:212
 msgid "Source: "
 msgstr "Forrás: "
@@ -712,22 +634,6 @@ msgstr " változó és "
 #: .././cogstat.py:214
 msgid " cases"
 msgstr " eset"
-
-#: .././cogstat_data.py:258
-msgid "Names: \t"
-msgstr "Név: \t"
-
-#: .././cogstat_data.py:261
-msgid "\n"
-"Types:\t"
-msgstr "\n"
-"Típus:\t"
-
-#: .././cogstat_data.py:264
-msgid "\n"
-"Levels:\t"
-msgstr "\n"
-"Szint:\t"
 
 #: .././cogstat.py:226
 msgid " further cases are not displayed..."
@@ -1061,15 +967,15 @@ msgstr "Kum rel gyak"
 
 #: .././cogstat_stat.py:1135
 msgid "Cramér's V measure of association cannot be computed (division by zero)."
-msgstr ""
+msgstr "Cramér féle V asszociációs együtthatót nem lehet kiszámolni (nullával való osztás)."
 
 #: .././cogstat.py:117 .././cogstat.py:124
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
-msgstr ""
+msgstr "A mérési szintek szám nem egyezik a változók számával. A mérési szint megadását figyelmen kívül hagyjuk."
 
 #: .././cogstat.py:151
 msgid "pandas dataframe"
-msgstr ""
+msgstr "pandas adat"
 
 #: .././cogstat.py:172
 msgid "text file - "
@@ -1107,7 +1013,7 @@ msgstr " (2 szórás)"
 #: .././cogstat.py:260
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
-msgstr ""
+msgstr "Az alábbi tartományon kívüli esetek ki lesznek zárva:  %0.*f  --  %0.*f"
 
 #: .././cogstat.py:266
 msgid "The following cases will be excluded: "
@@ -1119,13 +1025,13 @@ msgstr "Egyetlen eset sincs kizárva."
 
 #: .././cogstat.py:695
 msgid "Checking for homogeneity of variance across groups."
-msgstr ""
+msgstr "Csoportok közti szóráshomogenitás ellenőrzése."
 
 #: .././cogstat_gui.py:146
 msgid "<br><b>Welcome to CogStat!</b><br>CogStat makes statistical analysis more simple and efficient.<br>To start working open a data file or paste your data from a spreadsheet.<br>Find more information about CogStat on its <a href = \"https://github.com/cogstat/cogstat/wiki\">webpage</a>.<br>"
-msgstr ""
+msgstr "<br><b>Üdvözöljük a CogStatban!</b><br>A CogStat segítségével a statisztikai elemzés egyszerűbb és hatékonyabb.<br>A munka elkezdéséhez nyiss meg egy adatfájlt, vagy másold be az adataidat egy táblázatkezelőből.<br>További információ a CogStatról  <a href = \"https://github.com/cogstat/cogstat/wiki\">honlapján</a>.<br> "
 
 #: .././cogstat_gui.py:535
 msgid "<br>Simple statistical solutions for cognitive scientists<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = \"https://github.com/cogstat/cogstat/wiki\">Visit CogStat website</a>"
-msgstr ""
+msgstr "<br>Egyszerű statisztikai megoldások kognitív kutatóknak<br><br>Copyright © %s-%s Krajcsi Attila<br><br><a href = \"https://github.com/cogstat/cogstat/wiki\">CogStat weboldala</a>"
 
