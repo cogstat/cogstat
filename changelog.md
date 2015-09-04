@@ -1,7 +1,7 @@
-Upcoming release - 1.3.0 (August 2015)
+1.3.0 (4 September 2015)
 ===============
 ## New features
-- IPython Notebook integration
+- IPython Notebook integration - see https://github.com/cogstat/cogstat/wiki/IPython-Notebook
     - All CogStat functions are available in IPython Notebook
     - Import pandas data frame (only in IP NB mode)
 - Filtering based on single variable outlier (only in IP NB mode at the moment)
@@ -9,11 +9,11 @@ Upcoming release - 1.3.0 (August 2015)
     - Bulgarian (thanks to Petia Kojouharova)
 
 ## Fixes
-- Fix memory leak after several analysis (less memory is required)
+- Fix memory leak after several analyses (less memory is required now)
 - Refactoring
     - Rework of the data import part (uses pandas now), resulting in faster import
 - Output improvements
-    - Proper html tables are used in Display data, in Frequencies and in Pivot tables
+    - Proper html tables are used in most analyses
     - Various minor improvements
 - Various minor bugfixes
 
