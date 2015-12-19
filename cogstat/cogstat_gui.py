@@ -374,7 +374,7 @@ class StatMainWindow(QtGui.QMainWindow):
         self._busy_signal(True)
         if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<default>'+_(u'At least two variables should be set.'))
+            text_result = cs_util.reformat_output('<default> %s %s'%(_('Explore variable pair.'), _(u'At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
@@ -415,7 +415,7 @@ class StatMainWindow(QtGui.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         if not depend_names or not (row_names or col_names or page_names):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('<default>'+_('The dependent variable and at least one grouping variable should be given.'))
+            text_result = cs_util.reformat_output('<default>%s %s'%(_('Pivot table.'), _('The dependent variable and at least one grouping variable should be given.')))
         else:
             try:
                 text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
@@ -446,7 +446,7 @@ class StatMainWindow(QtGui.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
         if len(var_names) < 2:
-            text_result = cs_util.reformat_output('<default>'+_(u'At least two variables should be set.'))
+            text_result = cs_util.reformat_output('<default>%s %s'%(_('Compare variables.'), _(u'At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
@@ -480,7 +480,7 @@ class StatMainWindow(QtGui.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
         if not var_names or not groups:
-            text_result = cs_util.reformat_output('<default>'+_(u'Both the dependent and the grouping variables should be set.'))
+            text_result = cs_util.reformat_output('<default>%s %s'%(_('Compare groups.'), _(u'Both the dependent and the grouping variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:

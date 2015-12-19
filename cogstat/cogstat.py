@@ -746,7 +746,7 @@ class CogStatData:
                     if not hoemogeneity_vars:
                         result += '<decision>'+_('Homeogeneity of variance is violated. ')+'<default>'
                     if (not normal_vars) or (not hoemogeneity_vars):
-                        result += '<decision> >>'+_('Running Kruskal-Wallis test.')+'\n<default>'
+                        result += '<decision> >> '+_('Running Kruskal-Wallis test.')+'\n<default>'
                         result += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
                         
                 elif meas_level == 'ord':
