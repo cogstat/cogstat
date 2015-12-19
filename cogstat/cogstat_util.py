@@ -107,7 +107,7 @@ def print_p(p):
     if p < 0.001, then print 'p < 0.001'
     otherwise 'p = value'
     """
-    return '<i>p</i> < 0.001' if p < 0.001 else '<i>p</i> = %0.3f' % p
+    return '<i>p</i> &lt; 0.001' if p < 0.001 else '<i>p</i> = %0.3f' % p
 
 
 def precision(data):
