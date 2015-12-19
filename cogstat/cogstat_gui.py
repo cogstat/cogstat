@@ -28,6 +28,7 @@ sys.setdefaultencoding("utf-8")  # TODO Not sure if this will work correctly for
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
+broken_analysis = '<default>'+_('%s Oops, something went wrong. You may want to report it.')
 
 class StatMainWindow(QtGui.QMainWindow):
     """
@@ -53,18 +54,18 @@ class StatMainWindow(QtGui.QMainWindow):
         cogstat.output_type = 'gui'  # For some GUI specific formatting
 
         # Only for testing
-        # self.open_file('dev_data/example2.csv'); #self.compare_groups()
+#        self.open_file('sample_data/example2.csv'); #self.compare_groups()
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable('X')
 #        self.explore_variable(u'a', freq=False)
-#         self.explore_variable_pair(['X', 'Y'])
-#         self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
-#         self.compare_variables(['X', 'Y'])
+#        self.explore_variable_pair(['X', 'Y'])
+#        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
+#        self.compare_variables(['X', 'Y'])
 #        self.compare_variables([u'CONDITION', u'CONDITION2', u'TIME'])
 #        self.compare_groups([u'dep_var'], [u'group_var'])
-#         self.compare_groups([u'A'], [u'H'])
-#         self.compare_groups(['X'], ['TIME'])
+#        self.compare_groups([u'A'], [u'H'])
+#        self.compare_groups(['X'], ['TIME'])
 #        self.save_result_as()
 #        self.save_result_as(filename='pdf_test.pdf')
 
@@ -313,8 +314,8 @@ class StatMainWindow(QtGui.QMainWindow):
     def _print_data_brief(self):
         self.print_data(brief=True)
 
-    ### Statistics menu methods ###
-        
+    ### Analysis menu methods ###
+
     def explore_variable(self, var_names=None, freq=True, dist=True, descr=True, norm=True, loc_test=True,
                          loc_test_value=0):
         """Computes various properties of variables.
@@ -332,7 +333,7 @@ class StatMainWindow(QtGui.QMainWindow):
             try:
                 self.dial_var_prop
             except:
-                self.dial_var_prop = cogstat_dialogs.explore_var_dialog(names = self.active_data.data_frame.columns)
+                self.dial_var_prop = cogstat_dialogs.explore_var_dialog(names=self.active_data.data_frame.columns)
             else:  # TODO is it not necessary anymore? For all dialogs
                 self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_prop.exec_():
@@ -340,14 +341,17 @@ class StatMainWindow(QtGui.QMainWindow):
             else:
                 return
         self._busy_signal(True)
-        for var_name in var_names:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.explore_variable()')  # TODO
-            result = self.active_data.explore_variable(var_name, frequencies=freq, distribution=dist,
-                                                            descriptives=descr, normality=norm, central_test=loc_test,
-                                                            central_value=loc_test_value)
-            self.analysis_results[-1].add_output(result)
-            self._print_to_output_pane()
+        try:
+            for var_name in var_names:
+                self.analysis_results.append(GuiResultPackage())
+                self.analysis_results[-1].add_command('self.explore_variable()')  # TODO
+                result = self.active_data.explore_variable(var_name, frequencies=freq, distribution=dist,
+                                                                descriptives=descr, normality=norm, central_test=loc_test,
+                                                                central_value=loc_test_value)
+                self.analysis_results[-1].add_output(result)
+        except:
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable.')))
+        self._print_to_output_pane()
         self._busy_signal(False)
 
     def explore_variable_pair(self, var_names=None):
@@ -362,7 +366,7 @@ class StatMainWindow(QtGui.QMainWindow):
             except:
                 self.dial_var_pair = cogstat_dialogs.explore_var_pairs_dialog(names=self.active_data.data_frame.columns)
             else:
-                self.dial_var_pair.init_vars(names = self.active_data.data_frame.columns)
+                self.dial_var_pair.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_pair.exec_():
                 var_names = self.dial_var_pair.read_parameters()
             else:
@@ -370,19 +374,22 @@ class StatMainWindow(QtGui.QMainWindow):
         self._busy_signal(True)
         if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
-            text_result = '<default>'+_(u'At least two variables should be set.')
+            text_result = cs_util.reformat_output('<default>'+_(u'At least two variables should be set.'))
             self.analysis_results[-1].add_output(text_result)
         else:
-            for x in var_names:
-                pass_diag = False
-                for y in var_names:
-                    if pass_diag:
-                        self.analysis_results.append(GuiResultPackage())
-                        self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
-                        result_list = self.active_data.explore_variable_pair(x, y)
-                        self.analysis_results[-1].add_output(result_list)
-                    if x == y:
-                        pass_diag = True
+            try:
+                for x in var_names:
+                    pass_diag = False
+                    for y in var_names:
+                        if pass_diag:
+                            self.analysis_results.append(GuiResultPackage())
+                            self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
+                            result_list = self.active_data.explore_variable_pair(x, y)
+                            self.analysis_results[-1].add_output(result_list)
+                        if x == y:
+                            pass_diag = True
+            except:
+                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable pair.')))
         self._print_to_output_pane()
         self._busy_signal(False)
             
@@ -408,9 +415,12 @@ class StatMainWindow(QtGui.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         if not depend_names or not (row_names or col_names or page_names):  # TODO this check should go to the dialog
-            text_result = '<default>'+_('The dependent variable and at least one grouping variable should be given.')
+            text_result = cs_util.reformat_output('<default>'+_('The dependent variable and at least one grouping variable should be given.'))
         else:
-            text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
+            try:
+                text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
+            except:
+                text_result = cs_util.reformat_output(broken_analysis % _('Pivot table.'))
         self.analysis_results[-1].add_output(text_result)
         self._print_to_output_pane()
         self._busy_signal(False)
@@ -436,12 +446,15 @@ class StatMainWindow(QtGui.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
         if len(var_names) < 2:
-            text_result = '<default>'+_(u'At least two variables should be set.')
+            text_result = cs_util.reformat_output('<default>'+_(u'At least two variables should be set.'))
             self.analysis_results[-1].add_output(text_result)
         else:
-            result_list = self.active_data.compare_variables(var_names)
-            for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
-                self.analysis_results[-1].add_output(result)
+            try:
+                result_list = self.active_data.compare_variables(var_names)
+                for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
+                    self.analysis_results[-1].add_output(result)
+            except:
+                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare variables.')))
         self._print_to_output_pane()
         self._busy_signal(False)
         
@@ -467,11 +480,14 @@ class StatMainWindow(QtGui.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
         if not var_names or not groups:
-            text_result = '<default>'+_(u'Both the dependent and the grouping variables should be set.')
+            text_result = cs_util.reformat_output('<default>'+_(u'Both the dependent and the grouping variables should be set.'))
             self.analysis_results[-1].add_output(text_result)
         else:
-            result_list = self.active_data.compare_groups(var_names[0], groups[0])
-            self.analysis_results[-1].add_output(result_list)
+            try:
+                result_list = self.active_data.compare_groups(var_names[0], groups[0])
+                self.analysis_results[-1].add_output(result_list)
+            except:
+                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare groups.')))
         self._print_to_output_pane()
         self._busy_signal(False)
 
