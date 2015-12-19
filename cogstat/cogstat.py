@@ -100,6 +100,10 @@ class CogStatData:
                         # use  selected_cells == True  to overcome the Nan indexes
                         self.data_frame[column][selected_cells == True] = \
                             self.data_frame[column][selected_cells == True].str.replace('%', '').astype('float')/100.0
+                        try:
+                            self.data_frame[column] = self.data_frame[column].astype('float')
+                        except:
+                            pass
 
         def set_measurement_level(measurement_level=''):
             """ Create self.data_measlevs
