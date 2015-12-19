@@ -509,9 +509,9 @@ class CogStatData:
 
         # Check if the variables have the same measurement levels
         meas_levels = set([self.data_measlevs[var_name] for var_name in var_names])
-        if len(meas_levels)>1:
+        if len(meas_levels) > 1:
             if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together, since unk is taken as int by default
-                return intro_result, '<decision>'+_(u"Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'
+                return self._convert_output([title, intro_result, '<decision>'+_(u"Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'])
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
