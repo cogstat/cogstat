@@ -1,3 +1,11 @@
+1.3.1 (16 January 2016)
+===============
+## Fixes
+- Various bugfixes
+- Updated Language files
+    - German (László Veller)
+	- Romanian (Orsolya Kiss)
+
 1.3.0 (4 September 2015)
 ===============
 ## New features
@@ -31,7 +39,7 @@
     - In some cases more concise output with tables. It is also easier now to copy those results to a spreadsheet
     - Confidence interval (numerical result) is in APA format now
 - New localization
-    - German (thanks to László Veller)
+    - German (László Veller)
 
 ## Fixes
 - New unit tests are run automatically before each release to ensure that statistics are calculated correctly (thanks to Gábor Lengyel)
