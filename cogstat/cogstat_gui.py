@@ -28,7 +28,7 @@ sys.setdefaultencoding("utf-8")  # TODO Not sure if this will work correctly for
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
-broken_analysis = '<default>'+_('%s Oops, something went wrong. You may want to report it.')
+broken_analysis = '<default>'+_('%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it.')
 
 class StatMainWindow(QtGui.QMainWindow):
     """
