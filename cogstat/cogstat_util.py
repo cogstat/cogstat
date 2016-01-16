@@ -6,6 +6,8 @@ Various functions for CogStat.
 import sys
 import os
 
+import numpy as np
+
 import cogstat_config as csc
 
 
@@ -121,8 +123,11 @@ def precision(data):
     data = data.dropna()
     if len(data) == 0:
         return None
-    if isinstance(data.iloc[0], (int, long, float, complex)):
-        # or http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
+
+    # Check if data includes numbers (actually only the first item is checked)
+    # np.integer should also be included, because in some systems it is not recognised as int
+    # or http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
+    if isinstance(data.iloc[0], (int, long, float, complex, np.integer)):
         return max([len(('%d' % x if int(x) == x else '%s' % x).partition('.')[2]) for x in data])
     else:
         return None
