@@ -62,14 +62,15 @@ class CogStatTestCase(unittest.TestCase):
         
         # Int variables
         result = data.explore_variable_pair('A', 'B')
-        self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.121, <i>p</i> = 0.525" in result[1])
+        self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.121, 95% CI [-0.461, 0.250], <i>p</i> = 0.525" in result[1])
         self.assertTrue('y = -0.122x + 3.529' in result[1])
-        self.assertTrue("Spearman's rank-order correlation: <i>r</i>(28) = -0.010, <i>p</i> = 0.960" in result[1])
+        self.assertTrue("Spearman's rank-order correlation: <i>r</i>(28) = -0.010, 95% CI [-0.369, 0.352], <i>p</i> = 0.960" in result[1])
 
         # Ord variables
-        result = data.explore_variable_pair('G', 'H')
-        
+        # TODO
+
         # Nom variables
+        result = data.explore_variable_pair('G', 'H')
         # Cramer's V
         self.assertTrue('<sub>c</sub></i> = 0.348' in result[1])
         # Chi-square

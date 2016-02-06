@@ -1,3 +1,8 @@
+Upcoming release
+===============
+## New features
+- Confidence interval for correlation coefficients
+
 1.3.1 (16 January 2016)
 ===============
 ## Fixes

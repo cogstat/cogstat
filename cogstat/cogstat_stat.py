@@ -530,7 +530,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 def print_var_stats(pdf, var_names, group_names=None, stat=None):
     """
-    Computes decriptive stats for variables and/or groups.
+    Computes descriptive stats for variables and/or groups.
 
     arguments:
     var_names: list of variable names to use
@@ -608,6 +608,20 @@ def confidence_interval_t(data, ci_only=True):
         return ci, cil, cih
 
 ### Variable pairs ###
+
+
+def corr_ci(r, n, confidence=0.95):
+    """ Compute confidence interval for Spearman or Pearson correlation coefficients based on Fisher transformation
+    https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient#Using_the_Fisher_transformation
+    :param r: correlation coefficient
+    :param n: sample size
+    :param confidence: sample size
+    :return: low and high
+    """
+    delta = stats.norm.ppf(1.0 - (1 - confidence) / 2) / np.sqrt(n - 3)
+    lower = np.tanh(np.arctanh(r) - delta)
+    upper = np.tanh(np.arctanh(r) + delta)
+    return lower, upper
 
 
 def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):

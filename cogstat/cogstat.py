@@ -459,18 +459,27 @@ class CogStatData:
             text_result += '<decision>'+_('Interval variables.')+' >> '+_("Running Pearson's and Spearman's correlation.")+'\n<default>'
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
-            text_result += _(u"Pearson's correlation")+': <i>r</i>(%0.3g) = %0.3f, %s\n' %(df, r, cs_util.print_p(p))
+            r_ci_low, r_ci_high = cs_stat.corr_ci(r, df+2)
+            text_result += _(u"Pearson's correlation") + \
+                           ': <i>r</i>(%0.3g) = %0.3f 95%% CI [%0.3f, %0.3f], %s\n' % \
+                           (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
             if meas_lev == 'int':
                 slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
                 # TODO output with the precision of the data
-                text_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' %(slope, intercept)
+                text_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' % (slope, intercept)
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
-            text_result += _(u"Spearman's rank-order correlation")+': <i>r</i>(%0.3g) = %0.3f, %s' %(df, r, cs_util.print_p(p))
+            r_ci_low, r_ci_high = cs_stat.corr_ci(r, df+2)
+            text_result += _(u"Spearman's rank-order correlation") + \
+                           ': <i>r</i>(%0.3g) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
+                           (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'ord':
             text_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.")+'\n<default>'
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
-            text_result += _(u"Spearman's rank-order correlation")+': <i>r</i>(%0.3g) = %0.3f, %s' %(df, r, cs_util.print_p(p))
+            r_ci_low, r_ci_high = cs_stat.corr_ci(r, df+2)
+            text_result += _(u"Spearman's rank-order correlation") + \
+                           ': <i>r</i>(%0.3g) = %0.3f,  95%% CI [%0.3f, %0.3f], %s' % \
+                           (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'nom':
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 text_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
