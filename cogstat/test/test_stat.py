@@ -41,7 +41,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('Confidence interval [4.5331, 5.8707]' in result[9])
         # One sample t-test
         self.assertTrue(') = 15.9' in result[9])
-        self.assertTrue(' < 0.001' in result[9])
+        self.assertTrue(' &lt; 0.001' in result[9])
         
         # Ord variable
         # TODO
@@ -88,9 +88,8 @@ class CogStatTestCase(unittest.TestCase):
         # print result
         # from IPython import embed; embed()
         # Paired t-test
-        self.assertTrue('(29' in result[5])
-        self.assertTrue(') = 4.69' in result[5])
-        self.assertTrue(' < 0.001' in result[5])
+        self.assertTrue('(29) = 4.69' in result[5])
+        self.assertTrue(' &lt; 0.001' in result[5])
 
         # TODO case vs. group
 
