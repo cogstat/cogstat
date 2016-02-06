@@ -8,6 +8,7 @@ import os
 import webbrowser
 import gettext
 import logging
+import traceback
 
 import cogstat
 import cogstat_dialogs
@@ -351,6 +352,7 @@ class StatMainWindow(QtGui.QMainWindow):
                 self.analysis_results[-1].add_output(result)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable.')))
+            traceback.print_exc()
         self._print_to_output_pane()
         self._busy_signal(False)
 
@@ -390,6 +392,7 @@ class StatMainWindow(QtGui.QMainWindow):
                             pass_diag = True
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable pair.')))
+                traceback.print_exc()
         self._print_to_output_pane()
         self._busy_signal(False)
             
@@ -421,6 +424,7 @@ class StatMainWindow(QtGui.QMainWindow):
                 text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
             except:
                 text_result = cs_util.reformat_output(broken_analysis % _('Pivot table.'))
+                traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
         self._print_to_output_pane()
         self._busy_signal(False)
@@ -455,6 +459,7 @@ class StatMainWindow(QtGui.QMainWindow):
                     self.analysis_results[-1].add_output(result)
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare variables.')))
+                traceback.print_exc()
         self._print_to_output_pane()
         self._busy_signal(False)
         
@@ -488,6 +493,7 @@ class StatMainWindow(QtGui.QMainWindow):
                 self.analysis_results[-1].add_output(result_list)
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare groups.')))
+                traceback.print_exc()
         self._print_to_output_pane()
         self._busy_signal(False)
 
