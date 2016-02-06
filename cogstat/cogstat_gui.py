@@ -63,7 +63,7 @@ class StatMainWindow(QtGui.QMainWindow):
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
 #        self.compare_variables(['X', 'Y'])
-#        self.compare_variables([u'CONDITION', u'CONDITION2', u'TIME'])
+#        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
 #        self.compare_groups([u'dep_var'], [u'group_var'])
 #        self.compare_groups([u'A'], [u'H'])
 #        self.compare_groups(['X'], ['TIME'])

@@ -35,6 +35,7 @@ except:
     pass
 from statsmodels.stats.weightstats import DescrStatsW
 from statsmodels.sandbox.stats.runs import mcnemar
+from statsmodels.sandbox.stats.runs import cochrans_q
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.pylab
@@ -828,13 +829,15 @@ def paired_wilcox_test(pdf, var_names):
 
 
 def mcnemar_test(pdf, var_names):
-    stat, p = mcnemar(pdf[var_names[0]], pdf[var_names[1]], exact=False)
+    chi2, p = mcnemar(pdf[var_names[0]], pdf[var_names[1]], exact=False)
     return _('Result of the McNemar test') + ': <i>&chi;<sup>2</sup></i>(1, <i>N</i> = %d) = %0.3g, %s\n' % \
-                                              (len(pdf[var_names[0]]), stat, cs_util.print_p(p))
+                                              (len(pdf[var_names[0]]), chi2, cs_util.print_p(p))
 
 
-def cohran_q_test(pdf, var_names):
-    from statsmodels.sandbox.stats.runs import cochrans_q
+def cochran_q_test(pdf, var_names):
+    q, p = cochrans_q(pdf[var_names])
+    return _("Result of Cochran's Q test") + ': <i>Q</i>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
+                                              (len(var_names)-1, len(pdf[var_names[0]]), q, cs_util.print_p(p))
 
 
 def repeated_measures_anova(pdf, var_names): # TODO

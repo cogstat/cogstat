@@ -3,6 +3,7 @@ Upcoming release
 ## New features
 - Confidence interval for correlation coefficients
 - McNemar test
+- Cochran's Q test
 
 1.3.1 (16 January 2016)
 ===============

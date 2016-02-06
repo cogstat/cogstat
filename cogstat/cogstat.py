@@ -619,7 +619,8 @@ class CogStatData:
                 result += cs_stat.friedman_test(self.data_frame, var_names)
             else:
                 if len(set(data.values.ravel())) == 2:
-                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
+                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_("Running Cochran's Q test.")+'\n<default>'
+                    result += cs_stat.cochran_q_test(self.data_frame, var_names)
                 else:
                     result += '<decision>'+_('Nominal non dichotomous variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
 

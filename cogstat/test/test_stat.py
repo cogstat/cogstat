@@ -109,6 +109,11 @@ class CogStatTestCase(unittest.TestCase):
          # print result
          # from IPython import embed; embed()
 
+        # 3 Nom dichotomous variables
+        result = data.compare_variables(['L', 'M', 'N'])
+        # Cochran's Q test
+        self.assertTrue('<i>Q</i>(2, <i>N</i> = 30) = 1.78, <i>p</i> = 0.411' in result[-1])
+
     def test_compare_groups(self):
         """Test compare groups"""
 
