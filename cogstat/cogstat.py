@@ -588,8 +588,11 @@ class CogStatData:
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n\n<default>'
                 result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             else:
-                result += '<decision>'+_('Nominal variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
-                #result += cs_stat.mcnemar_test(self.data_frame, var_names)
+                if len(set(data.values.ravel())) == 2:
+                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_('Running McNemar test.')+'\n<default>'
+                    result += cs_stat.mcnemar_test(self.data_frame, var_names)
+                else:
+                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
         else:
             result += '<decision>'+_('More than two variables. ')+'<default>'
             if meas_level == 'int':
@@ -615,7 +618,10 @@ class CogStatData:
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running Friedman test.')+'\n<default>'
                 result += cs_stat.friedman_test(self.data_frame, var_names)
             else:
-                result += '<decision>'+_('Nominal variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
+                if len(set(data.values.ravel())) == 2:
+                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
+                else:
+                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
 
         return self._convert_output([title, intro_result, graph, descr_result, graph2, result])
 
