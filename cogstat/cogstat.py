@@ -724,14 +724,15 @@ class CogStatData:
                         if normal_vars and hoemogeneity_vars:
                             result += '<decision>'+_('Normality and homeogeneity of variance are not violated. >> Running two sample t-test.')+'\n<default>'
                             result += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
-                        if not normal_vars:
+                        elif not normal_vars:
                             result += '<decision>'+_('Normality is violated. ')+'<default>'
-                        if not hoemogeneity_vars:
-                            result += '<decision>'+_('Homeogeneity of variance is violated. ')+'<default>'
-                        if (not normal_vars) or (not hoemogeneity_vars):
                             result += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
                             result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
-                            
+                        elif not hoemogeneity_vars:
+                            result += '<decision>'+_('Homeogeneity of variance is violated. ')+'<default>'
+                            result += '<decision>>> '+_("Running Welch's t-test.")+'\n<default>'
+                            result += cs_stat.welch_t_test(self.data_frame, var_names[0], groups[0])
+
                 if meas_level == 'ord':
                     result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n\n'
                     result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])

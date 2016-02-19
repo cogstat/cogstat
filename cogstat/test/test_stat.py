@@ -125,6 +125,8 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue(') = -1.82' in result[5])
         self.assertTrue(' = 0.079' in result[5])
 
+        # TODO addd test for Welch's test
+
         # 3 Int groups
         result = data.compare_groups('A', 'H')
         self.assertTrue('(2, 27) = 1.61' in result[5])

@@ -1018,6 +1018,25 @@ def modified_t_test(pdf, var_name, grouping_name):
     return text_result
 
 
+def welch_t_test(pdf, var_name, grouping_name):
+    """ Welch's t-test
+
+    :param pdf: pandas data frame
+    :param var_name: name of the dependent variable
+    :param grouping_name: name of the grouping variable
+    :return: html text with APA format result
+    """
+    dummy_groups, [var1, var2] = _split_into_groups(pdf, var_name, grouping_name)
+    t, p = stats.ttest_ind(var1.dropna(), var2.dropna(), equal_var=False)
+    # http://msemac.redwoods.edu/~darnold/math15/spring2013/R/Activities/WelchTTest.html
+    n1 = len(var1)
+    n2 = len(var2)
+    A = np.std(var1)/n1
+    B = np.std(var2)/n2
+    df = (A+B)**2/(A**2/(n1-1)+B**2/(n2-1))
+    return _("Result of Welch's unequal variances t-test:") + \
+           ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+
 def mann_whitney_test(pdf, var_name, grouping_name):
     """Mann-Whitney test
     
