@@ -2,33 +2,31 @@
 
 """
 This module contains functions for statistical analysis.
-The functions will calculate a specific analysis compiled by the cogstat
-methods.
+The functions will calculate the text and graphical results that are
+compiled in cogstat methods.
 
-Arguments are the pandas data frame (pdf), and parameters (among others usually 
-variable names).
+Arguments are the pandas data frame (pdf), and parameters (among others they
+are usually variable names).
 Output is text (html and some custom notations), images (matplotlib)
 and list of images.
-
 
 Mostly scipy.stats, statsmodels and matplotlib is used to generate the results.
 """
 
-import sys
 import gettext
+import numpy as np
+import statsmodels.api as sm
 import string
+import sys
+import textwrap
 from cStringIO import StringIO
 from distutils.version import LooseVersion
-import textwrap
+from scipy import stats
 
 import cogstat_config as csc
 import cogstat_util as cs_util
+import cogstat_stat_num as cs_stat_num
 
-from PyQt4 import QtGui
-
-import numpy as np
-from scipy import stats
-import statsmodels.api as sm
 try:
     from statsmodels.graphics.mosaicplot import mosaic
 except:
@@ -612,20 +610,6 @@ def confidence_interval_t(data, ci_only=True):
 ### Variable pairs ###
 
 
-def corr_ci(r, n, confidence=0.95):
-    """ Compute confidence interval for Spearman or Pearson correlation coefficients based on Fisher transformation
-    https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient#Using_the_Fisher_transformation
-    :param r: correlation coefficient
-    :param n: sample size
-    :param confidence: sample size
-    :return: low and high
-    """
-    delta = stats.norm.ppf(1.0 - (1 - confidence) / 2) / np.sqrt(n - 3)
-    lower = np.tanh(np.arctanh(r) - delta)
-    upper = np.tanh(np.arctanh(r) + delta)
-    return lower, upper
-
-
 def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
     if meas_lev in ['int', 'ord']:
         text_result = ''
@@ -1017,31 +1001,20 @@ def independent_t_test(pdf, var_name, grouping_name):
 
 def modified_t_test(pdf, var_name, grouping_name):
     """Modified t-test for comparing a single case with a group.
-    Used tipically in case studies.
-    http://kognitiv.elte.hu/statisztika/index.php/M%C3%B3dos%C3%ADtott_t-pr%C3%B3ba
-    
+    Used typically in case studies.
+
     arguments:
     var_name (str):
-    grouping_name (str):    
+    grouping_name (str):
     """
     text_result = ''
-    
     group_levels, [var1, var2] = _split_into_groups(pdf, var_name, grouping_name)
-    if len(var1)==1:
-        ind_data = var1 # TODO ez talán nem egyetlen adat
-        group_data = var2.dropna()
-    elif len(var2)==1:
-        ind_data = var2
-        group_data = var1.dropna()
-    else:
+    try:
+        t, p, df = cs_stat_num.modified_t_test(var1, var2)
+        text_result += _('Result of the modified independent samples t-test:') + \
+                       ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+    except ValueError:
         text_result += _('One of the groups should include only a single data.')
-    group_data_n = len(group_data)
-    t = (ind_data.iloc[0] - np.mean(group_data)) / (np.std(group_data) * np.sqrt((group_data_n+1)/group_data_n))
-    df = group_data_n-1
-    p = stats.t.sf(np.abs(t), df)*2 # two-sided
-    text_result += _('Result of the modified independent samples t-test:')+' <i>t</i>(%0.3g) = %0.3g, %s\n' % \
-                                                                           (df, t, cs_util.print_p(p))
-
     return text_result
 
 

@@ -16,6 +16,7 @@ __version__ = '1.3.1'
 import cogstat_config as csc
 csc.versions['cogstat'] = __version__
 import cogstat_stat as cs_stat
+import cogstat_stat_num as cs_stat_num
 import cogstat_util as cs_util
 cs_util.get_versions()
 
@@ -459,7 +460,7 @@ class CogStatData:
             text_result += '<decision>'+_('Interval variables.')+' >> '+_("Running Pearson's and Spearman's correlation.")+'\n<default>'
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
-            r_ci_low, r_ci_high = cs_stat.corr_ci(r, df+2)
+            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Pearson's correlation") + \
                            ': <i>r</i>(%0.3g) = %0.3f, 95%% CI [%0.3f, %0.3f], %s\n' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
@@ -468,7 +469,7 @@ class CogStatData:
                 # TODO output with the precision of the data
                 text_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' % (slope, intercept)
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
-            r_ci_low, r_ci_high = cs_stat.corr_ci(r, df+2)
+            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r</i>(%0.3g) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
@@ -476,7 +477,7 @@ class CogStatData:
             text_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.")+'\n<default>'
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
-            r_ci_low, r_ci_high = cs_stat.corr_ci(r, df+2)
+            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r</i>(%0.3g) = %0.3f,  95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
