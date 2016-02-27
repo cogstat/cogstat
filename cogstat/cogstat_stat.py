@@ -369,7 +369,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     if data_measlevs[var_name] in [u'nom', u'ord']:
         return False, '<decision>'+_(u'Normality can be checked only for interval variables.')+'\n<default>', None, None
     if len(set(data)) == 1:
-        return False, _(u'Normality cannot be checked for constant variable.\n'), None, None
+        return False, _(u'Normality cannot be checked for constant variable in %s%s.\n' % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '')), None, None
     # TODO do we need this?
 #        if len(data)<7:
 #            return False, _(u'Sample size must be greater than 7 for normality test.\n'), None, None
@@ -383,10 +383,10 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     #text_result += _("Testing normality with the D'Agostin and Pearson method")+': <i>k2</i> = %0.3g, <i>p</i> = %0.3f \n' %stats.normaltest(data)
     #text_result += _('Testing normality with the Kolmogorov-Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %stats.kstest(data, 'norm')
     if len(data) < 3:
-        return False, _(u'Too small sample to test normality.\n'), None, None
+        return False, _(u'Too small sample to test normality in variable %s%s.\n' % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '')), None, None
     else:
         W, p = stats.shapiro(data)
-        text_result += _('Shapiro-Wilk normality test in variable %s%s') %(var_name, ' (%s: %s)'%(group_name, group_value) if group_name else '') +': <i>W</i> = %0.3g, %s\n' %(W, cs_util.print_p(p))
+        text_result += _('Shapiro-Wilk normality test in variable %s%s') % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '') +': <i>W</i> = %0.3g, %s\n' %(W, cs_util.print_p(p))
 
     # Prepare the frequencies for the plot
     val_count = data.value_counts()

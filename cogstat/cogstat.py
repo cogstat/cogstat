@@ -568,27 +568,27 @@ class CogStatData:
 
             if meas_level == 'int':
                 # TODO check assumptions
-                result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing paired t-test.')+'\n<default>'
+                result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing paired t-test or paired Wilcoxon test depending on the assumptions.')+'\n<default>'
                 
                 result += '<decision>'+_('Checking for normality.')+'\n<default>'
-                normal_vars = True
+                non_normal_vars = []
                 for var_name in var_names:
                     norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name, alt_data = data)
                     result += text_result
                     if not norm:
-                        result += '<decision>'+_('Normality is violated in variable ')+var_name+'.\n<default>'
-                        normal_vars = False
-                        
-                if normal_vars:
+                        non_normal_vars.append(var_name)
+
+                if not non_normal_vars:
                     result += '<decision>'+_('Normality is not violated. >> Running paired t-test.')+'\n<default>'
                     result += cs_stat.paired_t_test(self.data_frame, var_names)
                 else:  # TODO should the descriptive be the mean or the median?
-                    result += '<decision>'+_('Normality is violated. >> Running paired Wilcoxon test.')+'\n<default>'
+                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.join(non_normal_vars) + \
+                              _(' >> Running paired Wilcoxon test.')+'\n<default>'
                     result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             elif meas_level == 'ord':
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n\n<default>'
                 result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
-            else:
+            else:  # nominal variables
                 if len(set(data.values.ravel())) == 2:
                     result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_('Running McNemar test.')+'\n<default>'
                     result += cs_stat.mcnemar_test(self.data_frame, var_names)
@@ -597,23 +597,23 @@ class CogStatData:
         else:
             result += '<decision>'+_('More than two variables. ')+'<default>'
             if meas_level == 'int':
-                result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing repeated measures one-way ANOVA.')+'\n<default>'
+                result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing repeated measures ANOVA or Friedman test depending on the assumptions.')+'\n<default>'
 
                 result += '<decision>'+_('Checking for normality.')+'\n<default>'
-                normal_vars = True
+                non_normal_vars = []
                 for var_name in var_names:
                     norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name, alt_data=data)
                     result += text_result
                     if not norm:
-                        result += '<decision>'+_('Normality is violated in variable ')+var_name+'.\n<default>'
-                        normal_vars = False
+                        non_normal_vars.append(var_name)
                         
-                if normal_vars:
-                    result += '<decision>'+_('Normality is not violated. >> Running Repeated measures one-way ANOVA.')+'\n<default>'
+                if not non_normal_vars:
+                    result += '<decision>'+_('Normality is not violated. >> Running repeated measures one-way ANOVA.')+'\n<default>'
                     result += _('Sorry, not implemented yet.')+'\n<default>'
                     #result += cs_stat.repeated_measures_anova(self.data_frame, var_names)
                 else:
-                    result += '<decision>'+_('Normality is violated. >> Running Friedman test.')+'\n<default>'
+                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.join(non_normal_vars) + \
+                              _(' >> Running Friedman test.')+'\n<default>'
                     result += cs_stat.friedman_test(self.data_frame, var_names)
             elif meas_level == 'ord':
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running Friedman test.')+'\n<default>'
@@ -682,15 +682,17 @@ class CogStatData:
             graph2 = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
 
             # 4. Hypothesis testing
-            result=_('Hypothesis testing:')+'\n'
+            result = _('Hypothesis testing:')+'\n'
             result += '<decision>'+_('One grouping variable. ')+'<default>'
             if len(group_levels) == 1:
                 result += _('There is only one group. At least two groups required.')+'\n<default>'
+
+            # Compare two groups
             elif len(group_levels) == 2:
                 result += '<decision>'+_('Two groups. ')+'<default>'
                 if meas_level == 'int':
                     group_levels, [var1, var2] = cs_stat._split_into_groups(self.data_frame, var_names[0], groups[0])
-                    if len(var1)==1 or len(var2) == 1:
+                    if len(var1) == 1 or len(var2) == 1:
                         result += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + '\n<default>'
                         result += '<decision>'+_('Checking for normality.')+'\n<default>'
                         group = group_levels[1] if len(var1) == 1 else group_levels[0]
@@ -704,71 +706,68 @@ class CogStatData:
                             result += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + '\n<default>'
                             result += cs_stat.modified_t_test(self.data_frame, var_names[0], groups[0])
                     else:
-                        result += '<decision>'+_('Interval variable.')+' >> '+_('Choosing two sample t-test.') + '\n<default>'
+                        result += '<decision>'+_('Interval variable.')+' >> '+_("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + '\n<default>'
                         result += '<decision>'+_('Checking for normality.')+'\n<default>'
-                        normal_vars = True
+                        non_normal_groups = []
                         for group in group_levels:
                             norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0], group_name=groups[0], group_value=group)
                             result += text_result
                             if not norm:
-                                result += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', '+_('group ')+unicode(group)+'.\n<default>'
-                                normal_vars = False
+                                non_normal_groups.append(group)
                         result += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
                         hoemogeneity_vars = True
                         p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
                         result += text_result
-                        if p <0.05:
-                            result += '<decision>'+_('Homeogeneity of variance violated in variable ')+var_names[0]+'.\n<default>'
+                        if p < 0.05:
                             hoemogeneity_vars = False
                         
-                        if normal_vars and hoemogeneity_vars:
+                        if not(non_normal_groups) and hoemogeneity_vars:
                             result += '<decision>'+_('Normality and homeogeneity of variance are not violated. >> Running two sample t-test.')+'\n<default>'
                             result += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
-                        elif not normal_vars:
-                            result += '<decision>'+_('Normality is violated. ')+'<default>'
-                            result += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
+                        elif non_normal_groups:
+                            result += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % (var_names[0], ', '.join(non_normal_groups))+' >> '+_('Running Mann-Whitney test.')+'\n<default>'
                             result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         elif not hoemogeneity_vars:
-                            result += '<decision>'+_('Homeogeneity of variance is violated. ')+'<default>'
-                            result += '<decision>>> '+_("Running Welch's t-test.")+'\n<default>'
+                            result += '<decision>'+_('Homeogeneity of variance violated in variable %s.') % var_names[0] + \
+                                      ' >> ' + _("Running Welch's t-test.")+'\n<default>'
                             result += cs_stat.welch_t_test(self.data_frame, var_names[0], groups[0])
 
-                if meas_level == 'ord':
+                elif meas_level == 'ord':
                     result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n\n'
                     result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
-                if meas_level == 'nom':
+                elif meas_level == 'nom':
                     result += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+' '+'<default>\n'
                     result += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
+
+            # Compare more than two groups
             elif len(group_levels) > 2:
-                result += '<decision>'+_('More than two groups.')+' >> <default>'
+                result += '<decision>'+_('More than two groups.')+' <default>'
                 if meas_level == 'int':
-                    result += '<decision>'+_('Interval variable.')+' >> '+_('Choosing one-way ANOVA.')+'<default>'+'\n'
+                    result += '<decision>'+_('Interval variable.')+' >> '+_('Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions.')+'<default>'+'\n'
 
                     result += '<decision>'+_('Checking for normality.')+'\n<default>'
-                    normal_vars = True
+                    non_normal_groups = []
                     for group in group_levels:
                         norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0], group_name=groups[0], group_value=group)
                         result += text_result
                         if not norm:
-                            result += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', '+_('group ')+str(group)+'.\n<default>'
-                            normal_vars = False
+                            non_normal_groups.append(group)
                     result += '<decision>'+_('Checking for homeogeneity of variance across groups.')+'\n<default>'
                     hoemogeneity_vars = True
                     p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
                     result += text_result
-                    if p <0.05:
-                        result += '<decision>'+_('Homeogeneity of variance violated in variable ')+var_names[0]+'.\n<default>'
+                    if p < 0.05:
                         hoemogeneity_vars = False
 
-                    if normal_vars and hoemogeneity_vars:
+                    if not(non_normal_groups) and hoemogeneity_vars:
                         result += '<decision>'+_('Normality and homeogeneity of variance are not violated. >> Running one-way ANOVA.')+'\n<default>'
                         result += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
-                    if not normal_vars:
-                        result += '<decision>'+_('Normality is violated. ')+'<default>'
+                    if non_normal_groups:
+                        result += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % (var_names[0], ', '.join(group))
                     if not hoemogeneity_vars:
-                        result += '<decision>'+_('Homeogeneity of variance is violated. ')+'<default>'
-                    if (not normal_vars) or (not hoemogeneity_vars):
-                        result += '<decision> >> '+_('Running Kruskal-Wallis test.')+'\n<default>'
+                        result += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]
+                    if (non_normal_groups) or (not hoemogeneity_vars):
+                        result += '>> '+_('Running Kruskal-Wallis test.')+'\n<default>'
                         result += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
                         
                 elif meas_level == 'ord':

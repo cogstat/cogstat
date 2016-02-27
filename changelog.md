@@ -5,6 +5,8 @@ Upcoming release
 - McNemar test
 - Cochran's Q test
 - Welch's t-test
+- Output improvements
+    - More informative and simpler text when checking assumptions in hypothesis tests
 
 1.3.1 (16 January 2016)
 ===============
