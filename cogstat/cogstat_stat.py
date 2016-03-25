@@ -824,9 +824,22 @@ def cochran_q_test(pdf, var_names):
                                               (len(var_names)-1, len(pdf[var_names[0]]), q, cs_util.print_p(p))
 
 
-def repeated_measures_anova(pdf, var_names): # TODO
-    pass
+def repeated_measures_anova(pdf, var_names):
+    [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf, var_names)
+    # Choose df correction depending on sphericity violation
+    text_result = _("Result of Mauchly's test to check sphericity") + \
+                   ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
+    if pw < 0.05:  # sphericity is violated
+        text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
+                       +_('Using Greenhouse-Geisser correction.') + '\n<default>' + \
+                       _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.3g, %s\n' \
+                        % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(corr_table[0, 1]))
+    else:  # sphericity is not violated
+        text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n<default>' + \
+                       _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.3g, %s\n' \
+                                                                % (dfn, dfd, f, cs_util.print_p(pf))
 
+    return text_result
 
 def friedman_test(pdf, var_names):
     """Friedman t-test

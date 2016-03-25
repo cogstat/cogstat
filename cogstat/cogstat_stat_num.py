@@ -10,6 +10,7 @@ Output is the result of the numerical analysis in numerical form.
 
 import numpy as np
 from scipy import stats
+import pandas as pd
 
 ### Variable pairs ###
 
@@ -56,7 +57,8 @@ def modified_t_test(x1, x2):
     pvalue = stats.t.sf(np.abs(tstat), df)*2  # two-sided
     return tstat, pvalue, df
 
-def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
+
+def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=True):
     """
     Standard one-way repeated measures ANOVA
     
@@ -64,7 +66,8 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     data: pandas DataFrame
     dep_var: dependent variable - label (long format) or a list of labels (wide format)
     indep_var: label of the independent variable (only necessary if data is in long format)
-    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index contains the identifiers.
+    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index
+            contains the identifiers.
     wide: whether the data is in wide format
     
     ### Returns: [DFn, DFd, F, pF, W, pW], corr_table
@@ -73,7 +76,9 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     pF: p value of the F statistic (uncorrected)
     W: statistic of Mauchly's test for sphericity
     pW: p value of Mauchly's test for sphericity (sphericity is violated if p(W)<0.05)
-    corr_table: numpy array, contains Greenhouse & Geisser's, Huhyn & Feldt's, and the "lower-bound" epsilons, and the corrected p values of F
+    corr_table: numpy array, contains Greenhouse & Geisser's, Huhyn & Feldt's, and the "lower-bound" epsilons,
+                and the corrected p values of F (degrees of freedom should be multiplied with the epsilon to get
+                the corrected df values)
     """
     ### Reshaping data
     if wide:
@@ -83,6 +88,7 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
         data = pd.melt(data, id_vars=id_var, value_vars=dep_var, var_name='condition', value_name='measured')
         dep_var = 'measured'
         indep_var = 'condition'
+
     ### one-way ANOVA
     n = len(set(data[id_var]))
     k = len(set(data[indep_var]))
@@ -100,6 +106,7 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     # F-statistic    
     F = (sum(q_eff)/DFn)/(sum(q_err)/DFd)
     pF = 1-stats.f.cdf(F, DFn, DFd)
+
     ### Mauchly's test for sphericity & Degree of freedom corrections
     # Calculating sample covariances
     table = np.empty((0,n))
@@ -113,7 +120,7 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     samp_table = np.cov(table)
     samp_means = samp_table.mean(axis=1)
     # Estimating population covariances
-    pop_table = np.empty((0,k))
+    pop_table = np.empty((0, k))
     for x in range(k):
         row = []
         for y in range(k):
@@ -125,21 +132,24 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     fW = float(2*np.square(k-1)+(k-1)+2)/float(6*(k-1)*(n-1))
     chiW = (fW-1)*(n-1)*np.log(W)
     pW = 1-stats.chi2.cdf(chiW, dfW)
-    # Greenhouse & Geisser's epsilon   
+
+    # Greenhouse & Geisser's epsilon
     GG = np.square(np.trace(pop_table))/(np.sum(np.square(pop_table))*(k-1))
     # Huynh & Feldt's epsilon
     HF = (n*(k-1)*GG-2)/((k-1)*(n-1-(k-1)*GG))
     # Lower-bound epsilon
     LB = 1/float(k-1)
     # Correction
-    corr_list = [GG,HF,LB]
+    corr_list = [GG, HF, LB]
     corr_table = np.empty((0,2))
     for epsilon in corr_list:
         F_corr = (sum(q_eff)/(DFn*epsilon))/(sum(q_err)/(DFd*epsilon))
         pF_corr = 1-stats.f.cdf(F_corr, DFn*epsilon, DFd*epsilon)
         corr_table = np.vstack([corr_table, np.array([epsilon, pF_corr])])
-    return [DFn,DFd,F,pF,W,pW], corr_table
-    
+
+    return [DFn, DFd, F, pF, W, pW], corr_table
+
+
 def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired=True):
     """
     Posthoc pairwise t-tests for ANOVA
