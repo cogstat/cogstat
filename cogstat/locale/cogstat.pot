@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 13:10+0100\n"
+"POT-Creation-Date: 2016-03-25 18:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,238 +17,238 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .././cogstat_gui.py:31
+#: .././cogstat_gui.py:32
 #, python-format
 msgid ""
 "%s Oops, something went wrong, CogStat could not run the analysis. You may "
 "want to report it."
 msgstr ""
 
-#: .././cogstat_gui.py:80
+#: .././cogstat_gui.py:83
 msgid "&Data"
 msgstr ""
 
-#: .././cogstat_gui.py:81
+#: .././cogstat_gui.py:84
 msgid "&Open data file"
 msgstr ""
 
-#: .././cogstat_gui.py:81
+#: .././cogstat_gui.py:84
 msgid "Ctrl+O"
 msgstr ""
 
-#: .././cogstat_gui.py:81
+#: .././cogstat_gui.py:84
 msgid "Open data file (csv text file)"
 msgstr ""
 
-#: .././cogstat_gui.py:82
+#: .././cogstat_gui.py:85
 msgid "&Paste data"
 msgstr ""
 
-#: .././cogstat_gui.py:82
+#: .././cogstat_gui.py:85
 msgid "Ctrl+V"
 msgstr ""
 
-#: .././cogstat_gui.py:82
+#: .././cogstat_gui.py:85
 msgid "Paste data from clipboard"
 msgstr ""
 
-#: .././cogstat_gui.py:86 .././cogstat_gui.py:118
+#: .././cogstat_gui.py:89 .././cogstat_gui.py:121
 msgid "&Display data"
 msgstr ""
 
-#: .././cogstat_gui.py:86
+#: .././cogstat_gui.py:89
 msgid "Ctrl+D"
 msgstr ""
 
-#: .././cogstat_gui.py:86
+#: .././cogstat_gui.py:89
 msgid "Print data to the output"
 msgstr ""
 
-#: .././cogstat_gui.py:87 .././cogstat_gui.py:118
+#: .././cogstat_gui.py:90 .././cogstat_gui.py:121
 msgid "Display data &briefly"
 msgstr ""
 
-#: .././cogstat_gui.py:87
+#: .././cogstat_gui.py:90
 msgid "Print beginning of the data to the output"
 msgstr ""
 
-#: .././cogstat_gui.py:89
+#: .././cogstat_gui.py:92
 msgid "&Analysis"
 msgstr ""
 
-#: .././cogstat_gui.py:90 .././cogstat_gui.py:119
+#: .././cogstat_gui.py:93 .././cogstat_gui.py:122
 msgid "&Explore variable"
 msgstr ""
 
-#: .././cogstat_gui.py:90
+#: .././cogstat_gui.py:93
 msgid "Ctrl+1"
 msgstr ""
 
-#: .././cogstat_gui.py:90
+#: .././cogstat_gui.py:93
 msgid "Main properties of variables"
 msgstr ""
 
-#: .././cogstat_gui.py:91 .././cogstat_gui.py:120
+#: .././cogstat_gui.py:94 .././cogstat_gui.py:123
 msgid "Explore variable &pair"
 msgstr ""
 
-#: .././cogstat_gui.py:91
+#: .././cogstat_gui.py:94
 msgid "Ctrl+2"
 msgstr ""
 
-#: .././cogstat_gui.py:91
+#: .././cogstat_gui.py:94
 msgid "Properties of variable pairs"
 msgstr ""
 
-#: .././cogstat_gui.py:93 .././cogstat_gui.py:119
+#: .././cogstat_gui.py:96 .././cogstat_gui.py:122
 msgid "Pivot &table"
 msgstr ""
 
-#: .././cogstat_gui.py:93
+#: .././cogstat_gui.py:96
 msgid "Build a pivot table"
 msgstr ""
 
-#: .././cogstat_gui.py:95 .././cogstat_gui.py:120
+#: .././cogstat_gui.py:98 .././cogstat_gui.py:123
 msgid "Compare va&riables"
 msgstr ""
 
-#: .././cogstat_gui.py:95 .././cogstat.py:510
+#: .././cogstat_gui.py:98 .././cogstat.py:520
 msgid "Compare variables"
 msgstr ""
 
-#: .././cogstat_gui.py:96 .././cogstat_gui.py:120
+#: .././cogstat_gui.py:99 .././cogstat_gui.py:123
 msgid "Compare &groups"
 msgstr ""
 
-#: .././cogstat_gui.py:96 .././cogstat.py:624
+#: .././cogstat_gui.py:99 .././cogstat.py:640
 msgid "Compare groups"
 msgstr ""
 
-#: .././cogstat_gui.py:98
+#: .././cogstat_gui.py:101
 msgid "&Results"
 msgstr ""
 
-#: .././cogstat_gui.py:99
+#: .././cogstat_gui.py:102
 msgid "&Clear results"
 msgstr ""
 
-#: .././cogstat_gui.py:99
+#: .././cogstat_gui.py:102
 msgid "Del"
 msgstr ""
 
-#: .././cogstat_gui.py:99
+#: .././cogstat_gui.py:102
 msgid "Delete the output window"
 msgstr ""
 
-#: .././cogstat_gui.py:101
+#: .././cogstat_gui.py:104
 msgid "Save results"
 msgstr ""
 
-#: .././cogstat_gui.py:101
+#: .././cogstat_gui.py:104
 msgid "Ctrl+P"
 msgstr ""
 
-#: .././cogstat_gui.py:101
+#: .././cogstat_gui.py:104
 msgid "Save the output to .pdf format"
 msgstr ""
 
-#: .././cogstat_gui.py:102
+#: .././cogstat_gui.py:105
 msgid "Save results as"
 msgstr ""
 
-#: .././cogstat_gui.py:102
+#: .././cogstat_gui.py:105
 msgid "Shift+Ctrl+P"
 msgstr ""
 
-#: .././cogstat_gui.py:102
+#: .././cogstat_gui.py:105
 msgid "Save the results"
 msgstr ""
 
-#: .././cogstat_gui.py:104
+#: .././cogstat_gui.py:107
 msgid "&CogStat"
 msgstr ""
 
-#: .././cogstat_gui.py:105
+#: .././cogstat_gui.py:108
 msgid "&Help"
 msgstr ""
 
-#: .././cogstat_gui.py:105
+#: .././cogstat_gui.py:108
 msgid "F1"
 msgstr ""
 
-#: .././cogstat_gui.py:105
+#: .././cogstat_gui.py:108
 msgid "Read online documentation"
 msgstr ""
 
-#: .././cogstat_gui.py:106
+#: .././cogstat_gui.py:109
 msgid "&Preferences"
 msgstr ""
 
-#: .././cogstat_gui.py:106
+#: .././cogstat_gui.py:109
 msgid "Set the preferences"
 msgstr ""
 
-#: .././cogstat_gui.py:107
+#: .././cogstat_gui.py:110
 msgid "Request a &feature"
 msgstr ""
 
-#: .././cogstat_gui.py:107
+#: .././cogstat_gui.py:110
 msgid "Can't find a feature? Ask for it!"
 msgstr ""
 
-#: .././cogstat_gui.py:109
+#: .././cogstat_gui.py:112
 msgid "&Report a problem"
 msgstr ""
 
-#: .././cogstat_gui.py:109
+#: .././cogstat_gui.py:112
 msgid "Fill online form to report a problem"
 msgstr ""
 
-#: .././cogstat_gui.py:110
+#: .././cogstat_gui.py:113
 msgid "&Diagnosis information"
 msgstr ""
 
-#: .././cogstat_gui.py:110
+#: .././cogstat_gui.py:113
 msgid "List the version of the components on your system"
 msgstr ""
 
-#: .././cogstat_gui.py:112
+#: .././cogstat_gui.py:115
 msgid "&About"
 msgstr ""
 
-#: .././cogstat_gui.py:112
+#: .././cogstat_gui.py:115
 msgid "About CogStat"
 msgstr ""
 
-#: .././cogstat_gui.py:114
+#: .././cogstat_gui.py:117
 msgid "&Exit"
 msgstr ""
 
-#: .././cogstat_gui.py:114
+#: .././cogstat_gui.py:117
 msgid "Ctrl+Q"
 msgstr ""
 
-#: .././cogstat_gui.py:114
+#: .././cogstat_gui.py:117
 msgid "Exit CogStat"
 msgstr ""
 
-#: .././cogstat_gui.py:118
+#: .././cogstat_gui.py:121
 msgid "&Save data"
 msgstr ""
 
-#: .././cogstat_gui.py:118
+#: .././cogstat_gui.py:121
 msgid "Save data &as"
 msgstr ""
 
-#: .././cogstat_gui.py:119
+#: .././cogstat_gui.py:122
 msgid "&Set variable properties"
 msgstr ""
 
-#: .././cogstat_gui.py:121
+#: .././cogstat_gui.py:124
 msgid "&Compare groups and variables"
 msgstr ""
 
-#: .././cogstat_gui.py:147
+#: .././cogstat_gui.py:150
 msgid ""
 "<br><b>Welcome to CogStat!</b><br>CogStat makes statistical analysis more "
 "simple and efficient.<br>To start working open a data file or paste your "
@@ -256,81 +256,81 @@ msgid ""
 "href = \"https://github.com/cogstat/cogstat/wiki\">webpage</a>.<br>"
 msgstr ""
 
-#: .././cogstat_gui.py:164
+#: .././cogstat_gui.py:167
 msgid "Ready"
 msgstr ""
 
-#: .././cogstat_gui.py:290 .././cogstat.py:196
+#: .././cogstat_gui.py:293 .././cogstat.py:197
 msgid "Import failed"
 msgstr ""
 
-#: .././cogstat_gui.py:291
+#: .././cogstat_gui.py:294
 msgid "Import error"
 msgstr ""
 
-#: .././cogstat_gui.py:291
+#: .././cogstat_gui.py:294
 msgid "Data could not be loaded."
 msgstr ""
 
-#: .././cogstat_gui.py:295
+#: .././cogstat_gui.py:298
 msgid "Data loaded from clipboard: "
 msgstr ""
 
-#: .././cogstat_gui.py:295
+#: .././cogstat_gui.py:298
 msgid "Data loaded from file: "
 msgstr ""
 
-#: .././cogstat_gui.py:296
+#: .././cogstat_gui.py:299
 #, python-format
 msgid "%s variables and %s cases."
 msgstr ""
 
-#: .././cogstat_gui.py:353
+#: .././cogstat_gui.py:356
 msgid "Explore variable."
 msgstr ""
 
-#: .././cogstat_gui.py:377 .././cogstat_gui.py:392
+#: .././cogstat_gui.py:381 .././cogstat_gui.py:396
 msgid "Explore variable pair."
 msgstr ""
 
-#: .././cogstat_gui.py:377 .././cogstat_gui.py:449
+#: .././cogstat_gui.py:381 .././cogstat_gui.py:455
 msgid "At least two variables should be set."
 msgstr ""
 
-#: .././cogstat_gui.py:418 .././cogstat_gui.py:423
+#: .././cogstat_gui.py:423 .././cogstat_gui.py:428
 msgid "Pivot table."
 msgstr ""
 
-#: .././cogstat_gui.py:418
+#: .././cogstat_gui.py:423
 msgid ""
 "The dependent variable and at least one grouping variable should be given."
 msgstr ""
 
-#: .././cogstat_gui.py:449 .././cogstat_gui.py:457
+#: .././cogstat_gui.py:455 .././cogstat_gui.py:463
 msgid "Compare variables."
 msgstr ""
 
-#: .././cogstat_gui.py:483 .././cogstat_gui.py:490
+#: .././cogstat_gui.py:490 .././cogstat_gui.py:497
 msgid "Compare groups."
 msgstr ""
 
-#: .././cogstat_gui.py:483
+#: .././cogstat_gui.py:490
 msgid "Both the dependent and the grouping variables should be set."
 msgstr ""
 
-#: .././cogstat_gui.py:496
+#: .././cogstat_gui.py:504
 msgid "Clear output"
 msgstr ""
 
-#: .././cogstat_gui.py:497
+#: .././cogstat_gui.py:505
 msgid "Are you sure you want to delete the output?"
 msgstr ""
 
-#: .././cogstat_gui.py:551
+#: .././cogstat_gui.py:559
 msgid "About CogStat "
 msgstr ""
 
-#: .././cogstat_gui.py:551
+#: .././cogstat_gui.py:559
 #, python-format
 msgid ""
 "<br>Simple statistical solutions for cognitive scientists<br><br>Copyright © "
@@ -338,27 +338,27 @@ msgid ""
 "wiki\">Visit CogStat website</a>"
 msgstr ""
 
-#: .././cogstat_gui.py:561
+#: .././cogstat_gui.py:569
 msgid "System components"
 msgstr ""
 
-#: .././cogstat_gui.py:573
+#: .././cogstat_gui.py:581
 msgid "Save output"
 msgstr ""
 
-#: .././cogstat_gui.py:574
+#: .././cogstat_gui.py:582
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr ""
 
-#: .././cogstat_gui.py:581
+#: .././cogstat_gui.py:589
 msgid "Confirm exit"
 msgstr ""
 
-#: .././cogstat_gui.py:582
+#: .././cogstat_gui.py:590
 msgid "Are you sure you want to exit the program?"
 msgstr ""
 
-#: .././cogstat_stat.py:52 .././cogstat.py:38
+#: .././cogstat_stat.py:52 .././cogstat.py:39
 msgid ""
 "The properties of the variables are not set. Set them in your data source."
 msgstr ""
@@ -434,7 +434,7 @@ msgstr ""
 msgid "N of invalid cases: %g"
 msgstr ""
 
-#: .././cogstat_stat.py:317 .././cogstat.py:370
+#: .././cogstat_stat.py:317 .././cogstat.py:371
 #, python-format
 msgid "Mean: %0.*f"
 msgstr ""
@@ -454,7 +454,7 @@ msgstr ""
 msgid "Kurtosis: %0.*f"
 msgstr ""
 
-#: .././cogstat_stat.py:326 .././cogstat.py:374
+#: .././cogstat_stat.py:326 .././cogstat.py:375
 #, python-format
 msgid "Median: %0.*f"
 msgstr ""
@@ -469,11 +469,13 @@ msgid "Normality can be checked only for interval variables."
 msgstr ""
 
 #: .././cogstat_stat.py:372
-msgid "Normality cannot be checked for constant variable.\n"
+#, python-format
+msgid "Normality cannot be checked for constant variable in %s%s.\n"
 msgstr ""
 
 #: .././cogstat_stat.py:386
-msgid "Too small sample to test normality.\n"
+#, python-format
+msgid "Too small sample to test normality in variable %s%s.\n"
 msgstr ""
 
 #: .././cogstat_stat.py:389
@@ -562,7 +564,7 @@ msgstr ""
 msgid "Means for the groups"
 msgstr ""
 
-#: .././cogstat_stat.py:573 .././cogstat_stat.py:926
+#: .././cogstat_stat.py:573 .././cogstat_stat.py:969
 msgid "Medians for the groups"
 msgstr ""
 
@@ -583,11 +585,11 @@ msgstr ""
 msgid "Mosaic plot of the variables"
 msgstr ""
 
-#: .././cogstat_stat.py:667 .././cogstat_stat.py:735 .././cogstat_stat.py:898
+#: .././cogstat_stat.py:667 .././cogstat_stat.py:735 .././cogstat_stat.py:941
 msgid "Sorry, the mosaic plot can not be drawn with those data."
 msgstr ""
 
-#: .././cogstat_stat.py:670 .././cogstat_stat.py:737 .././cogstat_stat.py:901
+#: .././cogstat_stat.py:670 .././cogstat_stat.py:737 .././cogstat_stat.py:944
 msgid ""
 "Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is "
 "installed."
@@ -619,485 +621,558 @@ msgstr ""
 msgid "Paired Wilcoxon test requires two variables."
 msgstr ""
 
-#: .././cogstat_stat.py:832
+#: .././cogstat_stat.py:817
+msgid "Result of the McNemar test"
+msgstr ""
+
+#: .././cogstat_stat.py:823
+msgid "Result of Cochran's Q test"
+msgstr ""
+
+#: .././cogstat_stat.py:831
+msgid "Result of Mauchly's test to check sphericity"
+msgstr ""
+
+#: .././cogstat_stat.py:835
+msgid "Sphericity is violated."
+msgstr ""
+
+#: .././cogstat_stat.py:836
+msgid "Using Greenhouse-Geisser correction."
+msgstr ""
+
+#: .././cogstat_stat.py:837 .././cogstat_stat.py:842
+msgid "Result of repeated measures ANOVA"
+msgstr ""
+
+#: .././cogstat_stat.py:841
+msgid "Sphericity is not violated. "
+msgstr ""
+
+#: .././cogstat_stat.py:848
+msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
+msgstr ""
+
+#: .././cogstat_stat.py:875
 msgid "Friedman test requires at least two variables."
 msgstr ""
 
-#: .././cogstat_stat.py:838
+#: .././cogstat_stat.py:881
 msgid "Result of the Friedman test: "
 msgstr ""
 
-#: .././cogstat_stat.py:874
+#: .././cogstat_stat.py:917
 #, python-format
 msgid "Largest individual data display %d cases."
 msgstr ""
 
-#: .././cogstat_stat.py:878
+#: .././cogstat_stat.py:921
 msgid "Boxplot and individual data of the groups"
 msgstr ""
 
-#: .././cogstat_stat.py:894
+#: .././cogstat_stat.py:937
 msgid "Mosaic plot of the groups"
 msgstr ""
 
-#: .././cogstat_stat.py:919
+#: .././cogstat_stat.py:962
 #, python-format
 msgid "Means and 95% confidence intervals for the groups"
 msgstr ""
 
-#: .././cogstat_stat.py:955
+#: .././cogstat_stat.py:998
 msgid "Levene test"
 msgstr ""
 
-#: .././cogstat_stat.py:987
+#: .././cogstat_stat.py:1030
 msgid "Difference between the two groups:"
 msgstr ""
 
-#: .././cogstat_stat.py:988
+#: .././cogstat_stat.py:1031
 #, python-format
 msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr ""
 
-#: .././cogstat_stat.py:989
+#: .././cogstat_stat.py:1032
 msgid "Result of independent samples t-test:"
 msgstr ""
 
-#: .././cogstat_stat.py:1013
-msgid "One of the groups should include only a single data."
-msgstr ""
-
-#: .././cogstat_stat.py:1018
+#: .././cogstat_stat.py:1049
 msgid "Result of the modified independent samples t-test:"
 msgstr ""
 
-#: .././cogstat_stat.py:1039 .././cogstat_stat.py:1042
+#: .././cogstat_stat.py:1052
+msgid "One of the groups should include only a single data."
+msgstr ""
+
+#: .././cogstat_stat.py:1072
+msgid "Result of Welch's unequal variances t-test:"
+msgstr ""
+
+#: .././cogstat_stat.py:1090 .././cogstat_stat.py:1093
 msgid "Result of independent samples Mann-Whitney rank test: "
 msgstr ""
 
-#: .././cogstat_stat.py:1067
+#: .././cogstat_stat.py:1118
 msgid "Result of one-way ANOVA: "
 msgstr ""
 
-#: .././cogstat_stat.py:1071
+#: .././cogstat_stat.py:1122
 msgid "Effect size: "
 msgstr ""
 
-#: .././cogstat_stat.py:1076
+#: .././cogstat_stat.py:1127
 msgid "Groups differ. Post-hoc test of the means."
 msgstr ""
 
-#: .././cogstat_stat.py:1109 .././cogstat_stat.py:1112
+#: .././cogstat_stat.py:1160 .././cogstat_stat.py:1163
 msgid "Result of the Kruskal-Wallis test: "
 msgstr ""
 
-#: .././cogstat_stat.py:1133
+#: .././cogstat_stat.py:1184
 msgid "Cramér's V measure of association: "
 msgstr ""
 
-#: .././cogstat_stat.py:1135
+#: .././cogstat_stat.py:1186
 msgid ""
 "Cramér's V measure of association cannot be computed (division by zero)."
 msgstr ""
 
-#: .././cogstat_stat.py:1136
+#: .././cogstat_stat.py:1187
 msgid "Result of the Pearson's Chi-square test: "
 msgstr ""
 
-#: .././cogstat_stat.py:1139
+#: .././cogstat_stat.py:1190
 msgid "Sorry, at least SciPy 0.10 is required to calculate Chi-Square test."
 msgstr ""
 
-#: .././cogstat.py:121 .././cogstat.py:128
+#: .././cogstat.py:122 .././cogstat.py:129
 msgid ""
 "Number of measurement level do not match the number of variables. "
 "Measurement level specification is ignored."
 msgstr ""
 
-#: .././cogstat.py:146
+#: .././cogstat.py:147
 msgid ""
 "String variables cannot be interval or ordinal variables. Those variables "
 "are automatically set to nominal: "
 msgstr ""
 
-#: .././cogstat.py:146
+#: .././cogstat.py:147
 msgid "You might consider fixing this in your source table."
 msgstr ""
 
-#: .././cogstat.py:149
+#: .././cogstat.py:150
 msgid ""
 "The measurement level was not set for all variables. You might consider "
 "fixing this in your data source."
 msgstr ""
 
-#: .././cogstat.py:155
+#: .././cogstat.py:156
 msgid "pandas dataframe"
 msgstr ""
 
-#: .././cogstat.py:176
+#: .././cogstat.py:177
 msgid "text file - "
 msgstr ""
 
-#: .././cogstat.py:193
+#: .././cogstat.py:194
 msgid "clipboard"
 msgstr ""
 
-#: .././cogstat.py:215
+#: .././cogstat.py:216
 msgid "Data"
 msgstr ""
 
-#: .././cogstat.py:216
+#: .././cogstat.py:217
 msgid "Source: "
 msgstr ""
 
-#: .././cogstat.py:217
+#: .././cogstat.py:218
 msgid " variables and "
 msgstr ""
 
-#: .././cogstat.py:218
+#: .././cogstat.py:219
 msgid " cases"
 msgstr ""
 
-#: .././cogstat.py:226
+#: .././cogstat.py:227
 msgid "Type"
 msgstr ""
 
-#: .././cogstat.py:226
+#: .././cogstat.py:227
 msgid "Level"
 msgstr ""
 
-#: .././cogstat.py:230
+#: .././cogstat.py:231
 msgid " further cases are not displayed..."
 msgstr ""
 
-#: .././cogstat.py:232
+#: .././cogstat.py:233
 #, python-format
 msgid "You probably would not want to print the next %s cases..."
 msgstr ""
 
-#: .././cogstat.py:246
+#: .././cogstat.py:247
 msgid "Filtering"
 msgstr ""
 
-#: .././cogstat.py:250
+#: .././cogstat.py:251
 msgid "Filtering is switched off."
 msgstr ""
 
-#: .././cogstat.py:262
+#: .././cogstat.py:263
 #, python-format
 msgid "Filtering based on %s.\n"
 msgstr ""
 
-#: .././cogstat.py:262 .././cogstat.py:278
+#: .././cogstat.py:263 .././cogstat.py:279
 msgid " (2 SD)"
 msgstr ""
 
-#: .././cogstat.py:264
+#: .././cogstat.py:265
 #, python-format
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 msgstr ""
 
-#: .././cogstat.py:270
+#: .././cogstat.py:271
 msgid "The following cases will be excluded: "
 msgstr ""
 
-#: .././cogstat.py:274
+#: .././cogstat.py:275
 msgid "No cases were excluded."
 msgstr ""
 
-#: .././cogstat.py:369 .././cogstat.py:690 .././cogstat.py:727
+#: .././cogstat.py:370 .././cogstat.py:708 .././cogstat.py:745
 msgid "Interval variable."
 msgstr ""
 
-#: .././cogstat.py:369
+#: .././cogstat.py:370
 msgid "Running one sample t-test."
 msgstr ""
 
-#: .././cogstat.py:373 .././cogstat.py:719 .././cogstat.py:757
+#: .././cogstat.py:374 .././cogstat.py:735 .././cogstat.py:773
 msgid "Ordinal variable."
 msgstr ""
 
-#: .././cogstat.py:373
+#: .././cogstat.py:374
 msgid "Running Wilcoxon signed-rank t-test."
 msgstr ""
 
-#: .././cogstat.py:377
+#: .././cogstat.py:378
 msgid "No central tendency can be computed for nominal variables."
 msgstr ""
 
-#: .././cogstat.py:398
+#: .././cogstat.py:399
 msgid "Explore variable"
 msgstr ""
 
-#: .././cogstat.py:399
+#: .././cogstat.py:400
 msgid "Exploring variable: "
 msgstr ""
 
-#: .././cogstat.py:404
+#: .././cogstat.py:405
 msgid "Frequencies"
 msgstr ""
 
-#: .././cogstat.py:408
+#: .././cogstat.py:409
 msgid "Distribution"
 msgstr ""
 
-#: .././cogstat.py:413
+#: .././cogstat.py:414
 msgid "Descriptitve statistics"
 msgstr ""
 
-#: .././cogstat.py:418
+#: .././cogstat.py:419
 msgid "Normality"
 msgstr ""
 
-#: .././cogstat.py:426
+#: .././cogstat.py:427
 msgid "Test central tendency"
 msgstr ""
 
-#: .././cogstat.py:442
+#: .././cogstat.py:443
 msgid "Explore variable pair"
 msgstr ""
 
-#: .././cogstat.py:443
+#: .././cogstat.py:444
 msgid "Exploring variable pair: "
 msgstr ""
 
-#: .././cogstat.py:453
+#: .././cogstat.py:454
 #, python-format
 msgid "N of valid pairs: %g\n"
 msgstr ""
 
-#: .././cogstat.py:454
+#: .././cogstat.py:455
 #, python-format
 msgid ""
 "N of invalid pairs: %g\n"
 "\n"
 msgstr ""
 
-#: .././cogstat.py:459 .././cogstat.py:561 .././cogstat.py:587
+#: .././cogstat.py:460 .././cogstat.py:571 .././cogstat.py:600
 msgid "Interval variables."
 msgstr ""
 
-#: .././cogstat.py:459
+#: .././cogstat.py:460
 msgid "Running Pearson's and Spearman's correlation."
 msgstr ""
 
-#: .././cogstat.py:462
+#: .././cogstat.py:464
 msgid "Pearson's correlation"
 msgstr ""
 
-#: .././cogstat.py:466
+#: .././cogstat.py:470
 msgid "Linear regression"
 msgstr ""
 
-#: .././cogstat.py:468 .././cogstat.py:473
+#: .././cogstat.py:473 .././cogstat.py:481
 msgid "Spearman's rank-order correlation"
 msgstr ""
 
-#: .././cogstat.py:470 .././cogstat.py:579 .././cogstat.py:606
+#: .././cogstat.py:477 .././cogstat.py:589 .././cogstat.py:618
 msgid "Ordinal variables."
 msgstr ""
 
-#: .././cogstat.py:470
+#: .././cogstat.py:477
 msgid "Running Spearman's correlation."
 msgstr ""
 
-#: .././cogstat.py:476
+#: .././cogstat.py:486
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr ""
 
-#: .././cogstat.py:477 .././cogstat.py:582 .././cogstat.py:609
+#: .././cogstat.py:487
 msgid "Nominal variables."
 msgstr ""
 
-#: .././cogstat.py:477
+#: .././cogstat.py:487
 msgid "Running Cramér's V."
 msgstr ""
 
-#: .././cogstat.py:498
+#: .././cogstat.py:508
 msgid "Pivot table"
 msgstr ""
 
-#: .././cogstat.py:511
+#: .././cogstat.py:521
 msgid "Variables to compare: "
 msgstr ""
 
-#: .././cogstat.py:518
+#: .././cogstat.py:528
 msgid ""
 "Sorry, you can't compare variables with different measurement levels. You "
 "could downgrade higher measurement levels to lowers to have the same "
 "measurement level."
 msgstr ""
 
-#: .././cogstat.py:529
+#: .././cogstat.py:539
 #, python-format
 msgid "N of valid cases: %g\n"
 msgstr ""
 
-#: .././cogstat.py:530
+#: .././cogstat.py:540
 #, python-format
 msgid "N of invalid cases: %g\n"
 msgstr ""
 
-#: .././cogstat.py:553 .././cogstat.py:668
+#: .././cogstat.py:563 .././cogstat.py:684
 msgid "Hypothesis testing:"
 msgstr ""
 
-#: .././cogstat.py:555
+#: .././cogstat.py:565
 msgid "At least two variables required."
 msgstr ""
 
-#: .././cogstat.py:557
+#: .././cogstat.py:567
 msgid "Two variables. "
 msgstr ""
 
-#: .././cogstat.py:561
-msgid "Choosing paired t-test."
+#: .././cogstat.py:571
+msgid ""
+"Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr ""
 
-#: .././cogstat.py:563 .././cogstat.py:589 .././cogstat.py:678
-#: .././cogstat.py:691 .././cogstat.py:729
+#: .././cogstat.py:573 .././cogstat.py:602 .././cogstat.py:696
+#: .././cogstat.py:709 .././cogstat.py:747
 msgid "Checking for normality."
 msgstr ""
 
-#: .././cogstat.py:569 .././cogstat.py:595 .././cogstat.py:683
-#: .././cogstat.py:697 .././cogstat.py:735
-msgid "Normality is violated in variable "
-msgstr ""
-
-#: .././cogstat.py:573
+#: .././cogstat.py:582
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr ""
 
-#: .././cogstat.py:576
-msgid "Normality is violated. >> Running paired Wilcoxon test."
+#: .././cogstat.py:585 .././cogstat.py:614
+#, python-format
+msgid "Normality is violated in variable(s): %s."
 msgstr ""
 
-#: .././cogstat.py:579
+#: .././cogstat.py:586
+msgid " >> Running paired Wilcoxon test."
+msgstr ""
+
+#: .././cogstat.py:589
 msgid "Running paired Wilcoxon test."
 msgstr ""
 
-#: .././cogstat.py:582 .././cogstat.py:600 .././cogstat.py:609
-#: .././cogstat.py:764
+#: .././cogstat.py:593 .././cogstat.py:622
+msgid "Nominal dichotomous variables."
+msgstr ""
+
+#: .././cogstat.py:593
+msgid "Running McNemar test."
+msgstr ""
+
+#: .././cogstat.py:596 .././cogstat.py:625
+msgid "Nominal non dichotomous variables."
+msgstr ""
+
+#: .././cogstat.py:596 .././cogstat.py:625 .././cogstat.py:780
 msgid "Sorry, not implemented yet."
 msgstr ""
 
-#: .././cogstat.py:585
+#: .././cogstat.py:598
 msgid "More than two variables. "
 msgstr ""
 
-#: .././cogstat.py:587
-msgid "Choosing repeated measures one-way ANOVA."
+#: .././cogstat.py:600
+msgid ""
+"Choosing repeated measures ANOVA or Friedman test depending on the "
+"assumptions."
 msgstr ""
 
-#: .././cogstat.py:599
-msgid "Normality is not violated. >> Running Repeated measures one-way ANOVA."
+#: .././cogstat.py:611
+msgid "Normality is not violated. >> Running repeated measures one-way ANOVA."
 msgstr ""
 
-#: .././cogstat.py:603
-msgid "Normality is violated. >> Running Friedman test."
+#: .././cogstat.py:615
+msgid " >> Running Friedman test."
 msgstr ""
 
-#: .././cogstat.py:606
+#: .././cogstat.py:618
 msgid "Running Friedman test."
 msgstr ""
 
-#: .././cogstat.py:625
+#: .././cogstat.py:622
+msgid "Running Cochran's Q test."
+msgstr ""
+
+#: .././cogstat.py:641
 msgid "Dependent variable: "
 msgstr ""
 
-#: .././cogstat.py:626
+#: .././cogstat.py:642
 msgid "Group(s): "
 msgstr ""
 
-#: .././cogstat.py:647
+#: .././cogstat.py:663
 #, python-format
 msgid "N of invalid group cases: %g\n"
 msgstr ""
 
-#: .././cogstat.py:669
+#: .././cogstat.py:685
 msgid "One grouping variable. "
 msgstr ""
 
-#: .././cogstat.py:671
+#: .././cogstat.py:687
 msgid "There is only one group. At least two groups required."
 msgstr ""
 
-#: .././cogstat.py:673
+#: .././cogstat.py:691
 msgid "Two groups. "
 msgstr ""
 
-#: .././cogstat.py:677
+#: .././cogstat.py:695
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr ""
 
-#: .././cogstat.py:683 .././cogstat.py:697 .././cogstat.py:735
+#: .././cogstat.py:701
+msgid "Normality is violated in variable "
+msgstr ""
+
+#: .././cogstat.py:701
 msgid "group "
 msgstr ""
 
-#: .././cogstat.py:684 .././cogstat.py:715 .././cogstat.py:719
+#: .././cogstat.py:702 .././cogstat.py:727 .././cogstat.py:735
 msgid "Running Mann-Whitney test."
 msgstr ""
 
-#: .././cogstat.py:687
+#: .././cogstat.py:705
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr ""
 
-#: .././cogstat.py:690
-msgid "Choosing two sample t-test."
+#: .././cogstat.py:708
+msgid ""
+"Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on "
+"assumptions."
 msgstr ""
 
-#: .././cogstat.py:699
+#: .././cogstat.py:716
 msgid "Checking for homogeneity of variance across groups."
 msgstr ""
 
-#: .././cogstat.py:704 .././cogstat.py:742
-msgid "Homeogeneity of variance violated in variable "
-msgstr ""
-
-#: .././cogstat.py:708
+#: .././cogstat.py:724
 msgid ""
 "Normality and homeogeneity of variance are not violated. >> Running two "
 "sample t-test."
 msgstr ""
 
-#: .././cogstat.py:711 .././cogstat.py:749
-msgid "Normality is violated. "
+#: .././cogstat.py:727
+#, python-format
+msgid "Normality is violated in variable %s, group(s) %s."
 msgstr ""
 
-#: .././cogstat.py:713 .././cogstat.py:751
-msgid "Homeogeneity of variance is violated. "
+#: .././cogstat.py:730
+#, python-format
+msgid "Homeogeneity of variance violated in variable %s."
 msgstr ""
 
-#: .././cogstat.py:722 .././cogstat.py:760
+#: .././cogstat.py:731
+msgid "Running Welch's t-test."
+msgstr ""
+
+#: .././cogstat.py:738 .././cogstat.py:776
 msgid "Nominal variable."
 msgstr ""
 
-#: .././cogstat.py:722 .././cogstat.py:760
+#: .././cogstat.py:738 .././cogstat.py:776
 msgid "Running Chi-square test."
 msgstr ""
 
-#: .././cogstat.py:725
+#: .././cogstat.py:743
 msgid "More than two groups."
 msgstr ""
 
-#: .././cogstat.py:727
-msgid "Choosing one-way ANOVA."
+#: .././cogstat.py:745
+msgid ""
+"Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
 msgstr ""
 
-#: .././cogstat.py:737
+#: .././cogstat.py:754
 msgid "Checking for homeogeneity of variance across groups."
 msgstr ""
 
-#: .././cogstat.py:746
+#: .././cogstat.py:762
 msgid ""
 "Normality and homeogeneity of variance are not violated. >> Running one-way "
 "ANOVA."
 msgstr ""
 
-#: .././cogstat.py:753 .././cogstat.py:757
+#: .././cogstat.py:765
+#, python-format
+msgid "Normality is violated in variable %s, group(s) %s. "
+msgstr ""
+
+#: .././cogstat.py:767
+#, python-format
+msgid "Homeogeneity of variance violated in variable %s. "
+msgstr ""
+
+#: .././cogstat.py:769 .././cogstat.py:773
 msgid "Running Kruskal-Wallis test."
 msgstr ""
 
-#: .././cogstat.py:764
+#: .././cogstat.py:780
 msgid "Several grouping variables."
 msgstr ""
 
