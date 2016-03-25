@@ -5,6 +5,7 @@ Upcoming release
     - Repeated measures one-way ANOVA
     - Mauchly's test for sphericity
     - Greenhouse-Geisser correction
+    - Post-hoc pairwise comparison 
 - Confidence interval for correlation coefficients
 - McNemar test
 - Cochran's Q test

@@ -825,19 +825,41 @@ def cochran_q_test(pdf, var_names):
 
 
 def repeated_measures_anova(pdf, var_names):
+
     [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf, var_names)
     # Choose df correction depending on sphericity violation
     text_result = _("Result of Mauchly's test to check sphericity") + \
                    ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
     if pw < 0.05:  # sphericity is violated
+        p = corr_table[0, 1]
         text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
                        +_('Using Greenhouse-Geisser correction.') + '\n<default>' + \
                        _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.3g, %s\n' \
-                        % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(corr_table[0, 1]))
+                        % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(p))
     else:  # sphericity is not violated
+        p = pf
         text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n<default>' + \
                        _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.3g, %s\n' \
-                                                                % (dfn, dfd, f, cs_util.print_p(pf))
+                                                                % (dfn, dfd, f, cs_util.print_p(p))
+
+    # Post-hoc tests
+    if p < 0.05:
+        pht = cs_stat_num.pairwise_ttest(pdf, var_names).sort_index(level=0)
+        text_result += '\n' + _('Comparing variables pairwise:')
+
+        #print pht
+        pht['text'] = pht.apply(lambda x: '<i>t<\i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p'])), axis=1)
+        pht_text = pht[['text']]
+        text_result += pht_text.to_html(bold_rows=True, escape=False, header=False).replace('\n', ''). \
+            replace('border="1"', 'style="border:1px solid black;"')
+
+        # Or we can print them in a matrix
+        #pht_text = pht[['text']].unstack()
+        #np.fill_diagonal(pht_text.values, '')
+        #text_result += pht_text.to_html(bold_rows=True, escape=False).replace('\n', '').\
+        #                        replace('border="1"', 'style="border:1px solid black;"')
+
+        #print text_result
 
     return text_result
 

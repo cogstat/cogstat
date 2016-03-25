@@ -158,11 +158,13 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
     data: pandas DataFrame
     dep_var: dependent variable - label (long format) or a list of labels (wide format)
     indep_var: label of the independent variable (only necessary if data is in long format)
-    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index contains the identifiers.
+    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index
+            contains the identifiers.
     wide: whether the data is in wide format
     paired: whether the samples are related
     
-    ### Returns: pandas DataFrame with the t-statistics and associated p values (corrected and uncorrected) of each pairings
+    ### Returns: pandas DataFrame with the t-statistics and associated p values (corrected and uncorrected) of each
+                pairings
     """
     ### Reshaping data
     if wide:
@@ -177,28 +179,32 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
         test = stats.ttest_rel
     else:
         test = stats.ttest_ind
+
     # Pairwise t-tests
-    table = np.empty((0,2))
+    table = np.empty((0, 2))
     pairings = []
     for f in list(set(data[indep_var])):
         for f2 in list(set(data[indep_var])):
-            if f != f2 and '%s - %s'%(f2,f) not in pairings:
-                subset_f = data[data[indep_var]==f]
-                subset_f2 = data[data[indep_var]==f2]
+            if f != f2 and '%s - %s' % (f2, f) not in pairings:
+                subset_f = data[data[indep_var] == f]
+                subset_f2 = data[data[indep_var] == f2]
                 table = np.vstack([table, np.asarray(test(subset_f[dep_var], subset_f2[dep_var]))])
-                pairings.append('%s - %s'%(f,f2))
+                pairings.append((f, f2))
+
     # Corrections
     fam_size = (np.square(len(set(data[indep_var])))-len(set(data[indep_var])))/2
     bonf_list = []
     holm_list = []
-    sorted_p = sorted(list(table[:,1]))
-    for p in table[:,1]:
+    sorted_p = sorted(list(table[:, 1]))
+    for p in table[:, 1]:
         p_bonf = p*fam_size
         p_holm = p*(fam_size-sorted_p.index(p))
-        if p_bonf > 1: p_bonf = 1
-        if p_holm > 1: p_holm = 1
+        if p_bonf > 1:
+            p_bonf = 1
+        if p_holm > 1:
+            p_holm = 1
         bonf_list.append(p_bonf)
         holm_list.append(p_holm)
     table = np.hstack([table, np.asarray(zip(bonf_list, holm_list))])
-    table = pd.DataFrame(table, index=pairings, columns=['t','p','p (Bonf)','p (Holm)'])
+    table = pd.DataFrame(table, index=pd.MultiIndex.from_tuples(pairings), columns=['t', 'p', 'p (Bonf)', 'p (Holm)'])
     return table
