@@ -185,7 +185,7 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
     pairings = []
     for f in list(set(data[indep_var])):
         for f2 in list(set(data[indep_var])):
-            if f != f2 and '%s - %s' % (f2, f) not in pairings:
+            if f != f2 and (f2, f) not in pairings:
                 subset_f = data[data[indep_var] == f]
                 subset_f2 = data[data[indep_var] == f2]
                 table = np.vstack([table, np.asarray(test(subset_f[dep_var], subset_f2[dep_var]))])
