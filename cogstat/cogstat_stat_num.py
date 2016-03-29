@@ -10,6 +10,7 @@ Output is the result of the numerical analysis in numerical form.
 
 import numpy as np
 from scipy import stats
+import pandas as pd
 
 ### Variable pairs ###
 
@@ -56,7 +57,8 @@ def modified_t_test(x1, x2):
     pvalue = stats.t.sf(np.abs(tstat), df)*2  # two-sided
     return tstat, pvalue, df
 
-def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
+
+def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=True):
     """
     Standard one-way repeated measures ANOVA
     
@@ -64,7 +66,8 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     data: pandas DataFrame
     dep_var: dependent variable - label (long format) or a list of labels (wide format)
     indep_var: label of the independent variable (only necessary if data is in long format)
-    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index contains the identifiers.
+    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index
+            contains the identifiers.
     wide: whether the data is in wide format
     
     ### Returns: [DFn, DFd, F, pF, W, pW], corr_table
@@ -73,7 +76,9 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     pF: p value of the F statistic (uncorrected)
     W: statistic of Mauchly's test for sphericity
     pW: p value of Mauchly's test for sphericity (sphericity is violated if p(W)<0.05)
-    corr_table: numpy array, contains Greenhouse & Geisser's, Huhyn & Feldt's, and the "lower-bound" epsilons, and the corrected p values of F
+    corr_table: numpy array, contains Greenhouse & Geisser's, Huhyn & Feldt's, and the "lower-bound" epsilons,
+                and the corrected p values of F (degrees of freedom should be multiplied with the epsilon to get
+                the corrected df values)
     """
     ### Reshaping data
     if wide:
@@ -83,6 +88,7 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
         data = pd.melt(data, id_vars=id_var, value_vars=dep_var, var_name='condition', value_name='measured')
         dep_var = 'measured'
         indep_var = 'condition'
+
     ### one-way ANOVA
     n = len(set(data[id_var]))
     k = len(set(data[indep_var]))
@@ -100,6 +106,7 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     # F-statistic    
     F = (sum(q_eff)/DFn)/(sum(q_err)/DFd)
     pF = 1-stats.f.cdf(F, DFn, DFd)
+
     ### Mauchly's test for sphericity & Degree of freedom corrections
     # Calculating sample covariances
     table = np.empty((0,n))
@@ -113,7 +120,7 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     samp_table = np.cov(table)
     samp_means = samp_table.mean(axis=1)
     # Estimating population covariances
-    pop_table = np.empty((0,k))
+    pop_table = np.empty((0, k))
     for x in range(k):
         row = []
         for y in range(k):
@@ -125,21 +132,24 @@ def rm_ANOVA(data, dep_var, indep_var=None, id_var=None, wide=True):
     fW = float(2*np.square(k-1)+(k-1)+2)/float(6*(k-1)*(n-1))
     chiW = (fW-1)*(n-1)*np.log(W)
     pW = 1-stats.chi2.cdf(chiW, dfW)
-    # Greenhouse & Geisser's epsilon   
+
+    # Greenhouse & Geisser's epsilon
     GG = np.square(np.trace(pop_table))/(np.sum(np.square(pop_table))*(k-1))
     # Huynh & Feldt's epsilon
     HF = (n*(k-1)*GG-2)/((k-1)*(n-1-(k-1)*GG))
     # Lower-bound epsilon
     LB = 1/float(k-1)
     # Correction
-    corr_list = [GG,HF,LB]
+    corr_list = [GG, HF, LB]
     corr_table = np.empty((0,2))
     for epsilon in corr_list:
         F_corr = (sum(q_eff)/(DFn*epsilon))/(sum(q_err)/(DFd*epsilon))
         pF_corr = 1-stats.f.cdf(F_corr, DFn*epsilon, DFd*epsilon)
         corr_table = np.vstack([corr_table, np.array([epsilon, pF_corr])])
-    return [DFn,DFd,F,pF,W,pW], corr_table
-    
+
+    return [DFn, DFd, F, pF, W, pW], corr_table
+
+
 def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired=True):
     """
     Posthoc pairwise t-tests for ANOVA
@@ -148,11 +158,13 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
     data: pandas DataFrame
     dep_var: dependent variable - label (long format) or a list of labels (wide format)
     indep_var: label of the independent variable (only necessary if data is in long format)
-    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index contains the identifiers.
+    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index
+            contains the identifiers.
     wide: whether the data is in wide format
     paired: whether the samples are related
     
-    ### Returns: pandas DataFrame with the t-statistics and associated p values (corrected and uncorrected) of each pairings
+    ### Returns: pandas DataFrame with the t-statistics and associated p values (corrected and uncorrected) of each
+                pairings
     """
     ### Reshaping data
     if wide:
@@ -167,28 +179,26 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
         test = stats.ttest_rel
     else:
         test = stats.ttest_ind
+
     # Pairwise t-tests
-    table = np.empty((0,2))
+    table = np.empty((0, 2))
     pairings = []
     for f in list(set(data[indep_var])):
         for f2 in list(set(data[indep_var])):
-            if f != f2 and '%s - %s'%(f2,f) not in pairings:
-                subset_f = data[data[indep_var]==f]
-                subset_f2 = data[data[indep_var]==f2]
+            if f != f2 and '%s - %s' % (f2, f) not in pairings:
+                subset_f = data[data[indep_var] == f]
+                subset_f2 = data[data[indep_var] == f2]
                 table = np.vstack([table, np.asarray(test(subset_f[dep_var], subset_f2[dep_var]))])
-                pairings.append('%s - %s'%(f,f2))
+                pairings.append((f, f2))
+
     # Corrections
     fam_size = (np.square(len(set(data[indep_var])))-len(set(data[indep_var])))/2
     bonf_list = []
     holm_list = []
-    sorted_p = sorted(list(table[:,1]))
-    for p in table[:,1]:
-        p_bonf = p*fam_size
-        p_holm = p*(fam_size-sorted_p.index(p))
-        if p_bonf > 1: p_bonf = 1
-        if p_holm > 1: p_holm = 1
-        bonf_list.append(p_bonf)
-        holm_list.append(p_holm)
+    sorted_p = sorted(list(table[:, 1]))
+    for p in table[:, 1]:
+        bonf_list.append(min(p*fam_size, 1))
+        holm_list.append(min(p*(fam_size-sorted_p.index(p)), 1))
     table = np.hstack([table, np.asarray(zip(bonf_list, holm_list))])
-    table = pd.DataFrame(table, index=pairings, columns=['t','p','p (Bonf)','p (Holm)'])
+    table = pd.DataFrame(table, index=pd.MultiIndex.from_tuples(pairings), columns=['t', 'p', 'p (Bonf)', 'p (Holm)'])
     return table

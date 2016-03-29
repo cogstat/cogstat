@@ -609,8 +609,7 @@ class CogStatData:
                         
                 if not non_normal_vars:
                     result += '<decision>'+_('Normality is not violated. >> Running repeated measures one-way ANOVA.')+'\n<default>'
-                    result += _('Sorry, not implemented yet.')+'\n<default>'
-                    #result += cs_stat.repeated_measures_anova(self.data_frame, var_names)
+                    result += cs_stat.repeated_measures_anova(self.data_frame, var_names)
                 else:
                     result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.join(non_normal_vars) + \
                               _(' >> Running Friedman test.')+'\n<default>'
