@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 18:47+0100\n"
+"POT-Creation-Date: 2016-04-07 17:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -850,7 +850,7 @@ msgstr ""
 msgid "Running one sample t-test."
 msgstr ""
 
-#: .././cogstat.py:374 .././cogstat.py:735 .././cogstat.py:773
+#: .././cogstat.py:374 .././cogstat.py:735 .././cogstat.py:774
 msgid "Ordinal variable."
 msgstr ""
 
@@ -1006,11 +1006,7 @@ msgstr ""
 msgid "Normality is violated in variable(s): %s."
 msgstr ""
 
-#: .././cogstat.py:586
-msgid " >> Running paired Wilcoxon test."
-msgstr ""
-
-#: .././cogstat.py:589
+#: .././cogstat.py:586 .././cogstat.py:589
 msgid "Running paired Wilcoxon test."
 msgstr ""
 
@@ -1026,7 +1022,7 @@ msgstr ""
 msgid "Nominal non dichotomous variables."
 msgstr ""
 
-#: .././cogstat.py:596 .././cogstat.py:625 .././cogstat.py:780
+#: .././cogstat.py:596 .././cogstat.py:625 .././cogstat.py:781
 msgid "Sorry, not implemented yet."
 msgstr ""
 
@@ -1041,14 +1037,14 @@ msgid ""
 msgstr ""
 
 #: .././cogstat.py:611
-msgid "Normality is not violated. >> Running repeated measures one-way ANOVA."
+msgid "Normality is not violated."
 msgstr ""
 
-#: .././cogstat.py:615
-msgid " >> Running Friedman test."
+#: .././cogstat.py:611
+msgid "Running repeated measures one-way ANOVA."
 msgstr ""
 
-#: .././cogstat.py:618
+#: .././cogstat.py:615 .././cogstat.py:618
 msgid "Running Friedman test."
 msgstr ""
 
@@ -1131,11 +1127,11 @@ msgstr ""
 msgid "Running Welch's t-test."
 msgstr ""
 
-#: .././cogstat.py:738 .././cogstat.py:776
+#: .././cogstat.py:738 .././cogstat.py:777
 msgid "Nominal variable."
 msgstr ""
 
-#: .././cogstat.py:738 .././cogstat.py:776
+#: .././cogstat.py:738 .././cogstat.py:777
 msgid "Running Chi-square test."
 msgstr ""
 
@@ -1158,21 +1154,22 @@ msgid ""
 "ANOVA."
 msgstr ""
 
-#: .././cogstat.py:765
+#. translators Test message to translators
+#: .././cogstat.py:766
 #, python-format
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr ""
 
-#: .././cogstat.py:767
+#: .././cogstat.py:768
 #, python-format
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr ""
 
-#: .././cogstat.py:769 .././cogstat.py:773
+#: .././cogstat.py:770 .././cogstat.py:774
 msgid "Running Kruskal-Wallis test."
 msgstr ""
 
-#: .././cogstat.py:780
+#: .././cogstat.py:781
 msgid "Several grouping variables."
 msgstr ""
 

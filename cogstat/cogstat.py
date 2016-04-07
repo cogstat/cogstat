@@ -583,7 +583,7 @@ class CogStatData:
                     result += cs_stat.paired_t_test(self.data_frame, var_names)
                 else:  # TODO should the descriptive be the mean or the median?
                     result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.join(non_normal_vars) + \
-                              _(' >> Running paired Wilcoxon test.')+'\n<default>'
+                              ' >> ' + _('Running paired Wilcoxon test.')+'\n<default>'
                     result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             elif meas_level == 'ord':
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n\n<default>'
@@ -608,11 +608,11 @@ class CogStatData:
                         non_normal_vars.append(var_name)
                         
                 if not non_normal_vars:
-                    result += '<decision>'+_('Normality is not violated. >> Running repeated measures one-way ANOVA.')+'\n<default>'
+                    result += '<decision>'+_('Normality is not violated.') + ' >> ' + _('Running repeated measures one-way ANOVA.')+'\n<default>'
                     result += cs_stat.repeated_measures_anova(self.data_frame, var_names)
                 else:
                     result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.join(non_normal_vars) + \
-                              _(' >> Running Friedman test.')+'\n<default>'
+                              ' >> ' + _('Running Friedman test.')+'\n<default>'
                     result += cs_stat.friedman_test(self.data_frame, var_names)
             elif meas_level == 'ord':
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running Friedman test.')+'\n<default>'
@@ -762,6 +762,7 @@ class CogStatData:
                         result += '<decision>'+_('Normality and homeogeneity of variance are not violated. >> Running one-way ANOVA.')+'\n<default>'
                         result += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
                     if non_normal_groups:
+                        #translators Test message to translators
                         result += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % (var_names[0], ', '.join(group))
                     if not hoemogeneity_vars:
                         result += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]
