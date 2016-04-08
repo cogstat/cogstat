@@ -762,7 +762,6 @@ class CogStatData:
                         result += '<decision>'+_('Normality and homeogeneity of variance are not violated. >> Running one-way ANOVA.')+'\n<default>'
                         result += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
                     if non_normal_groups:
-                        #translators Test message to translators
                         result += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % (var_names[0], ', '.join(group))
                     if not hoemogeneity_vars:
                         result += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]

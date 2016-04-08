@@ -1,10 +1,9 @@
-#http://wiki.maemo.org/Internationalize_a_Python_application
+# http://wiki.maemo.org/Internationalize_a_Python_application
 # maxdepth 1 means that no subdirectories will be searched
-xgettext --language=Python --keyword=_ --add-comments=translators --output=cogstat.pot `find ../. -maxdepth 1 -name "*.py"`
-#xgettext --language=Python --keyword=QtGui.QApplication.translate --output=cogstat.pot `find ../ui/ -maxdepth 1 -name "*.py"`
+xgettext --language=Python --keyword=_ --output=cogstat.pot `find ../. -maxdepth 1 -name "*.py"`
 
-# http://pymotw.com/2/gettext/index.html
-#xgettext -d gettext_example -o lanp.pot lang.py
+# POEditor supports comments only for new strings
+#xgettext --language=Python --keyword=_ --add-comments=translators --output=cogstat.pot `find ../. -maxdepth 1 -name "*.py"`
 
 # http://achilles-keep-moving.blogspot.hu/2011/07/minimal-tutorial-for-python.html
 #python pygettext.py -d cn -o cn.pot lang.py
