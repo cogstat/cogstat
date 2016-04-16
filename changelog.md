@@ -14,6 +14,7 @@
     - More informative and simpler text when checking assumptions in hypothesis tests
 - New localization
     - Hebrew (Tzipi Buchman)
+
 ## Fixes
 - Various bugfixes
 - Updated Language files
