@@ -12,6 +12,9 @@ Upcoming release
 - Welch's t-test
 - Output improvements
     - More informative and simpler text when checking assumptions in hypothesis tests
+- New localization
+    - Hebrew (Tzipi Buchman)
+
 
 1.3.1 (16 January 2016)
 ===============
@@ -29,7 +32,7 @@ Upcoming release
     - Import pandas data frame (only in IP NB mode)
 - Filtering based on single variable outlier (only in IP NB mode at the moment)
 - New localization
-    - Bulgarian (thanks to Petia Kojouharova)
+    - Bulgarian (Petia Kojouharova)
 
 ## Fixes
 - Fix memory leak after several analyses (less memory is required now)
