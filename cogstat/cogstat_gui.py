@@ -166,7 +166,7 @@ class StatMainWindow(QtGui.QMainWindow):
         self.setAcceptDrops(True)
         self.statusBar().showMessage(_('Ready'))
 
-        self.unsaved_output = True
+        self.unsaved_output = False  # Do not want to save the output with the welcome message
         self.output_filename = ''
         
         self.show()
@@ -507,6 +507,7 @@ class StatMainWindow(QtGui.QMainWindow):
         if reply == QtGui.QMessageBox.Yes:
             self.output_pane.clear()
             self.analysis_results = []
+            self.unsaved_output = False  # Not necessary to save the empty output
 
     def save_result(self):
         """Save the output pane to pdf file."""
