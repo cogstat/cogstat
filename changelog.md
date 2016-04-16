@@ -1,4 +1,4 @@
-Upcoming release
+1.4.0 (16 April 2016)
 ===============
 ## New features
 - Repeated measures ANOVA (Ákos Laczkó)
@@ -14,6 +14,11 @@ Upcoming release
     - More informative and simpler text when checking assumptions in hypothesis tests
 - New localization
     - Hebrew (Tzipi Buchman)
+## Fixes
+- Various bugfixes
+- Updated Language files
+    - Bulgarian (Petia Kojouharova)
+    - Hungarian
 
 
 1.3.1 (16 January 2016)
