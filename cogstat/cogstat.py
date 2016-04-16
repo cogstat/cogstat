@@ -199,6 +199,11 @@ class CogStatData:
 
         # Set other details for all import sources
         percent2float()
+        # Convert boolean variables to string
+        # True and False values should be imported as string, not as boolean - CogStat does not know boolean variables
+        # Although this solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
+        self.data_frame[self.data_frame.select_dtypes(include=['bool']).columns] = \
+            self.data_frame.select_dtypes(include=['bool']).astype('object')
         set_measurement_level(measurement_level=
                               (param_measurement_level if param_measurement_level else file_measurement_level))
                             # param_measurement_level overwrites file_measurement_level
