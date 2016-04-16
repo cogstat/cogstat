@@ -184,6 +184,7 @@ class CogStatData:
                 f.next()
                 meas_row = f.next().replace('\n', '').split(delimiter)
                 if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) and set(meas_row) != set(['']):
+                    meas_row = [u'unk' if item == u'' else item for item in meas_row]  # missing level ('') means 'unk'
                     file_measurement_level = ' '.join(meas_row)
                 skiprows = [1] if file_measurement_level else None
 
