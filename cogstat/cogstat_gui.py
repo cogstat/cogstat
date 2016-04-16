@@ -289,16 +289,23 @@ class StatMainWindow(QtGui.QMainWindow):
         """ Core of the import process.
         """
         self._busy_signal(True)
-        self.active_data = cogstat.CogStatData(data=data)
-        if self.active_data.import_source == _('Import failed'):
-            QtGui.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'), QtGui.QMessageBox.Ok)
-            self._show_data_menus(False)
-        else:
-            self._show_data_menus()
-            self.statusBar().showMessage((_('Data loaded from clipboard: ') if data else _('Data loaded from file: '))
-                                        + _('%s variables and %s cases.') % (len(self.active_data.data_frame.columns),
-                                                                             len(self.active_data.data_frame.index)))
-            self.print_data(brief=True, display_import_message=True)
+        try:
+            self.active_data = cogstat.CogStatData(data=data)
+            if self.active_data.import_source == _('Import failed'):
+                QtGui.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'), QtGui.QMessageBox.Ok)
+                self._show_data_menus(False)
+            else:
+                self._show_data_menus()
+                self.statusBar().showMessage((_('Data loaded from clipboard: ') if data else _('Data loaded from file: '))
+                                            + _('%s variables and %s cases.') % (len(self.active_data.data_frame.columns),
+                                                                                 len(self.active_data.data_frame.index)))
+                self.print_data(brief=True, display_import_message=True)
+        except:
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command('self._open_data()')  # TODO
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Open data.')))
+            traceback.print_exc()
+            self._print_to_output_pane()
         self._busy_signal(False)
             
     def print_data(self, brief=False, display_import_message=False):
