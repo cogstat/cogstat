@@ -56,7 +56,7 @@ class StatMainWindow(QtGui.QMainWindow):
 
         # Only for testing
 #        self.open_file('sample_data/example2.csv'); #self.compare_groups()
-#        self.open_file('test/data/example3.csv')
+#        self.open_file('test/data/test_data.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable('X')
@@ -359,10 +359,11 @@ class StatMainWindow(QtGui.QMainWindow):
                                                                 descriptives=descr, normality=norm, central_test=loc_test,
                                                                 central_value=loc_test_value)
                 self.analysis_results[-1].add_output(result)
+                self._print_to_output_pane()
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable.')))
             traceback.print_exc()
-        self._print_to_output_pane()
+            self._print_to_output_pane()
         self._busy_signal(False)
 
     def explore_variable_pair(self, var_names=None):
@@ -397,12 +398,13 @@ class StatMainWindow(QtGui.QMainWindow):
                             self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
                             result_list = self.active_data.explore_variable_pair(x, y)
                             self.analysis_results[-1].add_output(result_list)
+                            self._print_to_output_pane()
                         if x == y:
                             pass_diag = True
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable pair.')))
                 traceback.print_exc()
-        self._print_to_output_pane()
+                self._print_to_output_pane()
         self._busy_signal(False)
             
     def pivot(self, depend_names=None, row_names=[], col_names=[], page_names=[], function='Mean'):
@@ -491,19 +493,23 @@ class StatMainWindow(QtGui.QMainWindow):
             else:
                 return
         self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
         if not var_names or not groups:
-            text_result = cs_util.reformat_output('<default>%s %s'%(_('Compare groups.'), _(u'Both the dependent and the grouping variables should be set.')))
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
+            text_result = cs_util.reformat_output('<default>%s %s' % (_('Compare groups.'), _(u'Both the dependent and the grouping variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
-            try:
-                result_list = self.active_data.compare_groups(var_names[0], groups[0])
-                self.analysis_results[-1].add_output(result_list)
-            except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare groups.')))
-                traceback.print_exc()
-        self._print_to_output_pane()
+            for var_name in var_names:
+                try:
+                    self.analysis_results.append(GuiResultPackage())
+                    self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
+                    result_list = self.active_data.compare_groups(var_name, groups[0])
+                    self.analysis_results[-1].add_output(result_list)
+                    self._print_to_output_pane()
+                except:
+                    self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare groups.')))
+                    traceback.print_exc()
+                    self._print_to_output_pane()
         self._busy_signal(False)
 
     ### Result menu methods ###

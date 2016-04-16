@@ -135,9 +135,9 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>30</y>
+     <y>50</y>
      <width>171</width>
-     <height>71</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="selectionMode">
@@ -161,13 +161,13 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>10</y>
-     <width>121</width>
+     <y>30</y>
+     <width>120</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Group(s)</string>
+    <string>Group</string>
    </property>
   </widget>
   <widget class="QPushButton" name="add_group_button">

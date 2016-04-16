@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'compare_groups.ui'
 #
-# Created: Fri Aug  8 11:12:27 2014
-#      by: PyQt4 UI code generator 4.9.1
+# Created: Sat Apr 16 14:43:34 2016
+#      by: PyQt4 UI code generator 4.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -53,14 +62,14 @@ class Ui_Dialog(object):
         self.selected_listWidget.setObjectName(_fromUtf8("selected_listWidget"))
         self.group_listWidget = QtGui.QListWidget(Dialog)
         self.group_listWidget.setEnabled(True)
-        self.group_listWidget.setGeometry(QtCore.QRect(210, 30, 171, 71))
+        self.group_listWidget.setGeometry(QtCore.QRect(210, 50, 171, 21))
         self.group_listWidget.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.group_listWidget.setObjectName(_fromUtf8("group_listWidget"))
         self.remove_group_button = QtGui.QPushButton(Dialog)
         self.remove_group_button.setGeometry(QtCore.QRect(180, 70, 21, 21))
         self.remove_group_button.setObjectName(_fromUtf8("remove_group_button"))
         self.label_3 = QtGui.QLabel(Dialog)
-        self.label_3.setGeometry(QtCore.QRect(210, 10, 121, 16))
+        self.label_3.setGeometry(QtCore.QRect(210, 30, 120, 16))
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.add_group_button = QtGui.QPushButton(Dialog)
         self.add_group_button.setGeometry(QtCore.QRect(180, 40, 21, 16))
@@ -70,14 +79,14 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Compare groups", None, QtGui.QApplication.UnicodeUTF8))
-        self.removeVar.setText(QtGui.QApplication.translate("Dialog", "<=", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Dialog", "Available variables", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Dialog", "Dependent variable(s)", None, QtGui.QApplication.UnicodeUTF8))
-        self.addVar.setText(QtGui.QApplication.translate("Dialog", "=>", None, QtGui.QApplication.UnicodeUTF8))
-        self.remove_group_button.setText(QtGui.QApplication.translate("Dialog", "<=", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Dialog", "Group(s)", None, QtGui.QApplication.UnicodeUTF8))
-        self.add_group_button.setText(QtGui.QApplication.translate("Dialog", "=>", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(_translate("Dialog", "Compare groups", None))
+        self.removeVar.setText(_translate("Dialog", "<=", None))
+        self.label.setText(_translate("Dialog", "Available variables", None))
+        self.label_2.setText(_translate("Dialog", "Dependent variable(s)", None))
+        self.addVar.setText(_translate("Dialog", "=>", None))
+        self.remove_group_button.setText(_translate("Dialog", "<=", None))
+        self.label_3.setText(_translate("Dialog", "Group", None))
+        self.add_group_button.setText(_translate("Dialog", "=>", None))
 
 
 if __name__ == "__main__":

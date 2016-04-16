@@ -11,8 +11,10 @@ _ = t.ugettext
 
 # http://developer.qt.nokia.com/doc/qt-4.8/QFileDialog.html
 
+
 def open_data_file():
     return unicode(QtGui.QFileDialog.getOpenFileName(None, _('Open data file'), '',  '*.txt *.log *.csv *.tsv'))
+
 
 def save_output():
     return unicode(QtGui.QFileDialog.getSaveFileName(None, _('Save result file'), 'result.pdf', '*.pdf'))
@@ -24,10 +26,12 @@ def save_output():
 
 # TODO functions should be private
 
+
 def init_source_vars(list_widget, names):
     list_widget.clear() # clear source list in case new data is loaded
     for var_name in names:
         list_widget.addItem(QtCore.QString(var_name))
+
 
 def remove_ceased_vars(list_widget, names):
     """
@@ -37,6 +41,7 @@ def remove_ceased_vars(list_widget, names):
     for item_i in range(list_widget.count()-1, -1,-1):
         if not str(list_widget.item(item_i).text()) in names:
             list_widget.takeItem(item_i)
+
 
 def add_to_list_widget(source_list_widget, target_list_widget):
     """
@@ -51,6 +56,7 @@ def add_to_list_widget(source_list_widget, target_list_widget):
         if not item_in_the_list:
             target_list_widget.addItem(QtCore.QString(item.text()))
 
+
 def remove_item_from_list_widget(list_widget):
     """
     Remove selected item from list_widget.
@@ -63,8 +69,8 @@ def remove_item_from_list_widget(list_widget):
 
 import ui.pivot
 class pivot_dialog(QtGui.QDialog, ui.pivot.Ui_Dialog):
-    def __init__(self, parent=None, names = []):
-        QtGui.QDialog.__init__(self,parent)
+    def __init__(self, parent=None, names=[]):
+        QtGui.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -104,7 +110,7 @@ class pivot_dialog(QtGui.QDialog, ui.pivot.Ui_Dialog):
     def remove_pages(self):
         remove_item_from_list_widget(self.pagesListWidget)
     def add_dependent(self):
-        if self.dependentListWidget.count() == 0: # do this only if the list is empty
+        if self.dependentListWidget.count() == 0:  # do this only if the list is empty
             self.dependentListWidget.addItem(QtCore.QString(self.sourceListWidget.currentItem().text()))
     def remove_dependent(self):
         self.dependentListWidget.takeItem(self.dependentListWidget.currentRow())
@@ -116,10 +122,11 @@ class pivot_dialog(QtGui.QDialog, ui.pivot.Ui_Dialog):
                 [unicode(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())], 
                 unicode(self.function.currentText()))
 
+
 import ui.var_properties
 class explore_var_dialog(QtGui.QDialog, ui.var_properties.Ui_Dialog):
-    def __init__(self, parent=None, names = []):
-        QtGui.QDialog.__init__(self,parent)
+    def __init__(self, parent=None, names=[]):
+        QtGui.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -148,10 +155,11 @@ class explore_var_dialog(QtGui.QDialog, ui.var_properties.Ui_Dialog):
                  self.ttest_checkbox.isChecked(),
                  unicode(self.ttest_value.text()))
 
+
 import ui.explore_var_pairs
 class explore_var_pairs_dialog(QtGui.QDialog, ui.explore_var_pairs.Ui_Dialog):
-    def __init__(self, parent=None, names = []):
-        QtGui.QDialog.__init__(self,parent)
+    def __init__(self, parent=None, names=[]):
+        QtGui.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -173,11 +181,12 @@ class explore_var_pairs_dialog(QtGui.QDialog, ui.explore_var_pairs.Ui_Dialog):
     
     def read_parameters(self):
         return [unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
-        
+
+
 import ui.compare_vars
 class compare_vars_dialog(QtGui.QDialog, ui.compare_vars.Ui_Dialog):
-    def __init__(self, parent=None, names = []):
-        QtGui.QDialog.__init__(self,parent)
+    def __init__(self, parent=None, names=[]):
+        QtGui.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -200,10 +209,11 @@ class compare_vars_dialog(QtGui.QDialog, ui.compare_vars.Ui_Dialog):
     def read_parameters(self):
         return [unicode(self.selected_listWidget.item(i).text(), 'utf-8') for i in range(self.selected_listWidget.count())]
 
+
 import ui.compare_groups
 class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
-    def __init__(self, parent=None, names = []):
-        QtGui.QDialog.__init__(self,parent)
+    def __init__(self, parent=None, names=[]):
+        QtGui.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -227,13 +237,15 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
         remove_item_from_list_widget(self.selected_listWidget)
         
     def add_group(self):
-        add_to_list_widget(self.source_listWidget, self.group_listWidget)
+        if self.group_listWidget.count() == 0:  # do this only if the list is empty
+            add_to_list_widget(self.source_listWidget, self.group_listWidget)
     def remove_group(self):
         remove_item_from_list_widget(self.group_listWidget)
     
     def read_parameters(self):
         return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                 [unicode(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
+
 
 import ui.preferences
 class preferences_dialog(QtGui.QDialog, ui.preferences.Ui_Dialog):
