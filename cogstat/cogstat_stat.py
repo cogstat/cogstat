@@ -848,7 +848,7 @@ def repeated_measures_anova(pdf, var_names):
         pht = cs_stat_num.pairwise_ttest(pdf, var_names).sort_index(level=0)
         text_result += '\n' + _('Comparing variables pairwise with the Holm-Bonferroni correction:')
         #print pht
-        pht['text'] = pht.apply(lambda x: '<i>t<\i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
+        pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
 
         pht_text = pht[['text']]
         text_result += pht_text.to_html(bold_rows=True, escape=False, header=False).replace('\n', ''). \
