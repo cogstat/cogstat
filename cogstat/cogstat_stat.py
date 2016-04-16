@@ -14,6 +14,7 @@ Mostly scipy.stats, statsmodels and matplotlib is used to generate the results.
 """
 
 import gettext
+import os
 import numpy as np
 import statsmodels.api as sm
 import string
@@ -46,7 +47,7 @@ except:
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
-t = gettext.translation('cogstat', 'locale/', [csc.language], fallback=True)
+t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
 warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.')+'\n<default>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
