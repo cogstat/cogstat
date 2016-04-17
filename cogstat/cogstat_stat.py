@@ -845,7 +845,7 @@ def repeated_measures_anova(pdf, var_names):
 
     # Post-hoc tests
     if p < 0.05:
-        pht = cs_stat_num.pairwise_ttest(pdf, var_names).sort_index(level=0)
+        pht = cs_stat_num.pairwise_ttest(pdf, var_names).sort_index()
         text_result += '\n' + _('Comparing variables pairwise with the Holm-Bonferroni correction:')
         #print pht
         pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)

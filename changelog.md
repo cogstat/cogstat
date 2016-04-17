@@ -1,3 +1,8 @@
+1.4.1 (17 April 2016)
+===============
+## Fixes
+- Bugfix: repeated measures ANOVA does not run on Windows 
+
 1.4.0 (16 April 2016)
 ===============
 ## New features
