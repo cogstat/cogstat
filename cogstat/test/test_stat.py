@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
 import cogstat
+
+print cogstat.__file__
+print os.path.abspath(cogstat.__file__)
+#from IPython import embed; embed()
 
 """
 - All statistical value should be tested at least once.
