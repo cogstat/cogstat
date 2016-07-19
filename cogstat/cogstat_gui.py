@@ -567,7 +567,7 @@ class StatMainWindow(QtGui.QMainWindow):
         webbrowser.open('https://github.com/cogstat/cogstat/issues')
         
     def _open_reportbug_webpage(self):
-        webbrowser.open('https://github.com/cogstat/cogstat/issues')
+        webbrowser.open('https://github.com/cogstat/cogstat/wiki/Report-a-bug')
         
     def _show_about(self):
         QtGui.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+_(u'<br>Simple statistical solutions for cognitive scientists<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "https://github.com/cogstat/cogstat/wiki">Visit CogStat website</a>'%(2012, 2015)))
