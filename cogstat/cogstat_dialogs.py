@@ -64,8 +64,7 @@ def remove_item_from_list_widget(list_widget):
     for item in list_widget.selectedItems():
         list_widget.takeItem(list_widget.row(item))
 
-### Data dialogs 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															
-###
+### Data dialogs ###
 
 import ui.pivot
 class pivot_dialog(QtGui.QDialog, ui.pivot.Ui_Dialog):
@@ -226,7 +225,7 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
 
         self.init_vars(names)
         self.show()
-        
+
     def init_vars(self, names):
         init_source_vars(self.source_listWidget, names)
         remove_ceased_vars(self.selected_listWidget, names)
@@ -235,7 +234,7 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
         add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
         remove_item_from_list_widget(self.selected_listWidget)
-        
+
     def add_group(self):
         if self.group_listWidget.count() == 0:  # do this only if the list is empty
             add_to_list_widget(self.source_listWidget, self.group_listWidget)
@@ -257,7 +256,7 @@ class preferences_dialog(QtGui.QDialog, ui.preferences.Ui_Dialog):
     
         self.init_langs()
         self.show()
-        
+
     def init_langs(self):
         """Set the available languages.
         """
@@ -275,7 +274,7 @@ class preferences_dialog(QtGui.QDialog, ui.preferences.Ui_Dialog):
             return langs
 
         langs = ['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__))+'/locale')
-        
+
         # TODO is there any automatic method to show the name and not the code 
         # of the languages? Or should we use our own solution (e.g., dictionary)?
         self.langComboBox.clear()
