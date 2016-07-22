@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Class for the CogStat data (with import method) and methods to compile the 
+Class for the CogStat data (with import method) and methods to compile the
 appropriate statistics for the main analysis commands.
 """
 
@@ -36,7 +36,8 @@ rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
-warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.')+'\n<default>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
+warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.') + \
+                        '\n<default>'  # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
 
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
                     # any other code will leave the output (e.g., for testing)
@@ -78,7 +79,8 @@ class CogStatData:
         self.data_frame = None
         self.data_measlevs = None
         self.import_source = ''
-        self.import_message = ''  # can't return anything to caller, since we're in an __init__ method, so store the message here
+        self.import_message = ''  # can't return anything to caller,
+                                #  since we're in an __init__ method, so store the message here
         self.filtering_status = None
 
         self._import_data(data=data, param_measurement_level=measurement_level)
@@ -119,19 +121,25 @@ class CogStatData:
                     if len(names.split()) == len(levels.split()):
                         self.data_measlevs = {name: level for name, level in zip(names.split(), levels.split())}
                     else:
-                        self.import_message += '\n<warning>' + _('Number of measurement level do not match the number of variables. Measurement level specification is ignored.')
+                        self.import_message += '\n<warning>' + \
+                                               _('Number of measurement level do not match the number of variables. Measurement level specification is ignored.')
                         measurement_level = ''
                 else:  # Only levels are given - in the order of the variables
                     if len(measurement_level.split()) == len(self.data_frame.columns):
                         self.data_measlevs = {name: level for name, level in zip(self.data_frame.columns,
-                                                                             measurement_level.split())}
+                                                                                 measurement_level.split())}
                     else:
-                        self.import_message += '\n<warning>' + _('Number of measurement level do not match the number of variables. Measurement level specification is ignored.')
+                        self.import_message += '\n<warning>' + \
+                                               _('Number of measurement level do not match the number of variables. Measurement level specification is ignored.')
                         measurement_level = ''
-            if not measurement_level:  # Otherwise (or if the given measurement level is incorrect) set them to be nom if type is a str, unk otherwise
-                self.data_measlevs = {name: (u'nom' if self.data_frame[name].dtype == 'object' else u'unk') for name in self.data_frame.columns}
+            if not measurement_level:  # Otherwise (or if the given measurement level is incorrect)
+                # set them to be nom if type is a str, unk otherwise
+                self.data_measlevs = {name: (u'nom' if self.data_frame[name].dtype == 'object' else u'unk')
+                                      for name in self.data_frame.columns}
                 # TODO Does the line above work? Does the line below work ?
-                #self.data_measlevs = dict(zip(self.data_frame.columns, [u'nom' if self.data_frame[name].dtype == 'object' else u'unk' for name in self.data_frame.columns]))
+                #self.data_measlevs =
+                # dict(zip(self.data_frame.columns, [u'nom' if self.data_frame[name].dtype == 'object'
+                # else u'unk' for name in self.data_frame.columns]))
                 self.import_message += '\n<warning>'+warn_unknown_variable+'<default>'
 
             # 2. Check for inconsistencies in measurement levels.
@@ -144,10 +152,15 @@ class CogStatData:
             if invalid_data:  # these str variables were set to int or ord
                 for var_name in invalid_data:
                     self.data_measlevs[var_name] = 'nom'
-                self.import_message += '\n<warning>'+_(u'String variables cannot be interval or ordinal variables. Those variables are automatically set to nominal: ')+''.join(', %s'%var_name for var_name in invalid_data)[2:]+'. '+_(u'You might consider fixing this in your source table.')
+                self.import_message += '\n<warning>' + \
+                                       _(u'String variables cannot be interval or ordinal variables. Those variables are automatically set to nominal: ')\
+                                       + ''.join(', %s' % var_name for var_name in invalid_data)[2:]+'. ' + \
+                                       _(u'You might consider fixing this in your source table.')
 
             if set(self.data_measlevs) in ['unk']:
-                self.import_message += '\n<warning>'+_('The measurement level was not set for all variables. You might consider fixing this in your data source.')+'<default>'
+                self.import_message += '\n<warning>' + \
+                                       _('The measurement level was not set for all variables. You might consider fixing this in your data source.')\
+                                       + '<default>'
 
         file_measurement_level = ''
         # Import from pandas DataFrame
@@ -168,7 +181,8 @@ class CogStatData:
                     f = csv.reader(open(data, 'rb'), delimiter=delimiter, quotechar=quotechar)
                     f.next()
                     meas_row = f.next()
-                    if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) and set(meas_row) != set(['']):
+                    if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
+                            and set(meas_row) != set(['']):
                         file_measurement_level = ' '.join(meas_row)
                     skiprows = [1] if file_measurement_level else None
 
@@ -183,7 +197,8 @@ class CogStatData:
                 f = StringIO.StringIO(data)
                 f.next()
                 meas_row = f.next().replace('\n', '').split(delimiter)
-                if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) and set(meas_row) != set(['']):
+                if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
+                        and set(meas_row) != set(['']):
                     meas_row = [u'unk' if item == u'' else item for item in meas_row]  # missing level ('') means 'unk'
                     file_measurement_level = ' '.join(meas_row)
                 skiprows = [1] if file_measurement_level else None
@@ -270,7 +285,8 @@ class CogStatData:
                 prec = cs_util.precision(self.orig_data_frame[var_name])+1
                 text_output += _('Cases outside of the range will be excluded: %0.*f  --  %0.*f\n') % \
                                (prec, mean - 2 * sd, prec, mean + 2 * sd)
-                excluded_cases = self.orig_data_frame.loc[self.orig_data_frame.index.difference(filtered_data_indexes[-1])]
+                excluded_cases = \
+                    self.orig_data_frame.loc[self.orig_data_frame.index.difference(filtered_data_indexes[-1])]
                 #excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
@@ -282,7 +298,7 @@ class CogStatData:
             self.data_frame = self.orig_data_frame.copy()
             for filtered_data_index in filtered_data_indexes:
                 self.data_frame = self.data_frame.reindex(self.data_frame.index.intersection(filtered_data_index))
-            self.filtering_status = ', '.join(var_names) +_(' (2 SD)')
+            self.filtering_status = ', '.join(var_names) + _(' (2 SD)')
             # TODO Add graph about the excluded cases based on the variable
 
         return self._convert_output([title, text_output])
@@ -339,7 +355,7 @@ class CogStatData:
         """
         arguments:
         variables: list of variable names
-        
+
         returns:
         meas_lev (string): the lowest measurement level among the listed variables
         unknown_var (boolean):  whether list of variables includes at least one unknown variable
@@ -367,7 +383,7 @@ class CogStatData:
         Test central tendency
         """
         meas_level, unknown_type = self._meas_lev_vars([var_name])
-        text_result=''
+        text_result = ''
         if meas_level in ['int', 'ord', 'unk']:
             prec = cs_util.precision(self.data_frame[var_name])+1
         if unknown_type:
@@ -375,11 +391,14 @@ class CogStatData:
         if meas_level in ['int', 'unk']:  # TODO check normality?
             text_result += '<decision>'+_('Interval variable.')+' >> '+_('Running one sample t-test.')+'<default>\n'
             text_result += _(u'Mean: %0.*f') % (prec, np.mean(self.data_frame[var_name].dropna()))+'\n'
-            text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name, test_value=ttest_value)
+            text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
+                                                     test_value=ttest_value)
         elif meas_level == 'ord':
-            text_result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Wilcoxon signed-rank t-test.')+'<default>\n'
+            text_result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Wilcoxon signed-rank t-test.')+\
+                           '<default>\n'
             text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna()))+'\n'
-            text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name, value=ttest_value)
+            text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
+                                                           value=ttest_value)
         else:
             text_result2 = '<decision>'+_('No central tendency can be computed for nominal variables.')+'<default>\n'
             graph = None
@@ -423,7 +442,8 @@ class CogStatData:
             # TODO boxplot also
         if normality:
             text_result = '<b>'+_('Normality')+'</b>\n'
-            stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name)
+            stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs,
+                                                                              var_name)
             result_list.append(text_result+text_result2)
             if image:
                 result_list.append(image)
@@ -463,7 +483,8 @@ class CogStatData:
         # 1. Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
-            text_result += '<decision>'+_('Interval variables.')+' >> '+_("Running Pearson's and Spearman's correlation.")+'\n<default>'
+            text_result += '<decision>'+_('Interval variables.')+' >> '+\
+                           _("Running Pearson's and Spearman's correlation.")+'\n<default>'
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
@@ -480,7 +501,8 @@ class CogStatData:
                            ': <i>r</i>(%0.3g) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'ord':
-            text_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.")+'\n<default>'
+            text_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
+                           '\n<default>'
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
@@ -493,7 +515,7 @@ class CogStatData:
             text_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
             text_result += cs_stat.chi_square_test(self.data_frame, x, y)
         text_result += '\n'
-        
+
         # 2. Make graph
         temp_text_result, graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
         if temp_text_result:
@@ -515,7 +537,6 @@ class CogStatData:
         text_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_names, function)
         return self._convert_output([title, text_result])
 
-
     def compare_variables(self, var_names):
         """Compare variables
 
@@ -530,7 +551,8 @@ class CogStatData:
         # Check if the variables have the same measurement levels
         meas_levels = set([self.data_measlevs[var_name] for var_name in var_names])
         if len(meas_levels) > 1:
-            if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together, since unk is taken as int by default
+            if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together,
+                                                                # since unk is taken as int by default
                 return self._convert_output([title, intro_result, '<decision>'+_(u"Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'])
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
@@ -559,8 +581,10 @@ class CogStatData:
         elif meas_level == 'nom':
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
-                cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])#, rownames = [x], colnames = [y])
-                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
+                cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])
+                    #, rownames = [x], colnames = [y])
+                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').\
+                    replace('border="1"', 'style="border:1px solid black;"')
 
         # 3. Plot the descriptive data
         graph2 = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
@@ -575,11 +599,12 @@ class CogStatData:
             if meas_level == 'int':
                 # TODO check assumptions
                 result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing paired t-test or paired Wilcoxon test depending on the assumptions.')+'\n<default>'
-                
+
                 result += '<decision>'+_('Checking for normality.')+'\n<default>'
                 non_normal_vars = []
                 for var_name in var_names:
-                    norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name, alt_data = data)
+                    norm, text_result, graph_dummy, graph2_dummy = \
+                        cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name, alt_data=data)
                     result += text_result
                     if not norm:
                         non_normal_vars.append(var_name)
@@ -588,47 +613,56 @@ class CogStatData:
                     result += '<decision>'+_('Normality is not violated. >> Running paired t-test.')+'\n<default>'
                     result += cs_stat.paired_t_test(self.data_frame, var_names)
                 else:  # TODO should the descriptive be the mean or the median?
-                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.join(non_normal_vars) + \
-                              ' >> ' + _('Running paired Wilcoxon test.')+'\n<default>'
+                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
+                        join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.')+'\n<default>'
                     result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             elif meas_level == 'ord':
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n\n<default>'
                 result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             else:  # nominal variables
                 if len(set(data.values.ravel())) == 2:
-                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_('Running McNemar test.')+'\n<default>'
+                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> ' + _('Running McNemar test.') \
+                              + '\n<default>'
                     result += cs_stat.mcnemar_test(self.data_frame, var_names)
                 else:
-                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
+                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' + \
+                              _('Sorry, not implemented yet.')+'\n<default>'
         else:
             result += '<decision>'+_('More than two variables. ')+'<default>'
             if meas_level == 'int':
-                result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing repeated measures ANOVA or Friedman test depending on the assumptions.')+'\n<default>'
+                result += '<decision>'+_('Interval variables.')+' >> ' + \
+                          _('Choosing repeated measures ANOVA or Friedman test depending on the assumptions.') + \
+                          '\n<default>'
 
                 result += '<decision>'+_('Checking for normality.')+'\n<default>'
                 non_normal_vars = []
                 for var_name in var_names:
-                    norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name, alt_data=data)
+                    norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame,
+                                                                                          self.data_measlevs, var_name,
+                                                                                          alt_data=data)
                     result += text_result
                     if not norm:
                         non_normal_vars.append(var_name)
-                        
+
                 if not non_normal_vars:
-                    result += '<decision>'+_('Normality is not violated.') + ' >> ' + _('Running repeated measures one-way ANOVA.')+'\n<default>'
+                    result += '<decision>'+_('Normality is not violated.') + ' >> ' + \
+                              _('Running repeated measures one-way ANOVA.')+'\n<default>'
                     result += cs_stat.repeated_measures_anova(self.data_frame, var_names)
                 else:
-                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.join(non_normal_vars) + \
-                              ' >> ' + _('Running Friedman test.')+'\n<default>'
+                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
+                        join(non_normal_vars) + ' >> ' + _('Running Friedman test.')+'\n<default>'
                     result += cs_stat.friedman_test(self.data_frame, var_names)
             elif meas_level == 'ord':
                 result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running Friedman test.')+'\n<default>'
                 result += cs_stat.friedman_test(self.data_frame, var_names)
             else:
                 if len(set(data.values.ravel())) == 2:
-                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_("Running Cochran's Q test.")+'\n<default>'
+                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_("Running Cochran's Q test.") + \
+                              '\n<default>'
                     result += cs_stat.cochran_q_test(self.data_frame, var_names)
                 else:
-                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> '+_('Sorry, not implemented yet.')+'\n<default>'
+                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' \
+                              + _('Sorry, not implemented yet.')+'\n<default>'
 
         return self._convert_output([title, intro_result, graph, descr_result, graph2, result])
 
@@ -658,30 +692,36 @@ class CogStatData:
             # TODO remove index, and localize row indexes
             pdf_result = pd.DataFrame(columns=group_levels, index=['N of valid cases', 'N of invalid cases'])
             pdf_result.loc['N of valid cases'] = [sum(data[groups[0]] == group) for group in group_levels]
-            pdf_result.loc['N of invalid cases'] = [sum(self.data_frame[groups[0]] == group) - sum(data[groups[0]] == group) for group in group_levels]
+            pdf_result.loc['N of invalid cases'] = [sum(self.data_frame[groups[0]] == group) -
+                                                    sum(data[groups[0]] == group) for group in group_levels]
 #            for group in group_levels:
 #                valid_n = sum(data[groups[0]]==group)
 #                invalid_n = sum(self.data_frame[groups[0]]==group)-valid_n
 #                intro_result += _(u'Group: %s, N of valid cases: %g, N of invalid cases: %g\n') %(group, valid_n, invalid_n)
-            intro_result += pdf_result.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"') # pyqt doesn't support border styles
+            intro_result += pdf_result.to_html(bold_rows=False).replace('\n', '').\
+                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
             valid_n = len(self.data_frame[groups[0]].dropna())
             invalid_n = len(self.data_frame[groups[0]])-valid_n
             intro_result += '\n\n'+_(u'N of invalid group cases: %g\n') % invalid_n
 
             # 1. Plot the individual data
-            temp_intro_result, graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups, group_levels)
+            temp_intro_result, graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                                                                group_levels)
             if temp_intro_result:
                 intro_result += temp_intro_result
 
             # 2. Descriptive data
             descr_result = ''
             if meas_level in ['int', 'unk']:
-                descr_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]], stat='mean')
+                descr_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]],
+                                                        stat='mean')
             elif meas_level == 'ord':
-                descr_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]], stat='median')
+                descr_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]],
+                                                        stat='median')
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
-                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
+                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').\
+                    replace('border="1"', 'style="border:1px solid black;"')
 
             # 3. Plot the descriptive data
             graph2 = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
@@ -698,24 +738,33 @@ class CogStatData:
                 if meas_level == 'int':
                     group_levels, [var1, var2] = cs_stat._split_into_groups(self.data_frame, var_names[0], groups[0])
                     if len(var1) == 1 or len(var2) == 1:
-                        result += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + '\n<default>'
+                        result += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + \
+                                  '\n<default>'
                         result += '<decision>'+_('Checking for normality.')+'\n<default>'
                         group = group_levels[1] if len(var1) == 1 else group_levels[0]
-                        norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0], group_name=groups[0], group_value=group)
+                        norm, text_result, graph_dummy, graph2_dummy = \
+                            cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
+                                                   group_name=groups[0], group_value=group)
                         result += text_result
                         if not norm:
-                            result += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', '+_('group ')+unicode(group)+'.\n<default>'
+                            result += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', ' + \
+                                      _('group ')+unicode(group)+'.\n<default>'
                             result += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
                             result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         else:
-                            result += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + '\n<default>'
+                            result += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + \
+                                      '\n<default>'
                             result += cs_stat.modified_t_test(self.data_frame, var_names[0], groups[0])
                     else:
-                        result += '<decision>'+_('Interval variable.')+' >> '+_("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + '\n<default>'
+                        result += '<decision>'+_('Interval variable.')+' >> ' + \
+                                  _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + \
+                                  '\n<default>'
                         result += '<decision>'+_('Checking for normality.')+'\n<default>'
                         non_normal_groups = []
                         for group in group_levels:
-                            norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0], group_name=groups[0], group_value=group)
+                            norm, text_result, graph_dummy, graph2_dummy = \
+                                cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
+                                                       group_name=groups[0], group_value=group)
                             result += text_result
                             if not norm:
                                 non_normal_groups.append(group)
@@ -725,16 +774,20 @@ class CogStatData:
                         result += text_result
                         if p < 0.05:
                             hoemogeneity_vars = False
-                        
+
                         if not(non_normal_groups) and hoemogeneity_vars:
-                            result += '<decision>'+_('Normality and homeogeneity of variance are not violated. >> Running two sample t-test.')+'\n<default>'
+                            result += '<decision>' + \
+                                      _('Normality and homeogeneity of variance are not violated. >> Running two sample t-test.') + \
+                                      '\n<default>'
                             result += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
                         elif non_normal_groups:
-                            result += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % (var_names[0], ', '.join(non_normal_groups))+' >> '+_('Running Mann-Whitney test.')+'\n<default>'
+                            result += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % \
+                                                   (var_names[0], ', '.join(non_normal_groups))+' >> ' + \
+                                      _('Running Mann-Whitney test.')+'\n<default>'
                             result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         elif not hoemogeneity_vars:
-                            result += '<decision>'+_('Homeogeneity of variance violated in variable %s.') % var_names[0] + \
-                                      ' >> ' + _("Running Welch's t-test.")+'\n<default>'
+                            result += '<decision>'+_('Homeogeneity of variance violated in variable %s.') % \
+                                                   var_names[0] + ' >> ' + _("Running Welch's t-test.")+'\n<default>'
                             result += cs_stat.welch_t_test(self.data_frame, var_names[0], groups[0])
 
                 elif meas_level == 'ord':
@@ -748,12 +801,16 @@ class CogStatData:
             elif len(group_levels) > 2:
                 result += '<decision>'+_('More than two groups.')+' <default>'
                 if meas_level == 'int':
-                    result += '<decision>'+_('Interval variable.')+' >> '+_('Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions.')+'<default>'+'\n'
+                    result += '<decision>'+_('Interval variable.')+' >> ' + \
+                              _('Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions.') + \
+                              '<default>'+'\n'
 
                     result += '<decision>'+_('Checking for normality.')+'\n<default>'
                     non_normal_groups = []
                     for group in group_levels:
-                        norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0], group_name=groups[0], group_value=group)
+                        norm, text_result, graph_dummy, graph2_dummy = \
+                            cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
+                                                   group_name=groups[0], group_value=group)
                         result += text_result
                         if not norm:
                             non_normal_groups.append(group)
@@ -765,26 +822,30 @@ class CogStatData:
                         hoemogeneity_vars = False
 
                     if not(non_normal_groups) and hoemogeneity_vars:
-                        result += '<decision>'+_('Normality and homeogeneity of variance are not violated. >> Running one-way ANOVA.')+'\n<default>'
+                        result += '<decision>' + \
+                                  _('Normality and homeogeneity of variance are not violated. >> Running one-way ANOVA.')\
+                                  + '\n<default>'
                         result += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
                     if non_normal_groups:
                         result += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % \
                                                (var_names[0], ', '.join(map(str, non_normal_groups)))
                     if not hoemogeneity_vars:
                         result += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]
-                    if (non_normal_groups) or (not hoemogeneity_vars):
+                    if non_normal_groups or (not hoemogeneity_vars):
                         result += '>> '+_('Running Kruskal-Wallis test.')+'\n<default>'
                         result += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
-                        
+
                 elif meas_level == 'ord':
-                    result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Kruskal-Wallis test.')+'<default>\n\n<default>'
+                    result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Kruskal-Wallis test.') + \
+                              '<default>\n\n<default>'
                     result += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
                     result += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
                     result += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
 
         elif len(groups) > 1:
-            intro_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n'+_('Sorry, not implemented yet.')
+            intro_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n' + \
+                            _('Sorry, not implemented yet.')
 
         return self._convert_output([title, intro_result, graph, descr_result, graph2, result])
 
