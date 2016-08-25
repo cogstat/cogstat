@@ -564,7 +564,7 @@ class StatMainWindow(QtGui.QMainWindow):
         self.dial_pref.exec_()
     
     def _open_reqfeat_webpage(self):
-        webbrowser.open('https://github.com/cogstat/cogstat/issues')
+        webbrowser.open('https://github.com/cogstat/cogstat/wiki/Suggest-a-new-feature')
         
     def _open_reportbug_webpage(self):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Report-a-bug')
