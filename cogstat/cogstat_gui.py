@@ -29,6 +29,8 @@ sys.setdefaultencoding("utf-8")  # TODO Not sure if this will work correctly for
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
+rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
+
 broken_analysis = '<default>'+_('%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it.')
 
 class StatMainWindow(QtGui.QMainWindow):
@@ -77,6 +79,9 @@ class StatMainWindow(QtGui.QMainWindow):
         self.setWindowTitle('CogStat')
         self.setWindowIcon(QtGui.QIcon('resources/CogStat.ico'))
         # FIXME Icon not showing up in Win7 64 and Win8.1 64, but works on WinXP 32 and Linux Mint 13 64
+
+        if rtl_lang:
+            self.setLayoutDirection(QtCore.Qt.RightToLeft)
 
         # Menus and commands
         menu_commands = [  # This list will be used to construct the menus
