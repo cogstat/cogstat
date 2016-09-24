@@ -205,7 +205,7 @@ class StatMainWindow(QtGui.QMainWindow):
             self.open_file(filename=event.mimeData().urls()[0].toString()[7:])
         elif event.mimeData().hasFormat("text/plain"):
             # print 'Dropped Text: ', event.mimeData().text()
-            self.open_clipboard_data(data=event.mimeData().text())
+            self._open_data(data=unicode(event.mimeData().text()))
         
     def _check_installed_components(self):
         """
