@@ -1,3 +1,8 @@
+Upcoming release
+## Fixes
+- Fix some RTL languages related issues
+- Updated links in the CogStat menu
+
 1.4.1 (17 April 2016)
 ===============
 ## Fixes
