@@ -1,7 +1,14 @@
+:warning: This symbol means that CogStat will handle data differently compared to previous releases.
+Trivial changes when a new feature is added is not denoted. 
+
 Upcoming release
+==============
+
 ## Fixes
 - Fix some RTL languages related issues
 - Updated links in the CogStat menu
+- :warning: Paired sample t-test assumption check now checks normality of the difference of the variables
+- Various smaller fixes
 
 1.4.1 (17 April 2016)
 ===============
@@ -63,7 +70,7 @@ Upcoming release
 ================
 ## New features
 - Statistics improvements
-    - Improved normality test: Shapiro-Wilk test instead of Anderson-Darling test (thanks to Ákos Laczkó)
+    - :warning:Improved normality test: Shapiro-Wilk test instead of Anderson-Darling test (thanks to Ákos Laczkó)
     - Confidence interval for the difference between two groups
 - Output improvements
     - Individual data signs are proportional with the number of cases for a value in  explore variables, compare variables and compare groups functions
