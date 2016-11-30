@@ -38,7 +38,6 @@ from statsmodels.sandbox.stats.runs import cochrans_q
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.pylab
-from bidi.algorithm import get_display
 try:
     import rpy2.robjects as robjects
     from rpy2.robjects.packages import importr  # requires at least rpy 2.1.0; use instead:
@@ -55,6 +54,7 @@ _ = t.ugettext
 # so we have to handle rtl text on matplotlib plots
 rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 if rtl_lang:
+    from bidi.algorithm import get_display
     _plt = lambda text: get_display(t.ugettext(text))
 else:
     _plt = t.ugettext
