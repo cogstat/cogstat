@@ -70,7 +70,7 @@ Upcoming release
 ================
 ## New features
 - Statistics improvements
-    - :warning:Improved normality test: Shapiro-Wilk test instead of Anderson-Darling test (thanks to Ákos Laczkó)
+    - :warning: Improved normality test: Shapiro-Wilk test instead of Anderson-Darling test (thanks to Ákos Laczkó)
     - Confidence interval for the difference between two groups
 - Output improvements
     - Individual data signs are proportional with the number of cases for a value in  explore variables, compare variables and compare groups functions
