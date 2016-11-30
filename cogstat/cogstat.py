@@ -436,7 +436,7 @@ class CogStatData:
             result_list.append(text_result+text_result2)
             result_list.append(image)
         if descriptives:
-            text_result = '<b>'+_('Descriptitve statistics')+'</b>\n'
+            text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
             text_result += cs_stat.descriptives(self.data_frame, self.data_measlevs, var_name)
             result_list.append(text_result)
             # TODO boxplot also
