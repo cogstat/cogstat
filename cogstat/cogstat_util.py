@@ -29,7 +29,8 @@ def get_versions():
         csc.versions['numpy'] = None
     try:
         import pandas
-        csc.versions['pandas'] = pandas.version.version
+        csc.versions['pandas'] = pandas.__version__
+        #csc.versions['pandas'] = pandas.version.version
     except:
         csc.versions['pandas'] = None
     try:
