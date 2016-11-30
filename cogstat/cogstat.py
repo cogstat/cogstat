@@ -597,17 +597,17 @@ class CogStatData:
             result += '<decision>'+_('Two variables. ')+'<default>'
 
             if meas_level == 'int':
-                # TODO check assumptions
                 result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing paired t-test or paired Wilcoxon test depending on the assumptions.')+'\n<default>'
 
                 result += '<decision>'+_('Checking for normality.')+'\n<default>'
                 non_normal_vars = []
-                for var_name in var_names:
-                    norm, text_result, graph_dummy, graph2_dummy = \
-                        cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name, alt_data=data)
-                    result += text_result
-                    if not norm:
-                        non_normal_vars.append(var_name)
+                temp_diff_var_name = 'Difference of %s and %s' %tuple(var_names)
+                data[temp_diff_var_name] = data[var_names[0]] - data[var_names[1]]
+                norm, text_result, graph_dummy, graph2_dummy = \
+                    cs_stat.normality_test(self.data_frame, {temp_diff_var_name:'int'}, temp_diff_var_name, alt_data=data)
+                result += text_result
+                if not norm:
+                    non_normal_vars.append(var_name)
 
                 if not non_normal_vars:
                     result += '<decision>'+_('Normality is not violated. >> Running paired t-test.')+'\n<default>'
