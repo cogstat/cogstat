@@ -1,5 +1,5 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
-Trivial changes when a new feature is added is not denoted. 
+Trivial changes when a new feature is added are not denoted. 
 
 Upcoming release
 ==============
