@@ -489,7 +489,7 @@ class CogStatData:
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Pearson's correlation") + \
-                           ': <i>r</i>(%0.3g) = %0.3f, 95%% CI [%0.3f, %0.3f], %s\n' % \
+                           ': <i>r</i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s\n' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
             if meas_lev == 'int':
                 slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
@@ -498,7 +498,7 @@ class CogStatData:
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r</i>(%0.3g) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
+                           ': <i>r</i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'ord':
             text_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
@@ -507,7 +507,7 @@ class CogStatData:
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r</i>(%0.3g) = %0.3f,  95%% CI [%0.3f, %0.3f], %s' % \
+                           ': <i>r</i>(%d) = %0.3f,  95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'nom':
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
