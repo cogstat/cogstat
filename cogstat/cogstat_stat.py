@@ -807,12 +807,9 @@ def paired_wilcox_test(pdf, var_names):
     if len(var_names) != 2:
         return _('Paired Wilcoxon test requires two variables.')
     
-    # http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html#scipy.stats.wilcoxon
-    # df = number of pairs of data which have different values i.e., the difference is non-zero
-    # http://web.anglia.ac.uk/numbers/biostatistics/wilcoxon/local_folder/critical_values.html
     variables = pdf[var_names].dropna()
-    z, p = stats.wilcoxon(variables.iloc[:,0], variables.iloc[:,1])
-    text_result += _('Result of Wilcoxon signed rank test')+': <i>W</i> = %0.3g, %s\n' %(z,cs_util.print_p(p))
+    T, p = stats.wilcoxon(variables.iloc[:,0], variables.iloc[:,1])
+    text_result += _('Result of Wilcoxon signed-rank test') + ': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
     # The test does not use df, despite some of the descriptions on the net.
     # So there's no need to display df.
     
