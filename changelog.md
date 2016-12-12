@@ -5,7 +5,7 @@ Upcoming release
 ==============
 
 ## Fixes
-- One sample Wilcoxon signed-rank test is available on Windows version, too (thanks to Szonja Weigl)
+- One sample Wilcoxon signed-rank test is available on Windows version, too (Szonja Weigl)
     - :warning: Wilcoxon signed-rank test now shows the T statistic, instead of the W statistic.
 - Fix some RTL languages related issues
 - Updated links in the CogStat menu
