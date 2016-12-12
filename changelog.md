@@ -7,7 +7,7 @@ Upcoming release
 ## Fixes
 - One sample Wilcoxon signed-rank test is available on Windows version, too (Szonja Weigl)
     - :warning: Wilcoxon signed-rank test now shows the T statistic, instead of the W statistic.
-- Fix test statistics name (show T instead of W) in paired Wilcoxon test
+- Fix test statistic name (show T instead of W) in paired Wilcoxon test
 - Fix some RTL languages related issues
 - Updated links in the CogStat menu
 - :warning: Paired sample t-test assumption check now checks normality of the difference of the variables
