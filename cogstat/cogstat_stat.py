@@ -504,27 +504,24 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     var_name (str):
     value (numeric):
     """
-    # Not available in Python
-    # http://comments.gmane.org/gmane.comp.python.scientific.user/33447
-    # https://gist.github.com/mblondel/1761714 # is this correct?
 
     text_result = ''
     data = pdf[var_name].dropna()
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         if data_measlevs[var_name] == 'unk':
             text_result += warn_unknown_variable
-        
-        if csc.versions['r']:
+        '''if csc.versions['r']:
             # R version
-            # http://ww2.coastal.edu/kingw/statistics/R-tutorials/singlesample.html
+            # http://ww2.coastal.edu/kingw/statistics/R-tutorials/singlesample-t.html
             r_data = robjects.FloatVector(pdf[var_name])
             r_test = robjects.r('wilcox.test')
             r_result = r_test(r_data, mu=float(value))
             v, p = r_result[0][0], r_result[2][0]
-            text_result += _('Result of Wilcoxon signed rank test')+': <i>W</i> = %0.3g, %s\n' % (v, cs_util.print_p(p))
-        else:
-            text_result += _('Sorry, this function is not available if R is not installed.')
-                    
+            text_result += _('Result of Wilcoxon signed-rank test')+': <i>W</i> = %0.3g, %s\n' % (v, cs_util.print_p(p))
+        '''
+        T, p = stats.wilcoxon(pdf[var_name] - float(value), correction=True)  # correction=True in order to work like the R wilcox.test
+        text_result += _('Result of Wilcoxon signed-rank test')+': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
+
         # Graph
         plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35), facecolor=csc.bg_col)
         plt.barh([1], [np.median(data)], color=csc.fig_col, ecolor='black')  # TODO error bar
