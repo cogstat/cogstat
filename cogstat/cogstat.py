@@ -294,7 +294,7 @@ class CogStatData:
                     text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '').\
                         replace('border="1"', 'style="border:1px solid black;"')
                 else:
-                    text_output += _('No cases were excluded.')
+                    text_output += _('No cases were excluded.') + '\n'
             self.data_frame = self.orig_data_frame.copy()
             for filtered_data_index in filtered_data_indexes:
                 self.data_frame = self.data_frame.reindex(self.data_frame.index.intersection(filtered_data_index))
