@@ -77,8 +77,7 @@ class StatMainWindow(QtGui.QMainWindow):
     def _init_UI(self):
         self.resize(800, 600)
         self.setWindowTitle('CogStat')
-        self.setWindowIcon(QtGui.QIcon('resources/CogStat.ico'))
-        # FIXME Icon not showing up in Win7 64 and Win8.1 64, but works on WinXP 32 and Linux Mint 13 64
+        self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + u'/resources/CogStat.ico'))
 
         if rtl_lang:
             self.setLayoutDirection(QtCore.Qt.RightToLeft)
