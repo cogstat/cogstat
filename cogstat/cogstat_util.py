@@ -85,6 +85,7 @@ def print_versions():
     text_output += 'Default encoding: %s\n' % str(sys.getdefaultencoding())
     text_output += 'Stdout encoding: %s\n' % str(sys.stdout.encoding)
     text_output += 'Filesystem encoding: %s\n' % str(sys.getfilesystemencoding())
+    text_output += 'Language: %s\n' % csc.language
     text_output += 'Numpy: %s\n' % csc.versions['numpy']
     text_output += 'Scipy: %s\n' % csc.versions['scipy']
     text_output += 'Pandas: %s\n' % csc.versions['pandas']
