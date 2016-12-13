@@ -123,7 +123,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
         result += _(u'Independent variable(s) - Columns: ') + u', '.join(x for x in col_names) + '\n'
     if row_names:
         result += _(u'Independent variable(s) - Rows: ') + u', '.join(x for x in row_names) + '\n'
-    result += u'Dependent variable: ' + depend_name[0] + '\n' + _('Function: ') + function + '\n'
+    result += _(u'Dependent variable: ') + depend_name[0] + '\n' + _('Function: ') + function + '\n'
 
     if function == 'N':
         prec = 0
