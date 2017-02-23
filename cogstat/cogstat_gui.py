@@ -307,7 +307,9 @@ class StatMainWindow(QtGui.QMainWindow):
         except:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Open data.')))
+            self.analysis_results[-1].\
+                add_output(cs_util.reformat_output('<default>' +
+                                                   _('Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue.')))
             traceback.print_exc()
             self._print_to_output_pane()
         self._busy_signal(False)
