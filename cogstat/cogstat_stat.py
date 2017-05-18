@@ -519,7 +519,9 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
             v, p = r_result[0][0], r_result[2][0]
             text_result += _('Result of Wilcoxon signed-rank test')+': <i>W</i> = %0.3g, %s\n' % (v, cs_util.print_p(p))
         '''
-        T, p = stats.wilcoxon(pdf[var_name] - float(value), correction=True)  # correction=True in order to work like the R wilcox.test
+        T, p = stats.wilcoxon(np.array(pdf[var_name] - float(value)), correction=True)
+            # we need to convert the pandas dataframe to numpy arraym because pdf cannot be always handled
+            # correction=True in order to work like the R wilcox.test
         text_result += _('Result of Wilcoxon signed-rank test')+': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
 
         # Graph
