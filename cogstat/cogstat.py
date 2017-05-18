@@ -782,7 +782,7 @@ class CogStatData:
                             result += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
                         elif non_normal_groups:
                             result += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % \
-                                                   (var_names[0], ', '.join(non_normal_groups))+' >> ' + \
+                                                   (var_names[0], ', '.join(map(str, non_normal_groups)))+' >> ' + \
                                       _('Running Mann-Whitney test.')+'\n<default>'
                             result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         elif not hoemogeneity_vars:
