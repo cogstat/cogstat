@@ -103,7 +103,7 @@ class CogStatTestCase(unittest.TestCase):
         # 2 Ord variables
         result = data.compare_variables(['D', 'E'])
         # Wilcoxon signed rank test
-        self.assertTrue('W</i> = 118' in result[4])
+        self.assertTrue('T</i> = 118' in result[4])
         self.assertTrue('p</i> = 0.019' in result[4])
 
         # 3 Int variables
