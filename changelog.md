@@ -5,8 +5,9 @@ Upcoming release
 ==============
 ## New features
 - :warning: One sample Wilcoxon signed-rank test now shows the T statistic, instead of the W statistic.
-- New localization
+- New localization (test versions, they include some bugs)
     - Croatian (Sandra Stojić)
+    - Pesian (Sara Hosseininezhad)
 
 ## Fixes
 - Statistics fixes
