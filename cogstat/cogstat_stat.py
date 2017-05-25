@@ -831,8 +831,7 @@ def cochran_q_test(pdf, var_names):
 
 
 def repeated_measures_anova(pdf, var_names):
-
-    [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf, var_names)
+    [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf[var_names].dropna(), var_names)
     # Choose df correction depending on sphericity violation
     text_result = _("Result of Mauchly's test to check sphericity") + \
                    ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
@@ -850,7 +849,7 @@ def repeated_measures_anova(pdf, var_names):
 
     # Post-hoc tests
     if p < 0.05:
-        pht = cs_stat_num.pairwise_ttest(pdf, var_names).sort_index()
+        pht = cs_stat_num.pairwise_ttest(pdf[var_names].dropna(), var_names).sort_index()
         text_result += '\n' + _('Comparing variables pairwise with the Holm-Bonferroni correction:')
         #print pht
         pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
