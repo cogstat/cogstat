@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
-Upcoming release
+1.4.2 (3 June 2017)
 ==============
 ## New features
 - :warning: One sample Wilcoxon signed-rank test now shows the T statistic, instead of the W statistic.
