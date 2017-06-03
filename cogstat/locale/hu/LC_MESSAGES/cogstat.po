@@ -702,7 +702,7 @@ msgstr "Változópár vizsgálata: "
 #: .././cogstat.py:454
 msgid "N of valid pairs: %g\n"
 ""
-msgstr "Érvényespárok száma: %g\n"
+msgstr "Érvényes párok száma: %g\n"
 ""
 
 #: .././cogstat.py:455
@@ -799,7 +799,7 @@ msgstr "A normalitás sérült a változóban "
 
 #: .././cogstat.py:582
 msgid "Normality is not violated. >> Running paired t-test."
-msgstr "A normalitás feltétele sérült. >> Páros t-próba futtatása."
+msgstr "A normalitás nem sérült. >> Páros t-próba futtatása."
 
 #: .././cogstat.py:576
 msgid "Normality is violated. >> Running paired Wilcoxon test."
@@ -1121,7 +1121,7 @@ msgstr "McNemar próba futtatása."
 
 #: .././cogstat.py:596 .././cogstat.py:625
 msgid "Nominal non dichotomous variables."
-msgstr "Nominális nem dichotóómm változók."
+msgstr "Nominális nem dichotóm változók."
 
 #: .././cogstat.py:600
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
