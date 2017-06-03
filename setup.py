@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='cogstat',
-    version='1.4.1',
+    version='1.4.2',
     description='Simple statistics for researchers.',
     url='https://github.com/cogstat/cogstat',
     author='Attila Krajcsi',
