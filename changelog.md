@@ -15,7 +15,9 @@ Trivial changes when a new feature is added are not denoted.
     - Fix test statistic name (show T instead of W) in paired Wilcoxon test
     - :warning: Paired sample t-test assumption check now checks normality of the difference of the variables
 - Updated links in the CogStat menu
-- Fix some RTL languages related issues
+- Localization related issues
+    - Fix some RTL languages related issues
+    - Reworked German version (Roman Ricardo Pota)
 - Various smaller fixes
 
 1.4.1 (17 April 2016)
