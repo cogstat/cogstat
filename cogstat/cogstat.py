@@ -388,13 +388,29 @@ class CogStatData:
             prec = cs_util.precision(self.data_frame[var_name])+1
         if unknown_type:
             text_result += '<decision>'+warn_unknown_variable+'\n<default>'
-        if meas_level in ['int', 'unk']:  # TODO check normality?
-            text_result += '<decision>'+_('Interval variable.')+' >> '+_('Running one sample t-test.')+'<default>\n'
-            text_result += _(u'Mean: %0.*f') % (prec, np.mean(self.data_frame[var_name].dropna()))+'\n'
-            text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
-                                                     test_value=ttest_value)
+        if meas_level in ['int', 'unk']:
+            text_result += '<decision>'+_('Interval variable.')+' >> ' + \
+                           _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
+                           '<default>\n'
+            text_result += '<decision>' + _('Checking for normality.') + '\n<default>'
+            norm, text_result_norm, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame,
+                                                                                  self.data_measlevs, var_name)
+            text_result += text_result_norm
+            if norm:
+                text_result += '<decision>' + _('Normality is not violated.') + ' >> '+ \
+                               _('Running one-sample t-test.') + '<default>\n'
+                text_result += _(u'Mean: %0.*f') % (prec, np.mean(self.data_frame[var_name].dropna())) + '\n'
+                text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
+                                                         test_value=ttest_value)
+            else:
+                text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
+                               _('Running Wilcoxon signed-rank test.') + '<default>\n'
+                text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
+                text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
+                                                               value=ttest_value)
+
         elif meas_level == 'ord':
-            text_result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Wilcoxon signed-rank t-test.')+\
+            text_result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Wilcoxon signed-rank test.')+\
                            '<default>\n'
             text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna()))+'\n'
             text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
