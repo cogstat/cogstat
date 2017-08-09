@@ -248,7 +248,7 @@ def frequencies(pdf, var_name):
 
 
 def histogram(pdf, data_measlevs, var_name):
-    """Histogram
+    """Histogram with individual data and boxplot
     
     arguments:
     var_name (str): name of the variable
@@ -257,6 +257,10 @@ def histogram(pdf, data_measlevs, var_name):
     suptitle_text = None
     max_length = 10  # maximum printing length of an item # TODO print ... if it's exceeded
     data = pdf[var_name].dropna()
+    if data_measlevs[var_name] == 'ord':
+        data_value = pdf[var_name].dropna()
+        data = pd.Series(stats.rankdata(data_value))
+        rank_labels = dict(zip(stats.rankdata(data_value), data_value))
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         categories_n = len(set(data))
         if categories_n < 10:
@@ -272,29 +276,47 @@ def histogram(pdf, data_measlevs, var_name):
             suptitle_text = _plt(u'Largest tick on the x axes displays %d cases.') % max(val_count)
         val_count = (val_count*(max(freq)/max(val_count)))/20.0
 
+        # Upper part with histogram and individual data
         plt.figure(facecolor=csc.bg_col)
         plt.axes([0.1, 0.3, 0.8, 0.6])
         plt.hist(data.values, bins=len(edge)-1, color=csc.fig_col)
-            # .values needed, otherwise error if the first case is missing data
-        plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape), 
+            # .values needed, otherwise it gives error if the first case is missing data
+        # Add individual data
+        plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
                      yerr=[np.zeros(val_count.shape), val_count.values],
                      fmt='k|', capsize=0, linewidth=2)
-#        plt.plot(np.array(val_count.index), np.zeros(val_count.shape), 'k|', markersize=10, markeredgewidth=1.5)
-            # individual data
-        plt.title(_plt('Histogram with individual data and boxplot'), fontsize=csc.graph_font_size)
+        #plt.plot(np.array(val_count.index), np.zeros(val_count.shape), 'k|', markersize=10, markeredgewidth=1.5)
+        # Add labels
+        if data_measlevs[var_name] == 'ord':
+            plt.title(_plt('Histogram of rank data with individual data and boxplot'), fontsize=csc.graph_font_size)
+        else:
+            plt.title(_plt('Histogram with individual data and boxplot'), fontsize=csc.graph_font_size)
         if suptitle_text:
             plt.suptitle(suptitle_text, x=0.9, y=0.02, horizontalalignment='right', fontsize=10)
         plt.gca().axes.get_xaxis().set_visible(False)
         plt.ylabel(_plt('Frequency'))
-        plt.axes([0.1, 0.1, 0.8, 0.2])
-        box1 = plt.boxplot(data.values, vert=0)  # .values needed, otherwise error if the first case is missing data
+        # Lower part showing the boxplot
+        ax = plt.axes([0.1, 0.1, 0.8, 0.2])
+        box1 = plt.boxplot(data.values, vert=0)  # .values needed, otherwise error when the first case is missing data
         plt.gca().axes.get_yaxis().set_visible(False)
-        plt.xlabel(var_name)
+        if data_measlevs[var_name] == 'ord':
+            plt.xlabel(_('Rank of %s') % var_name)
+        else:
+            plt.xlabel(var_name)
         plt.setp(box1['boxes'], color=csc.fig_col_bold)
         plt.setp(box1['whiskers'], color=csc.fig_col_bold)
         plt.setp(box1['caps'], color=csc.fig_col_bold)
         plt.setp(box1['medians'], color=csc.fig_col_bold)
         plt.setp(box1['fliers'], color=csc.fig_col_bold)
+        if data_measlevs[var_name] == 'ord':
+            ax.tick_params(top=False, right=False)
+            # Create new tick labels, with the rank and the value of the corresponding rank
+            ax.set_xticklabels(['%i\n(%s)' % (i, rank_labels[i])
+                                if i in stats.rankdata(data) else '%i' % i for i in ax.get_xticks()])
+            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
+            ax.set_frame_on(False)
+            ax.axhline(y=0.51, dashes=[8, 12], color='black')
+            ax.axvline(x=0, color='black')
     elif data_measlevs[var_name] in ['nom']:
         # For nominal variables the histogram is a frequency graph
         plt.figure(facecolor=csc.bg_col)
@@ -659,8 +681,6 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
             ax.set_ylim(0, len(yvalues)+1)
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            print stats.rankdata(xvalues)
-            print stats.rankdata(yvalues)
             rank_labels_x = dict(zip(stats.rankdata(xvalues), xvalues))
             rank_labels_y = dict(zip(stats.rankdata(yvalues), yvalues))
             ax.set_xticklabels(['%i\n(%s)' % (i, rank_labels_x[i])
