@@ -5,6 +5,8 @@ Trivial changes when a new feature is added are not denoted.
 ===============
 ##New features
 - Use Wilcoxon signed-rank test when normality is violated in an interval variable
+- Rank information is displayed for ordinal variables
+    - In variable pairs (in scatterplot)
 
 ## Fixes
 - Various smaller fixes

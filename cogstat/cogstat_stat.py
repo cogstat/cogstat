@@ -636,20 +636,46 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
             # smallest dot is 1 unit size
             suptitle_text = _plt(u'Largest sign on the graph displays %d cases.') % max_freq
         xy_freq *= 20.0
-        # Prepare the linear fit for the plot
-        if meas_lev == 'int':
-            fit_x = [min(data.iloc[:,0]), max(data.iloc[:,0])]
-            fit_y = [slope*i+intercept for i in fit_x]
 
         # Draw figure
         fig = plt.figure(facecolor=csc.bg_col)
         ax = fig.add_subplot(111)
-        ax.scatter(xvalues, yvalues, xy_freq, color=csc.fig_col_bold, marker='o')
         if meas_lev == 'int':
+            # Display the data
+            ax.scatter(xvalues, yvalues, xy_freq, color=csc.fig_col_bold, marker='o')
+            # Display the linear fit for the plot
+            fit_x = [min(data.iloc[:,0]), max(data.iloc[:,0])]
+            fit_y = [slope*i+intercept for i in fit_x]
             ax.plot(fit_x, fit_y, color=csc.fig_col_bold)
-        ax.set_xlabel(x)
-        ax.set_ylabel(y)
-        plt.title(_plt('Scatterplot of the variables'), fontsize=csc.graph_font_size)
+            # Set the labels
+            plt.title(_plt('Scatterplot of the variables'), fontsize=csc.graph_font_size)
+            ax.set_xlabel(x)
+            ax.set_ylabel(y)
+        elif meas_lev == 'ord':
+            # Display the data
+            ax.scatter(stats.rankdata(xvalues), stats.rankdata(yvalues),
+                       xy_freq, color=csc.fig_col_bold, marker='o')
+            ax.set_xlim(0, len(xvalues)+1)
+            ax.set_ylim(0, len(yvalues)+1)
+            ax.tick_params(top=False, right=False)
+            # Create new tick labels, with the rank and the value of the corresponding rank
+            print stats.rankdata(xvalues)
+            print stats.rankdata(yvalues)
+            rank_labels_x = dict(zip(stats.rankdata(xvalues), xvalues))
+            rank_labels_y = dict(zip(stats.rankdata(yvalues), yvalues))
+            ax.set_xticklabels(['%i\n(%s)' % (i, rank_labels_x[i])
+                                if i in stats.rankdata(xvalues) else '%i' % i for i in ax.get_xticks()])
+            ax.set_yticklabels(['%i\n(%s)' % (i, rank_labels_y[i])
+                                if i in stats.rankdata(yvalues) else '%i' % i for i in ax.get_yticks()],
+                               wrap=True)
+            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
+            ax.set_frame_on(False)
+            ax.axhline(y=0.05, dashes=[8, 12], color='black')
+            ax.axvline(x=0, dashes=[8, 12], color='black')
+            # Display the labels
+            plt.title(_plt('Scatterplot of the rank of the variables'), fontsize=csc.graph_font_size)
+            ax.set_xlabel(_plt('Rank of %s') % x)
+            ax.set_ylabel(_plt('Rank of %s') % y)
         if suptitle_text:
             plt.suptitle(suptitle_text, x=0.9, y=0.02, horizontalalignment='right', fontsize=10)
         graph = plt.gcf()
