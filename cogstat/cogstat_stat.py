@@ -983,7 +983,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
                 # smallest dot is 1 unit size
                 plt.suptitle(_plt(u'Largest individual data display %d cases.') % max_freq, x=0.9, y=0.02,
                              horizontalalignment='right', fontsize=10)
-            ax.scatter(np.ones(len(val_count))+i, val_count.index, val_count.values*5, color='#808080', marker='o')
+            ax.scatter(np.ones(len(val_count))+var_i, val_count.index, val_count.values*5, color='#808080', marker='o')
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3) # TODO color should be used from ini file
         # Add labels
         plt.xticks(range(1, len(group_levels)+1), _wrap_labels(list(group_levels)))
