@@ -260,7 +260,7 @@ def histogram(pdf, data_measlevs, var_name):
     if data_measlevs[var_name] == 'ord':
         data_value = pdf[var_name].dropna()
         data = pd.Series(stats.rankdata(data_value))
-        rank_labels = dict(zip(stats.rankdata(data_value), data_value))
+        rank_values = dict(zip(stats.rankdata(data_value), data_value))
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         categories_n = len(set(data))
         if categories_n < 10:
@@ -311,12 +311,12 @@ def histogram(pdf, data_measlevs, var_name):
         if data_measlevs[var_name] == 'ord':
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            ax.set_xticklabels(['%i\n(%s)' % (i, rank_labels[i])
+            ax.set_xticklabels(['%i\n(%s)' % (i, rank_values[i])
                                 if i in stats.rankdata(data) else '%i' % i for i in ax.get_xticks()])
             # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
             ax.set_frame_on(False)
-            ax.axhline(y=0.51, dashes=[8, 12], color='black')
-            ax.axvline(x=0, color='black')
+            ax.axhline(y=ax.axes.get_ylim()[0]+0.01, dashes=[8, 12], color='black')
+            ax.axvline(x=ax.axes.get_xlim()[0], color='black')
     elif data_measlevs[var_name] in ['nom']:
         # For nominal variables the histogram is a frequency graph
         plt.figure(facecolor=csc.bg_col)
@@ -681,17 +681,17 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
             ax.set_ylim(0, len(yvalues)+1)
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            rank_labels_x = dict(zip(stats.rankdata(xvalues), xvalues))
-            rank_labels_y = dict(zip(stats.rankdata(yvalues), yvalues))
-            ax.set_xticklabels(['%i\n(%s)' % (i, rank_labels_x[i])
+            rank_values_x = dict(zip(stats.rankdata(xvalues), xvalues))
+            rank_values_y = dict(zip(stats.rankdata(yvalues), yvalues))
+            ax.set_xticklabels(['%i\n(%s)' % (i, rank_values_x[i])
                                 if i in stats.rankdata(xvalues) else '%i' % i for i in ax.get_xticks()])
-            ax.set_yticklabels(['%i\n(%s)' % (i, rank_labels_y[i])
+            ax.set_yticklabels(['%i\n(%s)' % (i, rank_values_y[i])
                                 if i in stats.rankdata(yvalues) else '%i' % i for i in ax.get_yticks()],
                                wrap=True)
             # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
             ax.set_frame_on(False)
-            ax.axhline(y=0.05, dashes=[8, 12], color='black')
-            ax.axvline(x=0, dashes=[8, 12], color='black')
+            ax.axhline(y=ax.axes.get_ylim()[0]+0.05, dashes=[8, 12], color='black')
+            ax.axvline(x=ax.axes.get_xlim()[0], dashes=[8, 12], color='black')
             # Display the labels
             plt.title(_plt('Scatterplot of the rank of the variables'), fontsize=csc.graph_font_size)
             ax.set_xlabel(_plt('Rank of %s') % x)
