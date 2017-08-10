@@ -8,6 +8,7 @@ Trivial changes when a new feature is added are not denoted.
 - Rank information is displayed for ordinal variables:
     - In single variable
     - In variable pairs (in scatterplot)
+    - In group comparison
 
 ## Fixes
 - Various smaller fixes

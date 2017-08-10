@@ -938,28 +938,44 @@ def friedman_test(pdf, var_names):
 
 
 def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
+    """Display the boxplot of the groups with individual data or the mosaic plot
+
+    :param data_frame:
+    :param meas_level:
+    :param var_names:
+    :param groups:
+    :param group_levels:
+    :return:
+    """
     intro_result = ''
     if meas_level in ['int', 'ord']: # TODO 'unk'?
-    # TODO is this OK for ordinal?
-        fig = plt.figure(facecolor=csc.bg_col)
-        ax = fig.add_subplot(111)
+        # TODO is this OK for ordinal?
+        # Get the data to display
         variables = [data_frame[var_names[0]][data_frame[groups[0]]==group_value].dropna() for group_value in list(group_levels)]
+        if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
+            index_ranks = dict(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables))))
+            rank_values = dict(zip(stats.rankdata(pd.concat(variables)), pd.concat(variables)))
+            for var_i in range(len(variables)):  # For all groups
+                for i in variables[var_i].index:  # For all values in that group
+                    variables[var_i][i] = index_ranks[i]
+                    #print i, variables[var_i][i], index_ranks[i]
         # TODO graph: mean, etc.
         #means = [np.mean(self.data_values[self.data_names.index(var_name)]) for var_name in var_names]
         #stds = [np.std(self.data_values[self.data_names.index(var_name)]) for var_name in var_names]
         #rects1 = ax.bar(range(1,len(variables)+1), means, color=csc.fig_col, yerr=stds)
+        # Create graph
+        fig = plt.figure(facecolor=csc.bg_col)
+        ax = fig.add_subplot(111)
+        # Add boxplot
         box1 = ax.boxplot(variables)
         plt.setp(box1['boxes'], color=csc.fig_col_bold)
         plt.setp(box1['whiskers'], color=csc.fig_col_bold)
         plt.setp(box1['caps'], color=csc.fig_col_bold)
         plt.setp(box1['medians'], color=csc.fig_col_bold)
         plt.setp(box1['fliers'], color=csc.fig_col_bold)
-        plt.xticks(range(1, len(group_levels)+1), _wrap_labels(list(group_levels)))
-        plt.xlabel(groups[0])
-        plt.ylabel(var_names[0])
         # Display individual data
-        for i in range(len(variables)):
-            val_count = variables[i].value_counts()
+        for var_i in range(len(variables)):
+            val_count = variables[var_i].value_counts()
             max_freq = max(val_count)
             if max_freq>10:
                 val_count = (val_count-1)/((max_freq-1)/9.0)+1
@@ -969,7 +985,25 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
                              horizontalalignment='right', fontsize=10)
             ax.scatter(np.ones(len(val_count))+i, val_count.index, val_count.values*5, color='#808080', marker='o')
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3) # TODO color should be used from ini file
-        plt.title(_plt('Boxplot and individual data of the groups'), fontsize=csc.graph_font_size)
+        # Add labels
+        plt.xticks(range(1, len(group_levels)+1), _wrap_labels(list(group_levels)))
+        plt.xlabel(groups[0])
+        if meas_level == 'ord':
+            plt.ylabel(_('Rank of %s') % var_names[0])
+            plt.title(_plt('Boxplot and individual data of the rank data of the groups'), fontsize=csc.graph_font_size)
+            ax.tick_params(top=False, right=False)
+            # Create new tick labels, with the rank and the value of the corresponding rank
+            ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
+                                if i in rank_values.keys() else '%i' % i for i in ax.get_yticks()],
+                               wrap=True)
+            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
+            ax.set_frame_on(False)
+            print ax.axes.get_ylim()
+            ax.axhline(y=ax.axes.get_ylim()[0]+0.1, color='black')
+            ax.axvline(x=ax.axes.get_xlim()[0], dashes=[8, 12], color='black')
+        else:
+            plt.ylabel(var_names[0])
+            plt.title(_plt('Boxplot and individual data of the groups'), fontsize=csc.graph_font_size)
         graph = fig
     elif meas_level in ['nom']:
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
