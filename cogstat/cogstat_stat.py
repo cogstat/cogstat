@@ -208,6 +208,57 @@ def safe_var_names(names):  # TODO not used at the moment. maybe could be delete
 ### Single variables ###
 
 
+def display_variable_raw_data(pdf, data_measlevs, var_name):
+    """Display n of valid valid and display raw data on a chart
+    """
+    data = pdf[var_name].dropna()
+
+    text_result=''
+    text_result += _(u'N of valid cases: %g') % len(data) + '\n'
+    invalid_cases = len(pdf[var_name])-len(data)
+    text_result += _(u'N of missing cases: %g') % invalid_cases + '\n'
+
+    if data_measlevs[var_name] == 'ord':
+        data_value = pdf[var_name].dropna()
+        data = pd.Series(stats.rankdata(data_value))
+        rank_values = dict(zip(stats.rankdata(data_value), data_value))
+    if data_measlevs[var_name] in ['int', 'ord', 'unk']:
+        # Upper part with histogram and individual data
+        fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25), facecolor=csc.bg_col)
+        ax = plt.gca()
+        # Add individual data
+        plt.scatter(data, np.random.random(size=len(data)), color=csc.fig_col_bold, marker='o')
+        ax.axes.set_ylim([-1.5, 2.5])
+        fig.subplots_adjust(top=0.85, bottom=0.3)
+        # Add labels
+        if data_measlevs[var_name] == 'ord':
+            plt.title(_plt('Rank of the raw data'), fontsize=csc.graph_font_size)
+            plt.xlabel(_('Rank of %s') % var_name)
+        else:
+            plt.title(_plt('Raw data'), fontsize=csc.graph_font_size)
+            plt.xlabel(var_name)
+        ax.axes.get_yaxis().set_visible(False)
+        if data_measlevs[var_name] == 'ord':
+            ax.tick_params(top=False, right=False)
+            # Create new tick labels, with the rank and the value of the corresponding rank
+            ax.set_xticklabels(['%i\n(%s)' % (i, rank_values[i])
+                                if i in stats.rankdata(data) else '%i' % i for i in ax.get_xticks()])
+            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
+            ax.set_frame_on(False)
+            ax.axhline(y=ax.axes.get_ylim()[0]+0.1, dashes=[8, 12], color='black')
+            ax.axvline(x=ax.axes.get_xlim()[0], color='black')
+    elif data_measlevs[var_name] in ['nom']:
+        # For nominal variables the histogram is a frequency graph
+        plt.figure(facecolor=csc.bg_col)
+        values = list(set(pdf[var_name]))
+        freqs = [list(pdf[var_name]).count(i) for i in values]
+        locs = np.arange(len(values))
+        plt.title(_plt('Histogram'), fontsize=csc.graph_font_size)
+        plt.bar(locs, freqs, 0.9, color=csc.fig_col)
+        plt.xticks(locs+0.9/2., _wrap_labels(values))
+        plt.ylabel(_plt('Frequency'))
+    return text_result, plt.gcf()
+
 def frequencies(pdf, var_name):
     """Frequencies
     
@@ -254,6 +305,7 @@ def histogram(pdf, data_measlevs, var_name):
     var_name (str): name of the variable
     """
     text_result=''
+    chart_result = ''
     suptitle_text = None
     max_length = 10  # maximum printing length of an item # TODO print ... if it's exceeded
     data = pdf[var_name].dropna()
@@ -317,32 +369,22 @@ def histogram(pdf, data_measlevs, var_name):
             ax.set_frame_on(False)
             ax.axhline(y=ax.axes.get_ylim()[0]+0.01, dashes=[8, 12], color='black')
             ax.axvline(x=ax.axes.get_xlim()[0], color='black')
-    elif data_measlevs[var_name] in ['nom']:
-        # For nominal variables the histogram is a frequency graph
-        plt.figure(facecolor=csc.bg_col)
-        values = list(set(pdf[var_name]))
-        freqs = [list(pdf[var_name]).count(i) for i in values]
-        locs = np.arange(len(values))
-        plt.title(_plt('Histogram'), fontsize=csc.graph_font_size)
-        plt.bar(locs, freqs, 0.9, color=csc.fig_col)
-        plt.xticks(locs+0.9/2., _wrap_labels(values))
-        plt.ylabel(_plt('Frequency'))
-    return text_result, plt.gcf()
+        chart_result = plt.gcf()
+    # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
+    # is not repeated here
+    return text_result, chart_result
 
 
 def descriptives(pdf, data_measlevs, var_name):
     """Descriptives
     
     Mode is left out intentionally: it is not too useful.
+    No descriptive is given for nominal variable.
     """
     data = pdf[var_name].dropna()
     
     data_measlev = data_measlevs[var_name]
     text_result = u''
-    text_result += _(u'N of valid cases: %g') % len(data) + '\n'
-    invalid_cases = len(pdf[var_name])-len(data)
-    text_result += _(u'N of invalid cases: %g') % invalid_cases
-    text_result += '\n\n'
     if data_measlev in ['int', 'ord', 'unk']:
         prec = cs_util.precision(data)+1
     if data_measlev in ['int', 'unk']:

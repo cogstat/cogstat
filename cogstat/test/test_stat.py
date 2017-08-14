@@ -65,39 +65,39 @@ class CogStatTestCase(unittest.TestCase):
 
         # Int variable
         result = data.explore_variable('a', 1, 1, 1, 1, 1, 2.0)
-        self.assertTrue('N of valid cases: 30' in result[5])
-        self.assertTrue('N of invalid cases: 0' in result[5])
-        self.assertTrue('Mean: 3.1438' in result[5])
-        self.assertTrue('Standard deviation: 3.2702' in result[5])
-        self.assertTrue('Skewness: 0.3586' in result[5])
-        self.assertTrue('Kurtosis: 0.0446' in result[5])
-        self.assertTrue('Median: 2.8545' in result[5])
-        self.assertTrue('Range: 12.784' in result[5])
+        self.assertTrue('N of valid cases: 30' in result[2])
+        self.assertTrue('N of missing cases: 0' in result[2])
+        self.assertTrue('Mean: 3.1438' in result[7])
+        self.assertTrue('Standard deviation: 3.2702' in result[7])
+        self.assertTrue('Skewness: 0.3586' in result[7])
+        self.assertTrue('Kurtosis: 0.0446' in result[7])
+        self.assertTrue('Median: 2.8545' in result[7])
+        self.assertTrue('Range: 12.784' in result[7])
         # Shapiro-Wilk normality
-        self.assertTrue('<i>W</i> = 0.959' in result[6])
-        self.assertTrue('<i>p</i> = 0.287' in result[6])
+        self.assertTrue('<i>W</i> = 0.959' in result[8])
+        self.assertTrue('<i>p</i> = 0.287' in result[8])
 
         # One sample t-test
-        self.assertTrue('Confidence interval [1.9227, 4.3649]' in result[9])
-        self.assertTrue('t</i>(29) = 1.92' in result[9])
-        self.assertTrue('p</i> = 0.065' in result[9])
+        self.assertTrue('Confidence interval [1.9227, 4.3649]' in result[11])
+        self.assertTrue('t</i>(29) = 1.92' in result[11])
+        self.assertTrue('p</i> = 0.065' in result[11])
 
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 1, 1, 1, 1, 20.0)
-        self.assertTrue('T</i> = 203' in result[8])
-        self.assertTrue('p</i> = 0.551' in result[8])
+        self.assertTrue('T</i> = 203' in result[10])
+        self.assertTrue('p</i> = 0.551' in result[10])
 
         # Ord variable
         data.data_measlevs['a'] = 'ord'
         result = data.explore_variable('a', 1, 1, 1, 1, 1, 2.0)
-        self.assertTrue('N of valid cases: 30' in result[5])
-        self.assertTrue('N of invalid cases: 0' in result[5])
-        self.assertTrue('Median: 2.8545' in result[5])
-        self.assertTrue('Range: 12.784' in result[5])
+        self.assertTrue('N of valid cases: 30' in result[2])
+        self.assertTrue('N of missing cases: 0' in result[2])
+        self.assertTrue('Median: 2.8545' in result[7])
+        self.assertTrue('Range: 12.784' in result[7])
 
         # Wilcoxon signed-rank test for non-normal interval variable
-        self.assertTrue('T</i> = 145' in result[7])
-        self.assertTrue('p</i> = 0.074' in result[7])
+        self.assertTrue('T</i> = 145' in result[9])
+        self.assertTrue('p</i> = 0.074' in result[9])
         data.data_measlevs['a'] = 'int'
 
     def test_explore_variable_pairs(self):

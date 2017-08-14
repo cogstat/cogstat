@@ -442,20 +442,26 @@ class CogStatData:
         if self._filtering_status():
             result_list[-1] += self._filtering_status()
 
+        text_result = '<b>'+_('Raw data')+'</b>\n'
+        text_result2, image = cs_stat.display_variable_raw_data(self.data_frame, self.data_measlevs, var_name)
+        result_list.append(text_result+text_result2)
+        result_list.append(image)
         if frequencies:
             text_result = '<b>'+_('Frequencies')+'</b>\n'
             text_result += cs_stat.frequencies(self.data_frame, var_name)
             result_list.append(text_result)
         if distribution:
-            text_result = '<b>'+_('Distribution')+'</b>\n'
-            text_result2, image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
-            result_list.append(text_result+text_result2)
-            result_list.append(image)
+            if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
+                text_result = '<b>'+_('Distribution')+'</b>\n'
+                text_result2, image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
+                result_list.append(text_result+text_result2)
+                result_list.append(image)
         if descriptives:
-            text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
-            text_result += cs_stat.descriptives(self.data_frame, self.data_measlevs, var_name)
-            result_list.append(text_result)
-            # TODO boxplot also
+            if self.data_measlevs[var_name] <> 'nom': # there is no descriptive for nominal variable here
+                text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
+                text_result += cs_stat.descriptives(self.data_frame, self.data_measlevs, var_name)
+                result_list.append(text_result)
+                # TODO boxplot also
         if normality:
             text_result = '<b>'+_('Normality')+'</b>\n'
             stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs,
