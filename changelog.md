@@ -3,7 +3,7 @@ Trivial changes when a new feature is added are not denoted.
 
 1.5 (Upcoming release)
 ===============
-##New features
+## New features
 - Use Wilcoxon signed-rank test when normality is violated in an interval variable
 - In an analysis raw data are diplayed first without any graphical addition
     - In Explore variable 
@@ -21,7 +21,7 @@ Trivial changes when a new feature is added are not denoted.
 - :warning: One sample Wilcoxon signed-rank test now shows the T statistic, instead of the W statistic.
 - New localization (test versions, they include some bugs)
     - Croatian (Sandra Stojić)
-    - Pesian (Sara Hosseininezhad)
+    - Persian (Sara Hosseininezhad)
 
 ## Fixes
 - Statistics fixes
