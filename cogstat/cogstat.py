@@ -799,7 +799,7 @@ class CogStatData:
 
                         if not(non_normal_groups) and hoemogeneity_vars:
                             result += '<decision>' + \
-                                      _('Normality and homeogeneity of variance are not violated. >> Running two sample t-test.') + \
+                                      _('Normality and homogeneity of variance are not violated. >> Running two sample t-test.') + \
                                       '\n<default>'
                             result += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
                         elif non_normal_groups:
@@ -836,7 +836,7 @@ class CogStatData:
                         result += text_result
                         if not norm:
                             non_normal_groups.append(group)
-                    result += '<decision>'+_('Checking for homeogeneity of variance across groups.')+'\n<default>'
+                    result += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
                     hoemogeneity_vars = True
                     p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
                     result += text_result
@@ -845,7 +845,7 @@ class CogStatData:
 
                     if not(non_normal_groups) and hoemogeneity_vars:
                         result += '<decision>' + \
-                                  _('Normality and homeogeneity of variance are not violated. >> Running one-way ANOVA.')\
+                                  _('Normality and homogeneity of variance are not violated. >> Running one-way ANOVA.')\
                                   + '\n<default>'
                         result += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
                     if non_normal_groups:
