@@ -8,6 +8,7 @@ Trivial changes when a new feature is added are not denoted.
 - In an analysis raw data are diplayed first without any graphical addition
     - In Explore variable
     - In Explore variable pairs
+    - in Compare variables
 - Rank information is displayed for ordinal variables:
     - In single variable
     - In variable pairs (in scatterplot)

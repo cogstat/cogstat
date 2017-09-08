@@ -489,7 +489,7 @@ class CogStatData:
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
         title = csc.heading_style_begin + _('Explore variable pair') + csc.heading_style_end
-        text_result = _(u'Exploring variable pair: ') + x + u', ' + y + '\n'
+        text_result = _(u'Exploring variable pair: ') + x + u', ' + y + '\n\n'
         text_result += self._filtering_status()
         if unknown_var:
             text_result += '<decision>'+warn_unknown_variable+'\n<default>'
@@ -582,7 +582,7 @@ class CogStatData:
         """
         plt.close('all')
         title = csc.heading_style_begin + _('Compare variables') + csc.heading_style_end
-        intro_result = '<default>'+_(u'Variables to compare: ') + u', '.join(x for x in var_names) + '\n'
+        intro_result = '<default>'+_(u'Variables to compare: ') + u', '.join(x for x in var_names) + '\n\n'
         intro_result += self._filtering_status()
 
         # Check if the variables have the same measurement levels
@@ -596,6 +596,8 @@ class CogStatData:
         if unknown_type:
             intro_result += '\n<decision>'+warn_unknown_variable+'<default>'
 
+        # 0. Raw data
+        intro_result += '<b>' + _('Raw data') + '</b>\n'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
@@ -604,10 +606,19 @@ class CogStatData:
         intro_result += _('N of valid cases: %g\n') % valid_n
         intro_result += _('N of invalid cases: %g\n') % invalid_n
 
-        # 1. Plot the individual data
-        temp_intro_result, graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame)
+        # Plot the raw data
+        temp_intro_result, graph1 = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame, raw_data=True)
         if temp_intro_result:
             intro_result += temp_intro_result
+
+        # 1. Plot the individual data with box plot
+        # There's no need to repeat the mosaic plot for nominal variables
+        if meas_level in ['int', 'ord']:
+            temp_intro_result, graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame)
+            if temp_intro_result:
+                intro_result += temp_intro_result
+        else:
+            graph = None
 
         # 2. Descriptives
         descr_result = ''
@@ -701,7 +712,7 @@ class CogStatData:
                     result += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' \
                               + _('Sorry, not implemented yet.')+'\n<default>'
 
-        return self._convert_output([title, intro_result, graph, descr_result, graph2, result])
+        return self._convert_output([title, intro_result, graph1, '', graph, descr_result, graph2, result])
 
     def compare_groups(self, var_name, grouping_variable):
         """Compare groups.

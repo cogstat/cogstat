@@ -772,7 +772,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
 ### Compare variables ###
 
 
-def comp_var_graph(data, var_names, meas_level, data_frame):
+def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
     intro_result = ''
     graph = None
     if meas_level in ['int', 'ord', 'unk']:
@@ -781,7 +781,10 @@ def comp_var_graph(data, var_names, meas_level, data_frame):
 
         fig = plt.figure(facecolor=csc.bg_col)
         ax = fig.add_subplot(111)
-        plt.title(_plt('Boxplot and individual data of the variables'), fontsize=csc.graph_font_size)
+        if raw_data:
+            plt.title(_plt('Individual data of the variables'), fontsize=csc.graph_font_size)
+        else:
+            plt.title(_plt('Boxplot and individual data of the variables'), fontsize=csc.graph_font_size)
         # Display individual data
         for i in range(len(variables.transpose())-1):  # for all pairs
             # Prepare the frequencies for the plot
@@ -799,13 +802,16 @@ def comp_var_graph(data, var_names, meas_level, data_frame):
                 plt.plot([i+1, i+2], [data1, data2], '-', color = csc.ind_line_col, lw=data_freq)
             
         # Display boxplots
-        box1 = ax.boxplot(variables)
-        # ['medians', 'fliers', 'whiskers', 'boxes', 'caps']
-        plt.setp(box1['boxes'], color=csc.fig_col_bold)
-        plt.setp(box1['whiskers'], color=csc.fig_col_bold)
-        plt.setp(box1['caps'], color=csc.fig_col_bold)
-        plt.setp(box1['medians'], color=csc.fig_col_bold)
-        plt.setp(box1['fliers'], color=csc.fig_col_bold)
+        if not raw_data:
+            box1 = ax.boxplot(variables)
+            # ['medians', 'fliers', 'whiskers', 'boxes', 'caps']
+            plt.setp(box1['boxes'], color=csc.fig_col_bold)
+            plt.setp(box1['whiskers'], color=csc.fig_col_bold)
+            plt.setp(box1['caps'], color=csc.fig_col_bold)
+            plt.setp(box1['medians'], color=csc.fig_col_bold)
+            plt.setp(box1['fliers'], color=csc.fig_col_bold)
+        else:
+            ax.set_xlim(0.5, len(var_names)+0.5)
         plt.xticks(range(1,len(var_names)+1), _wrap_labels(var_names))
         plt.ylabel(_('Value'))
         graph = plt.gcf()
