@@ -606,12 +606,14 @@ class StatMainWindow(QtGui.QMainWindow):
             else:
                 tosave=False
 
+        """
         reply = QtGui.QMessageBox.question(self, _('Confirm exit'), 
             _('Are you sure you want to exit the program?'), QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
         if reply == QtGui.QMessageBox.Yes:
             QtGui.qApp.quit()
         else:
             event.ignore()
+        """
 
 # -*- coding: utf-8 -*-
 
