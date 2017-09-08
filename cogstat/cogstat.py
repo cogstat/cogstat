@@ -531,7 +531,7 @@ class CogStatData:
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r</i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
+                           ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'ord':
             text_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
@@ -540,7 +540,7 @@ class CogStatData:
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             text_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r</i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
+                           ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'nom':
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):

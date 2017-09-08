@@ -16,6 +16,8 @@ Trivial changes when a new feature is added are not denoted.
     - In group comparison
 
 ## Fixes
+- Spearman rank correlation is denoted as rs (s is subscript) instead of r.
+- When quitting CogStat, no confirmation is asked 
 - Various smaller fixes
 
 1.4.2 (3 June 2017)
