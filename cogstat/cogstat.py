@@ -494,14 +494,25 @@ class CogStatData:
         if unknown_var:
             text_result += '<decision>'+warn_unknown_variable+'\n<default>'
 
+        # 0. Raw data
+        text_result += '<b>'+_('Raw data')+'</b>\n'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[[x, y]].dropna()
         valid_n = len(data)
         invalid_n = len(self.data_frame[[x, y]]) - valid_n
-        text_result += _('N of valid pairs: %g\n') % valid_n
-        text_result += _('N of invalid pairs: %g\n\n') % invalid_n
-        
+        text_result += _('N of valid pairs: %g') % valid_n + '\n'
+        text_result += _('N of invalid pairs: %g') % invalid_n + '\n'
+
+        # Raw data chart
+        temp_text_result, graph1 = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
+                                                         raw_data=True)  # slope and intercept are set to 0, but they
+                                                                         # are not used with raw_data
+        if temp_text_result:
+            text_result += temp_text_result
+        text_result1=text_result
+        text_result =u''
+
         # 1. Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
@@ -539,10 +550,14 @@ class CogStatData:
         text_result += '\n'
 
         # 2. Make graph
-        temp_text_result, graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
-        if temp_text_result:
-            text_result += temp_text_result
-        return self._convert_output([title, text_result, graph])
+        # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
+        if meas_lev == 'int':
+            temp_text_result, graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
+            if temp_text_result:
+                text_result += temp_text_result
+            return self._convert_output([title, text_result1, graph1, text_result, graph])
+        else:
+            return self._convert_output([title, text_result1, graph1, text_result])
     #correlations(x,y)  # test
 
     def pivot(self, depend_names=[], row_names=[], col_names=[], page_names=[], function='Mean'):

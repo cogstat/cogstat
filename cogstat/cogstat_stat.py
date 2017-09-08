@@ -683,7 +683,7 @@ def confidence_interval_t(data, ci_only=True):
 ### Variable pairs ###
 
 
-def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
+def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=False):
     if meas_lev in ['int', 'ord']:
         text_result = ''
         suptitle_text = None
@@ -708,9 +708,10 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame):
             # Display the data
             ax.scatter(xvalues, yvalues, xy_freq, color=csc.fig_col_bold, marker='o')
             # Display the linear fit for the plot
-            fit_x = [min(data.iloc[:,0]), max(data.iloc[:,0])]
-            fit_y = [slope*i+intercept for i in fit_x]
-            ax.plot(fit_x, fit_y, color=csc.fig_col_bold)
+            if not raw_data:
+                fit_x = [min(data.iloc[:,0]), max(data.iloc[:,0])]
+                fit_y = [slope*i+intercept for i in fit_x]
+                ax.plot(fit_x, fit_y, color=csc.fig_col_bold)
             # Set the labels
             plt.title(_plt('Scatterplot of the variables'), fontsize=csc.graph_font_size)
             ax.set_xlabel(x)
