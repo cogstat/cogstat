@@ -986,7 +986,7 @@ def friedman_test(pdf, var_names):
 ### Compare groups ###
 
 
-def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
+def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, raw_data=False):
     """Display the boxplot of the groups with individual data or the mosaic plot
 
     :param data_frame:
@@ -1016,12 +1016,13 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
         fig = plt.figure(facecolor=csc.bg_col)
         ax = fig.add_subplot(111)
         # Add boxplot
-        box1 = ax.boxplot(variables)
-        plt.setp(box1['boxes'], color=csc.fig_col_bold)
-        plt.setp(box1['whiskers'], color=csc.fig_col_bold)
-        plt.setp(box1['caps'], color=csc.fig_col_bold)
-        plt.setp(box1['medians'], color=csc.fig_col_bold)
-        plt.setp(box1['fliers'], color=csc.fig_col_bold)
+        if not raw_data:
+            box1 = ax.boxplot(variables)
+            plt.setp(box1['boxes'], color=csc.fig_col_bold)
+            plt.setp(box1['whiskers'], color=csc.fig_col_bold)
+            plt.setp(box1['caps'], color=csc.fig_col_bold)
+            plt.setp(box1['medians'], color=csc.fig_col_bold)
+            plt.setp(box1['fliers'], color=csc.fig_col_bold)
         # Display individual data
         for var_i in range(len(variables)):
             val_count = variables[var_i].value_counts()
@@ -1039,7 +1040,11 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
         plt.xlabel(groups[0])
         if meas_level == 'ord':
             plt.ylabel(_('Rank of %s') % var_names[0])
-            plt.title(_plt('Boxplot and individual data of the rank data of the groups'), fontsize=csc.graph_font_size)
+            if raw_data:
+                plt.title(_plt('Individual data of the rank data of the groups'), fontsize=csc.graph_font_size)
+            else:
+                plt.title(_plt('Boxplot and individual data of the rank data of the groups'),
+                          fontsize=csc.graph_font_size)
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
             ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
@@ -1052,7 +1057,10 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels):
             ax.axvline(x=ax.axes.get_xlim()[0], dashes=[8, 12], color='black')
         else:
             plt.ylabel(var_names[0])
-            plt.title(_plt('Boxplot and individual data of the groups'), fontsize=csc.graph_font_size)
+            if raw_data:
+                plt.title(_plt('Individual data of the groups'), fontsize=csc.graph_font_size)
+            else:
+                plt.title(_plt('Boxplot and individual data of the groups'), fontsize=csc.graph_font_size)
         graph = fig
     elif meas_level in ['nom']:
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):

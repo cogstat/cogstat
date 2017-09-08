@@ -9,6 +9,7 @@ Trivial changes when a new feature is added are not denoted.
     - In Explore variable
     - In Explore variable pairs
     - in Compare variables
+    - in Compare groups
 - Rank information is displayed for ordinal variables:
     - In single variable
     - In variable pairs (in scatterplot)

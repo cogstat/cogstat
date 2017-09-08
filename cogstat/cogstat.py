@@ -551,7 +551,7 @@ class CogStatData:
 
         # 2. Make graph
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
-        if meas_lev == 'int':
+        if meas_lev in ['int', 'unk']:
             temp_text_result, graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
             if temp_text_result:
                 text_result += temp_text_result
@@ -613,7 +613,7 @@ class CogStatData:
 
         # 1. Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
-        if meas_level in ['int', 'ord']:
+        if meas_level in ['int', 'unk', 'ord']:
             temp_intro_result, graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame)
             if temp_intro_result:
                 intro_result += temp_intro_result
@@ -729,11 +729,15 @@ class CogStatData:
         intro_result = '<default>'+_(u'Dependent variable: ') + u', '.join(x for x in var_names) + u'. ' + \
                        _(u'Group(s): ') + u', '.join(x for x in groups) + '\n'
         intro_result += self._filtering_status()
+
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars([var_names[0]])
         if unknown_type:
             intro_result += '<decision>'+warn_unknown_variable+'<default>'
         if len(groups) == 1:
+            # 0. Raw data
+            intro_result += '\n<b>' + _('Raw data') + '</b>\n'
+
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
             group_levels = list(set(data[groups[0]]))
             # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
@@ -750,13 +754,24 @@ class CogStatData:
                 replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
             valid_n = len(self.data_frame[groups[0]].dropna())
             invalid_n = len(self.data_frame[groups[0]])-valid_n
-            intro_result += '\n\n'+_(u'N of invalid group cases: %g\n') % invalid_n
+            intro_result += '\n\n'+_(u'N of invalid group cases: %g') % invalid_n +'\n'
 
-            # 1. Plot the individual data
-            temp_intro_result, graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
-                                                                group_levels)
+            # Plot individual data
+            temp_intro_result, graph1 = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                                                                group_levels, raw_data=True)
             if temp_intro_result:
                 intro_result += temp_intro_result
+
+
+            # 1. Plot the individual data with boxplots
+            # There's no need to repeat the mosaic plot for the nominal variables
+            if meas_level in ['int', 'unk', 'ord']:
+                temp_intro_result, graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                                                                    group_levels)
+                if temp_intro_result:
+                    intro_result += temp_intro_result
+            else:
+                graph = None
 
             # 2. Descriptive data
             descr_result = ''
@@ -895,7 +910,7 @@ class CogStatData:
             intro_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n' + \
                             _('Sorry, not implemented yet.')
 
-        return self._convert_output([title, intro_result, graph, descr_result, graph2, result])
+        return self._convert_output([title, intro_result, graph1, '', graph, descr_result, graph2, result])
 
 
 def display(results):
