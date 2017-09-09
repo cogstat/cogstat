@@ -726,17 +726,17 @@ class CogStatData:
         groups = [grouping_variable]
         # TODO check if there is only one dep.var.
         title = csc.heading_style_begin + _('Compare groups') + csc.heading_style_end
-        intro_result = '<default>'+_(u'Dependent variable: ') + u', '.join(x for x in var_names) + u'. ' + \
+        raw_result = '<default>'+_(u'Dependent variable: ') + u', '.join(x for x in var_names) + u'. ' + \
                        _(u'Group(s): ') + u', '.join(x for x in groups) + '\n'
-        intro_result += self._filtering_status()
+        raw_result += self._filtering_status()
 
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars([var_names[0]])
         if unknown_type:
-            intro_result += '<decision>'+warn_unknown_variable+'<default>'
+            raw_result += '<decision>'+warn_unknown_variable+'<default>'
         if len(groups) == 1:
             # 0. Raw data
-            intro_result += '\n<b>' + _('Raw data') + '</b>\n'
+            raw_result += '\n<b>' + _('Raw data') + '</b>\n'
 
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
             group_levels = list(set(data[groups[0]]))
@@ -749,48 +749,50 @@ class CogStatData:
 #            for group in group_levels:
 #                valid_n = sum(data[groups[0]]==group)
 #                invalid_n = sum(self.data_frame[groups[0]]==group)-valid_n
-#                intro_result += _(u'Group: %s, N of valid cases: %g, N of invalid cases: %g\n') %(group, valid_n, invalid_n)
-            intro_result += pdf_result.to_html(bold_rows=False).replace('\n', '').\
+#                raw_result += _(u'Group: %s, N of valid cases: %g, N of invalid cases: %g\n') %(group, valid_n, invalid_n)
+            raw_result += pdf_result.to_html(bold_rows=False).replace('\n', '').\
                 replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
             valid_n = len(self.data_frame[groups[0]].dropna())
             invalid_n = len(self.data_frame[groups[0]])-valid_n
-            intro_result += '\n\n'+_(u'N of invalid group cases: %g') % invalid_n +'\n'
+            raw_result += '\n\n'+_(u'N of invalid group cases: %g') % invalid_n +'\n'
 
             # Plot individual data
-            temp_intro_result, graph1 = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+            temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
                                                                 group_levels, raw_data=True)
-            if temp_intro_result:
-                intro_result += temp_intro_result
+            if temp_raw_result:
+                raw_result += temp_raw_result
 
 
             # 1. Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
-                temp_intro_result, graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                temp_raw_result, sample_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
                                                                     group_levels)
-                if temp_intro_result:
-                    intro_result += temp_intro_result
+                if temp_raw_result:
+                    raw_result += temp_raw_result
             else:
-                graph = None
+                sample_graph = None
 
             # 2. Descriptive data
-            descr_result = ''
+            sample_result = '\n<b>' + _('Sample properties') + '</b>\n\n'
+
             if meas_level in ['int', 'unk']:
-                descr_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]],
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]],
                                                         stat='mean')
             elif meas_level == 'ord':
-                descr_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]],
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]],
                                                         stat='median')
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
-                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').\
+                sample_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').\
                     replace('border="1"', 'style="border:1px solid black;"')
 
-            # 3. Plot the descriptive data
-            graph2 = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
+            # 3. Plot population estimations
+            population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
 
             # 4. Hypothesis testing
-            result = _('Hypothesis testing:')+'\n'
+            result = '<b>' + _('Population properties') + '</b>\n\n'
+            result += _('Hypothesis testing:')+'\n'
             result += '<decision>'+_('One grouping variable. ')+'<default>'
             if len(group_levels) == 1:
                 result += _('There is only one group. At least two groups required.')+'\n<default>'
@@ -907,10 +909,10 @@ class CogStatData:
                     result += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
 
         elif len(groups) > 1:
-            intro_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n' + \
+            raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n' + \
                             _('Sorry, not implemented yet.')
 
-        return self._convert_output([title, intro_result, graph1, '', graph, descr_result, graph2, result])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph])
 
 
 def display(results):

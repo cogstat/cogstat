@@ -207,57 +207,57 @@ class CogStatTestCase(unittest.TestCase):
 
         # 2 Int groups
         result = data.compare_groups('l', 'm')
-        self.assertTrue('<td>2.5316</td>      <td>4.5759</td>' in result[5])
-        self.assertTrue('(m: 1.0): <i>W</i> = 0.959, <i>p</i> = 0.683' in result[7])
-        self.assertTrue('(m: 2.0): <i>W</i> = 0.984, <i>p</i> = 0.991' in result[7])
-        self.assertTrue('<i>W</i> = 0.305, <i>p</i> = 0.585' in result[7])
-        self.assertTrue('-2.0443, 95% confidence interval [-4.2157, 0.1272]' in result[7])
-        self.assertTrue('<i>t</i>(28) = -1.93, <i>p</i> = 0.064' in result[7])
+        self.assertTrue('<td>2.5316</td>      <td>4.5759</td>' in result[3])
+        self.assertTrue('(m: 1.0): <i>W</i> = 0.959, <i>p</i> = 0.683' in result[5])
+        self.assertTrue('(m: 2.0): <i>W</i> = 0.984, <i>p</i> = 0.991' in result[5])
+        self.assertTrue('<i>W</i> = 0.305, <i>p</i> = 0.585' in result[5])
+        self.assertTrue('-2.0443, 95% confidence interval [-4.2157, 0.1272]' in result[5])
+        self.assertTrue('<i>t</i>(28) = -1.93, <i>p</i> = 0.064' in result[5])
 
         # Non-normal group
         result = data.compare_groups('o', 'm')
-        self.assertTrue('(m: 2.0): <i>W</i> = 0.808, <i>p</i> = 0.005' in result[7])
-        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.023' in result[7])  # TODO this is incorrect p-value
+        self.assertTrue('(m: 2.0): <i>W</i> = 0.808, <i>p</i> = 0.005' in result[5])
+        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.023' in result[5])  # TODO this is incorrect p-value
 
         # Heteroscedastic groups
         result = data.compare_groups('p', 'm')
-        self.assertTrue('<i>t</i>(25.3) = 0.119, <i>p</i> = 0.907' in result[7])
+        self.assertTrue('<i>t</i>(25.3) = 0.119, <i>p</i> = 0.907' in result[5])
 
 
         # TODO single case vs. group
 
         # 3 Int groups
         result = data.compare_groups('r', 'q')
-        self.assertTrue('<td>3.2869</td>      <td>5.0400</td>      <td>7.2412</td>' in result[5])
-        self.assertTrue('<i>W</i> = 0.675, <i>p</i> = 0.517' in result[7])  # TODO this might be incorrect
-        self.assertTrue('<i>F</i>(2, 27) = 4, <i>p</i> = 0.030' in result[7])
-        self.assertTrue('<i>&omega;<sup>2</sup></i> = 0.167' in result[7])
+        self.assertTrue('<td>3.2869</td>      <td>5.0400</td>      <td>7.2412</td>' in result[3])
+        self.assertTrue('<i>W</i> = 0.675, <i>p</i> = 0.517' in result[5])  # TODO this might be incorrect
+        self.assertTrue('<i>F</i>(2, 27) = 4, <i>p</i> = 0.030' in result[5])
+        self.assertTrue('<i>&omega;<sup>2</sup></i> = 0.167' in result[5])
         # TODO post-hoc
 
         # 3 Int groups with assumption violation
         result = data.compare_groups('o', 'q')
-        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[7])
+        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[5])
 
         # 2 Ord groups
         data.data_measlevs['o'] = 'ord'
         result = data.compare_groups('o', 'm')
-        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.023' in result[6])  # TODO this is incorrect p-value
+        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.023' in result[5])  # TODO this is incorrect p-value
 
         # 3 Ord groups
         data.data_measlevs['o'] = 'ord'
         result = data.compare_groups('o', 'q')
-        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[6])
+        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[5])
         data.data_measlevs['o'] = 'int'
 
         # 2 Nom groups
         result = data.compare_groups('i', 'j')
-        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.154' in result[5])  # TODO validate
-        self.assertTrue('&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.710, <i>p</i> = 0.399' in result[5])  # TODO validate
+        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.154' in result[4])  # TODO validate
+        self.assertTrue('&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.710, <i>p</i> = 0.399' in result[4])  # TODO validate
 
         # 3 Nom groups
         result = data.compare_groups('i', 'c')
-        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.009' in result[5])  # TODO validate
-        self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002, <i>p</i> = 0.999' in result[5])  # TODO validate
+        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.009' in result[4])  # TODO validate
+        self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002, <i>p</i> = 0.999' in result[4])  # TODO validate
 
 if __name__ == '__main__':
     unittest.main()

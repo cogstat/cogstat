@@ -1052,7 +1052,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
                                wrap=True)
             # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
             ax.set_frame_on(False)
-            print ax.axes.get_ylim()
+            #print ax.axes.get_ylim()
             ax.axhline(y=ax.axes.get_ylim()[0]+0.1, color='black')
             ax.axvline(x=ax.axes.get_xlim()[0], dashes=[8, 12], color='black')
         else:
