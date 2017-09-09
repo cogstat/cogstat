@@ -582,63 +582,65 @@ class CogStatData:
         """
         plt.close('all')
         title = csc.heading_style_begin + _('Compare variables') + csc.heading_style_end
-        intro_result = '<default>'+_(u'Variables to compare: ') + u', '.join(x for x in var_names) + '\n\n'
-        intro_result += self._filtering_status()
+        raw_result = '<default>'+_(u'Variables to compare: ') + u', '.join(x for x in var_names) + '\n\n'
+        raw_result += self._filtering_status()
 
         # Check if the variables have the same measurement levels
         meas_levels = set([self.data_measlevs[var_name] for var_name in var_names])
         if len(meas_levels) > 1:
             if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together,
                                                                 # since unk is taken as int by default
-                return self._convert_output([title, intro_result, '<decision>'+_(u"Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'])
+                return self._convert_output([title, raw_result, '<decision>'+_(u"Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'])
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
-            intro_result += '\n<decision>'+warn_unknown_variable+'<default>'
+            raw_result += '\n<decision>'+warn_unknown_variable+'<default>'
 
         # 0. Raw data
-        intro_result += '<b>' + _('Raw data') + '</b>\n'
+        raw_result += '<b>' + _('Raw data') + '</b>\n'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
         valid_n = len(data)
         invalid_n = len(self.data_frame[var_names])-valid_n
-        intro_result += _('N of valid cases: %g\n') % valid_n
-        intro_result += _('N of invalid cases: %g\n') % invalid_n
+        raw_result += _('N of valid cases: %g\n') % valid_n
+        raw_result += _('N of invalid cases: %g\n') % invalid_n
 
         # Plot the raw data
-        temp_intro_result, graph1 = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame, raw_data=True)
-        if temp_intro_result:
-            intro_result += temp_intro_result
+        temp_raw_result, raw_graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame, raw_data=True)
+        if temp_raw_result:
+            raw_result += temp_raw_result
 
         # 1. Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
-            temp_intro_result, graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame)
-            if temp_intro_result:
-                intro_result += temp_intro_result
+            temp_raw_result, sample_graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame)
+            if temp_raw_result:
+                raw_result += temp_raw_result
         else:
-            graph = None
+            sample_graph = None
 
         # 2. Descriptives
-        descr_result = ''
+        sample_result = '<b>' + _('Sample properties') + '</b>\n\n'
+
         if meas_level in ['int', 'unk']:
-            descr_result += cs_stat.print_var_stats(self.data_frame, var_names, stat='mean')
+            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, stat='mean')
         elif meas_level == 'ord':
-            descr_result += cs_stat.print_var_stats(self.data_frame, var_names, stat='median')
+            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, stat='median')
         elif meas_level == 'nom':
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
                 cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])
                     #, rownames = [x], colnames = [y])
-                descr_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').\
+                sample_result += cont_table_data.to_html(bold_rows=False).replace('\n', '').\
                     replace('border="1"', 'style="border:1px solid black;"')
 
         # 3. Plot the descriptive data
-        graph2 = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
+        population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
 
         # 4. Hypotheses testing
-        result = _('Hypothesis testing:')+'\n'
+        result = '<b>' + _('Population properties') + '</b>\n\n'
+        result += _('Hypothesis testing:')+'\n'
         if len(var_names) < 2:
             result += _('At least two variables required.')
         elif len(var_names) == 2:
@@ -712,7 +714,7 @@ class CogStatData:
                     result += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' \
                               + _('Sorry, not implemented yet.')+'\n<default>'
 
-        return self._convert_output([title, intro_result, graph1, '', graph, descr_result, graph2, result])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph])
 
     def compare_groups(self, var_name, grouping_variable):
         """Compare groups.
