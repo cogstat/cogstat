@@ -489,13 +489,13 @@ class CogStatData:
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
         title = csc.heading_style_begin + _('Explore variable pair') + csc.heading_style_end
-        raw_result = _(u'Exploring variable pair: ') + x + u', ' + y + '\n\n'
+        raw_result = _(u'Exploring variable pair: ') + x + u', ' + y + '\n'
         raw_result += self._filtering_status()
         if unknown_var:
             raw_result += '<decision>'+warn_unknown_variable+'\n<default>'
 
         # 0. Raw data
-        raw_result += '<b>'+_('Raw data')+'</b>\n'
+        raw_result += '<h4>'+_('Raw data')+'</h4>'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[[x, y]].dropna()
@@ -508,10 +508,10 @@ class CogStatData:
         temp_raw_result, raw_graph = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
                                                          raw_data=True)  # slope and intercept are set to 0, but they
                                                                          # are not used with raw_data
-        sample_result = '<b>'+_('Sample properties')+'</b>\n'
+        sample_result = '<h4>'+_('Sample properties')+'</h4>'
         if temp_raw_result:
             sample_result += temp_raw_result
-        population_result = '<b>'+_('Population properties')+'</b>\n'
+        population_result = '<h4>'+_('Population properties')+'</h4>'
 
         # 1. Compute and print numeric results
         slope, intercept = None, None
@@ -587,7 +587,7 @@ class CogStatData:
         """
         plt.close('all')
         title = csc.heading_style_begin + _('Compare variables') + csc.heading_style_end
-        raw_result = '<default>'+_(u'Variables to compare: ') + u', '.join(x for x in var_names) + '\n\n'
+        raw_result = '<default>'+_(u'Variables to compare: ') + u', '.join(x for x in var_names) + '\n'
         raw_result += self._filtering_status()
 
         # Check if the variables have the same measurement levels
@@ -602,7 +602,7 @@ class CogStatData:
             raw_result += '\n<decision>'+warn_unknown_variable+'<default>'
 
         # 0. Raw data
-        raw_result += '<b>' + _('Raw data') + '</b>\n'
+        raw_result += '<h4>' + _('Raw data') + '</h4>'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
@@ -626,7 +626,7 @@ class CogStatData:
             sample_graph = None
 
         # 2. Descriptives
-        sample_result = '<b>' + _('Sample properties') + '</b>\n\n'
+        sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
         if meas_level in ['int', 'unk']:
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names, stat='mean')
@@ -644,7 +644,7 @@ class CogStatData:
         population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
 
         # 4. Hypotheses testing
-        result = '<b>' + _('Population properties') + '</b>\n\n'
+        result = '<h4>' + _('Population properties') + '</h4>'
         result += _('Hypothesis testing:')+'\n'
         if len(var_names) < 2:
             result += _('At least two variables required.')
@@ -743,7 +743,7 @@ class CogStatData:
             raw_result += '<decision>'+warn_unknown_variable+'<default>'
         if len(groups) == 1:
             # 0. Raw data
-            raw_result += '\n<b>' + _('Raw data') + '</b>\n'
+            raw_result += '<h4>' + _('Raw data') + '</h4>'
 
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
             group_levels = list(set(data[groups[0]]))
@@ -781,7 +781,7 @@ class CogStatData:
                 sample_graph = None
 
             # 2. Descriptive data
-            sample_result = '\n<b>' + _('Sample properties') + '</b>\n\n'
+            sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], group_names=[groups[0]],
@@ -798,7 +798,7 @@ class CogStatData:
             population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
 
             # 4. Hypothesis testing
-            result = '<b>' + _('Population properties') + '</b>\n\n'
+            result = '<h4>' + _('Population properties') + '</h4>'
             result += _('Hypothesis testing:')+'\n'
             result += '<decision>'+_('One grouping variable. ')+'<default>'
             if len(group_levels) == 1:
