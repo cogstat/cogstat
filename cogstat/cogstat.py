@@ -489,75 +489,80 @@ class CogStatData:
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
         title = csc.heading_style_begin + _('Explore variable pair') + csc.heading_style_end
-        text_result = _(u'Exploring variable pair: ') + x + u', ' + y + '\n\n'
-        text_result += self._filtering_status()
+        raw_result = _(u'Exploring variable pair: ') + x + u', ' + y + '\n\n'
+        raw_result += self._filtering_status()
         if unknown_var:
-            text_result += '<decision>'+warn_unknown_variable+'\n<default>'
+            raw_result += '<decision>'+warn_unknown_variable+'\n<default>'
 
         # 0. Raw data
-        text_result += '<b>'+_('Raw data')+'</b>\n'
+        raw_result += '<b>'+_('Raw data')+'</b>\n'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[[x, y]].dropna()
         valid_n = len(data)
         invalid_n = len(self.data_frame[[x, y]]) - valid_n
-        text_result += _('N of valid pairs: %g') % valid_n + '\n'
-        text_result += _('N of invalid pairs: %g') % invalid_n + '\n'
+        raw_result += _('N of valid pairs: %g') % valid_n + '\n'
+        raw_result += _('N of invalid pairs: %g') % invalid_n + '\n'
 
         # Raw data chart
-        temp_text_result, graph1 = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
+        temp_raw_result, raw_graph = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
                                                          raw_data=True)  # slope and intercept are set to 0, but they
                                                                          # are not used with raw_data
-        if temp_text_result:
-            text_result += temp_text_result
-        text_result1=text_result
-        text_result =u''
+        sample_result = '<b>'+_('Sample properties')+'</b>\n'
+        if temp_raw_result:
+            sample_result += temp_raw_result
+        population_result = '<b>'+_('Population properties')+'</b>\n'
 
         # 1. Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
-            text_result += '<decision>'+_('Interval variables.')+' >> '+\
+            population_result += '<decision>'+_('Interval variables.')+' >> '+\
                            _("Running Pearson's and Spearman's correlation.")+'\n<default>'
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            text_result += _(u"Pearson's correlation") + \
+            sample_result += _(u"Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
+            population_result += _(u"Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s\n' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
             if meas_lev == 'int':
                 slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
                 # TODO output with the precision of the data
-                text_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' % (slope, intercept)
+                sample_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' % (slope, intercept)
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            text_result += _(u"Spearman's rank-order correlation") + \
+            sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
+            population_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'ord':
-            text_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
+            population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
                            '\n<default>'
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            text_result += _(u"Spearman's rank-order correlation") + \
+            sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
+            population_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'nom':
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
-                text_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
-            text_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
-            text_result += cs_stat.chi_square_test(self.data_frame, x, y)
-        text_result += '\n'
+                population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
+            population_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
+            population_result += cs_stat.chi_square_test(self.data_frame, x, y)
+        sample_result += '\n'
+        population_result += '\n'
 
         # 2. Make graph
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev in ['int', 'unk']:
-            temp_text_result, graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
+            temp_text_result, sample_graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
             if temp_text_result:
-                text_result += temp_text_result
-            return self._convert_output([title, text_result1, graph1, text_result, graph])
+                population_result += temp_text_result
         else:
-            return self._convert_output([title, text_result1, graph1, text_result])
+            sample_graph = None
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result])
+
     #correlations(x,y)  # test
 
     def pivot(self, depend_names=[], row_names=[], col_names=[], page_names=[], function='Mean'):

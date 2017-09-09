@@ -11,6 +11,7 @@ Trivial changes when a new feature is added are not denoted.
     - in Compare variables
     - in Compare groups
 - Display results in groups of raw data, sample properties and population properties
+    - In Explore variable pairs
     - in Compare variables
     - in Compare groups 
 - Rank information is displayed for ordinal variables:
