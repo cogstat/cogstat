@@ -91,7 +91,7 @@ class StatMainWindow(QtGui.QMainWindow):
                                 # ['', _('&Filter outliers'), _('Ctrl+L'), _('Filter cases based on outliers'), 'self.xxx'],
                                 # ['separator'],
                                 ['', _('&Display data'), _('Ctrl+D'), _('Print data to the output'), 'self.print_data'],
-                                ['', _('Display data &briefly'), '', _('Print beginning of the data to the output'), 'self._print_data_brief'],
+                                ['', _('Display data &briefly'), _('Ctrl+B'), _('Print beginning of the data to the output'), 'self._print_data_brief'],
                             ],
                             [_('&Analysis'),
                                 ['', _('&Explore variable'), _('Ctrl+1'), _('Main properties of variables'), 'self.explore_variable'],
