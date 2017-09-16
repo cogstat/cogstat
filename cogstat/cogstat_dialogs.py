@@ -148,10 +148,6 @@ class explore_var_dialog(QtGui.QDialog, ui.var_properties.Ui_Dialog):
     def read_parameters(self):
         return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                  self.freq_checkbox.isChecked(),
-                 self.dist_checkbox.isChecked(), 
-                 self.descr_checkbox.isChecked(),
-                 self.norm_checkbox.isChecked(), 
-                 self.ttest_checkbox.isChecked(),
                  unicode(self.ttest_value.text()))
 
 

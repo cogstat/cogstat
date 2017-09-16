@@ -423,8 +423,7 @@ class CogStatData:
 
     ### Compile statistics ###
 
-    def explore_variable(self, var_name, frequencies=True, distribution=True, descriptives=True, normality=True,
-                         central_test=True, central_value=0.0):
+    def explore_variable(self, var_name, frequencies=True, central_value=0.0):
         """Explore variable.
 
         :param var_name: Name of the variable (str)
@@ -442,7 +441,7 @@ class CogStatData:
         if self._filtering_status():
             result_list[-1] += self._filtering_status()
 
-        text_result = '<b>'+_('Raw data')+'</b>\n'
+        text_result = '<h4>'+_('Raw data')+'</h4>'
         text_result2, image = cs_stat.display_variable_raw_data(self.data_frame, self.data_measlevs, var_name)
         result_list.append(text_result+text_result2)
         result_list.append(image)
@@ -450,33 +449,39 @@ class CogStatData:
             text_result = '<b>'+_('Frequencies')+'</b>\n'
             text_result += cs_stat.frequencies(self.data_frame, var_name)
             result_list.append(text_result)
-        if distribution:
-            if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
-                text_result = '<b>'+_('Distribution')+'</b>\n'
-                text_result2, image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
-                result_list.append(text_result+text_result2)
-                result_list.append(image)
-        if descriptives:
-            if self.data_measlevs[var_name] <> 'nom': # there is no descriptive for nominal variable here
-                text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
-                text_result += cs_stat.descriptives(self.data_frame, self.data_measlevs, var_name)
-                result_list.append(text_result)
-                # TODO boxplot also
-        if normality:
-            text_result = '<b>'+_('Normality')+'</b>\n'
-            stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs,
-                                                                              var_name)
+
+        if self.data_measlevs[var_name] <> 'nom':
+            text_result = '<h4>'+_('Sample properties')+'</h4>'
+        # Distribution
+        if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
+            text_result += '<b>'+_('Distribution')+'</b>\n'
+            text_result2, image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
             result_list.append(text_result+text_result2)
-            if image:
-                result_list.append(image)
-            if image2:
-                result_list.append(image2)
-        if central_test:
-            text_result = '<b>'+_('Test central tendency')+'</b>\n'
-            text_result2, image = self._test_central_tendency(var_name, central_value)
-            result_list.append(text_result+text_result2)
-            if image:
-                result_list.append(image)
+            result_list.append(image)
+        #Descriptive
+        if self.data_measlevs[var_name] <> 'nom': # there is no descriptive for nominal variable here
+            text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
+            text_result += cs_stat.descriptives(self.data_frame, self.data_measlevs, var_name)
+            result_list.append(text_result)
+            # TODO boxplot also
+
+        text_result = '<h4>'+_('Populations properties')+'</h4>'
+        # Normality
+        text_result += '<b>'+_('Normality')+'</b>\n'
+        stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs,
+                                                                          var_name)
+        result_list.append(text_result+text_result2)
+        if image:
+            result_list.append(image)
+        if image2:
+            result_list.append(image2)
+
+        # Test central tendency
+        text_result = '<b>'+_('Test central tendency')+'</b>\n'
+        text_result2, image = self._test_central_tendency(var_name, central_value)
+        result_list.append(text_result+text_result2)
+        if image:
+            result_list.append(image)
         return self._convert_output(result_list)
 
     def explore_variable_pair(self, x, y):

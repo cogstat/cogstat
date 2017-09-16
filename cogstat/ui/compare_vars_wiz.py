@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file 'compare_vars_wiz.ui'
 #
-# Created: Fri Aug  8 11:12:26 2014
-#      by: PyQt4 UI code generator 4.9.1
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +11,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Wizard(object):
     def setupUi(self, Wizard):
@@ -62,14 +70,14 @@ class Ui_Wizard(object):
         QtCore.QMetaObject.connectSlotsByName(Wizard)
 
     def retranslateUi(self, Wizard):
-        Wizard.setWindowTitle(QtGui.QApplication.translate("Wizard", "Wizard", None, QtGui.QApplication.UnicodeUTF8))
-        self.radioButton.setText(QtGui.QApplication.translate("Wizard", "One factor", None, QtGui.QApplication.UnicodeUTF8))
-        self.radioButton_2.setText(QtGui.QApplication.translate("Wizard", "Several factors", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Wizard", "Not implemented yet", None, QtGui.QApplication.UnicodeUTF8))
-        self.removeVar.setText(QtGui.QApplication.translate("Wizard", "<=", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Wizard", "Variables to choose from", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Wizard", "Selected variables", None, QtGui.QApplication.UnicodeUTF8))
-        self.addVar.setText(QtGui.QApplication.translate("Wizard", "=>", None, QtGui.QApplication.UnicodeUTF8))
+        Wizard.setWindowTitle(_translate("Wizard", "Wizard", None))
+        self.radioButton.setText(_translate("Wizard", "One factor", None))
+        self.radioButton_2.setText(_translate("Wizard", "Several factors", None))
+        self.label_3.setText(_translate("Wizard", "Not implemented yet", None))
+        self.removeVar.setText(_translate("Wizard", "<=", None))
+        self.label.setText(_translate("Wizard", "Variables to choose from", None))
+        self.label_2.setText(_translate("Wizard", "Selected variables", None))
+        self.addVar.setText(_translate("Wizard", "=>", None))
 
 
 if __name__ == "__main__":

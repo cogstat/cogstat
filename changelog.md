@@ -6,18 +6,19 @@ Trivial changes when a new feature is added are not denoted.
 ## New features
 - Use Wilcoxon signed-rank test when normality is violated in an interval variable
 - In an analysis raw data are diplayed first without any graphical addition
-    - In Explore variable
-    - In Explore variable pairs
+    - in Explore variable
+    - in Explore variable pairs
     - in Compare variables
     - in Compare groups
 - Display results in groups of raw data, sample properties and population properties
-    - In Explore variable pairs
+    - in Explore variable
+    - in Explore variable pairs
     - in Compare variables
     - in Compare groups 
 - Rank information is displayed for ordinal variables:
-    - In single variable
-    - In variable pairs (in scatterplot)
-    - In group comparison
+    - in single variable
+    - in variable pairs (in scatterplot)
+    - in group comparison
 
 ## Fixes
 - Spearman rank correlation is denoted as rs (s is subscript) instead of r.

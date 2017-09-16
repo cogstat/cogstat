@@ -64,7 +64,7 @@ class CogStatTestCase(unittest.TestCase):
         """Test explore variables"""
 
         # Int variable
-        result = data.explore_variable('a', 1, 1, 1, 1, 1, 2.0)
+        result = data.explore_variable('a', 1, 2.0)
         self.assertTrue('N of valid cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
         self.assertTrue('Mean: 3.1438' in result[7])
@@ -83,13 +83,13 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('p</i> = 0.065' in result[11])
 
         # Wilcoxon signed-rank test for non-normal interval variable
-        result = data.explore_variable('b', 0, 1, 1, 1, 1, 20.0)
+        result = data.explore_variable('b', 0, 20.0)
         self.assertTrue('T</i> = 203' in result[10])
         self.assertTrue('p</i> = 0.551' in result[10])
 
         # Ord variable
         data.data_measlevs['a'] = 'ord'
-        result = data.explore_variable('a', 1, 1, 1, 1, 1, 2.0)
+        result = data.explore_variable('a', 1, 2.0)
         self.assertTrue('N of valid cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
         self.assertTrue('Median: 2.8545' in result[7])

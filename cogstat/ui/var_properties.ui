@@ -53,7 +53,7 @@
      <x>20</x>
      <y>30</y>
      <width>161</width>
-     <height>192</height>
+     <height>221</height>
     </rect>
    </property>
    <property name="mouseTracking">
@@ -72,7 +72,7 @@
      <x>220</x>
      <y>30</y>
      <width>171</width>
-     <height>192</height>
+     <height>221</height>
     </rect>
    </property>
    <property name="selectionMode">
@@ -109,9 +109,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>230</y>
+     <y>260</y>
      <width>371</width>
-     <height>91</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="title">
@@ -136,59 +136,11 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QCheckBox" name="dist_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>121</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Distribution</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="ttest_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>40</y>
-      <width>151</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Test central tendency</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="norm_checkbox">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>20</y>
-      <width>85</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Normality</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="ttest_value">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>60</y>
+      <x>200</x>
+      <y>40</y>
       <width>61</width>
       <height>23</height>
      </rect>
@@ -200,20 +152,17 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QCheckBox" name="descr_checkbox">
+   <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>161</width>
-      <height>21</height>
+      <x>170</x>
+      <y>20</y>
+      <width>171</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Descriptives</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
+     <string>Central tendency test value</string>
     </property>
    </widget>
   </widget>

@@ -353,7 +353,7 @@ class StatMainWindow(QtGui.QMainWindow):
             else:  # TODO is it not necessary anymore? For all dialogs
                 self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_prop.exec_():
-                var_names, freq, dist, descr, norm, loc_test, loc_test_value = self.dial_var_prop.read_parameters()
+                var_names, freq, loc_test_value = self.dial_var_prop.read_parameters()
             else:
                 return
         self._busy_signal(True)
@@ -361,9 +361,7 @@ class StatMainWindow(QtGui.QMainWindow):
             for var_name in var_names:
                 self.analysis_results.append(GuiResultPackage())
                 self.analysis_results[-1].add_command('self.explore_variable()')  # TODO
-                result = self.active_data.explore_variable(var_name, frequencies=freq, distribution=dist,
-                                                                descriptives=descr, normality=norm, central_test=loc_test,
-                                                                central_value=loc_test_value)
+                result = self.active_data.explore_variable(var_name, frequencies=freq, central_value=loc_test_value)
                 self.analysis_results[-1].add_output(result)
                 self._print_to_output_pane()
         except:

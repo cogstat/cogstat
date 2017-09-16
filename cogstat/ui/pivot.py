@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file 'pivot.ui'
 #
-# Created: Fri Aug  8 11:12:27 2014
-#      by: PyQt4 UI code generator 4.9.1
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +11,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -106,29 +114,29 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Pivot table", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Dialog", "Available variables", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(0, QtGui.QApplication.translate("Dialog", "N", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(1, QtGui.QApplication.translate("Dialog", "Sum", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(2, QtGui.QApplication.translate("Dialog", "Mean", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(3, QtGui.QApplication.translate("Dialog", "Median", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(4, QtGui.QApplication.translate("Dialog", "Lower quartile", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(5, QtGui.QApplication.translate("Dialog", "Upper quartile", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(6, QtGui.QApplication.translate("Dialog", "Standard deviation", None, QtGui.QApplication.UnicodeUTF8))
-        self.function.setItemText(7, QtGui.QApplication.translate("Dialog", "Variance", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("Dialog", "Rows", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("Dialog", "Columns", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("Dialog", "Pages", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("Dialog", "Dependent variable", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_6.setText(QtGui.QApplication.translate("Dialog", "Function", None, QtGui.QApplication.UnicodeUTF8))
-        self.removeRows.setText(QtGui.QApplication.translate("Dialog", "<=", None, QtGui.QApplication.UnicodeUTF8))
-        self.addRows.setText(QtGui.QApplication.translate("Dialog", "=>", None, QtGui.QApplication.UnicodeUTF8))
-        self.addColumns.setText(QtGui.QApplication.translate("Dialog", "=>", None, QtGui.QApplication.UnicodeUTF8))
-        self.removeColumns.setText(QtGui.QApplication.translate("Dialog", "<=", None, QtGui.QApplication.UnicodeUTF8))
-        self.addPages.setText(QtGui.QApplication.translate("Dialog", "=>", None, QtGui.QApplication.UnicodeUTF8))
-        self.removePages.setText(QtGui.QApplication.translate("Dialog", "<=", None, QtGui.QApplication.UnicodeUTF8))
-        self.addDependent.setText(QtGui.QApplication.translate("Dialog", "=>", None, QtGui.QApplication.UnicodeUTF8))
-        self.removeDependent.setText(QtGui.QApplication.translate("Dialog", "<=", None, QtGui.QApplication.UnicodeUTF8))
+        Dialog.setWindowTitle(_translate("Dialog", "Pivot table", None))
+        self.label.setText(_translate("Dialog", "Available variables", None))
+        self.function.setItemText(0, _translate("Dialog", "N", None))
+        self.function.setItemText(1, _translate("Dialog", "Sum", None))
+        self.function.setItemText(2, _translate("Dialog", "Mean", None))
+        self.function.setItemText(3, _translate("Dialog", "Median", None))
+        self.function.setItemText(4, _translate("Dialog", "Lower quartile", None))
+        self.function.setItemText(5, _translate("Dialog", "Upper quartile", None))
+        self.function.setItemText(6, _translate("Dialog", "Standard deviation", None))
+        self.function.setItemText(7, _translate("Dialog", "Variance", None))
+        self.label_2.setText(_translate("Dialog", "Rows", None))
+        self.label_3.setText(_translate("Dialog", "Columns", None))
+        self.label_4.setText(_translate("Dialog", "Pages", None))
+        self.label_5.setText(_translate("Dialog", "Dependent variable", None))
+        self.label_6.setText(_translate("Dialog", "Function", None))
+        self.removeRows.setText(_translate("Dialog", "<=", None))
+        self.addRows.setText(_translate("Dialog", "=>", None))
+        self.addColumns.setText(_translate("Dialog", "=>", None))
+        self.removeColumns.setText(_translate("Dialog", "<=", None))
+        self.addPages.setText(_translate("Dialog", "=>", None))
+        self.removePages.setText(_translate("Dialog", "<=", None))
+        self.addDependent.setText(_translate("Dialog", "=>", None))
+        self.removeDependent.setText(_translate("Dialog", "<=", None))
 
 
 if __name__ == "__main__":

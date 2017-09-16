@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file 'compare_groups.ui'
 #
-# Created: Sat Apr 16 14:43:34 2016
-#      by: PyQt4 UI code generator 4.11.2
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
