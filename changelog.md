@@ -19,6 +19,7 @@ Trivial changes when a new feature is added are not denoted.
     - in single variable
     - in variable pairs (in scatterplot)
     - in group comparison
+- Aim of the hypothesis tests are displayed.
 
 ## Fixes
 - Spearman rank correlation is denoted as rs (s is subscript) instead of r.

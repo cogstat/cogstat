@@ -662,7 +662,15 @@ class CogStatData:
 
         # 4. Hypotheses testing
         result = '<h4>' + _('Population properties') + '</h4>'
-        result += _('Hypothesis testing:')+'\n'
+
+        result += '<decision>' + _('Hypothesis testing: ')
+        if meas_level in ['int', 'unk']:
+            result += _('Testing if the means are the same.') + '<default>'
+        elif meas_level == 'ord':
+            result += _('Testing if the medians are the same.') + '<default>'
+        elif meas_level == 'nom':
+            result += _('Testing if the distributions are the same.') + '<default>'
+
         if len(var_names) < 2:
             result += _('At least two variables required.')
         elif len(var_names) == 2:
@@ -816,7 +824,15 @@ class CogStatData:
 
             # 4. Hypothesis testing
             result = '<h4>' + _('Population properties') + '</h4>'
-            result += _('Hypothesis testing:')+'\n'
+
+            result += '<decision>' + _('Hypothesis testing: ')
+            if meas_level in ['int', 'unk']:
+                result += _('Testing if the means are the same.') + '<default>'
+            elif meas_level == 'ord':
+                result += _('Testing if the medians are the same.') + '<default>'
+            elif meas_level == 'nom':
+                result += _('Testing if the distributions are the same.') + '<default>'
+
             result += '<decision>'+_('One grouping variable. ')+'<default>'
             if len(group_levels) == 1:
                 result += _('There is only one group. At least two groups required.')+'\n<default>'
