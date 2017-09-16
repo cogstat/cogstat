@@ -458,7 +458,7 @@ class CogStatData:
             text_result2, image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
             result_list.append(text_result+text_result2)
             result_list.append(image)
-        #Descriptive
+        # Descriptive
         if self.data_measlevs[var_name] <> 'nom': # there is no descriptive for nominal variable here
             text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
             text_result += cs_stat.descriptives(self.data_frame, self.data_measlevs, var_name)
@@ -478,6 +478,11 @@ class CogStatData:
 
         # Test central tendency
         text_result = '<b>'+_('Test central tendency')+'</b>\n'
+        text_result += '<decision>' + _('Hypothesis test: ')
+        if self.data_measlevs[var_name] in ['int', 'unk']:
+            text_result += _('Testing if mean deviates from the value %s.') % central_value + '<default>\n'
+        elif self.data_measlevs[var_name] == 'ord':
+            text_result += _('Testing if median deviates from the value %s.') % central_value + '<default>\n'
         text_result2, image = self._test_central_tendency(var_name, central_value)
         result_list.append(text_result+text_result2)
         if image:
@@ -521,6 +526,8 @@ class CogStatData:
         # 1. Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
+            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlations differ from 0.') \
+                                 + '<default>'
             population_result += '<decision>'+_('Interval variables.')+' >> '+\
                            _("Running Pearson's and Spearman's correlation.")+'\n<default>'
             df = len(data)-2
@@ -530,10 +537,11 @@ class CogStatData:
             population_result += _(u"Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s\n' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
-            if meas_lev == 'int':
-                slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
-                # TODO output with the precision of the data
-                sample_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' % (slope, intercept)
+
+            slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
+            # TODO output with the precision of the data
+            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' % (slope, intercept)
+
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
@@ -541,6 +549,8 @@ class CogStatData:
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'ord':
+            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlation differs from 0.') \
+                                 + '<default>'
             population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
                            '\n<default>'
             df = len(data)-2
@@ -551,6 +561,8 @@ class CogStatData:
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
                            (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
         elif meas_lev == 'nom':
+            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if variables are independent.') \
+                                 + '<default>'
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
             population_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
