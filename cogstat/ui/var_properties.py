@@ -52,7 +52,7 @@ class Ui_Dialog(object):
         self.label_2.setGeometry(QtCore.QRect(220, 10, 121, 16))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.groupBox = QtGui.QGroupBox(Dialog)
-        self.groupBox.setGeometry(QtCore.QRect(20, 260, 371, 61))
+        self.groupBox.setGeometry(QtCore.QRect(20, 260, 371, 71))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.freq_checkbox = QtGui.QCheckBox(self.groupBox)
         self.freq_checkbox.setGeometry(QtCore.QRect(10, 20, 101, 21))
