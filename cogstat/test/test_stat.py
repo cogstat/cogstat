@@ -79,13 +79,13 @@ class CogStatTestCase(unittest.TestCase):
 
         # One sample t-test
         self.assertTrue('Confidence interval [1.9227, 4.3649]' in result[11])
-        self.assertTrue('t</i>(29) = 1.92' in result[11])
-        self.assertTrue('p</i> = 0.065' in result[11])
+        self.assertTrue('t</i>(29) = 1.92' in result[13])
+        self.assertTrue('p</i> = 0.065' in result[13])
 
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 20.0)
-        self.assertTrue('T</i> = 203' in result[10])
-        self.assertTrue('p</i> = 0.551' in result[10])
+        self.assertTrue('T</i> = 203' in result[12])
+        self.assertTrue('p</i> = 0.551' in result[12])
 
         # Ord variable
         data.data_measlevs['a'] = 'ord'
@@ -95,9 +95,9 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('Median: 2.8545' in result[7])
         self.assertTrue('Range: 12.784' in result[7])
 
-        # Wilcoxon signed-rank test for non-normal interval variable
-        self.assertTrue('T</i> = 145' in result[9])
-        self.assertTrue('p</i> = 0.074' in result[9])
+        # Wilcoxon signed-rank test
+        self.assertTrue('T</i> = 145' in result[11])
+        self.assertTrue('p</i> = 0.074' in result[11])
         data.data_measlevs['a'] = 'int'
 
     def test_explore_variable_pairs(self):
