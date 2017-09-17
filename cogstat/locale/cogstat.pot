@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-17 18:44+0200\n"
+"POT-Creation-Date: 2017-09-17 19:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -341,11 +341,11 @@ msgid "About CogStat "
 msgstr ""
 
 #: .././cogstat_gui.py:577
-#, python-format
-msgid ""
-"<br>Simple statistical solutions for cognitive scientists<br><br>Copyright © "
-"%s-%s Attila Krajcsi<br><br><a href = \"http://www.cogstat.org\">Visit "
-"CogStat website</a>"
+msgid "Simple automatic data analysis software"
+msgstr ""
+
+#: .././cogstat_gui.py:577
+msgid "Visit CogStat website"
 msgstr ""
 
 #: .././cogstat_gui.py:587
