@@ -378,48 +378,6 @@ class CogStatData:
 
         return meas_lev, unknown_var
 
-    def _test_central_tendency(self, var_name, ttest_value):
-        """
-        Test central tendency
-        """
-        meas_level, unknown_type = self._meas_lev_vars([var_name])
-        text_result = ''
-        if meas_level in ['int', 'ord', 'unk']:
-            prec = cs_util.precision(self.data_frame[var_name])+1
-        if unknown_type:
-            text_result += '<decision>'+warn_unknown_variable+'\n<default>'
-        if meas_level in ['int', 'unk']:
-            text_result += '<decision>'+_('Interval variable.')+' >> ' + \
-                           _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
-                           '<default>\n'
-            text_result += '<decision>' + _('Checking for normality.') + '\n<default>'
-            norm, text_result_norm, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame,
-                                                                                  self.data_measlevs, var_name)
-            text_result += text_result_norm
-            if norm:
-                text_result += '<decision>' + _('Normality is not violated.') + ' >> '+ \
-                               _('Running one-sample t-test.') + '<default>\n'
-                text_result += _(u'Mean: %0.*f') % (prec, np.mean(self.data_frame[var_name].dropna())) + '\n'
-                text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
-                                                         test_value=ttest_value)
-            else:
-                text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
-                               _('Running Wilcoxon signed-rank test.') + '<default>\n'
-                text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
-                text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
-                                                               value=ttest_value)
-
-        elif meas_level == 'ord':
-            text_result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Wilcoxon signed-rank test.')+\
-                           '<default>\n'
-            text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna()))+'\n'
-            text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
-                                                           value=ttest_value)
-        else:
-            text_result2 = '<decision>'+_('No central tendency can be computed for nominal variables.')+'<default>\n'
-            graph = None
-        text_result += text_result2
-        return text_result, graph
 
     ### Compile statistics ###
 
@@ -436,6 +394,7 @@ class CogStatData:
         :return:
         """
         plt.close('all')
+        meas_level, unknown_type = self._meas_lev_vars([var_name])
         result_list = [csc.heading_style_begin + _('Explore variable')+csc.heading_style_end]
         result_list.append(_('Exploring variable: '+var_name+'\n'))
         if self._filtering_status():
@@ -451,7 +410,7 @@ class CogStatData:
             result_list.append(text_result)
 
         if self.data_measlevs[var_name] <> 'nom':
-            text_result = '<h4>'+_('Sample properties')+'</h4>'
+            text_result = '<h4>\n'+_('Sample properties')+'</h4>\n'
         # Distribution
         if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
             text_result += '<b>'+_('Distribution')+'</b>\n'
@@ -465,28 +424,77 @@ class CogStatData:
             result_list.append(text_result)
             # TODO boxplot also
 
-        text_result = '<h4>'+_('Populations properties')+'</h4>'
+        text_result = '<h4>\n'+_('Populations properties')+'</h4>\n'
+
         # Normality
-        text_result += '<b>'+_('Normality')+'</b>\n'
-        stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs,
-                                                                          var_name)
-        result_list.append(text_result+text_result2)
-        if image:
-            result_list.append(image)
-        if image2:
-            result_list.append(image2)
+        if meas_level in ['int', 'unk']:
+            text_result += '<b>'+_('Normality')+'</b>\n'
+            stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs,
+                                                                              var_name)
+            text_result += text_result2
+            result_list.append(text_result)
+            if image:
+                result_list.append(image)
+            if image2:
+                result_list.append(image2)
+        else:
+            result_list.append(text_result[:-2])
 
         # Test central tendency
-        text_result = '<b>'+_('Test central tendency')+'</b>\n'
+        if meas_level in ['int', 'unk']:
+            population_param_text = '\n<b>'+_('Population parameter estimation and tests')+'</b>\n'
+        else:
+            population_param_text = ''
+        text_result = '\n'
         text_result += '<decision>' + _('Hypothesis test: ')
         if self.data_measlevs[var_name] in ['int', 'unk']:
             text_result += _('Testing if mean deviates from the value %s.') % central_value + '<default>\n'
         elif self.data_measlevs[var_name] == 'ord':
             text_result += _('Testing if median deviates from the value %s.') % central_value + '<default>\n'
-        text_result2, image = self._test_central_tendency(var_name, central_value)
-        result_list.append(text_result+text_result2)
-        if image:
-            result_list.append(image)
+
+        if meas_level in ['int', 'ord', 'unk']:
+            prec = cs_util.precision(self.data_frame[var_name]) + 1
+        if unknown_type:
+            text_result += '<decision>' + warn_unknown_variable + '\n<default>'
+        if meas_level in ['int', 'unk']:
+            text_result += '<decision>' + _('Interval variable.') + ' >> ' + \
+                           _(
+                               'Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
+                           '<default>\n'
+            text_result += '<decision>' + _('Checking for normality.') + '\n<default>'
+            norm, text_result_norm, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame,
+                                                                                       self.data_measlevs, var_name)
+            text_result += text_result_norm
+            if norm:
+                text_result += '<decision>' + _('Normality is not violated.') + ' >> ' + \
+                               _('Running one-sample t-test.') + '<default>\n'
+                population_param_text += _(u'Mean: %0.*f') % (prec, np.mean(self.data_frame[var_name].dropna())) + '\n'
+                ci_text, text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
+                                                         test_value=central_value)
+                population_param_text += ci_text
+            else:
+                text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
+                               _('Running Wilcoxon signed-rank test.') + '<default>\n'
+                text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
+                text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
+                                                               value=central_value)
+
+        elif meas_level == 'ord':
+            text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _(
+                'Running Wilcoxon signed-rank test.') + \
+                           '<default>\n'
+            text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
+            text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
+                                                           value=central_value)
+        else:
+            text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '<default>\n'
+            graph = None
+        text_result += text_result2
+
+        result_list.append(population_param_text)
+        if graph:
+            result_list.append(graph)
+        result_list.append(text_result)
         return self._convert_output(result_list)
 
     def explore_variable_pair(self, x, y):
