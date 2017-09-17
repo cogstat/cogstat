@@ -58,12 +58,12 @@ class StatMainWindow(QtGui.QMainWindow):
 
         # Only for testing
 #        self.open_file('sample_data/example2.csv'); #self.compare_groups()
-        self.open_file('test/data/test_data.csv')
+#        self.open_file('test/data/test_data.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable('X')
 #        self.explore_variable(u'a', freq=False)
-        self.explore_variable_pair(['A', 'B'])
+#        self.explore_variable_pair(['G', 'H'])
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['A', 'B', 'C1'])

@@ -529,22 +529,26 @@ class CogStatData:
         sample_result = '<h4>'+_('Sample properties')+'</h4>'
         if temp_raw_result:
             sample_result += temp_raw_result
-        population_result = '<h4>'+_('Population properties')+'</h4>'
+        estimation_result = '<h4>'+_('Population properties')+'</h4>'
+        population_result = '\n'
 
         # 1. Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
             population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlations differ from 0.') \
-                                 + '<default>'
+                                 + '<default>\n'
             population_result += '<decision>'+_('Interval variables.')+' >> '+\
                            _("Running Pearson's and Spearman's correlation.")+'\n<default>'
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
+            estimation_result += _(u"Pearson's correlation") + \
+                           ': <i>r</i> = %0.3f, 95%% CI [%0.3f, %0.3f]\n' % \
+                           (r, r_ci_low, r_ci_high)
             population_result += _(u"Pearson's correlation") + \
-                           ': <i>r</i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s\n' % \
-                           (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
+                           ': <i>r</i>(%d) = %0.3f, %s\n' % \
+                           (df, r, cs_util.print_p(p))
 
             slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
             # TODO output with the precision of the data
@@ -553,24 +557,30 @@ class CogStatData:
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
+            estimation_result += _(u"Spearman's rank-order correlation") + \
+                           ': <i>r<sub>s</sub></i> = %0.3f, 95%% CI [%0.3f, %0.3f]' % \
+                           (r, r_ci_low, r_ci_high)
             population_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
-                           (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
+                           ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
+                           (df, r, cs_util.print_p(p))
         elif meas_lev == 'ord':
             population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlation differs from 0.') \
-                                 + '<default>'
+                                 + '<default>\n'
             population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
                            '\n<default>'
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
+            estimation_result += _(u"Spearman's rank-order correlation") + \
+                           ': <i>r<sub>s</sub></i> = %0.3f, 95%% CI [%0.3f, %0.3f]' % \
+                           (r, r_ci_low, r_ci_high)
             population_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r<sub>s</sub></i>(%d) = %0.3f, 95%% CI [%0.3f, %0.3f], %s' % \
-                           (df, r, r_ci_low, r_ci_high, cs_util.print_p(p))
+                           ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
+                           (df, r, cs_util.print_p(p))
         elif meas_lev == 'nom':
             population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if variables are independent.') \
-                                 + '<default>'
+                                 + '<default>\n'
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
             population_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
@@ -586,7 +596,8 @@ class CogStatData:
                 population_result += temp_text_result
         else:
             sample_graph = None
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, estimation_result,
+                                     population_result])
 
     #correlations(x,y)  # test
 
