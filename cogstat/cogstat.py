@@ -442,7 +442,7 @@ class CogStatData:
 
         # Test central tendency
         if meas_level in ['int', 'unk']:
-            population_param_text = '\n<b>'+_('Population parameter estimation and tests')+'</b>\n'
+            population_param_text = '\n<b>'+_('Population parameter estimations and tests')+'</b>\n'
         else:
             population_param_text = ''
         text_result = '\n'
