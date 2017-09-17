@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-17 19:00+0200\n"
+"POT-Creation-Date: 2017-09-17 19:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -490,9 +490,9 @@ msgstr ""
 msgid "One sample t-test cannot be run for constant variable.\n"
 msgstr ""
 
-#: .././cogstat_stat.py:545
+#: .././cogstat_stat.py:545 .././cogstat_stat.py:1173
 #, python-format
-msgid "95%% Confidence interval [%0.*f, %0.*f]"
+msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr ""
 
 #: .././cogstat_stat.py:548
@@ -618,11 +618,6 @@ msgstr ""
 
 #: .././cogstat_stat.py:1172
 msgid "Difference between the two groups:"
-msgstr ""
-
-#: .././cogstat_stat.py:1173
-#, python-format
-msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr ""
 
 #: .././cogstat_stat.py:1174
