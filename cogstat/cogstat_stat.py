@@ -546,7 +546,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         else:
             ci = 0  # only with statsmodels
             ci_text=_('Sorry, newer statsmodels module is required for confidence interval.\n')
-        text_result += ci_text+_('One sample t-test against %g')%float(test_value)+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
+        text_result += _('One sample t-test against %g')%float(test_value)+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
         
         # Graph
         plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35), facecolor=csc.bg_col)
@@ -558,7 +558,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
         image = None
-    return text_result, image
+    return ci_text, text_result, image
 
 
 def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
