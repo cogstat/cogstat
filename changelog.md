@@ -1,24 +1,13 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
-1.5 (Upcoming release)
+1.5 (30 September 2017)
 ===============
 ## New features
 - Use Wilcoxon signed-rank test when normality is violated in an interval variable
 - In an analysis raw data are diplayed first without any graphical addition
-    - in Explore variable
-    - in Explore variable pairs
-    - in Compare variables
-    - in Compare groups
-- Display results in groups of raw data, sample properties and population properties
-    - in Explore variable
-    - in Explore variable pairs
-    - in Compare variables
-    - in Compare groups 
-- Rank information is displayed for ordinal variables:
-    - in single variable
-    - in variable pairs (in scatterplot)
-    - in group comparison
+- Display results in groups of raw data, sample properties and population properties 
+- Rank information is displayed for ordinal variables (in single variable, in variable pairs (in scatterplot) and in group comparison)
 - Aim of the hypothesis tests are displayed.
 
 ## Fixes
