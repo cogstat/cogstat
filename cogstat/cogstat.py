@@ -11,7 +11,7 @@ import logging
 from distutils.version import LooseVersion
 import os
 
-__version__ = '1.5.0b'
+__version__ = '1.5.0'
 
 import cogstat_config as csc
 csc.versions['cogstat'] = __version__
