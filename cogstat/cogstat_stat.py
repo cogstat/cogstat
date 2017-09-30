@@ -728,9 +728,14 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             rank_values_y = dict(zip(stats.rankdata(yvalues), yvalues))
             ax.set_xticklabels(['%i\n(%s)' % (i, rank_values_x[i])
                                 if i in stats.rankdata(xvalues) else '%i' % i for i in ax.get_xticks()])
-            ax.set_yticklabels(['%i\n(%s)' % (i, rank_values_y[i])
+            try:
+                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values_y[i])
                                 if i in stats.rankdata(yvalues) else '%i' % i for i in ax.get_yticks()],
                                wrap=True)
+            except:  # for matplotlib before 1.5
+                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values_y[i])
+                                if i in stats.rankdata(yvalues) else '%i' % i for i in ax.get_yticks()])
+
             # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
             ax.set_frame_on(False)
             ax.axhline(y=ax.axes.get_ylim()[0]+0.05, dashes=[8, 12], color='black')
@@ -1047,9 +1052,13 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
                           fontsize=csc.graph_font_size)
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
-                                if i in rank_values.keys() else '%i' % i for i in ax.get_yticks()],
-                               wrap=True)
+            try:
+                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
+                                    if i in rank_values.keys() else '%i' % i for i in ax.get_yticks()],
+                                   wrap=True)
+            except:  # for matplotlib before 1.5
+                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
+                                    if i in rank_values.keys() else '%i' % i for i in ax.get_yticks()])
             # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
             ax.set_frame_on(False)
             #print ax.axes.get_ylim()
@@ -1230,7 +1239,7 @@ def mann_whitney_test(pdf, var_name, grouping_name):
         text_result += _('Result of independent samples Mann-Whitney rank test: ')+'<i>U</i> = %0.3g, %s\n' % \
                                                                                    (u, cs_util.print_p(p))
     except:
-        try:  # older versions of mannwhitneyu do not include the alternative keyword
+        try:  # older versions of mannwhitneyu do not include the alternative parameter
             u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna())
             text_result += _('Result of independent samples Mann-Whitney rank test: ')+'<i>U</i> = %0.3g, %s\n' % \
                                                                                        (u, cs_util.print_p(p * 2))
