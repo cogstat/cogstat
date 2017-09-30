@@ -4,11 +4,11 @@ Trivial changes when a new feature is added are not denoted.
 1.5.0 (30 September 2017)
 ===============
 ## New features
-- Use Wilcoxon signed-rank test when normality is violated in an interval variable
-- In an analysis raw data are diplayed first without any graphical addition
-- Display results in groups of raw data, sample properties and population properties 
+- In an analysis, raw data are diplayed first without any graphical addition
+- Display results in groups of (1) raw data, (2) sample properties and (3) population properties 
 - Rank information is displayed for ordinal variables (in single variable, in variable pairs (in scatterplot) and in group comparison)
 - Aim of the hypothesis tests are displayed.
+- Use Wilcoxon signed-rank test when normality is violated in an interval variable
 
 ## Fixes
 - Spearman rank correlation is denoted as rs (s is subscript) instead of r.
