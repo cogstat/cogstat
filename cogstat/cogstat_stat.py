@@ -1226,13 +1226,16 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     
     dummy_groups, [var1, var2] = _split_into_groups(pdf, var_name, grouping_name)
     try:
-        u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna())
-        # http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html#scipy.stats.mannwhitneyu
-        # The reported p-value is for a one-sided hypothesis, to get the two-sided p-value multiply the returned p-value by 2.
+        u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna(), alternative='two-sided')
         text_result += _('Result of independent samples Mann-Whitney rank test: ')+'<i>U</i> = %0.3g, %s\n' % \
-                                                                                   (u, cs_util.print_p(p*2))
-    except Exception as e:
-        text_result += _('Result of independent samples Mann-Whitney rank test: ')+unicode(e)
+                                                                                   (u, cs_util.print_p(p))
+    except:
+        try:  # older versions of mannwhitneyu do not include the alternative keyword
+            u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna())
+            text_result += _('Result of independent samples Mann-Whitney rank test: ')+'<i>U</i> = %0.3g, %s\n' % \
+                                                                                       (u, cs_util.print_p(p * 2))
+        except Exception as e:
+            text_result += _('Result of independent samples Mann-Whitney rank test: ')+unicode(e)
 
     return text_result
 
