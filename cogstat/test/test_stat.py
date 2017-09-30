@@ -220,7 +220,7 @@ class CogStatTestCase(unittest.TestCase):
         # Non-normal group
         result = data.compare_groups('o', 'm')
         self.assertTrue('(m: 2.0): <i>W</i> = 0.808, <i>p</i> = 0.005' in result[5])
-        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.023' in result[5])  # TODO this is incorrect p-value
+        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.011' in result[5])
 
         # Heteroscedastic groups
         result = data.compare_groups('p', 'm')
@@ -244,7 +244,7 @@ class CogStatTestCase(unittest.TestCase):
         # 2 Ord groups
         data.data_measlevs['o'] = 'ord'
         result = data.compare_groups('o', 'm')
-        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.023' in result[5])  # TODO this is incorrect p-value
+        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.011' in result[5])
 
         # 3 Ord groups
         data.data_measlevs['o'] = 'ord'
