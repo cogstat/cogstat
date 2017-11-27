@@ -68,7 +68,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of valid cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
         self.assertTrue('Mean: 3.1438' in result[7])
-        self.assertTrue('Standard deviation: 3.2702' in result[7])
+        self.assertTrue('Standard deviation: 3.2152' in result[7])
         self.assertTrue('Skewness: 0.3586' in result[7])
         self.assertTrue('Kurtosis: 0.0446' in result[7])
         self.assertTrue('Median: 2.8545' in result[7])
