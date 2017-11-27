@@ -542,7 +542,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
             cil, cih = descr.tconfint_mean()
             ci = (cih-cil)/2
             prec = cs_util.precision(data)+1
-            ci_text = _(u'95%% confidence interval [%0.*f, %0.*f]') %(prec, cil, prec, cih)+'\n'
+            ci_text = '[%0.*f, %0.*f]' %(prec, cil, prec, cih)
         else:
             ci = 0  # only with statsmodels
             ci_text=_('Sorry, newer statsmodels module is required for confidence interval.\n')

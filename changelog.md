@@ -5,9 +5,11 @@ Upcoming release
 =================
 
 ## New features
+- Population estimations are displyed in tables
 
 ## Fixes
 - :warning: Standard deviation of the sample is not population estimation anymore 
+- Localization fixes
 
 1.5.0 (30 September 2017)
 ===============

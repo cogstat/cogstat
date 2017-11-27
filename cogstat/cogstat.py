@@ -468,10 +468,15 @@ class CogStatData:
             if norm:
                 text_result += '<decision>' + _('Normality is not violated.') + ' >> ' + \
                                _('Running one-sample t-test.') + '<default>\n'
-                population_param_text += _(u'Mean: %0.*f') % (prec, np.mean(self.data_frame[var_name].dropna())) + '\n'
+                pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')], index=[_('Mean')])
+                pdf_result.loc[_('Mean'), _('Point estimation')] = ('%0.*f') % (prec, np.mean(self.data_frame[var_name].dropna()))
                 ci_text, text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
                                                          test_value=central_value)
-                population_param_text += ci_text
+                pdf_result.loc[_('Mean'), _('95% confidence interval')] = ci_text
+                population_param_text += pdf_result.to_html(bold_rows=False).replace('\n', ''). \
+                    replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+                population_param_text += '\n\n'
+
             else:
                 text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
                                _('Running Wilcoxon signed-rank test.') + '<default>\n'
@@ -530,6 +535,7 @@ class CogStatData:
         if temp_raw_result:
             sample_result += temp_raw_result
         estimation_result = '<h4>'+_('Population properties')+'</h4>'
+        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         population_result = '\n'
 
         # 1. Compute and print numeric results
@@ -543,9 +549,7 @@ class CogStatData:
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
-            estimation_result += _(u"Pearson's correlation") + \
-                           ': <i>r</i> = %0.3f, 95%% CI [%0.3f, %0.3f]\n' % \
-                           (r, r_ci_low, r_ci_high)
+            pdf_result.loc[_(_(u"Pearson's correlation") + ', <i>r</i>')] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             population_result += _(u"Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, %s\n' % \
                            (df, r, cs_util.print_p(p))
@@ -557,9 +561,10 @@ class CogStatData:
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
-            estimation_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r<sub>s</sub></i> = %0.3f, 95%% CI [%0.3f, %0.3f]' % \
-                           (r, r_ci_low, r_ci_high)
+            pdf_result.loc[_(u"Spearman's rank-order correlation" + ', <i>r<sub>s</sub></i>')] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+            estimation_result += pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
+                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+
             population_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
