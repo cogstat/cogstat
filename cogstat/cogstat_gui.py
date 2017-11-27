@@ -151,7 +151,10 @@ class StatMainWindow(QtGui.QMainWindow):
         # Prepare Output pane
         self.output_pane = QtGui.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
         self.output_pane.setLineWrapMode (QtGui.QTextEdit.NoWrap)
-        self.output_pane.setText(_('<br><b>Welcome to CogStat!</b><br>CogStat makes statistical analysis more simple and efficient.<br>To start working open a data file or paste your data from a spreadsheet.<br>Find more information about CogStat on its <a href = "https://github.com/cogstat/cogstat/wiki">webpage</a>.<br>'))
+        self.output_pane.setText('<br><b>%s</b><br>%s<br>%s<br>%s<br>' %
+                                 (_('Welcome to CogStat!'), _('CogStat makes statistical analysis more simple and efficient.'),
+                                  _('To start working open a data file or paste your data from a spreadsheet.'),
+                                  _('Find more information about CogStat on its <a href = "http://www.cogstat.org">webpage</a>.')))
         self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
         self.output_pane.setReadOnly(True)
         self.output_pane.setOpenExternalLinks(True)
