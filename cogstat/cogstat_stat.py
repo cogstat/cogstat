@@ -389,8 +389,8 @@ def descriptives(pdf, data_measlevs, var_name):
         prec = cs_util.precision(data)+1
     if data_measlev in ['int', 'unk']:
         text_result += _(u'Mean: %0.*f') % (prec, np.mean(data))+'\n'
-        text_result += _(u'Standard deviation: %0.*f') % (prec, np.std(data, ddof=1))+'\n'
-            # ddof=1 gives the sample stat as in SPSS
+        text_result += _(u'Standard deviation: %0.*f') % (prec, np.std(data, ddof=0))+'\n'
+            # ddof=1 gives the sample stat as in SPSS - that should be population estimation
         text_result += _(u'Skewness: %0.*f') % (prec, stats.skew(data, bias=False))+'\n'
             # with the bias=False it gives the same value as SPSS
         text_result += _(u'Kurtosis: %0.*f') % (prec, stats.kurtosis(data, bias=False))+'\n'
