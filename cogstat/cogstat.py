@@ -577,9 +577,9 @@ class CogStatData:
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
-            estimation_result += _(u"Spearman's rank-order correlation") + \
-                           ': <i>r<sub>s</sub></i> = %0.3f, 95%% CI [%0.3f, %0.3f]' % \
-                           (r, r_ci_low, r_ci_high)
+            pdf_result.loc[_(u"Spearman's rank-order correlation" + ', <i>r<sub>s</sub></i>')] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+            estimation_result += pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
+                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
             population_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))

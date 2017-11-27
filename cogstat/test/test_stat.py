@@ -119,7 +119,8 @@ class CogStatTestCase(unittest.TestCase):
         data.data_measlevs['a'] = 'ord'
         data.data_measlevs['b'] = 'ord'
         result = data.explore_variable_pair('a', 'b')
-        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i> = -0.363, 95% CI [-0.640, -0.003]" in result[4])
+        self.assertTrue('-0.363' in result[4])
+        self.assertTrue('[-0.640, -0.003]' in result[4])
         self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.363, <i>p</i> = 0.048" in result[5])
         data.data_measlevs['a'] = 'int'
         data.data_measlevs['b'] = 'int'
