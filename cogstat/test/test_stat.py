@@ -79,6 +79,7 @@ class CogStatTestCase(unittest.TestCase):
 
         # One sample t-test
         self.assertTrue('[1.9227, 4.3649]' in result[11])
+        self.assertTrue('3.2702' in result[11])
         self.assertTrue('t</i>(29) = 1.92' in result[13])
         self.assertTrue('p</i> = 0.065' in result[13])
 

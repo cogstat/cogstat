@@ -5,11 +5,14 @@ Upcoming release
 =================
 
 ## New features
-- Population estimations are displyed in tables
+- Standard deviation in Explore variable
+    - :warning: SD of the sample is not population estimation anymore
+    - Add population estimation of the SD
+- Population estimations are displayed in tables
 
 ## Fixes
-- :warning: Standard deviation of the sample is not population estimation anymore 
 - Localization fixes
+- Output fixes
 
 1.5.0 (30 September 2017)
 ===============
