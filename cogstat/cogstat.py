@@ -474,6 +474,8 @@ class CogStatData:
                 ci_text, text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
                                                          test_value=central_value)
                 pdf_result.loc[_('Mean'), _('95% confidence interval')] = ci_text
+                pdf_result.loc[_('Standard deviation')] = \
+                    [('%0.*f') % (prec, np.std(self.data_frame[var_name].dropna(), ddof=1)), '']
                 population_param_text += table_style + pdf_result.to_html(bold_rows=False).replace('\n', ''). \
                     replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
                 population_param_text += '\n\n'
