@@ -61,6 +61,8 @@ else:
 
 warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.')+'\n<default>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
 
+table_style = '<style> th, td {padding-right: 5px; padding-left: 5px} </style>'
+
 ### Various things ###
 
 def _get_R_output(obj):
@@ -291,7 +293,7 @@ def frequencies(pdf, var_name):
         running_total += freq[i][1]
         running_rel_total += rel_freq
         freq[i].extend([rel_freq, running_total, running_rel_total])
-    text_result = pd.DataFrame(freq, columns=[_('Value'), _('Freq'), _('Rel freq'), _('Cum freq'), _('Cum rel freq')]).\
+    text_result = table_style + pd.DataFrame(freq, columns=[_('Value'), _('Freq'), _('Rel freq'), _('Cum freq'), _('Cum rel freq')]).\
         to_html(formatters={_('Rel freq'): as_percent, _('Cum rel freq'): as_percent}, bold_rows=False, index=False).\
         replace('\n', '').\
         replace('border="1"', 'style="border:1px solid black;"')
@@ -630,7 +632,7 @@ def print_var_stats(pdf, var_names, group_names=None, stat=None):
                 pdf_result.loc[stat_name[stat], var_name] = (u'%0.*f') % (prec, np.mean(data[var_name].dropna()))
             elif stat == 'median':
                 pdf_result.loc[stat_name[stat], var_name] = (u'%0.*f') % (prec, np.median(data[var_name].dropna()))
-        text_result += pdf_result.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
+        text_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
     else:  # there is grouping variable
         # TODO now it only handles a single dependent variable and a single grouping variable
         # missing groups and values will be dropped
@@ -654,7 +656,7 @@ def print_var_stats(pdf, var_names, group_names=None, stat=None):
             else:
                 text_result += _('No data')
                 pdf_result.loc[stat_name[stat], group_label] = _('No data')
-        text_result += pdf_result.to_html(bold_rows=False).\
+        text_result += table_style + pdf_result.to_html(bold_rows=False).\
             replace('\n', '').\
             replace('border="1"', 'style="border:1px solid black;"')
     return text_result
@@ -749,8 +751,8 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
         graph = plt.gcf()
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y]) # TODO use data instead?
-        text_result = '\n%s\n' % cont_table_data.to_html(bold_rows=False).replace('\n', '').\
-            replace('border="1"', 'style="border:1px solid black;"')
+        text_result = '\n%s\n' % (table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
+            replace('border="1"', 'style="border:1px solid black;"'))
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
             #mosaic(data_frame, [x, y])  # Previous version
             if 0 in cont_table_data.values:
@@ -955,7 +957,7 @@ def repeated_measures_anova(pdf, var_names):
         pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
 
         pht_text = pht[['text']]
-        text_result += pht_text.to_html(bold_rows=True, escape=False, header=False).replace('\n', ''). \
+        text_result += table_style + pht_text.to_html(bold_rows=True, escape=False, header=False).replace('\n', ''). \
             replace('border="1"', 'style="border:1px solid black;"')
 
         # Or we can print them in a matrix
