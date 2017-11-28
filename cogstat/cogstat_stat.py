@@ -400,7 +400,10 @@ def descriptives(pdf, data_measlevs, var_name):
         text_result += u'\n'
     if data_measlev in ['int', 'ord', 'unk']:
         text_result += _(u'Median: %0.*f') % (prec, np.median(data))+'\n'
-        text_result += _(u'Range: %0.*f') % (prec-1, (np.max(data)-np.min(data)))+'\n'
+        if data_measlev in ['int', 'unk']:
+            text_result += _(u'Range: %0.*f') % (prec - 1, (np.max(data) - np.min(data))) + '\n'
+        elif data_measlev == 'ord':
+            text_result += _(u'Minimum and maximum: %0.*f, %0.*f') % (prec-1, np.min(data), prec-1, np.max(data))+'\n'
         text_result += u'\n'
     return text_result[:-2]
 
