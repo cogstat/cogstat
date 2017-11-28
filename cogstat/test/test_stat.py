@@ -77,9 +77,9 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>W</i> = 0.959' in result[8])
         self.assertTrue('<i>p</i> = 0.287' in result[8])
 
-        # One sample t-test
-        self.assertTrue('[1.9227, 4.3649]' in result[11])
-        self.assertTrue('3.2702' in result[11])
+        # Population aestimation and one sample t-test
+        self.assertTrue('[1.9227, 4.3649]' in result[11])  # CI of the mean
+        self.assertTrue('3.2702' in result[11])  # SD
         self.assertTrue('t</i>(29) = 1.92' in result[13])
         self.assertTrue('p</i> = 0.065' in result[13])
 
