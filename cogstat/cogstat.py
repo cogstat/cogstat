@@ -550,7 +550,7 @@ class CogStatData:
         # 1. Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
-            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlations differ from 0.') \
+            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlation differs from 0.') \
                                  + '<default>\n'
             population_result += '<decision>'+_('Interval variables.')+' >> '+\
                            _("Running Pearson's and Spearman's correlation.")+'\n<default>'
