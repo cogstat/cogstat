@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-01 15:25+0100\n"
+"POT-Creation-Date: 2017-12-01 15:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -501,8 +501,7 @@ msgid "Range: %0.*f"
 msgstr ""
 
 #: .././cogstat_stat.py:409
-#, python-format
-msgid "Minimum and maximum: %0.*f, %0.*f"
+msgid "Minimum and maximum"
 msgstr ""
 
 #: .././cogstat_stat.py:452
@@ -1038,21 +1037,13 @@ msgstr ""
 msgid "Pearson's correlation"
 msgstr ""
 
-#: .././cogstat.py:561
-msgid ", <i>r</i>"
-msgstr ""
-
 #: .././cogstat.py:568
 msgid "Linear regression"
 msgstr ""
 
-#: .././cogstat.py:572 .././cogstat.py:577 .././cogstat.py:588
-#: .././cogstat.py:592
+#: .././cogstat.py:572 .././cogstat.py:573 .././cogstat.py:577
+#: .././cogstat.py:588 .././cogstat.py:592
 msgid "Spearman's rank-order correlation"
-msgstr ""
-
-#: .././cogstat.py:573 .././cogstat.py:589
-msgid "Spearman's rank-order correlation, <i>r<sub>s</sub></i>"
 msgstr ""
 
 #: .././cogstat.py:583 .././cogstat.py:733 .././cogstat.py:769
@@ -1061,6 +1052,10 @@ msgstr ""
 
 #: .././cogstat.py:583
 msgid "Running Spearman's correlation."
+msgstr ""
+
+#: .././cogstat.py:589
+msgid "Spearman's rank-order correlation, <i>r<sub>s</sub></i>"
 msgstr ""
 
 #: .././cogstat.py:596
