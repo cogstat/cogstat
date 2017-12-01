@@ -401,6 +401,7 @@ class CogStatData:
         if self._filtering_status():
             result_list[-1] += self._filtering_status()
 
+        # Raw data
         text_result = '<h4>'+_('Raw data')+'</h4>'
         text_result2, image = cs_stat.display_variable_raw_data(self.data_frame, self.data_measlevs, var_name)
         result_list.append(text_result+text_result2)
@@ -410,6 +411,7 @@ class CogStatData:
             text_result += cs_stat.frequencies(self.data_frame, var_name)
             result_list.append(text_result)
 
+        # Sample properties
         if self.data_measlevs[var_name] <> 'nom':
             text_result = '<h4>\n'+_('Sample properties')+'</h4>\n'
         # Distribution
@@ -425,6 +427,7 @@ class CogStatData:
             result_list.append(text_result)
             # TODO boxplot also
 
+        # Population properties
         text_result = '<h4>\n'+_('Populations properties')+'</h4>\n'
 
         # Normality
@@ -442,8 +445,14 @@ class CogStatData:
             result_list.append(text_result[:-2])
 
         # Test central tendency
+        if meas_level in ['int', 'ord', 'unk']:
+            prec = cs_util.precision(self.data_frame[var_name]) + 1
+
         if meas_level in ['int', 'unk']:
             population_param_text = '\n<b>'+_('Population parameter estimations and tests')+'</b>\n'
+            # Calculations are below, after the normality test
+        elif meas_level == 'ord':
+            population_param_text = _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
         else:
             population_param_text = ''
         text_result = '\n'
@@ -453,8 +462,6 @@ class CogStatData:
         elif self.data_measlevs[var_name] == 'ord':
             text_result += _('Testing if median deviates from the value %s.') % central_value + '<default>\n'
 
-        if meas_level in ['int', 'ord', 'unk']:
-            prec = cs_util.precision(self.data_frame[var_name]) + 1
         if unknown_type:
             text_result += '<decision>' + warn_unknown_variable + '\n<default>'
         if meas_level in ['int', 'unk']:
@@ -491,7 +498,6 @@ class CogStatData:
             text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _(
                 'Running Wilcoxon signed-rank test.') + \
                            '<default>\n'
-            text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
             text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
                                                            value=central_value)
         else:
