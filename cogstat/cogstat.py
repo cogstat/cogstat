@@ -856,136 +856,136 @@ class CogStatData:
             population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
 
             # 4. Hypothesis testing
-            result = '<h4>' + _('Population properties') + '</h4>'
+            result = '<h4>' + _('Population properties') + '</h4>\n'
 
-            result += '<decision>' + _('Hypothesis testing: ')
+            result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:
-                result += _('Testing if the means are the same.') + '<default>'
+                result_ht += _('Testing if the means are the same.') + '<default>'
             elif meas_level == 'ord':
-                result += _('Testing if the medians are the same.') + '<default>'
+                result_ht += _('Testing if the medians are the same.') + '<default>'
             elif meas_level == 'nom':
-                result += _('Testing if the distributions are the same.') + '<default>'
+                result_ht += _('Testing if the distributions are the same.') + '<default>'
 
-            result += '<decision>'+_('One grouping variable. ')+'<default>'
+            result_ht += '<decision>'+_('One grouping variable. ')+'<default>'
             if len(group_levels) == 1:
-                result += _('There is only one group. At least two groups required.')+'\n<default>'
+                result_ht += _('There is only one group. At least two groups required.')+'\n<default>'
 
             # Compare two groups
             elif len(group_levels) == 2:
-                result += '<decision>'+_('Two groups. ')+'<default>'
+                result_ht += '<decision>'+_('Two groups. ')+'<default>'
                 if meas_level == 'int':
                     group_levels, [var1, var2] = cs_stat._split_into_groups(self.data_frame, var_names[0], groups[0])
                     if len(var1) == 1 or len(var2) == 1:
-                        result += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + \
+                        result_ht += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + \
                                   '\n<default>'
-                        result += '<decision>'+_('Checking for normality.')+'\n<default>'
+                        result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
                         group = group_levels[1] if len(var1) == 1 else group_levels[0]
                         norm, text_result, graph_dummy, graph2_dummy = \
                             cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
                                                    group_name=groups[0], group_value=group)
-                        result += text_result
+                        result_ht += text_result
                         if not norm:
-                            result += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', ' + \
+                            result_ht += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', ' + \
                                       _('group ')+unicode(group)+'.\n<default>'
-                            result += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
-                            result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
+                            result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         else:
-                            result += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + \
+                            result_ht += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + \
                                       '\n<default>'
-                            result += cs_stat.modified_t_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_stat.modified_t_test(self.data_frame, var_names[0], groups[0])
                     else:
-                        result += '<decision>'+_('Interval variable.')+' >> ' + \
+                        result_ht += '<decision>'+_('Interval variable.')+' >> ' + \
                                   _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + \
                                   '\n<default>'
-                        result += '<decision>'+_('Checking for normality.')+'\n<default>'
+                        result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
                         non_normal_groups = []
                         for group in group_levels:
                             norm, text_result, graph_dummy, graph2_dummy = \
                                 cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
                                                        group_name=groups[0], group_value=group)
-                            result += text_result
+                            result_ht += text_result
                             if not norm:
                                 non_normal_groups.append(group)
-                        result += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
+                        result_ht += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
                         hoemogeneity_vars = True
                         p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
-                        result += text_result
+                        result_ht += text_result
                         if p < 0.05:
                             hoemogeneity_vars = False
 
                         if not(non_normal_groups) and hoemogeneity_vars:
-                            result += '<decision>' + \
+                            result_ht += '<decision>' + \
                                       _('Normality and homogeneity of variance are not violated. >> Running two sample t-test.') + \
                                       '\n<default>'
-                            result += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
                         elif non_normal_groups:
-                            result += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % \
+                            result_ht += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % \
                                                    (var_names[0], ', '.join(map(str, non_normal_groups)))+' >> ' + \
                                       _('Running Mann-Whitney test.')+'\n<default>'
-                            result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         elif not hoemogeneity_vars:
-                            result += '<decision>'+_('Homeogeneity of variance violated in variable %s.') % \
+                            result_ht += '<decision>'+_('Homeogeneity of variance violated in variable %s.') % \
                                                    var_names[0] + ' >> ' + _("Running Welch's t-test.")+'\n<default>'
-                            result += cs_stat.welch_t_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_stat.welch_t_test(self.data_frame, var_names[0], groups[0])
 
                 elif meas_level == 'ord':
-                    result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n\n'
-                    result += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n\n'
+                    result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
-                    result += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+' '+'<default>\n'
-                    result += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+' '+'<default>\n'
+                    result_ht += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
 
             # Compare more than two groups
             elif len(group_levels) > 2:
-                result += '<decision>'+_('More than two groups.')+' <default>'
+                result_ht += '<decision>'+_('More than two groups.')+' <default>'
                 if meas_level == 'int':
-                    result += '<decision>'+_('Interval variable.')+' >> ' + \
+                    result_ht += '<decision>'+_('Interval variable.')+' >> ' + \
                               _('Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions.') + \
                               '<default>'+'\n'
 
-                    result += '<decision>'+_('Checking for normality.')+'\n<default>'
+                    result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
                     non_normal_groups = []
                     for group in group_levels:
                         norm, text_result, graph_dummy, graph2_dummy = \
                             cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
                                                    group_name=groups[0], group_value=group)
-                        result += text_result
+                        result_ht += text_result
                         if not norm:
                             non_normal_groups.append(group)
-                    result += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
+                    result_ht += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
                     hoemogeneity_vars = True
                     p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
-                    result += text_result
+                    result_ht += text_result
                     if p < 0.05:
                         hoemogeneity_vars = False
 
                     if not(non_normal_groups) and hoemogeneity_vars:
-                        result += '<decision>' + \
+                        result_ht += '<decision>' + \
                                   _('Normality and homogeneity of variance are not violated. >> Running one-way ANOVA.')\
                                   + '\n<default>'
-                        result += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
+                        result_ht += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
                     if non_normal_groups:
-                        result += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % \
+                        result_ht += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % \
                                                (var_names[0], ', '.join(map(str, non_normal_groups)))
                     if not hoemogeneity_vars:
-                        result += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]
+                        result_ht += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]
                     if non_normal_groups or (not hoemogeneity_vars):
-                        result += '>> '+_('Running Kruskal-Wallis test.')+'\n<default>'
-                        result += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
+                        result_ht += '>> '+_('Running Kruskal-Wallis test.')+'\n<default>'
+                        result_ht += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
 
                 elif meas_level == 'ord':
-                    result += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Kruskal-Wallis test.') + \
+                    result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Kruskal-Wallis test.') + \
                               '<default>\n\n<default>'
-                    result += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
-                    result += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
-                    result += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
+                    result_ht += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
 
         elif len(groups) > 1:
             raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n' + \
                             _('Sorry, not implemented yet.')
 
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
 
 
 def display(results):
