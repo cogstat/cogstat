@@ -558,7 +558,7 @@ class CogStatData:
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             sample_result += _(u"Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
-            pdf_result.loc[_(_(u"Pearson's correlation") + ', <i>r</i>')] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+            pdf_result.loc[_(u"Pearson's correlation") + ', <i>r</i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             population_result += _(u"Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, %s\n' % \
                            (df, r, cs_util.print_p(p))
