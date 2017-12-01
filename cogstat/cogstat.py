@@ -698,11 +698,11 @@ class CogStatData:
 
         result_ht = '<decision>' + _('Hypothesis testing: ')
         if meas_level in ['int', 'unk']:
-            result_ht += _('Testing if the means are the same.') + '<default>'
+            result_ht += _('Testing if the means are the same.') + '<default>\n'
         elif meas_level == 'ord':
-            result_ht += _('Testing if the medians are the same.') + '<default>'
+            result_ht += _('Testing if the medians are the same.') + '<default>\n'
         elif meas_level == 'nom':
-            result_ht += _('Testing if the distributions are the same.') + '<default>'
+            result_ht += _('Testing if the distributions are the same.') + '<default>\n'
 
         if len(var_names) < 2:
             result_ht += _('At least two variables required.')
@@ -730,7 +730,7 @@ class CogStatData:
                         join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.')+'\n<default>'
                     result_ht += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             elif meas_level == 'ord':
-                result_ht += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n\n<default>'
+                result_ht += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n<default>'
                 result_ht += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             else:  # nominal variables
                 if len(set(data.values.ravel())) == 2:
