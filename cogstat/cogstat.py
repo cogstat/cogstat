@@ -694,90 +694,90 @@ class CogStatData:
         population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
 
         # 4. Hypotheses testing
-        result = '<h4>' + _('Population properties') + '</h4>'
+        result = '<h4>' + _('Population properties') + '</h4>\n'
 
-        result += '<decision>' + _('Hypothesis testing: ')
+        result_ht = '<decision>' + _('Hypothesis testing: ')
         if meas_level in ['int', 'unk']:
-            result += _('Testing if the means are the same.') + '<default>'
+            result_ht += _('Testing if the means are the same.') + '<default>'
         elif meas_level == 'ord':
-            result += _('Testing if the medians are the same.') + '<default>'
+            result_ht += _('Testing if the medians are the same.') + '<default>'
         elif meas_level == 'nom':
-            result += _('Testing if the distributions are the same.') + '<default>'
+            result_ht += _('Testing if the distributions are the same.') + '<default>'
 
         if len(var_names) < 2:
-            result += _('At least two variables required.')
+            result_ht += _('At least two variables required.')
         elif len(var_names) == 2:
-            result += '<decision>'+_('Two variables. ')+'<default>'
+            result_ht += '<decision>'+_('Two variables. ')+'<default>'
 
             if meas_level == 'int':
-                result += '<decision>'+_('Interval variables.')+' >> '+_('Choosing paired t-test or paired Wilcoxon test depending on the assumptions.')+'\n<default>'
+                result_ht += '<decision>'+_('Interval variables.')+' >> '+_('Choosing paired t-test or paired Wilcoxon test depending on the assumptions.')+'\n<default>'
 
-                result += '<decision>'+_('Checking for normality.')+'\n<default>'
+                result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
                 non_normal_vars = []
                 temp_diff_var_name = 'Difference of %s and %s' %tuple(var_names)
                 data[temp_diff_var_name] = data[var_names[0]] - data[var_names[1]]
                 norm, text_result, graph_dummy, graph2_dummy = \
                     cs_stat.normality_test(self.data_frame, {temp_diff_var_name:'int'}, temp_diff_var_name, alt_data=data)
-                result += text_result
+                result_ht += text_result
                 if not norm:
                     non_normal_vars.append(var_name)
 
                 if not non_normal_vars:
-                    result += '<decision>'+_('Normality is not violated. >> Running paired t-test.')+'\n<default>'
-                    result += cs_stat.paired_t_test(self.data_frame, var_names)
+                    result_ht += '<decision>'+_('Normality is not violated. >> Running paired t-test.')+'\n<default>'
+                    result_ht += cs_stat.paired_t_test(self.data_frame, var_names)
                 else:  # TODO should the descriptive be the mean or the median?
-                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
+                    result_ht += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
                         join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.')+'\n<default>'
-                    result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
+                    result_ht += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             elif meas_level == 'ord':
-                result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n\n<default>'
-                result += cs_stat.paired_wilcox_test(self.data_frame, var_names)
+                result_ht += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n\n<default>'
+                result_ht += cs_stat.paired_wilcox_test(self.data_frame, var_names)
             else:  # nominal variables
                 if len(set(data.values.ravel())) == 2:
-                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> ' + _('Running McNemar test.') \
+                    result_ht += '<decision>'+_('Nominal dichotomous variables.')+' >> ' + _('Running McNemar test.') \
                               + '\n<default>'
-                    result += cs_stat.mcnemar_test(self.data_frame, var_names)
+                    result_ht += cs_stat.mcnemar_test(self.data_frame, var_names)
                 else:
-                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' + \
+                    result_ht += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' + \
                               _('Sorry, not implemented yet.')+'\n<default>'
         else:
-            result += '<decision>'+_('More than two variables. ')+'<default>'
+            result_ht += '<decision>'+_('More than two variables. ')+'<default>'
             if meas_level == 'int':
-                result += '<decision>'+_('Interval variables.')+' >> ' + \
+                result_ht += '<decision>'+_('Interval variables.')+' >> ' + \
                           _('Choosing repeated measures ANOVA or Friedman test depending on the assumptions.') + \
                           '\n<default>'
 
-                result += '<decision>'+_('Checking for normality.')+'\n<default>'
+                result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
                 non_normal_vars = []
                 for var_name in var_names:
                     norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame,
                                                                                           self.data_measlevs, var_name,
                                                                                           alt_data=data)
-                    result += text_result
+                    result_ht += text_result
                     if not norm:
                         non_normal_vars.append(var_name)
 
                 if not non_normal_vars:
-                    result += '<decision>'+_('Normality is not violated.') + ' >> ' + \
+                    result_ht += '<decision>'+_('Normality is not violated.') + ' >> ' + \
                               _('Running repeated measures one-way ANOVA.')+'\n<default>'
-                    result += cs_stat.repeated_measures_anova(self.data_frame, var_names)
+                    result_ht += cs_stat.repeated_measures_anova(self.data_frame, var_names)
                 else:
-                    result += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
+                    result_ht += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
                         join(non_normal_vars) + ' >> ' + _('Running Friedman test.')+'\n<default>'
-                    result += cs_stat.friedman_test(self.data_frame, var_names)
+                    result_ht += cs_stat.friedman_test(self.data_frame, var_names)
             elif meas_level == 'ord':
-                result += '<decision>'+_('Ordinal variables.')+' >> '+_('Running Friedman test.')+'\n<default>'
-                result += cs_stat.friedman_test(self.data_frame, var_names)
+                result_ht += '<decision>'+_('Ordinal variables.')+' >> '+_('Running Friedman test.')+'\n<default>'
+                result_ht += cs_stat.friedman_test(self.data_frame, var_names)
             else:
                 if len(set(data.values.ravel())) == 2:
-                    result += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_("Running Cochran's Q test.") + \
+                    result_ht += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_("Running Cochran's Q test.") + \
                               '\n<default>'
-                    result += cs_stat.cochran_q_test(self.data_frame, var_names)
+                    result_ht += cs_stat.cochran_q_test(self.data_frame, var_names)
                 else:
-                    result += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' \
+                    result_ht += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' \
                               + _('Sorry, not implemented yet.')+'\n<default>'
 
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
 
     def compare_groups(self, var_name, grouping_variable):
         """Compare groups.
