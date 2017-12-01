@@ -8,9 +8,9 @@ Upcoming release
 - Standard deviation in Explore variable
     - :warning: SD of the sample is not population estimation anymore
     - Add population estimation of the SD
-- In Explore variable for ordinal variables only minimum and maximum is calculated instead of the range
+- In Explore variable, for ordinal variables only minimum and maximum is calculated instead of the range
 - Population estimations are displayed in tables
-- Add Mac support (thanks to Magdolna Kovács)
+- Mac support (thanks to Magdolna Kovács)
 
 ## Fixes
 - Localization fixes
