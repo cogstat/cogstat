@@ -860,11 +860,11 @@ class CogStatData:
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:
-                result_ht += _('Testing if the means are the same.') + '<default>'
+                result_ht += _('Testing if the means are the same.') + '<default>\n'
             elif meas_level == 'ord':
-                result_ht += _('Testing if the medians are the same.') + '<default>'
+                result_ht += _('Testing if the medians are the same.') + '<default>\n'
             elif meas_level == 'nom':
-                result_ht += _('Testing if the distributions are the same.') + '<default>'
+                result_ht += _('Testing if the distributions are the same.') + '<default>\n'
 
             result_ht += '<decision>'+_('One grouping variable. ')+'<default>'
             if len(group_levels) == 1:
@@ -929,7 +929,7 @@ class CogStatData:
                             result_ht += cs_stat.welch_t_test(self.data_frame, var_names[0], groups[0])
 
                 elif meas_level == 'ord':
-                    result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n\n'
+                    result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n'
                     result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
                     result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+' '+'<default>\n'
@@ -975,7 +975,7 @@ class CogStatData:
 
                 elif meas_level == 'ord':
                     result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Kruskal-Wallis test.') + \
-                              '<default>\n\n<default>'
+                              '<default>\n<default>'
                     result_ht += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
                     result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
