@@ -806,10 +806,9 @@ class CogStatData:
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
             group_levels = list(set(data[groups[0]]))
             # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
-            # TODO remove index, and localize row indexes
-            pdf_result = pd.DataFrame(columns=group_levels, index=['N of valid cases', 'N of invalid cases'])
-            pdf_result.loc['N of valid cases'] = [sum(data[groups[0]] == group) for group in group_levels]
-            pdf_result.loc['N of invalid cases'] = [sum(self.data_frame[groups[0]] == group) -
+            pdf_result = pd.DataFrame(columns=group_levels)
+            pdf_result.loc[_('N of valid cases')] = [sum(data[groups[0]] == group) for group in group_levels]
+            pdf_result.loc[_('N of invalid cases')] = [sum(self.data_frame[groups[0]] == group) -
                                                     sum(data[groups[0]] == group) for group in group_levels]
 #            for group in group_levels:
 #                valid_n = sum(data[groups[0]]==group)
