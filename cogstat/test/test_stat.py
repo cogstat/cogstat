@@ -94,7 +94,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of valid cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
         self.assertTrue('Median: 2.8545' in result[7])
-        self.assertTrue('Minimum and maximum: -2.803, 9.981' in result[7])
+        self.assertTrue('Minimum and maximum: -2.803; 9.981' in result[7])
 
         # Wilcoxon signed-rank test
         self.assertTrue('T</i> = 145' in result[11])
