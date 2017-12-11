@@ -397,7 +397,7 @@ class CogStatData:
         plt.close('all')
         meas_level, unknown_type = self._meas_lev_vars([var_name])
         result_list = [csc.heading_style_begin + _('Explore variable')+csc.heading_style_end]
-        result_list.append(_('Exploring variable: '+var_name+'\n'))
+        result_list.append(_('Exploring variable: ')+var_name+'\n')
         if self._filtering_status():
             result_list[-1] += self._filtering_status()
 
