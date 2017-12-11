@@ -21,7 +21,7 @@ because that is the job of that specific module.
 the data for validation no additional rounding happens.
 """
 
-cs.output_type = 'do not format'
+#cs.output_type = 'do not format'
 
 np.random.seed(555)
 # https://docs.scipy.org/doc/numpy/reference/routines.random.html
