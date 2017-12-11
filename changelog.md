@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
-Upcoming release
+1.6.0 (11 December 2017)
 =================
 
 ## New features
@@ -10,6 +10,7 @@ Upcoming release
     - Add population estimation of the SD
 - In Explore variable, for ordinal variables only minimum and maximum is calculated instead of the range
 - Population estimations are displayed in tables
+- More coherent output for hypothesis tests
 - Mac support (thanks to Magdolna Kovács)
 
 ## Fixes
