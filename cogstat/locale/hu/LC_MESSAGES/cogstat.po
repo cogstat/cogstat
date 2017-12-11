@@ -852,7 +852,7 @@ msgstr "Érvénytelen esetek: %g\n"
 
 #: .././cogstat.py:868
 msgid "One grouping variable. "
-msgstr "Egy csoportosító változó."
+msgstr "Egy csoportosító változó. "
 
 #: .././cogstat.py:870
 msgid "There is only one group. At least two groups required."
@@ -860,7 +860,7 @@ msgstr "Csak egy csoport van. Legalább két csoport szükséges."
 
 #: .././cogstat.py:874
 msgid "Two groups. "
-msgstr "Két csoport."
+msgstr "Két csoport. "
 
 #: .././cogstat.py:878
 msgid "One group contains only one case. >> Choosing modified t-test."
