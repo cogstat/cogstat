@@ -1,1 +1,0 @@
-/media/attila/KINGSTON/Kutatás/Módszertan/Statisztika/cogstat/win_build/CogStat.iss
