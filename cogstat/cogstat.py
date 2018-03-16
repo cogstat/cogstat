@@ -428,7 +428,7 @@ class CogStatData:
             # TODO boxplot also
 
         # Population properties
-        text_result = '<h4>\n'+_('Populations properties')+'</h4>\n'
+        text_result = '<h4>\n'+_('Population properties')+'</h4>\n'
 
         # Normality
         if meas_level in ['int', 'unk']:
