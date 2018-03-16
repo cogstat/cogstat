@@ -84,7 +84,7 @@ class CogStatData:
                                 #  since we're in an __init__ method, so store the message here
         self.filtering_status = None
 
-        self._import_data(data=data, param_measurement_level=measurement_level)
+        self._import_data(data=data, param_measurement_level=measurement_level.lower())
 
     ### Import and handle the data ###
 
@@ -184,7 +184,7 @@ class CogStatData:
                     meas_row = f.next()
                     if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
                             and set(meas_row) != set(['']):
-                        file_measurement_level = ' '.join(meas_row)
+                        file_measurement_level = ' '.join(meas_row).lower()
                     skiprows = [1] if file_measurement_level else None
 
                     # Read the file
@@ -201,7 +201,7 @@ class CogStatData:
                 if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
                         and set(meas_row) != set(['']):
                     meas_row = [u'unk' if item == u'' else item for item in meas_row]  # missing level ('') means 'unk'
-                    file_measurement_level = ' '.join(meas_row)
+                    file_measurement_level = ' '.join(meas_row).lower()
                 skiprows = [1] if file_measurement_level else None
 
                 # Read the clipboard
