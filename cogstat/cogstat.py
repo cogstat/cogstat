@@ -532,9 +532,9 @@ class CogStatData:
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[[x, y]].dropna()
         valid_n = len(data)
-        invalid_n = len(self.data_frame[[x, y]]) - valid_n
+        missing_n = len(self.data_frame[[x, y]]) - valid_n
         raw_result += _('N of valid pairs: %g') % valid_n + '\n'
-        raw_result += _('N of invalid pairs: %g') % invalid_n + '\n'
+        raw_result += _('N of missing pairs: %g') % missing_n + '\n'
 
         # Raw data chart
         temp_raw_result, raw_graph = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
@@ -657,9 +657,9 @@ class CogStatData:
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
         valid_n = len(data)
-        invalid_n = len(self.data_frame[var_names])-valid_n
+        missing_n = len(self.data_frame[var_names])-valid_n
         raw_result += _('N of valid cases: %g\n') % valid_n
-        raw_result += _('N of invalid cases: %g\n') % invalid_n
+        raw_result += _('N of missing cases: %g\n') % missing_n
 
         # Plot the raw data
         temp_raw_result, raw_graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame, raw_data=True)
@@ -808,17 +808,17 @@ class CogStatData:
             # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
             pdf_result = pd.DataFrame(columns=group_levels)
             pdf_result.loc[_('N of valid cases')] = [sum(data[groups[0]] == group) for group in group_levels]
-            pdf_result.loc[_('N of invalid cases')] = [sum(self.data_frame[groups[0]] == group) -
+            pdf_result.loc[_('N of missing cases')] = [sum(self.data_frame[groups[0]] == group) -
                                                     sum(data[groups[0]] == group) for group in group_levels]
 #            for group in group_levels:
 #                valid_n = sum(data[groups[0]]==group)
-#                invalid_n = sum(self.data_frame[groups[0]]==group)-valid_n
-#                raw_result += _(u'Group: %s, N of valid cases: %g, N of invalid cases: %g\n') %(group, valid_n, invalid_n)
+#                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
+#                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
             raw_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', '').\
                 replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
             valid_n = len(self.data_frame[groups[0]].dropna())
-            invalid_n = len(self.data_frame[groups[0]])-valid_n
-            raw_result += '\n\n'+_(u'N of invalid group cases: %g') % invalid_n +'\n'
+            missing_n = len(self.data_frame[groups[0]])-valid_n
+            raw_result += '\n\n'+_(u'N of missing group cases: %g') % missing_n +'\n'
 
             # Plot individual data
             temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,

@@ -107,7 +107,7 @@ class CogStatTestCase(unittest.TestCase):
         # Int variables
         result = data.explore_variable_pair('a', 'b')
         self.assertTrue('N of valid pairs: 30' in result[1])
-        self.assertTrue('N of invalid pairs: 0' in result[1])
+        self.assertTrue('N of missing pairs: 0' in result[1])
         self.assertTrue('-0.141' in result[5])
         self.assertTrue('[-0.477, 0.231]' in result[5])
         self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.141, <i>p</i> = 0.456" in result[6])
@@ -129,7 +129,7 @@ class CogStatTestCase(unittest.TestCase):
         # Nom variables
         result = data.explore_variable_pair('c', 'd')
         self.assertTrue('N of valid pairs: 30' in result[1])
-        self.assertTrue('N of invalid pairs: 0' in result[1])
+        self.assertTrue('N of missing pairs: 0' in result[1])
         # Cramer's V
         self.assertTrue('<sub>c</sub></i> = 0.372' in result[5])
         # Chi-square
@@ -142,7 +142,7 @@ class CogStatTestCase(unittest.TestCase):
         # 2 Int variables
         result = data.compare_variables(['a', 'e'])
         self.assertTrue('N of valid cases: 30' in result[1])
-        self.assertTrue('N of invalid cases: 0' in result[1])
+        self.assertTrue('N of missing cases: 0' in result[1])
         self.assertTrue('<td>3.1438</td>      <td>3.0502</td>' in result[3])
         self.assertTrue('<i>W</i> = 0.954, <i>p</i> = 0.215' in result[7])
         self.assertTrue('<i>t</i>(29) = 0.11, <i>p</i> = 0.913' in result[7])

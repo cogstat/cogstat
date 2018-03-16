@@ -220,8 +220,8 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
 
     text_result=''
     text_result += _(u'N of valid cases: %g') % len(data) + '\n'
-    invalid_cases = len(pdf[var_name])-len(data)
-    text_result += _(u'N of missing cases: %g') % invalid_cases + '\n'
+    missing_cases = len(pdf[var_name])-len(data)
+    text_result += _(u'N of missing cases: %g') % missing_cases + '\n'
 
     if data_measlevs[var_name] == 'ord':
         data_value = pdf[var_name].dropna()
