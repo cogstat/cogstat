@@ -9,6 +9,8 @@ import webbrowser
 import gettext
 import logging
 import traceback
+from urllib2 import urlopen
+from distutils.version import LooseVersion
 
 import cogstat
 import cogstat_dialogs
@@ -56,6 +58,8 @@ class StatMainWindow(QtGui.QMainWindow):
 
         cogstat.output_type = 'gui'  # For some GUI specific formatting
 
+        self.check_for_update()
+
         # Only for testing
 #        self.open_file('sample_data/example2.csv'); #self.compare_groups()
 #        self.open_file('test/data/test_data.csv')
@@ -73,6 +77,14 @@ class StatMainWindow(QtGui.QMainWindow):
 #        self.compare_groups(['X'], ['W'])
 #        self.save_result_as()
 #        self.save_result_as(filename='pdf_test.pdf')
+
+    def check_for_update(self):
+        """Check for update, and if update is available, display a message box with the download link."""
+        latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version').read()
+        if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
+            QtGui.QMessageBox.about(self, _('Update available'),
+                                    _('New version is available.') + '<br><br>' +
+                                    _('You can download the new version<br>from the <a href = "%s">CogStat download page</a>.')%'http://www.cogstat.org/download.html')
 
     def _init_UI(self):
         self.resize(800, 600)
