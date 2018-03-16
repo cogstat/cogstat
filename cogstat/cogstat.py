@@ -397,7 +397,7 @@ class CogStatData:
         plt.close('all')
         meas_level, unknown_type = self._meas_lev_vars([var_name])
         result_list = [csc.heading_style_begin + _('Explore variable')+csc.heading_style_end]
-        result_list.append(_('Exploring variable: ')+var_name+'\n')
+        result_list.append(_('Exploring variable: ') + var_name + ' (%s)\n'%meas_level)
         if self._filtering_status():
             result_list[-1] += self._filtering_status()
 
@@ -521,7 +521,7 @@ class CogStatData:
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
         title = csc.heading_style_begin + _('Explore variable pair') + csc.heading_style_end
-        raw_result = _(u'Exploring variable pair: ') + x + u', ' + y + '\n'
+        raw_result = _(u'Exploring variable pair: ') + x + u' (%s), '%self.data_measlevs[x] + y + ' (%s)\n'%self.data_measlevs[y]
         raw_result += self._filtering_status()
         if unknown_var:
             raw_result += '<decision>'+warn_unknown_variable+'\n<default>'
@@ -637,7 +637,8 @@ class CogStatData:
         """
         plt.close('all')
         title = csc.heading_style_begin + _('Compare variables') + csc.heading_style_end
-        raw_result = '<default>'+_(u'Variables to compare: ') + u', '.join(x for x in var_names) + '\n'
+        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+        raw_result = '<default>'+_(u'Variables to compare: ') + u', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
         raw_result += self._filtering_status()
 
         # Check if the variables have the same measurement levels
@@ -791,8 +792,10 @@ class CogStatData:
         groups = [grouping_variable]
         # TODO check if there is only one dep.var.
         title = csc.heading_style_begin + _('Compare groups') + csc.heading_style_end
-        raw_result = '<default>'+_(u'Dependent variable: ') + u', '.join(x for x in var_names) + u'. ' + \
-                       _(u'Group(s): ') + u', '.join(x for x in groups) + '\n'
+        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+        group_meas_levels = [self.data_measlevs[group] for group in groups]
+        raw_result = '<default>'+_(u'Dependent variable: ') + u', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + u'. ' + \
+                       _(u'Group(s): ') + u', '.join('%s (%s)'%(var, meas) for var, meas in zip(groups, group_meas_levels)) + '\n'
         raw_result += self._filtering_status()
 
         # level of measurement of the variables
