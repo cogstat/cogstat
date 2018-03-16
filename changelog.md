@@ -6,6 +6,10 @@ Upcoming release
 
 ## New features
 - Update checker
+- Smaller refinements in the output
+
+## Fixes
+- Various bugfixes
 
 1.6.0 (11 December 2017)
 =================
