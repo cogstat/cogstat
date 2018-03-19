@@ -262,6 +262,11 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         plt.bar(locs, freqs, 0.9, color=csc.fig_col)
         plt.xticks(locs+0.9/2., _wrap_labels(values))
         plt.ylabel(_plt('Frequency'))
+        ax = plt.gca()
+        ax.set_frame_on(False)
+        ax.tick_params(top=False, right=False)
+        ax.axhline(y=ax.axes.get_ylim()[0]+0.01, dashes=[2, 12], color='black')
+        ax.axvline(x=ax.axes.get_xlim()[0], color='black')
     return text_result, plt.gcf()
 
 def frequencies(pdf, var_name, meas_level):
