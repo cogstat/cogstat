@@ -408,7 +408,7 @@ class CogStatData:
         result_list.append(image)
         if frequencies:
             text_result = '<b>'+_('Frequencies')+'</b>\n'
-            text_result += cs_stat.frequencies(self.data_frame, var_name)
+            text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level)
             result_list.append(text_result)
 
         # Sample properties

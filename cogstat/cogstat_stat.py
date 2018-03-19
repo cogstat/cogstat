@@ -264,11 +264,12 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         plt.ylabel(_plt('Frequency'))
     return text_result, plt.gcf()
 
-def frequencies(pdf, var_name):
+def frequencies(pdf, var_name, meas_level):
     """Frequencies
     
     arguments:
     var_name (str): name of the variable
+    meas_level: measurement level of the variable
     """
 
     def as_percent(v, precision='0.1'):
@@ -295,8 +296,15 @@ def frequencies(pdf, var_name):
         rel_freq = freq[i][1]/total_count
         running_total += freq[i][1]
         running_rel_total += rel_freq
-        freq[i].extend([rel_freq, running_total, running_rel_total])
-    text_result = table_style + pd.DataFrame(freq, columns=[_('Value'), _('Freq'), _('Rel freq'), _('Cum freq'), _('Cum rel freq')]).\
+        if meas_level == 'nom':
+            freq[i].extend([rel_freq])
+        else:
+            freq[i].extend([rel_freq, running_total, running_rel_total])
+    if meas_level == 'nom':
+        column_names = [_('Value'), _('Freq'), _('Rel freq')]
+    else:
+        column_names = [_('Value'), _('Freq'), _('Rel freq'), _('Cum freq'), _('Cum rel freq')]
+    text_result = table_style + pd.DataFrame(freq, columns=column_names).\
         to_html(formatters={_('Rel freq'): as_percent, _('Cum rel freq'): as_percent}, bold_rows=False, index=False).\
         replace('\n', '').\
         replace('border="1"', 'style="border:1px solid black;"')

@@ -6,7 +6,7 @@ Upcoming release
 
 ## New features
 - Update checker
-- Smaller refinements in the output
+- Smaller output refinements
 
 ## Fixes
 - Various bugfixes
