@@ -139,7 +139,7 @@ class StatMainWindow(QtGui.QMainWindow):
         # Enable these commands only when active_data is available
         self.analysis_commands = [_('&Save data'), _('Save data &as'), _('&Display data'), _('Display data &briefly'),
                                   _('&Set variable properties'), _('Pivot &table'), _('&Explore variable'),
-                                  _('Explore variable &pair'), _('Compare va&riables'), _('Compare &groups'),
+                                  _('Explore relation of variable &pair'), _('Compare repeated measures va&riables'), _('Compare &groups'),
                                   _('&Compare groups and variables')]
 
         # Create menus and commands
