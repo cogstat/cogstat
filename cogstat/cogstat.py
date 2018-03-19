@@ -520,7 +520,7 @@ class CogStatData:
         """
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
-        title = csc.heading_style_begin + _('Explore variable pair') + csc.heading_style_end
+        title = csc.heading_style_begin + _('Explore relation of variable pair') + csc.heading_style_end
         raw_result = _(u'Exploring variable pair: ') + x + u' (%s), '%self.data_measlevs[x] + y + ' (%s)\n'%self.data_measlevs[y]
         raw_result += self._filtering_status()
         if unknown_var:
@@ -636,7 +636,7 @@ class CogStatData:
         :return:
         """
         plt.close('all')
-        title = csc.heading_style_begin + _('Compare variables') + csc.heading_style_end
+        title = csc.heading_style_begin + _('Compare repeated measures variables') + csc.heading_style_end
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         raw_result = '<default>'+_(u'Variables to compare: ') + u', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
         raw_result += self._filtering_status()
