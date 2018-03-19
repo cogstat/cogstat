@@ -80,11 +80,14 @@ class StatMainWindow(QtGui.QMainWindow):
 
     def check_for_update(self):
         """Check for update, and if update is available, display a message box with the download link."""
-        latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version').read()
-        if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
-            QtGui.QMessageBox.about(self, _('Update available'),
-                                    _('New version is available.') + '<br><br>' +
-                                    _('You can download the new version<br>from the <a href = "%s">CogStat download page</a>.')%'http://www.cogstat.org/download.html')
+        try:
+            latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version').read()
+            if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
+                QtGui.QMessageBox.about(self, _('Update available'),
+                                        _('New version is available.') + '<br><br>' +
+                                        _('You can download the new version<br>from the <a href = "%s">CogStat download page</a>.')%'http://www.cogstat.org/download.html')
+        except:
+            print "Couldn't check for update"
 
     def _init_UI(self):
         self.resize(800, 600)
