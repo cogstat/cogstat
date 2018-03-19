@@ -6,7 +6,7 @@ Upcoming release
 
 ## New features
 - Update checker
-- Dotted axis for nominal histogram
+- Dotted axis for nominal variables
 - Smaller output refinements
 
 ## Fixes

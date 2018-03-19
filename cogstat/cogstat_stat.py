@@ -786,6 +786,11 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             ax.set_xlabel(x)
             ax.set_ylabel(y)
             plt.title(_plt('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
+            ax = plt.gca()
+            ax.set_frame_on(False)
+            ax.tick_params(top=False, right=False)
+            ax.axhline(y=ax.axes.get_ylim()[0] + 0.01, dashes=[2, 12], color='black')
+            ax.axvline(x=ax.axes.get_xlim()[0] + 0.01, dashes=[2, 12], color='black')
             try:
                 graph = plt.gcf()
             except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
@@ -860,6 +865,11 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
                 ax.set_xlabel(var_pair[1])
                 ax.set_ylabel(var_pair[0])
                 plt.title(_plt('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
+                ax = plt.gca()
+                ax.set_frame_on(False)
+                ax.tick_params(top=False, right=False)
+                ax.axhline(y=ax.axes.get_ylim()[0] + 0.01, dashes=[2, 12], color='black')
+                ax.axvline(x=ax.axes.get_xlim()[0] + 0.01, dashes=[2, 12], color='black')
                 try:
                     graph.append(plt.gcf())
                 except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
@@ -1108,6 +1118,11 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ax.set_xlabel(groups[0])
             ax.set_ylabel(var_names[0])
             plt.title(_plt('Mosaic plot of the groups'), fontsize=csc.graph_font_size)
+            ax = plt.gca()
+            ax.set_frame_on(False)
+            ax.tick_params(top=False, right=False)
+            ax.axhline(y=ax.axes.get_ylim()[0] + 0.01, dashes=[2, 12], color='black')
+            ax.axvline(x=ax.axes.get_xlim()[0] + 0.01, dashes=[2, 12], color='black')
             try:
                 graph = fig
             except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
