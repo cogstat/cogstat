@@ -622,13 +622,13 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     return text_result, image
 
 
-def print_var_stats(pdf, var_names, group_names=None, stat=None):
+def print_var_stats(pdf, var_names, groups=None, stat=None):
     """
     Computes descriptive stats for variables and/or groups.
 
     arguments:
     var_names: list of variable names to use
-    group_names: list of grouping variable names
+    groups: list of grouping variable names
     stat: can be 'mean, 'median'
     
     Now it only handles a single dependent variable and a single grouping variable.
@@ -637,7 +637,7 @@ def print_var_stats(pdf, var_names, group_names=None, stat=None):
     stat_name = {'mean': _('Mean'), 'median': _('Median')}
     if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
          raise RuntimeError('only numerical variables can be used in print_var_stats')
-    if not group_names: # compute only variable statistics
+    if not groups: # compute only variable statistics
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names, index=[stat_name[stat]])
@@ -655,7 +655,7 @@ def print_var_stats(pdf, var_names, group_names=None, stat=None):
     else:  # there is grouping variable
         # TODO now it only handles a single dependent variable and a single grouping variable
         # missing groups and values will be dropped
-        groups, grouped_data = _split_into_groups(pdf, var_names[0], group_names[0])
+        groups, grouped_data = _split_into_groups(pdf, var_names[0], groups[0])
         pdf_result = pd.DataFrame(columns=groups, index=[stat_name[stat]])
         if stat == 'mean':
             text_result += _(u'Means for the groups')
