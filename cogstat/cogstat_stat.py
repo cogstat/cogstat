@@ -634,9 +634,12 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
     
     Now it only handles a single dependent variable and a single grouping variable.
     """
-    text_result = u''
     stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin':_('Minimum'),
-                  'amax':_('Maximum')}
+                  'amax':_('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile':_('Upper quartile')}
+    np.lower_quartile = lambda x: np.percentile(x, 25)
+    np.upper_quartile = lambda x: np.percentile(x, 75)
+
+    text_result = u''
     if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
          raise RuntimeError('only numerical variables can be used in print_var_stats')
     if not groups:  # compute only variable statistics
