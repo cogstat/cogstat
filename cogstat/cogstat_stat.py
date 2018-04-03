@@ -622,62 +622,53 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     return text_result, image
 
 
-def print_var_stats(pdf, var_names, groups=None, stat=None):
+def print_var_stats(pdf, var_names, groups=None, stats=[]):
     """
     Computes descriptive stats for variables and/or groups.
 
     arguments:
     var_names: list of variable names to use
     groups: list of grouping variable names
-    stat: can be 'mean, 'median'
+    stats: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in the
+            stat_names list
     
     Now it only handles a single dependent variable and a single grouping variable.
     """
     text_result = u''
-    stat_name = {'mean': _('Mean'), 'median': _('Median')}
+    stat_names = {'mean': _('Mean'), 'median': _('Median')}
     if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
          raise RuntimeError('only numerical variables can be used in print_var_stats')
-    if not groups: # compute only variable statistics
+    if not groups:  # compute only variable statistics
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
-        pdf_result = pd.DataFrame(columns=var_names, index=[stat_name[stat]])
-        if stat == 'mean':
-            text_result += _(u'Means for the variables')
-        elif stat == 'median':
-            text_result += _(u'Medians for the variables')
+        pdf_result = pd.DataFrame(columns=var_names)
+        text_result += _(u'Descriptives for the variables')
         for var_name in var_names:
             prec = cs_util.precision(data[var_name])+1
-            if stat == 'mean':
-                pdf_result.loc[stat_name[stat], var_name] = (u'%0.*f') % (prec, np.mean(data[var_name].dropna()))
-            elif stat == 'median':
-                pdf_result.loc[stat_name[stat], var_name] = (u'%0.*f') % (prec, np.median(data[var_name].dropna()))
-        text_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
-    else:  # there is grouping variable
+            for stat in stats:
+                pdf_result.loc[stat_names[stat], var_name] = u'%0.*f' % \
+                                                             (prec, getattr(np, stat)(data[var_name].dropna()))
+    else:  # there is a grouping variable
         # TODO now it only handles a single dependent variable and a single grouping variable
         # missing groups and values will be dropped
         groups, grouped_data = _split_into_groups(pdf, var_names[0], groups[0])
-        pdf_result = pd.DataFrame(columns=groups, index=[stat_name[stat]])
-        if stat == 'mean':
-            text_result += _(u'Means for the groups')
-            # Not sure if the precision can be controlled per cell with this method;
-            # Instead we make a pandas frame with str cells
-#            pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)
-#            text_result += pdf_result.T.to_html().replace('\n','')
-        elif stat == 'median':
-            text_result += _(u'Medians for the groups')
+        pdf_result = pd.DataFrame(columns=groups)
+        text_result += _(u'Descriptives for the groups')
+        # Not sure if the precision can be controlled per cell with this method;
+        # Instead we make a pandas frame with str cells
+#        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)
+#        text_result += pdf_result.T.to_html().replace('\n','')
         for group_label, group_data in zip(groups, grouped_data):
             if len(group_data):
-                prec = cs_util.precision(group_data)+1
-                if stat == 'mean':
-                    pdf_result.loc[stat_name[stat], group_label] = (u'%0.*f') %(prec, np.mean(group_data.dropna()))
-                elif stat == 'median':
-                    pdf_result.loc[stat_name[stat], group_label] = (u'%0.*f') %(prec, np.median(group_data.dropna()))
+                prec = cs_util.precision(group_data) + 1
+                for stat in stats:
+                    pdf_result.loc[stat_names[stat], group_label] = u'%0.*f' % \
+                                                                    (prec, getattr(np, stat)(group_data.dropna()))
             else:
                 text_result += _('No data')
-                pdf_result.loc[stat_name[stat], group_label] = _('No data')
-        text_result += table_style + pdf_result.to_html(bold_rows=False).\
-            replace('\n', '').\
-            replace('border="1"', 'style="border:1px solid black;"')
+                pdf_result.loc[stat_names[stats], group_label] = _('No data')
+    text_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', '').\
+        replace('border="1"', 'style="border:1px solid black;"')
     return text_result
 
 

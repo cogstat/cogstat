@@ -680,9 +680,9 @@ class CogStatData:
         sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
         if meas_level in ['int', 'unk']:
-            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, stat='mean')
+            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, stats=['mean'])
         elif meas_level == 'ord':
-            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, stat='median')
+            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, stats=['median'])
         elif meas_level == 'nom':
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
@@ -845,10 +845,10 @@ class CogStatData:
 
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                                        stat='mean')
+                                                        stats=['mean'])
             elif meas_level == 'ord':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                                        stat='median')
+                                                        stats=['median'])
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
                 sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
