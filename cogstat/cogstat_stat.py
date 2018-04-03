@@ -636,6 +636,7 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
     """
     stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin':_('Minimum'),
                   'amax':_('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile':_('Upper quartile')}
+    # Create these functions in numpy namespace to enable simple getattr call of them below
     np.lower_quartile = lambda x: np.percentile(x, 25)
     np.upper_quartile = lambda x: np.percentile(x, 75)
 
