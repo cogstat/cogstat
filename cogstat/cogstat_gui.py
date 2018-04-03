@@ -525,7 +525,7 @@ class StatMainWindow(QtGui.QMainWindow):
                 try:
                     self.analysis_results.append(GuiResultPackage())
                     self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-                    result_list = self.active_data.compare_groups(var_name, groups[0])
+                    result_list = self.active_data.compare_groups(var_name, groups)
                     self.analysis_results[-1].add_output(result_list)
                     self._print_to_output_pane()
                 except:

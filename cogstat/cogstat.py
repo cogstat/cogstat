@@ -784,12 +784,12 @@ class CogStatData:
         """Compare groups.
 
         :param var_name: name of the dependent variables (str)
-        :param grouping_variable: name of grouping variable (str)
+        :param grouping_variable: list of names of grouping variables (list of str)
         :return:
         """
         plt.close('all')
         var_names = [var_name]
-        groups = [grouping_variable]
+        groups = grouping_variable
         # TODO check if there is only one dep.var.
         title = csc.heading_style_begin + _('Compare groups') + csc.heading_style_end
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
