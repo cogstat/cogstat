@@ -62,7 +62,7 @@ class Ui_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(_translate("Dialog", "Explore variable pairs", None))
+        Dialog.setWindowTitle(_translate("Dialog", "Explore relation of variable pairs", None))
         self.label.setText(_translate("Dialog", "Available variables", None))
         self.label_2.setText(_translate("Dialog", "Selected variables", None))
         self.addVar.setText(_translate("Dialog", "=>", None))

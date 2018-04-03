@@ -71,7 +71,7 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.removeVar, self.buttonBox)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(_translate("Dialog", "Compare variables", None))
+        Dialog.setWindowTitle(_translate("Dialog", "Compare repeated measures variables", None))
         self.addVar.setText(_translate("Dialog", "=>", None))
         self.label.setText(_translate("Dialog", "Available variables", None))
         self.removeVar.setText(_translate("Dialog", "<=", None))

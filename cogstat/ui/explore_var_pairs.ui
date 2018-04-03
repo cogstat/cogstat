@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Explore variable pairs</string>
+   <string>Explore relation of variable pairs</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="enabled">

@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Compare variables</string>
+   <string>Compare repeated measures variables</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
