@@ -7,6 +7,7 @@ Upcoming release
 ## New features
 - Update checker
 - Dotted axis for nominal variables
+- More numerical descriptives for repeated measures variable comparison and group comparison analyses
 - Smaller output refinements
 
 ## Fixes

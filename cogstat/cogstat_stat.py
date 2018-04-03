@@ -635,7 +635,8 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
     Now it only handles a single dependent variable and a single grouping variable.
     """
     text_result = u''
-    stat_names = {'mean': _('Mean'), 'median': _('Median')}
+    stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin':_('Minimum'),
+                  'amax':_('Maximum')}
     if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
          raise RuntimeError('only numerical variables can be used in print_var_stats')
     if not groups:  # compute only variable statistics
