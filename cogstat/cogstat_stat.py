@@ -1023,7 +1023,7 @@ def friedman_test(pdf, var_names):
 ### Compare groups ###
 
 
-def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, raw_data=False):
+def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, raw_data_only=False):
     """Display the boxplot of the groups with individual data or the mosaic plot
 
     :param data_frame:
@@ -1053,7 +1053,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         fig = plt.figure(facecolor=csc.bg_col)
         ax = fig.add_subplot(111)
         # Add boxplot
-        if not raw_data:
+        if not raw_data_only:
             box1 = ax.boxplot(variables)
             plt.setp(box1['boxes'], color=csc.fig_col_bold)
             plt.setp(box1['whiskers'], color=csc.fig_col_bold)
@@ -1077,7 +1077,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         plt.xlabel(groups[0])
         if meas_level == 'ord':
             plt.ylabel(_('Rank of %s') % var_names[0])
-            if raw_data:
+            if raw_data_only:
                 plt.title(_plt('Individual data of the rank data of the groups'), fontsize=csc.graph_font_size)
             else:
                 plt.title(_plt('Boxplot and individual data of the rank data of the groups'),
@@ -1098,7 +1098,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ax.axvline(x=ax.axes.get_xlim()[0], dashes=[8, 12], color='black')
         else:
             plt.ylabel(var_names[0])
-            if raw_data:
+            if raw_data_only:
                 plt.title(_plt('Individual data of the groups'), fontsize=csc.graph_font_size)
             else:
                 plt.title(_plt('Boxplot and individual data of the groups'), fontsize=csc.graph_font_size)
