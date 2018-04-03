@@ -844,10 +844,10 @@ class CogStatData:
             sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
             if meas_level in ['int', 'unk']:
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=[groups[0]],
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
                                                         stat='mean')
             elif meas_level == 'ord':
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=[groups[0]],
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
                                                         stat='median')
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
