@@ -79,7 +79,9 @@ class StatMainWindow(QtGui.QMainWindow):
 #        self.save_result_as(filename='pdf_test.pdf')
 
     def check_for_update(self):
-        """Check for update, and if update is available, display a message box with the download link."""
+        """Check for update, and if update is available, display a message box with the download link.
+
+        The version number is available in a plain text file, at the appropriate web address."""
         try:
             latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version').read()
             if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
