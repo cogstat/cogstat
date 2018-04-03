@@ -825,7 +825,7 @@ class CogStatData:
 
             # Plot individual data
             temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
-                                                                group_levels, raw_data=True)
+                                                                  group_levels, raw_data_only=True)
             if temp_raw_result:
                 raw_result += temp_raw_result
 
