@@ -108,6 +108,41 @@ def _wrap_labels(labels):
         # TODO maybe for many lables use rotation, e.g., http://stackoverflow.com/questions/3464359/is-it-possible-to-wrap-the-text-of-xticks-in-matplotlib-in-python
     return wrapped_labels
 
+def _set_axis_measurement_level (ax, x_measurement_level, y_measurement_level):
+    """
+    Set the axes types of the graph acording to the measurement levels of the variables.
+    :param ax: ax object
+    :param x_measurement_type: str 'nom', 'ord' or 'int'
+    :param y_measurement_type: str 'nom', 'ord' or 'int'
+    :return: nothing, the ax object is modified in place
+    """
+
+    # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
+    ax.set_frame_on(False)
+    ax.tick_params(top=False, right=False)
+
+    ymin, ymax = ax.axes.get_ylim()
+    # for some reason when axhline is set to y=ymin, the line is invisible, so we correct this
+    # TODO is this a bug or do I miss something?
+    ymin_corr = ymin + (ymax-ymin) * 0.01
+    if x_measurement_level == 'int':
+        ax.axhline(y=ymin_corr, color='black')
+    elif x_measurement_level == 'ord':
+        ax.axhline(y=ymin_corr, dashes=[8, 12], color='black')
+    elif x_measurement_level == 'nom':
+        ax.axhline(y=ymin_corr, dashes=[2, 12], color='black')
+
+    xmin, xmax = ax.axes.get_xlim()
+    # for some reason when axvline is set to x=ymin, the line is invisible, so we correct this
+    # TODO is this a bug or do I miss something?
+    xmin_corr = xmin + (xmax-xmin) * 0.0
+    if y_measurement_level == 'int':
+        ax.axvline(x=xmin_corr, color='black')
+    elif y_measurement_level == 'ord':
+        ax.axvline(x=xmin_corr, dashes=[8, 12], color='black')
+    elif y_measurement_level == 'nom':
+        ax.axvline(x=xmin_corr, dashes=[2, 12], color='black')
+
 
 def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     """
@@ -248,10 +283,7 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
             # Create new tick labels, with the rank and the value of the corresponding rank
             ax.set_xticklabels(['%i\n(%s)' % (i, rank_values[i])
                                 if i in stats.rankdata(data) else '%i' % i for i in ax.get_xticks()])
-            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
-            ax.set_frame_on(False)
-            ax.axhline(y=ax.axes.get_ylim()[0]+0.1, dashes=[8, 12], color='black')
-            ax.axvline(x=ax.axes.get_xlim()[0], color='black')
+            _set_axis_measurement_level(ax, 'ord', 'nom')
     elif data_measlevs[var_name] in ['nom']:
         # For nominal variables the histogram is a frequency graph
         plt.figure(facecolor=csc.bg_col)
@@ -263,10 +295,7 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         plt.xticks(locs+0.9/2., _wrap_labels(values))
         plt.ylabel(_plt('Frequency'))
         ax = plt.gca()
-        ax.set_frame_on(False)
-        ax.tick_params(top=False, right=False)
-        ax.axhline(y=ax.axes.get_ylim()[0]+0.01, dashes=[2, 12], color='black')
-        ax.axvline(x=ax.axes.get_xlim()[0], color='black')
+        _set_axis_measurement_level(ax, 'nom', 'int')
     return text_result, plt.gcf()
 
 def frequencies(pdf, var_name, meas_level):
@@ -383,10 +412,7 @@ def histogram(pdf, data_measlevs, var_name):
             # Create new tick labels, with the rank and the value of the corresponding rank
             ax.set_xticklabels(['%i\n(%s)' % (i, rank_values[i])
                                 if i in stats.rankdata(data) else '%i' % i for i in ax.get_xticks()])
-            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
-            ax.set_frame_on(False)
-            ax.axhline(y=ax.axes.get_ylim()[0]+0.01, dashes=[8, 12], color='black')
-            ax.axvline(x=ax.axes.get_xlim()[0], color='black')
+            _set_axis_measurement_level(ax, 'ord', 'int')
         chart_result = plt.gcf()
     # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
     # is not repeated here
@@ -752,11 +778,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             except:  # for matplotlib before 1.5
                 ax.set_yticklabels(['%i\n(%s)' % (i, rank_values_y[i])
                                 if i in stats.rankdata(yvalues) else '%i' % i for i in ax.get_yticks()])
-
-            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
-            ax.set_frame_on(False)
-            ax.axhline(y=ax.axes.get_ylim()[0]+0.05, dashes=[8, 12], color='black')
-            ax.axvline(x=ax.axes.get_xlim()[0], dashes=[8, 12], color='black')
+            _set_axis_measurement_level(ax, 'ord', 'ord')
             # Display the labels
             plt.title(_plt('Scatterplot of the rank of the variables'), fontsize=csc.graph_font_size)
             ax.set_xlabel(_plt('Rank of %s') % x)
@@ -782,11 +804,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             ax.set_xlabel(x)
             ax.set_ylabel(y)
             plt.title(_plt('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
-            ax = plt.gca()
-            ax.set_frame_on(False)
-            ax.tick_params(top=False, right=False)
-            ax.axhline(y=ax.axes.get_ylim()[0] + 0.01, dashes=[2, 12], color='black')
-            ax.axvline(x=ax.axes.get_xlim()[0] + 0.01, dashes=[2, 12], color='black')
+            _set_axis_measurement_level(ax, 'nom', 'nom')
             try:
                 graph = plt.gcf()
             except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
@@ -861,11 +879,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
                 ax.set_xlabel(var_pair[1])
                 ax.set_ylabel(var_pair[0])
                 plt.title(_plt('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
-                ax = plt.gca()
-                ax.set_frame_on(False)
-                ax.tick_params(top=False, right=False)
-                ax.axhline(y=ax.axes.get_ylim()[0] + 0.01, dashes=[2, 12], color='black')
-                ax.axvline(x=ax.axes.get_xlim()[0] + 0.01, dashes=[2, 12], color='black')
+                _set_axis_measurement_level(ax, 'nom', 'nom')
                 try:
                     graph.append(plt.gcf())
                 except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
@@ -1087,11 +1101,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             except:  # for matplotlib before 1.5
                 ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
                                     if i in rank_values.keys() else '%i' % i for i in ax.get_yticks()])
-            # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
-            ax.set_frame_on(False)
-            #print ax.axes.get_ylim()
-            ax.axhline(y=ax.axes.get_ylim()[0]+0.1, color='black')
-            ax.axvline(x=ax.axes.get_xlim()[0], dashes=[8, 12], color='black')
+            _set_axis_measurement_level(ax, 'int', 'ord')
         else:
             plt.ylabel(var_names[0])
             if raw_data_only:
@@ -1114,11 +1124,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ax.set_xlabel(groups[0])
             ax.set_ylabel(var_names[0])
             plt.title(_plt('Mosaic plot of the groups'), fontsize=csc.graph_font_size)
-            ax = plt.gca()
-            ax.set_frame_on(False)
-            ax.tick_params(top=False, right=False)
-            ax.axhline(y=ax.axes.get_ylim()[0] + 0.01, dashes=[2, 12], color='black')
-            ax.axvline(x=ax.axes.get_xlim()[0] + 0.01, dashes=[2, 12], color='black')
+            _set_axis_measurement_level(ax, 'nom', 'nom')
             try:
                 graph = fig
             except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
