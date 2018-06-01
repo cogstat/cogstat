@@ -5,6 +5,7 @@ Upcoming release
 ================
 
 ## New features
+- Two-way group comparisons
 - Update checker
 - Dotted axis for nominal variables
 - More numerical descriptives for repeated measures variable comparison and group comparison analyses
