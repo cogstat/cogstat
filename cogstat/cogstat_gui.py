@@ -62,7 +62,7 @@ class StatMainWindow(QtGui.QMainWindow):
 
         # Only for testing
 #        self.open_file('sample_data/example2.csv'); #self.compare_groups()
-#        self.open_file('test/data/test_data.csv')
+        self.open_file('test/data/test_data.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable('X')
@@ -74,7 +74,7 @@ class StatMainWindow(QtGui.QMainWindow):
 #        self.compare_variables(['D', 'E', 'F'])
 #        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
 #        self.compare_groups(['dep_var'], ['group_var'])
-#        self.compare_groups(['A'], ['H'])
+        self.compare_groups(['A'], ['G', 'H'])
 #        self.compare_groups(['X'], ['W'])
 #        self.save_result_as()
 #        self.save_result_as(filename='pdf_test.pdf')

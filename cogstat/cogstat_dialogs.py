@@ -232,7 +232,7 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
         remove_item_from_list_widget(self.selected_listWidget)
 
     def add_group(self):
-        if self.group_listWidget.count() == 0:  # do this only if the list is empty
+        if self.group_listWidget.count() < 2:  # allow maximum two groping variables
             add_to_list_widget(self.source_listWidget, self.group_listWidget)
     def remove_group(self):
         remove_item_from_list_widget(self.group_listWidget)

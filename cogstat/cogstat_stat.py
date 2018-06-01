@@ -23,6 +23,7 @@ import textwrap
 from cStringIO import StringIO
 from distutils.version import LooseVersion
 from scipy import stats
+import itertools
 
 import cogstat_config as csc
 import cogstat_util as cs_util
@@ -84,25 +85,41 @@ def _split_into_groups(pdf, var_name, grouping_name):
     """
     arguments:
     var_name (str): name of the dependent var
-    grouping_name (list of str): name of the grouping var
+    grouping_name (list of str): name of the grouping var(s)
     
     return:
-    groups (list of str): list of group levels
+    level_combinations (list of str or list of tuples of str): list of group levels (for one grouping variable)
+        or list of tuples of group levels (for more than one grouping variable)
     grouped data: list of pandas series
     """
-    groups = list(set(pdf[grouping_name].dropna()))
-    grouped_data = [pdf.groupby(grouping_name).get_group(group)[var_name].dropna() for group in groups]
-    return groups, grouped_data
+
+    if isinstance(grouping_name, (str, unicode)):  # TODO list is required, fix the calls sending string
+        print 'correction'
+        grouping_name = [grouping_name]
+    # create a list of sets with the levels of all grouping variables
+    levels = [set(pdf[group]) for group in grouping_name]
+    # create all level combinations for the grouping variables
+    level_combinations = list(itertools.product(*levels))
+    grouped_data = [pdf[var_name][(pdf[grouping_name] == pd.Series({group: level for group, level in zip(grouping_name, group_level)})).all(axis=1)].dropna() for group_level in
+                 level_combinations]
+    return level_combinations, grouped_data
 
 
 def _wrap_labels(labels):
     """
+    labels: list of strings
+            or list of lists of single strings
     """
     label_n = len(labels)
     max_chars_in_row = 55
         # TODO need a more precise method; should depend on font size and graph size;
         # but cannot be a very precise method unless the font is fixed width
-    wrapped_labels = [textwrap.fill(unicode(label), max(5, max_chars_in_row/label_n)) for label in labels]
+    if isinstance(labels[0], (list, tuple)):
+        wrapped_labels = [textwrap.fill(' : '.join(map(unicode, label)), max(5, max_chars_in_row/label_n)) for label in
+                          labels]
+    else:
+        wrapped_labels = [textwrap.fill(unicode(label), max(5, max_chars_in_row / label_n)) for label in
+                          labels]
         # the width should not be smaller than a min value, here 5
         # use the unicode() to convert potentially numerical labels
         # TODO maybe for many lables use rotation, e.g., http://stackoverflow.com/questions/3464359/is-it-possible-to-wrap-the-text-of-xticks-in-matplotlib-in-python
@@ -657,11 +674,11 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
     groups: list of grouping variable names
     stats: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in the
             stat_names list
-    
+
     Now it only handles a single dependent variable and a single grouping variable.
     """
-    stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin':_('Minimum'),
-                  'amax':_('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile':_('Upper quartile')}
+    stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin': _('Minimum'),
+                  'amax': _('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile': _('Upper quartile')}
     # Create these functions in numpy namespace to enable simple getattr call of them below
     np.lower_quartile = lambda x: np.percentile(x, 25)
     np.upper_quartile = lambda x: np.percentile(x, 75)
@@ -669,7 +686,8 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
     text_result = u''
     if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
          raise RuntimeError('only numerical variables can be used in print_var_stats')
-    if not groups:  # compute only variable statistics
+    # Compute only variable statistics
+    if not groups:
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names)
@@ -679,11 +697,16 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
             for stat in stats:
                 pdf_result.loc[stat_names[stat], var_name] = u'%0.*f' % \
                                                              (prec, getattr(np, stat)(data[var_name].dropna()))
-    else:  # there is a grouping variable
-        # TODO now it only handles a single dependent variable and a single grouping variable
+    # There is at least one grouping variable
+    else:
         # missing groups and values will be dropped
-        groups, grouped_data = _split_into_groups(pdf, var_names[0], groups[0])
+
+        groups, grouped_data = _split_into_groups(pdf, var_names[0], groups)
+        groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
+
+#        groups, grouped_data = _split_into_groups(pdf, var_names[0], groups[0])
+#        pdf_result = pd.DataFrame(columns=groups)
         text_result += _(u'Descriptives for the groups')
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
@@ -1036,18 +1059,23 @@ def friedman_test(pdf, var_names):
 def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, raw_data_only=False):
     """Display the boxplot of the groups with individual data or the mosaic plot
 
-    :param data_frame:
+    :param data_frame: The data frame
     :param meas_level:
     :param var_names:
-    :param groups:
-    :param group_levels:
+    :param groups: List of names of the grouping variables
+    :param group_levels: List of lists or tuples with group levels (1 grouping variable) or group level combinations
+    (more than 1 grouping variables)
+    :param raw_data_only: Only the raw data are displayed
     :return:
     """
     intro_result = ''
-    if meas_level in ['int', 'ord']: # TODO 'unk'?
+    if meas_level in ['int', 'ord']:  # TODO 'unk'?
         # TODO is this OK for ordinal?
         # Get the data to display
-        variables = [data_frame[var_names[0]][data_frame[groups[0]]==group_value].dropna() for group_value in list(group_levels)]
+        # group the raw the data according to the level combinations
+        if len(groups) == 1:
+            group_levels = [[group_level] for group_level in group_levels]
+        variables = [data_frame[var_names[0]][(data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1)].dropna() for group_level in group_levels]
         if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
             index_ranks = dict(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables))))
             rank_values = dict(zip(stats.rankdata(pd.concat(variables)), pd.concat(variables)))
@@ -1083,8 +1111,8 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ax.scatter(np.ones(len(val_count))+var_i, val_count.index, val_count.values*5, color='#808080', marker='o')
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3) # TODO color should be used from ini file
         # Add labels
-        plt.xticks(range(1, len(group_levels)+1), _wrap_labels(list(group_levels)))
-        plt.xlabel(groups[0])
+        plt.xticks(range(1, len(group_levels)+1), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
+        plt.xlabel(' : '.join(groups))
         if meas_level == 'ord':
             plt.ylabel(_('Rank of %s') % var_names[0])
             if raw_data_only:
@@ -1113,15 +1141,15 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
             # workaround to draw mosaic plots with zero cell, see #1
             #fig, rects = mosaic(data_frame, [groups[0], var_names[0]])  # previous version
-            ct = pd.crosstab(data_frame[var_names[0]], data_frame[groups[0]]).sort_index(axis='index', ascending=False)\
-                .unstack()
+            ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()
+            #print ct
             if 0 in ct.values:
                 fig, rects = mosaic(ct+1e-9)
             else:
                 fig, rects = mosaic(ct)
             fig.set_facecolor(csc.bg_col)
             ax = plt.subplot(111)
-            ax.set_xlabel(groups[0])
+            ax.set_xlabel(' : '.join(groups))
             ax.set_ylabel(var_names[0])
             plt.title(_plt('Mosaic plot of the groups'), fontsize=csc.graph_font_size)
             _set_axis_measurement_level(ax, 'nom', 'nom')
@@ -1142,25 +1170,28 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
     """Draw means with CI for int vars, and medians for ord vars.
     """
     graph = None
+#    if len(groups) == 1:
+#        group_levels = [[group_level] for group_level in group_levels]
     if meas_level in ['int', 'unk']:
         # ord is excluded at the moment
         fig = plt.figure(facecolor=csc.bg_col)
         ax = fig.add_subplot(111)
         
-        pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0], groups[0]]]
+        pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
         if meas_level in ['int', 'unk']:
             plt.title(_plt('Means and 95% confidence intervals for the groups'), fontsize=csc.graph_font_size)
-            means = pdf.groupby(groups[0], sort=False).aggregate(np.mean)[var_names[0]]
-            cis = pdf.groupby(groups[0], sort=False).aggregate(confidence_interval_t)[var_names[0]]
-            ax.bar(range(len(means.values)), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)), align='center', 
-                   color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
+            means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]
+            cis = pdf.groupby(groups, sort=False).aggregate(confidence_interval_t)[var_names[0]]
+            ax.bar(range(len(means.values)), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)), align='center', color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
                    # pandas series is converted to np.array to be able to handle numeric indexes (group levels)
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the groups'), fontsize=csc.graph_font_size)
             medians = pdf.groupby(groups[0], sort=False).aggregate(np.median)[var_names[0]]
             ax.bar(range(len(medians.values)), medians.reindex(group_levels), 0.5, align='center', 
                    color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
-        plt.xticks(range(len(group_levels)), _wrap_labels(group_levels))
+        if len(groups) == 1:
+            group_levels = [[group_level] for group_level in group_levels]
+        plt.xticks(range(len(group_levels)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
         plt.xlabel(groups[0])
         plt.ylabel(var_names[0])
         graph = fig
@@ -1333,6 +1364,66 @@ def one_way_anova(pdf, var_name, grouping_name):
         '''
     return text_result
 
+def two_way_anova(pdf, var_name, grouping_names):
+    """Two-way ANOVA
+
+    Arguments:
+    pdf (pd dataframe)
+    var_name (str):
+    grouping_names (list of str):
+    """
+    # TODO extend it to multi-way ANOVA
+    text_result = ''
+
+    # http://statsmodels.sourceforge.net/stable/examples/generated/example_interactions.html#one-way-anova
+    from statsmodels.formula.api import ols
+    from statsmodels.stats.anova import anova_lm
+    data = pdf.dropna(subset=[[var_name] + grouping_names])
+    # from IPython import embed; embed()
+    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
+    # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
+    # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
+    # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
+    rehab_lm = ols(str('%s ~ C(%s) + C(%s) + C(%s):C(%s)' % (var_name, grouping_names[0], grouping_names[1], grouping_names[0], grouping_names[1])), data=data).fit()
+    ant = anova_lm(rehab_lm)  # TODO Type III to have the same result as SPSS
+    #print ant
+    text_result += _('Result of one-way ANOVA:' + '\n')
+    # Main effects
+    for group_i, group in enumerate(grouping_names):
+        text_result += _('Main effect of %s: ' % group) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
+                       (ant['df'][group_i], ant['df'][3], ant['F'][group_i], cs_util.print_p(ant['PR(>F)'][group_i]))
+    # Interaction effects
+    text_result += _('Interaction of %s and %s: ') % (grouping_names[0], grouping_names[1]) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
+                   (ant['df'][2], ant['df'][3], ant['F'][2], cs_util.print_p(ant['PR(>F)'][2]))
+
+    """ # TODO
+    # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
+    omega2 = (ant['sum_sq'][0] - (ant['df'][0] * ant['mean_sq'][1])) / (
+                (ant['sum_sq'][0] + ant['sum_sq'][1]) + ant['mean_sq'][1])
+    text_result += _('Effect size: ') + '<i>&omega;<sup>2</sup></i> = %0.3g\n' % omega2
+    """
+
+    """ # TODO
+    # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
+    if ant['PR(>F)'][0] < 0.05:  # post-hoc
+        post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
+                                                            alpha=0.05)
+        text_result += '\n' + _(u'Groups differ. Post-hoc test of the means.') + '\n'
+        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', u'\u00a0')
+        ''' # TODO create our own output
+        http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
+        These are the original data:
+        post_hoc_res.data
+        post_hoc_res.groups
+
+        These are used for the current output:
+        post_hoc_res.groupsunique
+        post_hoc_res.meandiffs
+        post_hoc_res.confint
+        post_hoc_res.reject
+        '''
+    """
+    return text_result
 
 def kruskal_wallis_test(pdf, var_name, grouping_name):
     """Kruskal-Wallis test

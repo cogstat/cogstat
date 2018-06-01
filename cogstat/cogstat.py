@@ -10,6 +10,7 @@ import gettext
 import logging
 from distutils.version import LooseVersion
 import os
+import itertools
 
 __version__ = '1.6.0'
 
@@ -782,16 +783,16 @@ class CogStatData:
 
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
 
-    def compare_groups(self, var_name, grouping_variable):
+    def compare_groups(self, var_name, grouping_variables):
         """Compare groups.
 
         :param var_name: name of the dependent variables (str)
-        :param grouping_variable: list of names of grouping variables (list of str)
+        :param grouping_variables: list of names of grouping variables (list of str)
         :return:
         """
         plt.close('all')
         var_names = [var_name]
-        groups = grouping_variable
+        groups = grouping_variables
         # TODO check if there is only one dep.var.
         title = csc.heading_style_begin + _('Compare groups') + csc.heading_style_end
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
@@ -804,6 +805,8 @@ class CogStatData:
         meas_level, unknown_type = self._meas_lev_vars([var_names[0]])
         if unknown_type:
             raw_result += '<decision>'+warn_unknown_variable+'<default>'
+
+        # One grouping variable
         if len(groups) == 1:
             # 0. Raw data
             raw_result += '<h4>' + _('Raw data') + '</h4>'
@@ -878,7 +881,7 @@ class CogStatData:
             elif len(group_levels) == 2:
                 result_ht += '<decision>'+_('Two groups. ')+'<default>'
                 if meas_level == 'int':
-                    group_levels, [var1, var2] = cs_stat._split_into_groups(self.data_frame, var_names[0], groups[0])
+                    group_levels, [var1, var2] = cs_stat._split_into_groups(self.data_frame, var_names[0], groups)
                     if len(var1) == 1 or len(var2) == 1:
                         result_ht += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + \
                                   '\n<default>'
@@ -985,9 +988,108 @@ class CogStatData:
                     result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
                     result_ht += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
 
-        elif len(groups) > 1:
-            raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n' + \
-                            _('Sorry, not implemented yet.')
+        # Two grouping variables
+        elif len(groups) == 2:
+            # 0. Raw data
+            raw_result += '<h4>' + _('Raw data') + '</h4>'
+
+            data = self.data_frame[groups + [var_names[0]]].dropna()
+            # create a list of sets with the levels of all grouping variables
+            levels = [set(data[group]) for group in groups]
+            # create all level combinations for the grouping variables
+            level_combinations = list(itertools.product(*levels))
+
+            # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
+            columns = pd.MultiIndex.from_tuples(level_combinations, names=groups)
+            pdf_result = pd.DataFrame(columns=columns)
+
+            pdf_result.loc[_('N of valid cases')] = [sum(
+                (data[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1))
+                                                     for group_level in level_combinations]
+            pdf_result.loc[_('N of missing cases')] = [sum(
+                (self.data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(
+                    axis=1)) -
+                                                       sum((data[groups] == pd.Series({group: level for group, level in
+                                                                                       zip(groups, group_level)})).all(
+                                                           axis=1)) for group_level in level_combinations]
+            #            for group in group_levels:
+            #                valid_n = sum(data[groups[0]]==group)
+            #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
+            #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
+            raw_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', ''). \
+                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+            raw_result += '\n\n'
+            for group in groups:
+                valid_n = len(self.data_frame[group].dropna())
+                missing_n = len(self.data_frame[group]) - valid_n
+                raw_result += _(u'N of missing grouping variable in %s: %g') % (group, missing_n) + '\n'
+
+            # Plot individual data
+
+            temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                                                                  level_combinations, raw_data_only=True)
+            if temp_raw_result:
+                raw_result += temp_raw_result
+
+            # 1. Plot the individual data with boxplots
+            # There's no need to repeat the mosaic plot for the nominal variables
+            if meas_level in ['int', 'unk', 'ord']:
+                temp_raw_result, sample_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                                                                         level_combinations)
+                if temp_raw_result:
+                    raw_result += temp_raw_result
+            else:
+                sample_graph = None
+
+            # 2. Descriptive data
+            sample_result = '<h4>' + _('Sample properties') + '</h4>'
+
+            if meas_level in ['int', 'unk']:
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
+                                                         stats=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+            elif meas_level == 'ord':
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
+                                                         stats=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+            elif meas_level == 'nom':
+                cont_table_data = pd.crosstab(self.data_frame[var_names[0]],
+                                              [self.data_frame[groups[i]] for i in range(len(groups))])  # , rownames = [x], colnames = [y])
+                sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', ''). \
+                    replace('border="1"', 'style="border:1px solid black;"')
+
+            # 3. Plot population estimations
+            population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups,
+                                                                level_combinations)
+
+            # 4. Hypothesis testing
+            result = '<h4>' + _('Population properties') + '</h4>\n'
+
+            result_ht = '<decision>' + _('Hypothesis testing: ')
+            if meas_level in ['int', 'unk']:
+                result_ht += _('Testing if the means are the same.') + '<default>\n'
+            elif meas_level == 'ord':
+                result_ht += _('Testing if the medians are the same.') + '<default>\n'
+            elif meas_level == 'nom':
+                result_ht += _('Testing if the distributions are the same.') + '<default>\n'
+
+            result_ht += '<decision>' + _('Two grouping variables. ') + '<default>'
+            if meas_level == 'int':
+                group_levels, vars = cs_stat._split_into_groups(self.data_frame, var_names[0], groups)
+                result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
+                             _("Choosing factorial ANOVA.") + '\n<default>'
+                result_ht += cs_stat.two_way_anova(self.data_frame, var_names[0], groups)
+
+            elif meas_level == 'ord':
+                result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + \
+                             _('Sorry, not implemented yet.') + '<default>\n'
+            elif meas_level == 'nom':
+                result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + \
+                             _('Sorry, not implemented yet.') + ' ' + '<default>\n'
+
+            return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
+
+        elif len(groups) > 2:
+            raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n'
+            return self._convert_output([title, raw_result])
 
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
 
