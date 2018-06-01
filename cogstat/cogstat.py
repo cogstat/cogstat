@@ -599,7 +599,9 @@ class CogStatData:
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
             population_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
-            population_result += cs_stat.chi_square_test(self.data_frame, x, y)
+            cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
+            sample_result += '\n' + cramer_result
+            population_result += chi_result
         sample_result += '\n'
         population_result += '\n'
 

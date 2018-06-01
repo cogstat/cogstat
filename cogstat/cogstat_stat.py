@@ -1460,16 +1460,15 @@ def chi_square_test(pdf, var_name, grouping_name):
     """
     text_result = ''
     cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])#, rownames = [x], colnames = [y])
-    #text_result = '%s\n%s\n'%(text_result, cont_table_data)
     if LooseVersion(csc.versions['scipy'])>=LooseVersion('0.10'):
         chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
         try:
             cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5
-            text_result += _(u'Cramér\'s V measure of association: ')+'<i>&phi;<sub>c</sub></i> = %.3f\n' % cramersv
+            cramer_result = _(u'Cramér\'s V measure of association: ')+'<i>&phi;<sub>c</sub></i> = %.3f\n' % cramersv
         except ZeroDivisionError:  # TODO could this be avoided?
-            text_result += _(u'Cramér\'s V measure of association cannot be computed (division by zero).')
-        text_result += _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
+            cramer_result += _(u'Cramér\'s V measure of association cannot be computed (division by zero).')
+        chi_result = _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
                                                                       (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
     else:
-        text_result += _(u"Sorry, at least SciPy 0.10 is required to calculate Chi-Square test.")
-    return text_result
+        return _(u"Sorry, at least SciPy 0.10 is required to calculate Cramér\'s V or Chi-Square test.", None)
+    return cramer_result, chi_result
