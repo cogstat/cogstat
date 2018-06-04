@@ -206,6 +206,7 @@ class CogStatData:
                     # Convert SPSS measurement levels to CogStat
                     spss_to_cogstat_measurement_levels = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord', 'scale': 'int', 'ratio': 'int', 'flag': 'nom', 'typeless': 'unk'}
                     file_measurement_level = ' '.join([spss_to_cogstat_measurement_levels[metadata.measureLevels[spss_var]] for spss_var in metadata.varNames])
+                    self.import_source = _('SPSS file - ') + data  # filename
 
             # Import from multiline string, clipboard
             else:  # Multi line text, i.e., clipboard data
