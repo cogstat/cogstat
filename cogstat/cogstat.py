@@ -174,6 +174,7 @@ class CogStatData:
             # Import from file
             if not ('\n' in data):  # Single line text, i.e., filename
                 filetype = data[data.rfind('.'):]
+                # Import csv file
                 if filetype in ['.txt', '.csv', '.log', '.tsv']:
                     # Check if the file exists # TODO
                     # self.import_source = _('Import failed')
@@ -191,6 +192,20 @@ class CogStatData:
                     # Read the file
                     self.data_frame = pd.read_csv(data, delimiter=delimiter, quotechar=quotechar, skiprows=skiprows)
                     self.import_source = _('text file - ')+data  # filename
+                # Import SPSS .sav file
+                elif filetype == '.sav':
+                    import savReaderWriter
+                    # Get the values
+                    with savReaderWriter.SavReader(data, ioLocale='en_US.UTF-8') as reader:
+                        spss_data = [line for line in reader]
+                    # Get the variable names and measurement levels
+                    with savReaderWriter.SavHeaderReader(data) as header:
+                        metadata = header.all()
+                    # Create the CogStat dataframe
+                    self.data_frame = pd.DataFrame.from_records(spss_data, columns=metadata.varNames)
+                    # Convert SPSS measurement levels to CogStat
+                    spss_to_cogstat_measurement_levels = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord', 'scale': 'int', 'ratio': 'int', 'flag': 'nom', 'typeless': 'unk'}
+                    file_measurement_level = ' '.join([spss_to_cogstat_measurement_levels[metadata.measureLevels[spss_var]] for spss_var in metadata.varNames])
 
             # Import from multiline string, clipboard
             else:  # Multi line text, i.e., clipboard data

@@ -5,10 +5,11 @@ Upcoming release
 ================
 
 ## New features
+- Import SPSS .sav file
 - Two-way group comparisons
-- Update checker
 - Dotted axis for nominal variables
 - More numerical descriptives for repeated measures variable comparison and group comparison analyses
+- Update checker
 - Smaller output refinements
 
 ## Fixes

@@ -13,7 +13,7 @@ _ = t.ugettext
 
 
 def open_data_file():
-    return unicode(QtGui.QFileDialog.getOpenFileName(None, _('Open data file'), '',  '*.txt *.log *.csv *.tsv'))
+    return unicode(QtGui.QFileDialog.getOpenFileName(None, _('Open data file'), '',  '*.txt *.log *.csv *.tsv *.sav'))
 
 
 def save_output():
