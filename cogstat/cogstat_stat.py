@@ -391,7 +391,7 @@ def histogram(pdf, data_measlevs, var_name):
 
         # Upper part with histogram and individual data
         plt.figure(facecolor=csc.bg_col)
-        plt.axes([0.1, 0.3, 0.8, 0.6])
+        ax_up = plt.axes([0.1, 0.3, 0.8, 0.6])
         plt.hist(data.values, bins=len(edge)-1, color=csc.fig_col)
             # .values needed, otherwise it gives error if the first case is missing data
         # Add individual data
@@ -409,7 +409,7 @@ def histogram(pdf, data_measlevs, var_name):
         plt.gca().axes.get_xaxis().set_visible(False)
         plt.ylabel(_plt('Frequency'))
         # Lower part showing the boxplot
-        ax = plt.axes([0.1, 0.1, 0.8, 0.2])
+        ax_low = plt.axes([0.1, 0.1, 0.8, 0.2], sharex = ax_up)
         box1 = plt.boxplot(data.values, vert=0)  # .values needed, otherwise error when the first case is missing data
         plt.gca().axes.get_yaxis().set_visible(False)
         if data_measlevs[var_name] == 'ord':
@@ -422,11 +422,11 @@ def histogram(pdf, data_measlevs, var_name):
         plt.setp(box1['medians'], color=csc.fig_col_bold)
         plt.setp(box1['fliers'], color=csc.fig_col_bold)
         if data_measlevs[var_name] == 'ord':
-            ax.tick_params(top=False, right=False)
+            ax_low.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
             ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i-1)])
                                 if i-1 in range(len(data_value)) else '%i' % i for i in ax.get_xticks()])
-            _set_axis_measurement_level(ax, 'ord', 'int')
+            _set_axis_measurement_level(ax_low, 'ord', 'int')
         chart_result = plt.gcf()
     # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
     # is not repeated here
