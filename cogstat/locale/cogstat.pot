@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-07 11:44+0200\n"
+"POT-Creation-Date: 2018-06-07 12:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1063,13 +1063,11 @@ msgid "Exploring variable pair: "
 msgstr ""
 
 #: .././cogstat.py:553
-#, python-format
-msgid "N of valid pairs: %g"
+msgid "N of valid pairs"
 msgstr ""
 
 #: .././cogstat.py:554
-#, python-format
-msgid "N of missing pairs: %g"
+msgid "N of missing pairs"
 msgstr ""
 
 #: .././cogstat.py:572 .././cogstat.py:600
@@ -1140,14 +1138,12 @@ msgid ""
 "measurement level."
 msgstr ""
 
-#: .././cogstat.py:683
-#, python-format
-msgid "N of valid cases: %g\n"
+#: .././cogstat.py:683 .././cogstat.py:838 .././cogstat.py:1027
+msgid "N of valid cases"
 msgstr ""
 
-#: .././cogstat.py:684
-#, python-format
-msgid "N of missing cases: %g\n"
+#: .././cogstat.py:684 .././cogstat.py:839 .././cogstat.py:1030
+msgid "N of missing cases"
 msgstr ""
 
 #: .././cogstat.py:723 .././cogstat.py:889 .././cogstat.py:1088
@@ -1230,17 +1226,8 @@ msgstr ""
 msgid "Group(s): "
 msgstr ""
 
-#: .././cogstat.py:838 .././cogstat.py:1027
-msgid "N of valid cases"
-msgstr ""
-
-#: .././cogstat.py:839 .././cogstat.py:1030
-msgid "N of missing cases"
-msgstr ""
-
 #: .././cogstat.py:849
-#, python-format
-msgid "N of missing group cases: %g"
+msgid "N of missing group cases"
 msgstr ""
 
 #: .././cogstat.py:897
@@ -1344,7 +1331,7 @@ msgstr ""
 
 #: .././cogstat.py:1046
 #, python-format
-msgid "N of missing grouping variable in %s: %g"
+msgid "N of missing grouping variable in %s"
 msgstr ""
 
 #: .././cogstat.py:1096

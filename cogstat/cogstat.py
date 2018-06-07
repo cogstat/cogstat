@@ -550,8 +550,8 @@ class CogStatData:
         data = self.data_frame[[x, y]].dropna()
         valid_n = len(data)
         missing_n = len(self.data_frame[[x, y]]) - valid_n
-        raw_result += _('N of valid pairs: %g') % valid_n + '\n'
-        raw_result += _('N of missing pairs: %g') % missing_n + '\n'
+        raw_result += _('N of valid pairs') + ': %g' % valid_n + '\n'
+        raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
         temp_raw_result, raw_graph = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
@@ -680,8 +680,8 @@ class CogStatData:
         data = self.data_frame[var_names].dropna()
         valid_n = len(data)
         missing_n = len(self.data_frame[var_names])-valid_n
-        raw_result += _('N of valid cases: %g\n') % valid_n
-        raw_result += _('N of missing cases: %g\n') % missing_n
+        raw_result += _('N of valid cases') +': %g\n' % valid_n
+        raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
         temp_raw_result, raw_graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame, raw_data=True)
@@ -846,7 +846,7 @@ class CogStatData:
                 replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
             valid_n = len(self.data_frame[groups[0]].dropna())
             missing_n = len(self.data_frame[groups[0]])-valid_n
-            raw_result += '\n\n'+_(u'N of missing group cases: %g') % missing_n +'\n'
+            raw_result += '\n\n'+_(u'N of missing group cases') + ': %g' % missing_n +'\n'
 
             # Plot individual data
             temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
@@ -1043,7 +1043,7 @@ class CogStatData:
             for group in groups:
                 valid_n = len(self.data_frame[group].dropna())
                 missing_n = len(self.data_frame[group]) - valid_n
-                raw_result += _(u'N of missing grouping variable in %s: %g') % (group, missing_n) + '\n'
+                raw_result += _(u'N of missing grouping variable in %s') % group + ': %g\n' % missing_n
 
             # Plot individual data
 
