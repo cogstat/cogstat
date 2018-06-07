@@ -277,7 +277,6 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
     if data_measlevs[var_name] == 'ord':
         data_value = pdf[var_name].dropna()
         data = pd.Series(stats.rankdata(data_value))
-        rank_values = dict(zip(stats.rankdata(data_value), data_value))
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         # Upper part with histogram and individual data
         fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25), facecolor=csc.bg_col)
@@ -297,8 +296,8 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         if data_measlevs[var_name] == 'ord':
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            ax.set_xticklabels(['%i\n(%s)' % (i, rank_values[i])
-                                if i in stats.rankdata(data) else '%i' % i for i in ax.get_xticks()])
+            ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i)-1])
+                                if i-1 in range(len(data_value)) else '%i' % i for i in ax.get_xticks()])
             _set_axis_measurement_level(ax, 'ord', 'nom')
     elif data_measlevs[var_name] in ['nom']:
         # For nominal variables the histogram is a frequency graph
@@ -373,9 +372,8 @@ def histogram(pdf, data_measlevs, var_name):
     max_length = 10  # maximum printing length of an item # TODO print ... if it's exceeded
     data = pdf[var_name].dropna()
     if data_measlevs[var_name] == 'ord':
-        data_value = pdf[var_name].dropna()
-        data = pd.Series(stats.rankdata(data_value))
-        rank_values = dict(zip(stats.rankdata(data_value), data_value))
+        data_value = pdf[var_name].dropna()  # The original values of the data
+        data = pd.Series(stats.rankdata(data_value))  # The ranks of the data
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         categories_n = len(set(data))
         if categories_n < 10:
@@ -426,8 +424,8 @@ def histogram(pdf, data_measlevs, var_name):
         if data_measlevs[var_name] == 'ord':
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            ax.set_xticklabels(['%i\n(%s)' % (i, rank_values[i])
-                                if i in stats.rankdata(data) else '%i' % i for i in ax.get_xticks()])
+            ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i-1)])
+                                if i-1 in range(len(data_value)) else '%i' % i for i in ax.get_xticks()])
             _set_axis_measurement_level(ax, 'ord', 'int')
         chart_result = plt.gcf()
     # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
@@ -789,17 +787,15 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             ax.set_ylim(0, len(yvalues)+1)
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            rank_values_x = dict(zip(stats.rankdata(xvalues), xvalues))
-            rank_values_y = dict(zip(stats.rankdata(yvalues), yvalues))
-            ax.set_xticklabels(['%i\n(%s)' % (i, rank_values_x[i])
-                                if i in stats.rankdata(xvalues) else '%i' % i for i in ax.get_xticks()])
+            ax.set_xticklabels(['%i\n(%s)' % (i, sorted(xvalues)[int(i-1)])
+                                if i-1 in range(len(xvalues)) else '%i' % i for i in ax.get_xticks()])
             try:
-                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values_y[i])
-                                if i in stats.rankdata(yvalues) else '%i' % i for i in ax.get_yticks()],
+                ax.set_yticklabels(['%i\n(%s)' % (i, sorted(yvalues)[int(i-1)])
+                                if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()],
                                wrap=True)
             except:  # for matplotlib before 1.5
-                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values_y[i])
-                                if i in stats.rankdata(yvalues) else '%i' % i for i in ax.get_yticks()])
+                ax.set_yticklabels(['%i\n(%s)' % (i, sorted(yvalues)[int(i-1)])
+                                if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()])
             _set_axis_measurement_level(ax, 'ord', 'ord')
             # Display the labels
             plt.title(_plt('Scatterplot of the rank of the variables'), fontsize=csc.graph_font_size)
@@ -1077,7 +1073,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         variables = [data_frame[var_names[0]][(data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1)].dropna() for group_level in group_levels]
         if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
             index_ranks = dict(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables))))
-            rank_values = dict(zip(stats.rankdata(pd.concat(variables)), pd.concat(variables)))
+            variables_value = pd.concat(variables).values  # original values
             for var_i in range(len(variables)):  # For all groups
                 for i in variables[var_i].index:  # For all values in that group
                     variables[var_i][i] = index_ranks[i]
@@ -1122,12 +1118,12 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
             try:
-                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
-                                    if i in rank_values.keys() else '%i' % i for i in ax.get_yticks()],
+                ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
+                                    if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()],
                                    wrap=True)
             except:  # for matplotlib before 1.5
-                ax.set_yticklabels(['%i\n(%s)' % (i, rank_values[i])
-                                    if i in rank_values.keys() else '%i' % i for i in ax.get_yticks()])
+                ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
+                                    if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()])
             _set_axis_measurement_level(ax, 'int', 'ord')
         else:
             plt.ylabel(var_names[0])
