@@ -133,32 +133,15 @@ def _set_axis_measurement_level (ax, x_measurement_level, y_measurement_level):
     :return: nothing, the ax object is modified in place
     """
 
-    # Because custom axis styles cannot be used, switch off the axes, and draw lines as new axes
-    ax.set_frame_on(False)
+    # Switch off top and right axes
     ax.tick_params(top=False, right=False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
 
-    ymin, ymax = ax.axes.get_ylim()
-    # for some reason when axhline is set to y=ymin, the line is invisible, so we correct this
-    # TODO is this a bug or do I miss something?
-    ymin_corr = ymin + (ymax-ymin) * 0.01
-    if x_measurement_level == 'int':
-        ax.axhline(y=ymin_corr, color='black')
-    elif x_measurement_level == 'ord':
-        ax.axhline(y=ymin_corr, dashes=[8, 12], color='black')
-    elif x_measurement_level == 'nom':
-        ax.axhline(y=ymin_corr, dashes=[2, 12], color='black')
-
-    xmin, xmax = ax.axes.get_xlim()
-    # for some reason when axvline is set to x=ymin, the line is invisible, so we correct this
-    # TODO is this a bug or do I miss something?
-    xmin_corr = xmin + (xmax-xmin) * 0.0
-    if y_measurement_level == 'int':
-        ax.axvline(x=xmin_corr, color='black')
-    elif y_measurement_level == 'ord':
-        ax.axvline(x=xmin_corr, dashes=[8, 12], color='black')
-    elif y_measurement_level == 'nom':
-        ax.axvline(x=xmin_corr, dashes=[2, 12], color='black')
-
+    # Set the style of the bottom and left spines according to the measurement levels
+    measurement_level_to_line_styles = {'int': 'solid', 'ord': 'dashed', 'nom': 'dotted'}
+    ax.spines['bottom'].set_linestyle(measurement_level_to_line_styles[x_measurement_level])
+    ax.spines['left'].set_linestyle(measurement_level_to_line_styles[y_measurement_level])
 
 def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     """
@@ -424,8 +407,8 @@ def histogram(pdf, data_measlevs, var_name):
         if data_measlevs[var_name] == 'ord':
             ax_low.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i-1)])
-                                if i-1 in range(len(data_value)) else '%i' % i for i in ax.get_xticks()])
+            ax_low.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i-1)])
+                                if i-1 in range(len(data_value)) else '%i' % i for i in ax_low.get_xticks()])
             _set_axis_measurement_level(ax_low, 'ord', 'int')
         chart_result = plt.gcf()
     # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
