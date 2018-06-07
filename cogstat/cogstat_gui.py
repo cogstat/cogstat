@@ -321,7 +321,7 @@ class StatMainWindow(QtGui.QMainWindow):
                 self._show_data_menus(False)
             else:
                 self._show_data_menus()
-                self.statusBar().showMessage((_('Data loaded from clipboard: ') if data else _('Data loaded from file: '))
+                self.statusBar().showMessage((_('Data loaded from file: ') if self.active_data.import_source[:9] in ['text file', 'SPSS file'] else _('Data loaded from clipboard: '))
                                             + _('%s variables and %s cases.') % (len(self.active_data.data_frame.columns),
                                                                                  len(self.active_data.data_frame.index)))
                 self.print_data(brief=True, display_import_message=True)
