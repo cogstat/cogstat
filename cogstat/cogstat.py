@@ -958,7 +958,7 @@ class CogStatData:
                     result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
                     result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+' '+'<default>\n'
-                    result_ht += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += ''.join(cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0]))
 
             # Compare more than two groups
             elif len(group_levels) > 2:
@@ -1004,7 +1004,7 @@ class CogStatData:
                     result_ht += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
                     result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
-                    result_ht += cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += ''.join(cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0]))
 
         # Two grouping variables
         elif len(groups) == 2:

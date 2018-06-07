@@ -94,7 +94,6 @@ def _split_into_groups(pdf, var_name, grouping_name):
     """
 
     if isinstance(grouping_name, (str, unicode)):  # TODO list is required, fix the calls sending string
-        print 'correction'
         grouping_name = [grouping_name]
     # create a list of sets with the levels of all grouping variables
     levels = [set(pdf[group]) for group in grouping_name]
