@@ -418,7 +418,7 @@ class CogStatData:
         if self._filtering_status():
             result_list[-1] += self._filtering_status()
 
-        # Raw data
+        # 1. Raw data
         text_result = '<h4>'+_('Raw data')+'</h4>'
         text_result2, image = cs_stat.display_variable_raw_data(self.data_frame, self.data_measlevs, var_name)
         result_list.append(text_result+text_result2)
@@ -428,7 +428,7 @@ class CogStatData:
             text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level)
             result_list.append(text_result)
 
-        # Sample properties
+        # 2. Sample properties
         if self.data_measlevs[var_name] <> 'nom':
             text_result = '<h4>\n'+_('Sample properties')+'</h4>\n'
         # Distribution
@@ -444,7 +444,7 @@ class CogStatData:
             result_list.append(text_result)
             # TODO boxplot also
 
-        # Population properties
+        # 3. Population properties
         text_result = '<h4>\n'+_('Population properties')+'</h4>\n'
 
         # Normality
@@ -543,7 +543,7 @@ class CogStatData:
         if unknown_var:
             raw_result += '<decision>'+warn_unknown_variable+'\n<default>'
 
-        # 0. Raw data
+        # 1. Raw data
         raw_result += '<h4>'+_('Raw data')+'</h4>'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
@@ -557,6 +557,8 @@ class CogStatData:
         temp_raw_result, raw_graph = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
                                                          raw_data=True)  # slope and intercept are set to 0, but they
                                                                          # are not used with raw_data
+
+        # 2-3. Sample and population properties
         sample_result = '<h4>'+_('Sample properties')+'</h4>'
         if temp_raw_result:
             sample_result += temp_raw_result
@@ -564,7 +566,7 @@ class CogStatData:
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         population_result = '\n'
 
-        # 1. Compute and print numeric results
+        # Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
             population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlation differs from 0.') \
@@ -621,7 +623,7 @@ class CogStatData:
         sample_result += '\n'
         population_result += '\n'
 
-        # 2. Make graph
+        # Make graph
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev in ['int', 'unk']:
             temp_text_result, sample_graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
@@ -645,8 +647,8 @@ class CogStatData:
         """
         # TODO optionally return pandas DataFrame or Panel
         title = csc.heading_style_begin + _('Pivot table') + csc.heading_style_end
-        text_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_names, function)
-        return self._convert_output([title, text_result])
+        pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_names, function)
+        return self._convert_output([title, pivot_result])
 
     def compare_variables(self, var_names):
         """Compare variables
@@ -671,7 +673,7 @@ class CogStatData:
         if unknown_type:
             raw_result += '\n<decision>'+warn_unknown_variable+'<default>'
 
-        # 0. Raw data
+        # 1. Raw data
         raw_result += '<h4>' + _('Raw data') + '</h4>'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
@@ -686,7 +688,7 @@ class CogStatData:
         if temp_raw_result:
             raw_result += temp_raw_result
 
-        # 1. Plot the individual data with box plot
+        # Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
             temp_raw_result, sample_graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame)
@@ -695,7 +697,7 @@ class CogStatData:
         else:
             sample_graph = None
 
-        # 2. Descriptives
+        # 2. Sample properties
         sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
         if meas_level in ['int', 'unk']:
@@ -712,11 +714,11 @@ class CogStatData:
                 sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
                     replace('border="1"', 'style="border:1px solid black;"')
 
-        # 3. Plot the descriptive data
+        # Plot the descriptive data
         population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
 
-        # 4. Hypotheses testing
-        result = '<h4>' + _('Population properties') + '</h4>\n'
+        # 3. Population properties
+        population_result = '<h4>' + _('Population properties') + '</h4>\n'
 
         result_ht = '<decision>' + _('Hypothesis testing: ')
         if meas_level in ['int', 'unk']:
@@ -799,7 +801,7 @@ class CogStatData:
                     result_ht += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' \
                               + _('Sorry, not implemented yet.')+'\n<default>'
 
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])
 
     def compare_groups(self, var_name, grouping_variables):
         """Compare groups.
@@ -826,7 +828,7 @@ class CogStatData:
 
         # One grouping variable
         if len(groups) == 1:
-            # 0. Raw data
+            # 1. Raw data
             raw_result += '<h4>' + _('Raw data') + '</h4>'
 
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
@@ -853,7 +855,7 @@ class CogStatData:
                 raw_result += temp_raw_result
 
 
-            # 1. Plot the individual data with boxplots
+            # Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
                 temp_raw_result, sample_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
@@ -877,11 +879,12 @@ class CogStatData:
                 sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
                     replace('border="1"', 'style="border:1px solid black;"')
 
-            # 3. Plot population estimations
+            # 3. Population properties
+            # Plot population estimations
             population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
 
-            # 4. Hypothesis testing
-            result = '<h4>' + _('Population properties') + '</h4>\n'
+            # Hypothesis testing
+            population_result = '<h4>' + _('Population properties') + '</h4>\n'
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:
@@ -1008,7 +1011,7 @@ class CogStatData:
 
         # Two grouping variables
         elif len(groups) == 2:
-            # 0. Raw data
+            # 1. Raw data
             raw_result += '<h4>' + _('Raw data') + '</h4>'
 
             data = self.data_frame[groups + [var_names[0]]].dropna()
@@ -1049,7 +1052,7 @@ class CogStatData:
             if temp_raw_result:
                 raw_result += temp_raw_result
 
-            # 1. Plot the individual data with boxplots
+            # Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
                 temp_raw_result, sample_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
@@ -1059,7 +1062,7 @@ class CogStatData:
             else:
                 sample_graph = None
 
-            # 2. Descriptive data
+            # 2. Sample properties
             sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
             if meas_level in ['int', 'unk']:
@@ -1074,12 +1077,13 @@ class CogStatData:
                 sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', ''). \
                     replace('border="1"', 'style="border:1px solid black;"')
 
-            # 3. Plot population estimations
+            # 3. Population properties
+            # Plot population estimations
             population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups,
                                                                 level_combinations)
 
-            # 4. Hypothesis testing
-            result = '<h4>' + _('Population properties') + '</h4>\n'
+            # Hypothesis testing
+            population_result = '<h4>' + _('Population properties') + '</h4>\n'
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:
@@ -1103,13 +1107,11 @@ class CogStatData:
                 result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + \
                              _('Sorry, not implemented yet.') + ' ' + '<default>\n'
 
-            return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
-
         elif len(groups) > 2:
             raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n'
             return self._convert_output([title, raw_result])
 
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, result, population_graph, result_ht])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])
 
 
 def display(results):
