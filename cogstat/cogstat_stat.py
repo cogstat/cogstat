@@ -1386,7 +1386,7 @@ def two_way_anova(pdf, var_name, grouping_names):
     rehab_lm = ols(str('%s ~ C(%s) + C(%s) + C(%s):C(%s)' % (var_name, grouping_names[0], grouping_names[1], grouping_names[0], grouping_names[1])), data=data).fit()
     ant = anova_lm(rehab_lm)  # TODO Type III to have the same result as SPSS
     #print ant
-    text_result += _('Result of one-way ANOVA:' + '\n')
+    text_result += _('Result of two-way ANOVA:' + '\n')
     # Main effects
     for group_i, group in enumerate(grouping_names):
         text_result += _('Main effect of %s: ' % group) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
