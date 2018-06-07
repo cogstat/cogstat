@@ -37,8 +37,8 @@ rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
-warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.') + \
-                        '\n<default>'  # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
+warn_unknown_variable = '<warning>'+_('The measurement levels of the variables are not set. Set them in your data source.') + \
+                        '\n<default>'  # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
 
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
                     # any other code will leave the output (e.g., for testing)
