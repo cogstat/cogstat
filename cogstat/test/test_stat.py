@@ -268,7 +268,13 @@ class CogStatTestCase(unittest.TestCase):
 
         # 3 × 3 Int groups
         result = data.compare_groups('a', ['c', 'd'])
-        #self.assertTrue('<td>2.5316</td>      <td>4.5759</td>' in result[3])
+        self.assertTrue('<td>Mean</td>      <td>1.0695</td>      <td>1.8439</td>      <td>2.3693</td>' in result[3])
+        self.assertTrue('<td>Standard deviation</td>      <td>2.7005</td>      <td>2.0891</td>      <td>4.2610</td>' in result[3])
+        self.assertTrue('<td>Maximum</td>      <td>4.4130</td>      <td>4.7890</td>      <td>9.1600</td>' in result[3])
+        self.assertTrue('<td>Upper quartile</td>      <td>3.0000</td>      <td>3.0213</td>      <td>4.4028</td>' in result[3])
+        self.assertTrue('<td>Median</td>      <td>1.3340</td>      <td>2.4590</td>      <td>0.9015</td>' in result[3])
+        self.assertTrue('<td>Lower quartile</td>      <td>-0.5965</td>      <td>0.8870</td>      <td>-1.1320</td>' in result[3])
+        self.assertTrue('<td>Minimum</td>      <td>-2.8030</td>      <td>-2.2890</td>      <td>-1.4860</td>' in result[3])
         # TODO the two main effefcts differ from the SPSS result, see issue #91
         self.assertTrue('<i>F</i>(2, 21) = 2.35, <i>p</i> = 0.120' in result[7])
         self.assertTrue('<i>F</i>(2, 21) = 0.185, <i>p</i> = 0.832' in result[7])
