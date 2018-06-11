@@ -1315,15 +1315,18 @@ def one_way_anova(pdf, var_name, grouping_name):
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    rehab_lm = ols(str(var_name+' ~ C('+grouping_name+')'), data=data).fit()
-    ant = anova_lm(rehab_lm)  # TODO Type III to have the same result as SPSS
+    anova_model = ols(str(var_name+' ~ C('+grouping_name+')'), data=data).fit()
+    # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
+    anova_result = anova_lm(anova_model)
     text_result += _('Result of one-way ANOVA: ') + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
-                                                    (ant['df'][0], ant['df'][1], ant['F'][0], cs_util.print_p(ant['PR(>F)'][0]))
+                                                    (anova_result['df'][0], anova_result['df'][1], anova_result['F'][0],
+                                                     cs_util.print_p(anova_result['PR(>F)'][0]))
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
-    omega2 = (ant['sum_sq'][0] - (ant['df'][0] * ant['mean_sq'][1]))/((ant['sum_sq'][0]+ant['sum_sq'][1]) +ant['mean_sq'][1])
+    omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
+             ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
     text_result += _('Effect size: ') + '<i>&omega;<sup>2</sup></i> = %0.3g\n' % omega2
     # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
-    if ant['PR(>F)'][0] < 0.05:  # post-hoc
+    if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n'+_(u'Groups differ. Post-hoc test of the means.')+'\n'
@@ -1362,28 +1365,28 @@ def two_way_anova(pdf, var_name, grouping_names):
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    rehab_lm = ols(str('%s ~ C(%s) + C(%s) + C(%s):C(%s)' % (var_name, grouping_names[0], grouping_names[1], grouping_names[0], grouping_names[1])), data=data).fit()
-    ant = anova_lm(rehab_lm)  # TODO Type III to have the same result as SPSS
-    #print ant
+    anova_model = ols(str('%s ~ C(%s) + C(%s) + C(%s):C(%s)' % (var_name, grouping_names[0], grouping_names[1], grouping_names[0], grouping_names[1])), data=data).fit()
+    anova_result = anova_lm(anova_model, typ=3)
     text_result += _('Result of two-way ANOVA:' + '\n')
     # Main effects
     for group_i, group in enumerate(grouping_names):
         text_result += _('Main effect of %s: ' % group) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
-                       (ant['df'][group_i], ant['df'][3], ant['F'][group_i], cs_util.print_p(ant['PR(>F)'][group_i]))
+                       (anova_result['df'][group_i+1], anova_result['df'][4], anova_result['F'][group_i+1],
+                        cs_util.print_p(anova_result['PR(>F)'][group_i+1]))
     # Interaction effects
     text_result += _('Interaction of %s and %s: ') % (grouping_names[0], grouping_names[1]) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
-                   (ant['df'][2], ant['df'][3], ant['F'][2], cs_util.print_p(ant['PR(>F)'][2]))
+                   (anova_result['df'][3], anova_result['df'][4], anova_result['F'][3], cs_util.print_p(anova_result['PR(>F)'][3]))
 
     """ # TODO
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
-    omega2 = (ant['sum_sq'][0] - (ant['df'][0] * ant['mean_sq'][1])) / (
-                (ant['sum_sq'][0] + ant['sum_sq'][1]) + ant['mean_sq'][1])
+    omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1])) / (
+                (anova_result['sum_sq'][0] + anova_result['sum_sq'][1]) + anova_result['mean_sq'][1])
     text_result += _('Effect size: ') + '<i>&omega;<sup>2</sup></i> = %0.3g\n' % omega2
     """
 
     """ # TODO
     # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
-    if ant['PR(>F)'][0] < 0.05:  # post-hoc
+    if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n' + _(u'Groups differ. Post-hoc test of the means.') + '\n'
