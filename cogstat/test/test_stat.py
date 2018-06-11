@@ -266,5 +266,13 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.009' in result[3])  # TODO validate
         self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002, <i>p</i> = 0.999' in result[5])  # TODO validate
 
+        # 3 × 3 Int groups
+        result = data.compare_groups('a', ['c', 'd'])
+        #self.assertTrue('<td>2.5316</td>      <td>4.5759</td>' in result[3])
+        # TODO the two main effefcts differ from the SPSS result, see issue #91
+        self.assertTrue('<i>F</i>(2, 21) = 2.35, <i>p</i> = 0.120' in result[7])
+        self.assertTrue('<i>F</i>(2, 21) = 0.185, <i>p</i> = 0.832' in result[7])
+        self.assertTrue('<i>F</i>(4, 21) = 1.15, <i>p</i> = 0.363' in result[7])
+
 if __name__ == '__main__':
     unittest.main()
