@@ -131,7 +131,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of valid pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
         # Cramer's V
-        self.assertTrue('<sub>c</sub></i> = 0.372' in result[5])
+        self.assertTrue('<sub>c</sub></i> = 0.372' in result[3])
         # Chi-square
         self.assertTrue('(4, <i>N</i> = 30) = 8.312' in result[5])
         self.assertTrue('<i>p</i> = 0.081' in result[5])
@@ -258,12 +258,12 @@ class CogStatTestCase(unittest.TestCase):
 
         # 2 Nom groups
         result = data.compare_groups('i', ['j'])
-        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.154' in result[5])  # TODO validate
+        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.154' in result[3])  # TODO validate
         self.assertTrue('&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.710, <i>p</i> = 0.399' in result[5])  # TODO validate
 
         # 3 Nom groups
         result = data.compare_groups('i', ['c'])
-        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.009' in result[5])  # TODO validate
+        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.009' in result[3])  # TODO validate
         self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002, <i>p</i> = 0.999' in result[5])  # TODO validate
 
 if __name__ == '__main__':

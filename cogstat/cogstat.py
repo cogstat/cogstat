@@ -910,7 +910,7 @@ class CogStatData:
                         group = group_levels[1] if len(var1) == 1 else group_levels[0]
                         norm, text_result, graph_dummy, graph2_dummy = \
                             cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
-                                                   group_name=groups[0], group_value=group)
+                                                   group_name=groups[0], group_value=group[0])
                         result_ht += text_result
                         if not norm:
                             result_ht += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', ' + \
@@ -930,7 +930,7 @@ class CogStatData:
                         for group in group_levels:
                             norm, text_result, graph_dummy, graph2_dummy = \
                                 cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
-                                                       group_name=groups[0], group_value=group)
+                                                       group_name=groups[0], group_value=group[0])
                             result_ht += text_result
                             if not norm:
                                 non_normal_groups.append(group)
