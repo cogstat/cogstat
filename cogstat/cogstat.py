@@ -423,20 +423,23 @@ class CogStatData:
         text_result2, image = cs_stat.display_variable_raw_data(self.data_frame, self.data_measlevs, var_name)
         result_list.append(text_result+text_result2)
         result_list.append(image)
-        if frequencies:
-            text_result = '<b>'+_('Frequencies')+'</b>\n'
-            text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level)
-            result_list.append(text_result)
 
         # 2. Sample properties
-        if self.data_measlevs[var_name] <> 'nom':
-            text_result = '<h4>\n'+_('Sample properties')+'</h4>\n'
+        text_result = '<h4>\n'+_('Sample properties')+'</h4>\n'
+
+        # Frequencies
+        if frequencies:
+            text_result += '<b>'+_('Frequencies')+'</b>\n'
+            text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level) + '\n\n'
+
         # Distribution
         if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
             text_result += '<b>'+_('Distribution')+'</b>\n'
             text_result2, image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
             result_list.append(text_result+text_result2)
             result_list.append(image)
+        else:
+            result_list.append(text_result)
         # Descriptive
         if self.data_measlevs[var_name] <> 'nom': # there is no descriptive for nominal variable here
             text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
