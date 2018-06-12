@@ -416,37 +416,6 @@ def histogram(pdf, data_measlevs, var_name):
     return text_result, chart_result
 
 
-def descriptives(pdf, data_measlevs, var_name):
-    """Descriptives
-    
-    Mode is left out intentionally: it is not too useful.
-    No descriptive is given for nominal variable.
-    """
-    data = pdf[var_name].dropna()
-    
-    data_measlev = data_measlevs[var_name]
-    text_result = u''
-    if data_measlev in ['int', 'ord', 'unk']:
-        prec = cs_util.precision(data)+1
-    if data_measlev in ['int', 'unk']:
-        text_result += _(u'Mean: %0.*f') % (prec, np.mean(data))+'\n'
-        text_result += _(u'Standard deviation: %0.*f') % (prec, np.std(data, ddof=0))+'\n'
-            # ddof=1 gives the sample stat as in SPSS - that should be population estimation
-        text_result += _(u'Skewness: %0.*f') % (prec, stats.skew(data, bias=False))+'\n'
-            # with the bias=False it gives the same value as SPSS
-        text_result += _(u'Kurtosis: %0.*f') % (prec, stats.kurtosis(data, bias=False))+'\n'
-            # with the bias=False it gives the same value as SPSS
-        text_result += u'\n'
-    if data_measlev in ['int', 'ord', 'unk']:
-        text_result += _(u'Median: %0.*f') % (prec, np.median(data))+'\n'
-        if data_measlev in ['int', 'unk']:
-            text_result += _(u'Range: %0.*f') % (prec - 1, (np.max(data) - np.min(data))) + '\n'
-        elif data_measlev == 'ord':
-            text_result += _(u'Minimum and maximum')+': %0.*f; %0.*f' % (prec-1, np.min(data), prec-1, np.max(data))+'\n'
-        text_result += u'\n'
-    return text_result[:-2]
-
-
 def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', alt_data=None):
     """Check normality
     
@@ -645,7 +614,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     return text_result, image
 
 
-def print_var_stats(pdf, var_names, groups=None, stats=[]):
+def print_var_stats(pdf, var_names, groups=None, statistics=[]):
     """
     Computes descriptive stats for variables and/or groups.
 
@@ -658,10 +627,15 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
     Now it only handles a single dependent variable and a single grouping variable.
     """
     stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin': _('Minimum'),
-                  'amax': _('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile': _('Upper quartile')}
+                  'amax': _('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile': _('Upper quartile'),
+                  'skew': _('Skewness'), 'kurtosis': _('Kurtosis'), 'ptp':_('Range')}
     # Create these functions in numpy namespace to enable simple getattr call of them below
     np.lower_quartile = lambda x: np.percentile(x, 25)
     np.upper_quartile = lambda x: np.percentile(x, 75)
+    # with the bias=False it gives the same value as SPSS
+    np.skew = lambda x: stats.skew(x, bias=False)
+    # with the bias=False it gives the same value as SPSS
+    np.kurtosis = lambda x: stats.kurtosis(x, bias=False)
 
     text_result = u''
     if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
@@ -674,7 +648,7 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
         text_result += _(u'Descriptives for the variables')
         for var_name in var_names:
             prec = cs_util.precision(data[var_name])+1
-            for stat in stats:
+            for stat in statistics:
                 pdf_result.loc[stat_names[stat], var_name] = u'%0.*f' % \
                                                              (prec, getattr(np, stat)(data[var_name].dropna()))
     # There is at least one grouping variable
@@ -695,7 +669,7 @@ def print_var_stats(pdf, var_names, groups=None, stats=[]):
         for group_label, group_data in zip(groups, grouped_data):
             if len(group_data):
                 prec = cs_util.precision(group_data) + 1
-                for stat in stats:
+                for stat in statistics:
                     pdf_result.loc[stat_names[stat], group_label] = u'%0.*f' % \
                                                                     (prec, getattr(np, stat)(group_data.dropna()))
             else:

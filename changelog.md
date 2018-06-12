@@ -8,7 +8,7 @@ Upcoming release
 - Import SPSS .sav file
 - Two-way group comparisons
 - Dotted axis for nominal variables
-- More numerical descriptives for repeated measures variable comparison and group comparison analyses
+- More numerical descriptives for explore variables, repeated measures variable comparison and group comparison analyses
 - Update checker
 - Smaller output refinements
 

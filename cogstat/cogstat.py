@@ -441,9 +441,14 @@ class CogStatData:
         else:
             result_list.append(text_result)
         # Descriptive
-        if self.data_measlevs[var_name] <> 'nom': # there is no descriptive for nominal variable here
-            text_result = '<b>'+_('Descriptive statistics')+'</b>\n'
-            text_result += cs_stat.descriptives(self.data_frame, self.data_measlevs, var_name)
+        if self.data_measlevs[var_name] <> 'nom':  # there is no descriptive for nominal variable here
+            if self.data_measlevs[var_name] in ['int', 'unk']:
+                text_result = cs_stat.print_var_stats(self.data_frame, [var_name],
+                                                       statistics=['mean', 'std', 'skew', 'kurtosis', 'ptp',
+                                                                   'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+            elif self.data_measlevs[var_name] == 'ord':
+                text_result = cs_stat.print_var_stats(self.data_frame, [var_name],
+                                                       statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
             result_list.append(text_result)
             # TODO boxplot also
 
@@ -705,10 +710,10 @@ class CogStatData:
 
         if meas_level in ['int', 'unk']:
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names,
-                             stats=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                             statistics=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
         elif meas_level == 'ord':
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names,
-                             stats=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                             statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
         elif meas_level == 'nom':
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
@@ -873,10 +878,10 @@ class CogStatData:
 
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                 stats=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                                 statistics=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
             elif meas_level == 'ord':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                stats=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                                statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
                 sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
@@ -1074,10 +1079,10 @@ class CogStatData:
 
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                                         stats=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                                                         statistics=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
             elif meas_level == 'ord':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                                         stats=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                                                         statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]],
                                               [self.data_frame[groups[i]] for i in range(len(groups))])  # , rownames = [x], colnames = [y])
