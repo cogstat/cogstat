@@ -349,7 +349,6 @@ def histogram(pdf, data_measlevs, var_name):
     arguments:
     var_name (str): name of the variable
     """
-    text_result=''
     chart_result = ''
     suptitle_text = None
     max_length = 10  # maximum printing length of an item # TODO print ... if it's exceeded
@@ -413,7 +412,7 @@ def histogram(pdf, data_measlevs, var_name):
         chart_result = plt.gcf()
     # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
     # is not repeated here
-    return text_result, chart_result
+    return chart_result
 
 
 def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', alt_data=None):

@@ -432,25 +432,22 @@ class CogStatData:
             text_result += '<b>'+_('Frequencies')+'</b>\n'
             text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level) + '\n\n'
 
-        # Distribution
-        if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
-            text_result += '<b>'+_('Distribution')+'</b>\n'
-            text_result2, image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
-            result_list.append(text_result+text_result2)
-            result_list.append(image)
-        else:
-            result_list.append(text_result)
-        # Descriptive
+        # Descriptives
         if self.data_measlevs[var_name] <> 'nom':  # there is no descriptive for nominal variable here
             if self.data_measlevs[var_name] in ['int', 'unk']:
-                text_result = cs_stat.print_var_stats(self.data_frame, [var_name],
+                text_result += cs_stat.print_var_stats(self.data_frame, [var_name],
                                                        statistics=['mean', 'std', 'skew', 'kurtosis', 'ptp',
                                                                    'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
             elif self.data_measlevs[var_name] == 'ord':
-                text_result = cs_stat.print_var_stats(self.data_frame, [var_name],
+                text_result += cs_stat.print_var_stats(self.data_frame, [var_name],
                                                        statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
-            result_list.append(text_result)
             # TODO boxplot also
+        result_list.append(text_result)
+
+        # Distribution
+        if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
+            image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
+            result_list.append(image)
 
         # 3. Population properties
         text_result = '<h4>\n'+_('Population properties')+'</h4>\n'
