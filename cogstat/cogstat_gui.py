@@ -595,7 +595,7 @@ class StatMainWindow(QtGui.QMainWindow):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Report-a-bug')
         
     def _show_about(self):
-        QtGui.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+(u'<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://www.cogstat.org">%s</a>'%(_('Simple automatic data analysis software'), 2012, 2017, _('Visit CogStat website'))))
+        QtGui.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+(u'<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://www.cogstat.org">%s</a>'%(_('Simple automatic data analysis software'), 2012, 2018, _('Visit CogStat website'))))
 
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""

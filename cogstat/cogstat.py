@@ -12,7 +12,7 @@ from distutils.version import LooseVersion
 import os
 import itertools
 
-__version__ = '1.6.0'
+__version__ = '1.7.0b'
 
 import cogstat_config as csc
 csc.versions['cogstat'] = __version__
