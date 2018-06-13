@@ -620,7 +620,7 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
     arguments:
     var_names: list of variable names to use
     groups: list of grouping variable names
-    stats: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in the
+    statistics: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in the
             stat_names list
 
     Now it only handles a single dependent variable and a single grouping variable.
@@ -644,7 +644,7 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names)
-        text_result += _(u'Descriptives for the variables')
+        text_result += _(u'Descriptives for the variables') if len(var_names) > 1 else _(u'Descriptives for the variable')
         for var_name in var_names:
             prec = cs_util.precision(data[var_name])+1
             for stat in statistics:
