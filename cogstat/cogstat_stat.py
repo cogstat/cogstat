@@ -1080,13 +1080,14 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             except:  # for matplotlib before 1.5
                 ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
                                     if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()])
-            _set_axis_measurement_level(ax, 'int', 'ord')
+            _set_axis_measurement_level(ax, 'nom', 'ord')
         else:
             plt.ylabel(var_names[0])
             if raw_data_only:
                 plt.title(_plt('Individual data of the groups'), fontsize=csc.graph_font_size)
             else:
                 plt.title(_plt('Boxplot and individual data of the groups'), fontsize=csc.graph_font_size)
+            _set_axis_measurement_level(ax, 'nom', 'int')
         graph = fig
     elif meas_level in ['nom']:
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
@@ -1135,6 +1136,7 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
             cis = pdf.groupby(groups, sort=False).aggregate(confidence_interval_t)[var_names[0]]
             ax.bar(range(len(means.values)), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)), align='center', color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
                    # pandas series is converted to np.array to be able to handle numeric indexes (group levels)
+            _set_axis_measurement_level(ax, 'nom', 'int')
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the groups'), fontsize=csc.graph_font_size)
             medians = pdf.groupby(groups[0], sort=False).aggregate(np.median)[var_names[0]]
