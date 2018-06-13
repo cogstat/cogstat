@@ -10,7 +10,7 @@ Upcoming release
 - Dotted axis for nominal variables and for grouping variables
 - More numerical descriptives for explore variables, repeated measures variable comparison and group comparison analyses
 - Update checker
-- Smaller output refinements
+- Various output refinements
 
 ## Fixes
 - Various bugfixes
