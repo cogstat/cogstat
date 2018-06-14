@@ -96,7 +96,7 @@ def _split_into_groups(pdf, var_name, grouping_name):
     if isinstance(grouping_name, (str, unicode)):  # TODO list is required, fix the calls sending string
         grouping_name = [grouping_name]
     # create a list of sets with the levels of all grouping variables
-    levels = [set(pdf[group]) for group in grouping_name]
+    levels = [set(pdf[group].dropna()) for group in grouping_name]
     # create all level combinations for the grouping variables
     level_combinations = list(itertools.product(*levels))
     grouped_data = [pdf[var_name][(pdf[grouping_name] == pd.Series({group: level for group, level in zip(grouping_name, group_level)})).all(axis=1)].dropna() for group_level in
@@ -658,8 +658,6 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
 
-#        groups, grouped_data = _split_into_groups(pdf, var_names[0], groups[0])
-#        pdf_result = pd.DataFrame(columns=groups)
         text_result += _(u'Descriptives for the groups')
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
@@ -671,9 +669,10 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
                 for stat in statistics:
                     pdf_result.loc[stat_names[stat], group_label] = u'%0.*f' % \
                                                                     (prec, getattr(np, stat)(group_data.dropna()))
-            else:
+            else:  # TODO can we remove this part?
                 text_result += _('No data')
-                pdf_result.loc[stat_names[stats], group_label] = _('No data')
+                for stat in statistics:
+                    pdf_result.loc[stat_names[stat], group_label] = _('No data')
     text_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', '').\
         replace('border="1"', 'style="border:1px solid black;"')
     return text_result
