@@ -1421,7 +1421,7 @@ def chi_square_test(pdf, var_name, grouping_name):
             cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5
             cramer_result = _(u'Cramér\'s V measure of association: ')+'<i>&phi;<sub>c</sub></i> = %.3f\n' % cramersv
         except ZeroDivisionError:  # TODO could this be avoided?
-            cramer_result += _(u'Cramér\'s V measure of association cannot be computed (division by zero).')
+            cramer_result = _(u'Cramér\'s V measure of association cannot be computed (division by zero).')
         chi_result = _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
                                                                       (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
     else:
