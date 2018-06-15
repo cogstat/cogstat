@@ -196,7 +196,7 @@ class CogStatData:
                 elif filetype == '.sav':
                     import savReaderWriter
                     # Get the values
-                    with savReaderWriter.SavReader(data, ioLocale='en_US.UTF-8') as reader:
+                    with savReaderWriter.SavReader(data) as reader:
                         spss_data = [line for line in reader]
                     # Get the variable names and measurement levels
                     with savReaderWriter.SavHeaderReader(data) as header:
