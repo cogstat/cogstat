@@ -9,5 +9,5 @@ setup(name='cogstat',
     packages=find_packages(),
     include_package_data=True,
     license='GNU GPL 3',
-    install_requires=['numpy', 'pandas', 'scipy', 'statsmodels', 'matplotlib', 'IPython']  # TODO how to set Qt and R dependecies?
+    install_requires=['numpy', 'pandas', 'scipy', 'statsmodels', 'matplotlib', 'IPython', 'savReaderWriter']  # TODO how to set Qt and R dependecies?
     )
