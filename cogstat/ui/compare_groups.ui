@@ -167,7 +167,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Group</string>
+    <string>Group(s)</string>
    </property>
   </widget>
   <widget class="QPushButton" name="add_group_button">

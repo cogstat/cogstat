@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'compare_groups.ui'
 #
@@ -84,7 +85,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Dependent variable(s)", None))
         self.addVar.setText(_translate("Dialog", "=>", None))
         self.remove_group_button.setText(_translate("Dialog", "<=", None))
-        self.label_3.setText(_translate("Dialog", "Group", None))
+        self.label_3.setText(_translate("Dialog", "Group(s)", None))
         self.add_group_button.setText(_translate("Dialog", "=>", None))
 
 
