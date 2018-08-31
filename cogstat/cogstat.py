@@ -808,11 +808,13 @@ class CogStatData:
 
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])
 
-    def compare_groups(self, var_name, grouping_variables):
+    def compare_groups(self, var_name, grouping_variables,  single_case_slope_SEs=[], single_case_slope_trial_n=None):
         """Compare groups.
 
         :param var_name: name of the dependent variables (str)
         :param grouping_variables: list of names of grouping variables (list of str)
+        :param single_case_slope_SEs: list of a single string with the name of the slope SEs for singla case control group
+        :param single_case_slope_trial: number of trials in slope calculation for single case
         :return:
         """
         plt.close('all')
@@ -908,7 +910,7 @@ class CogStatData:
                 result_ht += '<decision>'+_('Two groups. ')+'<default>'
                 if meas_level == 'int':
                     group_levels, [var1, var2] = cs_stat._split_into_groups(self.data_frame, var_names[0], groups)
-                    if len(var1) == 1 or len(var2) == 1:
+                    if len(var1) == 1 or len(var2) == 1:  # Single case vs control group
                         result_ht += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + \
                                   '\n<default>'
                         result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
@@ -925,7 +927,7 @@ class CogStatData:
                         else:
                             result_ht += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + \
                                       '\n<default>'
-                            result_ht += cs_stat.modified_t_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_stat.single_case_task_extremity(self.data_frame, var_names[0], groups[0], single_case_slope_SEs[0], single_case_slope_trial_n)
                     else:
                         result_ht += '<decision>'+_('Interval variable.')+' >> ' + \
                                   _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + \

@@ -204,6 +204,36 @@ class compare_vars_dialog(QtGui.QDialog, ui.compare_vars.Ui_Dialog):
     def read_parameters(self):
         return [unicode(self.selected_listWidget.item(i).text(), 'utf-8') for i in range(self.selected_listWidget.count())]
 
+import ui.compare_groups_single_case_slope
+class compare_groups_single_case_slope_dialog(QtGui.QDialog, ui.compare_groups_single_case_slope.Ui_Dialog):
+    def __init__(self, parent=None, names=[]):
+        QtGui.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.addVar.clicked.connect(self.add_var)
+        self.removeVar.clicked.connect(self.remove_var)
+
+        self.init_vars(names)
+        #self.show()
+
+    def init_vars(self, names):
+        init_source_vars(self.source_listWidget, names)
+        remove_ceased_vars(self.selected_listWidget, names)
+
+    def add_var(self):
+        if self.selected_listWidget.count() == 0:  # allow only if the list is empty
+            add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+
+    def remove_var(self):
+        remove_item_from_list_widget(self.selected_listWidget)
+
+    def read_parameters(self):
+        return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
+                unicode(self.spinBox.text()))
+
 
 import ui.compare_groups
 class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
@@ -218,6 +248,10 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
         self.removeVar.clicked.connect(self.remove_var)
         self.add_group_button.clicked.connect(self.add_group)
         self.remove_group_button.clicked.connect(self.remove_group)
+        self.pushButton.clicked.connect(self.on_slopeButton_clicked)
+
+        self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
+        self.single_case_slope_SEs, self.single_case_slope_trial_n = [], None
 
         self.init_vars(names)
         self.show()
@@ -226,20 +260,27 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
         init_source_vars(self.source_listWidget, names)
         remove_ceased_vars(self.selected_listWidget, names)
         remove_ceased_vars(self.group_listWidget, names)
+        self.slope_dialog.init_vars(names)
+
     def add_var(self):
         add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
         remove_item_from_list_widget(self.selected_listWidget)
 
     def add_group(self):
-        if self.group_listWidget.count() < 2:  # allow maximum two groping variables
+        if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
             add_to_list_widget(self.source_listWidget, self.group_listWidget)
     def remove_group(self):
         remove_item_from_list_widget(self.group_listWidget)
-    
+
+    def on_slopeButton_clicked(self):
+        self.slope_dialog.exec_()
+        self.single_case_slope_SEs, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
+
     def read_parameters(self):
         return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
-                [unicode(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
+                [unicode(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
+                self.single_case_slope_SEs, self.single_case_slope_trial_n)
 
 
 import ui.preferences

@@ -1207,7 +1207,7 @@ def independent_t_test(pdf, var_name, grouping_name):
     return text_result
 
 
-def modified_t_test(pdf, var_name, grouping_name):
+def single_case_task_extremity(pdf, var_name, grouping_name, se_name = None, n_trials=None):
     """Modified t-test for comparing a single case with a group.
     Used typically in case studies.
 
@@ -1217,12 +1217,28 @@ def modified_t_test(pdf, var_name, grouping_name):
     """
     text_result = ''
     group_levels, [var1, var2] = _split_into_groups(pdf, var_name, grouping_name)
-    try:
-        t, p, df = cs_stat_num.modified_t_test(var1, var2)
-        text_result += _('Result of the modified independent samples t-test:') + \
+    if not se_name:  # Simple performance score
+        try:
+            t, p, df = cs_stat_num.modified_t_test(var1, var2)
+            text_result += _('Result of the modified independent samples t-test:') + \
+                           ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+        except ValueError:
+            text_result += _('One of the groups should include only a single data.')
+    else:  # slope performance
+        group_levels, [se1, se2] = _split_into_groups(pdf, se_name, grouping_name)
+        if len(var1)==1:
+            case_var = var1[0]
+            control_var = var2
+            case_se = se1[0]
+            control_se = se2
+        else:
+            case_var = var2[0]
+            control_var = var1
+            case_se = se2[0]
+            control_se = se1
+        t, df, p, test = cs_stat_num.slope_extremity_test(n_trials, case_var, case_se, control_var, control_se)
+        text_result += _('Result of slope test with %s:')%(test) + \
                        ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
-    except ValueError:
-        text_result += _('One of the groups should include only a single data.')
     return text_result
 
 

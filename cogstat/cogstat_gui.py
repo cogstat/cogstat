@@ -73,7 +73,7 @@ class StatMainWindow(QtGui.QMainWindow):
 #        self.compare_variables(['A', 'B', 'C1'])
 #        self.compare_variables(['D', 'E', 'F'])
 #        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
-#        self.compare_groups(['dep_var'], ['group_var'])
+#        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
 #        self.compare_groups(['A'], ['G', 'H'])
 #        self.compare_groups(['X'], ['W'])
 #        self.save_result_as()
@@ -499,7 +499,7 @@ class StatMainWindow(QtGui.QMainWindow):
         self._print_to_output_pane()
         self._busy_signal(False)
         
-    def compare_groups(self, var_names=None, groups=None):
+    def compare_groups(self, var_names=None, groups=None, single_case_slope_SEs=None, single_case_slope_trial_n=None):
         """Compare groups.
         
         Arguments:
@@ -514,7 +514,7 @@ class StatMainWindow(QtGui.QMainWindow):
             else:
                 self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
-                var_names, groups = self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
+                var_names, groups, single_case_slope_SEs, single_case_slope_trial_n = self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
             else:
                 return
         self._busy_signal(True)
@@ -528,7 +528,7 @@ class StatMainWindow(QtGui.QMainWindow):
                 try:
                     self.analysis_results.append(GuiResultPackage())
                     self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-                    result_list = self.active_data.compare_groups(var_name, groups)
+                    result_list = self.active_data.compare_groups(var_name, groups,  single_case_slope_SEs, single_case_slope_trial_n)
                     self.analysis_results[-1].add_output(result_list)
                     self._print_to_output_pane()
                 except:

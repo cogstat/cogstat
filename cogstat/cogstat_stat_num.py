@@ -36,8 +36,7 @@ def modified_t_test(x1, x2):
     against norms derived from small samples. The Clinical Neuropsychologist,
     12, 482-486.
 
-    :param x1, x2: data of two groups. One of them includes a single data,
-    the other one includes multiple values
+    :param x1, x2: data of two groups. One of them includes a single data, the other one includes multiple values
     :return tstat: test statistics
     :return pvalue: p value of the test
     :return df: degrees fo freedom
@@ -56,6 +55,114 @@ def modified_t_test(x1, x2):
     df = group_data_n-1
     pvalue = stats.t.sf(np.abs(tstat), df)*2  # two-sided
     return tstat, pvalue, df
+
+
+def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_SEs):
+    '''
+    This function checks the extremity of a single case performance expressed as a slope compared to the control data.
+
+    More information:
+    Crawford, J. R., & Garthwaite, P. H. (2004). Statistical Methods for Single-Case Studies in Neuropsychology: Comparing the Slope of a Patient’s Regression Line with those of a Control Sample. Cortex, 40(3), 533–548. http://doi.org/10.1016/S0010-9452(08)70145-X
+
+    n_trials: number of trials the slopes rely on
+    case_slope, case_SE: the slope and the standard error of the single case
+    control_slopes, control_SEs: lists with the slope and the standard error of the control cases
+
+    Returns the appropriate test statistic value, the degree of freedom, the p-value, and the chosen test type (string)
+    '''
+    print n_trials, case_slope, case_SE, control_slopes, control_SEs
+    #from IPython import embed; embed()
+    beta_mean = control_slopes.mean(axis=0)
+    s_square_mean = (control_SEs ** 2).mean(axis=0)
+    u_square = control_slopes.var(axis=0)
+    sigma_square = s_square_mean - u_square
+    n_control = float(control_slopes.count())
+
+    cond_1 = ((control_SEs ** 2) <= (sigma_square / 10)).all()
+    cond_2 = (case_SE ** 2) <= (sigma_square / 10)
+    cond_5 = u_square > s_square_mean
+
+    def test_a(n_control, n_trials, control_SEs, s_square_mean):
+        "Testing for equal variances in the control sample"
+        g = 1 + (n_control + 1) / (3 * n_control * (n_trials - 2))
+        sum_ln_se = np.log((control_SEs ** 2)).sum()
+        chi2 = (n_trials - 2) * ((n_control * np.log(s_square_mean) - sum_ln_se)) / g
+        df = n_control - 1
+        p = 1 - stats.chi2.cdf(chi2, df)
+        return p
+
+    cond_3 = test_a(n_control=n_control, n_trials=n_trials, control_SEs=control_SEs, s_square_mean=s_square_mean) < 0.05
+
+    def test_b(n_control, n_trials, case_SE, s_square_mean):
+        "Comparing the variance of the patient with those of the control sample"
+        case_numerator = (case_SE ** 2) > s_square_mean
+        F = (case_SE ** 2) / s_square_mean if case_numerator else s_square_mean / (case_SE ** 2)
+        df_1 = n_trials - 2 if case_numerator else n_control * (n_trials - 2)
+        df_2 = n_control * (n_trials - 2) if case_numerator else n_trials - 2
+        p = 1 - stats.f.cdf(F, df_1, df_2)
+        return p
+
+    cond_4 = test_b(n_control=n_control, n_trials=n_trials, case_SE=case_SE, s_square_mean=s_square_mean) < 0.05
+
+    def test_c(case_slope, beta_mean, u_square, n_control):
+        "Comparing slopes whose variances are the same for patient and controls"
+        t = (case_slope - beta_mean) / (np.sqrt(u_square) * np.sqrt((n_control + 1) / n_control))
+        df = n_control - 1
+        p = 1 - stats.t.cdf(abs(t), df)
+        return t, df, p
+
+    def test_d1(case_slope, beta_mean, n_control, s_square_mean, case_SE, u_square, n_trials):
+        t = (case_slope - beta_mean) / np.sqrt(u_square * ((n_control + 1) / n_control) - s_square_mean + case_SE ** 2)
+        df = (u_square * ((n_control + 1) / n_control) - s_square_mean + case_SE ** 2) ** 2 / (
+                    (1 / (n_control - 1)) * (u_square * ((n_control + 1) / n_control)) ** 2 + (
+                        s_square_mean ** 2 / (n_control * (n_trials - 2))) + (case_SE ** 2 ** 2 / (n_trials - 2)))
+        p = 1 - stats.t.cdf(abs(t), df)
+        return t, df, p
+
+    def test_d2(case_slope, beta_mean, case_SE, s_square_mean, n_control, n_trials):
+        t = (case_slope - beta_mean) / np.sqrt(case_SE ** 2 + s_square_mean / n_control)
+        df = (case_SE ** 2 + s_square_mean / n_control) ** 2 / (
+                    case_SE ** 2 ** 2 / (n_trials - 2) + (s_square_mean ** 2 / (n_control ** 3 * (n_trials - 2))))
+        p = 1 - stats.t.cdf(abs(t), df)
+        return t, df, p
+
+    if cond_1:
+        if cond_2:
+            test = 'Test c'
+            t, df, p = test_c(case_slope=case_slope, beta_mean=beta_mean, u_square=u_square, n_control=n_control)
+            if cond_4:
+                if cond_5:
+                    test = 'Test d.1'
+                    t, df, p = test_d1(case_slope=case_slope, beta_mean=beta_mean, n_control=n_control,
+                                       s_square_mean=s_square_mean, case_SE=case_SE, u_square=u_square,
+                                       n_trials=n_trials)
+                else:
+                    test = 'Test d.2'
+                    t, df, p = test_d2(case_slope=case_slope, beta_mean=beta_mean, case_SE=case_SE,
+                                       s_square_mean=s_square_mean, n_control=n_control, n_trials=n_trials)
+            else:
+                test = 'Test c'
+                t, df, p = test_c(case_slope=case_slope, beta_mean=beta_mean, u_square=u_square, n_control=n_control)
+    else:
+        if cond_3:
+            test = 'Consider reformulate your question with correlation or use Bayesian methods'
+            t, df, p = [None, None, None]
+        else:
+            if cond_4:
+                if cond_5:
+                    test = 'Test d.1'
+                    t, df, p = test_d1(case_slope=case_slope, beta_mean=beta_mean, n_control=n_control,
+                                       s_square_mean=s_square_mean, case_SE=case_SE, u_square=u_square,
+                                       n_trials=n_trials)
+                else:
+                    test = 'Test d.2'
+                    t, df, p = test_d2(case_slope=case_slope, beta_mean=beta_mean, case_SE=case_SE,
+                                       s_square_mean=s_square_mean, n_control=n_control, n_trials=n_trials)
+            else:
+                test = 'Test c'
+                t, df, p = test_c(case_slope=case_slope, beta_mean=beta_mean, u_square=u_square, n_control=n_control)
+
+    return t, df, p, test
 
 
 def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=True):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'compare_groups.ui'
+# Form implementation generated from reading ui file 'compare_groups_single_case_slope.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -44,7 +44,7 @@ class Ui_Dialog(object):
         self.label.setGeometry(QtCore.QRect(10, 10, 151, 16))
         self.label.setObjectName(_fromUtf8("label"))
         self.label_2 = QtGui.QLabel(Dialog)
-        self.label_2.setGeometry(QtCore.QRect(210, 30, 161, 16))
+        self.label_2.setGeometry(QtCore.QRect(210, 50, 161, 16))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.addVar = QtGui.QPushButton(Dialog)
         self.addVar.setGeometry(QtCore.QRect(180, 60, 21, 16))
@@ -57,41 +57,26 @@ class Ui_Dialog(object):
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.selected_listWidget = QtGui.QListWidget(Dialog)
         self.selected_listWidget.setEnabled(True)
-        self.selected_listWidget.setGeometry(QtCore.QRect(210, 50, 170, 71))
+        self.selected_listWidget.setGeometry(QtCore.QRect(210, 80, 170, 21))
         self.selected_listWidget.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.selected_listWidget.setObjectName(_fromUtf8("selected_listWidget"))
-        self.group_listWidget = QtGui.QListWidget(Dialog)
-        self.group_listWidget.setEnabled(True)
-        self.group_listWidget.setGeometry(QtCore.QRect(210, 170, 171, 41))
-        self.group_listWidget.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
-        self.group_listWidget.setObjectName(_fromUtf8("group_listWidget"))
-        self.remove_group_button = QtGui.QPushButton(Dialog)
-        self.remove_group_button.setGeometry(QtCore.QRect(180, 190, 21, 21))
-        self.remove_group_button.setObjectName(_fromUtf8("remove_group_button"))
         self.label_3 = QtGui.QLabel(Dialog)
         self.label_3.setGeometry(QtCore.QRect(210, 150, 120, 16))
         self.label_3.setObjectName(_fromUtf8("label_3"))
-        self.add_group_button = QtGui.QPushButton(Dialog)
-        self.add_group_button.setGeometry(QtCore.QRect(180, 160, 21, 16))
-        self.add_group_button.setObjectName(_fromUtf8("add_group_button"))
-        self.pushButton = QtGui.QPushButton(Dialog)
-        self.pushButton.setEnabled(True)
-        self.pushButton.setGeometry(QtCore.QRect(10, 230, 161, 27))
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.spinBox = QtGui.QSpinBox(Dialog)
+        self.spinBox.setGeometry(QtCore.QRect(210, 170, 71, 27))
+        self.spinBox.setObjectName(_fromUtf8("spinBox"))
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(_translate("Dialog", "Compare groups", None))
+        Dialog.setWindowTitle(_translate("Dialog", "Compare groups - Single case slope", None))
         self.removeVar.setText(_translate("Dialog", "<=", None))
         self.label.setText(_translate("Dialog", "Available variables", None))
-        self.label_2.setText(_translate("Dialog", "Dependent variable(s)", None))
+        self.label_2.setText(_translate("Dialog", "Slope SE variable", None))
         self.addVar.setText(_translate("Dialog", "=>", None))
-        self.remove_group_button.setText(_translate("Dialog", "<=", None))
-        self.label_3.setText(_translate("Dialog", "Group(s)", None))
-        self.add_group_button.setText(_translate("Dialog", "=>", None))
-        self.pushButton.setText(_translate("Dialog", "Single case slope...", None))
+        self.label_3.setText(_translate("Dialog", "Number of trials", None))
 
 
 if __name__ == "__main__":

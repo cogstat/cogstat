@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Compare groups</string>
+   <string>Compare groups - Single case slope</string>
   </property>
   <widget class="QListWidget" name="source_listWidget">
    <property name="geometry">
@@ -74,13 +74,13 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>30</y>
+     <y>50</y>
      <width>161</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Dependent variable(s)</string>
+    <string>Slope SE variable</string>
    </property>
   </widget>
   <widget class="QPushButton" name="addVar">
@@ -122,42 +122,13 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>50</y>
+     <y>80</y>
      <width>170</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::ExtendedSelection</enum>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="group_listWidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>170</y>
-     <width>171</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="selectionMode">
-    <enum>QAbstractItemView::ExtendedSelection</enum>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="remove_group_button">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>190</y>
-     <width>21</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="text">
-    <string>&lt;=</string>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::ExtendedSelection</enum>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -170,36 +141,17 @@
     </rect>
    </property>
    <property name="text">
-    <string>Group(s)</string>
+    <string>Number of trials</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="add_group_button">
+  <widget class="QSpinBox" name="spinBox">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>160</y>
-     <width>21</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>=&gt;</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>230</y>
-     <width>161</width>
+     <x>210</x>
+     <y>170</y>
+     <width>71</width>
      <height>27</height>
     </rect>
-   </property>
-   <property name="text">
-    <string>Single case slope...</string>
    </property>
   </widget>
  </widget>
