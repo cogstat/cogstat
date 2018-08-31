@@ -29,27 +29,21 @@ def corr_ci(r, n, confidence=0.95):
     return lower, upper
 
 
-def modified_t_test(x1, x2):
+def modified_t_test(ind_data, group_data):
     """Compare a single case to a group.
 
+    More information:
     Crawford, J.R. & Howell, D.C. (1998). Comparing an individual's test score
     against norms derived from small samples. The Clinical Neuropsychologist,
     12, 482-486.
 
-    :param x1, x2: data of two groups. One of them includes a single data, the other one includes multiple values
+    :param ind_data: single row pandas data frame for the single case
+    :param group_data: several rows of pandas data frame for the control grop values
     :return tstat: test statistics
     :return pvalue: p value of the test
     :return df: degrees fo freedom
     """
 
-    if len(x1) == 1:
-        ind_data = x1
-        group_data = x2.dropna()
-    elif len(x2) == 1:
-        ind_data = x2
-        group_data = x1.dropna()
-    else:
-        raise ValueError('one of the groups should include only a single data')
     group_data_n = len(group_data)
     tstat = (ind_data.iloc[0] - np.mean(group_data)) / (np.std(group_data) * np.sqrt((group_data_n+1.0)/group_data_n))
     df = group_data_n-1
@@ -58,18 +52,21 @@ def modified_t_test(x1, x2):
 
 
 def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_SEs):
-    '''
+    """
     This function checks the extremity of a single case performance expressed as a slope compared to the control data.
 
     More information:
-    Crawford, J. R., & Garthwaite, P. H. (2004). Statistical Methods for Single-Case Studies in Neuropsychology: Comparing the Slope of a Patient’s Regression Line with those of a Control Sample. Cortex, 40(3), 533–548. http://doi.org/10.1016/S0010-9452(08)70145-X
+    Crawford, J. R., & Garthwaite, P. H. (2004). Statistical Methods for Single-Case Studies in Neuropsychology:
+    Comparing the Slope of a Patient’s Regression Line with those of a Control Sample. Cortex, 40(3), 533–548.
+    http://doi.org/10.1016/S0010-9452(08)70145-X
 
-    n_trials: number of trials the slopes rely on
-    case_slope, case_SE: the slope and the standard error of the single case
-    control_slopes, control_SEs: lists with the slope and the standard error of the control cases
+    :param n_trials: number of trials the slopes rely on
+    :param case_slope, case_SE: single row pandas data frames with the slope and the standard error of the single case
+    :param control_slopes, control_SEs: single row pandas data frames with the slope and the standard error of the control cases
 
     Returns the appropriate test statistic value, the degree of freedom, the p-value, and the chosen test type (string)
-    '''
+    """
+
     beta_mean = control_slopes.mean(axis=0)
     s_square_mean = (control_SEs ** 2).mean(axis=0)
     u_square = control_slopes.var(axis=0)
@@ -81,7 +78,7 @@ def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_
     cond_5 = u_square > s_square_mean
 
     def test_a(n_control, n_trials, control_SEs, s_square_mean):
-        "Testing for equal variances in the control sample"
+        """Testing for equal variances in the control sample"""
         g = 1 + (n_control + 1) / (3 * n_control * (n_trials - 2))
         sum_ln_se = np.log((control_SEs ** 2)).sum()
         chi2 = (n_trials - 2) * ((n_control * np.log(s_square_mean) - sum_ln_se)) / g
@@ -92,7 +89,7 @@ def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_
     cond_3 = test_a(n_control=n_control, n_trials=n_trials, control_SEs=control_SEs, s_square_mean=s_square_mean) < 0.05
 
     def test_b(n_control, n_trials, case_SE, s_square_mean):
-        "Comparing the variance of the patient with those of the control sample"
+        """Comparing the variance of the patient with those of the control sample"""
         case_numerator = (case_SE ** 2) > s_square_mean
         F = (case_SE ** 2) / s_square_mean if case_numerator else s_square_mean / (case_SE ** 2)
         df_1 = n_trials - 2 if case_numerator else n_control * (n_trials - 2)
@@ -103,7 +100,7 @@ def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_
     cond_4 = test_b(n_control=n_control, n_trials=n_trials, case_SE=case_SE, s_square_mean=s_square_mean) < 0.05
 
     def test_c(case_slope, beta_mean, u_square, n_control):
-        "Comparing slopes whose variances are the same for patient and controls"
+        """Comparing slopes whose variances are the same for patient and controls"""
         t = (case_slope - beta_mean) / (np.sqrt(u_square) * np.sqrt((n_control + 1) / n_control))
         df = n_control - 1
         p = 1 - stats.t.cdf(abs(t), df)

@@ -1219,7 +1219,13 @@ def single_case_task_extremity(pdf, var_name, grouping_name, se_name = None, n_t
     group_levels, [var1, var2] = _split_into_groups(pdf, var_name, grouping_name)
     if not se_name:  # Simple performance score
         try:
-            t, p, df = cs_stat_num.modified_t_test(var1, var2)
+            if len(var1) == 1:
+                ind_data = var1
+                group_data = var2.dropna()
+            else:
+                ind_data = var2
+                group_data = var1.dropna()
+            t, p, df = cs_stat_num.modified_t_test(ind_data, group_data)
             text_result += _('Result of the modified independent samples t-test:') + \
                            ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
         except ValueError:
