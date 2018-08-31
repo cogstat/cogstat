@@ -211,7 +211,7 @@ class CogStatTestCase(unittest.TestCase):
         # 2 Nom variables
         result = data.compare_variables(['i', 'j'])
         # TODO on Linux the row labels are 0.0 and 1.0 instead of 0 and 1
-        self.assertTrue('<td>0</td>      <td>4</td>      <td>9</td>    </tr>    <tr>      <td>1</td>      <td>9</td>' in result[3])
+        self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])
         self.assertTrue('<i>&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.0556, <i>p</i> = 0.814' in result[5])
 
         # 3 Nom variables
@@ -288,6 +288,22 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>F</i>(2, 21) = 2.35, <i>p</i> = 0.120' in result[7])
         self.assertTrue('<i>F</i>(2, 21) = 0.185, <i>p</i> = 0.832' in result[7])
         self.assertTrue('<i>F</i>(4, 21) = 1.15, <i>p</i> = 0.363' in result[7])
+
+    def test_single_case(self):
+
+        # Test for the slope stat
+        data = cs.CogStatData(data='''group	slope	slope_SE
+Patient	0.247	0.069
+Control	0.492	0.106
+Control	0.559	0.108
+Control	0.63	0.116
+Control	0.627	0.065
+Control	0.674	0.105
+Control	0.538	0.107''')
+        result = data.compare_groups('slope', ['group'], ['slope_SE'], 25)
+        self.assertTrue('Test d.2: <i>t</i>(42.1) = -4.21, <i>p</i> &lt; 0.001' in result[7])
+        result = data.compare_groups('slope', ['group'])
+        self.assertTrue('<i>t</i>(5) = -5.05, <i>p</i> = 0.004' in result[7])
 
 if __name__ == '__main__':
     unittest.main()

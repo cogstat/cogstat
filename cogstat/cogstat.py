@@ -927,7 +927,7 @@ class CogStatData:
                         else:
                             result_ht += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + \
                                       '\n<default>'
-                            result_ht += cs_stat.single_case_task_extremity(self.data_frame, var_names[0], groups[0], single_case_slope_SEs[0], single_case_slope_trial_n)
+                            result_ht += cs_stat.single_case_task_extremity(self.data_frame, var_names[0], groups[0], single_case_slope_SEs[0] if single_case_slope_SEs else None, single_case_slope_trial_n)
                     else:
                         result_ht += '<decision>'+_('Interval variable.')+' >> ' + \
                                   _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + \

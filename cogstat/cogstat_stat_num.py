@@ -70,8 +70,6 @@ def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_
 
     Returns the appropriate test statistic value, the degree of freedom, the p-value, and the chosen test type (string)
     '''
-    print n_trials, case_slope, case_SE, control_slopes, control_SEs
-    #from IPython import embed; embed()
     beta_mean = control_slopes.mean(axis=0)
     s_square_mean = (control_SEs ** 2).mean(axis=0)
     u_square = control_slopes.var(axis=0)
