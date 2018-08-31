@@ -103,7 +103,7 @@ class StatMainWindow(QtGui.QMainWindow):
         # Menus and commands
         menu_commands = [  # This list will be used to construct the menus
                             [_('&Data'),
-                                ['', _('&Open data file'), _('Ctrl+O'), _('Open data file (csv text file)'), 'self.open_file'],
+                                ['', _('&Open data file')+'...', _('Ctrl+O'), _('Open data file (csv text file)'), 'self.open_file'],
                                 ['', _('&Paste data'), _('Ctrl+V'), _('Paste data from clipboard'), 'self.open_clipboard'],
                                 ['separator'],
                                 # ['', _('&Filter outliers'), _('Ctrl+L'), _('Filter cases based on outliers'), 'self.xxx'],
@@ -112,23 +112,23 @@ class StatMainWindow(QtGui.QMainWindow):
                                 ['', _('Display data &briefly'), _('Ctrl+B'), _('Print beginning of the data to the output'), 'self._print_data_brief'],
                             ],
                             [_('&Analysis'),
-                                ['', _('&Explore variable'), _('Ctrl+1'), _('Main properties of variables'), 'self.explore_variable'],
-                                ['', _('Explore relation of variable &pair'), _('Ctrl+2'), _('Properties of variable pairs'), 'self.explore_variable_pair'],
+                                ['', _('&Explore variable')+'...', _('Ctrl+1'), _('Main properties of variables'), 'self.explore_variable'],
+                                ['', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), _('Properties of variable pairs'), 'self.explore_variable_pair'],
                                 ['separator'],
-                                ['', _('Pivot &table'), 'Ctrl+T', _('Build a pivot table'), 'self.pivot'],
+                                ['', _('Pivot &table')+'...', 'Ctrl+T', _('Build a pivot table'), 'self.pivot'],
                                 ['separator'],
-                                ['', _('Compare repeated measures va&riables'), 'Ctrl+R', _('Compare variables'), 'self.compare_variables'],
-                                ['', _('Compare &groups'), 'Ctrl+G', _('Compare groups'), 'self.compare_groups'],
+                                ['', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', _('Compare variables'), 'self.compare_variables'],
+                                ['', _('Compare &groups')+'...', 'Ctrl+G', _('Compare groups'), 'self.compare_groups'],
                             ],
                             [_('&Results'),
                                 ['', _('&Clear results'), _('Del'), _('Delete the output window'), 'self.delete_output'],
                                 ['separator'],
                                 ['', _('Save results'), _('Ctrl+P'), _('Save the output to .pdf format'), 'self.save_result'],
-                                ['', _('Save results as'), _('Shift+Ctrl+P'), _('Save the results'), 'self.save_result_as']
+                                ['', _('Save results as')+'...', _('Shift+Ctrl+P'), _('Save the results'), 'self.save_result_as']
                             ],
                             [_('&CogStat'),
                                 ['', _('&Help'), _('F1'), _('Read online documentation'), 'self._open_help_webpage'],
-                                ['', _('&Preferences'), '', _('Set the preferences'), 'self._show_preferences'],
+                                ['', _('&Preferences')+'...', '', _('Set the preferences'), 'self._show_preferences'],
                                 ['', _('Request a &feature'), '', _("Can't find a feature? Ask for it!"), 'self._open_reqfeat_webpage'],
                                 ['separator'],
                                 ['', _('&Report a problem'), '', _('Fill online form to report a problem'), 'self._open_reportbug_webpage'],
@@ -140,10 +140,10 @@ class StatMainWindow(QtGui.QMainWindow):
                             ]
                         ]
         # Enable these commands only when active_data is available
-        self.analysis_commands = [_('&Save data'), _('Save data &as'), _('&Display data'), _('Display data &briefly'),
-                                  _('&Set variable properties'), _('Pivot &table'), _('&Explore variable'),
-                                  _('Explore relation of variable &pair'), _('Compare repeated measures va&riables'), _('Compare &groups'),
-                                  _('&Compare groups and variables')]
+        self.analysis_commands = [_('&Save data'), _('Save data &as')+'...', _('&Display data'), _('Display data &briefly'),
+                                  _('Pivot &table')+'...', _('&Explore variable')+'...',
+                                  _('Explore relation of variable &pair')+'...', _('Compare repeated measures va&riables')+'...', _('Compare &groups')+'...',
+                                  _('&Compare groups and variables')+'...']
 
         # Create menus and commands
         self.menubar = self.menuBar()
