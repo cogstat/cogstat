@@ -51,7 +51,7 @@ def modified_t_test(x1, x2):
     else:
         raise ValueError('one of the groups should include only a single data')
     group_data_n = len(group_data)
-    tstat = (ind_data.iloc[0] - np.mean(group_data)) / (np.std(group_data) * np.sqrt((group_data_n+1)/group_data_n))
+    tstat = (ind_data.iloc[0] - np.mean(group_data)) / (np.std(group_data) * np.sqrt((group_data_n+1.0)/group_data_n))
     df = group_data_n-1
     pvalue = stats.t.sf(np.abs(tstat), df)*2  # two-sided
     return tstat, pvalue, df

@@ -8,6 +8,9 @@ Upcoming release
 - Single case test for slope index
 - Smaller refinements
 
+# Fixes
+- :warning: fix single-case modified t-test
+
 
 1.7.0 (18 June 2018)
 ================
