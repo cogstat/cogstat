@@ -210,7 +210,8 @@ class CogStatTestCase(unittest.TestCase):
 
         # 2 Nom variables
         result = data.compare_variables(['i', 'j'])
-        self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])
+        # TODO on Linux the row labels are 0.0 and 1.0 instead of 0 and 1
+        self.assertTrue('<td>0</td>      <td>4</td>      <td>9</td>    </tr>    <tr>      <td>1</td>      <td>9</td>' in result[3])
         self.assertTrue('<i>&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.0556, <i>p</i> = 0.814' in result[5])
 
         # 3 Nom variables
