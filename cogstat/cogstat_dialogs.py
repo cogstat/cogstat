@@ -280,7 +280,7 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
     def read_parameters(self):
         return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                 [unicode(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
-                self.single_case_slope_SEs, self.single_case_slope_trial_n)
+                self.single_case_slope_SEs, int(self.single_case_slope_trial_n))
 
 
 import ui.preferences
