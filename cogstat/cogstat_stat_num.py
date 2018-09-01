@@ -20,7 +20,7 @@ def corr_ci(r, n, confidence=0.95):
     https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient#Using_the_Fisher_transformation
     :param r: correlation coefficient
     :param n: sample size
-    :param confidence: sample size
+    :param confidence: confidence, default is 0.95
     :return: low and high
     """
     delta = stats.norm.ppf(1.0 - (1 - confidence) / 2) / np.sqrt(n - 3)
