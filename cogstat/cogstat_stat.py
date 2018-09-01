@@ -1212,8 +1212,11 @@ def single_case_task_extremity(pdf, var_name, grouping_name, se_name = None, n_t
     Used typically in case studies.
 
     arguments:
-    var_name (str):
-    grouping_name (str):
+    pdf (pandas dataframe) including the data
+    var_name (str): name of the dependent variable
+    grouping_name (str): name of the grouping variable
+    se_name (str): optional, name of the slope SE variable - use only for slope based calculation
+    n_trials (int): optional, number of trials the slopes were calculated of - use only for slope based calculation
     """
     text_result = ''
     group_levels, [var1, var2] = _split_into_groups(pdf, var_name, grouping_name)
