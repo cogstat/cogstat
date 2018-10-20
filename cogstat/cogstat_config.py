@@ -29,7 +29,10 @@ graph_font_size = float(config['style']['graph font size'])
 styles = config['other styles']  # it reads the params as dictionary
 
 # Graph parameters
-theme = config['graph']['theme']
+try:
+    theme = config['graph']['theme']
+except:
+    theme = ''
 bg_col = config['graph']['background color']
 ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
