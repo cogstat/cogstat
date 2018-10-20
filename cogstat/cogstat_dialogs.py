@@ -251,7 +251,7 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
         self.pushButton.clicked.connect(self.on_slopeButton_clicked)
 
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
-        self.single_case_slope_SEs, self.single_case_slope_trial_n = [], None
+        self.single_case_slope_SEs, self.single_case_slope_trial_n = [], 0
 
         self.init_vars(names)
         self.show()
