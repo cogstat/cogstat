@@ -5,6 +5,11 @@ Class for the CogStat data (with import method) and methods to compile the
 appropriate statistics for the main analysis commands.
 """
 
+# if CS is used with GUI, start the splash screen
+if __name__ == '__main__':
+    import cogstat_gui
+
+# go on with regular importing, etc.
 import csv
 import gettext
 import logging
@@ -1141,5 +1146,4 @@ def display(results):
     plt.close('all')
 
 if __name__ == '__main__':
-    import cogstat_gui
     cogstat_gui.main()
