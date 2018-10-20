@@ -3,6 +3,20 @@
 GUI for CogStat.
 """
 
+# Splash screen
+import os
+import sys
+
+from PyQt4 import QtGui
+from PyQt4.QtCore import Qt
+
+app = QtGui.QApplication(sys.argv)
+pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), u'resources', u'CogStat splash screen.png'), 'PNG')
+splash_screen = QtGui.QSplashScreen(pixmap)
+splash_screen.show()
+splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
+
+# go on with regular imports, etc.
 import sys
 import os
 import webbrowser
@@ -665,6 +679,6 @@ class GuiResultPackage():
             self.output.append(output)
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    splash_screen.close()
     ex = StatMainWindow()
     sys.exit(app.exec_())
