@@ -51,6 +51,14 @@ except:
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
+#print plt.style.available
+style_num = 15
+#print plt.style.available[style_num]
+plt.style.use(plt.style.available[style_num])
+theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]
+#print theme_colors
+# this is a workaround, as 'C0' notation does not seem to work
+
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
@@ -265,7 +273,7 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25), facecolor=csc.bg_col)
         ax = plt.gca()
         # Add individual data
-        plt.scatter(data, np.random.random(size=len(data)), color=csc.fig_col_bold, marker='o')
+        plt.scatter(data, np.random.random(size=len(data)), color=theme_colors[0], marker='o')
         ax.axes.set_ylim([-1.5, 2.5])
         fig.subplots_adjust(top=0.85, bottom=0.3)
         # Add labels
@@ -289,7 +297,7 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         freqs = [list(pdf[var_name]).count(i) for i in values]
         locs = np.arange(len(values))
         plt.title(_plt('Histogram'), fontsize=csc.graph_font_size)
-        plt.bar(locs, freqs, 0.9, color=csc.fig_col)
+        plt.bar(locs, freqs, 0.9, color=theme_colors[0])
         plt.xticks(locs+0.9/2., _wrap_labels(values))
         plt.ylabel(_plt('Frequency'))
         ax = plt.gca()
@@ -374,7 +382,7 @@ def histogram(pdf, data_measlevs, var_name):
         # Upper part with histogram and individual data
         plt.figure(facecolor=csc.bg_col)
         ax_up = plt.axes([0.1, 0.3, 0.8, 0.6])
-        plt.hist(data.values, bins=len(edge)-1, color=csc.fig_col)
+        plt.hist(data.values, bins=len(edge)-1, color=theme_colors[0])
             # .values needed, otherwise it gives error if the first case is missing data
         # Add individual data
         plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
@@ -398,11 +406,11 @@ def histogram(pdf, data_measlevs, var_name):
             plt.xlabel(_('Rank of %s') % var_name)
         else:
             plt.xlabel(var_name)
-        plt.setp(box1['boxes'], color=csc.fig_col_bold)
-        plt.setp(box1['whiskers'], color=csc.fig_col_bold)
-        plt.setp(box1['caps'], color=csc.fig_col_bold)
-        plt.setp(box1['medians'], color=csc.fig_col_bold)
-        plt.setp(box1['fliers'], color=csc.fig_col_bold)
+        plt.setp(box1['boxes'], color=theme_colors[0])
+        plt.setp(box1['whiskers'], color=theme_colors[0])
+        plt.setp(box1['caps'], color=theme_colors[0])
+        plt.setp(box1['medians'], color=theme_colors[0])
+        plt.setp(box1['fliers'], color=theme_colors[0])
         if data_measlevs[var_name] == 'ord':
             ax_low.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
@@ -477,14 +485,14 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     # Prepare the frequencies for the plot
     val_count = data.value_counts()
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
-    n, bins, patches = plt.hist(data.values, normed=True, color=csc.fig_col)
+    n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
     if max(val_count) > 1:
         suptitle_text = _plt(u'Largest tick on the x axes displays %d cases.') % max(val_count)
     val_count = (val_count*(max(n)/max(val_count)))/20.0
 
     # Graph
     plt.figure(facecolor=csc.bg_col)
-    n, bins, patches = plt.hist(data.values, normed=True, color=csc.fig_col)
+    n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
     plt.plot(bins, matplotlib.pylab.normpdf(bins, np.mean(data), np.std(data)), 'g--', linewidth=3)
     plt.title(_plt('Histogram with individual data and normal distribution'), fontsize=csc.graph_font_size)
     if suptitle_text:
@@ -510,7 +518,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     if csc.versions['statsmodels']:
         fig = plt.figure(facecolor=csc.bg_col)
         ax = fig.add_subplot(111)
-        sm.graphics.qqplot(data, line='s', ax=ax)
+        sm.graphics.qqplot(data, line='s', ax=ax) # TODO set the color
         plt.title(_plt('Quantile-quantile plot'), fontsize=csc.graph_font_size)
         graph2 = plt.gcf()
     else:
@@ -562,7 +570,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         
         # Graph
         plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35), facecolor=csc.bg_col)
-        plt.barh([1], [data.mean()], xerr=[ci], color=csc.fig_col, ecolor='black')
+        plt.barh([1], [data.mean()], xerr=[ci], color=theme_colors[0], ecolor='black')
         plt.gca().axes.get_yaxis().set_visible(False)
         plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
         plt.title(_plt('Mean value with 95% confidence interval'), fontsize=csc.graph_font_size)
@@ -602,7 +610,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
         # Graph
         plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35), facecolor=csc.bg_col)
-        plt.barh([1], [np.median(data)], color=csc.fig_col, ecolor='black')  # TODO error bar
+        plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar
         plt.gca().axes.get_yaxis().set_visible(False)
         plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
         plt.title(_plt('Median value'), fontsize=csc.graph_font_size)
@@ -724,12 +732,12 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
         ax = fig.add_subplot(111)
         if meas_lev == 'int':
             # Display the data
-            ax.scatter(xvalues, yvalues, xy_freq, color=csc.fig_col_bold, marker='o')
+            ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
             # Display the linear fit for the plot
             if not raw_data:
                 fit_x = [min(data.iloc[:,0]), max(data.iloc[:,0])]
                 fit_y = [slope*i+intercept for i in fit_x]
-                ax.plot(fit_x, fit_y, color=csc.fig_col_bold)
+                ax.plot(fit_x, fit_y, color=theme_colors[0])
             # Set the labels
             plt.title(_plt('Scatterplot of the variables'), fontsize=csc.graph_font_size)
             ax.set_xlabel(x)
@@ -737,7 +745,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
         elif meas_lev == 'ord':
             # Display the data
             ax.scatter(stats.rankdata(xvalues), stats.rankdata(yvalues),
-                       xy_freq, color=csc.fig_col_bold, marker='o')
+                       xy_freq, color=theme_colors[0], marker='o')
             ax.set_xlim(0, len(xvalues)+1)
             ax.set_ylim(0, len(yvalues)+1)
             ax.tick_params(top=False, right=False)
@@ -824,11 +832,11 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
         if not raw_data:
             box1 = ax.boxplot(variables)
             # ['medians', 'fliers', 'whiskers', 'boxes', 'caps']
-            plt.setp(box1['boxes'], color=csc.fig_col_bold)
-            plt.setp(box1['whiskers'], color=csc.fig_col_bold)
-            plt.setp(box1['caps'], color=csc.fig_col_bold)
-            plt.setp(box1['medians'], color=csc.fig_col_bold)
-            plt.setp(box1['fliers'], color=csc.fig_col_bold)
+            plt.setp(box1['boxes'], color=theme_colors[0])
+            plt.setp(box1['whiskers'], color=theme_colors[0])
+            plt.setp(box1['caps'], color=theme_colors[0])
+            plt.setp(box1['medians'], color=theme_colors[0])
+            plt.setp(box1['fliers'], color=theme_colors[0])
         else:
             ax.set_xlim(0.5, len(var_names)+0.5)
         plt.xticks(range(1,len(var_names)+1), _wrap_labels(var_names))
@@ -876,12 +884,12 @@ def comp_var_graph_cum(data, var_names, meas_level, data_frame):
             means = np.mean(data)
             cis, cils, cihs = confidence_interval_t(data, ci_only=False)
             ax.bar(range(len(data.columns)), means, 0.5, yerr=cis, align='center', 
-                   color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
+                   color=theme_colors[0], ecolor='0')
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the variables'), fontsize=csc.graph_font_size)
             medians = np.median(data)
             ax.bar(range(len(data.columns)), medians, 0.5, align='center', 
-                   color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
+                   color=theme_colors[0], ecolor='0')
         plt.xticks(range(len(var_names)), _wrap_labels(var_names))
         plt.ylabel(_plt('Value'))
         graph = plt.gcf()
@@ -1036,18 +1044,18 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         # TODO graph: mean, etc.
         #means = [np.mean(self.data_values[self.data_names.index(var_name)]) for var_name in var_names]
         #stds = [np.std(self.data_values[self.data_names.index(var_name)]) for var_name in var_names]
-        #rects1 = ax.bar(range(1,len(variables)+1), means, color=csc.fig_col, yerr=stds)
+        #rects1 = ax.bar(range(1,len(variables)+1), means, color=theme_colors[0], yerr=stds)
         # Create graph
         fig = plt.figure(facecolor=csc.bg_col)
         ax = fig.add_subplot(111)
         # Add boxplot
         if not raw_data_only:
             box1 = ax.boxplot(variables)
-            plt.setp(box1['boxes'], color=csc.fig_col_bold)
-            plt.setp(box1['whiskers'], color=csc.fig_col_bold)
-            plt.setp(box1['caps'], color=csc.fig_col_bold)
-            plt.setp(box1['medians'], color=csc.fig_col_bold)
-            plt.setp(box1['fliers'], color=csc.fig_col_bold)
+            plt.setp(box1['boxes'], color=theme_colors[0])
+            plt.setp(box1['whiskers'], color=theme_colors[0])
+            plt.setp(box1['caps'], color=theme_colors[0])
+            plt.setp(box1['medians'], color=theme_colors[0])
+            plt.setp(box1['fliers'], color=theme_colors[0])
         # Display individual data
         for var_i in range(len(variables)):
             val_count = variables[var_i].value_counts()
@@ -1133,14 +1141,15 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
             plt.title(_plt('Means and 95% confidence intervals for the groups'), fontsize=csc.graph_font_size)
             means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]
             cis = pdf.groupby(groups, sort=False).aggregate(confidence_interval_t)[var_names[0]]
-            ax.bar(range(len(means.values)), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)), align='center', color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
+            ax.bar(range(len(means.values)), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)),
+                   align='center', color=theme_colors[0], ecolor='0')
                    # pandas series is converted to np.array to be able to handle numeric indexes (group levels)
             _set_axis_measurement_level(ax, 'nom', 'int')
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the groups'), fontsize=csc.graph_font_size)
             medians = pdf.groupby(groups[0], sort=False).aggregate(np.median)[var_names[0]]
             ax.bar(range(len(medians.values)), medians.reindex(group_levels), 0.5, align='center', 
-                   color=csc.bg_col, ecolor=csc.fig_col_bold, edgecolor=csc.fig_col)
+                   color=theme_colors[0], ecolor='0')
         if len(groups) == 1:
             group_levels = [[group_level] for group_level in group_levels]
         plt.xticks(range(len(group_levels)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))

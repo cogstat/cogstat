@@ -30,8 +30,6 @@ styles = config['other styles']  # it reads the params as dictionary
 
 # Graph parameters
 bg_col = config['graph']['background color']
-fig_col = config['graph']['figure color']
-fig_col_bold = config['graph']['figure color']
 ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
 fig_size_y = int(config['graph']['graph y size'])
