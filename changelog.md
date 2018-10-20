@@ -6,6 +6,7 @@ Upcoming release
 
 ## New features
 - Single case test for slope index
+- Add splash screen
 - Smaller refinements
 
 # Fixes
