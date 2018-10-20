@@ -27,7 +27,7 @@ class Ui_Dialog(object):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(390, 160)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(20, 110, 341, 32))
+        self.buttonBox.setGeometry(QtCore.QRect(20, 120, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
@@ -43,6 +43,18 @@ class Ui_Dialog(object):
         font.setItalic(True)
         self.label_2.setFont(font)
         self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.themeComboBox = QtGui.QComboBox(Dialog)
+        self.themeComboBox.setGeometry(QtCore.QRect(120, 70, 151, 22))
+        self.themeComboBox.setObjectName(_fromUtf8("themeComboBox"))
+        self.label_3 = QtGui.QLabel(Dialog)
+        self.label_3.setGeometry(QtCore.QRect(30, 70, 91, 21))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.label_4 = QtGui.QLabel(Dialog)
+        self.label_4.setGeometry(QtCore.QRect(40, 100, 321, 16))
+        font = QtGui.QFont()
+        font.setItalic(True)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName(_fromUtf8("label_4"))
 
         self.retranslateUi(Dialog)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
@@ -53,6 +65,8 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Preferences", None))
         self.label.setText(_translate("Dialog", "Language", None))
         self.label_2.setText(_translate("Dialog", "You should restart CogStat to use the new language", None))
+        self.label_3.setText(_translate("Dialog", "Chart theme", None))
+        self.label_4.setText(_translate("Dialog", "You should restart CogStat to use the new theme", None))
 
 
 if __name__ == "__main__":

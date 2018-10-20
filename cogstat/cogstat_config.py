@@ -29,6 +29,7 @@ graph_font_size = float(config['style']['graph font size'])
 styles = config['other styles']  # it reads the params as dictionary
 
 # Graph parameters
+theme = config['graph']['theme']
 bg_col = config['graph']['background color']
 ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
@@ -37,6 +38,9 @@ fig_size_y = int(config['graph']['graph y size'])
 versions = {}  # To be modified from cogstat.py
 
 
-def save(key, value):
-    config[key] = value
+def save(keys, value):
+    if len(keys)==2:
+        config[keys[0]][keys[1]] = value
+    else:
+        config[keys[0]] = value
     config.write()

@@ -292,6 +292,7 @@ class preferences_dialog(QtGui.QDialog, ui.preferences.Ui_Dialog):
         self.buttonBox.rejected.connect(self.reject)
     
         self.init_langs()
+        self.init_themes()
         self.show()
 
     def init_langs(self):
@@ -310,17 +311,29 @@ class preferences_dialog(QtGui.QDialog, ui.preferences.Ui_Dialog):
             langs = [file_name.split(os.path.sep)[-3] for file_name in files]
             return langs
 
-        langs = ['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__))+'/locale')
+        langs = sorted(['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__))+'/locale'))
 
         # TODO is there any automatic method to show the name and not the code 
         # of the languages? Or should we use our own solution (e.g., dictionary)?
         self.langComboBox.clear()
-        for lang in sorted(langs):
+        for lang in langs:
             self.langComboBox.addItem(lang)
         self.langComboBox.setCurrentIndex(langs.index(csc.language))
+
+    def init_themes(self):
+        """Set the available themes.
+        """
+        import matplotlib.pyplot as plt
+
+        themes = sorted(plt.style.available)
+        self.themeComboBox.clear()
+        for theme in themes:
+            self.themeComboBox.addItem(theme)
+        self.themeComboBox.setCurrentIndex(themes.index(csc.theme))
 
     def write_settings(self):
         """Save the settings when OK is pressed.
         """
-        csc.save('language', unicode(self.langComboBox.currentText()))
+        csc.save(['language'], unicode(self.langComboBox.currentText()))
+        csc.save(['graph', 'theme'], unicode(self.themeComboBox.currentText()))
         self.accept()

@@ -51,10 +51,15 @@ except:
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
+if csc.theme not in plt.style.available:
+    csc.theme = sorted(plt.style.available)[0]
+    csc.save(['graph', 'theme'], csc.theme)
+plt.style.use(csc.theme)
+
 #print plt.style.available
-style_num = 15
+#style_num = 15
 #print plt.style.available[style_num]
-plt.style.use(plt.style.available[style_num])
+#plt.style.use(plt.style.available[style_num])
 theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]
 #print theme_colors
 # this is a workaround, as 'C0' notation does not seem to work

@@ -5,13 +5,14 @@ Upcoming release
 ================
 
 ## New features
+- Use themes for the charts
 - Single case test for slope index
 - Add splash screen
 - Smaller refinements
 
 # Fixes
 - :warning: fix single-case modified t-test
-
+- Various bugfixes
 
 1.7.0 (18 June 2018)
 ================
