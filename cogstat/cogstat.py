@@ -350,7 +350,8 @@ class CogStatData:
                 string_buffer = figure.canvas.buffer_rgba(0, 0)
             else:
                 string_buffer = figure.canvas.buffer_rgba()
-            return QtGui.QImage(string_buffer, size_x, size_y, QtGui.QImage.Format_ARGB32).copy()
+            return QtGui.QImage(string_buffer, size_x, size_y, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
+                # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding
                 # this should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI
 
         if output_type in ['ipnb', 'gui']:
