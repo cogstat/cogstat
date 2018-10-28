@@ -9,7 +9,7 @@ setup(name='cogstat',
     packages=find_packages(),
     include_package_data=True,
     license='GNU GPL 3',
-    install_requires=['numpy', 'pandas', 'scipy', 'statsmodels', 'matplotlib', 'IPython', 'savReaderWriter',
-                      'configobj', 'python-bidi']
+    install_requires=['numpy', 'pandas', 'scipy', 'statsmodels', 'matplotlib', 'IPython', 'Jupyter', 'savReaderWriter',
+                      'configobj', 'python-bidi','rpy2']
     # You cannot set the pyqt and R dependency here, because it is not available with pip installation
     )
