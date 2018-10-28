@@ -8,6 +8,7 @@ Upcoming release
 - Use themes for the charts
 - Single case test for slope index
 - Add splash screen
+- Simpler Linux and Mac installation
 - Smaller refinements
 
 # Fixes
