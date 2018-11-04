@@ -247,6 +247,27 @@ class CogStatData:
                               (param_measurement_level if param_measurement_level else file_measurement_level))
                             # param_measurement_level overwrites file_measurement_level
 
+        # Check for unicode chars in the data to warn user not to use it
+        # TODO this might be removed with Python3 and with unicode encoding
+        non_ascii_var_names = []
+        non_ascii_vars = []
+        for variable_name in self.data_frame:
+            if not all(ord(char) < 128 for char in variable_name):  # includes non ascii char
+                non_ascii_var_names.append(variable_name)
+            if self.data_frame[variable_name].dtype == 'object':  # check only string variables
+                for ind_data in self.data_frame[variable_name]:
+                    if not all(ord(char) < 128 for char in ind_data):
+                        non_ascii_vars.append(variable_name)
+                        break  # after finding the first non-ascii data, we can leave the variable
+        if non_ascii_var_names:
+            self.import_message += '\n<warning>' + \
+                                   _('Some variable name(s) include non-English characters, which will cause problems in some analyses: %s. You can fix this in your data source.') \
+                                   % ''.join(' %s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '<default>'
+        if non_ascii_vars:
+            self.import_message += '\n<warning>' + \
+                                   _('Some variable(s) include non-English characters, which will cause problems in some analyses: %s. You can fix this in your data source.') \
+                                   % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) + '<default>'
+
         self.orig_data_frame = self.data_frame.copy()
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
