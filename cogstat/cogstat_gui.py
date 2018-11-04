@@ -47,7 +47,9 @@ _ = t.ugettext
 
 rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 
-broken_analysis = '<default>'+_('%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it.')
+broken_analysis = '<default>'+_('%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
+                  + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
+                  % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'
 
 class StatMainWindow(QtGui.QMainWindow):
     """
@@ -346,7 +348,9 @@ class StatMainWindow(QtGui.QMainWindow):
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
             self.analysis_results[-1].\
                 add_output(cs_util.reformat_output('<default>' +
-                                                   _('Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue.')))
+                                                   _('Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue.') \
+                                                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
+                                                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'))
             traceback.print_exc()
             self._print_to_output_pane()
         self._busy_signal(False)

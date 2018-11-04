@@ -42,8 +42,10 @@ rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
 
-warn_unknown_variable = '<warning>'+_('The measurement levels of the variables are not set. Set them in your data source.') + \
-                        '\n<default>'  # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
+warn_unknown_variable = '<warning>'+_('The measurement levels of the variables are not set. Set them in your data source.') \
+                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                        + '\n<default>'  # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
 
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
                     # any other code will leave the output (e.g., for testing)
@@ -160,13 +162,19 @@ class CogStatData:
                 for var_name in invalid_data:
                     self.data_measlevs[var_name] = 'nom'
                 self.import_message += '\n<warning>' + \
-                                       _(u'String variables cannot be interval or ordinal variables. Those variables are automatically set to nominal: ')\
+                                       _(u'String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: ')\
                                        + ''.join(', %s' % var_name for var_name in invalid_data)[2:]+'. ' + \
-                                       _(u'You might consider fixing this in your source table.')
+                                       _(u'You can fix this in your data source.') \
+                                       + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                       + '<default>'
 
             if set(self.data_measlevs) in ['unk']:
                 self.import_message += '\n<warning>' + \
-                                       _('The measurement level was not set for all variables. You might consider fixing this in your data source.')\
+                                       _('The measurement level was not set for all variables.') + ' '\
+                                       +_('You can fix this in your data source.') \
+                                       + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '<default>'
 
         file_measurement_level = ''
@@ -261,12 +269,20 @@ class CogStatData:
                         break  # after finding the first non-ascii data, we can leave the variable
         if non_ascii_var_names:
             self.import_message += '\n<warning>' + \
-                                   _('Some variable name(s) include non-English characters, which will cause problems in some analyses: %s. You can fix this in your data source.') \
-                                   % ''.join(' %s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '<default>'
+                                   _('Some variable name(s) include non-English characters, which will cause problems in some analyses: %s.') \
+                                   % ''.join(' %s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) \
+                                   + ' ' + _('You can fix this in your data source.') \
+                                   + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                                   % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                   + '<default>'
         if non_ascii_vars:
             self.import_message += '\n<warning>' + \
-                                   _('Some variable(s) include non-English characters, which will cause problems in some analyses: %s. You can fix this in your data source.') \
-                                   % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) + '<default>'
+                                   _('Some variable(s) include non-English characters, which will cause problems in some analyses: %s.') \
+                                   % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) \
+                                   + ' ' + _('You can fix this in your data source.') \
+                                   + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                                   % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                   + '<default>'
 
         self.orig_data_frame = self.data_frame.copy()
 

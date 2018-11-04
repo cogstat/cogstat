@@ -76,7 +76,10 @@ if rtl_lang:
 else:
     _plt = t.ugettext
 
-warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.')+'\n<default>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
+warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.') \
+                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                        + '\n<default>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
 
 table_style = '<style> th, td {padding-right: 5px; padding-left: 5px} </style>'
 
