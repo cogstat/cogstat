@@ -7,6 +7,7 @@ Upcoming release
 ## New features
 - Use themes for the charts
 - Single case test for slope index
+- In warning massages add links with more information
 - Add splash screen
 - Simpler Linux and Mac installation
 - Smaller refinements
