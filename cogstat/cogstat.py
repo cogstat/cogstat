@@ -610,6 +610,7 @@ class CogStatData:
         sample_result = '<h4>'+_('Sample properties')+'</h4>'
         if temp_raw_result:
             sample_result += temp_raw_result
+        standardized_effect_size_result = _('Standardized effect size:') + '\n'
         estimation_result = '<h4>'+_('Population properties')+'</h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         population_result = '\n'
@@ -624,7 +625,7 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            sample_result += _(u"Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
+            standardized_effect_size_result += _(u"Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
             pdf_result.loc[_(u"Pearson's correlation") + ', <i>r</i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             population_result += _(u"Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, %s\n' % \
@@ -632,13 +633,14 @@ class CogStatData:
 
             slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
             # TODO output with the precision of the data
-            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f\n' % (slope, intercept)
+            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (slope, intercept)
 
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
+            standardized_effect_size_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_(u"Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
-            estimation_result += table_style + pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
+            estimation_result += _('Standardized effect size:') \
+                                 + table_style + pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
                 replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
 
             population_result += _(u"Spearman's rank-order correlation") + \
@@ -652,9 +654,10 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            sample_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f' % r
+            standardized_effect_size_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_(u"Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
-            estimation_result += table_style + pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
+            estimation_result += _('Standardized effect size:') \
+                                 + table_style + pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
                 replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
             population_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
@@ -666,7 +669,7 @@ class CogStatData:
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
             population_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
             cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
-            sample_result += '\n' + cramer_result
+            standardized_effect_size_result += cramer_result
             population_result += chi_result
         sample_result += '\n'
         population_result += '\n'
@@ -679,8 +682,8 @@ class CogStatData:
                 population_result += temp_text_result
         else:
             sample_graph = None
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, estimation_result,
-                                     population_result])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
+                                     standardized_effect_size_result, estimation_result, population_result])
 
     #correlations(x,y)  # test
 
@@ -935,6 +938,7 @@ class CogStatData:
 
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
+            standardized_effect_size_result = None
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:
@@ -1043,7 +1047,10 @@ class CogStatData:
                         result_ht += '<decision>' + \
                                   _('Normality and homogeneity of variance are not violated. >> Running one-way ANOVA.')\
                                   + '\n<default>'
-                        result_ht += cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
+                        anova_result, effect_size_result = cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
+                        result_ht += anova_result
+                        standardized_effect_size_result = _('Standardized effect size:') + '\n' + effect_size_result
+
                     if non_normal_groups:
                         result_ht += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % \
                                                (var_names[0], ', '.join(map(str, non_normal_groups)))
@@ -1165,7 +1172,8 @@ class CogStatData:
             raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n'
             return self._convert_output([title, raw_result])
 
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])
+        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
+                                     population_graph, result_ht, standardized_effect_size_result])
 
 
 def display(results):

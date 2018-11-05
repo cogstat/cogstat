@@ -1340,7 +1340,7 @@ def one_way_anova(pdf, var_name, grouping_name):
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
     omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
              ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
-    text_result += _('Effect size: ') + '<i>&omega;<sup>2</sup></i> = %0.3g\n' % omega2
+    effect_size_result = _('Effect size: ') + '<i>&omega;<sup>2</sup></i> = %0.3g\n' % omega2
     # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
     if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
@@ -1359,7 +1359,7 @@ def one_way_anova(pdf, var_name, grouping_name):
         post_hoc_res.confint
         post_hoc_res.reject
         '''
-    return text_result
+    return text_result, effect_size_result
 
 def two_way_anova(pdf, var_name, grouping_names):
     """Two-way ANOVA
