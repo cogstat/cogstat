@@ -12,6 +12,9 @@ Upcoming release
 - Add splash screen
 - Simpler Linux and Mac installation
 - Smaller refinements
+- New localizations
+    - Slovakian (Katarína Sümegiová)
+    - Thai (Jinshana Praemcheun)
 
 # Fixes
 - :warning: fix single-case modified t-test
@@ -115,7 +118,7 @@ Upcoming release
 - Various bugfixes
 - Updated Language files
     - German (László Veller)
-	- Romanian (Orsolya Kiss)
+    - Romanian (Orsolya Kiss)
 
 1.3.0 (4 September 2015)
 ===============
