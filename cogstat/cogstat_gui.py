@@ -7,12 +7,12 @@ GUI for CogStat.
 import os
 import sys
 
-from PyQt4 import QtGui
-from PyQt4.QtCore import Qt
+from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtCore import Qt
 
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), u'resources', u'CogStat splash screen.png'), 'PNG')
-splash_screen = QtGui.QSplashScreen(pixmap)
+splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
 
@@ -32,8 +32,7 @@ import cogstat_config as csc
 csc.versions['cogstat'] = cogstat.__version__
 import cogstat_util as cs_util
 
-from PyQt4 import QtGui
-from PyQt4 import QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
 cs_util.get_versions()
 
@@ -51,7 +50,7 @@ broken_analysis = '<default>'+_('%s Oops, something went wrong, CogStat could no
                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'
 
-class StatMainWindow(QtGui.QMainWindow):
+class StatMainWindow(QtWidgets.QMainWindow):
     """
     CogStat GUI.
     """
@@ -63,7 +62,7 @@ class StatMainWindow(QtGui.QMainWindow):
         # TODO Maybe all these checking can be removed
         missing_required_components, missing_recommended_components = self._check_installed_components()
         if missing_required_components or missing_recommended_components:
-            QtGui.QMessageBox.critical(self, 'Incomplete installation', u'Install missing component(s): ' + ''.join([x+u', ' for x in missing_required_components+missing_recommended_components])[:-2]+u'.<br><br>'+u'<a href = "https://github.com/cogstat/cogstat/wiki/Installation">Visit the installation help page</a> to see how to complete the installation.', QtGui.QMessageBox.Ok)
+            QtWidgets.QMessageBox.critical(self, 'Incomplete installation', u'Install missing component(s): ' + ''.join([x+u', ' for x in missing_required_components+missing_recommended_components])[:-2]+u'.<br><br>'+u'<a href = "https://github.com/cogstat/cogstat/wiki/Installation">Visit the installation help page</a> to see how to complete the installation.', QtWidgets.QMessageBox.Ok)
             if missing_required_components:
                 sys.exit()
         
@@ -102,7 +101,7 @@ class StatMainWindow(QtGui.QMainWindow):
         try:
             latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version').read()
             if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
-                QtGui.QMessageBox.about(self, _('Update available'),
+                QtWidgets.QMessageBox.about(self, _('Update available'),
                                         _('New version is available.') + '<br><br>' +
                                         _('You can download the new version<br>from the <a href = "%s">CogStat download page</a>.')%'http://www.cogstat.org/download.html')
         except:
@@ -173,7 +172,7 @@ class StatMainWindow(QtGui.QMainWindow):
                 if menu[i][0] == 'separator':
                     self.menus[-1].addSeparator()
                 else:
-                    self.menu_commands[menu[i][1]] = QtGui.QAction(QtGui.QIcon(menu[i][0]), menu[i][1], self)
+                    self.menu_commands[menu[i][1]] = QtWidgets.QAction(QtGui.QIcon(menu[i][0]), menu[i][1], self)
                     self.menu_commands[menu[i][1]].setShortcut(menu[i][2])
                     self.menu_commands[menu[i][1]].setStatusTip(menu[i][3])
                     self.menu_commands[menu[i][1]].triggered.connect(eval(menu[i][4]))
@@ -185,8 +184,8 @@ class StatMainWindow(QtGui.QMainWindow):
                 pass
         
         # Prepare Output pane
-        self.output_pane = QtGui.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        self.output_pane.setLineWrapMode (QtGui.QTextEdit.NoWrap)
+        self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
+        self.output_pane.setLineWrapMode (QtWidgets.QTextEdit.NoWrap)
         self.output_pane.setText('<br><b>%s</b><br>%s<br>%s<br>%s<br>' %
                                  (_('Welcome to CogStat!'), _('CogStat makes statistical analysis more simple and efficient.'),
                                   _('To start working open a data file or paste your data from a spreadsheet.'),
@@ -282,14 +281,14 @@ class StatMainWindow(QtGui.QMainWindow):
         # http://qt-project.org/doc/qt-4.7/qt.html see CursorShape
         # http://qt-project.org/doc/qt-4.7/qapplication.html#id-19f00dae-ec43-493e-824c-ef07ce96d4c6
         if on:
-            QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.BusyCursor))
         else:
-            while QtGui.QApplication.overrideCursor() is not None:
+            while QtWidgets.QApplication.overrideCursor() is not None:
                 # TODO if for some reason (unhandled exception) the cursor was not set back formerly,
                 # then next time set it back
                 # FIXME exception handling should solve this problem on the long term
-                QtGui.QApplication.restoreOverrideCursor()
+                QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
     def _print_to_output_pane(self, index=-1):
@@ -319,14 +318,15 @@ class StatMainWindow(QtGui.QMainWindow):
         """
         if filename in ['', False]:
             filename = cogstat_dialogs.open_data_file()
+        print filename
         if filename:
             self._open_data(unicode(filename))
 
     def open_clipboard(self):
         """Open data copied to clipboard."""
-        clipboard = QtGui.QApplication.clipboard()
+        clipboard = QtWidgets.QApplication.clipboard()
         if clipboard.mimeData().hasFormat("text/plain"):
-            self._open_data(unicode(clipboard.text("plain", QtGui.QClipboard.Clipboard)))
+            self._open_data(unicode(clipboard.text()))
     
     def _open_data(self, data):
         """ Core of the import process.
@@ -335,7 +335,7 @@ class StatMainWindow(QtGui.QMainWindow):
         try:
             self.active_data = cogstat.CogStatData(data=data)
             if self.active_data.import_source == _('Import failed'):
-                QtGui.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'), QtGui.QMessageBox.Ok)
+                QtWidgets.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'), QtWidgets.QMessageBox.Ok)
                 self._show_data_menus(False)
             else:
                 self._show_data_menus()
@@ -559,10 +559,10 @@ class StatMainWindow(QtGui.QMainWindow):
 
     ### Result menu methods ###
     def delete_output(self):
-        reply = QtGui.QMessageBox.question(self, _('Clear output'),
-            _('Are you sure you want to delete the output?'), QtGui.QMessageBox.Yes | 
-            QtGui.QMessageBox.No, QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
+        reply = QtWidgets.QMessageBox.question(self, _('Clear output'),
+            _('Are you sure you want to delete the output?'), QtWidgets.QMessageBox.Yes | 
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+        if reply == QtWidgets.QMessageBox.Yes:
             self.output_pane.clear()
             self.analysis_results = []
             self.unsaved_output = False  # Not necessary to save the empty output
@@ -572,9 +572,9 @@ class StatMainWindow(QtGui.QMainWindow):
         if self.output_filename == '':
             self.save_result_as()
         else:
-            pdf_printer = QtGui.QPrinter()
-            pdf_printer.setOutputFormat(QtGui.QPrinter.PdfFormat)
-            pdf_printer.setColorMode(QtGui.QPrinter.Color)
+            pdf_printer = QtPrintSupport.QPrinter()
+            pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
+            pdf_printer.setColorMode(QtPrintSupport.QPrinter.Color)
             pdf_printer.setOutputFileName(self.output_filename)
             self.output_pane.print_(pdf_printer)
             self.unsaved_output = False
@@ -590,8 +590,8 @@ class StatMainWindow(QtGui.QMainWindow):
         self.output_filename = filename
         if filename:
             # self.output_pane.setLineWrapMode (QtGui.QTextEdit.FixedPixelWidth)  # TODO
-            pdf_printer = QtGui.QPrinter()
-            pdf_printer.setOutputFormat(QtGui.QPrinter.PdfFormat)
+            pdf_printer = QtPrintSupport.QPrinter()
+            pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
             pdf_printer.setOutputFileName(self.output_filename)
             self.output_pane.print_(pdf_printer)
             # self.output_pane.setLineWrapMode (QtGui.QTextEdit.NoWrap)
@@ -615,7 +615,7 @@ class StatMainWindow(QtGui.QMainWindow):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Report-a-bug')
         
     def _show_about(self):
-        QtGui.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+(u'<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://www.cogstat.org">%s</a>'%(_('Simple automatic data analysis software'), 2012, 2018, _('Visit CogStat website'))))
+        QtWidgets.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+(u'<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://www.cogstat.org">%s</a>'%(_('Simple automatic data analysis software'), 2012, 2018, _('Visit CogStat website'))))
 
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""
@@ -637,10 +637,10 @@ class StatMainWindow(QtGui.QMainWindow):
         # Check if everything is saved
         tosave = True
         while self.unsaved_output and tosave:
-            reply = QtGui.QMessageBox.question(self, _('Save output'),
-                _('Output has unsaved results. Do you want to save it?'), QtGui.QMessageBox.Yes | 
-                QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
-            if reply == QtGui.QMessageBox.Yes:
+            reply = QtWidgets.QMessageBox.question(self, _('Save output'),
+                _('Output has unsaved results. Do you want to save it?'), QtWidgets.QMessageBox.Yes | 
+                QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.Yes)
+            if reply == QtWidgets.QMessageBox.Yes:
                 self.save_result()
             else:
                 tosave=False

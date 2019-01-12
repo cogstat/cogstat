@@ -2,7 +2,13 @@
 
 import gettext
 import cogstat_config as csc
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtWidgets
+
+try:
+    QString = unicode
+except NameError:
+    # Python 3
+    QString = str
 
 t = gettext.translation('cogstat', 'locale/', [csc.language], fallback=True)
 _ = t.ugettext
@@ -13,11 +19,11 @@ _ = t.ugettext
 
 
 def open_data_file():
-    return unicode(QtGui.QFileDialog.getOpenFileName(None, _('Open data file'), '',  '*.txt *.log *.csv *.tsv *.sav'))
+    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',  '*.txt *.log *.csv *.tsv *.sav')[0])
 
 
 def save_output():
-    return unicode(QtGui.QFileDialog.getSaveFileName(None, _('Save result file'), 'result.pdf', '*.pdf'))
+    return unicode(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'result.pdf', '*.pdf')[0])
 
 # XXX self.buttonBox.Ok.setEnabled(False) # TODO how can we disable the OK button without the other?
 # TODO Some variables are CamelCase - change them
@@ -30,7 +36,7 @@ def save_output():
 def init_source_vars(list_widget, names):
     list_widget.clear() # clear source list in case new data is loaded
     for var_name in names:
-        list_widget.addItem(QtCore.QString(var_name))
+        list_widget.addItem(QString(var_name))
 
 
 def remove_ceased_vars(list_widget, names):
@@ -54,7 +60,7 @@ def add_to_list_widget(source_list_widget, target_list_widget):
                 item_in_the_list = True
                 break
         if not item_in_the_list:
-            target_list_widget.addItem(QtCore.QString(item.text()))
+            target_list_widget.addItem(QString(item.text()))
 
 
 def remove_item_from_list_widget(list_widget):
@@ -67,9 +73,9 @@ def remove_item_from_list_widget(list_widget):
 ### Data dialogs ###
 
 import ui.pivot
-class pivot_dialog(QtGui.QDialog, ui.pivot.Ui_Dialog):
+class pivot_dialog(QtWidgets.QDialog, ui.pivot.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -110,7 +116,7 @@ class pivot_dialog(QtGui.QDialog, ui.pivot.Ui_Dialog):
         remove_item_from_list_widget(self.pagesListWidget)
     def add_dependent(self):
         if self.dependentListWidget.count() == 0:  # do this only if the list is empty
-            self.dependentListWidget.addItem(QtCore.QString(self.sourceListWidget.currentItem().text()))
+            self.dependentListWidget.addItem(QString(self.sourceListWidget.currentItem().text()))
     def remove_dependent(self):
         self.dependentListWidget.takeItem(self.dependentListWidget.currentRow())
     
@@ -123,9 +129,9 @@ class pivot_dialog(QtGui.QDialog, ui.pivot.Ui_Dialog):
 
 
 import ui.var_properties
-class explore_var_dialog(QtGui.QDialog, ui.var_properties.Ui_Dialog):
+class explore_var_dialog(QtWidgets.QDialog, ui.var_properties.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -152,9 +158,9 @@ class explore_var_dialog(QtGui.QDialog, ui.var_properties.Ui_Dialog):
 
 
 import ui.explore_var_pairs
-class explore_var_pairs_dialog(QtGui.QDialog, ui.explore_var_pairs.Ui_Dialog):
+class explore_var_pairs_dialog(QtWidgets.QDialog, ui.explore_var_pairs.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -179,9 +185,9 @@ class explore_var_pairs_dialog(QtGui.QDialog, ui.explore_var_pairs.Ui_Dialog):
 
 
 import ui.compare_vars
-class compare_vars_dialog(QtGui.QDialog, ui.compare_vars.Ui_Dialog):
+class compare_vars_dialog(QtWidgets.QDialog, ui.compare_vars.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -205,9 +211,9 @@ class compare_vars_dialog(QtGui.QDialog, ui.compare_vars.Ui_Dialog):
         return [unicode(self.selected_listWidget.item(i).text(), 'utf-8') for i in range(self.selected_listWidget.count())]
 
 import ui.compare_groups_single_case_slope
-class compare_groups_single_case_slope_dialog(QtGui.QDialog, ui.compare_groups_single_case_slope.Ui_Dialog):
+class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, ui.compare_groups_single_case_slope.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -236,9 +242,9 @@ class compare_groups_single_case_slope_dialog(QtGui.QDialog, ui.compare_groups_s
 
 
 import ui.compare_groups
-class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
+class compare_groups_dialog(QtWidgets.QDialog, ui.compare_groups.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
@@ -284,9 +290,9 @@ class compare_groups_dialog(QtGui.QDialog, ui.compare_groups.Ui_Dialog):
 
 
 import ui.preferences
-class preferences_dialog(QtGui.QDialog, ui.preferences.Ui_Dialog):
+class preferences_dialog(QtWidgets.QDialog, ui.preferences.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.write_settings)
         self.buttonBox.rejected.connect(self.reject)

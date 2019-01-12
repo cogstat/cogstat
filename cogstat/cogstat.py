@@ -6,6 +6,12 @@ appropriate statistics for the main analysis commands.
 """
 
 # if CS is used with GUI, start the splash screen
+try:
+    QString = unicode
+except NameError:
+    # Python 3
+    QString = str
+
 if __name__ == '__main__':
     import cogstat_gui
 
@@ -33,7 +39,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rcParams
 from matplotlib.figure import Figure
 
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 
 logging.root.setLevel(logging.INFO)
 
@@ -288,9 +294,9 @@ class CogStatData:
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
         # TODO do we still need this?
-        from PyQt4 import QtCore
+        from PyQt5 import QtCore
         for var_name in self.data_frame.columns:
-            self.data_measlevs[QtCore.QString(var_name)] = self.data_measlevs[var_name]
+            self.data_measlevs[QString(var_name)] = self.data_measlevs[var_name]
 
     def print_data(self, brief=False):
         """Print data."""

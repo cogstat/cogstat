@@ -49,8 +49,8 @@ def get_versions():
     except:
         csc.versions['matplotlib'] = None
     try:
-        import PyQt4.pyqtconfig
-        csc.versions['pyqt'] = PyQt4.pyqtconfig.Configuration().pyqt_version_str
+        from PyQt5.Qt import PYQT_VERSION_STR
+        csc.versions['pyqt'] = PYQT_VERSION_STR
         # PyQt style can be checked only if the window is open and the object is available
         # It is GUI specific
         #csc.versions['pyqtstyle'] = main_window.style().metaObject().className()
