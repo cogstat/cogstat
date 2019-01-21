@@ -24,7 +24,6 @@ heading_style_begin = config['style']['heading begin']
 heading_style_end = config['style']['heading end']
 default_font = config['style']['default output font']
 default_font_size = float(config['style']['default output font size'])
-graph_font_size = float(config['style']['graph font size'])
 
 styles = config['other styles']  # it reads the params as dictionary
 
@@ -37,7 +36,10 @@ bg_col = config['graph']['background color']
 ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
 fig_size_y = int(config['graph']['graph y size'])
-
+try:  # TODO handle if default .ini file has changed (e.g., new key was added)
+    graph_font_size = config['graph']['graph font size']
+except:
+    graph_font_size = config['style']['graph font size']
 versions = {}  # To be modified from cogstat.py
 
 

@@ -51,6 +51,8 @@ except:
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
+### Set matplotlib styles ###
+# Set the styles
 if csc.theme not in plt.style.available:
     csc.theme = sorted(plt.style.available)[0]
     csc.save(['graph', 'theme'], csc.theme)
@@ -63,6 +65,26 @@ plt.style.use(csc.theme)
 theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]
 #print theme_colors
 # this is a workaround, as 'C0' notation does not seem to work
+
+# Overwrite style parameters when needed
+# https://matplotlib.org/tutorials/introductory/customizing.html
+# Some dashed and dotted axes styles (which are simply line styles) are hard to differentiate, so we overwrite the style
+#print matplotlib.rcParams['lines.dashed_pattern'], matplotlib.rcParams['lines.dotted_pattern']
+matplotlib.rcParams['lines.dashed_pattern'] = [6.0, 6.0]
+matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
+#print matplotlib.rcParams['axes.spines.left']
+#print matplotlib.rcParams['font.size'], matplotlib.rcParams['font.serif'], matplotlib.rcParams['font.sans-serif']
+#print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
+matplotlib.rcParams['axes.titlesize'] = csc.graph_font_size # title of the charts
+matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size # labels of the axis
+#print matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize']
+#print matplotlib.rcParams['figure.facecolor']
+#matplotlib.rcParams['figure.facecolor'] = csc.bg_col
+# Make sure that the axes are visible
+#print matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor']
+if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
+    #print matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor'])
+    matplotlib.rcParams['axes.edgecolor'] = 'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor'])==(0, 0, 0, 0) else 'k'
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.ugettext
@@ -278,7 +300,7 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         data = pd.Series(stats.rankdata(data_value))
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         # Upper part with histogram and individual data
-        fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25), facecolor=csc.bg_col)
+        fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25))
         ax = plt.gca()
         # Add individual data
         plt.scatter(data, np.random.random(size=len(data)), color=theme_colors[0], marker='o')
@@ -286,10 +308,10 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
         fig.subplots_adjust(top=0.85, bottom=0.3)
         # Add labels
         if data_measlevs[var_name] == 'ord':
-            plt.title(_plt('Rank of the raw data'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Rank of the raw data'))
             plt.xlabel(_('Rank of %s') % var_name)
         else:
-            plt.title(_plt('Raw data'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Raw data'))
             plt.xlabel(var_name)
         ax.axes.get_yaxis().set_visible(False)
         if data_measlevs[var_name] == 'ord':
@@ -300,11 +322,11 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
             _set_axis_measurement_level(ax, 'ord', 'nom')
     elif data_measlevs[var_name] in ['nom']:
         # For nominal variables the histogram is a frequency graph
-        plt.figure(facecolor=csc.bg_col)
+        plt.figure()
         values = list(set(pdf[var_name]))
         freqs = [list(pdf[var_name]).count(i) for i in values]
         locs = np.arange(len(values))
-        plt.title(_plt('Histogram'), fontsize=csc.graph_font_size)
+        plt.title(_plt('Histogram'))
         plt.bar(locs, freqs, 0.9, color=theme_colors[0])
         plt.xticks(locs+0.9/2., _wrap_labels(values))
         plt.ylabel(_plt('Frequency'))
@@ -388,7 +410,7 @@ def histogram(pdf, data_measlevs, var_name):
         val_count = (val_count*(max(freq)/max(val_count)))/20.0
 
         # Upper part with histogram and individual data
-        plt.figure(facecolor=csc.bg_col)
+        plt.figure()
         ax_up = plt.axes([0.1, 0.3, 0.8, 0.6])
         plt.hist(data.values, bins=len(edge)-1, color=theme_colors[0])
             # .values needed, otherwise it gives error if the first case is missing data
@@ -399,9 +421,9 @@ def histogram(pdf, data_measlevs, var_name):
         #plt.plot(np.array(val_count.index), np.zeros(val_count.shape), 'k|', markersize=10, markeredgewidth=1.5)
         # Add labels
         if data_measlevs[var_name] == 'ord':
-            plt.title(_plt('Histogram of rank data with individual data and boxplot'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Histogram of rank data with individual data and boxplot'))
         else:
-            plt.title(_plt('Histogram with individual data and boxplot'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Histogram with individual data and boxplot'))
         if suptitle_text:
             plt.suptitle(suptitle_text, x=0.9, y=0.02, horizontalalignment='right', fontsize=10)
         plt.gca().axes.get_xaxis().set_visible(False)
@@ -499,10 +521,10 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     val_count = (val_count*(max(n)/max(val_count)))/20.0
 
     # Graph
-    plt.figure(facecolor=csc.bg_col)
+    plt.figure()
     n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
     plt.plot(bins, matplotlib.pylab.normpdf(bins, np.mean(data), np.std(data)), 'g--', linewidth=3)
-    plt.title(_plt('Histogram with individual data and normal distribution'), fontsize=csc.graph_font_size)
+    plt.title(_plt('Histogram with individual data and normal distribution'))
     if suptitle_text:
         plt.suptitle(suptitle_text, x=0.9, y=0.02, horizontalalignment='right', fontsize=10)
     plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape), 
@@ -524,10 +546,10 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     
     # QQ plot
     if csc.versions['statsmodels']:
-        fig = plt.figure(facecolor=csc.bg_col)
+        fig = plt.figure()
         ax = fig.add_subplot(111)
         sm.graphics.qqplot(data, line='s', ax=ax) # TODO set the color
-        plt.title(_plt('Quantile-quantile plot'), fontsize=csc.graph_font_size)
+        plt.title(_plt('Quantile-quantile plot'))
         graph2 = plt.gcf()
     else:
         text_result += '\n'+_('Sorry, QQ plot is only displayed if the statsmodels module is installed.')
@@ -577,11 +599,11 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         text_result += _('One sample t-test against %g')%float(test_value)+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
         
         # Graph
-        plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35), facecolor=csc.bg_col)
+        plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35))
         plt.barh([1], [data.mean()], xerr=[ci], color=theme_colors[0], ecolor='black')
         plt.gca().axes.get_yaxis().set_visible(False)
         plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
-        plt.title(_plt('Mean value with 95% confidence interval'), fontsize=csc.graph_font_size)
+        plt.title(_plt('Mean value with 95% confidence interval'))
         image = plt.gcf()
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
@@ -617,11 +639,11 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
         text_result += _('Result of Wilcoxon signed-rank test')+': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
 
         # Graph
-        plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35), facecolor=csc.bg_col)
+        plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y*0.35))
         plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar
         plt.gca().axes.get_yaxis().set_visible(False)
         plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
-        plt.title(_plt('Median value'), fontsize=csc.graph_font_size)
+        plt.title(_plt('Median value'))
         image = plt.gcf()
     else:
         text_result += _('Wilcoxon signed-rank test is computed only for interval or ordinal variables.')
@@ -736,7 +758,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
         xy_freq *= 20.0
 
         # Draw figure
-        fig = plt.figure(facecolor=csc.bg_col)
+        fig = plt.figure()
         ax = fig.add_subplot(111)
         if meas_lev == 'int':
             # Display the data
@@ -747,7 +769,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
                 fit_y = [slope*i+intercept for i in fit_x]
                 ax.plot(fit_x, fit_y, color=theme_colors[0])
             # Set the labels
-            plt.title(_plt('Scatterplot of the variables'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Scatterplot of the variables'))
             ax.set_xlabel(x)
             ax.set_ylabel(y)
         elif meas_lev == 'ord':
@@ -769,7 +791,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
                                 if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()])
             _set_axis_measurement_level(ax, 'ord', 'ord')
             # Display the labels
-            plt.title(_plt('Scatterplot of the rank of the variables'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Scatterplot of the rank of the variables'))
             ax.set_xlabel(_plt('Rank of %s') % x)
             ax.set_ylabel(_plt('Rank of %s') % y)
         if suptitle_text:
@@ -792,7 +814,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             ax = plt.subplot(111)
             ax.set_xlabel(x)
             ax.set_ylabel(y)
-            plt.title(_plt('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Mosaic plot of the variables'))
             _set_axis_measurement_level(ax, 'nom', 'nom')
             try:
                 graph = plt.gcf()
@@ -814,12 +836,12 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
     # TODO is it OK for ordinals?
         variables = np.array(data)
 
-        fig = plt.figure(facecolor=csc.bg_col)
+        fig = plt.figure()
         ax = fig.add_subplot(111)
         if raw_data:
-            plt.title(_plt('Individual data of the variables'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Individual data of the variables'))
         else:
-            plt.title(_plt('Boxplot and individual data of the variables'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Boxplot and individual data of the variables'))
         # Display individual data
         for i in range(len(variables.transpose())-1):  # for all pairs
             # Prepare the frequencies for the plot
@@ -867,7 +889,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
                 ax = plt.subplot(111)
                 ax.set_xlabel(var_pair[1])
                 ax.set_ylabel(var_pair[0])
-                plt.title(_plt('Mosaic plot of the variables'), fontsize=csc.graph_font_size)
+                plt.title(_plt('Mosaic plot of the variables'))
                 _set_axis_measurement_level(ax, 'nom', 'nom')
                 try:
                     graph.append(plt.gcf())
@@ -884,17 +906,17 @@ def comp_var_graph_cum(data, var_names, meas_level, data_frame):
     graph = None
     if meas_level in ['int', 'unk']:
         # ord is excluded at the moment
-        fig = plt.figure(facecolor=csc.bg_col)
+        fig = plt.figure()
         ax = fig.add_subplot(111)
 
         if meas_level in ['int', 'unk']:
-            plt.title(_plt('Means and 95% confidence intervals for the variables'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Means and 95% confidence intervals for the variables'))
             means = np.mean(data)
             cis, cils, cihs = confidence_interval_t(data, ci_only=False)
             ax.bar(range(len(data.columns)), means, 0.5, yerr=cis, align='center', 
                    color=theme_colors[0], ecolor='0')
         elif meas_level in ['ord']:
-            plt.title(_plt('Medians for the variables'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Medians for the variables'))
             medians = np.median(data)
             ax.bar(range(len(data.columns)), medians, 0.5, align='center', 
                    color=theme_colors[0], ecolor='0')
@@ -1054,7 +1076,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         #stds = [np.std(self.data_values[self.data_names.index(var_name)]) for var_name in var_names]
         #rects1 = ax.bar(range(1,len(variables)+1), means, color=theme_colors[0], yerr=stds)
         # Create graph
-        fig = plt.figure(facecolor=csc.bg_col)
+        fig = plt.figure()
         ax = fig.add_subplot(111)
         # Add boxplot
         if not raw_data_only:
@@ -1082,10 +1104,9 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         if meas_level == 'ord':
             plt.ylabel(_('Rank of %s') % var_names[0])
             if raw_data_only:
-                plt.title(_plt('Individual data of the rank data of the groups'), fontsize=csc.graph_font_size)
+                plt.title(_plt('Individual data of the rank data of the groups'))
             else:
-                plt.title(_plt('Boxplot and individual data of the rank data of the groups'),
-                          fontsize=csc.graph_font_size)
+                plt.title(_plt('Boxplot and individual data of the rank data of the groups'))
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
             try:
@@ -1099,9 +1120,9 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         else:
             plt.ylabel(var_names[0])
             if raw_data_only:
-                plt.title(_plt('Individual data of the groups'), fontsize=csc.graph_font_size)
+                plt.title(_plt('Individual data of the groups'))
             else:
-                plt.title(_plt('Boxplot and individual data of the groups'), fontsize=csc.graph_font_size)
+                plt.title(_plt('Boxplot and individual data of the groups'))
             _set_axis_measurement_level(ax, 'nom', 'int')
         graph = fig
     elif meas_level in ['nom']:
@@ -1118,7 +1139,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ax = plt.subplot(111)
             ax.set_xlabel(' : '.join(groups))
             ax.set_ylabel(var_names[0])
-            plt.title(_plt('Mosaic plot of the groups'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Mosaic plot of the groups'))
             _set_axis_measurement_level(ax, 'nom', 'nom')
             try:
                 graph = fig
@@ -1141,12 +1162,12 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
 #        group_levels = [[group_level] for group_level in group_levels]
     if meas_level in ['int', 'unk']:
         # ord is excluded at the moment
-        fig = plt.figure(facecolor=csc.bg_col)
+        fig = plt.figure()
         ax = fig.add_subplot(111)
         
         pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
         if meas_level in ['int', 'unk']:
-            plt.title(_plt('Means and 95% confidence intervals for the groups'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Means and 95% confidence intervals for the groups'))
             means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]
             cis = pdf.groupby(groups, sort=False).aggregate(confidence_interval_t)[var_names[0]]
             ax.bar(range(len(means.values)), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)),
@@ -1154,7 +1175,7 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
                    # pandas series is converted to np.array to be able to handle numeric indexes (group levels)
             _set_axis_measurement_level(ax, 'nom', 'int')
         elif meas_level in ['ord']:
-            plt.title(_plt('Medians for the groups'), fontsize=csc.graph_font_size)
+            plt.title(_plt('Medians for the groups'))
             medians = pdf.groupby(groups[0], sort=False).aggregate(np.median)[var_names[0]]
             ax.bar(range(len(medians.values)), medians.reindex(group_levels), 0.5, align='center', 
                    color=theme_colors[0], ecolor='0')
