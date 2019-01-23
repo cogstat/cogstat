@@ -1,0 +1,1297 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: CogStat\n"
+"Language: th\n"
+
+#: .././cogstat_stat.py:66
+msgid "The properties of the variables are not set. Set them in your data source."
+msgstr "คุณสมบัติของตัวแปรยังไม่ถูกตั้งค่า กรุณาตั้งค่าก่อนในไฟล์ดาต้าข้อมูล"
+
+#: .././cogstat_stat.py:153
+msgid "Sorry, only one dependent variable can be used."
+msgstr "ขออภัย สามารถใส่ค่าตัวแปรตามได้แค่ 1 ค่า"
+
+#: .././cogstat_stat.py:155
+msgid "Sorry, string variables cannot be used in Pivot table."
+msgstr "เสียใจด้วย สตริง(ข้อมูลที่เป็นตัวอักษร)ไม่สามารถนำมาใช้ในPivot table"
+
+#: .././cogstat_stat.py:160
+msgid "Independent variable(s) - Pages: "
+msgstr "ตัวแปรอิสระ - หน้า: "
+
+#: .././cogstat_stat.py:162
+msgid "Independent variable(s) - Columns: "
+msgstr "ตัวแปรอิสระ - คอลัมน์: "
+
+#: .././cogstat_stat.py:164
+msgid "Independent variable(s) - Rows: "
+msgstr "ตัวแปรอิสระ - แถว: "
+
+#: .././cogstat_stat.py:165
+msgid "Function: "
+msgstr "ฟังค์ชั่น: "
+
+#: .././cogstat_stat.py:336 .././cogstat_stat.py:338 .././cogstat_stat.py:836
+#: .././cogstat_stat.py:887
+msgid "Value"
+msgstr "ค่า"
+
+#: .././cogstat_stat.py:371 .././cogstat_stat.py:482
+msgid "Largest tick on the x axes displays %d cases."
+msgstr "ติ๊กที่กว้างที่สุดบนแกน x แสดงถึงกรณี %d"
+
+#: .././cogstat_stat.py:388
+msgid "Histogram with individual data and boxplot"
+msgstr "ฮิสโตแกรมพร้อมข้อมูลเฉพาะและboxplot"
+
+#: .././cogstat_stat.py:294 .././cogstat_stat.py:392
+msgid "Frequency"
+msgstr "ความถี่"
+
+#: .././cogstat_stat.py:291
+msgid "Histogram"
+msgstr "ฮิสโตแกรม"
+
+#: .././cogstat_stat.py:256
+msgid "N of valid cases: %g"
+msgstr "N ของกรณีที่เป็นไปได้: %g"
+
+#: .././cogstat_stat.py:451
+msgid "Mean: %0.*f"
+msgstr "มัชฌิม:%0.*f"
+
+#: .././cogstat_stat.py:452
+msgid "Standard deviation: %0.*f"
+msgstr "ค่าเบี่ยงเบนมาตรฐาน:%0.*f"
+
+#: .././cogstat_stat.py:454
+msgid "Skewness: %0.*f"
+msgstr "ความเบ้:%0.*f"
+
+#: .././cogstat_stat.py:456
+msgid "Kurtosis: %0.*f"
+msgstr "ความโด่ง:%0.*f"
+
+#: .././cogstat.py:477 .././cogstat.py:515
+msgid "Median: %0.*f"
+msgstr "มัธยฐาน:%0.*f"
+
+#: .././cogstat_stat.py:462
+msgid "Range: %0.*f"
+msgstr "พิสัย:%0.*f"
+
+#: .././cogstat_stat.py:456
+msgid "Normality can be checked only for interval variables."
+msgstr "การทดสอบความเป็นปรกติใช้ได้กับตัวแปรอันตรภาคเท่านั้น"
+
+#: .././cogstat_stat.py:475
+msgid "Shapiro-Wilk normality test in variable %s%s"
+msgstr "Shapiro-Wilk ทดสอบแบบการกระจายแบบปรกติ บน ตัวแปร%s%s"
+
+#: .././cogstat_stat.py:489
+msgid "Histogram with individual data and normal distribution"
+msgstr "ฮิสโตแกรมพร้อมข้อมูลเฉพาะและแบบการกระจายแบบปรกติ"
+
+#: .././cogstat_stat.py:498
+msgid "Normalized relative frequency"
+msgstr "การแจกแจงความถี่แบบการกระจายแบบปรกติ"
+
+#: .././cogstat_stat.py:514
+msgid "Quantile-quantile plot"
+msgstr "Quantile-quantile plot"
+
+#: .././cogstat_stat.py:517
+msgid "Sorry, QQ plot is only displayed if the statsmodels module is installed."
+msgstr "เสียใจด้วย QQ plot จะแสดงต่อเมื่อติดตั้ง statsmodels module แล้ว"
+
+#: .././cogstat_stat.py:547
+msgid "One sample t-test cannot be run for constant variable.\n"
+""
+msgstr "1 sample t-test ไม่สามารถใช้ได้กับตัวแปรค่าคงที่"
+
+#: .././cogstat_stat.py:560
+msgid "Sorry, newer statsmodels module is required for confidence interval.\n"
+""
+msgstr "เสียใจด้วย ใส่ statsmodels module ใหม่เพื่อคำนวณช่วงแห่งความเชื่อมั่น"
+
+#: .././cogstat_stat.py:561
+msgid "One sample t-test against %g"
+msgstr "1 sample t-test ต่อ %g"
+
+#: .././cogstat_stat.py:568
+msgid "Mean value with 95% confidence interval"
+msgstr "ค่ามัชฌิมที่มีช่วงแห่งความเชื่อมั่น 95% ขึ้นไป"
+
+#: .././cogstat_stat.py:571
+msgid "One sample t-test is computed only for interval variables."
+msgstr "1 sample t-test คำนวณแค่เฉพาะตัวแปรอันตรภาค"
+
+#: .././cogstat_stat.py:608
+msgid "Median value"
+msgstr "ค่ามัธยฐาน"
+
+#: .././cogstat_stat.py:611
+msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
+msgstr "Wilcoxon signed-rank test จะคำนวณต่อเมื่อใช้กับตัวแปรอันตรภาคและตัวแปรอันดับ"
+
+#: .././cogstat_stat.py:628 .././cogstat.py:502 .././cogstat.py:505
+msgid "Mean"
+msgstr "มัชฌิม"
+
+#: .././cogstat_stat.py:628
+msgid "Median"
+msgstr "มัธยฐาน"
+
+#: .././cogstat_stat.py:882
+msgid "Medians for the variables"
+msgstr "ค่ามัธยฐานของตัวแปร"
+
+#: .././cogstat_stat.py:1141
+msgid "Medians for the groups"
+msgstr "ค่ามัธยฐานของกลุ่ม"
+
+#: .././cogstat_stat.py:675 .././cogstat_stat.py:676
+msgid "No data"
+msgstr "ไม่มีข้อมูล"
+
+#: .././cogstat_stat.py:720
+msgid "Largest sign on the graph displays %d cases."
+msgstr "ตัวบ่งบอกนัยยะสำคัญที่สุดโต่งของกราฟแสดงถึง %d"
+
+#: .././cogstat_stat.py:735
+msgid "Scatterplot of the variables"
+msgstr "แผนภาพกระจายของตัวแปร"
+
+#: .././cogstat_stat.py:780 .././cogstat_stat.py:855
+msgid "Mosaic plot of the variables"
+msgstr "แผนภาพโมเสคของตัวแปร"
+
+#: .././cogstat_stat.py:785 .././cogstat_stat.py:860 .././cogstat_stat.py:1111
+msgid "Sorry, the mosaic plot can not be drawn with those data."
+msgstr "เสียใจด้วย ไม่สามารถสร้างแผนภาพโมเสคได้จากข้อมูลที่ใส่"
+
+#: .././cogstat_stat.py:788 .././cogstat_stat.py:862 .././cogstat_stat.py:1114
+msgid "Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed."
+msgstr "เสียใจด้วย แผนภาพโมเสคจะสามารถใช้ได้ต่อเมื่อ statsmodels 0.5 หรือกว่านั้นได้รับการติดตั้งแล้ว"
+
+#: .././cogstat_stat.py:807
+msgid "Boxplot and individual data of the variables"
+msgstr "Boxplot และข้อมูลเฉพาะของตัวแปร"
+
+#: .././cogstat_stat.py:820
+msgid "Thickest line displays %d cases."
+msgstr "เส้นที่หนาที่สุดแสดงถึงกรณี %d"
+
+#: .././cogstat_stat.py:876
+msgid "Means and 95% confidence intervals for the variables"
+msgstr "มัชฌิมและ ช่วงแห่งความเชื่อมั่นที่ 95%ขึ้นไปของตัวแปร"
+
+#: .././cogstat_stat.py:904
+msgid "Paired t-test requires two variables."
+msgstr "Paired t-test เปรียบเทียบต้องการตัวแปรขั้นต่ำ 2 ตัวขึ้นไป"
+
+#: .././cogstat_stat.py:909
+msgid "Result of paired samples t-test"
+msgstr "ผลลัพธ์จาก paired t-test กลุ่มตัวอย่าง"
+
+#: .././cogstat_stat.py:926
+msgid "Paired Wilcoxon test requires two variables."
+msgstr "Paired Wilcoxon test เปรียบเทียบต้องการตัวแปรขั้นต่ำ 2 ตัวขึ้นไป"
+
+#: .././cogstat_stat.py:996
+msgid "Friedman test requires at least two variables."
+msgstr "ต้องการอย่างน้อย 2 ตัวแปรในการทำ Friedman test"
+
+#: .././cogstat_stat.py:1002
+msgid "Result of the Friedman test: "
+msgstr "ผลลัพธ์ Friedman test: "
+
+#: .././cogstat_stat.py:1060
+msgid "Largest individual data display %d cases."
+msgstr "ข้อมูลเฉพาะที่กว้างที่สุดที่แสดงถึงกรณี %d"
+
+#: .././cogstat_stat.py:1089
+msgid "Boxplot and individual data of the groups"
+msgstr "Boxplot และข้อมูลเฉพาะของกลุ่ม"
+
+#: .././cogstat_stat.py:1106
+msgid "Mosaic plot of the groups"
+msgstr "แผนภาพโมเสคของกลุ่ม"
+
+#: .././cogstat_stat.py:1134
+msgid "Means and 95% confidence intervals for the groups"
+msgstr "มัชฌิมและ ช่วงแห่งความเชื่อมั่นที่ 95%ขึ้นไปของกลุ่ม"
+
+#: .././cogstat_stat.py:1172
+msgid "Levene test"
+msgstr "Levene Test"
+
+#: .././cogstat_stat.py:1204
+msgid "Difference between the two groups:"
+msgstr "ความแตกต่างในระหว่างสองกลุ่ม:"
+
+#: .././cogstat_stat.py:1205
+msgid "95%% confidence interval [%0.*f, %0.*f]"
+msgstr "95%% ช่วงแห่งความเชื่อมั่น [%0.*f, %0.*f]"
+
+#: .././cogstat_stat.py:1206
+msgid "Result of independent samples t-test:"
+msgstr "ผลลัพธ์ของ independent samples t-test:"
+
+#: .././cogstat_stat.py:1226
+msgid "One of the groups should include only a single data."
+msgstr "หนึ่งในตัวอย่างของกลุ่มควรมีข้อมูลแค่หนึ่งค่า"
+
+#: .././cogstat_stat.py:1223
+msgid "Result of the modified independent samples t-test:"
+msgstr "ผลลัพธ์ของ independent samples t-test แบบปรับประยุกต์"
+
+#: .././cogstat_stat.py:1262 .././cogstat_stat.py:1267
+#: .././cogstat_stat.py:1270
+msgid "Result of independent samples Mann-Whitney rank test: "
+msgstr "ผลลัพธ์ของ independent samples Mann-Whitney rank test: "
+
+#: .././cogstat_stat.py:1296
+msgid "Result of one-way ANOVA: "
+msgstr "ผลลัพธ์ของการวิเคราะห์ความแปรปรวนทางเดียว "
+
+#: .././cogstat_stat.py:1302
+msgid "Effect size: "
+msgstr "ค่าขนาดอิทธิพล "
+
+#: .././cogstat_stat.py:1307
+msgid "Groups differ. Post-hoc test of the means."
+msgstr "ความแตกต่างระหว่างกลุ่ม Group differ การทดสอบ Post hoc test ของค่ามัชฌิม"
+
+#: .././cogstat_stat.py:1400 .././cogstat_stat.py:1403
+msgid "Result of the Kruskal-Wallis test: "
+msgstr "ผลลัพธ์ของ Kruskal-Wallis test: "
+
+#: .././cogstat_stat.py:1423
+msgid "Cramér's V measure of association: "
+msgstr "การวัดความสัมพันธ์แบบ Cramér's V: "
+
+#: .././cogstat_stat.py:1426
+msgid "Result of the Pearson's Chi-square test: "
+msgstr "ผลลัพธ์ของPearson's Chi-square test: "
+
+#: .././cogstat_gui.py:105
+msgid "&Data"
+msgstr "&ข้อมูล"
+
+#: .././cogstat_gui.py:106
+msgid "&Open data file"
+msgstr "&เปิดไฟล์ข้อมูล"
+
+#: .././cogstat_gui.py:106
+msgid "Ctrl+O"
+msgstr "Ctrl+O"
+
+#: .././cogstat_gui.py:106
+msgid "Open data file (csv text file)"
+msgstr "เปิดไฟล์ที่ข้อมูลอยู่ (ไฟล์ประเภท csv text)"
+
+#: .././cogstat_gui.py:107
+msgid "&Paste data"
+msgstr "&แปะข้อมูล"
+
+#: .././cogstat_gui.py:107
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: .././cogstat_gui.py:107
+msgid "Paste data from clipboard"
+msgstr "วางข้อมูลดาต้าที่ก๊อบมาจากคลิปบอร์ด"
+
+#: .././cogstat_gui.py:111 .././cogstat_gui.py:143
+msgid "&Display data"
+msgstr "&แสดงข้อมูล"
+
+#: .././cogstat_gui.py:111
+msgid "Ctrl+D"
+msgstr "Ctrl+D"
+
+#: .././cogstat_gui.py:111
+msgid "Print data to the output"
+msgstr "จัดการพิมพ์ข้อมูลทั้งหน้าต่างและผลลัพธ์"
+
+#: .././cogstat_gui.py:112 .././cogstat_gui.py:143
+msgid "Display data &briefly"
+msgstr "แสดงผลข้อมูลและแสดงโดยย่อ"
+
+#: .././cogstat_gui.py:112
+msgid "Print beginning of the data to the output"
+msgstr "จัดการพิมพ์แค่ช่วงต้นของข้อมูลในหน้าต่างและผลลัพธ์"
+
+#: .././cogstat_gui.py:114
+msgid "&Analysis"
+msgstr "&วิเคราะห์"
+
+#: .././cogstat_gui.py:115
+msgid "Ctrl+1"
+msgstr "Ctrl+1"
+
+#: .././cogstat_gui.py:115
+msgid "Main properties of variables"
+msgstr "คุณสมบัติหลักของตัวแปร"
+
+#: .././cogstat_gui.py:116
+msgid "Ctrl+2"
+msgstr "Ctrl+2"
+
+#: .././cogstat_gui.py:116
+msgid "Properties of variable pairs"
+msgstr "คุณสมบัติและการเปรียบเทียบคู่ตัวแปร"
+
+#: .././cogstat_gui.py:118 .././cogstat_gui.py:144
+msgid "Pivot &table"
+msgstr "Pivot &table"
+
+#: .././cogstat_gui.py:118
+msgid "Build a pivot table"
+msgstr "สร้าง pivot table"
+
+#: .././cogstat_gui.py:120
+msgid "Compare variables"
+msgstr "เปรียบเทียบตัวแปร"
+
+#: .././cogstat_gui.py:121 .././cogstat_gui.py:145
+msgid "Compare &groups"
+msgstr "เปรียบเทียบ &กลุ่ม"
+
+#: .././cogstat_gui.py:121 .././cogstat.py:822
+msgid "Compare groups"
+msgstr "เปรียบเทียบแต่ละกลุ่ม"
+
+#: .././cogstat_gui.py:123
+msgid "&Results"
+msgstr "&ผลลัพธ์"
+
+#: .././cogstat_gui.py:124
+msgid "&Clear results"
+msgstr "&ล้างค่าการแสดงผล"
+
+#: .././cogstat_gui.py:124
+msgid "Del"
+msgstr "Del"
+
+#: .././cogstat_gui.py:124
+msgid "Delete the output window"
+msgstr "ลบหน้าต่างการแสดงผล"
+
+#: .././cogstat_gui.py:126
+msgid "Save results"
+msgstr "บันทึกผลลัพธ์"
+
+#: .././cogstat_gui.py:126
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: .././cogstat_gui.py:126
+msgid "Save the output to .pdf format"
+msgstr "บันทึกผลที่ได้รับ รูปแบบไฟล์pdf"
+
+#: .././cogstat_gui.py:127
+msgid "Save results as"
+msgstr "บันทึกผลลัพธ์เป็น"
+
+#: .././cogstat_gui.py:127
+msgid "Shift+Ctrl+P"
+msgstr "Shift+Ctrl+P"
+
+#: .././cogstat_gui.py:127
+msgid "Save the results"
+msgstr "บันทึกผลลัพธ์นี้"
+
+#: .././cogstat_gui.py:129
+msgid "&CogStat"
+msgstr "&CogStat"
+
+#: .././cogstat_gui.py:130
+msgid "&Help"
+msgstr "&ช่วยเหลือ"
+
+#: .././cogstat_gui.py:130
+msgid "F1"
+msgstr "F1"
+
+#: .././cogstat_gui.py:130
+msgid "Read online documentation"
+msgstr "อ่านเอกสารข้อมูลออนไลน์"
+
+#: .././cogstat_gui.py:131
+msgid "&Preferences"
+msgstr "&ตั้งค่าที่ต้องการ"
+
+#: .././cogstat_gui.py:131
+msgid "Set the preferences"
+msgstr "ตั้งค่าที่ประสงค์เป็นค่าเฉพาะ"
+
+#: .././cogstat_gui.py:132
+msgid "Request a &feature"
+msgstr "เรียกขอ &ฟีเจอร์"
+
+#: .././cogstat_gui.py:132
+msgid "Can't find a feature? Ask for it!"
+msgstr "ไม่พบฟีเจอร์ที่ต้องการ? ลองตั้งคำถามดู!"
+
+#: .././cogstat_gui.py:134
+msgid "&Report a problem"
+msgstr "&รายงานปัญหาที่พบ"
+
+#: .././cogstat_gui.py:134
+msgid "Fill online form to report a problem"
+msgstr "กรอกฟอร์มรายงานออนไลน์เพือรายงานปัญหาที่พบ"
+
+#: .././cogstat_gui.py:135
+msgid "&Diagnosis information"
+msgstr "&ข้อมูลแบบ Diagnosis"
+
+#: .././cogstat_gui.py:135
+msgid "List the version of the components on your system"
+msgstr "รายการของเวอร์ชั่นและส่วนประกอบภายในระบบของคุณ"
+
+#: .././cogstat_gui.py:137
+msgid "&About"
+msgstr "&เกี่ยวกับ"
+
+#: .././cogstat_gui.py:137
+msgid "About CogStat"
+msgstr "เกี่ยวกับ CogStat"
+
+#: .././cogstat_gui.py:139
+msgid "&Exit"
+msgstr "&ออก"
+
+#: .././cogstat_gui.py:139
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: .././cogstat_gui.py:139
+msgid "Exit CogStat"
+msgstr "จบการใช้งาน CogStat"
+
+#: .././cogstat_gui.py:143
+msgid "&Save data"
+msgstr "&บันทึก ข้อมูล"
+
+#: .././cogstat_gui.py:143
+msgid "Save data &as"
+msgstr "บันทึกข้อมูล &ในแบบ"
+
+#: .././cogstat_gui.py:144
+msgid "&Set variable properties"
+msgstr "&ตั้งค่าคุณสมบัติตัวแปร"
+
+#: .././cogstat_gui.py:146
+msgid "&Compare groups and variables"
+msgstr "&เปรียบเทียบกลุ่มและตัวแปร"
+
+#: .././cogstat_gui.py:192
+msgid "Ready"
+msgstr "พร้อม"
+
+#: .././cogstat_gui.py:320
+msgid "Import error"
+msgstr "รายงานความผิดพลาด"
+
+#: .././cogstat_gui.py:320
+msgid "Data could not be loaded."
+msgstr "ไม่สามารถโหลดข้อมูลได้"
+
+#: .././cogstat_gui.py:324
+msgid "Data loaded from clipboard: "
+msgstr "ข้อมูลโหลดสำเร็จจากคลิปบอร์ด: "
+
+#: .././cogstat_gui.py:324
+msgid "Data loaded from file: "
+msgstr "ข้อมูลดาต้าโหลดจากไฟล์: "
+
+#: .././cogstat_gui.py:325
+msgid "%s variables and %s cases."
+msgstr "%s ตัวแปรและ %s กรณี"
+
+#: .././cogstat_gui.py:414 .././cogstat_gui.py:489
+msgid "At least two variables should be set."
+msgstr "ต้องมีการตั้งค่าตัวแปรขั้นต่ำที่2ค่าขึ้นไป"
+
+#: .././cogstat.py:654
+msgid "Pivot table"
+msgstr "Pivot Table"
+
+#: .././cogstat_gui.py:457
+msgid "The dependent variable and at least one grouping variable should be given."
+msgstr "ตัวแปรตามหรือตัวแปรกลุ่มต้องได้รับการระบุอย่างน้อยหนึ่งค่า"
+
+#: .././cogstat_gui.py:524
+msgid "Both the dependent and the grouping variables should be set."
+msgstr "ทั้งตัวแปรตามและตัวแปรกลุ่มต้องได้รับการระบุค่า"
+
+#: .././cogstat_gui.py:542
+msgid "Clear output"
+msgstr "Clear Output"
+
+#: .././cogstat_gui.py:543
+msgid "Are you sure you want to delete the output?"
+msgstr "แน่ใจแล้วหรือไม่ที่จะทำการลบผลลัพธ์นี้?"
+
+#: .././cogstat_gui.py:598
+msgid "About CogStat "
+msgstr "เกี่ยวกับ CogStat "
+
+#: .././cogstat_gui.py:608
+msgid "System components"
+msgstr "องค์ประกอบของระบบ"
+
+#: .././cogstat_gui.py:620
+msgid "Save output"
+msgstr "บันทึก Output"
+
+#: .././cogstat_gui.py:621
+msgid "Output has unsaved results. Do you want to save it?"
+msgstr "Output มีผลลัพธ์การคำนวณที่ยังไม่ได้รับการบันทึก ต้องการบันทึกหรือไม่?"
+
+#: .././cogstat.py:164
+msgid "The measurement level was not set for all variables. You might consider fixing this in your data source."
+msgstr "คุณไม่ได้ตั้งค่าระดับการวัดให้ครบทุกตัวแปร กรุณาแก้ไขในแหล่งข้อมูลของคุณ"
+
+#: .././cogstat.py:158
+msgid "String variables cannot be interval or ordinal variables. Those variables are automatically set to nominal: "
+msgstr "การใช้ชื่อตัวแปรที่พิมพ์เอานั้น ไม่สามารถใช้กับตัวแปรอันตรภาคและตัวแปรอันดับ ตัวแปรเหล่านี้จะถูกตั้งค่าเป็นตัวแปรที่ถูกพิมพ์จะกลายเป็นตัวแปรนามบัญญัติ "
+
+#: .././cogstat.py:160
+msgid "You might consider fixing this in your source table."
+msgstr "คุณควรแก้ไขส่วนนี้จากตารางข้อมูลดิบก่อน"
+
+#: .././cogstat.py:255
+msgid "Data"
+msgstr "ข้อมูล"
+
+#: .././cogstat.py:256
+msgid "Source: "
+msgstr "แหล่งข้อมูล: "
+
+#: .././cogstat.py:257
+msgid " variables and "
+msgstr " ตัวแปร และ "
+
+#: .././cogstat.py:258
+msgid " cases"
+msgstr " กรณี"
+
+#: .././cogstat.py:270
+msgid " further cases are not displayed..."
+msgstr " กรณีที่มากไปกว่านี้ยังไม่ได้แสดงออกมา..."
+
+#: .././cogstat.py:272
+msgid "You probably would not want to print the next %s cases..."
+msgstr "คุณอาจไม่ต้องการที่จะสั่งพิมพ์กรณี %s ต่อไป..."
+
+#: .././cogstat.py:490 .././cogstat.py:930 .././cogstat.py:977
+#: .././cogstat.py:1108
+msgid "Interval variable."
+msgstr "ตัวแปรอันตรภาค"
+
+#: .././cogstat.py:520 .././cogstat.py:965 .././cogstat.py:1012
+#: .././cogstat.py:1113
+msgid "Ordinal variable."
+msgstr "ตัวแปรอันดับ"
+
+#: .././cogstat.py:416
+msgid "Explore variable"
+msgstr "ตัวแปรที่ต้องการตรวจสอบ"
+
+#: .././cogstat.py:417
+msgid "Exploring variable: "
+msgstr "ตัวแปรที่กำลังรับการตรวจสอบ "
+
+#: .././cogstat.py:432
+msgid "Frequencies"
+msgstr "ความถี่"
+
+#: .././cogstat.py:436
+msgid "Distribution"
+msgstr "การกระจาย"
+
+#: .././cogstat.py:457
+msgid "Normality"
+msgstr "ความปรกติ"
+
+#: .././cogstat.py:546
+msgid "Exploring variable pair: "
+msgstr "ตัวแปรที่กำลังรับการตรวจสอบด้วยการเปรียบเทียบ: "
+
+#: .././cogstat.py:579 .././cogstat.py:742 .././cogstat.py:775
+msgid "Interval variables."
+msgstr "ตัวแปรอันตรภาค"
+
+#: .././cogstat.py:580
+msgid "Running Pearson's and Spearman's correlation."
+msgstr "ดำเนินการวิเคราะห์ค่าสหสัมพันธ์แบบ Pearson's and Spearman's"
+
+#: .././cogstat.py:584 .././cogstat.py:585 .././cogstat.py:586
+msgid "Pearson's correlation"
+msgstr "วิเคราะห์ค่าสหสัมพันธ์แบบPearson"
+
+#: .././cogstat.py:592
+msgid "Linear regression"
+msgstr "วิเคราะห์การถดถอย"
+
+#: .././cogstat.py:596 .././cogstat.py:597 .././cogstat.py:601
+#: .././cogstat.py:612 .././cogstat.py:613 .././cogstat.py:616
+msgid "Spearman's rank-order correlation"
+msgstr "ค่าสหสัมพันธ์เชิงอันดับของSpearman"
+
+#: .././cogstat.py:607 .././cogstat.py:762 .././cogstat.py:798
+msgid "Ordinal variables."
+msgstr "ตัวแปรอันดับ"
+
+#: .././cogstat.py:607
+msgid "Running Spearman's correlation."
+msgstr "วิเคราะห์ค่าสหสัมพันธ์แบบSpearman"
+
+#: .././cogstat.py:623
+msgid "Not all variables are nominal. Consider comparing groups."
+msgstr "ไม่ใช่ทุกตัวแปรที่จะเป็นนามบัญญัติ ลองเปรียบเทียบระหว่างกลุ่มดู"
+
+#: .././cogstat.py:624
+msgid "Nominal variables."
+msgstr "ตัวแปรนามบัญญัติ"
+
+#: .././cogstat.py:624
+msgid "Running Cramér's V."
+msgstr "การหาระดับความสัมพันธ์ของ Cramér's V"
+
+#: .././cogstat.py:667
+msgid "Variables to compare: "
+msgstr "ตัวแปรทั้งหมดที่จะนำมาเปรียบเทียบ "
+
+#: .././cogstat.py:675
+msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
+msgstr "เสียใจด้วย คุณไม่สามารถที่จะใช้เกณฑ์วัดระดับที่แตกต่างกันหลายระดับได้ ขอให้คุณลองลดระดับของเกณฑ์วัดระดับที่สูงกว่าให้อยู่ในระดับเดียวกับที่ต่ำกว่า"
+
+#: .././cogstat.py:737
+msgid "At least two variables required."
+msgstr "ต้องการขั้นต่ำ 2 ตัวแปร"
+
+#: .././cogstat.py:739
+msgid "Two variables. "
+msgstr "ตัวแปร 2 ตัวแปร "
+
+#: .././cogstat.py:494 .././cogstat.py:744 .././cogstat.py:779
+#: .././cogstat.py:914 .././cogstat.py:933 .././cogstat.py:981
+msgid "Checking for normality."
+msgstr "ตรวจสอบความปรกติ"
+
+#: .././cogstat.py:921
+msgid "Normality is violated in variable "
+msgstr "ตัวแปรมีค่า Normality ที่ไม่สมบูรณ์ "
+
+#: .././cogstat.py:755
+msgid "Normality is not violated. >> Running paired t-test."
+msgstr "Normality สมบูรณ์ >> กำลังทำการทดสอบ paired t-test"
+
+#: .././cogstat.py:759 .././cogstat.py:762
+msgid "Running paired Wilcoxon test."
+msgstr "กำลังทำการทดสอบ paired Wilcoxon test"
+
+#: .././cogstat.py:526 .././cogstat.py:771 .././cogstat.py:807
+#: .././cogstat.py:1114 .././cogstat.py:1117
+msgid "Sorry, not implemented yet."
+msgstr "เสียใจด้วย ยังไม่ได้กระทำการดังกล่าว"
+
+#: .././cogstat.py:773
+msgid "More than two variables. "
+msgstr "มากกว่า 2 ตัวแปรขึ้นไป "
+
+#: .././cogstat.py:795 .././cogstat.py:798
+msgid "Running Friedman test."
+msgstr "กำลังทำการทำสอบ Friedman test"
+
+#: .././cogstat_stat.py:165 .././cogstat.py:825
+msgid "Dependent variable: "
+msgstr "ตัวแปรตาม: "
+
+#: .././cogstat.py:826
+msgid "Group(s): "
+msgstr "กลุ่ม: "
+
+#: .././cogstat.py:902
+msgid "One grouping variable. "
+msgstr "ตัวแปรตามกลุ่มหนึ่ง "
+
+#: .././cogstat.py:904
+msgid "There is only one group. At least two groups required."
+msgstr "มีเพียงกลุ่มเดียว ต้องการขั้นต่ำสองกลุ่ม"
+
+#: .././cogstat.py:908
+msgid "Two groups. "
+msgstr "สองกลุ่ม "
+
+#: .././cogstat.py:912
+msgid "One group contains only one case. >> Choosing modified t-test."
+msgstr "หนึ่งกรณีต่อหนึ่งกลุ่ม >> เลือกเพื่อปรับการทดสอบ t-test"
+
+#: .././cogstat.py:922
+msgid "group "
+msgstr "กลุ่ม "
+
+#: .././cogstat.py:923 .././cogstat.py:957 .././cogstat.py:965
+msgid "Running Mann-Whitney test."
+msgstr "กำลังทำการทดสอบ Mann-Whitney test"
+
+#: .././cogstat.py:926
+msgid "Normality is not violated. >> Running modified t-test."
+msgstr "Normality สมบูรณ์ >> กำลังทำการปรับเพื่อทดสอบ t-test"
+
+#: .././cogstat.py:968 .././cogstat.py:1016 .././cogstat.py:1116
+msgid "Nominal variable."
+msgstr "ตัวแปรนามบัญญัติ"
+
+#: .././cogstat.py:968 .././cogstat.py:1016
+msgid "Running Chi-square test."
+msgstr "กำลังทำการทดสอบ Chi-square test"
+
+#: .././cogstat.py:975
+msgid "More than two groups."
+msgstr "มากกว่าสองกลุ่ม"
+
+#: .././cogstat.py:1008 .././cogstat.py:1012
+msgid "Running Kruskal-Wallis test."
+msgstr "กำลังทำการทดสอบ Kruskal-Wallis test"
+
+#: .././cogstat.py:1120
+msgid "Several grouping variables."
+msgstr "มีตัวแปรกลุ่มหลากหลาย"
+
+#: .././cogstat_dialogs.py:16
+msgid "Open data file"
+msgstr "เปิดไฟล์ข้อมูล"
+
+#: .././cogstat_dialogs.py:20
+msgid "Save result file"
+msgstr "บันทึกไฟล์ผลลัพธ์"
+
+#: .././cogstat_gui.py:115 .././cogstat_gui.py:144
+msgid "&Explore variable"
+msgstr "&ตรวจสอบ ตัวแปร"
+
+#: .././cogstat_gui.py:319 .././cogstat.py:231
+msgid "Import failed"
+msgstr "การนำเข้าข้อมูลผิดพลาด"
+
+#: .././cogstat_stat.py:336 .././cogstat_stat.py:338
+msgid "Freq"
+msgstr "Freq"
+
+#: .././cogstat_stat.py:336 .././cogstat_stat.py:338 .././cogstat_stat.py:340
+msgid "Rel freq"
+msgstr "Rel freq"
+
+#: .././cogstat_stat.py:338
+msgid "Cum freq"
+msgstr "Cum freq"
+
+#. Thai full word for this is long and more of an explanation however the short version here should suffice as Thai people also understand common statistics terms in english
+#: .././cogstat_stat.py:338 .././cogstat_stat.py:340
+msgid "Cum rel freq"
+msgstr "Cum rel freq"
+
+#: .././cogstat_stat.py:1425
+msgid "Cramér's V measure of association cannot be computed (division by zero)."
+msgstr "ไม่สามารถคำนวณผลการวัดระดับแบบCramér's V ได้ (เนื่องจากถูกหารด้วย 0)"
+
+#: .././cogstat.py:127 .././cogstat.py:135
+msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
+msgstr "จำนวนของระดับการวัดไม่สัมพันธ์กับจำนวนของตัวแปร การวัดระดับแบบมีลักษณะพิเศษถูกมองข้าม"
+
+#: .././cogstat.py:171
+msgid "pandas dataframe"
+msgstr "panda ดาต้าเฟรม"
+
+#: .././cogstat.py:194
+msgid "text file - "
+msgstr "ไฟล์ text - "
+
+#: .././cogstat.py:228
+msgid "clipboard"
+msgstr "คลิปบอร์ด"
+
+#: .././cogstat.py:266
+msgid "Type"
+msgstr "ชนิด"
+
+#: .././cogstat.py:266
+msgid "Level"
+msgstr "ระดับ"
+
+#: .././cogstat.py:286
+msgid "Filtering"
+msgstr "ฟิลเตอร์"
+
+#: .././cogstat.py:290
+msgid "Filtering is switched off."
+msgstr "ฟิลเตอร์ถูกปิด"
+
+#: .././cogstat.py:302
+msgid "Filtering based on %s.\n"
+""
+msgstr "ฟิลเตอร์ด้วย %s."
+
+#: .././cogstat.py:302 .././cogstat.py:319
+msgid " (2 SD)"
+msgstr " (2 SD)"
+
+#: .././cogstat.py:304
+msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
+""
+msgstr "กรณีที่นอกเหนือจากช่วงวัดนี้จะไม่ได้รวมเข้ามาด้วย: %0.*f -- %0.*f"
+
+#: .././cogstat.py:311
+msgid "The following cases will be excluded: "
+msgstr "กรณีต่อไปนี้จะไม่ถูกรวมเข้ามาด้วย "
+
+#: .././cogstat.py:315
+msgid "No cases were excluded."
+msgstr "ไม่มีกรณีที่ไม่ถูกรวมเข้ามาด้วย"
+
+#: .././cogstat.py:942 .././cogstat.py:990
+msgid "Checking for homogeneity of variance across groups."
+msgstr "กำลังตรวจสอบความเป็นเอกพันธ์ของความแปรปรวนตลอดทุกกลุ่ม"
+
+#: .././cogstat_gui.py:36
+msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "%s เกิดข้อผิดพลาดบางประการ CogStat ไม่สามารถทำการวิเคราะห์ได้ กรุณารายงานต่อทีมเพื่อแก้ไข"
+
+#: .././cogstat_gui.py:389
+msgid "Explore variable."
+msgstr "ตรวจสอบตัวแปร"
+
+#: .././cogstat_gui.py:414 .././cogstat_gui.py:430
+msgid "Explore variable pair."
+msgstr "ตรวจสอบตัวแปรทั้งหมดที่นำมา"
+
+#: .././cogstat_gui.py:457 .././cogstat_gui.py:462
+msgid "Pivot table."
+msgstr "Pivot Table"
+
+#: .././cogstat_gui.py:489 .././cogstat_gui.py:497
+msgid "Compare variables."
+msgstr "เปรียบเทียบตัวแปร"
+
+#: .././cogstat_gui.py:524 .././cogstat_gui.py:535
+msgid "Compare groups."
+msgstr "เปรียบเทียบกลุ่ม"
+
+#: .././cogstat_stat.py:458
+msgid "Normality cannot be checked for constant variable in %s%s.\n"
+""
+msgstr "ไม่สามารถตรวจสอบ Normality ของตัวแปรค่าคงที่ใน %s%s"
+
+#: .././cogstat_stat.py:472
+msgid "Too small sample to test normality in variable %s%s.\n"
+""
+msgstr "กลุ่มทดสอบมีขนาดเล็กเกินไปที่จะตรวจสอบ Normality ในตัวแปร %s%s"
+
+#: .././cogstat_stat.py:939
+msgid "Result of the McNemar test"
+msgstr "ผลลัพธ์ของการทดสอบ McNemar"
+
+#: .././cogstat_stat.py:945
+msgid "Result of Cochran's Q test"
+msgstr "ผลลัพธ์ของการทดสอบCochran's Q test"
+
+#: .././cogstat_stat.py:952
+msgid "Result of Mauchly's test to check sphericity"
+msgstr "ผลลัพธ์ของการทดสอบ Mauchly เพื่อตรวจสอบ sphericity"
+
+#: .././cogstat_stat.py:956
+msgid "Sphericity is violated."
+msgstr "sphericity ไม่สมบูรณ์"
+
+#: .././cogstat_stat.py:957
+msgid "Using Greenhouse-Geisser correction."
+msgstr "ทำการปรับแก้ด้วยการใช้ Greenhouse-Geisser"
+
+#: .././cogstat_stat.py:958 .././cogstat_stat.py:963
+msgid "Result of repeated measures ANOVA"
+msgstr "ผลลัพธ์ของการวิเคราะห์ความแปรปรวนแบบทางเดียวเมื่อมีการวัดซ้ำ"
+
+#: .././cogstat_stat.py:962
+msgid "Sphericity is not violated. "
+msgstr "ตรวจไม่พบความไม่สมบูณ์ของsphericity "
+
+#: .././cogstat_stat.py:969
+msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
+msgstr "เปรียบเทียบตัวแปรด้วยการปรับแก้แบบ Holm-Bonferroni"
+
+#: .././cogstat_stat.py:1246
+msgid "Result of Welch's unequal variances t-test:"
+msgstr "ผลลัพธ์ของWelch's unequal variances t-test:"
+
+#: .././cogstat.py:742
+msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
+msgstr "เลือกระหว่าง paired t-test หรือ paired Wilcoxon test ขึ้นอยู่กับการสันนิษฐานของคุณ"
+
+#: .././cogstat.py:758 .././cogstat.py:794
+msgid "Normality is violated in variable(s): %s."
+msgstr "Normality เกิดความไม่สมบูรณ์ในตัวแปรเหล่านี้: %s"
+
+#: .././cogstat.py:766 .././cogstat.py:802
+msgid "Nominal dichotomous variables."
+msgstr "ตัวแปรนามบัญญัติแบบตัวแปรทวิ"
+
+#: .././cogstat.py:766
+msgid "Running McNemar test."
+msgstr "ทำการทดสอบ McNemar"
+
+#: .././cogstat.py:770 .././cogstat.py:806
+msgid "Nominal non dichotomous variables."
+msgstr "ตัวแปรนามบัญญัติที่ไม่เป็นตัวแปรทวิ"
+
+#: .././cogstat.py:776
+msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
+msgstr "เลือกระหว่างการวิเคราะห์การแปรปรวนเมื่อมีการวัดซ้ำ ANOVA หรือ Friedman test ขึ้นอยู่กับการสันนิษฐานของคุณ"
+
+#: .././cogstat.py:802
+msgid "Running Cochran's Q test."
+msgstr "ทำการทดสอบ Cochran's Q test"
+
+#: .././cogstat.py:931
+msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
+msgstr "เลือกระหว่าง การทดสอบ t-test ของสองกลุ่ม หรือ Mann-Whitney test หรือ Welch's t-test ขึ้นอยู่กับการสันนิษฐานของคุณ"
+
+#: .././cogstat.py:955
+msgid "Normality is violated in variable %s, group(s) %s."
+msgstr "Normality เกิดความไม่สมบูรณ์ในตัวแปรเหล่านี้ %s, กลุ่ม %s"
+
+#: .././cogstat.py:960
+msgid "Homeogeneity of variance violated in variable %s."
+msgstr "ความเป็นเอกพันธ์ของความแปรปรวน เกิดความไม่สมบูรณ์ในตัวแปรเหล่านี้ %s"
+
+#: .././cogstat.py:961
+msgid "Running Welch's t-test."
+msgstr "ทำการทดสอบ Welch's t-test"
+
+#: .././cogstat.py:978
+msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
+msgstr "เลือกระหว่างการวิเคราะห์ความแปรปรวนทางเดียว ANOVA หรือ Kruskal-Wallis test ขึ้นอยู่กับการสันนิษฐานของคุณ"
+
+#: .././cogstat.py:1003
+msgid "Normality is violated in variable %s, group(s) %s. "
+msgstr "Normality เกิดความไม่สมบูรณ์ในตัวแปรเหล่านี้: %s, กลุ่ม %s "
+
+#: .././cogstat.py:1006
+msgid "Homeogeneity of variance violated in variable %s. "
+msgstr "ความเป็นเอกพันธ์ของความแปรปรวน เกิดความไม่สมบูรณ์ในตัวแปรเหล่านี้ %s "
+
+#: .././cogstat.py:499 .././cogstat.py:790
+msgid "Normality is not violated."
+msgstr "ตรวจไม่พบความไม่สมบูณ์ของNormality"
+
+#: .././cogstat.py:791
+msgid "Running repeated measures one-way ANOVA."
+msgstr "ทำการวิเคราะห์ความแปรปรวนทางเดียวเมื่อมีการวัดซ้ำ ANOVA"
+
+#: .././cogstat_gui.py:112
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: .././cogstat_gui.py:333
+msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
+msgstr "CogStat ไม่สามารถทำการเปิดข้อมูลได้ คุณสามารถรายงานข้อผิดพลาดนี้ต่อทีมให้แก้ไข"
+
+#: .././cogstat_stat.py:258
+msgid "N of missing cases: %g"
+msgstr "N กรณีที่หายไปมีจำนวน: %g"
+
+#: .././cogstat_stat.py:274 .././cogstat_stat.py:398 .././cogstat_stat.py:758
+#: .././cogstat_stat.py:759 .././cogstat_stat.py:1068
+msgid "Rank of %s"
+msgstr "อันดับของ %s"
+
+#: .././cogstat_stat.py:601 .././cogstat_stat.py:930
+msgid "Result of Wilcoxon signed-rank test"
+msgstr "ผลลัพธ์ของ Wilcoxon signed-rank test"
+
+#: .././cogstat_stat.py:276 .././cogstat.py:422 .././cogstat.py:552
+#: .././cogstat.py:682 .././cogstat.py:837 .././cogstat.py:1024
+msgid "Raw data"
+msgstr "ข้อมูลดิบ"
+
+#: .././cogstat.py:428 .././cogstat.py:567 .././cogstat.py:706
+#: .././cogstat.py:874 .././cogstat.py:1075
+msgid "Sample properties"
+msgstr "คุณสมบัติของกลุ่มตัวอย่าง"
+
+#: .././cogstat.py:442
+msgid "Descriptive statistics"
+msgstr "สถิติเชิงพรรณา"
+
+#: .././cogstat.py:474
+msgid "Population parameter estimations and tests"
+msgstr "การประมาณการกลุ่มประชากรและการทดสอบ"
+
+#: .././cogstat.py:481 .././cogstat.py:577 .././cogstat.py:605
+#: .././cogstat.py:620
+msgid "Hypothesis test: "
+msgstr "การทดสอบสมมติฐาน: "
+
+#: .././cogstat.py:483
+msgid "Testing if mean deviates from the value %s."
+msgstr "ทดสอบเมื่อค่ามัชฌิมเบี่ยงเบนไปที่ %s"
+
+#: .././cogstat.py:485
+msgid "Testing if median deviates from the value %s."
+msgstr "ทดสอบเมื่อค่ามัธยฐานเบี่ยงเบนไปที่ %s"
+
+#: .././cogstat.py:492
+msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
+msgstr "เลือกระหว่างการทดสอบค่าเฉลี่ยของกลุ่มตัวอย่างหนึ่งกลุ่ม หรือ Wilcoxon signed-rank test ขึ้นอยู่กับการสันนิษฐานของคุณ"
+
+#: .././cogstat.py:500
+msgid "Running one-sample t-test."
+msgstr "ทำการทดสอบค่าเฉลี่ยของกลุ่มตัวอย่างหนึ่งกลุ่ม"
+
+#: .././cogstat.py:513
+msgid "Normality is violated."
+msgstr "Normality เกิดความไม่สมบูรณ์"
+
+#: .././cogstat.py:514 .././cogstat.py:521
+msgid "Running Wilcoxon signed-rank test."
+msgstr "ทำการทดสอบ Wilcoxon signed-rank test"
+
+#: .././cogstat.py:453 .././cogstat.py:570 .././cogstat.py:726
+#: .././cogstat.py:892 .././cogstat.py:1095
+msgid "Population properties"
+msgstr "คุณสมบัติของประชากร"
+
+#: .././cogstat.py:577 .././cogstat.py:605
+msgid "Testing if correlation differs from 0."
+msgstr "ทดสอบดูหากว่าค่าสหสัมพันธ์ไม่อยู่ที่ 0"
+
+#: .././cogstat.py:620
+msgid "Testing if variables are independent."
+msgstr "ทดสอบดูคุณสมบัติตัวแปรอิสระ"
+
+#: .././cogstat.py:728 .././cogstat.py:894 .././cogstat.py:1097
+msgid "Hypothesis testing: "
+msgstr "การทดสอบสมมติฐาน: "
+
+#: .././cogstat.py:730 .././cogstat.py:896 .././cogstat.py:1099
+msgid "Testing if the means are the same."
+msgstr "ทดสอบดูว่าค่ามัชฌิมคงเดิม"
+
+#: .././cogstat.py:732 .././cogstat.py:898 .././cogstat.py:1101
+msgid "Testing if the medians are the same."
+msgstr "ทดสอบดูว่าค่ามัธยฐานคงเดิม"
+
+#: .././cogstat.py:734 .././cogstat.py:900 .././cogstat.py:1103
+msgid "Testing if the distributions are the same."
+msgstr "ทดสอบดูว่าการกระจายตัวคงเดิม"
+
+#: .././cogstat.py:951
+msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
+msgstr "ไม่พบความไม่สมบูรณ์ของNormalityและความเป็นเอกพันธ์ของความแปรปรวน >> ทดสอบ ค่าเฉลี่ยของกลุ่มตัวอย่างสองกลุ่มt-test"
+
+#: .././cogstat.py:999
+msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
+msgstr "ไม่พบความไม่สมบูรณ์ของNormalityและความเป็นเอกพันธ์ของความแปรปรวน >> ทดสอบการวิเคราะห์ความแปรปรวนทางเดียวANOVA "
+
+#: .././cogstat_gui.py:598
+msgid "Simple automatic data analysis software"
+msgstr "ซอฟต์แวร์อัตโนมัติใช้งานง่ายเพื่อการวิเคราะห์ข้อมูล"
+
+#: .././cogstat_gui.py:598
+msgid "Visit CogStat website"
+msgstr "เข้าสู่เว็บไซต์ CogStat"
+
+#: .././cogstat_gui.py:173
+msgid "Welcome to CogStat!"
+msgstr "ยินดีต้อนรับสู่ CogStat!"
+
+#: .././cogstat_gui.py:173
+msgid "CogStat makes statistical analysis more simple and efficient."
+msgstr "CogStat ทำให้การวิเคราะห์เชิงสถิติของคุณราบรื่นขึ้นและเปี่ยมด้วยประสิทธิภาพ"
+
+#: .././cogstat_gui.py:174
+msgid "To start working open a data file or paste your data from a spreadsheet."
+msgstr "เริ่มต้นด้วยวิธีที่ง่ายดาย เพียงเปิดไฟล์ข้อมูลของคุณ แล้วแปะวางด้าต้าหรือข้อมูลลงบนสเปรดชีท"
+
+#: .././cogstat_gui.py:175
+msgid "Find more information about CogStat on its <a href = \"http://www.cogstat.org\">webpage</a>."
+msgstr "เรียนรู้เพิ่มเติมเกี่ยวกับ CogStat ได้เลยที่  <a href = \"http://www.cogstat.org\">เว็บไซต์</a>."
+
+#: .././cogstat_stat.py:273
+msgid "Rank of the raw data"
+msgstr "ลำดับของข้อมูลดิบ"
+
+#: .././cogstat_stat.py:386
+msgid "Histogram of rank data with individual data and boxplot"
+msgstr "ฮิสโตแกรมของลำดับของข้อมูลพร้อมข้อมูลเฉพาะและ boxplot"
+
+#: .././cogstat_stat.py:757
+msgid "Scatterplot of the rank of the variables"
+msgstr "Scatterplot และลำดับของตัวแปร"
+
+#: .././cogstat_stat.py:805
+msgid "Individual data of the variables"
+msgstr "ข้อมูลเฉพาะของตัวแปรแต่ละตัว"
+
+#: .././cogstat_stat.py:1070
+msgid "Individual data of the rank data of the groups"
+msgstr "ข้อมูลเฉพาะพร้อมลำดับของข้อมูลของกลุ่ม"
+
+#: .././cogstat_stat.py:1072
+msgid "Boxplot and individual data of the rank data of the groups"
+msgstr "Boxplot และ ข้อมูลเฉพาะตัวของลำดับข้อมูลของกลุ่ม"
+
+#: .././cogstat_stat.py:1087
+msgid "Individual data of the groups"
+msgstr "ข้อมูลเฉพาะตัวของกลุ่ม"
+
+#: .././cogstat.py:501 .././cogstat.py:502 .././cogstat.py:571
+msgid "Point estimation"
+msgstr "การประมาณค่าแบบจุด"
+
+#: .././cogstat.py:501 .././cogstat.py:505 .././cogstat.py:571
+msgid "95% confidence interval"
+msgstr "ช่วงแห่งความเชื่อมั่น 95%"
+
+#: .././cogstat_stat.py:628 .././cogstat.py:506
+msgid "Standard deviation"
+msgstr "ค่าเบี่ยงเบนมาตรฐาน"
+
+#: .././cogstat_stat.py:464
+msgid "Minimum and maximum"
+msgstr "ค่าต่ำสุดของข้อมูล และ ค่าสูงสุดของข้อมูล"
+
+#: .././cogstat.py:688 .././cogstat.py:843 .././cogstat.py:1036
+msgid "N of valid cases"
+msgstr "N กรณีที่เป็นไปตามที่คาดมีจำนวน"
+
+#: .././cogstat_gui.py:89
+msgid "Update available"
+msgstr "สามารถอัพเดทซอฟต์แวร์นี้ได้แล้ว"
+
+#: .././cogstat_gui.py:90
+msgid "New version is available."
+msgstr "ซอฟต์แวร์เวอร์ชั่นใหม่มาแล้ว"
+
+#: .././cogstat_gui.py:91
+msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
+msgstr "คุณสามารถเข้าไปดาวน์โหลดเวอร์ชั่นล่าสุด<br>ได้ที่ <a href = \"%s\">CogStat download page</a>."
+
+#: .././cogstat_gui.py:116 .././cogstat_gui.py:145
+msgid "Explore relation of variable &pair"
+msgstr "ตรวจสอบความสัมพันธ์ระหว่างตัวแปร & จับคู่เปรียบเทียบ"
+
+#: .././cogstat_gui.py:120 .././cogstat_gui.py:145
+msgid "Compare repeated measures va&riables"
+msgstr "เปรียบเทียบระดับการวัดซ้ำและตัวแปร"
+
+#: .././cogstat_stat.py:628
+msgid "Minimum"
+msgstr "ค่าต่ำสุด"
+
+#: .././cogstat_stat.py:629
+msgid "Maximum"
+msgstr "ค่าสูงสุด"
+
+#: .././cogstat_stat.py:629
+msgid "Upper quartile"
+msgstr "Upper Quartile"
+
+#: .././cogstat_stat.py:647
+msgid "Descriptives for the variables"
+msgstr "รายละเอียดของตัวแปร"
+
+#: .././cogstat_stat.py:663
+msgid "Descriptives for the groups"
+msgstr "รายละเอียดของกลุ่ม"
+
+#: .././cogstat_stat.py:765
+msgid "Contingency table"
+msgstr "Contingency table"
+
+#: .././cogstat_stat.py:1345
+msgid "Result of two-way ANOVA:\n"
+""
+msgstr "ผลลัพธ์การวิเคราะห์ความแปรปรวนแบบสองทางANOVA"
+
+#: .././cogstat_stat.py:1348
+msgid "Main effect of %s: "
+msgstr "เอฟเฟกต์หลัก %s: "
+
+#: .././cogstat_stat.py:1352
+msgid "Interaction of %s and %s: "
+msgstr "การปฏิสัมพันธ์ของ %s และ %s: "
+
+#: .././cogstat_stat.py:1429
+msgid "Sorry, at least SciPy 0.10 is required to calculate Cramér's V or Chi-Square test."
+msgstr "เสียใจด้วย คุณต้องติดตั้งอย่างน้อย Scipy 0.10 เพื่อทำการคำนวณCramér's V หรือ Chi-Square test."
+
+#: .././cogstat.py:209
+msgid "SPSS file - "
+msgstr "ไฟล์ SPSS - "
+
+#: .././cogstat.py:545
+msgid "Explore relation of variable pair"
+msgstr "ตรวจสอบความสัมพันธ์ของคู่ตัวแปร"
+
+#: .././cogstat.py:665
+msgid "Compare repeated measures variables"
+msgstr "เปรียบเทียบการวัดซ้ำตัวแปร"
+
+#: .././cogstat.py:689 .././cogstat.py:844 .././cogstat.py:1039
+msgid "N of missing cases"
+msgstr "N ของกรณีที่ขาด"
+
+#: .././cogstat.py:1105
+msgid "Two grouping variables. "
+msgstr "สองตัวแปรกลุ่ม "
+
+#: .././cogstat.py:1109
+msgid "Choosing factorial ANOVA."
+msgstr "เลือก Factorial ANOVA"
+
+#: .././cogstat.py:558
+msgid "N of valid pairs"
+msgstr "N ของการเปรียบเทียบคู่ที่ทำได้"
+
+#: .././cogstat.py:559
+msgid "N of missing pairs"
+msgstr "N ของการเปรียบเทียบคู่ที่ขาด"
+
+#: .././cogstat.py:854
+msgid "N of missing group cases"
+msgstr "N ของกรณีกลุ่มที่ขาด"
+
+#: .././cogstat.py:1055
+msgid "N of missing grouping variable in %s"
+msgstr "N ชองกรณี กลุ่มตัวแปร ใน%s"
+
+#: .././cogstat_stat.py:630
+msgid "Skewness"
+msgstr "ความเบ้"
+
+#: .././cogstat_stat.py:630
+msgid "Kurtosis"
+msgstr "ความโด่ง"
+
+#: .././cogstat_stat.py:630
+msgid "Range"
+msgstr "พิสัย"
+
+#: .././cogstat_stat.py:647
+msgid "Descriptives for the variable"
+msgstr "รายละเอียดของตัวแปร"
+
+#: .././cogstat.py:40
+msgid "The measurement levels of the variables are not set. Set them in your data source."
+msgstr "คุณยังไม่ได้ตั้งค่าระดับการวัดของตัวแปร กรุณาตั้งค่านี้ในข้อมูลดาต้า"
+
