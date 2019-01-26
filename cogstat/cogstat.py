@@ -104,7 +104,6 @@ class CogStatData:
 
     def _import_data(self, data='', param_measurement_level=''):
 
-        delimiter = '\t'
         quotechar = '"'
 
         def percent2float():
@@ -189,6 +188,9 @@ class CogStatData:
             self.data_frame = data
             self.import_source = _('pandas dataframe')
         elif isinstance(data, basestring):
+
+            delimiter = '\t'
+            #print csv.Sniffer().sniff(data).delimiter  # In some tests, it didn't find the delimiter reliably and correctly
 
             # Import from file
             if not ('\n' in data):  # Single line text, i.e., filename
