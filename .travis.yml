@@ -2,4 +2,4 @@ language: python
 python:
   - '2.7'
 before_install:
-  - sudo apt-get install python-numpy python-pandas python-scipy python-statsmodels python-matplotlib python-pyqt5
+  - sudo apt-get install python-numpy python-pandas python-scipy python-statsmodels python-matplotlib
