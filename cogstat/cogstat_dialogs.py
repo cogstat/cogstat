@@ -208,7 +208,7 @@ class compare_vars_dialog(QtWidgets.QDialog, ui.compare_vars.Ui_Dialog):
         remove_item_from_list_widget(self.selected_listWidget)
     
     def read_parameters(self):
-        return [unicode(self.selected_listWidget.item(i).text(), 'utf-8') for i in range(self.selected_listWidget.count())]
+        return [unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
 import ui.compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, ui.compare_groups_single_case_slope.Ui_Dialog):
