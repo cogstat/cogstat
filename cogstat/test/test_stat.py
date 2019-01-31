@@ -117,20 +117,20 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of valid pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
         self.assertTrue('-0.141' in result[5])
-        self.assertTrue('[-0.477, 0.231]' in result[5])
-        self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.141, <i>p</i> = 0.456" in result[6])
+        self.assertTrue('[-0.477, 0.231]' in result[6])
+        self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.141, <i>p</i> = 0.456" in result[7])
         self.assertTrue('y = -21.811x + 300.505' in result[3])
         self.assertTrue('-0.363' in result[5])
-        self.assertTrue('[-0.640, -0.003]' in result[5])
-        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.363, <i>p</i> = 0.048" in result[6])
+        self.assertTrue('[-0.640, -0.003]' in result[6])
+        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.363, <i>p</i> = 0.048" in result[7])
 
         # Ord variables
         data.data_measlevs['a'] = 'ord'
         data.data_measlevs['b'] = 'ord'
         result = data.explore_variable_pair('a', 'b')
         self.assertTrue('-0.363' in result[4])
-        self.assertTrue('[-0.640, -0.003]' in result[4])
-        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.363, <i>p</i> = 0.048" in result[5])
+        self.assertTrue('[-0.640, -0.003]' in result[5])
+        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.363, <i>p</i> = 0.048" in result[6])
         data.data_measlevs['a'] = 'int'
         data.data_measlevs['b'] = 'int'
 
@@ -139,10 +139,10 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of valid pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
         # Cramer's V
-        self.assertTrue('<sub>c</sub></i> = 0.372' in result[3])
+        self.assertTrue('<sub>c</sub></i> = 0.372' in result[4])
         # Chi-square
-        self.assertTrue('(4, <i>N</i> = 30) = 8.312' in result[5])
-        self.assertTrue('<i>p</i> = 0.081' in result[5])
+        self.assertTrue('(4, <i>N</i> = 30) = 8.312' in result[6])
+        self.assertTrue('<i>p</i> = 0.081' in result[6])
 
     def test_compare_variables(self):
         """Test compare variables"""
@@ -247,7 +247,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<td>3.2869</td>      <td>5.0400</td>      <td>7.2412</td>' in result[3])
         self.assertTrue('<i>W</i> = 0.675, <i>p</i> = 0.517' in result[7])  # TODO this might be incorrect
         self.assertTrue('<i>F</i>(2, 27) = 4, <i>p</i> = 0.030' in result[7])
-        self.assertTrue('<i>&omega;<sup>2</sup></i> = 0.167' in result[7])
+        self.assertTrue('<i>&omega;<sup>2</sup></i> = 0.167' in result[8])
         # TODO post-hoc
 
         # 3 Int groups with assumption violation

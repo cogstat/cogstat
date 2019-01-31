@@ -1396,7 +1396,7 @@ def two_way_anova(pdf, var_name, grouping_names):
     # http://statsmodels.sourceforge.net/stable/examples/generated/example_interactions.html#one-way-anova
     from statsmodels.formula.api import ols
     from statsmodels.stats.anova import anova_lm
-    data = pdf.dropna(subset=[[var_name] + grouping_names])
+    data = pdf.dropna(subset=[var_name] + grouping_names)
     # from IPython import embed; embed()
     # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%

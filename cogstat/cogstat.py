@@ -1083,6 +1083,8 @@ class CogStatData:
             # 1. Raw data
             raw_result += '<h4>' + _('Raw data') + '</h4>'
 
+            standardized_effect_size_result = None
+
             data = self.data_frame[groups + [var_names[0]]].dropna()
             # create a list of sets with the levels of all grouping variables
             levels = [set(data[group]) for group in groups]
