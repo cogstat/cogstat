@@ -77,6 +77,7 @@ class pivot_dialog(QtWidgets.QDialog, ui.pivot.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.addRows.clicked.connect(self.add_rows)
@@ -133,6 +134,7 @@ class explore_var_dialog(QtWidgets.QDialog, ui.var_properties.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
@@ -162,6 +164,7 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, ui.explore_var_pairs.Ui_Dialog
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
@@ -189,6 +192,7 @@ class compare_vars_dialog(QtWidgets.QDialog, ui.compare_vars.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
@@ -215,6 +219,7 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, ui.compare_grou
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
@@ -246,6 +251,7 @@ class compare_groups_dialog(QtWidgets.QDialog, ui.compare_groups.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
@@ -294,6 +300,7 @@ class preferences_dialog(QtWidgets.QDialog, ui.preferences.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
+        self.setModal(True)
         self.buttonBox.accepted.connect(self.write_settings)
         self.buttonBox.rejected.connect(self.reject)
     
