@@ -4,4 +4,4 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  python test/test_stat.py
+  python cogstat/test/test_stat.py
