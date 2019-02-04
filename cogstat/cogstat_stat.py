@@ -103,8 +103,6 @@ warn_unknown_variable = '<warning>'+_('The properties of the variables are not s
                         % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                         + '\n<default>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
 
-table_style = '<style> th, td {padding-right: 5px; padding-left: 5px} </style>'
-
 ### Various things ###
 
 def _get_R_output(obj):
@@ -181,6 +179,18 @@ def _set_axis_measurement_level (ax, x_measurement_level, y_measurement_level):
     ax.spines['bottom'].set_linestyle(measurement_level_to_line_styles[x_measurement_level])
     ax.spines['left'].set_linestyle(measurement_level_to_line_styles[y_measurement_level])
 
+
+def _format_html_table(html_table, add_style=False):
+    """Format html table
+
+    :return: str html
+    """
+    if add_style:
+        # Because qt does not support table borders, use padding to have a more reviewable table
+        return '<style> th, td {padding-right: 5px; padding-left: 5px} </style>' + html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
+    else:
+        return html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
+
 def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     """
     Build pivot table
@@ -246,10 +256,9 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
                 else:
                     ptable = pd.pivot_table(df, values=depend_name, index=row_names, columns=col_names,
                                             aggfunc=eval(function_code[function]))
-                ptable_result = '%s\n%s' % (ptable_result, ptable.
-                                            to_html(bold_rows=False, sparsify=False, float_format=format_output).\
-                                            replace('\n', '').\
-                                            replace('border="1"', 'style="border:1px solid black;"'))
+                ptable_result = '%s\n%s' % (ptable_result, _format_html_table(ptable.
+                                            to_html(bold_rows=False, sparsify=False, float_format=format_output),
+                                                                              add_style=False))
             else:
                 temp_result = eval(function_code[function])(np.array(df[depend_name]))
                 # TODO convert to html output; when ready stop using fix_width_font
@@ -374,10 +383,8 @@ def frequencies(pdf, var_name, meas_level):
         column_names = [_('Value'), _('Freq'), _('Rel freq')]
     else:
         column_names = [_('Value'), _('Freq'), _('Rel freq'), _('Cum freq'), _('Cum rel freq')]
-    text_result = table_style + pd.DataFrame(freq, columns=column_names).\
-        to_html(formatters={_('Rel freq'): as_percent, _('Cum rel freq'): as_percent}, bold_rows=False, index=False).\
-        replace('\n', '').\
-        replace('border="1"', 'style="border:1px solid black;"')
+    text_result = _format_html_table(pd.DataFrame(freq, columns=column_names).\
+        to_html(formatters={_('Rel freq'): as_percent, _('Cum rel freq'): as_percent}, bold_rows=False, index=False))
     return text_result
 
 
@@ -700,7 +707,7 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
 #        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)
-#        text_result += pdf_result.T.to_html().replace('\n','')
+#        text_result += pdf_result.T.to_html()
         for group_label, group_data in zip(groups, grouped_data):
             if len(group_data):
                 prec = cs_util.precision(group_data) + 1
@@ -711,8 +718,7 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
                 text_result += _('No data')
                 for stat in statistics:
                     pdf_result.loc[stat_names[stat], group_label] = _('No data')
-    text_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', '').\
-        replace('border="1"', 'style="border:1px solid black;"')
+    text_result += _format_html_table(pdf_result.to_html(bold_rows=False))
     return text_result
 
 
@@ -800,8 +806,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y]) # TODO use data instead?
         text_result = '\n%s\n%s\n' % (_('Contingency table'),
-                                      table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
-                                      replace('border="1"', 'style="border:1px solid black;"'))
+                                      _format_html_table(cont_table_data.to_html(bold_rows=False)))
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
             #mosaic(data_frame, [x, y])  # Previous version
             if 0 in cont_table_data.values:
@@ -1008,14 +1013,12 @@ def repeated_measures_anova(pdf, var_names):
         pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
 
         pht_text = pht[['text']]
-        text_result += table_style + pht_text.to_html(bold_rows=True, escape=False, header=False).replace('\n', ''). \
-            replace('border="1"', 'style="border:1px solid black;"')
+        text_result += _format_html_table(pht_text.to_html(bold_rows=True, escape=False, header=False))
 
         # Or we can print them in a matrix
         #pht_text = pht[['text']].unstack()
         #np.fill_diagonal(pht_text.values, '')
-        #text_result += pht_text.to_html(bold_rows=True, escape=False).replace('\n', '').\
-        #                        replace('border="1"', 'style="border:1px solid black;"')
+        #text_result += pht_text.to_html(bold_rows=True, escape=False))
 
         #print text_result
 

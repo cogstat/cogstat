@@ -56,8 +56,6 @@ warn_unknown_variable = '<warning>'+_('The measurement levels of the variables a
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
                     # any other code will leave the output (e.g., for testing)
 
-table_style = '<style> th, td {padding-right: 5px; padding-left: 5px} </style>'
-
 class CogStatData:
     """Class to process data."""
     def __init__(self, data='', measurement_level=''):
@@ -314,8 +312,7 @@ class CogStatData:
                                  columns=self.data_frame.columns)
         data_comb = pd.concat([data_prop, self.data_frame])
         data_comb.index = [_('Type'), _('Level')]+[' ']*len(self.data_frame)
-        output += table_style + data_comb[:12 if brief else 1001].to_html(bold_rows=False).replace('\n', '').\
-            replace('border="1"', 'style="border:1px solid black;"')
+        output += cs_stat._format_html_table(data_comb[:12 if brief else 1001].to_html(bold_rows=False))
         if brief and (len(self.data_frame.index) > 10):
             output += str(len(self.data_frame.index)-10) + _(' further cases are not displayed...')+'\n'
         if len(self.data_frame.index) > 999:
@@ -359,8 +356,7 @@ class CogStatData:
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
                     text_output += _('The following cases will be excluded: ')
-                    text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '').\
-                        replace('border="1"', 'style="border:1px solid black;"')
+                    text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False), add_style=False)
                 else:
                     text_output += _('No cases were excluded.') + '\n'
             self.data_frame = self.orig_data_frame.copy()
@@ -556,8 +552,7 @@ class CogStatData:
                 pdf_result.loc[_('Mean'), _('95% confidence interval')] = ci_text
                 pdf_result.loc[_('Standard deviation')] = \
                     [('%0.*f') % (prec, np.std(self.data_frame[var_name].dropna(), ddof=1)), '']
-                population_param_text += table_style + pdf_result.to_html(bold_rows=False).replace('\n', ''). \
-                    replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+                population_param_text += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
                 population_param_text += '\n\n'
 
             else:
@@ -648,8 +643,7 @@ class CogStatData:
             standardized_effect_size_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_(u"Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
-                                 + table_style + pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
-                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, escape=False))
 
             population_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
@@ -665,8 +659,7 @@ class CogStatData:
             standardized_effect_size_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_(u"Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
-                                 + table_style + pdf_result.to_html(bold_rows=False, escape=False).replace('\n', ''). \
-                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, escape=False))
             population_result += _(u"Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
@@ -770,8 +763,7 @@ class CogStatData:
             for var_pair in itertools.combinations(var_names, 2):
                 cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])
                     #, rownames = [x], colnames = [y])
-                sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
-                    replace('border="1"', 'style="border:1px solid black;"')
+                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
 
         # Plot the descriptive data
         population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
@@ -903,8 +895,7 @@ class CogStatData:
 #                valid_n = sum(data[groups[0]]==group)
 #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
 #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
-            raw_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', '').\
-                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
             valid_n = len(self.data_frame[groups[0]].dropna())
             missing_n = len(self.data_frame[groups[0]])-valid_n
             raw_result += '\n\n'+_(u'N of missing group cases') + ': %g' % missing_n +'\n'
@@ -937,8 +928,7 @@ class CogStatData:
                                 statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
-                sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', '').\
-                    replace('border="1"', 'style="border:1px solid black;"')
+                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
 
             # 3. Population properties
             # Plot population estimations
@@ -1108,8 +1098,7 @@ class CogStatData:
             #                valid_n = sum(data[groups[0]]==group)
             #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
             #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
-            raw_result += table_style + pdf_result.to_html(bold_rows=False).replace('\n', ''). \
-                replace('border="1"', 'style="border:1px solid black;"')  # pyqt doesn't support border styles
+            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
             raw_result += '\n\n'
             for group in groups:
                 valid_n = len(self.data_frame[group].dropna())
@@ -1145,8 +1134,7 @@ class CogStatData:
             elif meas_level == 'nom':
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]],
                                               [self.data_frame[groups[i]] for i in range(len(groups))])  # , rownames = [x], colnames = [y])
-                sample_result += table_style + cont_table_data.to_html(bold_rows=False).replace('\n', ''). \
-                    replace('border="1"', 'style="border:1px solid black;"')
+                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
 
             # 3. Population properties
             # Plot population estimations
