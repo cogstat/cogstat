@@ -437,7 +437,7 @@ def histogram(pdf, data_measlevs, var_name):
         plt.ylabel(_plt('Frequency'))
         # Lower part showing the boxplot
         ax_low = plt.axes([0.1, 0.1, 0.8, 0.2], sharex = ax_up)
-        box1 = plt.boxplot(data.values, vert=0)  # .values needed, otherwise error when the first case is missing data
+        box1 = plt.boxplot(data.values, vert=0, whis='range')  # .values needed, otherwise error when the first case is missing data
         plt.gca().axes.get_yaxis().set_visible(False)
         if data_measlevs[var_name] == 'ord':
             plt.xlabel(_('Rank of %s') % var_name)
@@ -865,7 +865,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
             
         # Display boxplots
         if not raw_data:
-            box1 = ax.boxplot(variables)
+            box1 = ax.boxplot(variables, whis='range')
             # ['medians', 'fliers', 'whiskers', 'boxes', 'caps']
             plt.setp(box1['boxes'], color=theme_colors[0])
             plt.setp(box1['whiskers'], color=theme_colors[0])
@@ -1083,7 +1083,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
         ax = fig.add_subplot(111)
         # Add boxplot
         if not raw_data_only:
-            box1 = ax.boxplot(variables)
+            box1 = ax.boxplot(variables, whis='range')
             plt.setp(box1['boxes'], color=theme_colors[0])
             plt.setp(box1['whiskers'], color=theme_colors[0])
             plt.setp(box1['caps'], color=theme_colors[0])
