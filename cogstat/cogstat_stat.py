@@ -909,6 +909,7 @@ def comp_var_graph_cum(data, var_names, meas_level, data_frame):
     """Draw means with CI for int vars, and medians for ord vars.
     """
     graph = None
+    condition_means_pdf = pd.DataFrame()
     if meas_level in ['int', 'unk']:
         # ord is excluded at the moment
         fig = plt.figure()
@@ -920,6 +921,12 @@ def comp_var_graph_cum(data, var_names, meas_level, data_frame):
             cis, cils, cihs = confidence_interval_t(data, ci_only=False)
             ax.bar(range(len(data.columns)), means, 0.5, yerr=cis, align='center', 
                    color=theme_colors[0], ecolor='0')
+            condition_means_pdf[_('Point estimation')] = means
+            # APA format, but cannot be used the numbers if copied to spreadsheet
+            #group_means_pdf[_('95% confidence interval')] = '['+ cils.map(str) + ', ' + cihs.map(str) + ']'
+            condition_means_pdf[_('95% CI (low)')] = cils
+            condition_means_pdf[_('95% CI (high)')] = cihs
+
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the variables'))
             medians = np.median(data)
@@ -928,7 +935,7 @@ def comp_var_graph_cum(data, var_names, meas_level, data_frame):
         plt.xticks(range(len(var_names)), _wrap_labels(var_names))
         plt.ylabel(_plt('Value'))
         graph = plt.gcf()
-    return graph
+    return condition_means_pdf, graph
 
 
 def paired_t_test(pdf, var_names):

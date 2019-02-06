@@ -7,7 +7,7 @@ Upcoming release
 ## New features
 - Use themes for the charts
 - Single case test for slope index
-- In group comparison display mean estimations numerically
+- Display mean estimations numerically in group comparison and in repeated measures comparison 
 - Display standardized effect sizes separately
 - Sample data files
 - In warning massages add links with more information about fixing the issue

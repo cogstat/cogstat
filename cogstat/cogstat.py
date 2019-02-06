@@ -766,10 +766,11 @@ class CogStatData:
                 sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
 
         # Plot the descriptive data
-        population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
+        mean_estimations, population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
 
         # 3. Population properties
         population_result = '<h4>' + _('Population properties') + '</h4>\n'
+        population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
 
         result_ht = '<decision>' + _('Hypothesis testing: ')
         if meas_level in ['int', 'unk']:
