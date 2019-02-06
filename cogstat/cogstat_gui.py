@@ -76,7 +76,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.check_for_update()
 
         # Only for testing
-#        self.open_file('sample_data/example_data.csv'); #self.compare_groups()
+        self.open_file('sample_data/example_data.csv'); #self.compare_groups()
 #        self.open_file('test/data/test_data.csv')
 #        self.open_clipboard()
 #        self.print_data()
@@ -90,7 +90,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
 #        self.compare_groups(['A'], ['G', 'H'])
-#        self.compare_groups(['X'], ['TIME'])
+        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.save_result_as()
 #        self.save_result_as(filename='pdf_test.pdf')
 

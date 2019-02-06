@@ -1161,6 +1161,7 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
     """Draw means with CI for int vars, and medians for ord vars.
     """
     graph = None
+    group_means_pdf = pd.DataFrame()
 #    if len(groups) == 1:
 #        group_levels = [[group_level] for group_level in group_levels]
     if meas_level in ['int', 'unk']:
@@ -1177,6 +1178,11 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
                    align='center', color=theme_colors[0], ecolor='0')
                    # pandas series is converted to np.array to be able to handle numeric indexes (group levels)
             _set_axis_measurement_level(ax, 'nom', 'int')
+            group_means_pdf[_('Point estimation')] = means
+            # APA format, but cannot be used the numbers if copied to spreadsheet
+            #group_means_pdf[_('95% confidence interval')] = '['+ (means-cis).map(str) + ', ' + (means+cis).map(str) + ']'
+            group_means_pdf[_('95% CI (low)')] = means - cis
+            group_means_pdf[_('95% CI (high)')] = means + cis
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the groups'))
             medians = pdf.groupby(groups[0], sort=False).aggregate(np.median)[var_names[0]]
@@ -1188,7 +1194,7 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
         plt.xlabel(groups[0])
         plt.ylabel(var_names[0])
         graph = fig
-    return graph
+    return group_means_pdf, graph
 
 
 def levene_test(pdf, var_name, group_name):

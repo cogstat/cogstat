@@ -7,9 +7,10 @@ Upcoming release
 ## New features
 - Use themes for the charts
 - Single case test for slope index
-- In warning massages add links with more information about fixing the issue
+- In group comparison display mean estimations numerically
 - Display standardized effect sizes separately
 - Sample data files
+- In warning massages add links with more information about fixing the issue
 - Add splash screen
 - Simpler Linux and Mac installation
 - Smaller refinements
