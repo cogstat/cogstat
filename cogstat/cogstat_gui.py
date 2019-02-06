@@ -120,7 +120,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Menus and commands
         menu_commands = [  # This list will be used to construct the menus
                             [_('&Data'),
-                                ['', _('&Open data file')+'...', _('Ctrl+O'), _('Open data file (csv text file)'), 'self.open_file'],
+                                ['', _('&Open data file')+'...', _('Ctrl+O'), _('Open data file (csv or SPSS file)'), 'self.open_file'],
+                                ['', _('Open &demo data file')+'...', _('Ctrl+D'), _('Open demo data file (csv or SPSS file)'), 'self.open_demo_file'],
                                 ['', _('&Paste data'), _('Ctrl+V'), _('Paste data from clipboard'), 'self.open_clipboard'],
                                 ['separator'],
                                 # ['', _('&Filter outliers'), _('Ctrl+L'), _('Filter cases based on outliers'), 'self.xxx'],
@@ -318,6 +319,17 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if filename in ['', False]:
             filename = cogstat_dialogs.open_data_file()
+        print filename
+        if filename:
+            self._open_data(unicode(filename))
+
+    ### Data menu methods ###
+    def open_demo_file(self, filename=''):
+        """Open file.
+        :param filename: filename with path
+        """
+        if filename in ['', False]:
+            filename = cogstat_dialogs.open_demo_data_file()
         print filename
         if filename:
             self._open_data(unicode(filename))

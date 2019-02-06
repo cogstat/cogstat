@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import gettext
+import os
 import cogstat_config as csc
 from PyQt5 import QtWidgets
 
@@ -20,6 +21,10 @@ _ = t.ugettext
 
 def open_data_file():
     return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',  '*.txt *.log *.csv *.tsv *.sav')[0])
+
+
+def open_demo_data_file():
+    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__)+'/sample_data',  '*.txt *.log *.csv *.tsv *.sav')[0])
 
 
 def save_output():

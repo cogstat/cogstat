@@ -9,7 +9,7 @@ Upcoming release
 - Single case test for slope index
 - Display mean estimations numerically in group comparison and in repeated measures comparison 
 - Display standardized effect sizes separately
-- Sample data files
+- Sample data files and add menu to find them
 - In warning massages add links with more information about fixing the issue
 - Add splash screen
 - Simpler Linux and Mac installation
