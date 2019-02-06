@@ -1191,7 +1191,7 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
         if len(groups) == 1:
             group_levels = [[group_level] for group_level in group_levels]
         plt.xticks(range(len(group_levels)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
-        plt.xlabel(groups[0])
+        plt.xlabel(' : '.join(groups))
         plt.ylabel(var_names[0])
         graph = fig
     return group_means_pdf, graph
