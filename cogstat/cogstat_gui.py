@@ -121,7 +121,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         menu_commands = [  # This list will be used to construct the menus
                             [_('&Data'),
                                 ['', _('&Open data file')+'...', _('Ctrl+O'), _('Open data file (csv or SPSS file)'), 'self.open_file'],
-                                ['', _('Open &demo data file')+'...', _('Ctrl+D'), _('Open demo data file (csv or SPSS file)'), 'self.open_demo_file'],
+                                ['', _('Open d&emo data file')+'...', _('Ctrl+E'), _('Open demo data file (csv or SPSS file)'), 'self.open_demo_file'],
                                 ['', _('&Paste data'), _('Ctrl+V'), _('Paste data from clipboard'), 'self.open_clipboard'],
                                 ['separator'],
                                 # ['', _('&Filter outliers'), _('Ctrl+L'), _('Filter cases based on outliers'), 'self.xxx'],
