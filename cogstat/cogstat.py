@@ -932,10 +932,11 @@ class CogStatData:
 
             # 3. Population properties
             # Plot population estimations
-            population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
+            mean_estimations, population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
 
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
+            population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
             standardized_effect_size_result = None
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
@@ -1138,11 +1139,12 @@ class CogStatData:
 
             # 3. Population properties
             # Plot population estimations
-            population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups,
+            mean_estimations, population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups,
                                                                 level_combinations)
 
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
+            population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:
