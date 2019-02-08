@@ -12,7 +12,8 @@ Upcoming release
 - Sample data files and add menu to find them
 - In warning massages add links with more information about fixing the issue
 - Add splash screen
-- Simpler Linux and Mac installation
+- Simpler Mac installation and Mac specific bug fixes (thanks to Márton Nagy, Anna Rákóczi and András Csép)
+- Simpler Linux installation
 - Smaller refinements
 - New localizations
     - Slovakian (Katarína Sümegiová)
