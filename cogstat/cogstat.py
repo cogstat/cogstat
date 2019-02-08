@@ -56,6 +56,8 @@ warn_unknown_variable = '<warning>'+_('The measurement levels of the variables a
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
                     # any other code will leave the output (e.g., for testing)
 
+app_devicePixelRatio = 1.0 # this will be overwritten from cogstat_gui; this is needed for high dpi screens
+
 class CogStatData:
     """Class to process data."""
     def __init__(self, data='', measurement_level=''):
@@ -387,11 +389,14 @@ class CogStatData:
             """
             figure.canvas.draw()
             size_x, size_y = figure.get_size_inches()*rcParams['figure.dpi']
+            # TODO is it better to use figure.canvas.width(), figure.canvas.height()
             if LooseVersion(csc.versions['matplotlib']) < LooseVersion('1.2'):
                 string_buffer = figure.canvas.buffer_rgba(0, 0)
             else:
                 string_buffer = figure.canvas.buffer_rgba()
-            return QtGui.QImage(string_buffer, size_x, size_y, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
+            qimage = QtGui.QImage(string_buffer, size_x*app_devicePixelRatio, size_y*app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
+            QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
+            return qimage
                 # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding
                 # this should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI
 

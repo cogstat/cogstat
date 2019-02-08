@@ -34,6 +34,8 @@ import cogstat_util as cs_util
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
+cogstat.app_devicePixelRatio = app.devicePixelRatio()
+
 cs_util.get_versions()
 
 logging.root.setLevel(logging.INFO)
