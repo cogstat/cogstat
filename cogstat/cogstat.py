@@ -23,7 +23,11 @@ from distutils.version import LooseVersion
 import os
 import itertools
 
-__version__ = '1.8.0dev'
+__version__ = '1.8.0.dev1'
+
+import matplotlib
+matplotlib.use("qt5agg")
+#print matplotlib.get_backend()
 
 import cogstat_config as csc
 csc.versions['cogstat'] = __version__

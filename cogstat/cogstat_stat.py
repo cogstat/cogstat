@@ -38,8 +38,6 @@ from statsmodels.sandbox.stats.runs import mcnemar
 from statsmodels.sandbox.stats.runs import cochrans_q
 import pandas as pd
 import matplotlib
-matplotlib.use("qt4agg")
-#print matplotlib.get_backend()
 import matplotlib.pyplot as plt
 import matplotlib.pylab
 try:
