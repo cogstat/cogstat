@@ -235,7 +235,8 @@ class CogStatData:
                 import StringIO
                 f = StringIO.StringIO(data)
                 f.next()
-                meas_row = f.next().replace('\n', '').split(delimiter)
+                meas_row = f.next().replace('\n', '').replace('\r', '').split(delimiter)
+                # \r was used in Mac after importing from Excel clipboard
                 if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
                         and set(meas_row) != set(['']):
                     meas_row = [u'unk' if item == u'' else item for item in meas_row]  # missing level ('') means 'unk'
