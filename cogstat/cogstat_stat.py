@@ -844,7 +844,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
         if raw_data:
             plt.title(_plt('Individual data of the variables'))
         else:
-            plt.title(_plt('Boxplot and individual data of the variables'))
+            plt.title(_plt('Boxplots and individual data of the variables'))
         # Display individual data
         for i in range(len(variables.transpose())-1):  # for all pairs
             # Prepare the frequencies for the plot
@@ -1114,7 +1114,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             if raw_data_only:
                 plt.title(_plt('Individual data of the rank data of the groups'))
             else:
-                plt.title(_plt('Boxplot and individual data of the rank data of the groups'))
+                plt.title(_plt('Boxplots and individual data of the rank data of the groups'))
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
             try:
@@ -1130,7 +1130,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             if raw_data_only:
                 plt.title(_plt('Individual data of the groups'))
             else:
-                plt.title(_plt('Boxplot and individual data of the groups'))
+                plt.title(_plt('Boxplots and individual data of the groups'))
             _set_axis_measurement_level(ax, 'nom', 'int')
         graph = fig
     elif meas_level in ['nom']:
