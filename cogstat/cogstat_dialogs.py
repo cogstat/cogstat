@@ -20,11 +20,11 @@ _ = t.ugettext
 
 
 def open_data_file():
-    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',  '*.txt *.log *.csv *.tsv *.sav')[0])
+    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '', '*.csv *.sav')[0])  #*.txt *.log *.tsv
 
 
 def open_demo_data_file():
-    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__)+'/sample_data',  '*.txt *.log *.csv *.tsv *.sav')[0])
+    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__)+'/sample_data', '*.csv *.sav')[0])  #*.txt *.log *.tsv
 
 
 def save_output():
