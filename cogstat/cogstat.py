@@ -277,9 +277,10 @@ class CogStatData:
                 non_ascii_var_names.append(variable_name)
             if self.data_frame[variable_name].dtype == 'object':  # check only string variables
                 for ind_data in self.data_frame[variable_name]:
-                    if not all(ord(char) < 128 for char in ind_data):
-                        non_ascii_vars.append(variable_name)
-                        break  # after finding the first non-ascii data, we can leave the variable
+                    if not(ind_data != ind_data):  # if not NaN, otherwise the next condition is invalid
+                        if not all(ord(char) < 128 for char in ind_data):
+                            non_ascii_vars.append(variable_name)
+                            break  # after finding the first non-ascii data, we can leave the variable
         if non_ascii_var_names:
             self.import_message += '\n<warning>' + \
                                    _('Some variable name(s) include non-English characters, which will cause problems in some analyses: %s.') \
