@@ -277,7 +277,8 @@ class CogStatData:
                 non_ascii_var_names.append(variable_name)
             if self.data_frame[variable_name].dtype == 'object':  # check only string variables
                 for ind_data in self.data_frame[variable_name]:
-                    if not(ind_data != ind_data):  # if not NaN, otherwise the next condition is invalid
+                    if not(ind_data != ind_data) and not (isinstance(ind_data, bool)):
+                            # if not NaN, otherwise the next condition is invalid and if not boolean
                         if not all(ord(char) < 128 for char in ind_data):
                             non_ascii_vars.append(variable_name)
                             break  # after finding the first non-ascii data, we can leave the variable
