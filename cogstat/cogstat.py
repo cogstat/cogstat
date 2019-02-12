@@ -897,6 +897,7 @@ class CogStatData:
 
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
             group_levels = list(set(data[groups[0]]))
+            group_levels.sort()
             # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
             pdf_result = pd.DataFrame(columns=group_levels)
             pdf_result.loc[_('N of valid cases')] = [sum(data[groups[0]] == group) for group in group_levels]
@@ -1089,7 +1090,10 @@ class CogStatData:
 
             data = self.data_frame[groups + [var_names[0]]].dropna()
             # create a list of sets with the levels of all grouping variables
-            levels = [set(data[group]) for group in groups]
+            levels = [list(set(data[group])) for group in groups]
+            for i in range(len(levels)):
+                levels[i].sort()
+            # TODO sort the levels in other parts of the output, too
             # create all level combinations for the grouping variables
             level_combinations = list(itertools.product(*levels))
 
