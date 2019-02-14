@@ -11,6 +11,7 @@ Upcoming release
 - Display standardized effect sizes separately
 - Sample data files and add menu to find them
 - In warning massages add links with more information about fixing the issue
+- Add zooming option to Results menu
 - Add splash screen
 - Simpler Mac installation and Mac specific bug fixes (thanks to Márton Nagy, Anna Rákóczi and András Csép)
 - Simpler Linux installation
