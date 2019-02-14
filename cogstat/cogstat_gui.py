@@ -143,6 +143,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             [_('&Results'),
                                 ['', _('&Clear results'), _('Del'), _('Delete the output window'), 'self.delete_output'],
                                 ['separator'],
+                                ['', _('Zoom &in text'), _('Ctrl++'), _(''), 'self.zoom_in'],
+                                ['', _('Zoom &out text'), _('Ctrl+-'), _(''), 'self.zoom_out'],
+                                #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
+                                # TODO how can we reset to 100%?
+                                ['separator'],
                                 ['', _('Save results'), _('Ctrl+P'), _('Save the output to .pdf format'), 'self.save_result'],
                                 ['', _('Save results as')+'...', _('Shift+Ctrl+P'), _('Save the results'), 'self.save_result_as']
                             ],
@@ -580,6 +585,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.output_pane.clear()
             self.analysis_results = []
             self.unsaved_output = False  # Not necessary to save the empty output
+
+    def zoom_in(self):
+        self.output_pane.zoomIn(1)
+
+    def zoom_out(self):
+        self.output_pane.zoomOut(1)
 
     def save_result(self):
         """Save the output pane to pdf file."""
