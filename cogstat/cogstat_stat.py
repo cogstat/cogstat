@@ -430,7 +430,7 @@ def histogram(pdf, data_measlevs, var_name):
         else:
             plt.title(_plt('Histogram with individual data and boxplot'))
         if suptitle_text:
-            plt.suptitle(suptitle_text, x=0.9, y=0.02, horizontalalignment='right', fontsize=10)
+            plt.suptitle(suptitle_text, x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         plt.gca().axes.get_xaxis().set_visible(False)
         plt.ylabel(_plt('Frequency'))
         # Lower part showing the boxplot
@@ -531,7 +531,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     plt.plot(bins, matplotlib.pylab.normpdf(bins, np.mean(data), np.std(data)), 'g--', linewidth=3)
     plt.title(_plt('Histogram with individual data and normal distribution'))
     if suptitle_text:
-        plt.suptitle(suptitle_text, x=0.9, y=0.02, horizontalalignment='right', fontsize=10)
+        plt.suptitle(suptitle_text, x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape), 
                  yerr=[np.zeros(val_count.shape), val_count.values],
                  fmt='k|', capsize=0, linewidth = 2)
@@ -799,7 +799,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             ax.set_xlabel(_plt('Rank of %s') % x)
             ax.set_ylabel(_plt('Rank of %s') % y)
         if suptitle_text:
-            plt.suptitle(suptitle_text, x=0.9, y=0.02, horizontalalignment='right', fontsize=10)
+            plt.suptitle(suptitle_text, x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         graph = plt.gcf()
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y]) # TODO use data instead?
@@ -1102,7 +1102,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
                 val_count = (val_count-1)/((max_freq-1)/9.0)+1
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
-                plt.suptitle(_plt(u'Largest individual sign display %d cases.') % max_freq, x=0.9, y=0.02,
+                plt.suptitle(_plt(u'Largest individual sign display %d cases.') % max_freq, x=0.9, y=0.025,
                              horizontalalignment='right', fontsize=10)
             ax.scatter(np.ones(len(val_count))+var_i, val_count.index, val_count.values*5, color='#808080', marker='o')
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3) # TODO color should be used from ini file
