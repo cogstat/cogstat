@@ -192,7 +192,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('a: <i>W</i> = 0.959, <i>p</i> = 0.287' in result[7])
         self.assertTrue('e: <i>W</i> = 0.966, <i>p</i> = 0.435' in result[7])
         self.assertTrue('f: <i>W</i> = 0.818, <i>p</i> &lt; 0.001' in result[7])
-        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 6.47, <i>p</i> = 0.039' in result[7])
+        self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 6.47, <i>p</i> = 0.039' in result[7])
 
         # 2 Ord variables
         data.data_measlevs['a'] = 'ord'
@@ -205,7 +205,7 @@ class CogStatTestCase(unittest.TestCase):
         # 3 Ord variables
         result = data.compare_variables(['a', 'e', 'f'])
         self.assertTrue('<td>2.8545</td>      <td>2.3895</td>      <td>4.2275</td>' in result[3])
-        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 6.47, <i>p</i> = 0.039' in result[6])
+        self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 6.47, <i>p</i> = 0.039' in result[6])
         data.data_measlevs['a'] = 'int'
         data.data_measlevs['e'] = 'int'
         data.data_measlevs['f'] = 'int'
@@ -214,7 +214,7 @@ class CogStatTestCase(unittest.TestCase):
         result = data.compare_variables(['i', 'j'])
         # TODO on Linux the row labels are 0.0 and 1.0 instead of 0 and 1
         self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])
-        self.assertTrue('<i>&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.0556, <i>p</i> = 0.814' in result[5])
+        self.assertTrue('&chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.0556, <i>p</i> = 0.814' in result[5])
 
         # 3 Nom variables
         result = data.compare_variables(['i', 'j', 'k'])
@@ -249,12 +249,12 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<td>3.2869</td>      <td>5.0400</td>      <td>7.2412</td>' in result[3])
         self.assertTrue('<i>W</i> = 0.675, <i>p</i> = 0.517' in result[7])  # TODO this might be incorrect
         self.assertTrue('<i>F</i>(2, 27) = 4, <i>p</i> = 0.030' in result[7])
-        self.assertTrue('<i>&omega;<sup>2</sup></i> = 0.167' in result[8])
+        self.assertTrue('&omega;<sup>2</sup> = 0.167' in result[8])
         # TODO post-hoc
 
         # 3 Int groups with assumption violation
         result = data.compare_groups('o', ['q'])
-        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[7])
+        self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[7])
 
         # 2 Ord groups
         data.data_measlevs['o'] = 'ord'
@@ -264,17 +264,17 @@ class CogStatTestCase(unittest.TestCase):
         # 3 Ord groups
         data.data_measlevs['o'] = 'ord'
         result = data.compare_groups('o', ['q'])
-        self.assertTrue('<i>&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[6])
+        self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[6])
         data.data_measlevs['o'] = 'int'
 
         # 2 Nom groups
         result = data.compare_groups('i', ['j'])
-        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.154' in result[3])  # TODO validate
+        self.assertTrue('&phi;<i><sub>c</sub></i> = 0.154' in result[3])  # TODO validate
         self.assertTrue('&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.710, <i>p</i> = 0.399' in result[5])  # TODO validate
 
         # 3 Nom groups
         result = data.compare_groups('i', ['c'])
-        self.assertTrue('<i>&phi;<sub>c</sub></i> = 0.009' in result[3])  # TODO validate
+        self.assertTrue('&phi;<i><sub>c</sub></i> = 0.009' in result[3])  # TODO validate
         self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002, <i>p</i> = 0.999' in result[5])  # TODO validate
 
         # 3 × 3 Int groups
