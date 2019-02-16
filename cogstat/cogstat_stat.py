@@ -983,7 +983,7 @@ def paired_wilcox_test(pdf, var_names):
 
 def mcnemar_test(pdf, var_names):
     chi2, p = mcnemar(pdf[var_names[0]], pdf[var_names[1]], exact=False)
-    return _('Result of the McNemar test') + ': <i>&chi;<sup>2</sup></i>(1, <i>N</i> = %d) = %0.3g, %s\n' % \
+    return _('Result of the McNemar test') + ': &chi;<sup>2</sup>(1, <i>N</i> = %d) = %0.3g, %s\n' % \
                                               (len(pdf[var_names[0]]), chi2, cs_util.print_p(p))
 
 
@@ -1044,7 +1044,7 @@ def friedman_test(pdf, var_names):
     chi2, p = stats.friedmanchisquare(*[np.array(var) for var in variables.T.values])
     df = len(var_names)-1
     n = len(variables)
-    text_result += _('Result of the Friedman test: ')+'<i>&chi;<sup>2</sup></i>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
+    text_result += _('Result of the Friedman test: ')+'&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
                                                       (df, n, chi2, cs_util.print_p(p))  #χ2(1, N=90)=0.89, p=.35
 
     return text_result
@@ -1375,7 +1375,7 @@ def one_way_anova(pdf, var_name, grouping_name):
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
     omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
              ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
-    effect_size_result = _('Effect size: ') + '<i>&omega;<sup>2</sup></i> = %0.3g\n' % omega2
+    effect_size_result = _('Effect size: ') + '&omega;<sup>2</sup> = %0.3g\n' % omega2
     # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
     if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
@@ -1432,7 +1432,7 @@ def two_way_anova(pdf, var_name, grouping_names):
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
     omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1])) / (
                 (anova_result['sum_sq'][0] + anova_result['sum_sq'][1]) + anova_result['mean_sq'][1])
-    text_result += _('Effect size: ') + '<i>&omega;<sup>2</sup></i> = %0.3g\n' % omega2
+    text_result += _('Effect size: ') + '&omega;<sup>2</sup> = %0.3g\n' % omega2
     """
 
     """ # TODO
@@ -1473,7 +1473,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
         H, p = stats.kruskal(*variables)
         df = len(dummy_groups)-1
         n = len(pdf[var_name].dropna())  # TODO Is this OK here?
-        text_result += _('Result of the Kruskal-Wallis test: ')+'<i>&chi;<sup>2</sup></i>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
+        text_result += _('Result of the Kruskal-Wallis test: ')+'&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
                                                                 (df, n, H, cs_util.print_p(p))  # χ2(1, N=90)=0.89, p=.35
     except Exception as e:
         text_result += _('Result of the Kruskal-Wallis test: ')+unicode(e)
@@ -1496,7 +1496,7 @@ def chi_square_test(pdf, var_name, grouping_name):
         chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
         try:
             cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5
-            cramer_result = _(u'Cramér\'s V measure of association: ')+'<i>&phi;<sub>c</sub></i> = %.3f\n' % cramersv
+            cramer_result = _(u'Cramér\'s V measure of association: ')+'&phi;<i><sub>c</sub></i> = %.3f\n' % cramersv
         except ZeroDivisionError:  # TODO could this be avoided?
             cramer_result = _(u'Cramér\'s V measure of association cannot be computed (division by zero).')
         chi_result = _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
