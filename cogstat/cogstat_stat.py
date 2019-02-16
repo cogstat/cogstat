@@ -808,11 +808,11 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
         if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
             #mosaic(data_frame, [x, y])  # Previous version
             if 0 in cont_table_data.values:
-                fig, rects = mosaic(cont_table_data.unstack()+1e-9)
+                fig, rects = mosaic(cont_table_data.unstack()+1e-9, label_rotation=[0.0, 90.0])
                 # this is a workaround for mosaic limitation, which cannot draw cells with 0 frequency
                 # see https://github.com/cogstat/cogstat/issues/1
             else:
-                fig, rects = mosaic(cont_table_data.unstack())
+                fig, rects = mosaic(cont_table_data.unstack(), label_rotation=[0.0, 90.0])
             fig.set_facecolor(csc.bg_col)
             ax = plt.subplot(111)
             ax.set_xlabel(x)
@@ -885,9 +885,9 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
                 ct = pd.crosstab(data_frame[var_pair[0]], data_frame[var_pair[1]]).sort_index(axis='index', ascending=False)\
                     .unstack()
                 if 0 in ct.values:
-                    fig, rects = mosaic(ct+1e-9)
+                    fig, rects = mosaic(ct+1e-9, label_rotation=[0.0, 90.0])
                 else:
-                    fig, rects = mosaic(ct)
+                    fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
                 fig.set_facecolor(csc.bg_col)
                 ax = plt.subplot(111)
                 ax.set_xlabel(var_pair[1])
@@ -1140,9 +1140,9 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()
             #print ct
             if 0 in ct.values:
-                fig, rects = mosaic(ct+1e-9)
+                fig, rects = mosaic(ct+1e-9, label_rotation=[0.0, 90.0])
             else:
-                fig, rects = mosaic(ct)
+                fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
             fig.set_facecolor(csc.bg_col)
             ax = plt.subplot(111)
             ax.set_xlabel(' : '.join(groups))
