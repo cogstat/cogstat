@@ -268,6 +268,7 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
     ### Returns: pandas DataFrame with the t-statistics and associated p values (corrected and uncorrected) of each
                 pairings
     """
+    # TODO keep the order of the dep_vars
     ### Reshaping data
     if wide:
         if not id_var:
