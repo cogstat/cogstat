@@ -751,7 +751,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
         # Prepare the frequencies for the plot
         xy = [(i, j) for i, j in zip(data.iloc[:, 0], data.iloc[:, 1])]
         xy_set_freq = [[element[0], element[1], xy.count(element)] for element in set(xy)]
-        [xvalues, yvalues, xy_freq] = zip(*xy_set_freq)
+        [xvalues, yvalues, xy_freq] = list(zip(*xy_set_freq))
         xy_freq = np.array(xy_freq, dtype=float)
         max_freq = max(xy_freq)
         if max_freq>10:
@@ -850,7 +850,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
             # Prepare the frequencies for the plot
             xy = [(x, y) for x, y in zip(variables.transpose()[i], variables.transpose()[i+1])]
             xy_set_freq = [[element[0], element[1], xy.count(element)] for element in set(xy)]
-            [xvalues, yvalues, xy_freq] = zip(*xy_set_freq)
+            [xvalues, yvalues, xy_freq] = list(zip(*xy_set_freq))
             xy_freq = np.array(xy_freq, dtype=float)
             max_freq = max(xy_freq)
             if max_freq > 10:
@@ -1073,7 +1073,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             group_levels = [[group_level] for group_level in group_levels]
         variables = [data_frame[var_names[0]][(data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1)].dropna() for group_level in group_levels]
         if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
-            index_ranks = dict(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables))))
+            index_ranks = dict(list(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables)))))
             variables_value = pd.concat(variables).values  # original values
             for var_i in range(len(variables)):  # For all groups
                 for i in variables[var_i].index:  # For all values in that group
