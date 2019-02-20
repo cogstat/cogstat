@@ -16,6 +16,7 @@ import gettext
 import cogstat
 from cogstat import cogstat_gui
 from cogstat import cogstat_stat
+import imp
 
 
 def available_langs(domain=None, localedir=None):
@@ -39,10 +40,10 @@ for lang in langs:
     
     # Set the language
     cogstat_gui.csc.save('language', lang)
-    reload(cogstat.csc)
-    reload(cogstat_gui.cogstat)
-    reload(cogstat_stat)
-    reload(cogstat_gui)
+    imp.reload(cogstat.csc)
+    imp.reload(cogstat_gui.cogstat)
+    imp.reload(cogstat_stat)
+    imp.reload(cogstat_gui)
     cogstat.output_type = 'gui'
 
     cs = cogstat_gui.StatMainWindow()
