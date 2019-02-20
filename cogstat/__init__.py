@@ -1,2 +1,2 @@
-from cogstat import *
-from cogstat import __version__ as __version__
+from .cogstat import *
+from .cogstat import __version__ as __version__

@@ -2,7 +2,7 @@
 
 import gettext
 import os
-import cogstat_config as csc
+from . import cogstat_config as csc
 from PyQt5 import QtWidgets
 
 try:
@@ -77,7 +77,7 @@ def remove_item_from_list_widget(list_widget):
 
 ### Data dialogs ###
 
-import ui.pivot
+from . import ui.pivot
 class pivot_dialog(QtWidgets.QDialog, ui.pivot.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
@@ -134,7 +134,7 @@ class pivot_dialog(QtWidgets.QDialog, ui.pivot.Ui_Dialog):
                 unicode(self.function.currentText()))
 
 
-import ui.var_properties
+from . import ui.var_properties
 class explore_var_dialog(QtWidgets.QDialog, ui.var_properties.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
@@ -164,7 +164,7 @@ class explore_var_dialog(QtWidgets.QDialog, ui.var_properties.Ui_Dialog):
                  unicode(self.ttest_value.text()))
 
 
-import ui.explore_var_pairs
+from . import ui.explore_var_pairs
 class explore_var_pairs_dialog(QtWidgets.QDialog, ui.explore_var_pairs.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
@@ -192,7 +192,7 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, ui.explore_var_pairs.Ui_Dialog
         return [unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
 
-import ui.compare_vars
+from . import ui.compare_vars
 class compare_vars_dialog(QtWidgets.QDialog, ui.compare_vars.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
@@ -219,7 +219,7 @@ class compare_vars_dialog(QtWidgets.QDialog, ui.compare_vars.Ui_Dialog):
     def read_parameters(self):
         return [unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
-import ui.compare_groups_single_case_slope
+from . import ui.compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, ui.compare_groups_single_case_slope.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
@@ -251,7 +251,7 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, ui.compare_grou
                 unicode(self.spinBox.text()))
 
 
-import ui.compare_groups
+from . import ui.compare_groups
 class compare_groups_dialog(QtWidgets.QDialog, ui.compare_groups.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)
@@ -300,7 +300,7 @@ class compare_groups_dialog(QtWidgets.QDialog, ui.compare_groups.Ui_Dialog):
                 self.single_case_slope_SEs, int(self.single_case_slope_trial_n))
 
 
-import ui.preferences
+from . import ui.preferences
 class preferences_dialog(QtWidgets.QDialog, ui.preferences.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
         QtWidgets.QDialog.__init__(self, parent)

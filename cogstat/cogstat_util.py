@@ -8,7 +8,7 @@ import os
 
 import numpy as np
 
-import cogstat_config as csc
+from . import cogstat_config as csc
 
 
 def get_versions():

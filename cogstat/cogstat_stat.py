@@ -25,9 +25,9 @@ from distutils.version import LooseVersion
 from scipy import stats
 import itertools
 
-import cogstat_config as csc
-import cogstat_util as cs_util
-import cogstat_stat_num as cs_stat_num
+from . import cogstat_config as csc
+from . import cogstat_util as cs_util
+from . import cogstat_stat_num as cs_stat_num
 
 try:
     from statsmodels.graphics.mosaicplot import mosaic

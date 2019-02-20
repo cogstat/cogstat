@@ -4,7 +4,7 @@ Settings
 """
 
 import configobj  # Would it be better to use the standard configparser module?
-import appdirs
+from . import appdirs
 import os
 
 dirs = appdirs.AppDirs('cogstat')

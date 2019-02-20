@@ -13,7 +13,7 @@ except NameError:
     QString = str
 
 if __name__ == '__main__':
-    import cogstat_gui
+    from . import cogstat_gui
 
 # go on with regular importing, etc.
 import csv
@@ -29,11 +29,11 @@ import matplotlib
 matplotlib.use("qt5agg")
 #print matplotlib.get_backend()
 
-import cogstat_config as csc
+from . import cogstat_config as csc
 csc.versions['cogstat'] = __version__
-import cogstat_stat as cs_stat
-import cogstat_stat_num as cs_stat_num
-import cogstat_util as cs_util
+from . import cogstat_stat as cs_stat
+from . import cogstat_stat_num as cs_stat_num
+from . import cogstat_util as cs_util
 cs_util.get_versions()
 
 import numpy as np

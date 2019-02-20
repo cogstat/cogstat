@@ -26,11 +26,11 @@ import traceback
 from urllib2 import urlopen
 from distutils.version import LooseVersion
 
-import cogstat
-import cogstat_dialogs
-import cogstat_config as csc
+from . import cogstat
+from . import cogstat_dialogs
+from . import cogstat_config as csc
 csc.versions['cogstat'] = cogstat.__version__
-import cogstat_util as cs_util
+from . import cogstat_util as cs_util
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
