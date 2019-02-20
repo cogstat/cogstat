@@ -235,7 +235,7 @@ class CogStatData:
                 import io
                 f = io.StringIO(data)
                 next(f)
-                meas_row = f.next().replace('\n', '').replace('\r', '').split(delimiter)
+                meas_row = next(f).replace('\n', '').replace('\r', '').split(delimiter)
                 # \r was used in Mac after importing from Excel clipboard
                 if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} \
                         and set(meas_row) != {''}:
