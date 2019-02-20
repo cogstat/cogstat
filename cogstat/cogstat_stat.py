@@ -872,7 +872,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
             plt.setp(box1['fliers'], color=theme_colors[0])
         else:
             ax.set_xlim(0.5, len(var_names)+0.5)
-        plt.xticks(range(1, len(var_names)+1), _wrap_labels(var_names))
+        plt.xticks(list(range(1, len(var_names)+1)), _wrap_labels(var_names))
         plt.ylabel(_('Value'))
         graph = plt.gcf()
     elif meas_level == 'nom':
@@ -917,7 +917,7 @@ def comp_var_graph_cum(data, var_names, meas_level, data_frame):
             plt.title(_plt('Means and 95% confidence intervals for the variables'))
             means = np.mean(data)
             cis, cils, cihs = confidence_interval_t(data, ci_only=False)
-            ax.bar(range(len(data.columns)), means, 0.5, yerr=cis, align='center', 
+            ax.bar(list(range(len(data.columns))), means, 0.5, yerr=cis, align='center', 
                    color=theme_colors[0], ecolor='0')
             condition_means_pdf[_('Point estimation')] = means
             # APA format, but cannot be used the numbers if copied to spreadsheet
@@ -928,9 +928,9 @@ def comp_var_graph_cum(data, var_names, meas_level, data_frame):
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the variables'))
             medians = np.median(data)
-            ax.bar(range(len(data.columns)), medians, 0.5, align='center', 
+            ax.bar(list(range(len(data.columns))), medians, 0.5, align='center', 
                    color=theme_colors[0], ecolor='0')
-        plt.xticks(range(len(var_names)), _wrap_labels(var_names))
+        plt.xticks(list(range(len(var_names))), _wrap_labels(var_names))
         plt.ylabel(_plt('Value'))
         graph = plt.gcf()
     return condition_means_pdf, graph
@@ -1107,7 +1107,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             ax.scatter(np.ones(len(val_count))+var_i, val_count.index, val_count.values*5, color='#808080', marker='o')
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3) # TODO color should be used from ini file
         # Add labels
-        plt.xticks(range(1, len(group_levels)+1), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
+        plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
         plt.xlabel(' : '.join(groups))
         if meas_level == 'ord':
             plt.ylabel(_('Rank of %s') % var_names[0])
@@ -1179,7 +1179,7 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
             plt.title(_plt('Means and 95% confidence intervals for the groups'))
             means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]
             cis = pdf.groupby(groups, sort=False).aggregate(confidence_interval_t)[var_names[0]]
-            ax.bar(range(len(means.values)), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)),
+            ax.bar(list(range(len(means.values))), means.reindex(group_levels), 0.5, yerr=np.array(cis.reindex(group_levels)),
                    align='center', color=theme_colors[0], ecolor='0')
                    # pandas series is converted to np.array to be able to handle numeric indexes (group levels)
             _set_axis_measurement_level(ax, 'nom', 'int')
@@ -1191,11 +1191,11 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the groups'))
             medians = pdf.groupby(groups[0], sort=False).aggregate(np.median)[var_names[0]]
-            ax.bar(range(len(medians.values)), medians.reindex(group_levels), 0.5, align='center', 
+            ax.bar(list(range(len(medians.values))), medians.reindex(group_levels), 0.5, align='center', 
                    color=theme_colors[0], ecolor='0')
         if len(groups) == 1:
             group_levels = [[group_level] for group_level in group_levels]
-        plt.xticks(range(len(group_levels)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
+        plt.xticks(list(range(len(group_levels))), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
         plt.xlabel(' : '.join(groups))
         plt.ylabel(var_names[0])
         graph = fig
