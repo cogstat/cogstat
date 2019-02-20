@@ -6,7 +6,7 @@ Run a set of analysis for all available languages and and save them in pdfs.
 
 # TODO more informative message when task fails
 
-print 'Running output language test.'
+print('Running output language test.')
 
 import sys
 import os
@@ -28,14 +28,14 @@ def available_langs(domain=None, localedir=None):
     return langs
 
 langs = ['en']+available_langs(domain='cogstat', localedir='../locale')
-print 'Available languages:', langs
+print('Available languages:', langs)
 
 app = QtGui.QApplication(sys.argv)
 
 lang_before_test = cogstat_gui.csc.language
 
 for lang in langs:
-    print '** Running language: %s **' % lang
+    print('** Running language: %s **' % lang)
     
     # Set the language
     cogstat_gui.csc.save('language', lang)
@@ -52,25 +52,25 @@ for lang in langs:
     cs._print_data_brief()
 
     try:
-        print 'Explore variables block.'
+        print('Explore variables block.')
         cs.explore_variable(['A'])
         cs.explore_variable(['D'])
         cs.explore_variable(['G'])
     except:
-        print 'Error! Explore variables block failed.'
+        print('Error! Explore variables block failed.')
 
     try:
-        print 'Explore variable pairs block.'
+        print('Explore variable pairs block.')
         cs.explore_variable_pair(['A', 'B'])
         cs.explore_variable_pair(['D', 'E'])
         cs.explore_variable_pair(['G', 'H'])
     except:
-        print 'Error! Explore variable pairs block failed.'
+        print('Error! Explore variable pairs block failed.')
 
     cs.pivot(['A'], row_names=['G'], col_names=['H'], page_names=[], function='N')
 
     try:
-        print 'Compare variables block.'
+        print('Compare variables block.')
         cs.compare_variables(['A', 'B'])
         cs.compare_variables(['A', 'B', 'C1'])  # 'C' can't be used because of patsy
         cs.compare_variables(['D', 'E'])
@@ -78,29 +78,29 @@ for lang in langs:
         cs.compare_variables(['G', 'H'])
         cs.compare_variables(['G', 'H', 'I'])
     except:
-        print 'Error! Compare variables block failed.'
+        print('Error! Compare variables block failed.')
 
     try:
-        print 'Compare groups block.'
+        print('Compare groups block.')
         cs.compare_groups(['A'], ['H'])
         cs.compare_groups(['A'], ['G'])
         cs.compare_groups(['D'], ['H'])
         cs.compare_groups(['D'], ['G'])
         cs.compare_groups(['I'], ['H'])
     except:
-        print 'Error! Compare groups block failed.'
+        print('Error! Compare groups block failed.')
 
     try:
         cs.print_versions()
     except:
-        print 'Error! Version print failed.'
+        print('Error! Version print failed.')
 
     try:
         cs.save_result_as(filename='test_output/test_output__'+lang+'__'+cogstat.__version__+'.pdf')
     except:
-        print 'Error! Pdf save failed.'
+        print('Error! Pdf save failed.')
 
 cogstat_gui.csc.save('language', lang_before_test)
 
-print 'Output language test finished.'
+print('Output language test finished.')
 

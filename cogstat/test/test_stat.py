@@ -4,14 +4,14 @@ import unittest
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
-print sys.path
+print(sys.path)
 import numpy as np
 import pandas as pd
 import cogstat as cs
 
-print cs.__file__
-print cs.__version__
-print os.path.abspath(cs.__file__)
+print(cs.__file__)
+print(cs.__version__)
+print(os.path.abspath(cs.__file__))
 
 """
 - All statistical value should be tested at least once.
