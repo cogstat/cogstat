@@ -8,7 +8,7 @@ from PyQt5 import QtWidgets
 QString = str
 
 t = gettext.translation('cogstat', 'locale/', [csc.language], fallback=True)
-_ = t.ugettext
+_ = t.gettext
 
 ### File menu commands ###
 

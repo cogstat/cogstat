@@ -46,7 +46,7 @@ logging.root.setLevel(logging.INFO)
 rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
-_ = t.ugettext
+_ = t.gettext
 
 warn_unknown_variable = '<warning>'+_('The measurement levels of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \

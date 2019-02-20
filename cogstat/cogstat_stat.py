@@ -85,16 +85,16 @@ if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == matplot
     matplotlib.rcParams['axes.edgecolor'] = 'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor'])==(0, 0, 0, 0) else 'k'
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
-_ = t.ugettext
+_ = t.gettext
 
 # matplotlib does not support rtl Unicode yet (http://matplotlib.org/devel/MEP/MEP14.html),
 # so we have to handle rtl text on matplotlib plots
 rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 if rtl_lang:
     from bidi.algorithm import get_display
-    _plt = lambda text: get_display(t.ugettext(text))
+    _plt = lambda text: get_display(t.gettext(text))
 else:
-    _plt = t.ugettext
+    _plt = t.gettext
 
 warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \

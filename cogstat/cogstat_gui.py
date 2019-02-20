@@ -45,7 +45,7 @@ imp.reload(sys)
 sys.setdefaultencoding("utf-8")  # TODO Not sure if this will work correctly for most systems.
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
-_ = t.ugettext
+_ = t.gettext
 
 rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 
