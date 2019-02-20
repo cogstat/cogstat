@@ -9,6 +9,7 @@ import sys
 
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt
+import imp
 
 app = QtWidgets.QApplication(sys.argv)
 pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), 'resources', 'CogStat splash screen.png'), 'PNG')
@@ -40,7 +41,7 @@ cs_util.get_versions()
 
 logging.root.setLevel(logging.INFO)
 
-reload(sys)
+imp.reload(sys)
 sys.setdefaultencoding("utf-8")  # TODO Not sure if this will work correctly for most systems.
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
