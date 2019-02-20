@@ -12,7 +12,7 @@ from PyQt5.QtCore import Qt
 import imp
 
 app = QtWidgets.QApplication(sys.argv)
-pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), 'resources', 'CogStat splash screen.png'), 'PNG')
+pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'CogStat splash screen.png'), 'PNG')
 splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
