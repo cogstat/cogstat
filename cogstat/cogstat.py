@@ -804,7 +804,7 @@ class CogStatData:
                     cs_stat.normality_test(self.data_frame, {temp_diff_var_name:'int'}, temp_diff_var_name, alt_data=data)
                 result_ht += text_result
                 if not norm:
-                    non_normal_vars.append(var_name)
+                    non_normal_vars.append(temp_diff_var_name)
 
                 if not non_normal_vars:
                     result_ht += '<decision>'+_('Normality is not violated. >> Running paired t-test.')+'\n<default>'
