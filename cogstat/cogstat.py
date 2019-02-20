@@ -6,11 +6,7 @@ appropriate statistics for the main analysis commands.
 """
 
 # if CS is used with GUI, start the splash screen
-try:
-    QString = unicode
-except NameError:
-    # Python 3
-    QString = str
+QString = str
 
 if __name__ == '__main__':
     from . import cogstat_gui
@@ -152,7 +148,7 @@ class CogStatData:
                         measurement_level = ''
             if not measurement_level:  # Otherwise (or if the given measurement level is incorrect)
                 # set them to be nom if type is a str, unk otherwise
-                self.data_measlevs = {name: (u'nom' if self.data_frame[name].dtype == 'object' else u'unk')
+                self.data_measlevs = {name: ('nom' if self.data_frame[name].dtype == 'object' else 'unk')
                                       for name in self.data_frame.columns}
                 # TODO Does the line above work? Does the line below work ?
                 #self.data_measlevs =
@@ -171,9 +167,9 @@ class CogStatData:
                 for var_name in invalid_data:
                     self.data_measlevs[var_name] = 'nom'
                 self.import_message += '\n<warning>' + \
-                                       _(u'String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: ')\
+                                       _('String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: ')\
                                        + ''.join(', %s' % var_name for var_name in invalid_data)[2:]+'. ' + \
-                                       _(u'You can fix this in your data source.') \
+                                       _('You can fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '<default>'
@@ -243,7 +239,7 @@ class CogStatData:
                 # \r was used in Mac after importing from Excel clipboard
                 if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} \
                         and set(meas_row) != {''}:
-                    meas_row = [u'unk' if item == u'' else item for item in meas_row]  # missing level ('') means 'unk'
+                    meas_row = ['unk' if item == '' else item for item in meas_row]  # missing level ('') means 'unk'
                     file_measurement_level = ' '.join(meas_row).lower()
                 skiprows = [1] if file_measurement_level else None
 
@@ -533,7 +529,7 @@ class CogStatData:
             population_param_text = '\n<b>'+_('Population parameter estimations and tests')+'</b>\n'
             # Calculations are below, after the normality test
         elif meas_level == 'ord':
-            population_param_text = _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
+            population_param_text = _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
         else:
             population_param_text = ''
         text_result = '\n'
@@ -570,7 +566,7 @@ class CogStatData:
             else:
                 text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
                                _('Running Wilcoxon signed-rank test.') + '<default>\n'
-                text_result += _(u'Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
+                text_result += _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
                 text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
                                                                value=central_value)
 
@@ -601,7 +597,7 @@ class CogStatData:
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
         title = csc.heading_style_begin + _('Explore relation of variable pair') + csc.heading_style_end
-        raw_result = _(u'Exploring variable pair: ') + x + u' (%s), '%self.data_measlevs[x] + y + ' (%s)\n'%self.data_measlevs[y]
+        raw_result = _('Exploring variable pair: ') + x + ' (%s), '%self.data_measlevs[x] + y + ' (%s)\n'%self.data_measlevs[y]
         raw_result += self._filtering_status()
         if unknown_var:
             raw_result += '<decision>'+warn_unknown_variable+'\n<default>'
@@ -640,9 +636,9 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            standardized_effect_size_result += _(u"Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
-            pdf_result.loc[_(u"Pearson's correlation") + ', <i>r</i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
-            population_result += _(u"Pearson's correlation") + \
+            standardized_effect_size_result += _("Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
+            pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+            population_result += _("Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, %s\n' % \
                            (df, r, cs_util.print_p(p))
 
@@ -652,12 +648,12 @@ class CogStatData:
 
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            standardized_effect_size_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
-            pdf_result.loc[_(u"Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+            standardized_effect_size_result += _("Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
+            pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
                                  + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, escape=False))
 
-            population_result += _(u"Spearman's rank-order correlation") + \
+            population_result += _("Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
         elif meas_lev == 'ord':
@@ -668,11 +664,11 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            standardized_effect_size_result += _(u"Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
-            pdf_result.loc[_(u"Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+            standardized_effect_size_result += _("Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
+            pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
                                  + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, escape=False))
-            population_result += _(u"Spearman's rank-order correlation") + \
+            population_result += _("Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
         elif meas_lev == 'nom':
@@ -680,7 +676,7 @@ class CogStatData:
                                  + '<default>\n'
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
-            population_result += '<decision>'+_('Nominal variables.')+' >> '+_(u'Running Cramér\'s V.')+'\n<default>'
+            population_result += '<decision>'+_('Nominal variables.')+' >> '+_('Running Cramér\'s V.')+'\n<default>'
             cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
             standardized_effect_size_result += cramer_result
             population_result += chi_result
@@ -723,7 +719,7 @@ class CogStatData:
         plt.close('all')
         title = csc.heading_style_begin + _('Compare repeated measures variables') + csc.heading_style_end
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
-        raw_result = '<default>'+_(u'Variables to compare: ') + u', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+        raw_result = '<default>'+_('Variables to compare: ') + ', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
         raw_result += self._filtering_status()
 
         # Check if the variables have the same measurement levels
@@ -731,7 +727,7 @@ class CogStatData:
         if len(meas_levels) > 1:
             if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together,
                                                                 # since unk is taken as int by default
-                return self._convert_output([title, raw_result, '<decision>'+_(u"Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'])
+                return self._convert_output([title, raw_result, '<decision>'+_("Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'])
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
@@ -883,8 +879,8 @@ class CogStatData:
         title = csc.heading_style_begin + _('Compare groups') + csc.heading_style_end
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         group_meas_levels = [self.data_measlevs[group] for group in groups]
-        raw_result = '<default>'+_(u'Dependent variable: ') + u', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + u'. ' + \
-                       _(u'Group(s): ') + u', '.join('%s (%s)'%(var, meas) for var, meas in zip(groups, group_meas_levels)) + '\n'
+        raw_result = '<default>'+_('Dependent variable: ') + ', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '. ' + \
+                       _('Group(s): ') + ', '.join('%s (%s)'%(var, meas) for var, meas in zip(groups, group_meas_levels)) + '\n'
         raw_result += self._filtering_status()
 
         # level of measurement of the variables
@@ -911,7 +907,7 @@ class CogStatData:
             raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
             valid_n = len(self.data_frame[groups[0]].dropna())
             missing_n = len(self.data_frame[groups[0]])-valid_n
-            raw_result += '\n\n'+_(u'N of missing group cases') + ': %g' % missing_n +'\n'
+            raw_result += '\n\n'+_('N of missing group cases') + ': %g' % missing_n +'\n'
 
             # Plot individual data
             temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
@@ -980,7 +976,7 @@ class CogStatData:
                         result_ht += text_result
                         if not norm:
                             result_ht += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', ' + \
-                                      _('group ')+unicode(group)+'.\n<default>'
+                                      _('group ')+str(group)+'.\n<default>'
                             result_ht += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
                             result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         else:
@@ -1120,7 +1116,7 @@ class CogStatData:
             for group in groups:
                 valid_n = len(self.data_frame[group].dropna())
                 missing_n = len(self.data_frame[group]) - valid_n
-                raw_result += _(u'N of missing grouping variable in %s') % group + ': %g\n' % missing_n
+                raw_result += _('N of missing grouping variable in %s') % group + ': %g\n' % missing_n
 
             # Plot individual data
 

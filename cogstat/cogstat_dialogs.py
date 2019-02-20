@@ -5,11 +5,7 @@ import os
 from . import cogstat_config as csc
 from PyQt5 import QtWidgets
 
-try:
-    QString = unicode
-except NameError:
-    # Python 3
-    QString = str
+QString = str
 
 t = gettext.translation('cogstat', 'locale/', [csc.language], fallback=True)
 _ = t.ugettext
@@ -20,15 +16,15 @@ _ = t.ugettext
 
 
 def open_data_file():
-    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '', '*.csv *.sav')[0])  #*.txt *.log *.tsv
+    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '', '*.csv *.sav')[0])  #*.txt *.log *.tsv
 
 
 def open_demo_data_file():
-    return unicode(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__)+'/sample_data', '*.csv *.sav')[0])  #*.txt *.log *.tsv
+    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__)+'/sample_data', '*.csv *.sav')[0])  #*.txt *.log *.tsv
 
 
 def save_output():
-    return unicode(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'CogStat analysis result.pdf', '*.pdf')[0])
+    return str(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'CogStat analysis result.pdf', '*.pdf')[0])
 
 # XXX self.buttonBox.Ok.setEnabled(False) # TODO how can we disable the OK button without the other?
 # TODO Some variables are CamelCase - change them
@@ -127,11 +123,11 @@ class pivot_dialog(QtWidgets.QDialog, ui.pivot.Ui_Dialog):
         self.dependentListWidget.takeItem(self.dependentListWidget.currentRow())
     
     def read_parameters(self):
-        return ([unicode(self.rowsListWidget.item(i).text()) for i in range(self.rowsListWidget.count())],
-                [unicode(self.columnsListWidget.item(i).text()) for i in range(self.columnsListWidget.count())],
-                [unicode(self.pagesListWidget.item(i).text()) for i in range(self.pagesListWidget.count())], 
-                [unicode(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())], 
-                unicode(self.function.currentText()))
+        return ([str(self.rowsListWidget.item(i).text()) for i in range(self.rowsListWidget.count())],
+                [str(self.columnsListWidget.item(i).text()) for i in range(self.columnsListWidget.count())],
+                [str(self.pagesListWidget.item(i).text()) for i in range(self.pagesListWidget.count())], 
+                [str(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())], 
+                str(self.function.currentText()))
 
 
 from .ui import var_properties
@@ -159,9 +155,9 @@ class explore_var_dialog(QtWidgets.QDialog, ui.var_properties.Ui_Dialog):
         remove_item_from_list_widget(self.selected_listWidget)
     
     def read_parameters(self):
-        return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
+        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                  self.freq_checkbox.isChecked(),
-                 unicode(self.ttest_value.text()))
+                 str(self.ttest_value.text()))
 
 
 from .ui import explore_var_pairs
@@ -189,7 +185,7 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, ui.explore_var_pairs.Ui_Dialog
         remove_item_from_list_widget(self.selected_listWidget)
     
     def read_parameters(self):
-        return [unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
 
 from .ui import compare_vars
@@ -217,7 +213,7 @@ class compare_vars_dialog(QtWidgets.QDialog, ui.compare_vars.Ui_Dialog):
         remove_item_from_list_widget(self.selected_listWidget)
     
     def read_parameters(self):
-        return [unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
 from .ui import compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, ui.compare_groups_single_case_slope.Ui_Dialog):
@@ -247,8 +243,8 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, ui.compare_grou
         remove_item_from_list_widget(self.selected_listWidget)
 
     def read_parameters(self):
-        return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
-                unicode(self.spinBox.text()))
+        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
+                str(self.spinBox.text()))
 
 
 from .ui import compare_groups
@@ -295,8 +291,8 @@ class compare_groups_dialog(QtWidgets.QDialog, ui.compare_groups.Ui_Dialog):
         self.single_case_slope_SEs, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
     def read_parameters(self):
-        return ([unicode(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
-                [unicode(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
+        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
+                [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
                 self.single_case_slope_SEs, int(self.single_case_slope_trial_n))
 
 
@@ -352,6 +348,6 @@ class preferences_dialog(QtWidgets.QDialog, ui.preferences.Ui_Dialog):
     def write_settings(self):
         """Save the settings when OK is pressed.
         """
-        csc.save(['language'], unicode(self.langComboBox.currentText()))
-        csc.save(['graph', 'theme'], unicode(self.themeComboBox.currentText()))
+        csc.save(['language'], str(self.langComboBox.currentText()))
+        csc.save(['graph', 'theme'], str(self.themeComboBox.currentText()))
         self.accept()

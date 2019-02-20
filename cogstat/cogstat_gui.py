@@ -11,7 +11,7 @@ from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 app = QtWidgets.QApplication(sys.argv)
-pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), u'resources', u'CogStat splash screen.png'), 'PNG')
+pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), 'resources', 'CogStat splash screen.png'), 'PNG')
 splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
@@ -64,7 +64,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # TODO Maybe all these checking can be removed
         missing_required_components, missing_recommended_components = self._check_installed_components()
         if missing_required_components or missing_recommended_components:
-            QtWidgets.QMessageBox.critical(self, 'Incomplete installation', u'Install missing component(s): ' + ''.join([x+u', ' for x in missing_required_components+missing_recommended_components])[:-2]+u'.<br><br>'+u'<a href = "https://github.com/cogstat/cogstat/wiki/Installation">Visit the installation help page</a> to see how to complete the installation.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.critical(self, 'Incomplete installation', 'Install missing component(s): ' + ''.join([x+', ' for x in missing_required_components+missing_recommended_components])[:-2]+'.<br><br>'+'<a href = "https://github.com/cogstat/cogstat/wiki/Installation">Visit the installation help page</a> to see how to complete the installation.', QtWidgets.QMessageBox.Ok)
             if missing_required_components:
                 sys.exit()
         
@@ -114,7 +114,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle('CogStat')
         # FIXME there could be issues if the __file__ path includes unicode chars
         # e.g., see pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), u'resources', u'CogStat splash screen.png'), 'PNG')
-        self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + u'/resources/CogStat.ico'))
+        self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + '/resources/CogStat.ico'))
 
         if rtl_lang:
             self.setLayoutDirection(QtCore.Qt.RightToLeft)
@@ -250,7 +250,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.open_file(filename=event.mimeData().urls()[0].toString()[7:])
         elif event.mimeData().hasFormat("text/plain"):
             # print 'Dropped Text: ', event.mimeData().text()
-            self._open_data(data=unicode(event.mimeData().text()))
+            self._open_data(data=str(event.mimeData().text()))
         
     def _check_installed_components(self):
         """
@@ -328,7 +328,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             filename = cogstat_dialogs.open_data_file()
         print(filename)
         if filename:
-            self._open_data(unicode(filename))
+            self._open_data(str(filename))
 
     ### Data menu methods ###
     def open_demo_file(self, filename=''):
@@ -339,13 +339,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
             filename = cogstat_dialogs.open_demo_data_file()
         print(filename)
         if filename:
-            self._open_data(unicode(filename))
+            self._open_data(str(filename))
 
     def open_clipboard(self):
         """Open data copied to clipboard."""
         clipboard = QtWidgets.QApplication.clipboard()
         if clipboard.mimeData().hasFormat("text/plain"):
-            self._open_data(unicode(clipboard.text()))
+            self._open_data(str(clipboard.text()))
     
     def _open_data(self, data):
         """ Core of the import process.
@@ -450,7 +450,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<default> %s %s'%(_('Explore variable pair.'), _(u'At least two variables should be set.')))
+            text_result = cs_util.reformat_output('<default> %s %s'%(_('Explore variable pair.'), _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
@@ -525,7 +525,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
         if len(var_names) < 2:
-            text_result = cs_util.reformat_output('<default>%s %s'%(_('Compare variables.'), _(u'At least two variables should be set.')))
+            text_result = cs_util.reformat_output('<default>%s %s'%(_('Compare variables.'), _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
@@ -560,7 +560,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if not var_names or not groups:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-            text_result = cs_util.reformat_output('<default>%s %s' % (_('Compare groups.'), _(u'Both the dependent and the grouping variables should be set.')))
+            text_result = cs_util.reformat_output('<default>%s %s' % (_('Compare groups.'), _('Both the dependent and the grouping variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             for var_name in var_names:
@@ -640,7 +640,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Report-a-bug')
         
     def _show_about(self):
-        QtWidgets.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], u'CogStat '+csc.versions['cogstat']+(u'<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://www.cogstat.org">%s</a>'%(_('Simple automatic data analysis software'), 2012, 2018, _('Visit CogStat website'))))
+        QtWidgets.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], 'CogStat '+csc.versions['cogstat']+('<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://www.cogstat.org">%s</a>'%(_('Simple automatic data analysis software'), 2012, 2018, _('Visit CogStat website'))))
 
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""

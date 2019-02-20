@@ -78,7 +78,7 @@ def get_versions():
 
 
 def print_versions():
-    text_output = u''
+    text_output = ''
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
     text_output += 'Platform: %s\n' % csc.versions['platform']
     text_output += 'Python: %s\n' % csc.versions['python']
@@ -141,10 +141,10 @@ def reformat_output(output):
     :return: reformatted str
     """
     if isinstance(output, str):
-        output = unicode(output, encoding='utf-8')
+        output = str(output, encoding='utf-8')
     output = output.replace('\n', '<br>')
     for style_element in list(csc.styles.keys()):
         output = output.replace(style_element, csc.styles[style_element])
-        output = output.replace(unicode(style_element), unicode(csc.styles[style_element]))
-    output = output.replace(u'<\xa0', '&lt; ')  # In the R output the '< ' (which is non breaking space here (\xa0) ) would be handled as html tag
+        output = output.replace(str(style_element), str(csc.styles[style_element]))
+    output = output.replace('<\xa0', '&lt; ')  # In the R output the '< ' (which is non breaking space here (\xa0) ) would be handled as html tag
     return output

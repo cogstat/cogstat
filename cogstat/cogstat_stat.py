@@ -127,7 +127,7 @@ def _split_into_groups(pdf, var_name, grouping_name):
     grouped data: list of pandas series
     """
 
-    if isinstance(grouping_name, (str, unicode)):  # TODO list is required, fix the calls sending string
+    if isinstance(grouping_name, (str)):  # TODO list is required, fix the calls sending string
         grouping_name = [grouping_name]
     # create a list of sets with the levels of all grouping variables
     levels = [set(pdf[group].dropna()) for group in grouping_name]
@@ -148,10 +148,10 @@ def _wrap_labels(labels):
         # TODO need a more precise method; should depend on font size and graph size;
         # but cannot be a very precise method unless the font is fixed width
     if isinstance(labels[0], (list, tuple)):
-        wrapped_labels = [textwrap.fill(' : '.join(map(unicode, label)), max(5, max_chars_in_row/label_n)) for label in
+        wrapped_labels = [textwrap.fill(' : '.join(map(str, label)), max(5, max_chars_in_row/label_n)) for label in
                           labels]
     else:
-        wrapped_labels = [textwrap.fill(unicode(label), max(5, max_chars_in_row / label_n)) for label in
+        wrapped_labels = [textwrap.fill(str(label), max(5, max_chars_in_row / label_n)) for label in
                           labels]
         # the width should not be smaller than a min value, here 5
         # use the unicode() to convert potentially numerical labels
@@ -196,19 +196,19 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     """
             
     if len(depend_name) != 1:
-        return _(u'Sorry, only one dependent variable can be used.')
+        return _('Sorry, only one dependent variable can be used.')
     if pdf[depend_name[0]].dtype == 'object':
-        return _(u'Sorry, string variables cannot be used in Pivot table.')
+        return _('Sorry, string variables cannot be used in Pivot table.')
     function_code = {'N': 'len', 'Sum': 'np.sum', 'Mean': 'np.mean', 'Median': 'median', 'Lower quartile': 'perc25',
                      'Upper quartile': 'perc75', 'Standard deviation': 'np.std', 'Variance': 'np.var'}
-    result = u''
+    result = ''
     if page_names:
-        result += _(u'Independent variable(s) - Pages: ') + u', '.join(x for x in page_names) + '\n'
+        result += _('Independent variable(s) - Pages: ') + ', '.join(x for x in page_names) + '\n'
     if col_names:
-        result += _(u'Independent variable(s) - Columns: ') + u', '.join(x for x in col_names) + '\n'
+        result += _('Independent variable(s) - Columns: ') + ', '.join(x for x in col_names) + '\n'
     if row_names:
-        result += _(u'Independent variable(s) - Rows: ') + u', '.join(x for x in row_names) + '\n'
-    result += _(u'Dependent variable: ') + depend_name[0] + '\n' + _('Function: ') + function + '\n'
+        result += _('Independent variable(s) - Rows: ') + ', '.join(x for x in row_names) + '\n'
+    result += _('Dependent variable: ') + depend_name[0] + '\n' + _('Function: ') + function + '\n'
 
     if function == 'N':
         prec = 0
@@ -271,14 +271,14 @@ def safe_var_names(names):  # TODO not used at the moment. maybe could be delete
     """Change the variable names for R."""
     # TODO exclude unicode characters
     for i in range(len(names)):
-        names[i] = str(names[i]).translate(string.maketrans(u' -', u'__'))  # use underscore instead of space or dash
+        names[i] = str(names[i]).translate(string.maketrans(' -', '__'))  # use underscore instead of space or dash
         if names[i][0].isdigit():  # do not start with number
-            names[i]=u'_'+names[i]
+            names[i]='_'+names[i]
         name_changed = False
         for j in range(i):
             while names[i]==names[j]:
                 if not name_changed:
-                    names[i] = names[i]+u'_1'
+                    names[i] = names[i]+'_1'
                     name_changed = True
                 else:
                     underscore_pos = names[i].rfind('_')
@@ -298,9 +298,9 @@ def display_variable_raw_data(pdf, data_measlevs, var_name):
     data = pdf[var_name].dropna()
 
     text_result=''
-    text_result += _(u'N of valid cases: %g') % len(data) + '\n'
+    text_result += _('N of valid cases: %g') % len(data) + '\n'
     missing_cases = len(pdf[var_name])-len(data)
-    text_result += _(u'N of missing cases: %g') % missing_cases + '\n'
+    text_result += _('N of missing cases: %g') % missing_cases + '\n'
 
     if data_measlevs[var_name] == 'ord':
         data_value = pdf[var_name].dropna()
@@ -411,7 +411,7 @@ def histogram(pdf, data_measlevs, var_name):
         # Prepare the frequencies for the plot
         val_count = data.value_counts()
         if max(val_count)>1:
-            suptitle_text = _plt(u'Largest tick on the x axes displays %d cases.') % max(val_count)
+            suptitle_text = _plt('Largest tick on the x axes displays %d cases.') % max(val_count)
         val_count = (val_count*(max(freq)/max(val_count)))/20.0
 
         # Upper part with histogram and individual data
@@ -495,10 +495,10 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     else:
         data = temp_data[var_name].dropna()
 
-    if data_measlevs[var_name] in [u'nom', u'ord']:
-        return False, '<decision>'+_(u'Normality can be checked only for interval variables.')+'\n<default>', None, None
+    if data_measlevs[var_name] in ['nom', 'ord']:
+        return False, '<decision>'+_('Normality can be checked only for interval variables.')+'\n<default>', None, None
     if len(set(data)) == 1:
-        return False, _(u'Normality cannot be checked for constant variable in %s%s.\n' % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '')), None, None
+        return False, _('Normality cannot be checked for constant variable in %s%s.\n' % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '')), None, None
     # TODO do we need this?
 #        if len(data)<7:
 #            return False, _(u'Sample size must be greater than 7 for normality test.\n'), None, None
@@ -512,7 +512,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     #text_result += _("Testing normality with the D'Agostin and Pearson method")+': <i>k2</i> = %0.3g, <i>p</i> = %0.3f \n' %stats.normaltest(data)
     #text_result += _('Testing normality with the Kolmogorov-Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %stats.kstest(data, 'norm')
     if len(data) < 3:
-        return False, _(u'Too small sample to test normality in variable %s%s.\n' % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '')), None, None
+        return False, _('Too small sample to test normality in variable %s%s.\n' % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '')), None, None
     else:
         W, p = stats.shapiro(data)
         text_result += _('Shapiro-Wilk normality test in variable %s%s') % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '') +': <i>W</i> = %0.3g, %s\n' %(W, cs_util.print_p(p))
@@ -522,7 +522,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
     n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
     if max(val_count) > 1:
-        suptitle_text = _plt(u'Largest tick on the x axes displays %d cases.') % max(val_count)
+        suptitle_text = _plt('Largest tick on the x axes displays %d cases.') % max(val_count)
     val_count = (val_count*(max(n)/max(val_count)))/20.0
 
     # Graph
@@ -587,7 +587,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         if data_measlevs[var_name] == 'unk':
             text_result += warn_unknown_variable
         if len(set(data))==1:
-            return _(u'One sample t-test cannot be run for constant variable.\n'), None
+            return _('One sample t-test cannot be run for constant variable.\n'), None
                     
         data = pdf[var_name].dropna()
         descr = DescrStatsW(data)
@@ -679,7 +679,7 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
     # with the bias=False it gives the same value as SPSS
     np.kurtosis = lambda x: stats.kurtosis(x, bias=False)
 
-    text_result = u''
+    text_result = ''
     if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
          raise RuntimeError('only numerical variables can be used in print_var_stats')
     # Compute only variable statistics
@@ -687,11 +687,11 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names)
-        text_result += _(u'Descriptives for the variables') if len(var_names) > 1 else _(u'Descriptives for the variable')
+        text_result += _('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')
         for var_name in var_names:
             prec = cs_util.precision(data[var_name])+1
             for stat in statistics:
-                pdf_result.loc[stat_names[stat], var_name] = u'%0.*f' % \
+                pdf_result.loc[stat_names[stat], var_name] = '%0.*f' % \
                                                              (prec, getattr(np, stat)(data[var_name].dropna()))
     # There is at least one grouping variable
     else:
@@ -701,7 +701,7 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
 
-        text_result += _(u'Descriptives for the groups')
+        text_result += _('Descriptives for the groups')
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
 #        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)
@@ -710,7 +710,7 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
             if len(group_data):
                 prec = cs_util.precision(group_data) + 1
                 for stat in statistics:
-                    pdf_result.loc[stat_names[stat], group_label] = u'%0.*f' % \
+                    pdf_result.loc[stat_names[stat], group_label] = '%0.*f' % \
                                                                     (prec, getattr(np, stat)(group_data.dropna()))
             else:  # TODO can we remove this part?
                 text_result += _('No data')
@@ -758,7 +758,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             xy_freq = (xy_freq-1)/((max_freq-1)/9.0)+1
             # largest dot shouldn't be larger than 10 × of the default size
             # smallest dot is 1 unit size
-            suptitle_text = _plt(u'Largest sign on the graph displays %d cases.') % max_freq
+            suptitle_text = _plt('Largest sign on the graph displays %d cases.') % max_freq
         xy_freq *= 20.0
 
         # Draw figure
@@ -822,10 +822,10 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             try:
                 graph = plt.gcf()
             except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
-                text_result += '\n'+_(u'Sorry, the mosaic plot can not be drawn with those data.')
+                text_result += '\n'+_('Sorry, the mosaic plot can not be drawn with those data.')
                 graph = None
         else:
-            text_result += '\n'+_(u'Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed.')
+            text_result += '\n'+_('Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed.')
             graph = None
     return text_result, graph
 
@@ -857,7 +857,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
                 xy_freq = (xy_freq-1)/((max_freq-1)/9.0)+1
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
-                intro_result += '\n'+_(u'Thickest line displays %d cases.') % max_freq + '\n'
+                intro_result += '\n'+_('Thickest line displays %d cases.') % max_freq + '\n'
             for data1, data2, data_freq in zip(xvalues, yvalues, xy_freq):
                 plt.plot([i+1, i+2], [data1, data2], '-', color = csc.ind_line_col, lw=data_freq)
             
@@ -897,9 +897,9 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
                 try:
                     graph.append(plt.gcf())
                 except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
-                    intro_result = '\n'+_(u'Sorry, the mosaic plot can not be drawn with those data.')
+                    intro_result = '\n'+_('Sorry, the mosaic plot can not be drawn with those data.')
         else:
-            intro_result = '\n'+_(u'Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed.')
+            intro_result = '\n'+_('Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed.')
     return intro_result, graph
 
 
@@ -1102,7 +1102,7 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
                 val_count = (val_count-1)/((max_freq-1)/9.0)+1
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
-                plt.suptitle(_plt(u'Largest individual sign displays %d cases.') % max_freq, x=0.9, y=0.025,
+                plt.suptitle(_plt('Largest individual sign displays %d cases.') % max_freq, x=0.9, y=0.025,
                              horizontalalignment='right', fontsize=10)
             ax.scatter(np.ones(len(val_count))+var_i, val_count.index, val_count.values*5, color='#808080', marker='o')
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3) # TODO color should be used from ini file
@@ -1152,10 +1152,10 @@ def comp_group_graph(data_frame, meas_level, var_names, groups, group_levels, ra
             try:
                 graph = fig
             except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
-                intro_result = '\n'+_(u'Sorry, the mosaic plot can not be drawn with those data.')
+                intro_result = '\n'+_('Sorry, the mosaic plot can not be drawn with those data.')
                 graph = None
         else:
-            intro_result += '\n'+_(u'Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed.')
+            intro_result += '\n'+_('Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed.')
             graph = None
     else:
         graph = None
@@ -1343,7 +1343,7 @@ def mann_whitney_test(pdf, var_name, grouping_name):
             text_result += _('Result of independent samples Mann-Whitney rank test: ')+'<i>U</i> = %0.3g, %s\n' % \
                                                                                        (u, cs_util.print_p(p * 2))
         except Exception as e:
-            text_result += _('Result of independent samples Mann-Whitney rank test: ')+unicode(e)
+            text_result += _('Result of independent samples Mann-Whitney rank test: ')+str(e)
 
     return text_result
 
@@ -1380,8 +1380,8 @@ def one_way_anova(pdf, var_name, grouping_name):
     if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
-        text_result += '\n'+_(u'Groups differ. Post-hoc test of the means.')+'\n'
-        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', u'\u00a0')
+        text_result += '\n'+_('Groups differ. Post-hoc test of the means.')+'\n'
+        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', '\u00a0')
         ''' # TODO create our own output
         http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
         These are the original data:
@@ -1476,7 +1476,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
         text_result += _('Result of the Kruskal-Wallis test: ')+'&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
                                                                 (df, n, H, cs_util.print_p(p))  # χ2(1, N=90)=0.89, p=.35
     except Exception as e:
-        text_result += _('Result of the Kruskal-Wallis test: ')+unicode(e)
+        text_result += _('Result of the Kruskal-Wallis test: ')+str(e)
     # TODO post-hoc not available yet in statsmodels http://statsmodels.sourceforge.net/stable/generated/statsmodels.sandbox.stats.multicomp.MultiComparison.kruskal.html#statsmodels.sandbox.stats.multicomp.MultiComparison.kruskal
 
     return text_result
@@ -1496,11 +1496,11 @@ def chi_square_test(pdf, var_name, grouping_name):
         chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
         try:
             cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5
-            cramer_result = _(u'Cramér\'s V measure of association: ')+'&phi;<i><sub>c</sub></i> = %.3f\n' % cramersv
+            cramer_result = _('Cramér\'s V measure of association: ')+'&phi;<i><sub>c</sub></i> = %.3f\n' % cramersv
         except ZeroDivisionError:  # TODO could this be avoided?
-            cramer_result = _(u'Cramér\'s V measure of association cannot be computed (division by zero).')
+            cramer_result = _('Cramér\'s V measure of association cannot be computed (division by zero).')
         chi_result = _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
                                                                       (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
     else:
-        return _(u"Sorry, at least SciPy 0.10 is required to calculate Cramér\'s V or Chi-Square test.", None)
+        return _("Sorry, at least SciPy 0.10 is required to calculate Cramér\'s V or Chi-Square test.", None)
     return cramer_result, chi_result
