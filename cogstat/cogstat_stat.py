@@ -1381,7 +1381,7 @@ def one_way_anova(pdf, var_name, grouping_name):
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n'+_('Groups differ. Post-hoc test of the means.')+'\n'
-        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', '\u00a0')
+        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', '\\u00a0')
         ''' # TODO create our own output
         http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
         These are the original data:
@@ -1441,7 +1441,7 @@ def two_way_anova(pdf, var_name, grouping_names):
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n' + _(u'Groups differ. Post-hoc test of the means.') + '\n'
-        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', u'\u00a0')
+        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', u'\\u00a0')
         ''' # TODO create our own output
         http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
         These are the original data:
