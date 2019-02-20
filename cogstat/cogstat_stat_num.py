@@ -211,7 +211,7 @@ def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=Tru
 
     ### Mauchly's test for sphericity & Degree of freedom corrections
     # Calculating sample covariances
-    table = np.empty((0,n))
+    table = np.empty((0, n))
     for j, var in enumerate(list(set(data[indep_var]))):
         subset_j = data[data[indep_var] == var]
         row = []
@@ -243,7 +243,7 @@ def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=Tru
     LB = 1/float(k-1)
     # Correction
     corr_list = [GG, HF, LB]
-    corr_table = np.empty((0,2))
+    corr_table = np.empty((0, 2))
     for epsilon in corr_list:
         F_corr = (sum(q_eff)/(DFn*epsilon))/(sum(q_err)/(DFd*epsilon))
         pF_corr = 1-stats.f.cdf(F_corr, DFn*epsilon, DFd*epsilon)

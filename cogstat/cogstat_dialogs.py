@@ -45,7 +45,7 @@ def remove_ceased_vars(list_widget, names):
     If list_widget includes items that are not in the names list,
     then remove those items.
     """
-    for item_i in range(list_widget.count()-1, -1,-1):
+    for item_i in range(list_widget.count()-1, -1, -1):
         if not str(list_widget.item(item_i).text()) in names:
             list_widget.takeItem(item_i)
 

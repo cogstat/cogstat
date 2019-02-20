@@ -769,7 +769,7 @@ def var_pair_graph(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=
             ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
             # Display the linear fit for the plot
             if not raw_data:
-                fit_x = [min(data.iloc[:,0]), max(data.iloc[:,0])]
+                fit_x = [min(data.iloc[:, 0]), max(data.iloc[:, 0])]
                 fit_y = [slope*i+intercept for i in fit_x]
                 ax.plot(fit_x, fit_y, color=theme_colors[0])
             # Set the labels
@@ -848,7 +848,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
         # Display individual data
         for i in range(len(variables.transpose())-1):  # for all pairs
             # Prepare the frequencies for the plot
-            xy = [(x,y) for x,y in zip(variables.transpose()[i], variables.transpose()[i+1])]
+            xy = [(x, y) for x, y in zip(variables.transpose()[i], variables.transpose()[i+1])]
             xy_set_freq = [[element[0], element[1], xy.count(element)] for element in set(xy)]
             [xvalues, yvalues, xy_freq] = zip(*xy_set_freq)
             xy_freq = np.array(xy_freq, dtype=float)
@@ -872,7 +872,7 @@ def comp_var_graph(data, var_names, meas_level, data_frame, raw_data=False):
             plt.setp(box1['fliers'], color=theme_colors[0])
         else:
             ax.set_xlim(0.5, len(var_names)+0.5)
-        plt.xticks(range(1,len(var_names)+1), _wrap_labels(var_names))
+        plt.xticks(range(1, len(var_names)+1), _wrap_labels(var_names))
         plt.ylabel(_('Value'))
         graph = plt.gcf()
     elif meas_level == 'nom':
@@ -973,7 +973,7 @@ def paired_wilcox_test(pdf, var_names):
         return _('Paired Wilcoxon test requires two variables.')
     
     variables = pdf[var_names].dropna()
-    T, p = stats.wilcoxon(variables.iloc[:,0], variables.iloc[:,1])
+    T, p = stats.wilcoxon(variables.iloc[:, 0], variables.iloc[:, 1])
     text_result += _('Result of Wilcoxon signed-rank test') + ': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
     # The test does not use df, despite some of the descriptions on the net.
     # So there's no need to display df.
