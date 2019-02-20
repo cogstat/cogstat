@@ -101,7 +101,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         The version number is available in a plain text file, at the appropriate web address."""
         try:
-            latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version').read()
+            latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version').read().decode('utf-8')
             if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
                 QtWidgets.QMessageBox.about(self, _('Update available'),
                                         _('New version is available.') + '<br><br>' +
