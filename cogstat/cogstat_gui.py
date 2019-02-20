@@ -23,7 +23,7 @@ import webbrowser
 import gettext
 import logging
 import traceback
-from urllib2 import urlopen
+from urllib.request import urlopen
 from distutils.version import LooseVersion
 
 from . import cogstat
