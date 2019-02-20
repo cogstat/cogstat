@@ -143,7 +143,7 @@ def reformat_output(output):
     if type(output) is str:
         output = unicode(output, encoding='utf-8')
     output = output.replace('\n', '<br>')
-    for style_element in csc.styles.keys():
+    for style_element in list(csc.styles.keys()):
         output = output.replace(style_element, csc.styles[style_element])
         output = output.replace(unicode(style_element), unicode(csc.styles[style_element]))
     output = output.replace(u'<\xa0', '&lt; ')  # In the R output the '< ' (which is non breaking space here (\xa0) ) would be handled as html tag
