@@ -82,7 +82,6 @@ def print_versions():
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
     text_output += 'Platform: %s\n' % csc.versions['platform']
     text_output += 'Python: %s\n' % csc.versions['python']
-    text_output += 'Default encoding: %s\n' % str(sys.getdefaultencoding())
     text_output += 'Stdout encoding: %s\n' % str(sys.stdout.encoding)
     text_output += 'Filesystem encoding: %s\n' % str(sys.getfilesystemencoding())
     text_output += 'Language: %s\n' % csc.language
