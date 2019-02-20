@@ -107,7 +107,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                         _('New version is available.') + '<br><br>' +
                                         _('You can download the new version<br>from the <a href = "%s">CogStat download page</a>.')%'http://www.cogstat.org/download.html')
         except:
-            print "Couldn't check for update"
+            print("Couldn't check for update")
 
     def _init_UI(self):
         self.resize(800, 600)
@@ -326,7 +326,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if filename in ['', False]:
             filename = cogstat_dialogs.open_data_file()
-        print filename
+        print(filename)
         if filename:
             self._open_data(unicode(filename))
 
@@ -337,7 +337,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if filename in ['', False]:
             filename = cogstat_dialogs.open_demo_data_file()
-        print filename
+        print(filename)
         if filename:
             self._open_data(unicode(filename))
 

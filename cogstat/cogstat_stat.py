@@ -110,7 +110,7 @@ def _get_R_output(obj):
     old_stdout = sys.stdout
     sys.stdout = mystdout = StringIO()
     robjects.r('options')(width=200)  # Controls wrapping the output
-    print obj
+    #print obj
     sys.stdout = old_stdout
     return mystdout.getvalue()
 
