@@ -202,7 +202,7 @@ class CogStatData:
                     # return
 
                     # Check if there is variable type line
-                    f = csv.reader(open(data, 'rb'), delimiter=delimiter, quotechar=quotechar)
+                    f = csv.reader(open(data, 'r'), delimiter=delimiter, quotechar=quotechar)
                     next(f)
                     meas_row = next(f)
                     if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} \
