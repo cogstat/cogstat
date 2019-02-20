@@ -214,10 +214,10 @@ class CogStatData:
                 elif filetype == '.sav':
                     import savReaderWriter
                     # Get the values
-                    with savReaderWriter.SavReader(data) as reader:
+                    with savReaderWriter.SavReader(data, ioUtf8=True) as reader:
                         spss_data = [line for line in reader]
                     # Get the variable names and measurement levels
-                    with savReaderWriter.SavHeaderReader(data) as header:
+                    with savReaderWriter.SavHeaderReader(data, ioUtf8=True) as header:
                         metadata = header.all()
                     # Create the CogStat dataframe
                     self.data_frame = pd.DataFrame.from_records(spss_data, columns=metadata.varNames)
