@@ -191,7 +191,7 @@ class CogStatData:
         if isinstance(data, pd.DataFrame):
             self.data_frame = data
             self.import_source = _('pandas dataframe')
-        elif isinstance(data, basestring):
+        elif isinstance(data, str):
 
             delimiter = '\t'
             #print csv.Sniffer().sniff(data).delimiter  # In some tests, it didn't find the delimiter reliably and correctly
@@ -414,7 +414,7 @@ class CogStatData:
                 if isinstance(output, Figure):
                     # For gui convert matplotlib to qImage
                     new_output.append(output if output_type == 'ipnb' else _figure_to_qimage(output))
-                elif isinstance(output, basestring):
+                elif isinstance(output, str):
                     new_output.append(cs_util.reformat_output(output))
                 elif isinstance(output, list):  # flat list
                     new_output.extend(self._convert_output(output))
@@ -1202,7 +1202,7 @@ def display(results):
     from IPython.display import display
     from IPython.display import HTML
     for result in results:
-        if isinstance(result, basestring):
+        if isinstance(result, str):
             display(HTML(result))
         else:
             display(result)

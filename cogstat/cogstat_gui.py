@@ -308,7 +308,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.output_pane.clear()
             self.welcome_text_on = False
         for output in self.analysis_results[index].output:
-            if isinstance(output, basestring):
+            if isinstance(output, str):
                 self.output_pane.append(output)
             elif isinstance(output, QtGui.QImage):
                 self.output_pane.moveCursor(11, 0)  # Moves cursor to the end
