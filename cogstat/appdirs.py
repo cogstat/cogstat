@@ -413,7 +413,7 @@ def _get_win_folder_from_registry(csidl_name):
     if PY3:
       import winreg as _winreg
     else:
-      import _winreg
+      import winreg
 
     shell_folder_name = {
         "CSIDL_APPDATA": "AppData",
@@ -421,11 +421,11 @@ def _get_win_folder_from_registry(csidl_name):
         "CSIDL_LOCAL_APPDATA": "Local AppData",
     }[csidl_name]
 
-    key = _winreg.OpenKey(
-        _winreg.HKEY_CURRENT_USER,
+    key = winreg.OpenKey(
+        winreg.HKEY_CURRENT_USER,
         r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
     )
-    dir, type = _winreg.QueryValueEx(key, shell_folder_name)
+    dir, type = winreg.QueryValueEx(key, shell_folder_name)
     return dir
 
 

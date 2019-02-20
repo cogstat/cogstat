@@ -20,7 +20,7 @@ import statsmodels.api as sm
 import string
 import sys
 import textwrap
-from cStringIO import StringIO
+from io import StringIO
 from distutils.version import LooseVersion
 from scipy import stats
 import itertools

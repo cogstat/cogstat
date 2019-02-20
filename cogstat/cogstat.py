@@ -236,8 +236,8 @@ class CogStatData:
             # Import from multiline string, clipboard
             else:  # Multi line text, i.e., clipboard data
                 # Check if there is variable type line
-                import StringIO
-                f = StringIO.StringIO(data)
+                import io
+                f = io.StringIO(data)
                 f.next()
                 meas_row = f.next().replace('\n', '').replace('\r', '').split(delimiter)
                 # \r was used in Mac after importing from Excel clipboard
@@ -248,7 +248,7 @@ class CogStatData:
                 skiprows = [1] if file_measurement_level else None
 
                 # Read the clipboard
-                clipboard_file = StringIO.StringIO(data)
+                clipboard_file = io.StringIO(data)
                 self.data_frame = pd.read_csv(clipboard_file, delimiter=delimiter, quotechar=quotechar,
                                               skiprows=skiprows)
                 self.import_source = _('clipboard')
