@@ -139,8 +139,8 @@ def reformat_output(output):
     :param output: str - text to reformat
     :return: reformatted str
     """
-    if isinstance(output, str):
-        output = str(output, encoding='utf-8')
+    if isinstance(output, str):  # TODO in Python3 not needed anymore?
+        output = str(output)
     output = output.replace('\n', '<br>')
     for style_element in list(csc.styles.keys()):
         output = output.replace(style_element, csc.styles[style_element])
