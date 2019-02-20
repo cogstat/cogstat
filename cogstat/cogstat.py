@@ -207,8 +207,8 @@ class CogStatData:
 
                     # Check if there is variable type line
                     f = csv.reader(open(data, 'rb'), delimiter=delimiter, quotechar=quotechar)
-                    f.next()
-                    meas_row = f.next()
+                    next(f)
+                    meas_row = next(f)
                     if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
                             and set(meas_row) != set(['']):
                         file_measurement_level = ' '.join(meas_row).lower()
@@ -238,7 +238,7 @@ class CogStatData:
                 # Check if there is variable type line
                 import io
                 f = io.StringIO(data)
-                f.next()
+                next(f)
                 meas_row = f.next().replace('\n', '').replace('\r', '').split(delimiter)
                 # \r was used in Mac after importing from Excel clipboard
                 if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
