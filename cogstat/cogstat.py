@@ -492,7 +492,7 @@ class CogStatData:
             text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level) + '\n\n'
 
         # Descriptives
-        if self.data_measlevs[var_name] <> 'nom':  # there is no descriptive for nominal variable here
+        if self.data_measlevs[var_name] != 'nom':  # there is no descriptive for nominal variable here
             if self.data_measlevs[var_name] in ['int', 'unk']:
                 text_result += cs_stat.print_var_stats(self.data_frame, [var_name],
                                                        statistics=['mean', 'std', 'skew', 'kurtosis', 'ptp',
@@ -504,7 +504,7 @@ class CogStatData:
         result_list.append(text_result)
 
         # Distribution
-        if self.data_measlevs[var_name] <> 'nom': # histogram for nominal variable has already been shown in raw data
+        if self.data_measlevs[var_name] != 'nom': # histogram for nominal variable has already been shown in raw data
             image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
             result_list.append(image)
 
