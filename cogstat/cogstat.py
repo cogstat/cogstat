@@ -8,9 +8,6 @@ appropriate statistics for the main analysis commands.
 # if CS is used with GUI, start the splash screen
 QString = str
 
-if __name__ == '__main__':
-    from . import cogstat_gui
-
 # go on with regular importing, etc.
 import csv
 import gettext
@@ -1202,6 +1199,3 @@ def display(results):
         else:
             display(result)
     plt.close('all')
-
-if __name__ == '__main__':
-    cogstat_gui.main()
