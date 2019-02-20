@@ -209,8 +209,8 @@ class CogStatData:
                     f = csv.reader(open(data, 'rb'), delimiter=delimiter, quotechar=quotechar)
                     next(f)
                     meas_row = next(f)
-                    if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
-                            and set(meas_row) != set(['']):
+                    if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} \
+                            and set(meas_row) != {''}:
                         file_measurement_level = ' '.join(meas_row).lower()
                     skiprows = [1] if file_measurement_level else None
 
@@ -241,8 +241,8 @@ class CogStatData:
                 next(f)
                 meas_row = f.next().replace('\n', '').replace('\r', '').split(delimiter)
                 # \r was used in Mac after importing from Excel clipboard
-                if set([a.lower() for a in meas_row]) <= set(['unk', 'nom', 'ord', 'int', '']) \
-                        and set(meas_row) != set(['']):
+                if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} \
+                        and set(meas_row) != {''}:
                     meas_row = [u'unk' if item == u'' else item for item in meas_row]  # missing level ('') means 'unk'
                     file_measurement_level = ' '.join(meas_row).lower()
                 skiprows = [1] if file_measurement_level else None
@@ -727,7 +727,7 @@ class CogStatData:
         raw_result += self._filtering_status()
 
         # Check if the variables have the same measurement levels
-        meas_levels = set([self.data_measlevs[var_name] for var_name in var_names])
+        meas_levels = {self.data_measlevs[var_name] for var_name in var_names}
         if len(meas_levels) > 1:
             if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together,
                                                                 # since unk is taken as int by default
