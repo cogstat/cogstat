@@ -140,7 +140,7 @@ def reformat_output(output):
     :param output: str - text to reformat
     :return: reformatted str
     """
-    if type(output) is str:
+    if isinstance(output, str):
         output = unicode(output, encoding='utf-8')
     output = output.replace('\n', '<br>')
     for style_element in list(csc.styles.keys()):

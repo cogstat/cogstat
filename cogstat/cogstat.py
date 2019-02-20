@@ -898,8 +898,7 @@ class CogStatData:
             raw_result += '<h4>' + _('Raw data') + '</h4>'
 
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
-            group_levels = list(set(data[groups[0]]))
-            group_levels.sort()
+            group_levels = sorted(set(data[groups[0]]))
             # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
             pdf_result = pd.DataFrame(columns=group_levels)
             pdf_result.loc[_('N of valid cases')] = [sum(data[groups[0]] == group) for group in group_levels]
