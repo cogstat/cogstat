@@ -40,12 +40,16 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.pylab
+
+'''
+# r is not needed for some time, but may be necessary at some later point again, so keep the code
 try:
     import rpy2.robjects as robjects
     from rpy2.robjects.packages import importr  # requires at least rpy 2.1.0; use instead:
     #from rpy2.robjects import r # http://stackoverflow.com/questions/2128806/python-rpy2-cant-import-a-bunch-of-packages
 except:
     pass
+'''
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
@@ -103,6 +107,7 @@ warn_unknown_variable = '<warning>'+_('The properties of the variables are not s
 
 ### Various things ###
 
+'''
 def _get_R_output(obj):
     """
     Returns the output of R, printing obj.
@@ -113,7 +118,7 @@ def _get_R_output(obj):
     #print obj
     sys.stdout = old_stdout
     return mystdout.getvalue()
-
+'''
 
 def _split_into_groups(pdf, var_name, grouping_name):
     """

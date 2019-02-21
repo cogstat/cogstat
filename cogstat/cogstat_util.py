@@ -59,6 +59,7 @@ def get_versions():
         #csc.versions['pyqtstyle'] = None
 
     # R components
+    '''
     try:
         import rpy2.robjects as robjects
         csc.versions['r'] = robjects.r('version')[12][0]
@@ -75,7 +76,7 @@ def get_versions():
         csc.versions['car'] = True
     except:
         csc.versions['car'] = None
-
+    '''
 
 def print_versions():
     text_output = ''
@@ -92,8 +93,8 @@ def print_versions():
     text_output += 'Matplotlib: %s\n' % csc.versions['matplotlib']
     text_output += 'PyQt: %s\n' % csc.versions['pyqt']
     #text_output += 'PyQt QStyle:%s\n' % csc.versions['pyqtstyle']
-    text_output += 'R: %s\n' % csc.versions['r']
-    text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
+    #text_output += 'R: %s\n' % csc.versions['r']
+    #text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
     text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
 
 #    import os

@@ -269,12 +269,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         for module in []:  # At the moment it's empty
             if csc.versions[module] is None:
                 missing_recommended_components.append(module)
+        '''
         # Check R only on Linux, since Win doesn't have a working rpy at the moment
         if sys.platform in ['linux2', 'linux']:
             for module in ['r', 'rpy2', 'car']:
                 if csc.versions[module] is None:
                     missing_recommended_components.append(module)
-        
+        '''
+
         if missing_required_components:
             logging.error('Missing required components: %s' % missing_required_components)
         if missing_recommended_components:
