@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: .././cogstat_gui.py:146 .././cogstat_gui.py:147
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-21 17:21+0100\n"
+"POT-Creation-Date: 2019-02-21 17:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +24,7 @@ msgid ""
 "want to report it."
 msgstr ""
 
-#: .././cogstat_gui.py:52 .././cogstat_gui.py:373
+#: .././cogstat_gui.py:52 .././cogstat_gui.py:375
 #, python-format
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
 msgstr ""
@@ -57,20 +56,12 @@ msgstr ""
 msgid "Ctrl+O"
 msgstr ""
 
-#: .././cogstat_gui.py:125
-msgid "Open data file (csv or SPSS file)"
-msgstr ""
-
 #: .././cogstat_gui.py:126
 msgid "Open d&emo data file"
 msgstr ""
 
 #: .././cogstat_gui.py:126
 msgid "Ctrl+E"
-msgstr ""
-
-#: .././cogstat_gui.py:126
-msgid "Open demo data file (csv or SPSS file)"
 msgstr ""
 
 #: .././cogstat_gui.py:127
@@ -81,10 +72,6 @@ msgstr ""
 msgid "Ctrl+V"
 msgstr ""
 
-#: .././cogstat_gui.py:127
-msgid "Paste data from clipboard"
-msgstr ""
-
 #: .././cogstat_gui.py:131 .././cogstat_gui.py:168
 msgid "&Display data"
 msgstr ""
@@ -93,20 +80,12 @@ msgstr ""
 msgid "Ctrl+D"
 msgstr ""
 
-#: .././cogstat_gui.py:131
-msgid "Print data to the output"
-msgstr ""
-
 #: .././cogstat_gui.py:132 .././cogstat_gui.py:168
 msgid "Display data &briefly"
 msgstr ""
 
 #: .././cogstat_gui.py:132
 msgid "Ctrl+B"
-msgstr ""
-
-#: .././cogstat_gui.py:132
-msgid "Print beginning of the data to the output"
 msgstr ""
 
 #: .././cogstat_gui.py:134
@@ -121,10 +100,6 @@ msgstr ""
 msgid "Ctrl+1"
 msgstr ""
 
-#: .././cogstat_gui.py:135
-msgid "Main properties of variables"
-msgstr ""
-
 #: .././cogstat_gui.py:136 .././cogstat_gui.py:170
 msgid "Explore relation of variable &pair"
 msgstr ""
@@ -133,32 +108,16 @@ msgstr ""
 msgid "Ctrl+2"
 msgstr ""
 
-#: .././cogstat_gui.py:136
-msgid "Properties of variable pairs"
-msgstr ""
-
 #: .././cogstat_gui.py:138 .././cogstat_gui.py:169
 msgid "Pivot &table"
-msgstr ""
-
-#: .././cogstat_gui.py:138
-msgid "Build a pivot table"
 msgstr ""
 
 #: .././cogstat_gui.py:140 .././cogstat_gui.py:170
 msgid "Compare repeated measures va&riables"
 msgstr ""
 
-#: .././cogstat_gui.py:140
-msgid "Compare variables"
-msgstr ""
-
 #: .././cogstat_gui.py:141 .././cogstat_gui.py:170
 msgid "Compare &groups"
-msgstr ""
-
-#: .././cogstat_gui.py:141 .././cogstat.py:876
-msgid "Compare groups"
 msgstr ""
 
 #: .././cogstat_gui.py:143
@@ -171,10 +130,6 @@ msgstr ""
 
 #: .././cogstat_gui.py:144
 msgid "Del"
-msgstr ""
-
-#: .././cogstat_gui.py:144
-msgid "Delete the output window"
 msgstr ""
 
 #: .././cogstat_gui.py:146
@@ -201,20 +156,12 @@ msgstr ""
 msgid "Ctrl+P"
 msgstr ""
 
-#: .././cogstat_gui.py:151
-msgid "Save the output to .pdf format"
-msgstr ""
-
 #: .././cogstat_gui.py:152
 msgid "Save results as"
 msgstr ""
 
 #: .././cogstat_gui.py:152
 msgid "Shift+Ctrl+P"
-msgstr ""
-
-#: .././cogstat_gui.py:152
-msgid "Save the results"
 msgstr ""
 
 #: .././cogstat_gui.py:154
@@ -229,48 +176,24 @@ msgstr ""
 msgid "F1"
 msgstr ""
 
-#: .././cogstat_gui.py:155
-msgid "Read online documentation"
-msgstr ""
-
 #: .././cogstat_gui.py:156
 msgid "&Preferences"
-msgstr ""
-
-#: .././cogstat_gui.py:156
-msgid "Set the preferences"
 msgstr ""
 
 #: .././cogstat_gui.py:157
 msgid "Request a &feature"
 msgstr ""
 
-#: .././cogstat_gui.py:157
-msgid "Can't find a feature? Ask for it!"
-msgstr ""
-
 #: .././cogstat_gui.py:159
 msgid "&Report a problem"
-msgstr ""
-
-#: .././cogstat_gui.py:159
-msgid "Fill online form to report a problem"
 msgstr ""
 
 #: .././cogstat_gui.py:160
 msgid "&Diagnosis information"
 msgstr ""
 
-#: .././cogstat_gui.py:160
-msgid "List the version of the components on your system"
-msgstr ""
-
 #: .././cogstat_gui.py:162
 msgid "&About"
-msgstr ""
-
-#: .././cogstat_gui.py:162
-msgid "About CogStat"
 msgstr ""
 
 #: .././cogstat_gui.py:164
@@ -279,10 +202,6 @@ msgstr ""
 
 #: .././cogstat_gui.py:164
 msgid "Ctrl+Q"
-msgstr ""
-
-#: .././cogstat_gui.py:164
-msgid "Exit CogStat"
 msgstr ""
 
 #: .././cogstat_gui.py:168
@@ -317,10 +236,6 @@ msgid ""
 "wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
 msgstr ""
 
-#: .././cogstat_gui.py:217
-msgid "Ready"
-msgstr ""
-
 #: .././cogstat_gui.py:358 .././cogstat.py:250
 msgid "Import failed"
 msgstr ""
@@ -333,87 +248,74 @@ msgstr ""
 msgid "Data could not be loaded."
 msgstr ""
 
-#: .././cogstat_gui.py:363
-msgid "Data loaded from file: "
-msgstr ""
-
-#: .././cogstat_gui.py:363
-msgid "Data loaded from clipboard: "
-msgstr ""
-
-#: .././cogstat_gui.py:364
-#, python-format
-msgid "%s variables and %s cases."
-msgstr ""
-
-#: .././cogstat_gui.py:372
+#: .././cogstat_gui.py:374
 msgid ""
 "Open data. Oops, something went wrong, CogStat could not open the data. You "
 "may want to report the issue."
 msgstr ""
 
-#: .././cogstat_gui.py:430
+#: .././cogstat_gui.py:432
 msgid "Explore variable."
 msgstr ""
 
-#: .././cogstat_gui.py:455 .././cogstat_gui.py:471
+#: .././cogstat_gui.py:457 .././cogstat_gui.py:473
 msgid "Explore variable pair."
 msgstr ""
 
-#: .././cogstat_gui.py:455 .././cogstat_gui.py:530
+#: .././cogstat_gui.py:457 .././cogstat_gui.py:532
 msgid "At least two variables should be set."
 msgstr ""
 
-#: .././cogstat_gui.py:498 .././cogstat_gui.py:503
+#: .././cogstat_gui.py:500 .././cogstat_gui.py:505
 msgid "Pivot table."
 msgstr ""
 
-#: .././cogstat_gui.py:498
+#: .././cogstat_gui.py:500
 msgid ""
 "The dependent variable and at least one grouping variable should be given."
 msgstr ""
 
-#: .././cogstat_gui.py:530 .././cogstat_gui.py:538
+#: .././cogstat_gui.py:532 .././cogstat_gui.py:540
 msgid "Compare variables."
 msgstr ""
 
-#: .././cogstat_gui.py:565 .././cogstat_gui.py:576
+#: .././cogstat_gui.py:567 .././cogstat_gui.py:578
 msgid "Compare groups."
 msgstr ""
 
-#: .././cogstat_gui.py:565
+#: .././cogstat_gui.py:567
 msgid "Both the dependent and the grouping variables should be set."
 msgstr ""
 
-#: .././cogstat_gui.py:583
+#: .././cogstat_gui.py:585
 msgid "Clear output"
 msgstr ""
 
-#: .././cogstat_gui.py:584
+#: .././cogstat_gui.py:586
 msgid "Are you sure you want to delete the output?"
 msgstr ""
 
-#: .././cogstat_gui.py:643
+#: .././cogstat_gui.py:645
 msgid "About CogStat "
 msgstr ""
 
-#: .././cogstat_gui.py:643
+#: .././cogstat_gui.py:645
 msgid "Simple automatic data analysis software"
 msgstr ""
 
-#: .././cogstat_gui.py:643
+#: .././cogstat_gui.py:645
 msgid "Visit CogStat website"
 msgstr ""
 
-#: .././cogstat_gui.py:653
+#: .././cogstat_gui.py:655
 msgid "System components"
 msgstr ""
 
-#: .././cogstat_gui.py:665
+#: .././cogstat_gui.py:667
 msgid "Save output"
 msgstr ""
 
-#: .././cogstat_gui.py:666
+#: .././cogstat_gui.py:668
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr ""
 
@@ -1278,6 +1180,10 @@ msgstr ""
 
 #: .././cogstat.py:854
 msgid "Running Cochran's Q test."
+msgstr ""
+
+#: .././cogstat.py:876
+msgid "Compare groups"
 msgstr ""
 
 #: .././cogstat.py:880

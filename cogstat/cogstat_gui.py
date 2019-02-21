@@ -125,7 +125,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file'],
                                 ['', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file'],
                                 ['', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard'],
-                             ['separator'],
+                                ['separator'],
                                 # ['', _('&Filter outliers'), _('Ctrl+L'), _('Filter cases based on outliers'), 'self.xxx'],
                                 # ['separator'],
                                 ['', _('&Display data'), _('Ctrl+D'), 'self.print_data'],
