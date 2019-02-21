@@ -328,7 +328,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if filename in ['', False]:
             filename = cogstat_dialogs.open_data_file()
-        print(filename)
+        #print(filename)
         if filename:
             self._open_data(str(filename))
 
@@ -339,7 +339,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if filename in ['', False]:
             filename = cogstat_dialogs.open_demo_data_file()
-        print(filename)
+        #print(filename)
         if filename:
             self._open_data(str(filename))
 
