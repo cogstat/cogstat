@@ -193,7 +193,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         
         # Prepare Output pane
         self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        self.output_pane.setLineWrapMode (QtWidgets.QTextEdit.NoWrap)
+        #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         self.output_pane.setText('<br><b>%s</b><br>%s<br>%s<br>%s<br>' %
                                  (_('Welcome to CogStat!'), _('CogStat makes statistical analysis more simple and efficient.'),
                                   _('To start working open a data file or paste your data from a spreadsheet.'),
