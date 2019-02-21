@@ -78,8 +78,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.check_for_update()
 
         # Only for testing
-#        self.open_file('sample_data/example_data.csv'); #self.compare_groups()
-#        self.open_file('test/data/test_data.csv')
+#        self.open_file('cogstat/sample_data/example_data.csv'); #self.compare_groups()
+#        self.open_file('cogstat/test/data/test_data.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable('X')
@@ -616,12 +616,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
             filename = cogstat_dialogs.save_output()
         self.output_filename = filename
         if filename:
-            # self.output_pane.setLineWrapMode (QtGui.QTextEdit.FixedPixelWidth)  # TODO
             pdf_printer = QtPrintSupport.QPrinter()
             pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
             pdf_printer.setOutputFileName(self.output_filename)
             self.output_pane.print_(pdf_printer)
-            # self.output_pane.setLineWrapMode (QtGui.QTextEdit.NoWrap)
             self.unsaved_output = False
 
     ### Cogstat menu  methods ###
