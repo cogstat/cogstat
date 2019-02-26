@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 print(sys.path)
 import numpy as np
 import pandas as pd
-import cogstat as cs
+from cogstat import cogstat as cs
 
 print(cs.__file__)
 print(cs.__version__)
@@ -170,7 +170,6 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('g: <i>W</i> = 0.946, <i>p</i> = 0.133' in result[7])
         self.assertTrue('sphericity: <i>W</i> = 0.975, <i>p</i> = 0.703' in result[7])
         self.assertTrue('<i>F</i>(2, 58) = 6.17, <i>p</i> = 0.004' in result[7])
-        print(result[7])
         self.assertTrue('0.11, <i>p</i> = 0.913' in result[7])  # TODO keep the order of the variables, and have a fixed sign
         self.assertTrue('3.17, <i>p</i> = 0.011' in result[7])
         self.assertTrue('2.88, <i>p</i> = 0.015' in result[7])
