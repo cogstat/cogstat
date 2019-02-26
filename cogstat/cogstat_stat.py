@@ -135,7 +135,10 @@ def _split_into_groups(pdf, var_name, grouping_name):
     if isinstance(grouping_name, (str)):  # TODO list is required, fix the calls sending string
         grouping_name = [grouping_name]
     # create a list of sets with the levels of all grouping variables
-    levels = [set(pdf[group].dropna()) for group in grouping_name]
+    levels = [list(set(pdf[group].dropna())) for group in grouping_name]
+    for i in range(len(levels)):
+        levels[i].sort()
+
     # create all level combinations for the grouping variables
     level_combinations = list(itertools.product(*levels))
     grouped_data = [pdf[var_name][(pdf[grouping_name] == pd.Series({group: level for group, level in zip(grouping_name, group_level)})).all(axis=1)].dropna() for group_level in
