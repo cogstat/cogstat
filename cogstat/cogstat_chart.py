@@ -1,3 +1,7 @@
+"""
+This module contains functions for creating charts.
+"""
+
 import os
 import gettext
 import numpy as np
