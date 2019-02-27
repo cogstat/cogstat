@@ -258,7 +258,8 @@ def create_normality_chart(data, var_name):
     # Graph
     plt.figure()
     n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
-    plt.plot(bins, matplotlib.pylab.normpdf(bins, np.mean(data), np.std(data)), 'g--', linewidth=3)
+    plt.plot(bins, matplotlib.pylab.normpdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
+             linewidth=3)
     plt.title(_plt('Histogram with individual data and normal distribution'))
     if suptitle_text:
         plt.suptitle(suptitle_text, x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
