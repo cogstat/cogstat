@@ -148,8 +148,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
                                 ['separator'],
-                                ['', _('Save results'), _('Ctrl+P'), 'self.save_result'],
-                                ['', _('Save results as')+'...', _('Shift+Ctrl+P'), 'self.save_result_as']
+                                ['', _('&Save results'), _('Ctrl+P'), 'self.save_result'],
+                                ['', _('Save results &as')+'...', _('Shift+Ctrl+P'), 'self.save_result_as']
                             ],
                             [_('&CogStat'),
                                 ['', _('&Help'), _('F1'), 'self._open_help_webpage'],
