@@ -143,8 +143,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             [_('&Results'),
                                 ['', _('&Clear results'), _('Del'), 'self.delete_output'],
                                 ['separator'],
-                                ['', _('Zoom &in text'), _('Ctrl++'), 'self.zoom_in'],
-                                ['', _('Zoom &out text'), _('Ctrl+-'), 'self.zoom_out'],
+                                ['', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in'],
+                                ['', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out'],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
                                 ['separator'],
