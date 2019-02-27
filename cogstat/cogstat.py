@@ -27,6 +27,7 @@ csc.versions['cogstat'] = __version__
 from . import cogstat_stat as cs_stat
 from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_util as cs_util
+from . import cogstat_chart as cs_chart
 cs_util.get_versions()
 
 import numpy as np
@@ -498,7 +499,7 @@ class CogStatData:
 
         # Distribution
         if self.data_measlevs[var_name] != 'nom': # histogram for nominal variable has already been shown in raw data
-            image = cs_stat.histogram(self.data_frame, self.data_measlevs, var_name)
+            image = cs_chart.create_histogram_chart(self.data_frame, self.data_measlevs, var_name)
             result_list.append(image)
 
         # 3. Population properties
@@ -610,7 +611,8 @@ class CogStatData:
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
-        temp_raw_result, raw_graph = cs_stat.var_pair_graph(data, meas_lev, 0, 0, x, y, self.data_frame,
+        temp_raw_result = cs_stat.var_pair_contingency_table(meas_lev, x, y, self.data_frame)
+        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, self.data_frame,
                                                          raw_data=True)  # slope and intercept are set to 0, but they
                                                                          # are not used with raw_data
 
@@ -683,7 +685,8 @@ class CogStatData:
         # Make graph
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev in ['int', 'unk']:
-            temp_text_result, sample_graph = cs_stat.var_pair_graph(data, meas_lev, slope, intercept, x, y, self.data_frame)
+            temp_text_result = cs_stat.var_pair_contingency_table(meas_lev, x, y, self.data_frame)
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, self.data_frame)
             if temp_text_result:
                 population_result += temp_text_result
         else:
@@ -741,16 +744,12 @@ class CogStatData:
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
-        temp_raw_result, raw_graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame, raw_data=True)
-        if temp_raw_result:
-            raw_result += temp_raw_result
+        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame, raw_data=True)
 
         # Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
-            temp_raw_result, sample_graph = cs_stat.comp_var_graph(data, var_names, meas_level, self.data_frame)
-            if temp_raw_result:
-                raw_result += temp_raw_result
+            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame)
         else:
             sample_graph = None
 
@@ -770,12 +769,12 @@ class CogStatData:
                     #, rownames = [x], colnames = [y])
                 sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
 
-        # Plot the descriptive data
-        mean_estimations, population_graph = cs_stat.comp_var_graph_cum(data, var_names, meas_level, self.data_frame)
-
         # 3. Population properties
         population_result = '<h4>' + _('Population properties') + '</h4>\n'
+        mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
         population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+
+        population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, self.data_frame)
 
         result_ht = '<decision>' + _('Hypothesis testing: ')
         if meas_level in ['int', 'unk']:
@@ -907,19 +906,14 @@ class CogStatData:
             raw_result += '\n\n'+_('N of missing group cases') + ': %g' % missing_n +'\n'
 
             # Plot individual data
-            temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+            raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
                                                                   group_levels, raw_data_only=True)
-            if temp_raw_result:
-                raw_result += temp_raw_result
-
 
             # Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
-                temp_raw_result, sample_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
                                                                     group_levels)
-                if temp_raw_result:
-                    raw_result += temp_raw_result
             else:
                 sample_graph = None
 
@@ -938,11 +932,13 @@ class CogStatData:
 
             # 3. Population properties
             # Plot population estimations
-            mean_estimations, population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups, group_levels)
+            mean_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
+            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names, groups, group_levels)
 
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
-            population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+            if meas_level in ['int', 'unk']:
+                population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
             standardized_effect_size_result = None
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
@@ -1117,18 +1113,14 @@ class CogStatData:
 
             # Plot individual data
 
-            temp_raw_result, raw_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+            raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
                                                                   level_combinations, raw_data_only=True)
-            if temp_raw_result:
-                raw_result += temp_raw_result
 
             # Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
-                temp_raw_result, sample_graph = cs_stat.comp_group_graph(self.data_frame, meas_level, var_names, groups,
+                sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
                                                                          level_combinations)
-                if temp_raw_result:
-                    raw_result += temp_raw_result
             else:
                 sample_graph = None
 
@@ -1148,7 +1140,8 @@ class CogStatData:
 
             # 3. Population properties
             # Plot population estimations
-            mean_estimations, population_graph = cs_stat.comp_group_graph_cum(self.data_frame, meas_level, var_names, groups,
+            mean_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
+            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names, groups,
                                                                 level_combinations)
 
             # Hypothesis testing
