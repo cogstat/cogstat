@@ -565,17 +565,21 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             plt.setp(box1['medians'], color=theme_colors[0])
             plt.setp(box1['fliers'], color=theme_colors[0])
         # Display individual data
+        # Find the value among all groups with the largest frquency
+        max_freq = max([max(variables[var_i].value_counts()) for var_i in range(len(variables))])
         for var_i in range(len(variables)):
             val_count = variables[var_i].value_counts()
-            max_freq = max(val_count)
+            # If max_freq is larger than 10,then make the largest item size 10
             if max_freq>10:
                 val_count = (val_count-1)/((max_freq-1)/9.0)+1
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
-                plt.suptitle(_plt('Largest individual sign displays %d cases.') % max_freq, x=0.9, y=0.025,
-                             horizontalalignment='right', fontsize=10)
             ax.scatter(np.ones(len(val_count))+var_i, val_count.index, val_count.values*5, color='#808080', marker='o')
-            #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3) # TODO color should be used from ini file
+            # TODO color should be used from ini file or from style
+            #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3)
+        if max_freq>1:
+            plt.suptitle(_plt('Largest individual sign displays %d cases.') % max_freq, x=0.9, y=0.025,
+                     horizontalalignment='right', fontsize=10)
         # Add labels
         plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
         plt.xlabel(' : '.join(groups))
