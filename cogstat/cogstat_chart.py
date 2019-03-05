@@ -434,23 +434,21 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
         else:
             plt.title(_plt('Boxplots and individual data of the variables'))
         # Display individual data
-        for i in range(len(variables.transpose()) - 1):  # for all pairs
+        max_freq = max([max(data.iloc[:,[i,i+1]].groupby([data.columns[i], data.columns[i+1]]).size()) for i in range(len(data.columns) - 1)])
+        for i in range(len(data.columns) - 1):  # for all pairs
             # Prepare the frequencies for the plot
-            xy = [(x, y) for x, y in zip(variables.transpose()[i], variables.transpose()[i + 1])]
-            xy_set_freq = [[element[0], element[1], xy.count(element)] for element in set(xy)]
-            [xvalues, yvalues, xy_freq] = list(zip(*xy_set_freq))
-            xy_freq = np.array(xy_freq, dtype=float)
-            max_freq = max(xy_freq)
-            print(max_freq)
+            # Create dataframe with value pairs and their frequencies
+            xy_set_freq = data.iloc[:,[i,i+1]].groupby([data.columns[i], data.columns[i+1]]).size().reset_index()
             if max_freq > 10:
-                xy_freq = (xy_freq - 1) / ((max_freq - 1) / 9.0) + 1
+                xy_set_freq.iloc[:, 2] = (xy_set_freq.iloc[:, 2] - 1) / ((max_freq - 1) / 9.0) + 1
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
-                # TODO put text to chart
-                intro_result = '\n' + _('Thickest line displays %d cases.') % max_freq + '\n'
-            for data1, data2, data_freq in zip(xvalues, yvalues, xy_freq):
-                plt.plot([i + 1, i + 2], [data1, data2], '-', color=csc.ind_line_col, lw=data_freq)
+            for j, row in xy_set_freq.iterrows():
+                plt.plot([i + 1, i + 2], [row.values[0], row.values[1]], '-', color=csc.ind_line_col, lw=row.values[2])
 
+        if max_freq > 1:
+            plt.suptitle(_plt('Thickest line displays %d cases.') % max_freq, x=0.9, y=0.025,
+                     horizontalalignment='right', fontsize=10)
         # Display boxplots
         if not raw_data:
             box1 = ax.boxplot(variables, whis='range')
