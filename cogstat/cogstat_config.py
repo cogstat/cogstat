@@ -14,7 +14,14 @@ if not os.path.isfile(dirs.user_config_dir+'/cogstat.ini'):
     if not os.path.exists(dirs.user_config_dir):
         os.makedirs(dirs.user_config_dir)
     shutil.copyfile(os.path.dirname(os.path.abspath(__file__))+'/cogstat.ini', dirs.user_config_dir+'/cogstat.ini')
+
 config = configobj.ConfigObj(dirs.user_config_dir+'/cogstat.ini')
+# If new key was added to the default ini file, add it to the user ini file
+default_config = configobj.ConfigObj(os.path.dirname(os.path.abspath(__file__))+'/cogstat.ini')
+old_config = dict(config)
+config.merge(default_config)
+if old_config != dict(config):
+    config.write()
 
 # UI language
 language = config['language']
@@ -36,10 +43,7 @@ bg_col = config['graph']['background color']
 ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
 fig_size_y = int(config['graph']['graph y size'])
-try:  # TODO handle if default .ini file has changed (e.g., new key was added)
-    graph_font_size = config['graph']['graph font size']
-except:
-    graph_font_size = config['style']['graph font size']
+graph_font_size = config['graph']['graph font size']
 versions = {}  # To be modified from cogstat.py
 
 
