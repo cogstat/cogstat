@@ -37,6 +37,7 @@ from statsmodels.stats.weightstats import DescrStatsW
 from statsmodels.sandbox.stats.runs import mcnemar
 from statsmodels.sandbox.stats.runs import cochrans_q
 import pandas as pd
+import scikit_posthocs
 
 '''
 # r is not needed for some time, but may be necessary at some later point again, so keep the code
@@ -943,7 +944,6 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
                                                                 (df, n, H, cs_util.print_p(p))  # χ2(1, N=90)=0.89, p=.35
         if p < 0.05:
             # Run the post hoc tests
-            import scikit_posthocs
             text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
             text_result += _("Results of Dunn's test (p values).") + '\n'
             posthoc_result = scikit_posthocs.posthoc_dunn(pdf.dropna(subset=[grouping_name]),
