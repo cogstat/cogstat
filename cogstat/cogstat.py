@@ -558,6 +558,7 @@ class CogStatData:
                 pdf_result.loc[_('Mean'), _('95% confidence interval')] = ci_text
                 pdf_result.loc[_('Standard deviation')] = \
                     [('%0.*f') % (prec, np.std(self.data_frame[var_name].dropna(), ddof=1)), '']
+                population_param_text += _('Present confidence interval values suppose normality.')
                 population_param_text += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
                 population_param_text += '\n\n'
 
@@ -772,7 +773,8 @@ class CogStatData:
         # 3. Population properties
         population_result = '<h4>' + _('Population properties') + '</h4>\n'
         mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
-        population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+        population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+        population_result += cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, self.data_frame)
 
@@ -938,7 +940,8 @@ class CogStatData:
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
             if meas_level in ['int', 'unk']:
-                population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+                population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+                population_result += cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
             standardized_effect_size_result = None
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
@@ -1146,7 +1149,8 @@ class CogStatData:
 
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
-            population_result += _('Means') + cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+            population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+            population_result += cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:
