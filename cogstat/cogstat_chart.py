@@ -434,6 +434,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
         else:
             plt.title(_plt('Boxplots and individual data of the variables'))
         # Display individual data
+        # Find the value among all variables with the largest frequency
         max_freq = max([max(data.iloc[:,[i,i+1]].groupby([data.columns[i], data.columns[i+1]]).size()) for i in range(len(data.columns) - 1)])
         for i in range(len(data.columns) - 1):  # for all pairs
             # Prepare the frequencies for the plot
@@ -444,8 +445,8 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
             for j, row in xy_set_freq.iterrows():
-                plt.plot([i + 1, i + 2], [row.values[0], row.values[1]], '-', color=csc.ind_line_col, lw=row.values[2])
-
+                plt.plot([i + 1, i + 2], [row.values[0], row.values[1]], '-', color=csc.ind_line_col, lw=row.values[2],
+                         solid_capstyle='round')
         if max_freq > 1:
             plt.suptitle(_plt('Thickest line displays %d cases.') % max_freq, x=0.9, y=0.025,
                      horizontalalignment='right', fontsize=10)
@@ -563,21 +564,21 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             plt.setp(box1['medians'], color=theme_colors[0])
             plt.setp(box1['fliers'], color=theme_colors[0])
         # Display individual data
-        # Find the value among all groups with the largest frquency
+        # Find the value among all groups with the largest frequency
         max_freq = max([max(variables[var_i].value_counts()) for var_i in range(len(variables))])
         for var_i in range(len(variables)):
             val_count = variables[var_i].value_counts()
             # If max_freq is larger than 10,then make the largest item size 10
-            if max_freq>10:
+            if max_freq > 10:
                 val_count = (val_count-1)/((max_freq-1)/9.0)+1
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
             ax.scatter(np.ones(len(val_count))+var_i, val_count.index, val_count.values*5, color='#808080', marker='o')
             # TODO color should be used from ini file or from style
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3)
-        if max_freq>1:
+        if max_freq > 1:
             plt.suptitle(_plt('Largest individual sign displays %d cases.') % max_freq, x=0.9, y=0.025,
-                     horizontalalignment='right', fontsize=10)
+                         horizontalalignment='right', fontsize=10)
         # Add labels
         plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
         plt.xlabel(' : '.join(groups))
