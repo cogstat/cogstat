@@ -48,7 +48,7 @@ matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
 #print matplotlib.rcParams['axes.spines.left']
 #print matplotlib.rcParams['font.size'], matplotlib.rcParams['font.serif'], matplotlib.rcParams['font.sans-serif']
 #print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
-matplotlib.rcParams['axes.titlesize'] = csc.graph_font_size # title of the charts
+matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size # title of the charts
 matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size # labels of the axis
 #print matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize']
 #print matplotlib.rcParams['figure.facecolor']
