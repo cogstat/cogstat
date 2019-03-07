@@ -188,6 +188,8 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         #        text_result = _(u'Edge\tFreq\n')
         #        text_result += u''.join([u'%.2f\t%s\n'%(edge[j], freq[j]) for j in range(len(freq))])
 
+        plt.figure()
+
         # Prepare the frequencies for the plot
         val_count = data.value_counts()
         if max(val_count) > 1:
@@ -196,7 +198,6 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         val_count = (val_count * (max(freq) / max(val_count))) / 20.0
 
         # Upper part with histogram and individual data
-        plt.figure()
         ax_up = plt.axes([0.1, 0.3, 0.8, 0.6])
         plt.hist(data.values, bins=len(edge) - 1, color=theme_colors[0])
         # .values needed, otherwise it gives error if the first case is missing data
