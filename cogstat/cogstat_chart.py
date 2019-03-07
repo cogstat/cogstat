@@ -143,7 +143,9 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name, data):
             plt.title(_plt('Raw data'))
             plt.xlabel(var_name)
         ax.axes.get_yaxis().set_visible(False)
-        if data_measlevs[var_name] == 'ord':
+        if data_measlevs[var_name] in ['int', 'unk']:
+            _set_axis_measurement_level(ax, 'int', 'nom')
+        elif data_measlevs[var_name] == 'ord':
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
             ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i)-1])
@@ -209,6 +211,10 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         else:
             plt.title(_plt('Histogram with individual data and boxplot'))
         plt.gca().axes.get_xaxis().set_visible(False)
+        if data_measlevs[var_name] in ['int', 'unk']:
+            _set_axis_measurement_level(ax_up, 'int', 'int')
+        elif data_measlevs[var_name] == 'ord':
+            _set_axis_measurement_level(ax_up, 'ord', 'int')
         plt.ylabel(_plt('Frequency'))
         # Lower part showing the boxplot
         ax_low = plt.axes([0.1, 0.1, 0.8, 0.2], sharex=ax_up)
@@ -224,12 +230,17 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         plt.setp(box1['caps'], color=theme_colors[0])
         plt.setp(box1['medians'], color=theme_colors[0])
         plt.setp(box1['fliers'], color=theme_colors[0])
+        if data_measlevs[var_name] in ['int', 'unk']:
+            _set_axis_measurement_level(ax_low, 'int', 'nom')
+            ax_low.spines['top'].set_visible(True)
         if data_measlevs[var_name] == 'ord':
             ax_low.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
             ax_low.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i - 1)])
                                     if i - 1 in range(len(data_value)) else '%i' % i for i in ax_low.get_xticks()])
-            _set_axis_measurement_level(ax_low, 'ord', 'int')
+            _set_axis_measurement_level(ax_low, 'ord', 'nom')
+            ax_low.spines['top'].set_visible(True)
+            ax_low.spines['top'].set_linestyle('dashed')
         chart_result = plt.gcf()
     # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
     # is not repeated here
@@ -274,6 +285,8 @@ def create_normality_chart(data, var_name):
 
     from matplotlib.ticker import FuncFormatter
     plt.gca().yaxis.set_major_formatter(FuncFormatter(to_percent))
+    ax = plt.gca()
+    _set_axis_measurement_level(ax, 'int', 'int')
 
     normality_histogram = plt.gcf()
 
@@ -282,6 +295,8 @@ def create_normality_chart(data, var_name):
     ax = fig.add_subplot(111)
     sm.graphics.qqplot(data, line='s', ax=ax)  # TODO set the color
     plt.title(_plt('Quantile-quantile plot'))
+    ax = plt.gca()
+    _set_axis_measurement_level(ax, 'int', 'int')
     qq_plot = plt.gcf()
 
     return normality_histogram, qq_plot
@@ -293,6 +308,8 @@ def create_variable_population_chart(data, var_name, ci):
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
     plt.title(_plt('Mean value with 95% confidence interval'))
+    ax = plt.gca()
+    _set_axis_measurement_level(ax, 'int', 'int')
     return plt.gcf()
 
 
@@ -303,6 +320,8 @@ def create_variable_popuplation_chart_2(data, var_name):
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
     plt.title(_plt('Median value'))
+    ax = plt.gca()
+    _set_axis_measurement_level(ax, 'ord', 'nom')
     return plt.gcf()
 
 
@@ -357,6 +376,7 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             plt.title(_plt('Scatterplot of the variables'))
             ax.set_xlabel(x)
             ax.set_ylabel(y)
+            _set_axis_measurement_level(ax, 'int', 'int')
         elif meas_lev == 'ord':
             # Display the data
             ax.scatter(stats.rankdata(xvalues), stats.rankdata(yvalues),
@@ -459,6 +479,8 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             ax.set_xlim(0.5, len(var_names) + 0.5)
         plt.xticks(list(range(1, len(var_names) + 1)), _wrap_labels(var_names))
         plt.ylabel(_('Value'))
+        if meas_level in ['int', 'unk']:
+            _set_axis_measurement_level(ax, 'nom', 'int')
         graph = plt.gcf()
     elif meas_level == 'nom':
         import itertools
@@ -509,6 +531,7 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, data_
                    color=theme_colors[0], ecolor='0')
         plt.xticks(list(range(len(var_names))), _wrap_labels(var_names))
         plt.ylabel(_plt('Value'))
+        _set_axis_measurement_level(ax, 'nom', 'int')
         graph = plt.gcf()
     return graph
 
