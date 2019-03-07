@@ -941,9 +941,17 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
         n = len(pdf[var_name].dropna())  # TODO Is this OK here?
         text_result += _('Result of the Kruskal-Wallis test: ')+'&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
                                                                 (df, n, H, cs_util.print_p(p))  # χ2(1, N=90)=0.89, p=.35
+        if p < 0.05:
+            # Run the post hoc tests
+            import scikit_posthocs
+            text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
+            text_result += _("Results of Dunn's test (p values).") + '\n'
+            posthoc_result = scikit_posthocs.posthoc_dunn(pdf.dropna(subset=[grouping_name]),
+                                                          val_col=var_name, group_col=grouping_name)
+            text_result += _format_html_table(posthoc_result.to_html(float_format=lambda x : '%.3f'%x))
+
     except Exception as e:
         text_result += _('Result of the Kruskal-Wallis test: ')+str(e)
-    # TODO post-hoc not available yet in statsmodels http://statsmodels.sourceforge.net/stable/generated/statsmodels.sandbox.stats.multicomp.MultiComparison.kruskal.html#statsmodels.sandbox.stats.multicomp.MultiComparison.kruskal
 
     return text_result
 
