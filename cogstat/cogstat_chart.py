@@ -218,7 +218,7 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
             _set_axis_measurement_level(ax_up, 'ord', 'int')
         plt.ylabel(_plt('Frequency'))
         # Lower part showing the boxplot
-        ax_low = plt.axes([0.1, 0.1, 0.8, 0.2], sharex=ax_up)
+        ax_low = plt.axes([0.1, 0.13, 0.8, 0.17], sharex=ax_up)
         box1 = plt.boxplot(data.values, vert=0,
                            whis='range')  # .values needed, otherwise error when the first case is missing data
         plt.gca().axes.get_yaxis().set_visible(False)
@@ -242,10 +242,9 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
             _set_axis_measurement_level(ax_low, 'ord', 'nom')
             ax_low.spines['top'].set_visible(True)
             ax_low.spines['top'].set_linestyle('dashed')
-        chart_result = plt.gcf()
     # For nominal variables the histogram is a frequency graph, which has already been displayed in the Raw data, so it
     # is not repeated here
-    return chart_result
+    return plt.gcf()
 
 
 def create_normality_chart(data, var_name):
