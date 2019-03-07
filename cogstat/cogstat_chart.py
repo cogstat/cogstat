@@ -134,7 +134,7 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name, data):
         # Add individual data
         plt.scatter(data, np.random.random(size=len(data)), color=theme_colors[0], marker='o')
         ax.axes.set_ylim([-1.5, 2.5])
-        fig.subplots_adjust(top=0.85, bottom=0.3)
+        fig.subplots_adjust(top=0.85, bottom=0.4)
         # Add labels
         if data_measlevs[var_name] == 'ord':
             plt.title(_plt('Rank of the raw data'))
