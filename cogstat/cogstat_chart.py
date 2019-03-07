@@ -337,10 +337,11 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         [xvalues, yvalues, xy_freq] = list(zip(*xy_set_freq))
         xy_freq = np.array(xy_freq, dtype=float)
         max_freq = max(xy_freq)
-        if max_freq>10:
+        if max_freq > 10:
             xy_freq = (xy_freq-1)/((max_freq-1)/9.0)+1
             # largest dot shouldn't be larger than 10 × of the default size
             # smallest dot is 1 unit size
+        if max_freq > 1:
             suptitle_text = _plt('Largest sign on the graph displays %d cases.') % max_freq
         xy_freq *= 20.0
 
