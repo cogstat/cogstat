@@ -172,7 +172,6 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
     var_name (str): name of the variable
     """
     chart_result = ''
-    suptitle_text = None
     max_length = 10  # maximum printing length of an item # TODO print ... if it's exceeded
     data = pdf[var_name].dropna()
     if data_measlevs[var_name] == 'ord':
@@ -190,7 +189,8 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         # Prepare the frequencies for the plot
         val_count = data.value_counts()
         if max(val_count) > 1:
-            suptitle_text = _plt('Largest tick on the x axes displays %d cases.') % max(val_count)
+            plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
+                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         val_count = (val_count * (max(freq) / max(val_count))) / 20.0
 
         # Upper part with histogram and individual data
@@ -208,8 +208,6 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
             plt.title(_plt('Histogram of rank data with individual data and boxplot'))
         else:
             plt.title(_plt('Histogram with individual data and boxplot'))
-        if suptitle_text:
-            plt.suptitle(suptitle_text, x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         plt.gca().axes.get_xaxis().set_visible(False)
         plt.ylabel(_plt('Frequency'))
         # Lower part showing the boxplot
@@ -245,14 +243,14 @@ def create_normality_chart(data, var_name):
     :param var_name:
     :return:
     """
-    suptitle_text = None
 
     # Prepare the frequencies for the plot
     val_count = data.value_counts()
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
     n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
     if max(val_count) > 1:
-        suptitle_text = _plt('Largest tick on the x axes displays %d cases.') % max(val_count)
+        plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
+                     x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     val_count = (val_count * (max(n) / max(val_count))) / 20.0
 
     # Graph
@@ -261,8 +259,6 @@ def create_normality_chart(data, var_name):
     plt.plot(bins, matplotlib.pylab.normpdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
              linewidth=3)
     plt.title(_plt('Histogram with individual data and normal distribution'))
-    if suptitle_text:
-        plt.suptitle(suptitle_text, x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
                  yerr=[np.zeros(val_count.shape), val_count.values],
                  fmt='k|', capsize=0, linewidth=2)
@@ -329,7 +325,6 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
     :return:
     """
     if meas_lev in ['int', 'ord']:
-        suptitle_text = None
 
         # Prepare the frequencies for the plot
         xy = [(i, j) for i, j in zip(data.iloc[:, 0], data.iloc[:, 1])]
@@ -342,7 +337,9 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             # largest dot shouldn't be larger than 10 × of the default size
             # smallest dot is 1 unit size
         if max_freq > 1:
-            suptitle_text = _plt('Largest sign on the graph displays %d cases.') % max_freq
+            plt.suptitle(_plt('Largest sign on the graph displays %d cases.') % max_freq,
+                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
+
         xy_freq *= 20.0
 
         # Draw figure
@@ -382,8 +379,6 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             plt.title(_plt('Scatterplot of the rank of the variables'))
             ax.set_xlabel(_plt('Rank of %s') % x)
             ax.set_ylabel(_plt('Rank of %s') % y)
-        if suptitle_text:
-            plt.suptitle(suptitle_text, x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         graph = plt.gcf()
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y]) # TODO use data instead?
