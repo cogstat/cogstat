@@ -5,24 +5,36 @@ Upcoming release
 ================
 
 ## New features
-- Use themes for the charts
-- Single case test for slope index
-- Display mean estimations numerically in group comparison and in repeated measures comparison 
-- Display standardized effect sizes separately
-- Sample data files and add menu to find them
-- In warning massages add links with more information about fixing the issue
-- Add zooming option to Results menu
-- Add splash screen
-- Simpler Mac installation and Mac specific bug fixes (thanks to Márton Nagy, Anna Rákóczi and András Csép)
-- Simpler Linux installation
-- Smaller refinements
+- Charts
+    - Use themes for the charts
+    - Set theme in CogStat > Preferences menu
+    - Various chart refinements    
+- New hypothesis tests
+    - Single case test for slope index
+    - Dunn's test after significant Kruskal-Wallis test
+- Numerical results
+    - Display mean estimations numerically in group comparison and in repeated measures comparison 
+    - Display standardized effect sizes separately
+    - Various smaller refinements
+- Sample data
+    - Add sample data files 
+    - Add menu to find them
+- Graphical user interface improvements
+    - In warning massages add links with more information about fixing the issue
+    - Add text zooming option to Results menu
+    - Add splash screen
+- Simpler installation
+    - Simpler Mac installation (thanks to Márton Nagy, Anna Rákóczi and András Csép)
+    - Simpler Linux installation
 - New localizations
     - Slovakian (Katarína Sümegiová)
     - Thai (Jinshana Praemcheun)
+- Various smaller text refinements
 
 # Fixes
 - :warning: fix single-case modified t-test
 - Various bugfixes
+- Mac specific bug fixes (thanks to Márton Nagy, Anna Rákóczi and András Csép)
 
 1.7.0 (18 June 2018)
 ================
