@@ -19,9 +19,24 @@ config = configobj.ConfigObj(dirs.user_config_dir+'/cogstat.ini')
 # If new key was added to the default ini file, add it to the user ini file
 default_config = configobj.ConfigObj(os.path.dirname(os.path.abspath(__file__))+'/cogstat.ini')
 old_config = dict(config)
+
+for key in default_config.keys():
+    # TODO if new section is added, this code cannot handle it
+    if isinstance(default_config[key], str):
+        if not(key in config.keys()):
+            config[key] = default_config[key]
+            config.write()
+    else:
+        for key2 in default_config[key].keys():
+            if not(key2 in config[key].keys()):
+                config[key][key2] = default_config[key][key2]
+                config.write()
+"""
+# This will not only add new keys from default ini to existing custom ini, but will change values to default, too
 config.merge(default_config)
 if old_config != dict(config):
     config.write()
+"""
 
 # UI language
 language = config['language']
