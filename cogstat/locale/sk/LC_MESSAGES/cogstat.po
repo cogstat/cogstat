@@ -7,1290 +7,1251 @@ msgstr ""
 "Project-Id-Version: CogStat\n"
 "Language: sk\n"
 
-#: .././cogstat_stat.py:66
+#: .././cogstat_stat.py:57
 msgid "The properties of the variables are not set. Set them in your data source."
 msgstr "Vlastnosti premenných nie sú nastavené. Nastavte ich vo vašom zdroji dát."
 
-#: .././cogstat_stat.py:153
+#: .././cogstat_stat.py:121
 msgid "Sorry, only one dependent variable can be used."
 msgstr "Prepáčte, môže byť použitá iba jedna závislá premenná."
 
-#: .././cogstat_stat.py:155
+#: .././cogstat_stat.py:123
 msgid "Sorry, string variables cannot be used in Pivot table."
 msgstr "Prepáčte, reťazec premenných nemôže byť použitý v kontingenčnej tabuľke."
 
-#: .././cogstat_stat.py:160
+#: .././cogstat_stat.py:128
 msgid "Independent variable(s) - Pages: "
 msgstr "Nezávislá(é) premenná(é) - Strany: "
 
-#: .././cogstat_stat.py:162
+#: .././cogstat_stat.py:130
 msgid "Independent variable(s) - Columns: "
 msgstr "Nezávislá(é) premenná(é) - Stĺpce: "
 
-#: .././cogstat_stat.py:164
+#: .././cogstat_stat.py:132
 msgid "Independent variable(s) - Rows: "
 msgstr "Nezávislá(é) premenná(é) - Riadky: "
 
-#: .././cogstat_stat.py:165
+#: .././cogstat_stat.py:133
 msgid "Function: "
 msgstr "Funkcia: "
 
-#: .././cogstat_stat.py:336 .././cogstat_stat.py:338 .././cogstat_stat.py:836
-#: .././cogstat_stat.py:887
+#: .././cogstat_chart.py:482 .././cogstat_chart.py:534 .././cogstat_stat.py:268
+#: .././cogstat_stat.py:270
 msgid "Value"
 msgstr "Hodnota"
 
-#: .././cogstat_stat.py:371 .././cogstat_stat.py:482
+#: .././cogstat_chart.py:197 .././cogstat_chart.py:264
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "Najväčší háčik na osiach x zobrazuje %d prípady."
 
-#: .././cogstat_stat.py:388
+#: .././cogstat_chart.py:214
 msgid "Histogram with individual data and boxplot"
 msgstr "Histogram s jednotlivými údajmi a krabicový graf"
 
-#: .././cogstat_stat.py:294 .././cogstat_stat.py:392
+#: .././cogstat_chart.py:164 .././cogstat_chart.py:220
 msgid "Frequency"
 msgstr "Frekvencia"
 
-#: .././cogstat_stat.py:291
+#: .././cogstat_chart.py:161
 msgid "Histogram"
 msgstr "Histogram"
 
-#: .././cogstat_stat.py:256
+#: .././cogstat_stat.py:223
 msgid "N of valid cases: %g"
 msgstr "N platných prípadov: %g"
 
-#: .././cogstat_stat.py:451
-msgid "Mean: %0.*f"
-msgstr "Priemer: %0.*f"
-
-#: .././cogstat_stat.py:452
-msgid "Standard deviation: %0.*f"
-msgstr "Štandardná odchýlka: %0.*f"
-
-#: .././cogstat_stat.py:454
-msgid "Skewness: %0.*f"
-msgstr "Šikmosť: %0.*f"
-
-#: .././cogstat_stat.py:456
-msgid "Kurtosis: %0.*f"
-msgstr "Špicatosť: %0.*f"
-
-#: .././cogstat.py:477 .././cogstat.py:515
+#: .././cogstat.py:530 .././cogstat.py:568
 msgid "Median: %0.*f"
 msgstr "Medián: %0.*f"
 
-#: .././cogstat_stat.py:462
-msgid "Range: %0.*f"
-msgstr "Rozsah: %0.*f"
-
-#: .././cogstat_stat.py:456
+#: .././cogstat_stat.py:313
 msgid "Normality can be checked only for interval variables."
 msgstr "Normalita sa dá skontrolovať iba pre intervalové premenné."
 
-#: .././cogstat_stat.py:475
+#: .././cogstat_stat.py:332
 msgid "Shapiro-Wilk normality test in variable %s%s"
 msgstr "Shapiro-Wilkov test normality v premennej %s%s"
 
-#: .././cogstat_stat.py:489
+#: .././cogstat_chart.py:273
 msgid "Histogram with individual data and normal distribution"
 msgstr "Histogram s jednotlivými údajmi a normálnou distribúciou"
 
-#: .././cogstat_stat.py:498
+#: .././cogstat_chart.py:280
 msgid "Normalized relative frequency"
 msgstr "Normalizovaná relatívna frekvencia"
 
-#: .././cogstat_stat.py:514
+#: .././cogstat_chart.py:298
 msgid "Quantile-quantile plot"
 msgstr "Kvantil-kvantil graf"
 
-#: .././cogstat_stat.py:517
-msgid "Sorry, QQ plot is only displayed if the statsmodels module is installed."
-msgstr "Prepáčte, Q-Q graf sa zobrazí len v prípade, keď sú štatistické modely modulov nainštalované."
-
-#: .././cogstat_stat.py:547
+#: .././cogstat_stat.py:363
 msgid "One sample t-test cannot be run for constant variable.\n"
 ""
 msgstr "Pre konštantnú premennú nemôže prebehnúť jednofaktorový t-test."
 
-#: .././cogstat_stat.py:560
+#: .././cogstat_stat.py:376
 msgid "Sorry, newer statsmodels module is required for confidence interval.\n"
 ""
 msgstr "Prepáčte, novšie moduly pre statsmodels sú potrebné pre interval spoľahlivosti."
 
-#: .././cogstat_stat.py:561
+#: .././cogstat_stat.py:377
 msgid "One sample t-test against %g"
 msgstr "Jednofaktorový t-test proti %g"
 
-#: .././cogstat_stat.py:568
+#: .././cogstat_chart.py:311
 msgid "Mean value with 95% confidence interval"
 msgstr "95% konfidenčný interval/interval spoľahlivosti pre strednú hodnotu"
 
-#: .././cogstat_stat.py:571
+#: .././cogstat_stat.py:382
 msgid "One sample t-test is computed only for interval variables."
 msgstr "Jednofaktorový t-test je počítaný iba pre intervalové premenné."
 
-#: .././cogstat_stat.py:608
+#: .././cogstat_chart.py:323
 msgid "Median value"
 msgstr "Hodnota mediánu"
 
-#: .././cogstat_stat.py:611
+#: .././cogstat_stat.py:416
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "Wilcoxonov párový test je počítaný iba pre intervalové alebo bežné premenné."
 
-#: .././cogstat_stat.py:628 .././cogstat.py:502 .././cogstat.py:505
+#: .././cogstat_stat.py:433 .././cogstat.py:555 .././cogstat.py:558
 msgid "Mean"
 msgstr "Priemer"
 
-#: .././cogstat_stat.py:628
+#: .././cogstat_stat.py:433
 msgid "Median"
 msgstr "Medián"
 
-#: .././cogstat_stat.py:882
+#: .././cogstat_chart.py:529
 msgid "Medians for the variables"
 msgstr "Mediány pre premenné"
 
-#: .././cogstat_stat.py:1141
+#: .././cogstat_chart.py:675
 msgid "Medians for the groups"
 msgstr "Mediány pre skupiny"
 
-#: .././cogstat_stat.py:675 .././cogstat_stat.py:676
+#: .././cogstat_stat.py:478 .././cogstat_stat.py:480
 msgid "No data"
 msgstr "Žiadne dáta"
 
-#: .././cogstat_stat.py:720
+#: .././cogstat_chart.py:360
 msgid "Largest sign on the graph displays %d cases."
 msgstr "Najväčší nápis na grafe zobrazuje %d prípady."
 
-#: .././cogstat_stat.py:735
+#: .././cogstat_chart.py:377
 msgid "Scatterplot of the variables"
 msgstr "Korelačný/bodový graf premenných"
 
-#: .././cogstat_stat.py:780 .././cogstat_stat.py:855
+#: .././cogstat_chart.py:418 .././cogstat_chart.py:503
 msgid "Mosaic plot of the variables"
 msgstr "Mozaikový graf premenných"
 
-#: .././cogstat_stat.py:785 .././cogstat_stat.py:860 .././cogstat_stat.py:1111
+#: .././cogstat_chart.py:508
 msgid "Sorry, the mosaic plot can not be drawn with those data."
 msgstr "Prepáčte, mozaikový graf nie je možné vytvoriť s týmito údajmi."
 
-#: .././cogstat_stat.py:788 .././cogstat_stat.py:862 .././cogstat_stat.py:1114
-msgid "Sorry, mosaic plot can be drawn only if statsmodels 0.5 or later module is installed."
-msgstr "Prepáčte, mozaikový graf môže byť vytvorený iba ak modul statsmodels 0,5 alebo vyšší je nainštalovaný."
-
-#: .././cogstat_stat.py:807
-msgid "Boxplot and individual data of the variables"
-msgstr "Krabicový graf a individuálne údaje pre premenné"
-
-#: .././cogstat_stat.py:820
+#: .././cogstat_chart.py:468
 msgid "Thickest line displays %d cases."
 msgstr "Najhrubšia čiara znázorňuje %d prípady."
 
-#: .././cogstat_stat.py:876
+#: .././cogstat_chart.py:522
 msgid "Means and 95% confidence intervals for the variables"
 msgstr "Priemer a 95% interval spoľahlivosti pre premenné"
 
-#: .././cogstat_stat.py:904
+#: .././cogstat_stat.py:550
 msgid "Paired t-test requires two variables."
 msgstr "Párový t-test vyžaduje dve premenné."
 
-#: .././cogstat_stat.py:909
+#: .././cogstat_stat.py:555
 msgid "Result of paired samples t-test"
 msgstr "Výsledok párového t-testu"
 
-#: .././cogstat_stat.py:926
+#: .././cogstat_stat.py:572
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "Párový Wilcoxonov test vyžaduje dve premenné."
 
-#: .././cogstat_stat.py:996
+#: .././cogstat_stat.py:640
 msgid "Friedman test requires at least two variables."
 msgstr "Friedmanov test vyžaduje aspoň dve premenné."
 
-#: .././cogstat_stat.py:1002
+#: .././cogstat_stat.py:646
 msgid "Result of the Friedman test: "
 msgstr "Výsledok Friedmanovho testu: "
 
-#: .././cogstat_stat.py:1060
+#: .././cogstat_stat.py:1097
 msgid "Largest individual data display %d cases."
 msgstr "Najväčšie jednotlivé dáta zobrazujú %d prípady."
 
-#: .././cogstat_stat.py:1089
+#: .././cogstat_stat.py:1125
 msgid "Boxplot and individual data of the groups"
 msgstr "Krabicový graf a jednotlivé dáta skupín"
 
-#: .././cogstat_stat.py:1106
+#: .././cogstat_chart.py:642
 msgid "Mosaic plot of the groups"
 msgstr "Mozaikový graf skupín"
 
-#: .././cogstat_stat.py:1134
+#: .././cogstat_chart.py:666
 msgid "Means and 95% confidence intervals for the groups"
 msgstr "Priemery a 95% interval spoľahlivosti pre skupiny"
 
-#: .././cogstat_stat.py:1172
+#: .././cogstat_stat.py:690
 msgid "Levene test"
 msgstr "Levenov test"
 
-#: .././cogstat_stat.py:1204
+#: .././cogstat_stat.py:722
 msgid "Difference between the two groups:"
 msgstr "Rozdiel medzi dvomi skupinami:"
 
-#: .././cogstat_stat.py:1205
+#: .././cogstat_stat.py:723
 msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr "95%% interval spoľahlivosti [%0.*f, %0.*f]"
 
-#: .././cogstat_stat.py:1206
+#: .././cogstat_stat.py:724
 msgid "Result of independent samples t-test:"
 msgstr "Výsledky t-testu nezávislých vzoriek:"
 
-#: .././cogstat_stat.py:1226
+#: .././cogstat_stat.py:754
 msgid "One of the groups should include only a single data."
 msgstr "Jedna zo skupín by mala obsahovať iba jeden údaj."
 
-#: .././cogstat_stat.py:1223
+#: .././cogstat_stat.py:751
 msgid "Result of the modified independent samples t-test:"
 msgstr "Výsledok modifikovaného t-testu pre nezávislé vzorky:"
 
-#: .././cogstat_stat.py:1262 .././cogstat_stat.py:1267
-#: .././cogstat_stat.py:1270
+#: .././cogstat_stat.py:805 .././cogstat_stat.py:810 .././cogstat_stat.py:813
 msgid "Result of independent samples Mann-Whitney rank test: "
 msgstr "Výsledok nezávislých vzoriek Mann-Whitneyho poradového testu: "
 
-#: .././cogstat_stat.py:1296
+#: .././cogstat_stat.py:839
 msgid "Result of one-way ANOVA: "
 msgstr "Výsledok jednofaktorovej ANOVA: "
 
-#: .././cogstat_stat.py:1302
+#: .././cogstat_stat.py:845
 msgid "Effect size: "
 msgstr "Veľkosť účinku: "
 
-#: .././cogstat_stat.py:1307
+#: .././cogstat_stat.py:850 .././cogstat_stat.py:947
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "Skupiny sa líšia. Post-hoc test priemerov."
 
-#: .././cogstat_stat.py:1400 .././cogstat_stat.py:1403
+#: .././cogstat_stat.py:943 .././cogstat_stat.py:954
 msgid "Result of the Kruskal-Wallis test: "
 msgstr "Výsledok Kruskal-Wallisovho testu: "
 
-#: .././cogstat_stat.py:1423
+#: .././cogstat_stat.py:973
 msgid "Cramér's V measure of association: "
 msgstr "Meranie asociácie podľa Cramér's V: "
 
-#: .././cogstat_stat.py:1426
+#: .././cogstat_stat.py:976
 msgid "Result of the Pearson's Chi-square test: "
 msgstr "Výsledok Pearsonovho Chi-kvadrát testu/testu dobrej zhody: "
 
-#: .././cogstat_gui.py:105
+#: .././cogstat_gui.py:127
 msgid "&Data"
 msgstr "&Súbor"
 
-#: .././cogstat_gui.py:106
+#: .././cogstat_gui.py:128
 msgid "&Open data file"
 msgstr "&Otvoriť súbor dát"
 
-#: .././cogstat_gui.py:106
+#: .././cogstat_gui.py:128
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: .././cogstat_gui.py:106
-msgid "Open data file (csv text file)"
-msgstr "Otvoriť súbor dát (csv text file)"
-
-#: .././cogstat_gui.py:107
+#: .././cogstat_gui.py:130
 msgid "&Paste data"
 msgstr "&Prilepiť dáta"
 
-#: .././cogstat_gui.py:107
+#: .././cogstat_gui.py:130
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: .././cogstat_gui.py:107
-msgid "Paste data from clipboard"
-msgstr "Prilepiť dáta zo schránky"
-
-#: .././cogstat_gui.py:111 .././cogstat_gui.py:143
+#: .././cogstat_gui.py:134 .././cogstat_gui.py:171
 msgid "&Display data"
 msgstr "&Zobraziť dáta"
 
-#: .././cogstat_gui.py:111
+#: .././cogstat_gui.py:134
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: .././cogstat_gui.py:111
-msgid "Print data to the output"
-msgstr "Tlačiť dáta na výstupe"
-
-#: .././cogstat_gui.py:112 .././cogstat_gui.py:143
+#: .././cogstat_gui.py:135 .././cogstat_gui.py:171
 msgid "Display data &briefly"
 msgstr "Zobraziť dáta &stručne"
 
-#: .././cogstat_gui.py:112
-msgid "Print beginning of the data to the output"
-msgstr "Tlačiť začiatok dát na výstupe"
-
-#: .././cogstat_gui.py:114
+#: .././cogstat_gui.py:137
 msgid "&Analysis"
 msgstr "&Analýza"
 
-#: .././cogstat_gui.py:115
+#: .././cogstat_gui.py:138
 msgid "Ctrl+1"
 msgstr "Ctrl+1"
 
-#: .././cogstat_gui.py:115
-msgid "Main properties of variables"
-msgstr "Hlavné vlastnosti premenných"
-
-#: .././cogstat_gui.py:116
+#: .././cogstat_gui.py:139
 msgid "Ctrl+2"
 msgstr "Ctrl+2"
 
-#: .././cogstat_gui.py:116
-msgid "Properties of variable pairs"
-msgstr "Vlastnosti párov premenných"
-
-#: .././cogstat_gui.py:118 .././cogstat_gui.py:144
+#: .././cogstat_gui.py:141 .././cogstat_gui.py:172
 msgid "Pivot &table"
 msgstr "Kontingenčná &tabuľka"
 
-#: .././cogstat_gui.py:118
-msgid "Build a pivot table"
-msgstr "Zostaviť kontingenčnú tabuľku"
-
-#: .././cogstat_gui.py:120
-msgid "Compare variables"
-msgstr "Porovnať premenné"
-
-#: .././cogstat_gui.py:121 .././cogstat_gui.py:145
+#: .././cogstat_gui.py:144 .././cogstat_gui.py:173
 msgid "Compare &groups"
 msgstr "Porovnať &skupiny"
 
-#: .././cogstat_gui.py:121 .././cogstat.py:822
+#: .././cogstat.py:877
 msgid "Compare groups"
 msgstr "Porovnať skupiny"
 
-#: .././cogstat_gui.py:123
+#: .././cogstat_gui.py:146
 msgid "&Results"
 msgstr "&Výsledky"
 
-#: .././cogstat_gui.py:124
+#: .././cogstat_gui.py:147
 msgid "&Clear results"
 msgstr "&Vymazať výsledky"
 
-#: .././cogstat_gui.py:124
+#: .././cogstat_gui.py:147
 msgid "Del"
 msgstr "Del"
 
-#: .././cogstat_gui.py:124
-msgid "Delete the output window"
-msgstr "Vymazať okno výstupu"
-
-#: .././cogstat_gui.py:126
+#: .././cogstat_gui.py:143 .././cogstat_gui_qt4.py:144
 msgid "Save results"
 msgstr "Uložiť výsledky"
 
-#: .././cogstat_gui.py:126
+#: .././cogstat_gui.py:154
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: .././cogstat_gui.py:126
-msgid "Save the output to .pdf format"
-msgstr "Uložiť výstup vo fornáte .pdf"
-
-#: .././cogstat_gui.py:127
+#: .././cogstat_gui.py:144 .././cogstat_gui_qt4.py:145
 msgid "Save results as"
 msgstr "Uložiť výsledky ako"
 
-#: .././cogstat_gui.py:127
+#: .././cogstat_gui.py:155
 msgid "Shift+Ctrl+P"
 msgstr "Shift+Ctrl+P"
 
-#: .././cogstat_gui.py:127
-msgid "Save the results"
-msgstr "Uložiť výsledky"
-
-#: .././cogstat_gui.py:129
+#: .././cogstat_gui.py:157
 msgid "&CogStat"
 msgstr "&CogStat"
 
-#: .././cogstat_gui.py:130
+#: .././cogstat_gui.py:158
 msgid "&Help"
 msgstr "&Pomoc"
 
-#: .././cogstat_gui.py:130
+#: .././cogstat_gui.py:158
 msgid "F1"
 msgstr "F1"
 
-#: .././cogstat_gui.py:130
-msgid "Read online documentation"
-msgstr "Prečítať online dokumentáciu"
-
-#: .././cogstat_gui.py:131
+#: .././cogstat_gui.py:159
 msgid "&Preferences"
 msgstr "&Predvoľby"
 
-#: .././cogstat_gui.py:131
-msgid "Set the preferences"
-msgstr "Nastaviť predvoľby"
-
-#: .././cogstat_gui.py:132
+#: .././cogstat_gui.py:160
 msgid "Request a &feature"
 msgstr "Požiadať o &funkciu"
 
-#: .././cogstat_gui.py:132
-msgid "Can't find a feature? Ask for it!"
-msgstr "Neviete nájsť funkciu? Požiadajte o ňu!"
-
-#: .././cogstat_gui.py:134
+#: .././cogstat_gui.py:162
 msgid "&Report a problem"
 msgstr "&Ohlásiť chybu"
 
-#: .././cogstat_gui.py:134
-msgid "Fill online form to report a problem"
-msgstr "Pre nahlásenie problému vyplňte online formulár"
-
-#: .././cogstat_gui.py:135
+#: .././cogstat_gui.py:163
 msgid "&Diagnosis information"
 msgstr "&Diagnostika informácií"
 
-#: .././cogstat_gui.py:135
-msgid "List the version of the components on your system"
-msgstr "Uveďte verziu komponentov vo vašom systéme"
-
-#: .././cogstat_gui.py:137
+#: .././cogstat_gui.py:165
 msgid "&About"
 msgstr "&Ohľadom"
 
-#: .././cogstat_gui.py:137
-msgid "About CogStat"
-msgstr "O CogStat"
-
-#: .././cogstat_gui.py:139
+#: .././cogstat_gui.py:167
 msgid "&Exit"
 msgstr "&Ukončiť"
 
-#: .././cogstat_gui.py:139
+#: .././cogstat_gui.py:167
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: .././cogstat_gui.py:139
-msgid "Exit CogStat"
-msgstr "Ukončiť CogStat"
-
-#: .././cogstat_gui.py:143
+#: .././cogstat_gui.py:171
 msgid "&Save data"
 msgstr "&Uložiť dáta"
 
-#: .././cogstat_gui.py:143
+#: .././cogstat_gui.py:171
 msgid "Save data &as"
 msgstr "Uložiť dáta &ako"
 
-#: .././cogstat_gui.py:144
-msgid "&Set variable properties"
-msgstr "&Nastavenia vlastností premenných"
-
-#: .././cogstat_gui.py:146
+#: .././cogstat_gui.py:174
 msgid "&Compare groups and variables"
 msgstr "&Porovnať skupiny a premenné"
 
-#: .././cogstat_gui.py:192
-msgid "Ready"
-msgstr "Pripravený"
-
-#: .././cogstat_gui.py:320
+#: .././cogstat_gui.py:362
 msgid "Import error"
 msgstr "Chyba pri importovaní"
 
-#: .././cogstat_gui.py:320
+#: .././cogstat_gui.py:362
 msgid "Data could not be loaded."
 msgstr "Dáta nemohli byť načítané."
 
-#: .././cogstat_gui.py:324
-msgid "Data loaded from clipboard: "
-msgstr "Dáta načítané zo schránky. "
-
-#: .././cogstat_gui.py:324
-msgid "Data loaded from file: "
-msgstr "Dáta načítané zo súboru: "
-
-#: .././cogstat_gui.py:325
-msgid "%s variables and %s cases."
-msgstr "%s premenných a %s prípadov."
-
-#: .././cogstat_gui.py:414 .././cogstat_gui.py:489
+#: .././cogstat_gui.py:460 .././cogstat_gui.py:535
 msgid "At least two variables should be set."
 msgstr "Aspoň dve premenné by mali byť nastavené."
 
-#: .././cogstat.py:654
+#: .././cogstat.py:710
 msgid "Pivot table"
 msgstr "Kontingenčná tabuľka"
 
-#: .././cogstat_gui.py:457
+#: .././cogstat_gui.py:503
 msgid "The dependent variable and at least one grouping variable should be given."
 msgstr "Mala by byť zadaná závislá premenná a aspoň jedna skupinová premenná."
 
-#: .././cogstat_gui.py:524
+#: .././cogstat_gui.py:570
 msgid "Both the dependent and the grouping variables should be set."
 msgstr "Mala by byť zadaná závislá aj skupinová premenná."
 
-#: .././cogstat_gui.py:542
+#: .././cogstat_gui.py:588
 msgid "Clear output"
 msgstr "Vymazať výstup"
 
-#: .././cogstat_gui.py:543
+#: .././cogstat_gui.py:589
 msgid "Are you sure you want to delete the output?"
 msgstr "Ste si istý, že chcete vymazať výstup?"
 
-#: .././cogstat_gui.py:598
+#: .././cogstat_gui.py:648
 msgid "About CogStat "
 msgstr "Ohľadom CogStat "
 
-#: .././cogstat_gui.py:608
+#: .././cogstat_gui.py:658
 msgid "System components"
 msgstr "Systémové zložky"
 
-#: .././cogstat_gui.py:620
+#: .././cogstat_gui.py:670
 msgid "Save output"
 msgstr "Uložiť výstup"
 
-#: .././cogstat_gui.py:621
+#: .././cogstat_gui.py:671
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr "Výstup obsahuje neuložené výsledky. Chcete ich uložiť?"
 
-#: .././cogstat.py:164
-msgid "The measurement level was not set for all variables. You might consider fixing this in your data source."
-msgstr "Úroveň merania nebola nastavená pre všetky premenné. Mali by ste to opraviť vo vašom zdroji dát."
-
-#: .././cogstat.py:158
-msgid "String variables cannot be interval or ordinal variables. Those variables are automatically set to nominal: "
-msgstr "Reťazec premenných nemôže obsahovať intervalové alebo ordinálne premenné. Tieto premenné sú automaticky nastavené na nominálnu hodnotu: "
-
-#: .././cogstat.py:160
-msgid "You might consider fixing this in your source table."
-msgstr "Mali by ste to opraviť vo vašej zdrojovej tabuľke."
-
-#: .././cogstat.py:255
+#: .././cogstat.py:306
 msgid "Data"
 msgstr "Dáta"
 
-#: .././cogstat.py:256
+#: .././cogstat.py:307
 msgid "Source: "
 msgstr "Zdroj: "
 
-#: .././cogstat.py:257
+#: .././cogstat.py:308
 msgid " variables and "
 msgstr " premenné a "
 
-#: .././cogstat.py:258
+#: .././cogstat.py:309
 msgid " cases"
 msgstr " prípady"
 
-#: .././cogstat.py:270
+#: .././cogstat.py:320
 msgid " further cases are not displayed..."
 msgstr " ďalšie prípady nie sú zobrazené..."
 
-#: .././cogstat.py:272
+#: .././cogstat.py:322
 msgid "You probably would not want to print the next %s cases..."
 msgstr "Pravdepodobne nechcete tlačiť následujúcich %s prípadov..."
 
-#: .././cogstat.py:490 .././cogstat.py:930 .././cogstat.py:977
-#: .././cogstat.py:1108
+#: .././cogstat.py:543 .././cogstat.py:983 .././cogstat.py:1030
+#: .././cogstat.py:1166
 msgid "Interval variable."
 msgstr "Intervalová premenná."
 
-#: .././cogstat.py:520 .././cogstat.py:965 .././cogstat.py:1012
-#: .././cogstat.py:1113
+#: .././cogstat.py:573 .././cogstat.py:1018 .././cogstat.py:1068
+#: .././cogstat.py:1171
 msgid "Ordinal variable."
 msgstr "Ordinálna premenná."
 
-#: .././cogstat.py:416
+#: .././cogstat.py:469
 msgid "Explore variable"
 msgstr "Preskúmať premennú"
 
-#: .././cogstat.py:417
+#: .././cogstat.py:470
 msgid "Exploring variable: "
 msgstr "Skúmam premennú: "
 
-#: .././cogstat.py:432
+#: .././cogstat.py:485
 msgid "Frequencies"
 msgstr "Frekvencie"
 
-#: .././cogstat.py:436
-msgid "Distribution"
-msgstr "Rozloženie"
-
-#: .././cogstat.py:457
+#: .././cogstat.py:510
 msgid "Normality"
 msgstr "Normalita"
 
-#: .././cogstat.py:546
+#: .././cogstat.py:599
 msgid "Exploring variable pair: "
 msgstr "Skúmam dvojicu premenných: "
 
-#: .././cogstat.py:579 .././cogstat.py:742 .././cogstat.py:775
+#: .././cogstat.py:634 .././cogstat.py:795 .././cogstat.py:828
 msgid "Interval variables."
 msgstr "Intervalové premenné."
 
-#: .././cogstat.py:580
+#: .././cogstat.py:635
 msgid "Running Pearson's and Spearman's correlation."
 msgstr "Prebieha Pearsonova a Spearmanova korelácia."
 
-#: .././cogstat.py:584 .././cogstat.py:585 .././cogstat.py:586
+#: .././cogstat.py:639 .././cogstat.py:640 .././cogstat.py:641
 msgid "Pearson's correlation"
 msgstr "Pearsonova korelácia"
 
-#: .././cogstat.py:592
+#: .././cogstat.py:647
 msgid "Linear regression"
 msgstr "Lineárna regresia"
 
-#: .././cogstat.py:596 .././cogstat.py:597 .././cogstat.py:601
-#: .././cogstat.py:612 .././cogstat.py:613 .././cogstat.py:616
+#: .././cogstat.py:651 .././cogstat.py:652 .././cogstat.py:656
+#: .././cogstat.py:667 .././cogstat.py:668 .././cogstat.py:671
 msgid "Spearman's rank-order correlation"
 msgstr "Spearmanova poradová korelácia"
 
-#: .././cogstat.py:607 .././cogstat.py:762 .././cogstat.py:798
+#: .././cogstat.py:662 .././cogstat.py:815 .././cogstat.py:851
 msgid "Ordinal variables."
 msgstr "Ordinálne premenné."
 
-#: .././cogstat.py:607
+#: .././cogstat.py:662
 msgid "Running Spearman's correlation."
 msgstr "Prebieha Spearmanova korelácia."
 
-#: .././cogstat.py:623
+#: .././cogstat.py:678
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr "Nie všetky premenné sú nominálne. Zvážte porovnanie skupín."
 
-#: .././cogstat.py:624
+#: .././cogstat.py:679
 msgid "Nominal variables."
 msgstr "Nominálne premenné."
 
-#: .././cogstat.py:624
+#: .././cogstat.py:679
 msgid "Running Cramér's V."
 msgstr "Prebieha Cramér V."
 
-#: .././cogstat.py:667
+#: .././cogstat.py:723
 msgid "Variables to compare: "
 msgstr "Porovnanie premenných: "
 
-#: .././cogstat.py:675
+#: .././cogstat.py:731
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
 msgstr "Prepáčte, ale nemôžete porovnávať premenné s rozdielnou úrovňou merania. Môžete znížiť úroveň vyšších na nižšie, aby ste dosiahli rovnakú úroveň merania."
 
-#: .././cogstat.py:737
+#: .././cogstat.py:790
 msgid "At least two variables required."
 msgstr "Potrebné sú aspoň dve premenné."
 
-#: .././cogstat.py:739
+#: .././cogstat.py:792
 msgid "Two variables. "
 msgstr "Dve premenné. "
 
-#: .././cogstat.py:494 .././cogstat.py:744 .././cogstat.py:779
-#: .././cogstat.py:914 .././cogstat.py:933 .././cogstat.py:981
+#: .././cogstat.py:547 .././cogstat.py:797 .././cogstat.py:832
+#: .././cogstat.py:967 .././cogstat.py:986 .././cogstat.py:1034
 msgid "Checking for normality."
 msgstr "Overovanie normality."
 
-#: .././cogstat.py:921
+#: .././cogstat.py:974
 msgid "Normality is violated in variable "
 msgstr "Normalita pre premennú je porušená "
 
-#: .././cogstat.py:755
+#: .././cogstat.py:808
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "Normalita nie je porušená. >> Prebieha párový t-test."
 
-#: .././cogstat.py:759 .././cogstat.py:762
+#: .././cogstat.py:812 .././cogstat.py:815
 msgid "Running paired Wilcoxon test."
 msgstr "Prebieha párový Wilcoxonov test."
 
-#: .././cogstat.py:526 .././cogstat.py:771 .././cogstat.py:807
-#: .././cogstat.py:1114 .././cogstat.py:1117
+#: .././cogstat.py:579 .././cogstat.py:824 .././cogstat.py:860
+#: .././cogstat.py:1172 .././cogstat.py:1175
 msgid "Sorry, not implemented yet."
 msgstr "Prepáčte, ešte nie je implementovaný."
 
-#: .././cogstat.py:773
+#: .././cogstat.py:826
 msgid "More than two variables. "
 msgstr "Viac ako dve premenné. "
 
-#: .././cogstat.py:795 .././cogstat.py:798
+#: .././cogstat.py:848 .././cogstat.py:851
 msgid "Running Friedman test."
 msgstr "Prebieha Friedmanov test."
 
-#: .././cogstat_stat.py:165 .././cogstat.py:825
+#: .././cogstat_stat.py:133 .././cogstat.py:880
 msgid "Dependent variable: "
 msgstr "Závislé premenné: "
 
-#: .././cogstat.py:826
+#: .././cogstat.py:881
 msgid "Group(s): "
 msgstr "Skupina(y): "
 
-#: .././cogstat.py:902
+#: .././cogstat.py:955
 msgid "One grouping variable. "
 msgstr "Skupinová premenná. "
 
-#: .././cogstat.py:904
+#: .././cogstat.py:957
 msgid "There is only one group. At least two groups required."
 msgstr "Existuje iba jedna skupina. Potrebné sú aspoň dve skupiny."
 
-#: .././cogstat.py:908
+#: .././cogstat.py:961
 msgid "Two groups. "
 msgstr "Dve skupiny. "
 
-#: .././cogstat.py:912
+#: .././cogstat.py:965
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr "Jedna skupina obsahuje iba jeden prípad. >> Vyberte modifikovaný t-test."
 
-#: .././cogstat.py:922
+#: .././cogstat.py:975
 msgid "group "
 msgstr "skupina "
 
-#: .././cogstat.py:923 .././cogstat.py:957 .././cogstat.py:965
+#: .././cogstat.py:976 .././cogstat.py:1010 .././cogstat.py:1018
 msgid "Running Mann-Whitney test."
 msgstr "Prebieha Mann-Whitneyho test."
 
-#: .././cogstat.py:926
+#: .././cogstat.py:979
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "Normalita nieje porušená. >> Prebieha modifikovaný t-test."
 
-#: .././cogstat.py:968 .././cogstat.py:1016 .././cogstat.py:1116
+#: .././cogstat.py:1021 .././cogstat.py:1072 .././cogstat.py:1174
 msgid "Nominal variable."
 msgstr "Nominálne premenné."
 
-#: .././cogstat.py:968 .././cogstat.py:1016
+#: .././cogstat.py:1021 .././cogstat.py:1072
 msgid "Running Chi-square test."
 msgstr "Prebieha Chi-kvadrát test."
 
-#: .././cogstat.py:975
+#: .././cogstat.py:1028
 msgid "More than two groups."
 msgstr "Viac než dve skupiny."
 
-#: .././cogstat.py:1008 .././cogstat.py:1012
+#: .././cogstat.py:1064 .././cogstat.py:1068
 msgid "Running Kruskal-Wallis test."
 msgstr "Prebieha Kruskal-Wallisov test."
 
-#: .././cogstat.py:1120
+#: .././cogstat.py:1178
 msgid "Several grouping variables."
 msgstr "Viacero skupinových premenných."
 
-#: .././cogstat_dialogs.py:16
+#: .././cogstat_dialogs.py:19 .././cogstat_dialogs.py:23
 msgid "Open data file"
 msgstr "Otvoriť súbor dát"
 
-#: .././cogstat_dialogs.py:20
+#: .././cogstat_dialogs.py:27
 msgid "Save result file"
 msgstr "Uložiť súbor výsledkov"
 
-#: .././cogstat_gui.py:115 .././cogstat_gui.py:144
+#: .././cogstat_gui.py:138 .././cogstat_gui.py:172
 msgid "&Explore variable"
 msgstr "&Preskúmať premenné"
 
-#: .././cogstat_gui.py:319 .././cogstat.py:231
+#: .././cogstat_gui.py:361 .././cogstat.py:251
 msgid "Import failed"
 msgstr "Import zlyhal"
 
-#: .././cogstat_stat.py:336 .././cogstat_stat.py:338
+#: .././cogstat_stat.py:268 .././cogstat_stat.py:270
 msgid "Freq"
 msgstr "Freq"
 
-#: .././cogstat_stat.py:336 .././cogstat_stat.py:338 .././cogstat_stat.py:340
+#: .././cogstat_stat.py:268 .././cogstat_stat.py:270 .././cogstat_stat.py:272
 msgid "Rel freq"
 msgstr "Rel freq"
 
-#: .././cogstat_stat.py:338
+#: .././cogstat_stat.py:270
 msgid "Cum freq"
 msgstr "Cum freq"
 
-#: .././cogstat_stat.py:338 .././cogstat_stat.py:340
+#: .././cogstat_stat.py:270 .././cogstat_stat.py:272
 msgid "Cum rel freq"
 msgstr "Cum rel freq"
 
-#: .././cogstat_stat.py:1425
+#: .././cogstat_stat.py:975
 msgid "Cramér's V measure of association cannot be computed (division by zero)."
 msgstr "Meranie asociácie podľa Cramér's V nemožno vypočítať (delenie nulou)."
 
-#: .././cogstat.py:127 .././cogstat.py:135
+#: .././cogstat.py:137 .././cogstat.py:145
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
 msgstr "Počet úrovní merania nezodpovedá počtu premenných. Špecifikácia úrovne merania je ignorovaná."
 
-#: .././cogstat.py:171
+#: .././cogstat.py:187
 msgid "pandas dataframe"
 msgstr "dátový rámec pandas"
 
-#: .././cogstat.py:194
+#: .././cogstat.py:213
 msgid "text file - "
 msgstr "textový dokument - "
 
-#: .././cogstat.py:228
+#: .././cogstat.py:248
 msgid "clipboard"
 msgstr "schránka"
 
-#: .././cogstat.py:266
+#: .././cogstat.py:317
 msgid "Type"
 msgstr "Písať"
 
-#: .././cogstat.py:266
+#: .././cogstat.py:317
 msgid "Level"
 msgstr "Úroveň"
 
-#: .././cogstat.py:286
+#: .././cogstat.py:336
 msgid "Filtering"
 msgstr "Filtrovanie"
 
-#: .././cogstat.py:290
+#: .././cogstat.py:340
 msgid "Filtering is switched off."
 msgstr "Filtrovanie je vypnuté."
 
-#: .././cogstat.py:302
+#: .././cogstat.py:352
 msgid "Filtering based on %s.\n"
 ""
 msgstr "Filtrovanie podľa %s."
 
-#: .././cogstat.py:302 .././cogstat.py:319
+#: .././cogstat.py:352 .././cogstat.py:368
 msgid " (2 SD)"
 msgstr " (2 SD)"
 
-#: .././cogstat.py:304
+#: .././cogstat.py:354
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
 msgstr "Prípady mimo rozsahu budú vylúčené:  %0.*f  --  %0.*f"
 
-#: .././cogstat.py:311
+#: .././cogstat.py:361
 msgid "The following cases will be excluded: "
 msgstr "Nasledujúce prípady budú vylúčené: "
 
-#: .././cogstat.py:315
+#: .././cogstat.py:364
 msgid "No cases were excluded."
 msgstr "Žiadne prípady neboli vylúčené."
 
-#: .././cogstat.py:942 .././cogstat.py:990
+#: .././cogstat.py:995 .././cogstat.py:1043
 msgid "Checking for homogeneity of variance across groups."
 msgstr "Kontrola homogenity rozptylu v rámci skupín."
 
-#: .././cogstat_gui.py:36
+#: .././cogstat_gui.py:51
 msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
 msgstr "%s Oops, niečo sa pokazilo, CogStat nemohol spustiť analýzu. Mali by ste to nahlásiť."
 
-#: .././cogstat_gui.py:389
+#: .././cogstat_gui.py:435
 msgid "Explore variable."
 msgstr "Preskúmať premennú."
 
-#: .././cogstat_gui.py:414 .././cogstat_gui.py:430
+#: .././cogstat_gui.py:460 .././cogstat_gui.py:476
 msgid "Explore variable pair."
 msgstr "Preskúmať dvojicu premenných."
 
-#: .././cogstat_gui.py:457 .././cogstat_gui.py:462
+#: .././cogstat_gui.py:503 .././cogstat_gui.py:508
 msgid "Pivot table."
 msgstr "Kontingenčná tabuľka."
 
-#: .././cogstat_gui.py:489 .././cogstat_gui.py:497
+#: .././cogstat_gui.py:535 .././cogstat_gui.py:543
 msgid "Compare variables."
 msgstr "Porovnať premenné."
 
-#: .././cogstat_gui.py:524 .././cogstat_gui.py:535
+#: .././cogstat_gui.py:570 .././cogstat_gui.py:581
 msgid "Compare groups."
 msgstr "Porovnať skupiny."
 
-#: .././cogstat_stat.py:458
+#: .././cogstat_stat.py:315
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
 msgstr "Normalita nemôže byť overená pre konštantnú premennú v %s%s."
 
-#: .././cogstat_stat.py:472
+#: .././cogstat_stat.py:329
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
 msgstr "Príliš malá vzorka na testovanie normality pre premennú %s%s."
 
-#: .././cogstat_stat.py:939
+#: .././cogstat_stat.py:585
 msgid "Result of the McNemar test"
 msgstr "Výsledok McNemarovho testu"
 
-#: .././cogstat_stat.py:945
+#: .././cogstat_stat.py:591
 msgid "Result of Cochran's Q test"
 msgstr "Výsledok Cochranovho Q testu"
 
-#: .././cogstat_stat.py:952
+#: .././cogstat_stat.py:598
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "Výsledok Mauchlyho testu pre kontrolu sféricity"
 
-#: .././cogstat_stat.py:956
+#: .././cogstat_stat.py:602
 msgid "Sphericity is violated."
 msgstr "Sféricita je porušená"
 
-#: .././cogstat_stat.py:957
+#: .././cogstat_stat.py:603
 msgid "Using Greenhouse-Geisser correction."
 msgstr "Použitie Greenhouse-Geisserovej korekcie."
 
-#: .././cogstat_stat.py:958 .././cogstat_stat.py:963
+#: .././cogstat_stat.py:604 .././cogstat_stat.py:609
 msgid "Result of repeated measures ANOVA"
 msgstr "Výsledok opakovaného merania ANOVA"
 
-#: .././cogstat_stat.py:962
+#: .././cogstat_stat.py:608
 msgid "Sphericity is not violated. "
 msgstr "Sféricita nie je porušená. "
 
-#: .././cogstat_stat.py:969
+#: .././cogstat_stat.py:615
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
 msgstr "Párové porovnanie premenných pomocou Holm-Bonferroniho korekcie:"
 
-#: .././cogstat_stat.py:1246
+#: .././cogstat_stat.py:789
 msgid "Result of Welch's unequal variances t-test:"
 msgstr "Výsledok Welchovho t-testu pre nezhodné rozptyly:"
 
-#: .././cogstat.py:742
+#: .././cogstat.py:795
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "Výber párového t-testu alebo párového Wilcoxonovho testu na základe predpokladov."
 
-#: .././cogstat.py:758 .././cogstat.py:794
+#: .././cogstat.py:811 .././cogstat.py:847
 msgid "Normality is violated in variable(s): %s."
 msgstr "Normalita je porušená v premennej(ých): %s."
 
-#: .././cogstat.py:766 .././cogstat.py:802
+#: .././cogstat.py:819 .././cogstat.py:855
 msgid "Nominal dichotomous variables."
 msgstr "Nominálne dichotomické premenné."
 
-#: .././cogstat.py:766
+#: .././cogstat.py:819
 msgid "Running McNemar test."
 msgstr "Prebieha McNemarov test."
 
-#: .././cogstat.py:770 .././cogstat.py:806
+#: .././cogstat.py:823 .././cogstat.py:859
 msgid "Nominal non dichotomous variables."
 msgstr "Nominálne non-dichotomické premenné."
 
-#: .././cogstat.py:776
+#: .././cogstat.py:829
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "Výber opakovanej ANOVA alebo Friedmanovho testu na základe predpokladov. "
 
-#: .././cogstat.py:802
+#: .././cogstat.py:855
 msgid "Running Cochran's Q test."
 msgstr "Prebieha Cochranov Q test."
 
-#: .././cogstat.py:931
+#: .././cogstat.py:984
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
 msgstr "Výber dvoj-výberového t-testu, Mann-Whitneyho testu alebo Welchovho t-testu na základe predpokladov."
 
-#: .././cogstat.py:955
+#: .././cogstat.py:1008
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "Normalita je porušená v premennej %s, skupine(ách) %s."
 
-#: .././cogstat.py:960
+#: .././cogstat.py:1013
 msgid "Homeogeneity of variance violated in variable %s."
 msgstr "Homogenita rozptylu je porušená v premennej %s."
 
-#: .././cogstat.py:961
+#: .././cogstat.py:1014
 msgid "Running Welch's t-test."
 msgstr "Prebieha Welchov t-test."
 
-#: .././cogstat.py:978
+#: .././cogstat.py:1031
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
 msgstr "Výber jednofaktorovej ANOVA alebo Kruskal-Wallisovho testu na základe predpokladov."
 
-#: .././cogstat.py:1003
+#: .././cogstat.py:1059
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr "Normalita je porušená v premennej %s, skupine(ách) %s. "
 
-#: .././cogstat.py:1006
+#: .././cogstat.py:1062
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr "Homogenita rozptylu je porušená v premennej %s. "
 
-#: .././cogstat.py:499 .././cogstat.py:790
+#: .././cogstat.py:552 .././cogstat.py:843
 msgid "Normality is not violated."
 msgstr "Normalita nie je porušená."
 
-#: .././cogstat.py:791
+#: .././cogstat.py:844
 msgid "Running repeated measures one-way ANOVA."
 msgstr "Prebiehajú opakované merania pre jednofaktorovú ANOVA."
 
-#: .././cogstat_gui.py:112
+#: .././cogstat_gui.py:135
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: .././cogstat_gui.py:333
+#: .././cogstat_gui.py:377
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
 msgstr "Otvoriť súbor. Oops, niečo sa pokazilo, CogStat nemohol otvoriť súbor. Problém môžete nahlásiť."
 
-#: .././cogstat_stat.py:258
+#: .././cogstat_stat.py:225
 msgid "N of missing cases: %g"
 msgstr "N chýbajúcich prípadov: %g"
 
-#: .././cogstat_stat.py:274 .././cogstat_stat.py:398 .././cogstat_stat.py:758
-#: .././cogstat_stat.py:759 .././cogstat_stat.py:1068
+#: .././cogstat_chart.py:142 .././cogstat_chart.py:227
+#: .././cogstat_chart.py:401 .././cogstat_chart.py:402
+#: .././cogstat_chart.py:606
 msgid "Rank of %s"
 msgstr "Hodnosť %s"
 
-#: .././cogstat_stat.py:601 .././cogstat_stat.py:930
+#: .././cogstat_stat.py:412 .././cogstat_stat.py:576
 msgid "Result of Wilcoxon signed-rank test"
 msgstr "Výsledok Wilcoxonovho párového testu"
 
-#: .././cogstat_stat.py:276 .././cogstat.py:422 .././cogstat.py:552
-#: .././cogstat.py:682 .././cogstat.py:837 .././cogstat.py:1024
+#: .././cogstat_chart.py:144 .././cogstat.py:475 .././cogstat.py:605
+#: .././cogstat.py:738 .././cogstat.py:892 .././cogstat.py:1080
 msgid "Raw data"
 msgstr "Nespracované dáta"
 
-#: .././cogstat.py:428 .././cogstat.py:567 .././cogstat.py:706
-#: .././cogstat.py:874 .././cogstat.py:1075
+#: .././cogstat.py:481 .././cogstat.py:621 .././cogstat.py:758
+#: .././cogstat.py:923 .././cogstat.py:1131
 msgid "Sample properties"
 msgstr "Vlastnosti vzorky"
 
-#: .././cogstat.py:442
-msgid "Descriptive statistics"
-msgstr "Opisná štatistika"
-
-#: .././cogstat.py:474
+#: .././cogstat.py:527
 msgid "Population parameter estimations and tests"
 msgstr "Odhady a testy populačných parametrov"
 
-#: .././cogstat.py:481 .././cogstat.py:577 .././cogstat.py:605
-#: .././cogstat.py:620
+#: .././cogstat.py:534 .././cogstat.py:632 .././cogstat.py:660
+#: .././cogstat.py:675
 msgid "Hypothesis test: "
 msgstr "Testovanie hypotéz: "
 
-#: .././cogstat.py:483
+#: .././cogstat.py:536
 msgid "Testing if mean deviates from the value %s."
 msgstr "Testovanie odchýlky priemeru od hodnoty %s."
 
-#: .././cogstat.py:485
+#: .././cogstat.py:538
 msgid "Testing if median deviates from the value %s."
 msgstr "Testovanie odchýlky mediánu od hodnoty %s."
 
-#: .././cogstat.py:492
+#: .././cogstat.py:545
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
 msgstr "Výber jednofaktorového t-testu alebo Wilcoxonovho párového testu na základe predpokladu."
 
-#: .././cogstat.py:500
+#: .././cogstat.py:553
 msgid "Running one-sample t-test."
 msgstr "Prebieha jednofaktorový t-test."
 
-#: .././cogstat.py:513
+#: .././cogstat.py:566
 msgid "Normality is violated."
 msgstr "Normalita je porušená."
 
-#: .././cogstat.py:514 .././cogstat.py:521
+#: .././cogstat.py:567 .././cogstat.py:574
 msgid "Running Wilcoxon signed-rank test."
 msgstr "Prebieha Wilcoxonov párový test."
 
-#: .././cogstat.py:453 .././cogstat.py:570 .././cogstat.py:726
-#: .././cogstat.py:892 .././cogstat.py:1095
+#: .././cogstat.py:506 .././cogstat.py:625 .././cogstat.py:774
+#: .././cogstat.py:941 .././cogstat.py:1151
 msgid "Population properties"
 msgstr "Vlastnosti populácie"
 
-#: .././cogstat.py:577 .././cogstat.py:605
+#: .././cogstat.py:632 .././cogstat.py:660
 msgid "Testing if correlation differs from 0."
 msgstr "Testovanie, či korelácia je iná ako 0."
 
-#: .././cogstat.py:620
+#: .././cogstat.py:675
 msgid "Testing if variables are independent."
 msgstr "Testovanie, či premenné sú nezávislé."
 
-#: .././cogstat.py:728 .././cogstat.py:894 .././cogstat.py:1097
+#: .././cogstat.py:781 .././cogstat.py:947 .././cogstat.py:1155
 msgid "Hypothesis testing: "
 msgstr "Testovanie hypotéz: "
 
-#: .././cogstat.py:730 .././cogstat.py:896 .././cogstat.py:1099
+#: .././cogstat.py:783 .././cogstat.py:949 .././cogstat.py:1157
 msgid "Testing if the means are the same."
 msgstr "Testovanie, či priemery sú rovnaké."
 
-#: .././cogstat.py:732 .././cogstat.py:898 .././cogstat.py:1101
+#: .././cogstat.py:785 .././cogstat.py:951 .././cogstat.py:1159
 msgid "Testing if the medians are the same."
 msgstr "Testovanie, či mediány sú rovnaké."
 
-#: .././cogstat.py:734 .././cogstat.py:900 .././cogstat.py:1103
+#: .././cogstat.py:787 .././cogstat.py:953 .././cogstat.py:1161
 msgid "Testing if the distributions are the same."
 msgstr "Testovanie, či rozloženie je rovnaké."
 
-#: .././cogstat.py:951
+#: .././cogstat.py:1004
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
 msgstr "Normalita a homogenita rozptylu nie sú porušené. >> Prebieha párový t-test."
 
-#: .././cogstat.py:999
+#: .././cogstat.py:1052
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
 msgstr "Normalita a homogenita rozptylu nie sú porušené. >> Prebieha jednofaktorová ANOVA."
 
-#: .././cogstat_gui.py:598
+#: .././cogstat_gui.py:648
 msgid "Simple automatic data analysis software"
 msgstr "Jednoduchý program na automatickú analýzu dát"
 
-#: .././cogstat_gui.py:598
+#: .././cogstat_gui.py:648
 msgid "Visit CogStat website"
 msgstr "Navštíviť CogStat webstránku"
 
-#: .././cogstat_gui.py:173
+#: .././cogstat_gui.py:201
 msgid "Welcome to CogStat!"
 msgstr "Vitajte v CogStat!"
 
-#: .././cogstat_gui.py:173
+#: .././cogstat_gui.py:201
 msgid "CogStat makes statistical analysis more simple and efficient."
 msgstr "CogStat robí štatistickú analýzu jednoduchšou a efektívnejšou."
 
-#: .././cogstat_gui.py:174
+#: .././cogstat_gui.py:202
 msgid "To start working open a data file or paste your data from a spreadsheet."
 msgstr "Ak chcete začať pracovať, otvorte dátový súbor alebo prilepte svoje údaje z tabuľkového procesoru."
 
-#: .././cogstat_gui.py:175
-msgid "Find more information about CogStat on its <a href = \"http://www.cogstat.org\">webpage</a>."
-msgstr "Viac informácií o CogStat nájdete na <a href = \"http://www.cogstat.org\">webpage</a>."
-
-#: .././cogstat_stat.py:273
+#: .././cogstat_chart.py:141
 msgid "Rank of the raw data"
 msgstr "Zoradiť nespracované dáta"
 
-#: .././cogstat_stat.py:386
+#: .././cogstat_chart.py:212
 msgid "Histogram of rank data with individual data and boxplot"
 msgstr "Histogram hodnosti dát s jednotlivými údajmi a krabicový graf"
 
-#: .././cogstat_stat.py:757
+#: .././cogstat_chart.py:400
 msgid "Scatterplot of the rank of the variables"
 msgstr "Korelačný diagram hodnosti premenných"
 
-#: .././cogstat_stat.py:805
+#: .././cogstat_chart.py:450
 msgid "Individual data of the variables"
 msgstr "Jednotlivé údaje premenných"
 
-#: .././cogstat_stat.py:1070
+#: .././cogstat_chart.py:608
 msgid "Individual data of the rank data of the groups"
 msgstr "Jednotlivé údaje hodnosti dát v skupínách"
 
-#: .././cogstat_stat.py:1072
+#: .././cogstat_stat.py:1109
 msgid "Boxplot and individual data of the rank data of the groups"
 msgstr "Krabicový graf a jednotlivé údaje o hodnosti dát v skupinách"
 
-#: .././cogstat_stat.py:1087
+#: .././cogstat_chart.py:624
 msgid "Individual data of the groups"
 msgstr "Jednotlivé údaje skupín"
 
-#: .././cogstat.py:501 .././cogstat.py:502 .././cogstat.py:571
+#: .././cogstat_stat.py:530 .././cogstat_stat.py:664 .././cogstat.py:554
+#: .././cogstat.py:555 .././cogstat.py:626
 msgid "Point estimation"
 msgstr "Bodový odhad"
 
-#: .././cogstat.py:501 .././cogstat.py:505 .././cogstat.py:571
+#: .././cogstat.py:554 .././cogstat.py:558 .././cogstat.py:626
 msgid "95% confidence interval"
 msgstr "95% interval spoľahlivosti"
 
-#: .././cogstat_stat.py:628 .././cogstat.py:506
+#: .././cogstat_stat.py:433 .././cogstat.py:559
 msgid "Standard deviation"
 msgstr "Štandardná odchýlka"
 
-#: .././cogstat_stat.py:464
-msgid "Minimum and maximum"
-msgstr "Minimum a maximum"
-
-#: .././cogstat.py:688 .././cogstat.py:843 .././cogstat.py:1036
+#: .././cogstat.py:744 .././cogstat.py:898 .././cogstat.py:1097
 msgid "N of valid cases"
 msgstr "N platných prípadov"
 
-#: .././cogstat_gui.py:89
+#: .././cogstat_gui.py:109
 msgid "Update available"
 msgstr "Aktualizácia je k dispozícií"
 
-#: .././cogstat_gui.py:90
+#: .././cogstat_gui.py:110
 msgid "New version is available."
 msgstr "Je k dispozícií nová verzia."
 
-#: .././cogstat_gui.py:91
+#: .././cogstat_gui.py:111
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
 msgstr "Novú verziu<br>si môžete stiahnuť na <a href = \"%s\">CogStat download page</a>."
 
-#: .././cogstat_gui.py:116 .././cogstat_gui.py:145
+#: .././cogstat_gui.py:139 .././cogstat_gui.py:173
 msgid "Explore relation of variable &pair"
 msgstr "Preskúmať vzťah &dvojice premenných"
 
-#: .././cogstat_gui.py:120 .././cogstat_gui.py:145
+#: .././cogstat_gui.py:143 .././cogstat_gui.py:173
 msgid "Compare repeated measures va&riables"
 msgstr "Porovnať opakované merania &premenných"
 
-#: .././cogstat_stat.py:628
+#: .././cogstat_stat.py:433
 msgid "Minimum"
 msgstr "Minimum"
 
-#: .././cogstat_stat.py:629
+#: .././cogstat_stat.py:434
 msgid "Maximum"
 msgstr "Maximum"
 
-#: .././cogstat_stat.py:629
+#: .././cogstat_stat.py:434
 msgid "Upper quartile"
 msgstr "Horný kvartil"
 
-#: .././cogstat_stat.py:647
+#: .././cogstat_stat.py:452
 msgid "Descriptives for the variables"
 msgstr "Popisy premenných"
 
-#: .././cogstat_stat.py:663
+#: .././cogstat_stat.py:466
 msgid "Descriptives for the groups"
 msgstr "Popisy skupín"
 
-#: .././cogstat_stat.py:765
+#: .././cogstat_stat.py:512
 msgid "Contingency table"
 msgstr "Kontingenčná tabuľka"
 
-#: .././cogstat_stat.py:1345
+#: .././cogstat_stat.py:888
 msgid "Result of two-way ANOVA:\n"
 ""
 msgstr "Výsledok dvojfaktorovej ANOVA:"
 
-#: .././cogstat_stat.py:1348
+#: .././cogstat_stat.py:891
 msgid "Main effect of %s: "
 msgstr "Hlavný vplyv %s: "
 
-#: .././cogstat_stat.py:1352
+#: .././cogstat_stat.py:895
 msgid "Interaction of %s and %s: "
 msgstr "Interakcia %s a %s: "
 
-#: .././cogstat_stat.py:1429
+#: .././cogstat_stat.py:979
 msgid "Sorry, at least SciPy 0.10 is required to calculate Cramér's V or Chi-Square test."
 msgstr "Prepáčte, je potrebné aspoň SciPy 0.10 na výpočet testu Craméra V alebo Chi-Square."
 
-#: .././cogstat.py:209
+#: .././cogstat.py:228
 msgid "SPSS file - "
 msgstr "Súbor SPSS - "
 
-#: .././cogstat.py:545
+#: .././cogstat.py:598
 msgid "Explore relation of variable pair"
 msgstr "Preskúmať vzťah párových premenných"
 
-#: .././cogstat.py:665
+#: .././cogstat.py:721
 msgid "Compare repeated measures variables"
 msgstr "Porovnať opakované merania premenných"
 
-#: .././cogstat.py:689 .././cogstat.py:844 .././cogstat.py:1039
+#: .././cogstat.py:745 .././cogstat.py:899 .././cogstat.py:1100
 msgid "N of missing cases"
 msgstr "N chýbajúcich prípadov"
 
-#: .././cogstat.py:1105
+#: .././cogstat.py:1163
 msgid "Two grouping variables. "
 msgstr "Dve skupinové premenné. "
 
-#: .././cogstat.py:1109
+#: .././cogstat.py:1167
 msgid "Choosing factorial ANOVA."
 msgstr "Výber faktorovej ANOVA."
 
-#: .././cogstat.py:558
+#: .././cogstat.py:611
 msgid "N of valid pairs"
 msgstr "N platných párov"
 
-#: .././cogstat.py:559
+#: .././cogstat.py:612
 msgid "N of missing pairs"
 msgstr "N chýbajúcich párov"
 
-#: .././cogstat.py:854
+#: .././cogstat.py:908
 msgid "N of missing group cases"
 msgstr "N chýbajúcich skupín prípadov"
 
-#: .././cogstat.py:1055
+#: .././cogstat.py:1115
 msgid "N of missing grouping variable in %s"
 msgstr "N chýbajúcich skupinových prememnných v %s"
 
-#: .././cogstat_stat.py:630
+#: .././cogstat_stat.py:435
 msgid "Skewness"
 msgstr "Šikmosť"
 
-#: .././cogstat_stat.py:630
+#: .././cogstat_stat.py:435
 msgid "Kurtosis"
 msgstr "Špicatosť"
 
-#: .././cogstat_stat.py:630
+#: .././cogstat_stat.py:435
 msgid "Range"
 msgstr "Rozsah"
 
-#: .././cogstat_stat.py:647
+#: .././cogstat_stat.py:452
 msgid "Descriptives for the variable"
 msgstr "Popisy premenných"
 
-#: .././cogstat.py:40
+#: .././cogstat.py:49
 msgid "The measurement levels of the variables are not set. Set them in your data source."
 msgstr "Nie sú nastavené merania úrovní premenných. Nastavte ich vo vašom zdroji dát."
+
+#: .././cogstat_gui.py:52 .././cogstat_gui.py:378
+msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
+msgstr "Čítať viac ako nahlásiť problém <a href = \"%s\">here</a>."
+
+#: .././cogstat_gui.py:203
+msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+msgstr "Nájdi viac informácií o CogStat na <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+
+#: .././cogstat_stat.py:58 .././cogstat.py:50 .././cogstat.py:171
+#: .././cogstat.py:179 .././cogstat.py:284 .././cogstat.py:292
+msgid "Read more about this issue <a href = \"%s\">here</a>."
+msgstr "Čítaj viac o tomto probléme <a href = \"%s\">here</a>."
+
+#: .././cogstat_stat.py:768
+msgid "Result of slope test with %s:"
+msgstr "Výsledky testu koeficientu regresie s %s:"
+
+#: .././cogstat.py:168
+msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
+msgstr "Reťazcové premenné nemôžu byť intervalové alebo ordinálne premenné v CogStat. Tieto premenné sú automaticky nastavené na nominálnu hodnotu: "
+
+#: .././cogstat.py:170 .././cogstat.py:178 .././cogstat.py:283
+#: .././cogstat.py:291
+msgid "You can fix this in your data source."
+msgstr "Môžete to opraviť vo svojom zdroji dát."
+
+#: .././cogstat.py:177
+msgid "The measurement level was not set for all variables."
+msgstr "Úroveň merania nebola nastavená pre všetky premenné."
+
+#: .././cogstat.py:281
+msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr "Niektoré meno(á) premenných obsahuje(ú) neanglické znaky, ktoré môžu spôsobiť problém pri niektorých analýzach: %s."
+
+#: .././cogstat.py:289
+msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr "Niektorá(é) premenná(é) obsahuje(ú) neanglické znaky, ktoré môžu spôsobiť problém pri niektorých analýzach: %s."
+
+#: .././cogstat.py:624 .././cogstat.py:653 .././cogstat.py:669
+#: .././cogstat.py:1056
+msgid "Standardized effect size:"
+msgstr "Štandardizovaná veľkosť efektu:"
+
+#: .././cogstat_gui.py:129
+msgid "Open d&emo data file"
+msgstr "Otvor d&emo zdroj dát"
+
+#: .././cogstat_gui.py:129
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: .././cogstat_gui.py:149
+msgid "&Increase text size"
+msgstr "&Zväčšiť veľkosť textu"
+
+#: .././cogstat_gui.py:149
+msgid "Ctrl++"
+msgstr "Ctrl++"
+
+#: .././cogstat_gui.py:150
+msgid "&Decrease text size"
+msgstr "&Zmenšiť veľkosť textu"
+
+#: .././cogstat_gui.py:150
+msgid "Ctrl+-"
+msgstr "Ctrl+-"
+
+#: .././cogstat_gui.py:154
+msgid "&Save results"
+msgstr "&Uložiť výsledky"
+
+#: .././cogstat_gui.py:155
+msgid "Save results &as"
+msgstr "Uložiť výsledky &ako"
+
+#: .././cogstat_chart.py:452
+msgid "Boxplots and individual data of the variables"
+msgstr "Krabicové grafy a individuálne dáta premenných"
+
+#: .././cogstat_chart.py:600
+msgid "Largest individual sign displays %d cases."
+msgstr "Najväčší individuálny znak zobrazuje %d prípadov."
+
+#: .././cogstat_chart.py:610
+msgid "Boxplots and individual data of the rank data of the groups"
+msgstr "Krabicové grafy a individuálne dáta o radových údajoch skupín"
+
+#: .././cogstat_chart.py:626
+msgid "Boxplots and individual data of the groups"
+msgstr "Krabicové grafy a individuálne dáta skupín"
+
+#: .././cogstat_stat.py:533 .././cogstat_stat.py:667
+msgid "95% CI (low)"
+msgstr "95% CI (nízke)"
+
+#: .././cogstat_stat.py:534 .././cogstat_stat.py:668
+msgid "95% CI (high)"
+msgstr "95% CI (vysoké)"
+
+#: .././cogstat_stat.py:948
+msgid "Results of Dunn's test (p values)."
+msgstr "Výsledky Dunnovho testu (p hodnoty)."
+
+#: .././cogstat.py:561 .././cogstat.py:776 .././cogstat.py:943
+#: .././cogstat.py:1152
+msgid "Present confidence interval values suppose normality."
+msgstr "Súčasné hodnoty intervalu spoľahlivosti predpokladajú normálnosť."
+
+#: .././cogstat.py:776 .././cogstat.py:943 .././cogstat.py:1152
+msgid "Means"
+msgstr "Priemery"
 
