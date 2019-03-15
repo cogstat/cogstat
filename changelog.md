@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
-Upcoming release
+Upcoming 1.8.0 release
 ================
 
 ## New features
@@ -10,17 +10,19 @@ Upcoming release
     - Set theme in CogStat > Preferences menu
     - Various chart refinements    
 - New hypothesis tests
+    - Dunn's post hoc test after significant Kruskal-Wallis test
     - Single case test for slope index
-    - Dunn's test after significant Kruskal-Wallis test
 - Numerical results
     - Display mean estimations numerically in group comparison and in repeated measures comparison 
     - Display standardized effect sizes separately
     - Various smaller refinements
+- Output improvements
+    - In warning massages add links to pages with more information about fixing the issue
+    - Various smaller output refinements
 - Sample data
     - Add sample data files 
-    - Add menu to find them
+    - Add menu to open sample data files
 - Graphical user interface improvements
-    - In warning massages add links with more information about fixing the issue
     - Add text zooming option to Results menu
     - Add splash screen
 - Simpler installation
@@ -29,7 +31,6 @@ Upcoming release
 - New localizations
     - Slovakian (Katarína Sümegiová)
     - Thai (Jinshana Praemcheun)
-- Various smaller text refinements
 
 # Fixes
 - :warning: fix single-case modified t-test
