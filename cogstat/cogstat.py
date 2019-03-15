@@ -318,7 +318,7 @@ class CogStatData:
         output += cs_stat._format_html_table(data_comb[:12 if brief else 1002].to_html(bold_rows=False))
         if brief and (len(self.data_frame.index) > 10):
             output += str(len(self.data_frame.index)-10) + _(' further cases are not displayed...')+'\n'
-        if len(self.data_frame.index) > 999:
+        elif len(self.data_frame.index) > 999:
             output += _('You probably would not want to print the next %s cases...') % \
                       (len(self.data_frame.index)-1000) + '\n'
 
