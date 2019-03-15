@@ -29,7 +29,7 @@ Upcoming 1.8.0 release
     - Simpler Mac installation (thanks to Márton Nagy, Anna Rákóczi and András Csép)
     - Simpler Linux installation
 - New localizations
-    - Slovakian (Katarína Sümegiová)
+    - Slovak (Katarína Sümegiová)
     - Thai (Jinshana Praemcheun)
 
 # Fixes
