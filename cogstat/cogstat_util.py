@@ -83,7 +83,11 @@ def print_versions():
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
     text_output += 'Platform: %s\n' % csc.versions['platform']
     text_output += 'Python: %s\n' % csc.versions['python']
-    text_output += 'Stdout encoding: %s\n' % str(sys.stdout.encoding)
+    try:
+        text_output += 'Stdout encoding: %s\n' % str(sys.stdout.encoding)
+    except:
+        pass
+        # with pythonw stdout is not available
     text_output += 'Filesystem encoding: %s\n' % str(sys.getfilesystemencoding())
     text_output += 'Language: %s\n' % csc.language
     text_output += 'Numpy: %s\n' % csc.versions['numpy']
