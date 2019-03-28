@@ -8,7 +8,7 @@ Upcoming 1.8.0 release
 - Charts
     - Use themes for the charts
     - Set theme in CogStat > Preferences menu
-    - Various chart refinements    
+    - Various chart refinements
 - New hypothesis tests
     - Dunn's post hoc test after significant Kruskal-Wallis test
     - Single case test for slope index
@@ -20,10 +20,10 @@ Upcoming 1.8.0 release
     - In warning massages add links to pages with more information about fixing the issue
     - Various smaller output refinements
 - Sample data
-    - Add sample data files 
-    - Add menu to open sample data files
+    - Add sample data files
+    - Add menu to open sample data files (Data > Open demo data files...)
 - Graphical user interface improvements
-    - Add text zooming option to Results menu
+    - Add text zooming option to Results menu (Results > Increase text size, Results > Decrease text size)
     - Add splash screen
 - Simpler installation
     - Simpler Mac installation (thanks to Márton Nagy, Anna Rákóczi and András Csép)
@@ -33,7 +33,7 @@ Upcoming 1.8.0 release
     - Thai (Jinshana Praemcheun)
 
 # Fixes
-- :warning: fix single-case modified t-test
+- :warning: Fix single-case modified t-test
 - Various bugfixes
 - Mac specific bug fixes (thanks to Márton Nagy, Anna Rákóczi and András Csép)
 
