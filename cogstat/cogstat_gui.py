@@ -94,7 +94,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_groups(['A'], ['G', 'H'])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.save_result_as()
-#        self.save_result_as(filename='pdf_test.pdf')
+#        self.save_result_as(filename='CogStat analysis result.pdf')
 
     def check_for_update(self):
         """Check for update, and if update is available, display a message box with the download link.
