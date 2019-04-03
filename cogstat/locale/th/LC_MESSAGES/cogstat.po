@@ -1146,113 +1146,113 @@ msgstr "คุณยังไม่ได้ตั้งค่าระดับ
 
 #: .././cogstat_gui.py:52 .././cogstat_gui.py:378
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
-msgstr ""
+msgstr "อ่านเพิ่มเติมการแจ้งปัญหาที่พบ<a href = \"%s\">here</a>."
 
 #: .././cogstat_gui.py:203
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
-msgstr ""
+msgstr "ข้อมูลโปรแกรม CogStat เพิ่มเติมที่ <a href = \"https://www.cogstat.org\">เว็บไซต์</a> หรืออ่านต่อที่ <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">ไกด์มือใหม่</a>"
 
 #: .././cogstat_stat.py:58 .././cogstat.py:50 .././cogstat.py:171
 #: .././cogstat.py:179 .././cogstat.py:284 .././cogstat.py:292
 msgid "Read more about this issue <a href = \"%s\">here</a>."
-msgstr ""
+msgstr "อ่านเพิ่มเติมปัญหานี้<a href = \"%s\">ที่นี่</a>."
 
 #: .././cogstat_stat.py:768
 msgid "Result of slope test with %s:"
-msgstr ""
+msgstr "ผลลัพธ์Slope testพร้อมกับ%s:"
 
 #: .././cogstat.py:168
 msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
-msgstr ""
+msgstr "สิ่งที่เป็นตัวอักษรในCogStat ไม่สามารถเป็นตัวแปรอันตรภาคหรือตัวแปรอันดับ ตัวแปรเหล่านี้จะถูกจัดเป็นนามบัญญัติทันที"
 
 #: .././cogstat.py:170 .././cogstat.py:178 .././cogstat.py:283
 #: .././cogstat.py:291
 msgid "You can fix this in your data source."
-msgstr ""
+msgstr "คุณสามารถแก้ไขสิ่งนี้ได้ในข้อมูลดิบ"
 
 #: .././cogstat.py:177
 msgid "The measurement level was not set for all variables."
-msgstr ""
+msgstr "ตั้งค่าระดับของการวัดไม่ครบทุกตัวแปร"
 
 #: .././cogstat.py:281
 msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "ชื่อของตัวแปรบางตัวมีตัวอักษรไม่ใช่อักษรโรมัน อาจทำให้เกิดปัญหากับการวิเคราะห์: %s."
 
 #: .././cogstat.py:289
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "ตัวแปรบางตัวมีตัวอักษรไม่ใช่อักษรโรมัน อาจทำให้เกิดปัญหากับการวิเคราะห์: %s."
 
 #: .././cogstat.py:624 .././cogstat.py:653 .././cogstat.py:669
 #: .././cogstat.py:1056
 msgid "Standardized effect size:"
-msgstr ""
+msgstr "Standardized effect size:"
 
 #: .././cogstat_gui.py:129
 msgid "Open d&emo data file"
-msgstr ""
+msgstr "เปิด d&emo data file"
 
 #: .././cogstat_gui.py:129
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: .././cogstat_gui.py:149
 msgid "&Increase text size"
-msgstr ""
+msgstr "&เพิ่มขนาดอักษร"
 
 #: .././cogstat_gui.py:149
 msgid "Ctrl++"
-msgstr ""
+msgstr "Ctrl++"
 
 #: .././cogstat_gui.py:150
 msgid "&Decrease text size"
-msgstr ""
+msgstr "&ลดขนาดอักษร"
 
 #: .././cogstat_gui.py:150
 msgid "Ctrl+-"
-msgstr ""
+msgstr "Ctrl+-"
 
 #: .././cogstat_gui.py:154
 msgid "&Save results"
-msgstr ""
+msgstr "&บันทึกผลลัพธ์"
 
 #: .././cogstat_gui.py:155
 msgid "Save results &as"
-msgstr ""
+msgstr "บันทึกผล&เป็น"
 
 #: .././cogstat_chart.py:452
 msgid "Boxplots and individual data of the variables"
-msgstr ""
+msgstr "Boxplots และข้อมูลเฉพาะของตัวแปร"
 
 #: .././cogstat_chart.py:600
 msgid "Largest individual sign displays %d cases."
-msgstr ""
+msgstr "แสดงผลลักษณะเฉพาะที่กว้างที่สุดต่อ  %dกรณี"
 
 #: .././cogstat_chart.py:610
 msgid "Boxplots and individual data of the rank data of the groups"
-msgstr ""
+msgstr "Boxplots และข้อมูลเฉพาะของการจัดอันดับข้อมูลในกลุ่ม"
 
 #: .././cogstat_chart.py:626
 msgid "Boxplots and individual data of the groups"
-msgstr ""
+msgstr "Boxplotsและข้อมูลเฉพาะของแต่ละกลุ่ม"
 
 #: .././cogstat_stat.py:533 .././cogstat_stat.py:667
 msgid "95% CI (low)"
-msgstr ""
+msgstr "95% CI (ต่ำ)"
 
 #: .././cogstat_stat.py:534 .././cogstat_stat.py:668
 msgid "95% CI (high)"
-msgstr ""
+msgstr "95% CI (สูง)"
 
 #: .././cogstat_stat.py:948
 msgid "Results of Dunn's test (p values)."
-msgstr ""
+msgstr "ผลลัพธ์ Dunn's test (ค่า p)."
 
 #: .././cogstat.py:561 .././cogstat.py:776 .././cogstat.py:943
 #: .././cogstat.py:1152
 msgid "Present confidence interval values suppose normality."
-msgstr ""
+msgstr "ช่วงความเชื่อมั่นปัจจุบันกับค่า Normality."
 
 #: .././cogstat.py:776 .././cogstat.py:943 .././cogstat.py:1152
 msgid "Means"
-msgstr ""
+msgstr "Means"
 
