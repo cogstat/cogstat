@@ -16,7 +16,7 @@ from distutils.version import LooseVersion
 import os
 import itertools
 
-__version__ = '1.8.0.beta0'
+__version__ = '1.8.0'
 
 import matplotlib
 matplotlib.use("qt5agg")
