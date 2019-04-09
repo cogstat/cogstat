@@ -161,7 +161,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['separator'],
                                 ['', _('&About'), '', 'self._show_about'],
                                 ['separator'],
-                                ['', _('&Exit'), _('Ctrl+Q'), 'self.closeEvent']
+                                ['', _('&Exit'), _('Ctrl+Q'), 'self.close']
                             ]
                         ]
         # Enable these commands only when active_data is available
