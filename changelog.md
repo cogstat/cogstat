@@ -1,6 +1,13 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
+Upcoming release
+================
+
+## New features
+- Output may be edited (Results > Text is editable menu)
+
+
 1.8.0 (9 Apr 2019)
 ================
 

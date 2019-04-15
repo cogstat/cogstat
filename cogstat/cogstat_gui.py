@@ -141,15 +141,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups'],
                             ],
                             [_('&Results'),
-                                ['', _('&Clear results'), _('Del'), 'self.delete_output'],
+                                ['', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output'],
                                 ['separator'],
                                 ['', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in'],
                                 ['', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out'],
+                                ['', _('&Text is editable'), _('Ctrl+Shift+E'), 'self.text_editable'],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
                                 ['separator'],
                                 ['', _('&Save results'), _('Ctrl+P'), 'self.save_result'],
-                                ['', _('Save results &as')+'...', _('Shift+Ctrl+P'), 'self.save_result_as']
+                                ['', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as']
                             ],
                             [_('&CogStat'),
                                 ['', _('&Help'), _('F1'), 'self._open_help_webpage'],
@@ -185,6 +186,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     #self.menu_commands[menu[i][1]].setStatusTip(menu[i][3])
                     self.menu_commands[menu[i][1]].triggered.connect(eval(menu[i][3]))
                     self.menus[-1].addAction(self.menu_commands[menu[i][1]])
+        self.menus[2].actions()[4].setCheckable(True)  # _('&Text is editable') menu is a checkbox
+            # TODO if the position of this menu is changed, then this setting will not work
         for menu in self.analysis_commands:
             try:
                 self.menu_commands[menu].setEnabled(False)
@@ -595,6 +598,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def zoom_out(self):
         self.output_pane.zoomOut(1)
+
+    def text_editable(self):
+        self.output_pane.setReadOnly(not(self.menus[2].actions()[4].isChecked()))
+        # TODO if the position of this menu is changed, then this function will not work
 
     def save_result(self):
         """Save the output pane to pdf file."""
