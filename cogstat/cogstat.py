@@ -319,7 +319,7 @@ class CogStatData:
         if brief and (len(self.data_frame.index) > 10):
             output += str(len(self.data_frame.index)-10) + _(' further cases are not displayed...')+'\n'
         elif len(self.data_frame.index) > 999:
-            output += _('You probably would not want to print the next %s cases...') % \
+            output += _('The next %s cases will not be printed. You can check all cases in the original data source.') % \
                       (len(self.data_frame.index)-1000) + '\n'
 
         return self._convert_output([output+'<default>'])
