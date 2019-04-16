@@ -6,7 +6,8 @@ Upcoming release
 
 ## New features
 - Output may be edited (Results > Text is editable menu)
-
+- New localization
+    - Norwegian Bokmål (Irmelin Hovland-Hegg)
 
 1.8.0 (9 Apr 2019)
 ================
