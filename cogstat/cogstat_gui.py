@@ -145,7 +145,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['separator'],
                                 ['', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in'],
                                 ['', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out'],
-                                ['', _('&Text is editable'), _('Ctrl+Shift+E'), 'self.text_editable'],
+                                ['', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable'],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
                                 ['separator'],
