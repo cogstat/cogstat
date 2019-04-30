@@ -3,12 +3,16 @@
 import gettext
 import os
 from . import cogstat_config as csc
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 
 QString = str
 
-t = gettext.translation('cogstat', 'locale/', [csc.language], fallback=True)
+t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
+# Overwrite the qt _translate function, use gettext
+def _gui(a, b):
+    return(_(b))
+QtCore.QCoreApplication.translate = _gui
 
 ### File menu commands ###
 
