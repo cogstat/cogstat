@@ -9,6 +9,10 @@ Upcoming release
 - New localization
     - Norwegian Bokmål (Irmelin Hovland-Hegg)
 
+## Fixes
+- Dialogs are localized now
+- Various bugfixes
+
 1.8.0 (9 Apr 2019)
 ================
 
