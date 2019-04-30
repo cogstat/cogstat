@@ -121,8 +121,9 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
         return _('Sorry, only one dependent variable can be used.')
     if pdf[depend_name[0]].dtype == 'object':
         return _('Sorry, string variables cannot be used in Pivot table.')
-    function_code = {'N': 'len', 'Sum': 'np.sum', 'Mean': 'np.mean', 'Median': 'median', 'Lower quartile': 'perc25',
-                     'Upper quartile': 'perc75', 'Standard deviation': 'np.std', 'Variance': 'np.var'}
+    function_code = {_('N'): 'len', _('Sum'): 'np.sum', _('Mean'): 'np.mean', _('Median'): 'median',
+                     _('Lower quartile'): 'perc25', _('Upper quartile'): 'perc75',
+                     _('Standard deviation'): 'np.std', _('Variance'): 'np.var'}
     result = ''
     if page_names:
         result += _('Independent variable(s) - Pages: ') + ', '.join(x for x in page_names) + '\n'
