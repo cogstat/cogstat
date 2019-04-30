@@ -126,8 +126,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file'],
                                 ['', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard'],
                                 ['separator'],
-                                # ['', _('&Filter outliers'), _('Ctrl+L'), _('Filter cases based on outliers'), 'self.xxx'],
-                                # ['separator'],
+                                ['', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier'],
+                                ['separator'],
                                 ['', _('&Display data'), _('Ctrl+D'), 'self.print_data'],
                                 ['', _('Display data &briefly'), _('Ctrl+B'), 'self._print_data_brief'],
                             ],
@@ -166,7 +166,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             ]
                         ]
         # Enable these commands only when active_data is available
-        self.analysis_commands = [_('&Save data'), _('Save data &as')+'...', _('&Display data'), _('Display data &briefly'),
+        self.analysis_commands = [_('&Save data'), _('Save data &as')+'...', _('&Display data'), _('Display data &briefly'), _('&Filter outliers')+'...',
                                   _('Pivot &table')+'...', _('&Explore variable')+'...',
                                   _('Explore relation of variable &pair')+'...', _('Compare repeated measures va&riables')+'...', _('Compare &groups')+'...',
                                   _('&Compare groups and variables')+'...']
@@ -380,7 +380,41 @@ class StatMainWindow(QtWidgets.QMainWindow):
             traceback.print_exc()
             self._print_to_output_pane()
         self._busy_signal(False)
-            
+
+    def filter_outlier(self, var_names=None):
+        """Filter outliers.
+
+        Arguments:
+        var_names (list): variable names
+        """
+        if not var_names:
+            try:
+                self.dial_filter
+            except:
+                # Only interval variables can be used for filtering
+                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name] in ['int', 'unk'])]
+                self.dial_filter = cogstat_dialogs.filter_outlier(names=names)
+            else:  # TODO is it not necessary anymore? For all dialogs
+                # Only interval variables can be used for filtering
+                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name] in ['int', 'unk'])]
+                self.dial_filter.init_vars(names=names)
+            if self.dial_filter.exec_():
+                var_names = self.dial_filter.read_parameters()
+            else:
+                return
+        self._busy_signal(True)
+        try:
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
+            result = self.active_data.filter_outlier(var_names)
+            self.analysis_results[-1].add_output(result)
+            self._print_to_output_pane()
+        except:
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outlier.')))
+            traceback.print_exc()
+            self._print_to_output_pane()
+        self._busy_signal(False)
+
     def print_data(self, brief=False, display_import_message=False):
         """Print the current data to the output.
         

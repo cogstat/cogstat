@@ -5,6 +5,7 @@ Upcoming release
 ================
 
 ## New features
+- Outlier filtering is available from Data > Filter outliers... menu
 - Output may be edited (Results > Text is editable menu)
 - New localization
     - Norwegian Bokmål (Irmelin Hovland-Hegg)

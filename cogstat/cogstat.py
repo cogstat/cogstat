@@ -334,7 +334,7 @@ class CogStatData:
         :return:
         """
         title = csc.heading_style_begin + _('Filtering')+csc.heading_style_end
-        if var_names is None:  # Switch off outlier filtering
+        if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
             self.filtering_status = None
             text_output = _('Filtering is switched off.')
@@ -343,6 +343,9 @@ class CogStatData:
             text_output = ''
             self.filtering_status = ''
             for var_name in var_names:
+                if self.data_measlevs[var_name] in ['ord', 'nom']:
+                    text_output += _('Only interval variables can be used for filtering. Ignoring variable %s.') % var_name + '\n'
+                    continue
                 # Currently only this simple method is used: cases with more than 2 SD difference are excluded
                 mean = np.mean(self.orig_data_frame[var_name].dropna())
                 sd = np.std(self.orig_data_frame[var_name].dropna(), ddof=1)

@@ -134,6 +134,35 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
                 str(self.function.currentText()))
 
 
+from .ui import filter_outlier
+class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
+    def __init__(self, parent=None, names=[]):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.addVar.clicked.connect(self.add_var)
+        self.removeVar.clicked.connect(self.remove_var)
+
+        self.init_vars(names)
+        self.show()
+
+    def init_vars(self, names):
+        init_source_vars(self.source_listWidget, names)
+        remove_ceased_vars(self.selected_listWidget, names)
+
+    def add_var(self):
+        add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+
+    def remove_var(self):
+        remove_item_from_list_widget(self.selected_listWidget)
+
+    def read_parameters(self):
+        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+
 from .ui import var_properties
 class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
