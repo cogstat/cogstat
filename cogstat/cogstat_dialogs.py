@@ -326,13 +326,18 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
             return langs
 
         langs = sorted(['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__))+'/locale'))
+        # local language names based on https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+        lang_names = {'bg':'Български (Bulgarian)', 'de':'Deutsch (German)', 'en': 'English', 'fa':'فارسی (Persian)',
+                      'he':'עברית (Hebrew)', 'hr':'Hrvatski (Croatian)',
+                      'hu':'Magyar (Hungarian)', 'it':'Italiano (Italian)', 'nb':'Norsk Bokmål (Norvegian Bokmål)',
+                      'ro':'Română (Romanian)', 'sk':'Slovenčina (Slovak)', 'th':'ไทย (Thai)'}
+        lang_names_sorted = sorted([lang_names[lang] for lang in langs])
+        self.lang_codes = {lang_name:lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
 
-        # TODO is there any automatic method to show the name and not the code 
-        # of the languages? Or should we use our own solution (e.g., dictionary)?
         self.langComboBox.clear()
-        for lang in langs:
-            self.langComboBox.addItem(lang)
-        self.langComboBox.setCurrentIndex(langs.index(csc.language))
+        for lang_name in lang_names_sorted:
+            self.langComboBox.addItem(lang_name)
+        self.langComboBox.setCurrentIndex(lang_names_sorted.index(lang_names[csc.language]))
 
     def init_themes(self):
         """Set the available themes.
@@ -348,6 +353,6 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
     def write_settings(self):
         """Save the settings when OK is pressed.
         """
-        csc.save(['language'], str(self.langComboBox.currentText()))
+        csc.save(['language'], self.lang_codes[str(self.langComboBox.currentText())])
         csc.save(['graph', 'theme'], str(self.themeComboBox.currentText()))
         self.accept()
