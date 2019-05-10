@@ -9,6 +9,7 @@ Upcoming release
 - Output may be edited (Results > Text is editable menu)
 - New localization
     - Norwegian Bokmål (Irmelin Hovland-Hegg)
+    - Updated formerly abandoned Italian (Roland Kasza)
 
 ## Fixes
 - Dialogs are localized now
