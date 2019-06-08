@@ -9,6 +9,7 @@ Upcoming release
 - Output may be edited (Results > Text is editable menu)
 - New localization
     - Norwegian Bokmål (Irmelin Hovland-Hegg)
+    - Russian (Nikolay Kuzmenko)
 
 ## Fixes
 - Dialogs are localized now
