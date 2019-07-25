@@ -121,50 +121,53 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Menus and commands
         # The list will be used to construct the menus
-        # Items include the icon name, the menu name, the shortcuts and the function to call
+        # Items include the icon name, the menu name, the shortcuts and the function to call, add it to the toolbar
         menu_commands = [
                             [_('&Data'),
-                                ['document-open', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file'],
-                                ['document-open', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file'],
-                                ['edit-paste', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard'],
+                                ['document-open', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file', True],
+                                ['document-open', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file',True],
+                                ['edit-paste', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True],
                                 ['separator'],
-                                ['', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier'],
+                                ['', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier', False],
                                 ['separator'],
-                                ['', _('&Display data'), _('Ctrl+D'), 'self.print_data'],
-                                ['', _('Display data &briefly'), _('Ctrl+B'), 'self._print_data_brief'],
+                                ['', _('&Display data'), _('Ctrl+D'), 'self.print_data', True],
+                                ['', _('Display data &briefly'), _('Ctrl+B'), 'self._print_data_brief', False],
+                                ['toolbar separator']
                             ],
                             [_('&Analysis'),
-                                ['', _('&Explore variable')+'...', _('Ctrl+1'), 'self.explore_variable'],
-                                ['', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), 'self.explore_variable_pair'],
+                                ['', _('&Explore variable')+'...', _('Ctrl+1'), 'self.explore_variable', True],
+                                ['', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), 'self.explore_variable_pair', True],
                                 ['separator'],
-                                ['', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot'],
+                                ['', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
                                 ['separator'],
-                                ['', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', 'self.compare_variables'],
-                                ['', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups'],
-                            ],
+                                ['', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', 'self.compare_variables', True],
+                                ['', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups', True],
+                                ['toolbar separator']
+                             ],
                             [_('&Results'),
-                                ['window-new', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output'],
+                                ['window-new', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output', False],
                                 ['separator'],
-                                ['zoom-in', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in'],
-                                ['zoom-out', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out'],
+                                ['zoom-in', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True],
+                                ['zoom-out', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out', True],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
-                                ['insert-text', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable'],
+                                ['insert-text', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable', False],
                                 ['separator'],
-                                ['document-save', _('&Save results'), _('Ctrl+P'), 'self.save_result'],
-                                ['document-save-as', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as']
+                                ['document-save', _('&Save results'), _('Ctrl+P'), 'self.save_result', False],
+                                ['document-save-as', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as', False],
+                                ['toolbar separator']
                             ],
                             [_('&CogStat'),
-                                ['help-browser', _('&Help'), _('F1'), 'self._open_help_webpage'],
-                                ['preferences-other', _('&Preferences')+'...', '', 'self._show_preferences'],
-                                ['', _('Request a &feature'), '', 'self._open_reqfeat_webpage'],
+                                ['help-browser', _('&Help'), _('F1'), 'self._open_help_webpage', True],
+                                ['preferences-other', _('&Preferences')+'...', '', 'self._show_preferences', False],
+                                ['', _('Request a &feature'), '', 'self._open_reqfeat_webpage', False],
                                 ['separator'],
-                                ['dialog-error', _('&Report a problem'), '', 'self._open_reportbug_webpage'],
-                                ['system-help', _('&Diagnosis information'), '', 'self.print_versions'],
+                                ['dialog-error', _('&Report a problem'), '', 'self._open_reportbug_webpage', False],
+                                ['system-help', _('&Diagnosis information'), '', 'self.print_versions', False],
                                 ['separator'],
-                                ['help-about', _('&About'), '', 'self._show_about'],
+                                ['help-about', _('&About'), '', 'self._show_about', False],
                                 ['separator'],
-                                ['application-exit', _('&Exit'), _('Ctrl+Q'), 'self.close']
+                                ['application-exit', _('&Exit'), _('Ctrl+Q'), 'self.close', False]
                             ]
                         ]
         # Enable these commands only when active_data is available
@@ -173,21 +176,30 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                   _('Explore relation of variable &pair')+'...', _('Compare repeated measures va&riables')+'...', _('Compare &groups')+'...',
                                   _('&Compare groups and variables')+'...']
 
-        # Create menus and commands
+        # Create menus and commands, create toolbar
         self.menubar = self.menuBar()
         self.menus = []
         self.menu_commands = {}
+        self.toolbar = self.addToolBar('General')
         for menu in menu_commands:
             self.menus.append(self.menubar.addMenu(menu[0]))
             for i in range(1, len(menu)):
                 if menu[i][0] == 'separator':
                     self.menus[-1].addSeparator()
+                elif menu[i][0] == 'toolbar separator':
+                    self.toolbar.addSeparator()
                 else:
                     self.menu_commands[menu[i][1]] = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu[i][0]), menu[i][1], self)
                     self.menu_commands[menu[i][1]].setShortcut(menu[i][2])
                     #self.menu_commands[menu[i][1]].setStatusTip(menu[i][3])
                     self.menu_commands[menu[i][1]].triggered.connect(eval(menu[i][3]))
                     self.menus[-1].addAction(self.menu_commands[menu[i][1]])
+                    if menu[i][4]:  # if the menu iem should be added to the toolbar
+                        toolbar_action = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu[i][0]), menu[i][1] + ' (' + menu[i][2] + ')', self)
+                        toolbar_action.triggered.connect(eval(menu[i][3]))
+                        self.toolbar.addAction(toolbar_action)
+
+
         self.menus[2].actions()[4].setCheckable(True)  # _('&Text is editable') menu is a checkbox
             # TODO if the position of this menu is changed, then this setting will not work
         for menu in self.analysis_commands:
@@ -195,7 +207,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.menu_commands[menu].setEnabled(False)
             except KeyError:
                 pass
-        
+
         # Prepare Output pane
         self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
