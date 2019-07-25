@@ -162,6 +162,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['preferences-other', _('&Preferences')+'...', '', 'self._show_preferences', False],
                                 ['', _('Request a &feature'), '', 'self._open_reqfeat_webpage', False],
                                 ['separator'],
+                                ['', _('Show the &toolbar'), '', 'self.toolbar.toggleViewAction().trigger', False],
+                                ['separator'],
                                 ['dialog-error', _('&Report a problem'), '', 'self._open_reportbug_webpage', False],
                                 ['system-help', _('&Diagnosis information'), '', 'self.print_versions', False],
                                 ['separator'],
@@ -201,7 +203,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
 
         self.menus[2].actions()[4].setCheckable(True)  # _('&Text is editable') menu is a checkbox
-            # TODO if the position of this menu is changed, then this setting will not work
+        self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
+        self.menus[3].actions()[4].setChecked(True)  # Set the default value On
+            # TODO if the position of these menus are changed, then this setting will not work
         for menu in self.analysis_commands:
             try:
                 self.menu_commands[menu].setEnabled(False)
