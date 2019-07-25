@@ -185,20 +185,22 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.toolbar = self.addToolBar('General')
         for menu in menu_commands:
             self.menus.append(self.menubar.addMenu(menu[0]))
-            for i in range(1, len(menu)):
-                if menu[i][0] == 'separator':
+            for menu_item in menu:
+                if isinstance(menu_item, str):  # Skip the name of the main menus
+                    continue
+                if menu_item[0] == 'separator':
                     self.menus[-1].addSeparator()
-                elif menu[i][0] == 'toolbar separator':
+                elif menu_item[0] == 'toolbar separator':
                     self.toolbar.addSeparator()
                 else:
-                    self.menu_commands[menu[i][1]] = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu[i][0]), menu[i][1], self)
-                    self.menu_commands[menu[i][1]].setShortcut(menu[i][2])
-                    #self.menu_commands[menu[i][1]].setStatusTip(menu[i][3])
-                    self.menu_commands[menu[i][1]].triggered.connect(eval(menu[i][3]))
-                    self.menus[-1].addAction(self.menu_commands[menu[i][1]])
-                    if menu[i][4]:  # if the menu iem should be added to the toolbar
-                        toolbar_action = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu[i][0]), menu[i][1] + ' (' + menu[i][2] + ')', self)
-                        toolbar_action.triggered.connect(eval(menu[i][3]))
+                    self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu_item[0]), menu_item[1], self)
+                    self.menu_commands[menu_item[1]].setShortcut(menu_item[2])
+                    #self.menu_commands[menu_item[1]].setStatusTip(menu_item[3])
+                    self.menu_commands[menu_item[1]].triggered.connect(eval(menu_item[3]))
+                    self.menus[-1].addAction(self.menu_commands[menu_item[1]])
+                    if menu_item[4]:  # if the menu item should be added to the toolbar
+                        toolbar_action = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu_item[0]), menu_item[1] + ' (' + menu_item[2] + ')', self)
+                        toolbar_action.triggered.connect(eval(menu_item[3]))
                         self.toolbar.addAction(toolbar_action)
 
 
