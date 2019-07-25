@@ -120,11 +120,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.setLayoutDirection(QtCore.Qt.RightToLeft)
 
         # Menus and commands
-        menu_commands = [  # This list will be used to construct the menus
+        # The list will be used to construct the menus
+        # Items include the icon name, the menu name, the shortcuts and the function to call
+        menu_commands = [
                             [_('&Data'),
-                                ['', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file'],
-                                ['', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file'],
-                                ['', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard'],
+                                ['document-open', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file'],
+                                ['document-open', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file'],
+                                ['edit-paste', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard'],
                                 ['separator'],
                                 ['', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier'],
                                 ['separator'],
@@ -141,28 +143,28 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups'],
                             ],
                             [_('&Results'),
-                                ['', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output'],
+                                ['window-new', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output'],
                                 ['separator'],
-                                ['', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in'],
-                                ['', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out'],
-                                ['', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable'],
+                                ['zoom-in', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in'],
+                                ['zoom-out', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out'],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
+                                ['insert-text', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable'],
                                 ['separator'],
-                                ['', _('&Save results'), _('Ctrl+P'), 'self.save_result'],
-                                ['', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as']
+                                ['document-save', _('&Save results'), _('Ctrl+P'), 'self.save_result'],
+                                ['document-save-as', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as']
                             ],
                             [_('&CogStat'),
-                                ['', _('&Help'), _('F1'), 'self._open_help_webpage'],
-                                ['', _('&Preferences')+'...', '', 'self._show_preferences'],
+                                ['help-browser', _('&Help'), _('F1'), 'self._open_help_webpage'],
+                                ['preferences-other', _('&Preferences')+'...', '', 'self._show_preferences'],
                                 ['', _('Request a &feature'), '', 'self._open_reqfeat_webpage'],
                                 ['separator'],
-                                ['', _('&Report a problem'), '', 'self._open_reportbug_webpage'],
-                                ['', _('&Diagnosis information'), '', 'self.print_versions'],
+                                ['dialog-error', _('&Report a problem'), '', 'self._open_reportbug_webpage'],
+                                ['system-help', _('&Diagnosis information'), '', 'self.print_versions'],
                                 ['separator'],
-                                ['', _('&About'), '', 'self._show_about'],
+                                ['help-about', _('&About'), '', 'self._show_about'],
                                 ['separator'],
-                                ['', _('&Exit'), _('Ctrl+Q'), 'self.close']
+                                ['application-exit', _('&Exit'), _('Ctrl+Q'), 'self.close']
                             ]
                         ]
         # Enable these commands only when active_data is available
@@ -181,7 +183,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 if menu[i][0] == 'separator':
                     self.menus[-1].addSeparator()
                 else:
-                    self.menu_commands[menu[i][1]] = QtWidgets.QAction(QtGui.QIcon(menu[i][0]), menu[i][1], self)
+                    self.menu_commands[menu[i][1]] = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu[i][0]), menu[i][1], self)
                     self.menu_commands[menu[i][1]].setShortcut(menu[i][2])
                     #self.menu_commands[menu[i][1]].setStatusTip(menu[i][3])
                     self.menu_commands[menu[i][1]].triggered.connect(eval(menu[i][3]))
