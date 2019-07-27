@@ -207,6 +207,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
 
         self.menus[2].actions()[4].setCheckable(True)  # _('&Text is editable') menu is a checkbox
+        #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
         self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
         self.menus[3].actions()[4].setChecked(True)  # Set the default value On
             # TODO if the position of these menus are changed, then this setting will not work
@@ -659,7 +660,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def text_editable(self):
         self.output_pane.setReadOnly(not(self.menus[2].actions()[4].isChecked()))
+        #self.output_pane.setReadOnly(not(self.toolbar.actions()[15].isChecked()))
         # TODO if the position of this menu is changed, then this function will not work
+        # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
+
 
     def save_result(self):
         """Save the output pane to pdf file."""
