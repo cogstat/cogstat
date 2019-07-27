@@ -163,8 +163,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-settings-48.png', _('&Preferences')+'...', _('Ctrl+Shift+R'), 'self._show_preferences', True],
                                 ['/icons8-file-add-48.png', _('Request a &feature'), '', 'self._open_reqfeat_webpage', False],
                                 ['separator'],
-                                ['/icons8-toolbar-50.png', _('Show the &toolbar'), '', 'self.toolbar.toggleViewAction().trigger', False],
-                                ['separator'],
+                                #['/icons8-toolbar-50.png', _('Show the &toolbar'), '', 'self.toolbar.toggleViewAction().trigger', False],
+                                #['separator'],
                                 ['/icons8-bug-48.png', _('&Report a problem'), '', 'self._open_reportbug_webpage', False],
                                 ['/icons8-system-report-48.png', _('&Diagnosis information'), '', 'self.print_versions', False],
                                 ['separator'],
@@ -208,8 +208,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         self.menus[2].actions()[4].setCheckable(True)  # _('&Text is editable') menu is a checkbox
         #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
-        self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
-        self.menus[3].actions()[4].setChecked(True)  # Set the default value On
+        #self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
+        #self.menus[3].actions()[4].setChecked(True)  # Set the default value On
             # TODO if the position of these menus are changed, then this setting will not work
         for menu in self.analysis_commands:
             try:
