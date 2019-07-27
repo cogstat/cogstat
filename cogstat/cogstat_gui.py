@@ -183,6 +183,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.menubar = self.menuBar()
         self.menus = []
         self.menu_commands = {}
+        self.toolbar_actions = {}
         self.toolbar = self.addToolBar('General')
         for menu in menu_commands:
             self.menus.append(self.menubar.addMenu(menu[0]))
@@ -200,9 +201,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.menu_commands[menu_item[1]].triggered.connect(eval(menu_item[3]))
                     self.menus[-1].addAction(self.menu_commands[menu_item[1]])
                     if menu_item[4]:  # if the menu item should be added to the toolbar
-                        toolbar_action = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]), menu_item[1] + ' (' + menu_item[2] + ')', self)
-                        toolbar_action.triggered.connect(eval(menu_item[3]))
-                        self.toolbar.addAction(toolbar_action)
+                        self.toolbar_actions[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]), menu_item[1] + ' (' + menu_item[2] + ')', self)
+                        self.toolbar_actions[menu_item[1]].triggered.connect(eval(menu_item[3]))
+                        self.toolbar.addAction(self.toolbar_actions[menu_item[1]])
 
 
         self.menus[2].actions()[4].setCheckable(True)  # _('&Text is editable') menu is a checkbox
@@ -212,6 +213,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         for menu in self.analysis_commands:
             try:
                 self.menu_commands[menu].setEnabled(False)
+                self.toolbar_actions[menu].setEnabled(False)
             except KeyError:
                 pass
 
@@ -257,6 +259,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         for menu in self.analysis_commands:
             try:
                 self.menu_commands[menu].setEnabled(on)
+                self.toolbar_actions[menu].setEnabled(on)
             except:
                 pass
         
