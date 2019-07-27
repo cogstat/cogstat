@@ -122,54 +122,55 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Menus and commands
         # The list will be used to construct the menus
         # Items include the icon name, the menu name, the shortcuts and the function to call, add it to the toolbar
+        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'icons')
         menu_commands = [
                             [_('&Data'),
-                                ['document-open', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file', True],
-                                ['document-open', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file',True],
-                                ['edit-paste', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True],
+                                ['/icons8-folder-48.png', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file', True],
+                                ['/icons8-folder-eye-48.png', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file',True],
+                                ['/icons8-paste-48.png', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True],
                                 ['separator'],
-                                ['', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier', False],
+                                ['/icons8-filter-48.png', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier', False],
                                 ['separator'],
-                                ['', _('&Display data'), _('Ctrl+D'), 'self.print_data', True],
-                                ['', _('Display data &briefly'), _('Ctrl+B'), 'self._print_data_brief', False],
+                                ['/icons8-data-sheet-48.png', _('&Display data'), _('Ctrl+D'), 'self.print_data', True],
+                                ['/icons8-data-sheet-check-48.png', _('Display data &briefly'), _('Ctrl+B'), 'self._print_data_brief', False],
                                 ['toolbar separator']
                             ],
                             [_('&Analysis'),
-                                ['', _('&Explore variable')+'...', _('Ctrl+1'), 'self.explore_variable', True],
-                                ['', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), 'self.explore_variable_pair', True],
+                                ['/icons8-normal-distribution-histogram-48.png', _('&Explore variable')+'...', _('Ctrl+1'), 'self.explore_variable', True],
+                                ['/icons8-scatter-plot-48.png', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), 'self.explore_variable_pair', True],
                                 ['separator'],
-                                ['', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
+                                ['/icons8-pivot-table-48.png', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
                                 ['separator'],
-                                ['', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', 'self.compare_variables', True],
-                                ['', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups', True],
+                                ['/icons8-combo-chart-48.png', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', 'self.compare_variables', True],
+                                ['/icons8-bar-chart-48.png', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups', True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
-                                ['window-new', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output', False],
+                                ['/icons8-file-48.png', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output', False],
                                 ['separator'],
-                                ['zoom-in', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True],
-                                ['zoom-out', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out', True],
+                                ['/icons8-zoom-in-48.png', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True],
+                                ['/icons8-zoom-out-48.png', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out', True],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
-                                ['insert-text', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable', False],
+                                ['/icons8-edit-file-48.png', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable', False],
                                 ['separator'],
-                                ['document-save', _('&Save results'), _('Ctrl+P'), 'self.save_result', False],
-                                ['document-save-as', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as', False],
+                                ['/icons8-pdf-48.png', _('&Save results'), _('Ctrl+P'), 'self.save_result', False],
+                                ['/icons8-pdf-edit-48.png', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as', False],
                                 ['toolbar separator']
                             ],
                             [_('&CogStat'),
-                                ['help-browser', _('&Help'), _('F1'), 'self._open_help_webpage', True],
-                                ['preferences-other', _('&Preferences')+'...', '', 'self._show_preferences', False],
-                                ['', _('Request a &feature'), '', 'self._open_reqfeat_webpage', False],
+                                ['/icons8-help-48.png', _('&Help'), _('F1'), 'self._open_help_webpage', True],
+                                ['/icons8-settings-48.png', _('&Preferences')+'...', '', 'self._show_preferences', False],
+                                ['/icons8-file-add-48.png', _('Request a &feature'), '', 'self._open_reqfeat_webpage', False],
                                 ['separator'],
-                                ['', _('Show the &toolbar'), '', 'self.toolbar.toggleViewAction().trigger', False],
+                                ['/icons8-toolbar-50.png', _('Show the &toolbar'), '', 'self.toolbar.toggleViewAction().trigger', False],
                                 ['separator'],
-                                ['dialog-error', _('&Report a problem'), '', 'self._open_reportbug_webpage', False],
-                                ['system-help', _('&Diagnosis information'), '', 'self.print_versions', False],
+                                ['/icons8-bug-48.png', _('&Report a problem'), '', 'self._open_reportbug_webpage', False],
+                                ['/icons8-system-report-48.png', _('&Diagnosis information'), '', 'self.print_versions', False],
                                 ['separator'],
-                                ['help-about', _('&About'), '', 'self._show_about', False],
+                                ['/icons8-info-48.png', _('&About'), '', 'self._show_about', False],
                                 ['separator'],
-                                ['application-exit', _('&Exit'), _('Ctrl+Q'), 'self.close', False]
+                                ['/icons8-exit-48.png', _('&Exit'), _('Ctrl+Q'), 'self.close', False]
                             ]
                         ]
         # Enable these commands only when active_data is available
@@ -193,13 +194,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 elif menu_item[0] == 'toolbar separator':
                     self.toolbar.addSeparator()
                 else:
-                    self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu_item[0]), menu_item[1], self)
+                    self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]), menu_item[1], self)
                     self.menu_commands[menu_item[1]].setShortcut(menu_item[2])
                     #self.menu_commands[menu_item[1]].setStatusTip(menu_item[3])
                     self.menu_commands[menu_item[1]].triggered.connect(eval(menu_item[3]))
                     self.menus[-1].addAction(self.menu_commands[menu_item[1]])
                     if menu_item[4]:  # if the menu item should be added to the toolbar
-                        toolbar_action = QtWidgets.QAction(QtGui.QIcon.fromTheme(menu_item[0]), menu_item[1] + ' (' + menu_item[2] + ')', self)
+                        toolbar_action = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]), menu_item[1] + ' (' + menu_item[2] + ')', self)
                         toolbar_action.triggered.connect(eval(menu_item[3]))
                         self.toolbar.addAction(toolbar_action)
 
