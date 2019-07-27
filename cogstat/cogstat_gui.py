@@ -211,12 +211,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         #self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
         #self.menus[3].actions()[4].setChecked(True)  # Set the default value On
             # TODO if the position of these menus are changed, then this setting will not work
-        for menu in self.analysis_commands:
-            try:
-                self.menu_commands[menu].setEnabled(False)
-                self.toolbar_actions[menu].setEnabled(False)
-            except KeyError:
-                pass
+        self._show_data_menus(on=False)
 
         # Prepare Output pane
         self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
