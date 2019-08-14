@@ -38,10 +38,20 @@ def save_output():
 # TODO functions should be private
 
 
-def init_source_vars(list_widget, names):
+def init_source_vars(list_widget, names, already_in_use):
+    """
+    :param list_widget: source variables
+    :param names: names of the variables
+    :param already_in_use: list of listWidgets that may contain variables already in use
+    :return:
+    """
+    already_in_use_vars = []
+    for in_use_list_widget in already_in_use:
+        already_in_use_vars.extend([in_use_list_widget.item(i).text() for i in range(in_use_list_widget.count())])
     list_widget.clear()  # clear source list in case new data is loaded
     for var_name in names:
-        list_widget.addItem(QString(var_name))
+        if not(var_name in already_in_use_vars):
+            list_widget.addItem(QString(var_name))
 
 
 def remove_ceased_vars(list_widget, names):
@@ -56,24 +66,22 @@ def remove_ceased_vars(list_widget, names):
 
 def add_to_list_widget(source_list_widget, target_list_widget):
     """
-    Add the selected items of the source_list_widget to the target_list_widget.
+    Add the selected item(s) of the source_list_widget to the target_list_widget, and remove the item(s9 from the
+    source_list_widget.
     """
+    # TODO add a maximum parameter, for the maximum number of items that can be added
     for item in source_list_widget.selectedItems():
-        item_in_the_list = False
-        for i in range(target_list_widget.count()):
-            if item.text() == target_list_widget.item(i).text():
-                item_in_the_list = True
-                break
-        if not item_in_the_list:
-            target_list_widget.addItem(QString(item.text()))
+        target_list_widget.addItem(QString(item.text()))
+        source_list_widget.takeItem(source_list_widget.row(item))
 
 
-def remove_item_from_list_widget(list_widget):
+def remove_item_from_list_widget(source_list_widget, target_list_widget, names):
     """
-    Remove selected item from list_widget.
+    Remove selected item(s) from target_list_widget, and add it to the source_list_widget.
     """
-    for item in list_widget.selectedItems():
-        list_widget.takeItem(list_widget.row(item))
+    for item in target_list_widget.selectedItems():
+        target_list_widget.takeItem(target_list_widget.row(item))
+        source_list_widget.insertItem(find_previous_item_position(source_list_widget, names, item.text()), item.text())
 
 
 def find_previous_item_position(list_widget, names, text_item):
@@ -139,33 +147,36 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         self.removeDependent.clicked.connect(self.remove_dependent)
         self.dependentListWidget.doubleClicked.connect(self.remove_dependent)
 
+        self.names = names
+
         self.init_vars(names)                
         self.show()
 
     def init_vars(self, names):
-        init_source_vars(self.sourceListWidget, names)
         remove_ceased_vars(self.pagesListWidget, names)
         remove_ceased_vars(self.columnsListWidget, names)
         remove_ceased_vars(self.rowsListWidget, names)
         remove_ceased_vars(self.dependentListWidget, names)
+        init_source_vars(self.sourceListWidget, names, [self.pagesListWidget, self.columnsListWidget, self.rowsListWidget, self.dependentListWidget])
 
     def add_rows(self):
         add_to_list_widget(self.sourceListWidget, self.rowsListWidget)
     def remove_rows(self):
-        remove_item_from_list_widget(self.rowsListWidget)
+        remove_item_from_list_widget(self.sourceListWidget, self.rowsListWidget, self.names)
     def add_columns(self):
         add_to_list_widget(self.sourceListWidget, self.columnsListWidget)
     def remove_columns(self):
-        remove_item_from_list_widget(self.columnsListWidget)
+        remove_item_from_list_widget(self.sourceListWidget, self.columnsListWidget, self.names)
     def add_pages(self):
         add_to_list_widget(self.sourceListWidget, self.pagesListWidget)
     def remove_pages(self):
-        remove_item_from_list_widget(self.pagesListWidget)
+        remove_item_from_list_widget(self.sourceListWidget, self.pagesListWidget, self.names)
     def add_dependent(self):
         if self.dependentListWidget.count() == 0:  # do this only if the list is empty
             self.dependentListWidget.addItem(QString(self.sourceListWidget.currentItem().text()))
+            self.sourceListWidget.takeItem(self.sourceListWidget.row(self.sourceListWidget.currentItem()))
     def remove_dependent(self):
-        self.dependentListWidget.takeItem(self.dependentListWidget.currentRow())
+        remove_item_from_list_widget(self.sourceListWidget, self.dependentListWidget, self.names)
     
     def read_parameters(self):
         return ([str(self.rowsListWidget.item(i).text()) for i in range(self.rowsListWidget.count())],
@@ -188,18 +199,20 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
+        self.names = names
+
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
-        init_source_vars(self.source_listWidget, names)
         remove_ceased_vars(self.selected_listWidget, names)
+        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
         add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
     def remove_var(self):
-        remove_item_from_list_widget(self.selected_listWidget)
+        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
         return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
@@ -217,16 +230,18 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
+        self.names = names
+
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
-        init_source_vars(self.source_listWidget, names)
         remove_ceased_vars(self.selected_listWidget, names)
+        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
     def add_var(self):
         add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
-        remove_item_from_list_widget(self.selected_listWidget)
+        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
     
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
@@ -247,16 +262,18 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
+        self.names = names
+
         self.init_vars(names)        
         self.show()
         
     def init_vars(self, names):
-        init_source_vars(self.source_listWidget, names)
         remove_ceased_vars(self.selected_listWidget, names)
+        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
     def add_var(self):
         add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
-        remove_item_from_list_widget(self.selected_listWidget)
+        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
     
     def read_parameters(self):
         return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
@@ -344,9 +361,11 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.show()
 
     def init_vars(self, names):
-        init_source_vars(self.source_listWidget, names)
+        init_source_vars(self.source_listWidget, names, [])
         if len(self.factors) < 2:
             remove_ceased_vars(self.selected_listWidget, names)
+            init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
+
     def add_var(self):
         if len(self.factors) < 2:
             add_to_list_widget(self.source_listWidget, self.selected_listWidget)
@@ -354,7 +373,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
     def remove_var(self):
         if len(self.factors) < 2:
-            remove_item_from_list_widget(self.selected_listWidget)
+            remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
         else:
             remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
 
@@ -405,19 +424,21 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
+        self.names = names
+
         self.init_vars(names)
         #self.show()
 
     def init_vars(self, names):
-        init_source_vars(self.source_listWidget, names)
         remove_ceased_vars(self.selected_listWidget, names)
+        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
         if self.selected_listWidget.count() == 0:  # allow only if the list is empty
             add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
     def remove_var(self):
-        remove_item_from_list_widget(self.selected_listWidget)
+        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
@@ -443,25 +464,27 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
         self.single_case_slope_SEs, self.single_case_slope_trial_n = [], 0
 
+        self.names = names
+
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
-        init_source_vars(self.source_listWidget, names)
         remove_ceased_vars(self.selected_listWidget, names)
         remove_ceased_vars(self.group_listWidget, names)
+        init_source_vars(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
 
     def add_var(self):
         add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
-        remove_item_from_list_widget(self.selected_listWidget)
+        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def add_group(self):
         if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
             add_to_list_widget(self.source_listWidget, self.group_listWidget)
     def remove_group(self):
-        remove_item_from_list_widget(self.group_listWidget)
+        remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
     def on_slopeButton_clicked(self):
         self.slope_dialog.exec_()

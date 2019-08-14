@@ -17,6 +17,7 @@ Upcoming release
     - Updated formerly abandoned Italian version (Roland Kasza)
 
 ## Fixes
+- Usability refinements
 - Dialogs are localized now
 - Various bugfixes
 
