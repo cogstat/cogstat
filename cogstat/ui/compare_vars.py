@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'compare_vars.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -47,6 +46,9 @@ class Ui_Dialog(object):
         self.source_listWidget.setGeometry(QtCore.QRect(20, 30, 161, 192))
         self.source_listWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.source_listWidget.setObjectName("source_listWidget")
+        self.pushButton = QtWidgets.QPushButton(Dialog)
+        self.pushButton.setGeometry(QtCore.QRect(90, 240, 87, 29))
+        self.pushButton.setObjectName("pushButton")
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -64,8 +66,8 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "Available variables"))
         self.removeVar.setText(_translate("Dialog", "<="))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
-
-
+        self.pushButton.setText(_translate("Dialog", "Factors..."))
+        self.pushButton.setShortcut(_translate("Dialog", "Alt+F"))
 
 
 if __name__ == "__main__":
@@ -76,3 +78,4 @@ if __name__ == "__main__":
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())
+

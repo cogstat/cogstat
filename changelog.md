@@ -5,14 +5,16 @@ Upcoming release
 ================
 
 ## New features
+- Multi-way repeated measures ANOVA
 - Outlier filtering is available from Data > Filter outliers... menu
 - Output may be edited (Results > Text is editable menu)
-- Add icons for the menus
-- Add a toolbar
-- New localization
+- GUI
+    - Add icons for the menus
+    - Add a toolbar
+- New localizations
     - Norwegian Bokmål (Irmelin Hovland-Hegg)
     - Russian (Nikolay Kuzmenko)
-    - Updated formerly abandoned Italian (Roland Kasza)
+    - Updated formerly abandoned Italian version (Roland Kasza)
 
 ## Fixes
 - Dialogs are localized now

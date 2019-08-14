@@ -131,6 +131,22 @@
     <enum>QAbstractItemView::ExtendedSelection</enum>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>240</y>
+     <width>87</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Factors...</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+F</string>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>source_listWidget</tabstop>

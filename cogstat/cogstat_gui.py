@@ -79,7 +79,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Only for testing
 #        self.open_file('cogstat/sample_data/example_data.csv'); #self.compare_groups()
-#        self.open_file('cogstat/test/data/test_data.csv')
+#        self.open_file('cogstat/test/data/rep_meas.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable(['X'])
@@ -89,6 +89,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['A', 'B', 'C1'])
 #        self.compare_variables(['D', 'E', 'F'])
+#        self.compare_variables()
+#        self.compare_variables(['a', 'b', 'c1', 'd', 'e', 'f', 'g', 'h'],
+#                               factors=[['factor1', 2], ['factor2', 2], ['factor3', 2]])
 #        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
 #        self.compare_groups(['A'], ['G', 'H'])
@@ -565,7 +568,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_output_pane()
         self._busy_signal(False)
 
-    def compare_variables(self, var_names=None):
+    def compare_variables(self, var_names=None, factors=[]):
         """Compare variables.
         
         Arguments:
@@ -579,18 +582,21 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var.exec_():
-                var_names = self.dial_comp_var.read_parameters()  # TODO check if settings are appropriate
+                var_names, factors = self.dial_comp_var.read_parameters()  # TODO check if settings are appropriate
             else:
                 return
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
+        if len(factors) == 1:
+            factors = []  # ignore single factor
         if len(var_names) < 2:
-            text_result = cs_util.reformat_output('<default>%s %s'%(_('Compare variables.'), _('At least two variables should be set.')))
+            text_result = cs_util.reformat_output('<default>%s %s' %
+                                                  (_('Compare variables.'), _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
-                result_list = self.active_data.compare_variables(var_names)
+                result_list = self.active_data.compare_variables(var_names, factors)
                 for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
                     self.analysis_results[-1].add_output(result)
             except:

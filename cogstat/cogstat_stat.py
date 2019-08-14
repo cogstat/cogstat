@@ -36,6 +36,7 @@ except:
 from statsmodels.stats.weightstats import DescrStatsW
 from statsmodels.sandbox.stats.runs import mcnemar
 from statsmodels.sandbox.stats.runs import cochrans_q
+from statsmodels.stats.anova import AnovaRM
 import pandas as pd
 import scikit_posthocs
 
@@ -523,7 +524,7 @@ def var_pair_contingency_table(meas_lev, x, y, data_frame):
 def repeated_measures_estimations(data, meas_level):
     """Draw means with CI for int vars, and medians for ord vars.
     """
-    # TODO the same things are calulated in cs_chart.create_repeated_measures_population_chart()
+    # TODO the same things are calculated in cs_chart.create_repeated_measures_population_chart()
     condition_means_pdf = pd.DataFrame()
     if meas_level in ['int', 'unk']:
         means = np.mean(data)
@@ -593,39 +594,85 @@ def cochran_q_test(pdf, var_names):
                                               (len(var_names)-1, len(pdf[var_names[0]]), q, cs_util.print_p(p))
 
 
-def repeated_measures_anova(pdf, var_names):
-    [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf[var_names].dropna(), var_names)
-    # Choose df correction depending on sphericity violation
-    text_result = _("Result of Mauchly's test to check sphericity") + \
-                   ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
-    if pw < 0.05:  # sphericity is violated
-        p = corr_table[0, 1]
-        text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
-                       +_('Using Greenhouse-Geisser correction.') + '\n<default>' + \
-                       _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.3g, %s\n' \
-                        % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(p))
-    else:  # sphericity is not violated
-        p = pf
-        text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n<default>' + \
-                       _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.3g, %s\n' \
-                                                                % (dfn, dfd, f, cs_util.print_p(p))
+def repeated_measures_anova(pdf, var_names, factors=[]):
+    """
+    TODO
+    :param pdf:
+    :param var_names:
+    :param factors:
+    :return:
+    """
 
-    # Post-hoc tests
-    if p < 0.05:
-        pht = cs_stat_num.pairwise_ttest(pdf[var_names].dropna(), var_names).sort_index()
-        text_result += '\n' + _('Comparing variables pairwise with the Holm-Bonferroni correction:')
-        #print pht
-        pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
+    if not factors:  # one-way comparison
+        # TODO use statsmodels functions
+        [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf[var_names].dropna(), var_names)
+        # Choose df correction depending on sphericity violation
+        text_result = _("Result of Mauchly's test to check sphericity") + \
+                       ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
+        if pw < 0.05:  # sphericity is violated
+            p = corr_table[0, 1]
+            text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
+                           +_('Using Greenhouse-Geisser correction.') + '\n<default>' + \
+                           _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.3g, %s\n' \
+                            % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(p))
+        else:  # sphericity is not violated
+            p = pf
+            text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n<default>' + \
+                           _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.3g, %s\n' \
+                                                                    % (dfn, dfd, f, cs_util.print_p(p))
 
-        pht_text = pht[['text']]
-        text_result += _format_html_table(pht_text.to_html(bold_rows=True, escape=False, header=False))
+        # Post-hoc tests
+        if p < 0.05:
+            pht = cs_stat_num.pairwise_ttest(pdf[var_names].dropna(), var_names).sort_index()
+            text_result += '\n' + _('Comparing variables pairwise with the Holm-Bonferroni correction:')
+            #print pht
+            pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
 
-        # Or we can print them in a matrix
-        #pht_text = pht[['text']].unstack()
-        #np.fill_diagonal(pht_text.values, '')
-        #text_result += pht_text.to_html(bold_rows=True, escape=False))
+            pht_text = pht[['text']]
+            text_result += _format_html_table(pht_text.to_html(bold_rows=True, escape=False, header=False))
 
-        #print text_result
+            # Or we can print them in a matrix
+            #pht_text = pht[['text']].unstack()
+            #np.fill_diagonal(pht_text.values, '')
+            #text_result += pht_text.to_html(bold_rows=True, escape=False))
+    else:  # multi-way comparison
+
+        # Prepare the dataset for the ANOVA
+        # new temporary names are needed to set the independent factors in the long format
+        # (alternatively, one might set it later in the long format directly)
+        temp_var_names = ['']
+        for factor in factors:
+            # TODO this will not work if the factor name includes the current separator (_)
+            temp_var_names = [previous_var_name+'_'+factor[0]+str(i)
+                              for previous_var_name in temp_var_names for i in range(factor[1])]
+        temp_var_names = [temp_var_name[1:] for temp_var_name in temp_var_names]
+        #print(temp_var_names)
+
+        pdf_temp = pdf[var_names].dropna()
+        pdf_temp.columns = temp_var_names
+        pdf_temp = pdf_temp.assign(ID=pdf_temp.index)
+        pdf_long = pd.melt(pdf_temp, id_vars='ID', value_vars=temp_var_names)
+        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_', expand=True).
+                             rename(columns={i: factors[i][0] for i in range(len(factors))})], axis=1)
+
+        # Run ANOVA
+        anovarm = AnovaRM(pdf_long, 'value', 'ID', [factor[0] for factor in factors])
+        anova_res = anovarm.fit()
+
+        # Create the text output
+        #text_result = str(anova_res)
+        text_result = ''
+        for index, row in anova_res.anova_table.iterrows():
+            factor_names = index.split(':')
+            if len(factor_names) == 1:
+                text_result += _('Main effect of %s') % factor_names[0]
+            else:
+                text_result += _('Interaction of factors %s') % ', '.join(factor_names)
+            text_result += (': <i>F</i>(%d, %d) = %0.3g, %s\n' %
+                            (row['Num DF'], row['Den DF'], row['F Value'], cs_util.print_p(row['Pr > F'])))
+
+        # TODO post hoc - procedure for any number of factors (i.e., not only for two factors)
+    #print(text_result)
 
     return text_result
 

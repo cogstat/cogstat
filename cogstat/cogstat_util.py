@@ -42,7 +42,10 @@ def get_versions():
         import statsmodels
         csc.versions['statsmodels'] = statsmodels.version.version
     except:
-        csc.versions['statsmodels'] = None
+        try:
+            csc.versions['statsmodels'] = statsmodels.__version__
+        except:
+            csc.versions['statsmodels'] = None
     try:
         import matplotlib
         csc.versions['matplotlib'] = matplotlib.__version__

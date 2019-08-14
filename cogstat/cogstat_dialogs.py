@@ -39,7 +39,7 @@ def save_output():
 
 
 def init_source_vars(list_widget, names):
-    list_widget.clear() # clear source list in case new data is loaded
+    list_widget.clear()  # clear source list in case new data is loaded
     for var_name in names:
         list_widget.addItem(QString(var_name))
 
@@ -74,6 +74,47 @@ def remove_item_from_list_widget(list_widget):
     """
     for item in list_widget.selectedItems():
         list_widget.takeItem(list_widget.row(item))
+
+
+def find_previous_item_position(list_widget, names, text_item):
+    """
+    TODO
+    """
+    names = list(names)
+    if list(reversed(names[:names.index(text_item)])):  # check if the text_item is not the first in the variable list, otherwise return zero
+        for item in reversed(names[:names.index(text_item)]):
+            try:  # if the item is in the list_widget, then return its position
+                return list_widget.row(list_widget.findItems(item, QtCore.Qt.MatchExactly)[0])+1
+            except:  # otherwise look further for next variable names
+                pass
+    return 0  # if no earlier variables were fond on list_widget (or the text_item is the first in the variable list) insert the item at the beginning of the list_widget
+
+def add_to_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
+    """
+    Add the selected items of the source_list_widget to the target_list_widget,
+    """
+
+    if target_list_widget.selectedItems():  # there are selected items in the target list
+        start_target_row = target_list_widget.row(target_list_widget.selectedItems()[0])
+    else:
+        start_target_row = 0
+
+    for item_source in source_list_widget.selectedItems():
+        for item_target_i in range(start_target_row, target_list_widget.count()):
+            item_text = target_list_widget.item(item_target_i).text()
+            if item_text.endswith(' :: '):
+                target_list_widget.item(item_target_i).setText(item_text + item_source.text())
+                source_list_widget.takeItem(source_list_widget.row(item_source))
+                break
+
+def remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
+    """
+    Remove selected items from target_list_widget.
+    """
+    for item in target_list_widget.selectedItems():
+        if item.text().split(' :: ')[1]:
+            source_list_widget.insertItem(find_previous_item_position(source_list_widget, names, item.text().split(' :: ')[1]), item.text().split(' :: ')[1])
+            item.setText(item.text().split(' :: ')[0]+' :: ')
 
 ### Data dialogs ###
 
@@ -221,6 +262,66 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
 
+from .ui import factor
+class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+    def set_parameters(self, lineEdit='', spinBox=None):
+        if lineEdit:
+            self.lineEdit.setText(lineEdit)
+        if spinBox:
+            self.spinBox.setValue(spinBox)
+
+    def read_parameters(self):
+        return self.lineEdit.text(), self.spinBox.value()
+
+
+from .ui import factors
+class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.listWidget.doubleClicked.connect(self.modifyButton_clicked)
+        self.pushButton.clicked.connect(self.addButton_clicked)
+        self.pushButton_2.clicked.connect(self.modifyButton_clicked)
+        self.pushButton_3.clicked.connect(self.removeButton_clicked)
+
+        self.factor_dialog = factor_dialog(self)
+
+    def addButton_clicked(self):
+        self.factor_dialog.lineEdit.setFocus()
+        if self.factor_dialog.exec_():
+            factor_name, level_n = self.factor_dialog.read_parameters()
+            self.listWidget.addItem(QString('%s (%d)' % (factor_name, level_n)))
+
+    def modifyButton_clicked(self):
+        self.factor_dialog.lineEdit.setFocus()
+        for item in self.listWidget.selectedItems():
+            t = item.text()
+            text_to_modify = t[:t.rfind(' (')]
+            value_to_modify = int(t[t.rfind('(')+1:t.rfind(')')])
+            self.factor_dialog.set_parameters(text_to_modify, value_to_modify)
+            if self.factor_dialog.exec_():
+                factor_name, level_n = self.factor_dialog.read_parameters()
+                item.setText(QString('%s (%d)' % (factor_name, level_n)))
+
+    def removeButton_clicked(self):
+        for item in self.listWidget.selectedItems():
+            self.listWidget.takeItem(self.listWidget.row(item))
+
+    def read_parameters(self):
+        return [self.listWidget.item(i).text() for i in range(self.listWidget.count())]
+        #return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+
+
 from .ui import compare_vars
 class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
@@ -233,20 +334,63 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
+        self.pushButton.clicked.connect(self.factorsButton_clicked)
 
+        self.factors_dialog = factors_dialog(self)
+        self.factors = []
+
+        self.names = names
         self.init_vars(names)
         self.show()
-        
+
     def init_vars(self, names):
         init_source_vars(self.source_listWidget, names)
-        remove_ceased_vars(self.selected_listWidget, names)
+        if len(self.factors) < 2:
+            remove_ceased_vars(self.selected_listWidget, names)
     def add_var(self):
-        add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+        if len(self.factors) < 2:
+            add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+        else:
+            add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
     def remove_var(self):
-        remove_item_from_list_widget(self.selected_listWidget)
-    
+        if len(self.factors) < 2:
+            remove_item_from_list_widget(self.selected_listWidget)
+        else:
+            remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+
+    def show_factors(self):
+        # remove all items first
+        for i in range(self.selected_listWidget.count()):
+            self.selected_listWidget.takeItem(0)
+
+        # add new empty factor levels
+        factor_combinations = ['']
+        for factor in self.factors:
+            factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i + 1) for factor_combination in
+                                   factor_combinations for level_i in range(factor[1])]
+        factor_combinations = [factor_combination[3:] + ' :: ' for factor_combination in factor_combinations]
+        for factor_combination in factor_combinations:
+            self.selected_listWidget.addItem(QString(factor_combination))
+
+    def factorsButton_clicked(self):
+        if self.factors_dialog.exec_():
+            factor_list = self.factors_dialog.read_parameters()
+            #print(factor_list)
+
+            self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
+            #print(self.factors)
+            if len(self.factors) > 1:
+                self.show_factors()
+            else:  # remove the factor levels
+                for i in range(self.selected_listWidget.count()):
+                    self.selected_listWidget.takeItem(0)
+
     def read_parameters(self):
-        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+        if len(self.factors) > 1:
+            return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())], self.factors
+        else:
+            return [str(self.selected_listWidget.item(i).text()) for i in
+                    range(self.selected_listWidget.count())], self.factors
 
 from .ui import compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_single_case_slope.Ui_Dialog):
