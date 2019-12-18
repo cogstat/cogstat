@@ -2,11 +2,12 @@
 
 # Form implementation generated from reading ui file 'compare_vars_wiz.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Wizard(object):
     def setupUi(self, Wizard):
@@ -67,6 +68,8 @@ class Ui_Wizard(object):
         self.addVar.setText(_translate("Wizard", "=>"))
 
 
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -75,4 +78,3 @@ if __name__ == "__main__":
     ui.setupUi(Wizard)
     Wizard.show()
     sys.exit(app.exec_())
-
