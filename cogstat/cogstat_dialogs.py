@@ -66,7 +66,7 @@ def remove_ceased_vars(list_widget, names):
 
 def add_to_list_widget(source_list_widget, target_list_widget):
     """
-    Add the selected item(s) of the source_list_widget to the target_list_widget, and remove the item(s9 from the
+    Add the selected item(s) of the source_list_widget to the target_list_widget, and remove the item(s) from the
     source_list_widget.
     """
     # TODO add a maximum parameter, for the maximum number of items that can be added
@@ -95,7 +95,7 @@ def find_previous_item_position(list_widget, names, text_item):
                 return list_widget.row(list_widget.findItems(item, QtCore.Qt.MatchExactly)[0])+1
             except:  # otherwise look further for next variable names
                 pass
-    return 0  # if no earlier variables were fond on list_widget (or the text_item is the first in the variable list) insert the item at the beginning of the list_widget
+    return 0  # if no earlier variables were found on list_widget (or the text_item is the first in the variable list) insert the item at the beginning of the list_widget
 
 def add_to_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
     """
@@ -147,12 +147,11 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         self.removeDependent.clicked.connect(self.remove_dependent)
         self.dependentListWidget.doubleClicked.connect(self.remove_dependent)
 
-        self.names = names
-
-        self.init_vars(names)                
+        self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
+        self.names = names
         remove_ceased_vars(self.pagesListWidget, names)
         remove_ceased_vars(self.columnsListWidget, names)
         remove_ceased_vars(self.rowsListWidget, names)
@@ -199,12 +198,11 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
-        self.names = names
-
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
+        self.names = names
         remove_ceased_vars(self.selected_listWidget, names)
         init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
 
@@ -230,12 +228,11 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
-        self.names = names
-
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
+        self.names = names
         remove_ceased_vars(self.selected_listWidget, names)
         init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
     def add_var(self):
@@ -262,12 +259,11 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
-        self.names = names
-
-        self.init_vars(names)        
+        self.init_vars(names)
         self.show()
         
     def init_vars(self, names):
+        self.names = names
         remove_ceased_vars(self.selected_listWidget, names)
         init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
     def add_var(self):
@@ -356,11 +352,11 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.factors_dialog = factors_dialog(self)
         self.factors = []
 
-        self.names = names
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
+        self.names = names
         init_source_vars(self.source_listWidget, names, [])
         if len(self.factors) < 2:
             remove_ceased_vars(self.selected_listWidget, names)
@@ -424,12 +420,11 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
-        self.names = names
-
         self.init_vars(names)
         #self.show()
 
     def init_vars(self, names):
+        self.names = names
         remove_ceased_vars(self.selected_listWidget, names)
         init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
 
@@ -464,12 +459,11 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
         self.single_case_slope_SEs, self.single_case_slope_trial_n = [], 0
 
-        self.names = names
-
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
+        self.names = names
         remove_ceased_vars(self.selected_listWidget, names)
         remove_ceased_vars(self.group_listWidget, names)
         init_source_vars(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
