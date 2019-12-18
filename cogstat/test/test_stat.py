@@ -194,6 +194,12 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('f: <i>W</i> = 0.818, <i>p</i> &lt; 0.001' in result[7])
         self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 6.47, <i>p</i> = 0.039' in result[7])
 
+        # 2 × 2 Int variables
+        result = data.compare_variables(['a', 'b', 'e', 'f'], factors=[['first', 2], ['second', 2]])
+        self.assertTrue('Main effect of first: <i>F</i>(1, 29) = 6.06, <i>p</i> = 0.020' in result[7])
+        self.assertTrue('Main effect of second: <i>F</i>(1, 29) = 6.29, <i>p</i> = 0.018' in result[7])
+        self.assertTrue('Interaction of factors first, second: <i>F</i>(1, 29) = 6.04, <i>p</i> = 0.020' in result[7])
+
         # 2 Ord variables
         data.data_measlevs['a'] = 'ord'
         data.data_measlevs['e'] = 'ord'
