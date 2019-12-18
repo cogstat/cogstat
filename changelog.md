@@ -14,6 +14,7 @@ Upcoming release
 - New localizations
     - Norwegian Bokmål (Irmelin Hovland-Hegg)
     - Russian (Nikolay Kuzmenko)
+    - Kazakh (Danagul Duisekenova)
     - Updated formerly abandoned Italian version (Roland Kasza, Andrea Bortoletti) and Romanian version (Borbála Tölgyesi)
 
 ## Fixes

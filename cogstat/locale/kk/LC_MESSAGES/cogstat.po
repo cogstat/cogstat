@@ -1,0 +1,1528 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: CogStat\n"
+"Language: kk\n"
+
+#: .././cogstat_stat.py:58
+msgid "The properties of the variables are not set. Set them in your data source."
+msgstr "Aınymalylardyń qasıetteri qoıylmaıdy. Olardy derekter kózine ornatyńyz."
+
+#: .././cogstat_stat.py:122
+msgid "Sorry, only one dependent variable can be used."
+msgstr "Keshirińiz, tek bir táýeldi aınymalyny paıdalanýǵa bolady. "
+
+#: .././cogstat_stat.py:124
+msgid "Sorry, string variables cannot be used in Pivot table."
+msgstr "Keshirińiz, jol aınymalylary jıyntyq kestede qoldanyla almaıdy."
+
+#: .././cogstat_stat.py:130
+msgid "Independent variable(s) - Pages: "
+msgstr "Táýelsiz aınymal(y) - better:"
+
+#: .././cogstat_stat.py:132
+msgid "Independent variable(s) - Columns: "
+msgstr "Táýelsiz aınymal(y) - baǵandar:"
+
+#: .././cogstat_stat.py:134
+msgid "Independent variable(s) - Rows: "
+msgstr "Táýelsiz aınymal(y) - birqatar:"
+
+#: .././cogstat_stat.py:135
+msgid "Function: "
+msgstr "Fýnksıasy:"
+
+#: .././cogstat_chart.py:484 .././cogstat_chart.py:536 .././cogstat_stat.py:270
+#: .././cogstat_stat.py:272
+msgid "Value"
+msgstr "Máni"
+
+#: .././cogstat_chart.py:199 .././cogstat_chart.py:266
+msgid "Largest tick on the x axes displays %d cases."
+msgstr "X osterindegi eń úlken belgi % jaǵdaılardy kórsetedi."
+
+#: .././cogstat_chart.py:216
+msgid "Histogram with individual data and boxplot"
+msgstr "Jeke derektermen Gıstogramma jáne baǵandyq dıagram"
+
+#: .././cogstat_chart.py:166 .././cogstat_chart.py:222
+msgid "Frequency"
+msgstr "Jıiligi"
+
+#: .././cogstat_chart.py:163
+msgid "Histogram"
+msgstr "Gıstogramma"
+
+#: .././cogstat_stat.py:225
+msgid "N of valid cases: %g"
+msgstr "N naqty jaǵdaılarda: %g"
+
+#: .././cogstat.py:533 .././cogstat.py:571
+msgid "Median: %0.*f"
+msgstr "Ortasha: %0.*f"
+
+#: .././cogstat_stat.py:315
+msgid "Normality can be checked only for interval variables."
+msgstr "Qalypty aralyq aınymalylar úshin ǵana tekserilýi múmkin."
+
+#: .././cogstat_stat.py:334
+msgid "Shapiro-Wilk normality test in variable %s%s"
+msgstr "Shapiro-Wilk aınymalydaǵy qalypty test %s%s"
+
+#: .././cogstat_chart.py:275
+msgid "Histogram with individual data and normal distribution"
+msgstr "Jeke derektermen jáne qalypty úlestirýmen Gıstogramma"
+
+#: .././cogstat_chart.py:282
+msgid "Normalized relative frequency"
+msgstr "Normalanǵan salystyrmaly jıilik"
+
+#: .././cogstat_chart.py:300
+msgid "Quantile-quantile plot"
+msgstr "Quantile-quantile sújet"
+
+#: .././cogstat_stat.py:365
+msgid "One sample t-test cannot be run for constant variable.\n"
+""
+msgstr "T-testiniń bir úlgisi turaqty aınymaly úshin oryndalýy múmkin emes."
+
+#: .././cogstat_stat.py:378
+msgid "Sorry, newer statsmodels module is required for confidence interval.\n"
+""
+msgstr "Keshirińiz, jańa statsmodels modýli senimdi ınterval úshin qajet."
+
+#: .././cogstat_stat.py:379
+msgid "One sample t-test against %g"
+msgstr "Bir úlgisi t-test qarsy %g"
+
+#: .././cogstat_chart.py:313
+msgid "Mean value with 95% confidence interval"
+msgstr "95% senimdi ıntervalmen ortasha máni"
+
+#: .././cogstat_stat.py:384
+msgid "One sample t-test is computed only for interval variables."
+msgstr "Bir nusqa t-test tek aralyq aınymalylar úshin esepteledi."
+
+#: .././cogstat_chart.py:325
+msgid "Median value"
+msgstr "Ortasha maǵyna"
+
+#: .././cogstat_stat.py:418
+msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
+msgstr "Wilcoxon belgilik rangtik test aralyq nemese rettik aınymalylar úshin ǵana esepteledi."
+
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 .././cogstat.py:558
+#: .././cogstat.py:561 ../ui/pivot.py:109
+msgid "Mean"
+msgstr "Bildirý"
+
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 ../ui/pivot.py:110
+msgid "Median"
+msgstr "Ortasha"
+
+#: .././cogstat_chart.py:531
+msgid "Medians for the variables"
+msgstr "Aınymalylarǵa arnalǵan medians"
+
+#: .././cogstat_chart.py:677
+msgid "Medians for the groups"
+msgstr "Aınymalylarǵa arnalǵan toptar"
+
+#: .././cogstat_stat.py:480 .././cogstat_stat.py:482
+msgid "No data"
+msgstr "Derekter joq"
+
+#: .././cogstat_chart.py:362
+msgid "Largest sign on the graph displays %d cases."
+msgstr "Kestedegi eń úlken belgi %d oqıǵany kórsetedi"
+
+#: .././cogstat_chart.py:379
+msgid "Scatterplot of the variables"
+msgstr "Aınymalylardyń taralý dıagramasy"
+
+#: .././cogstat_chart.py:420 .././cogstat_chart.py:505
+msgid "Mosaic plot of the variables"
+msgstr "Mozaıkalyq keste aınymaly"
+
+#: .././cogstat_chart.py:510
+msgid "Sorry, the mosaic plot can not be drawn with those data."
+msgstr "Keshirińiz, mozaıkalyq keste bul derektermen sýret salýǵa bolmaıdy"
+
+#: .././cogstat_chart.py:470
+msgid "Thickest line displays %d cases."
+msgstr "Qalyń syzyq %d jaǵdaılardy kórsetedi."
+
+#: .././cogstat_chart.py:524
+msgid "Means and 95% confidence intervals for the variables"
+msgstr "Aınymaly úshin ortasha mánder jáne 95% senimdi ıntervaldar"
+
+#: .././cogstat_stat.py:552
+msgid "Paired t-test requires two variables."
+msgstr "Juptyq t-test eki aınymalyny talap etedi."
+
+#: .././cogstat_stat.py:557
+msgid "Result of paired samples t-test"
+msgstr "Nátıjesi t-test juptyq úlgileri"
+
+#: .././cogstat_stat.py:574
+msgid "Paired Wilcoxon test requires two variables."
+msgstr "Paired Wilcoxon test eki aınymalyny talap etedi."
+
+#: .././cogstat_stat.py:688
+msgid "Friedman test requires at least two variables."
+msgstr "Friedman test kem degende eki aınymalyny talap etedi."
+
+#: .././cogstat_stat.py:694
+msgid "Result of the Friedman test: "
+msgstr "Friedman test nátıjesi: "
+
+#: .././cogstat_stat.py:1097
+msgid "Largest individual data display %d cases."
+msgstr "Eń úlken jeke derekter dıspleıi %d jaǵdaılary."
+
+#: .././cogstat_stat.py:1125
+msgid "Boxplot and individual data of the groups"
+msgstr "Qorapty dıagramlar jáne jeke toptardyń derekteri"
+
+#: .././cogstat_chart.py:644
+msgid "Mosaic plot of the groups"
+msgstr "Toptar týraly mozaıkalyq sújet"
+
+#: .././cogstat_chart.py:668
+msgid "Means and 95% confidence intervals for the groups"
+msgstr "Toptar úshin ortasha jáne 95% senimdi ıntervaldar"
+
+#: .././cogstat_stat.py:738
+msgid "Levene test"
+msgstr "Levene testy"
+
+#: .././cogstat_stat.py:770
+msgid "Difference between the two groups:"
+msgstr "Eki top arasyndaǵy aıyrmashylyq:"
+
+#: .././cogstat_stat.py:771
+msgid "95%% confidence interval [%0.*f, %0.*f]"
+msgstr "95%% senimdi ınterval [%0.*f, % 0.*f]"
+
+#: .././cogstat_stat.py:772
+msgid "Result of independent samples t-test:"
+msgstr "Ttest táýelsiz úlgilerdiń nátıjesi:"
+
+#: .././cogstat_stat.py:802
+msgid "One of the groups should include only a single data."
+msgstr "Toptardyń bireýi tek jeke derekterdi qamtýy tıis."
+
+#: .././cogstat_stat.py:799
+msgid "Result of the modified independent samples t-test:"
+msgstr "Modıfıkasıalanǵan t-testiniń úlgilerdiń táýelsiz nátıjesi:"
+
+#: .././cogstat_stat.py:853 .././cogstat_stat.py:858 .././cogstat_stat.py:861
+msgid "Result of independent samples Mann-Whitney rank test: "
+msgstr "Mann-Whitney testiniń táýelsiz irikteý nátıjesi:"
+
+#: .././cogstat_stat.py:887
+msgid "Result of one-way ANOVA: "
+msgstr "Bir jaqty ANOVA qozǵalys nátıjesi:"
+
+#: .././cogstat_stat.py:893
+msgid "Effect size: "
+msgstr "Áser shamasy:"
+
+#: .././cogstat_stat.py:898 .././cogstat_stat.py:995
+msgid "Groups differ. Post-hoc test of the means."
+msgstr "Toptar aıyrmashylyq. Post-hoc quraldardy synaý."
+
+#: .././cogstat_stat.py:991 .././cogstat_stat.py:1002
+msgid "Result of the Kruskal-Wallis test: "
+msgstr "Kruskal-Wallis testinyń jınaqy:"
+
+#: .././cogstat_stat.py:1021
+msgid "Cramér's V measure of association: "
+msgstr "Cramér's V qaýymdastyq sharasy:"
+
+#: .././cogstat_stat.py:1024
+msgid "Result of the Pearson's Chi-square test: "
+msgstr "Pearson's Chi-square testinyń jınaqy:"
+
+#: .././cogstat_gui.py:130
+msgid "&Data"
+msgstr "&Derekter"
+
+#: .././cogstat_gui.py:131
+msgid "&Open data file"
+msgstr "&Ashyq derekter faıly"
+
+#: .././cogstat_gui.py:131
+msgid "Ctrl+O"
+msgstr "Ctrl+O"
+
+#: .././cogstat_gui.py:133
+msgid "&Paste data"
+msgstr "&Derekter qondyrý"
+
+#: .././cogstat_gui.py:133
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: .././cogstat_gui.py:137 .././cogstat_gui.py:180
+msgid "&Display data"
+msgstr "&Derekterdi kórsetý"
+
+#: .././cogstat_gui.py:137
+msgid "Ctrl+D"
+msgstr "Ctrl+D"
+
+#: .././cogstat_gui.py:138 .././cogstat_gui.py:180
+msgid "Display data &briefly"
+msgstr "Derekterdi kórsetý &qysqasha"
+
+#: .././cogstat_gui.py:141
+msgid "&Analysis"
+msgstr "&Taldaý"
+
+#: .././cogstat_gui.py:142
+msgid "Ctrl+1"
+msgstr "Ctrl+1"
+
+#: .././cogstat_gui.py:143
+msgid "Ctrl+2"
+msgstr "Ctrl+2"
+
+#: .././cogstat_gui.py:145 .././cogstat_gui.py:181
+msgid "Pivot &table"
+msgstr "Qurama &keste"
+
+#: .././cogstat_gui.py:148 .././cogstat_gui.py:182
+msgid "Compare &groups"
+msgstr "&toptar salystyrý"
+
+#: .././cogstat.py:906 ../ui/compare_groups.py:74
+msgid "Compare groups"
+msgstr "Toptardy salystyrý"
+
+#: .././cogstat_gui.py:151
+msgid "&Results"
+msgstr "&Nátıjeleri"
+
+#: .././cogstat_gui.py:152
+msgid "&Clear results"
+msgstr "Naqty nátıjeleri"
+
+#: .././cogstat_gui.py:143 .././cogstat_gui_qt4.py:144
+msgid "Save results"
+msgstr "Nátıjelerdi saqtaý"
+
+#: .././cogstat_gui.py:160
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: .././cogstat_gui.py:144 .././cogstat_gui_qt4.py:145
+msgid "Save results as"
+msgstr "Nátıjelerdi qalaı saqtaý"
+
+#: .././cogstat_gui.py:164
+msgid "&CogStat"
+msgstr "&CogStat"
+
+#: .././cogstat_gui.py:165
+msgid "&Help"
+msgstr "&Kómek"
+
+#: .././cogstat_gui.py:165
+msgid "F1"
+msgstr "F1"
+
+#: .././cogstat_gui.py:166
+msgid "&Preferences"
+msgstr "&Artyqshylyq"
+
+#: .././cogstat_gui.py:167
+msgid "Request a &feature"
+msgstr "Suraý &ereksheligi"
+
+#: .././cogstat_gui.py:171
+msgid "&Report a problem"
+msgstr "&Másele týraly habarlaý"
+
+#: .././cogstat_gui.py:172
+msgid "&Diagnosis information"
+msgstr "&Dıagnostıkalyq aqparat"
+
+#: .././cogstat_gui.py:174
+msgid "&About"
+msgstr "&Týraly"
+
+#: .././cogstat_gui.py:176
+msgid "&Exit"
+msgstr "&Shyǵý"
+
+#: .././cogstat_gui.py:176
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: .././cogstat_gui.py:180
+msgid "&Save data"
+msgstr "Derekterdi &Saqtaý"
+
+#: .././cogstat_gui.py:180
+msgid "Save data &as"
+msgstr "Derekterdi &retinde saqtaý "
+
+#: .././cogstat_gui.py:183
+msgid "&Compare groups and variables"
+msgstr "Toptar men aınymalylardy &Salystyrý"
+
+#: .././cogstat_gui.py:385
+msgid "Import error"
+msgstr "Йate ımporty"
+
+#: .././cogstat_gui.py:385
+msgid "Data could not be loaded."
+msgstr "Derekterdi júkteý múmkin emes."
+
+#: .././cogstat_gui.py:517 .././cogstat_gui.py:595
+msgid "At least two variables should be set."
+msgstr "Kem degende eki aınymalyny ornatý qajet."
+
+#: .././cogstat.py:713 ../ui/pivot.py:105
+msgid "Pivot table"
+msgstr "Qurama keste"
+
+#: .././cogstat_gui.py:560
+msgid "The dependent variable and at least one grouping variable should be given."
+msgstr "Táýeldi aınymalyny jáne eń bolmaǵanda bir toptaýshy aınymalyny kórsetý qereq."
+
+#: .././cogstat_gui.py:630
+msgid "Both the dependent and the grouping variables should be set."
+msgstr "Táýeldi jáne toptaýshy aınymalylardy ornatý qereq."
+
+#: .././cogstat_gui.py:648
+msgid "Clear output"
+msgstr "Tazalaý qorytyndy"
+
+#: .././cogstat_gui.py:649
+msgid "Are you sure you want to delete the output?"
+msgstr "Qorytyndy joıǵyńyz senimsyz be?"
+
+#: .././cogstat_gui.py:715
+msgid "About CogStat "
+msgstr "CogStat týraly "
+
+#: .././cogstat_gui.py:725
+msgid "System components"
+msgstr "Júıelik komponentter"
+
+#: .././cogstat_gui.py:737
+msgid "Save output"
+msgstr "Qorytyndy saqtaý"
+
+#: .././cogstat_gui.py:738
+msgid "Output has unsaved results. Do you want to save it?"
+msgstr "Shyǵys málimetteriniń saqtalmaǵan nátıjeleri bar. Siz ony saqtaǵyńyz kele me?"
+
+#: .././cogstat.py:306
+msgid "Data"
+msgstr "Derekter"
+
+#: .././cogstat.py:307
+msgid "Source: "
+msgstr "Derekkózi: "
+
+#: .././cogstat.py:308
+msgid " variables and "
+msgstr " aınymaly jáne "
+
+#: .././cogstat.py:309
+msgid " cases"
+msgstr " jaǵdaılary"
+
+#: .././cogstat.py:320
+msgid " further cases are not displayed..."
+msgstr " ári ótinishter kórsetilmeıdi "
+
+#: .././cogstat.py:546 .././cogstat.py:1012 .././cogstat.py:1059
+#: .././cogstat.py:1195
+msgid "Interval variable."
+msgstr "Aınymaly ınterval."
+
+#: .././cogstat.py:576 .././cogstat.py:1047 .././cogstat.py:1097
+#: .././cogstat.py:1200
+msgid "Ordinal variable."
+msgstr "Rettik aınymaly."
+
+#: .././cogstat.py:472
+msgid "Explore variable"
+msgstr "Aınymalyny zertteńiz"
+
+#: .././cogstat.py:473
+msgid "Exploring variable: "
+msgstr "Zertteı aınymaly: "
+
+#: .././cogstat.py:488 ../ui/var_properties.py:72
+msgid "Frequencies"
+msgstr "Jıilik"
+
+#: .././cogstat.py:513
+msgid "Normality"
+msgstr "Birqalyptylyq"
+
+#: .././cogstat.py:602
+msgid "Exploring variable pair: "
+msgstr "Aınymaly jupty zertteý: "
+
+#: .././cogstat.py:637 .././cogstat.py:812 .././cogstat.py:845
+msgid "Interval variables."
+msgstr "Aralyq aınymalylar."
+
+#: .././cogstat.py:638
+msgid "Running Pearson's and Spearman's correlation."
+msgstr "Pearson men Spearman korrelásıasyn iske qosý."
+
+#: .././cogstat.py:642 .././cogstat.py:643 .././cogstat.py:644
+msgid "Pearson's correlation"
+msgstr "Pırson Korrelásıasy"
+
+#: .././cogstat.py:650
+msgid "Linear regression"
+msgstr "Syzyqtyq regressıa"
+
+#: .././cogstat.py:654 .././cogstat.py:655 .././cogstat.py:659
+#: .././cogstat.py:670 .././cogstat.py:671 .././cogstat.py:674
+msgid "Spearman's rank-order correlation"
+msgstr "Spearman rangalyq korrelásıasy"
+
+#: .././cogstat.py:665 .././cogstat.py:832 .././cogstat.py:868
+msgid "Ordinal variables."
+msgstr "Rettik aınymalylar."
+
+#: .././cogstat.py:665
+msgid "Running Spearman's correlation."
+msgstr "Spearman korrelásıasyn iske qosý."
+
+#: .././cogstat.py:681
+msgid "Not all variables are nominal. Consider comparing groups."
+msgstr "Barlyq aınymalylar nomınaldy emes. Toptardy salystyrýdy qarastyraıyq."
+
+#: .././cogstat.py:682
+msgid "Nominal variables."
+msgstr "Nomınaldy aınymaly."
+
+#: .././cogstat.py:682
+msgid "Running Cramér's V."
+msgstr "Cramér's V iske qosý."
+
+#: .././cogstat.py:727
+msgid "Variables to compare: "
+msgstr "Salystyrý úshin aınymalylar: "
+
+#: .././cogstat.py:744
+msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
+msgstr "Keshirińiz, siz ólsheýdiń ártúrli deńgeılerimen aınymalylardy salystyra almaısyz. Sizge birdeı ólshem deńgeıine ıe bolýy úshin neǵurlym tómen Ólshem deńgeıin tómendetýge bolady."
+
+#: .././cogstat.py:807
+msgid "At least two variables required."
+msgstr "Kem degende eki aınymaly qajet."
+
+#: .././cogstat.py:809
+msgid "Two variables. "
+msgstr "Eki aınymaly. "
+
+#: .././cogstat.py:550 .././cogstat.py:814 .././cogstat.py:849
+#: .././cogstat.py:996 .././cogstat.py:1015 .././cogstat.py:1063
+msgid "Checking for normality."
+msgstr "Qalypty tekserý."
+
+#: .././cogstat.py:1003
+msgid "Normality is violated in variable "
+msgstr "Qalypty aınymaly buzylýda "
+
+#: .././cogstat.py:825
+msgid "Normality is not violated. >> Running paired t-test."
+msgstr "Normalyq buzylmaıdy. >>"
+
+#: .././cogstat.py:829 .././cogstat.py:832
+msgid "Running paired Wilcoxon test."
+msgstr "Jup Wilcoxon test ótkizý."
+
+#: .././cogstat.py:582 .././cogstat.py:841 .././cogstat.py:877
+#: .././cogstat.py:886 .././cogstat.py:889 .././cogstat.py:1201
+#: .././cogstat.py:1204
+msgid "Sorry, not implemented yet."
+msgstr "Keshirińiz, ázirge iske asyrylǵan joq."
+
+#: .././cogstat.py:843
+msgid "More than two variables. "
+msgstr "Ekiden kóp aınymaly. "
+
+#: .././cogstat.py:865 .././cogstat.py:868
+msgid "Running Friedman test."
+msgstr "Friedman test ótkizý."
+
+#: .././cogstat_stat.py:135 .././cogstat.py:909
+msgid "Dependent variable: "
+msgstr "Táýeldi aınymaly: "
+
+#: .././cogstat.py:910
+msgid "Group(s): "
+msgstr "Top(tar): "
+
+#: .././cogstat.py:984
+msgid "One grouping variable. "
+msgstr "Bir biriktirýshi aýyspaly. "
+
+#: .././cogstat.py:986
+msgid "There is only one group. At least two groups required."
+msgstr "Tek bir top bar. Kem degende eki top qereq."
+
+#: .././cogstat.py:990
+msgid "Two groups. "
+msgstr "Eki top. "
+
+#: .././cogstat.py:994
+msgid "One group contains only one case. >> Choosing modified t-test."
+msgstr "Bir top tek bir oqıǵadan turady. >> Túrlendirilgen t-testini tańdaý."
+
+#: .././cogstat.py:1004
+msgid "group "
+msgstr "toby "
+
+#: .././cogstat.py:1005 .././cogstat.py:1039 .././cogstat.py:1047
+msgid "Running Mann-Whitney test."
+msgstr "Mann-Whitney synaǵyn iske qosý."
+
+#: .././cogstat.py:1008
+msgid "Normality is not violated. >> Running modified t-test."
+msgstr ""
+
+#: .././cogstat.py:1050 .././cogstat.py:1101 .././cogstat.py:1203
+msgid "Nominal variable."
+msgstr "Nomınaldy aınymaly."
+
+#: .././cogstat.py:1050 .././cogstat.py:1101
+msgid "Running Chi-square test."
+msgstr "Chi-square synaǵyn iske qosý."
+
+#: .././cogstat.py:1057
+msgid "More than two groups."
+msgstr "Eki toptan kóp."
+
+#: .././cogstat.py:1093 .././cogstat.py:1097
+msgid "Running Kruskal-Wallis test."
+msgstr "Kruskal-Wallis synaǵyn iske qosý."
+
+#: .././cogstat.py:1207
+msgid "Several grouping variables."
+msgstr ""
+
+#: .././cogstat_dialogs.py:23 .././cogstat_dialogs.py:27
+msgid "Open data file"
+msgstr "Derekter faılyn ashý"
+
+#: .././cogstat_dialogs.py:31
+msgid "Save result file"
+msgstr "Nátıje faılyn saqtaý"
+
+#: .././cogstat_gui.py:142 .././cogstat_gui.py:181
+msgid "&Explore variable"
+msgstr "Aınymalyny &Zertteńiz"
+
+#: .././cogstat_gui.py:384 .././cogstat.py:251
+msgid "Import failed"
+msgstr "Importtaý qatesi"
+
+#: .././cogstat_stat.py:270 .././cogstat_stat.py:272
+msgid "Freq"
+msgstr "Freq"
+
+#: .././cogstat_stat.py:270 .././cogstat_stat.py:272 .././cogstat_stat.py:274
+msgid "Rel freq"
+msgstr "Rel freq"
+
+#: .././cogstat_stat.py:272
+msgid "Cum freq"
+msgstr "Cum freq"
+
+#: .././cogstat_stat.py:272 .././cogstat_stat.py:274
+msgid "Cum rel freq"
+msgstr "Cum rel freq"
+
+#: .././cogstat_stat.py:1023
+msgid "Cramér's V measure of association cannot be computed (division by zero)."
+msgstr ""
+
+#: .././cogstat.py:137 .././cogstat.py:145
+msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
+msgstr "Ólsheý deńgeıiniń sany aınymaly sanymen sáıkes kelmeıdi. Ólsheý deńgeıiniń ereksheligi elemeıdi."
+
+#: .././cogstat.py:187
+msgid "pandas dataframe"
+msgstr "pandas derekter kestesi"
+
+#: .././cogstat.py:213
+msgid "text file - "
+msgstr "Mátindik faıl - "
+
+#: .././cogstat.py:248
+msgid "clipboard"
+msgstr "býfer"
+
+#: .././cogstat.py:317
+msgid "Type"
+msgstr "Túri"
+
+#: .././cogstat.py:317
+msgid "Level"
+msgstr "Deńgeıi"
+
+#: .././cogstat.py:336
+msgid "Filtering"
+msgstr "Súzgi"
+
+#: .././cogstat.py:340
+msgid "Filtering is switched off."
+msgstr "Súzgileý óshirildi."
+
+#: .././cogstat.py:355
+msgid "Filtering based on %s.\n"
+""
+msgstr "%s negizindegi súzý."
+
+#: .././cogstat.py:355 .././cogstat.py:371
+msgid " (2 SD)"
+msgstr " (2 SD)"
+
+#: .././cogstat.py:357
+msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
+""
+msgstr ""
+
+#: .././cogstat.py:364
+msgid "The following cases will be excluded: "
+msgstr "Kelesi jaǵdaılar alynyp tastalady:"
+
+#: .././cogstat.py:367
+msgid "No cases were excluded."
+msgstr ""
+
+#: .././cogstat.py:1024 .././cogstat.py:1072
+msgid "Checking for homogeneity of variance across groups."
+msgstr ""
+
+#: .././cogstat_gui.py:51
+msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "%s Oı, birdeńe durys emes. CogStat taldaý jasaı almady. Múmkin, siz bul týraly habarlaǵyńyz keledi."
+
+#: .././cogstat_gui.py:492
+msgid "Explore variable."
+msgstr "Aınymalyny zertteńiz."
+
+#: .././cogstat_gui.py:517 .././cogstat_gui.py:533
+msgid "Explore variable pair."
+msgstr "Jup aınymalylardy zertteý."
+
+#: .././cogstat_gui.py:560 .././cogstat_gui.py:565
+msgid "Pivot table."
+msgstr "Qurama keste."
+
+#: .././cogstat_gui.py:595 .././cogstat_gui.py:603
+msgid "Compare variables."
+msgstr "Aınymalylardy salystyryńyz."
+
+#: .././cogstat_gui.py:630 .././cogstat_gui.py:641
+msgid "Compare groups."
+msgstr "Toptardy salystyryńyz."
+
+#: .././cogstat_stat.py:317
+msgid "Normality cannot be checked for constant variable in %s%s.\n"
+""
+msgstr "Qalypty turaqty aınymaly %s%s úshin tekserilýi múmkin emes."
+
+#: .././cogstat_stat.py:331
+msgid "Too small sample to test normality in variable %s%s.\n"
+""
+msgstr "Aınymaly  %s%s qalypty tekserý úshin tym kishkentaı tańdaý."
+
+#: .././cogstat_stat.py:587
+msgid "Result of the McNemar test"
+msgstr "McNemar testiniń nátıjesi"
+
+#: .././cogstat_stat.py:593
+msgid "Result of Cochran's Q test"
+msgstr "Cochran's Q test nátıjesy"
+
+#: .././cogstat_stat.py:610
+msgid "Result of Mauchly's test to check sphericity"
+msgstr "Sferalyq tekserý úshin Mauchly synaǵynyń nátıjesi"
+
+#: .././cogstat_stat.py:614
+msgid "Sphericity is violated."
+msgstr "Sferalyq buzylady."
+
+#: .././cogstat_stat.py:615
+msgid "Using Greenhouse-Geisser correction."
+msgstr "Greenhouse-Geisser túzetýdi paıdalaný."
+
+#: .././cogstat_stat.py:616 .././cogstat_stat.py:621
+msgid "Result of repeated measures ANOVA"
+msgstr "Qaıta ólsheý ANOVA nátıjesy"
+
+#: .././cogstat_stat.py:620
+msgid "Sphericity is not violated. "
+msgstr "Sferıkalyq buzylmaıdy."
+
+#: .././cogstat_stat.py:627
+msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
+msgstr ""
+
+#: .././cogstat_stat.py:837
+msgid "Result of Welch's unequal variances t-test:"
+msgstr "Welch teńsiz aýytqýlar T-test nátıjesi:"
+
+#: .././cogstat.py:812
+msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
+msgstr ""
+
+#: .././cogstat.py:828 .././cogstat.py:864
+msgid "Normality is violated in variable(s): %s."
+msgstr "Qalypty aınymaly buzylýlar: %s."
+
+#: .././cogstat.py:836 .././cogstat.py:872
+msgid "Nominal dichotomous variables."
+msgstr "Nomınaldy dıhotomıkalyq aınymalylar."
+
+#: .././cogstat.py:836
+msgid "Running McNemar test."
+msgstr "McNemar synaǵyn iske qosý."
+
+#: .././cogstat.py:840 .././cogstat.py:876
+msgid "Nominal non dichotomous variables."
+msgstr "Dıhotomıalyq aınymalylardyń nomınaldy nómirleri."
+
+#: .././cogstat.py:846
+msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
+msgstr ""
+
+#: .././cogstat.py:872
+msgid "Running Cochran's Q test."
+msgstr "Running Cochran's Q synaǵyn iske qosý."
+
+#: .././cogstat.py:1013
+msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
+msgstr ""
+
+#: .././cogstat.py:1037
+msgid "Normality is violated in variable %s, group(s) %s."
+msgstr ""
+
+#: .././cogstat.py:1042
+msgid "Homeogeneity of variance violated in variable %s."
+msgstr ""
+
+#: .././cogstat.py:1043
+msgid "Running Welch's t-test."
+msgstr "Welch synaǵyn iske qosý."
+
+#: .././cogstat.py:1060
+msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
+msgstr ""
+
+#: .././cogstat.py:1088
+msgid "Normality is violated in variable %s, group(s) %s. "
+msgstr ""
+
+#: .././cogstat.py:1091
+msgid "Homeogeneity of variance violated in variable %s. "
+msgstr ""
+
+#: .././cogstat.py:555 .././cogstat.py:860
+msgid "Normality is not violated."
+msgstr ""
+
+#: .././cogstat.py:861
+msgid "Running repeated measures one-way ANOVA."
+msgstr ""
+
+#: .././cogstat_gui.py:138
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: .././cogstat_gui.py:400
+msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
+msgstr ""
+
+#: .././cogstat_stat.py:227
+msgid "N of missing cases: %g"
+msgstr ""
+
+#: .././cogstat_chart.py:144 .././cogstat_chart.py:229
+#: .././cogstat_chart.py:403 .././cogstat_chart.py:404
+#: .././cogstat_chart.py:608
+msgid "Rank of %s"
+msgstr "%s dárejesi"
+
+#: .././cogstat_stat.py:414 .././cogstat_stat.py:578
+msgid "Result of Wilcoxon signed-rank test"
+msgstr ""
+
+#: .././cogstat_chart.py:146 .././cogstat.py:478 .././cogstat.py:608
+#: .././cogstat.py:751 .././cogstat.py:921 .././cogstat.py:1109
+msgid "Raw data"
+msgstr "Óńdelmegen derekter"
+
+#: .././cogstat.py:484 .././cogstat.py:624 .././cogstat.py:771
+#: .././cogstat.py:952 .././cogstat.py:1160
+msgid "Sample properties"
+msgstr "Úlgi qasıetteri"
+
+#: .././cogstat.py:530
+msgid "Population parameter estimations and tests"
+msgstr "Halyq parametrlerin baǵalaý jáne testter"
+
+#: .././cogstat.py:537 .././cogstat.py:635 .././cogstat.py:663
+#: .././cogstat.py:678
+msgid "Hypothesis test: "
+msgstr "Boljamdy tekserý: "
+
+#: .././cogstat.py:539
+msgid "Testing if mean deviates from the value %s."
+msgstr ""
+
+#: .././cogstat.py:541
+msgid "Testing if median deviates from the value %s."
+msgstr ""
+
+#: .././cogstat.py:548
+msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
+msgstr ""
+
+#: .././cogstat.py:556
+msgid "Running one-sample t-test."
+msgstr "Bir úlgiliq t-test iske qosý."
+
+#: .././cogstat.py:569
+msgid "Normality is violated."
+msgstr ""
+
+#: .././cogstat.py:570 .././cogstat.py:577
+msgid "Running Wilcoxon signed-rank test."
+msgstr ""
+
+#: .././cogstat.py:509 .././cogstat.py:628 .././cogstat.py:787
+#: .././cogstat.py:970 .././cogstat.py:1180
+msgid "Population properties"
+msgstr "Halyqtyń qasıetteri"
+
+#: .././cogstat.py:635 .././cogstat.py:663
+msgid "Testing if correlation differs from 0."
+msgstr "Teksersiń, eger korrelásıa 0-den ózgeshe bolsa."
+
+#: .././cogstat.py:678
+msgid "Testing if variables are independent."
+msgstr ""
+
+#: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
+msgid "Hypothesis testing: "
+msgstr "Boljamdy tekserý: "
+
+#: .././cogstat.py:800 .././cogstat.py:978 .././cogstat.py:1186
+msgid "Testing if the means are the same."
+msgstr "Eger quraldar birdeı bolsa, testileý."
+
+#: .././cogstat.py:802 .././cogstat.py:980 .././cogstat.py:1188
+msgid "Testing if the medians are the same."
+msgstr "Medıandardyń sáıkes kelýin tekserý."
+
+#: .././cogstat.py:804 .././cogstat.py:982 .././cogstat.py:1190
+msgid "Testing if the distributions are the same."
+msgstr "Eger dıstrıbýtıvter birdeı bolsa, testileý."
+
+#: .././cogstat.py:1033
+msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
+msgstr "Dıspersıanyń normalylyǵy men birtektiligi buzylmaıdy. >> T-testiniń eki úlgisin iske qosý."
+
+#: .././cogstat.py:1081
+msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
+msgstr ""
+
+#: .././cogstat_gui.py:715
+msgid "Simple automatic data analysis software"
+msgstr ""
+
+#: .././cogstat_gui.py:715
+msgid "Visit CogStat website"
+msgstr "CogStat veb-saıtyna kirińiz"
+
+#: .././cogstat_gui.py:223
+msgid "Welcome to CogStat!"
+msgstr "CogStat qosh keldińiz!"
+
+#: .././cogstat_gui.py:223
+msgid "CogStat makes statistical analysis more simple and efficient."
+msgstr "CogStat statısıkalyq taldaý jeńil jáne tıimdi jasaýdy."
+
+#: .././cogstat_gui.py:224
+msgid "To start working open a data file or paste your data from a spreadsheet."
+msgstr "Jumysty bastaý úshin derekter faılyn ashyńyz nemese elektrondyq kesteden derekterdi salyńyz."
+
+#: .././cogstat_chart.py:143
+msgid "Rank of the raw data"
+msgstr ""
+
+#: .././cogstat_chart.py:214
+msgid "Histogram of rank data with individual data and boxplot"
+msgstr ""
+
+#: .././cogstat_chart.py:402
+msgid "Scatterplot of the rank of the variables"
+msgstr ""
+
+#: .././cogstat_chart.py:452
+msgid "Individual data of the variables"
+msgstr "Aınymalylardyń jeke derekteri"
+
+#: .././cogstat_chart.py:610
+msgid "Individual data of the rank data of the groups"
+msgstr "Toptardyń rangtik derekteriniń jeke derekteri"
+
+#: .././cogstat_stat.py:1109
+msgid "Boxplot and individual data of the rank data of the groups"
+msgstr ""
+
+#: .././cogstat_chart.py:626
+msgid "Individual data of the groups"
+msgstr "Toptardyń jeke derekteri"
+
+#: .././cogstat_stat.py:532 .././cogstat_stat.py:712 .././cogstat.py:557
+#: .././cogstat.py:558 .././cogstat.py:629
+msgid "Point estimation"
+msgstr "Núktelik baǵalaý"
+
+#: .././cogstat.py:557 .././cogstat.py:561 .././cogstat.py:629
+msgid "95% confidence interval"
+msgstr "95% senim aralyǵy"
+
+#: .././cogstat_stat.py:127 .././cogstat_stat.py:435 .././cogstat.py:562
+#: ../ui/pivot.py:113
+msgid "Standard deviation"
+msgstr "Standartty aýytqý"
+
+#: .././cogstat.py:757 .././cogstat.py:927 .././cogstat.py:1126
+msgid "N of valid cases"
+msgstr "Naqty oqıǵalar N"
+
+#: .././cogstat_gui.py:109
+msgid "Update available"
+msgstr "Qoljetimdi jańartý"
+
+#: .././cogstat_gui.py:110
+msgid "New version is available."
+msgstr "Qoljetimdi jańa nusqasy."
+
+#: .././cogstat_gui.py:111
+msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
+msgstr "Siz jańa nusqasyn<br> júkteı alasyz <a href = \"%s\">CogStat júkteý beti</a>."
+
+#: .././cogstat_gui.py:143 .././cogstat_gui.py:182
+msgid "Explore relation of variable &pair"
+msgstr ""
+
+#: .././cogstat_gui.py:147 .././cogstat_gui.py:182
+msgid "Compare repeated measures va&riables"
+msgstr "Qaıta ólsheýlermen salystyrý aı&nymaly"
+
+#: .././cogstat_stat.py:435
+msgid "Minimum"
+msgstr "Mınımým"
+
+#: .././cogstat_stat.py:436
+msgid "Maximum"
+msgstr "Maksımým"
+
+#: .././cogstat_stat.py:126 .././cogstat_stat.py:436 ../ui/pivot.py:112
+msgid "Upper quartile"
+msgstr "Joǵarǵy oram"
+
+#: .././cogstat_stat.py:454
+msgid "Descriptives for the variables"
+msgstr "Aınymalylarǵa arnalǵan sıpattama statısıkasy"
+
+#: .././cogstat_stat.py:468
+msgid "Descriptives for the groups"
+msgstr "Toptarǵa arnalǵan sıpattama statısıkasy"
+
+#: .././cogstat_stat.py:514
+msgid "Contingency table"
+msgstr "Ushtasý kestesi"
+
+#: .././cogstat_stat.py:936
+msgid "Result of two-way ANOVA:\n"
+""
+msgstr "Ekijaqty ANOVA nátıjesi:"
+
+#: .././cogstat_stat.py:939
+msgid "Main effect of %s: "
+msgstr "%s basty áseri: "
+
+#: .././cogstat_stat.py:943
+msgid "Interaction of %s and %s: "
+msgstr "%s jáne %s ózara árekettesýi: "
+
+#: .././cogstat_stat.py:1027
+msgid "Sorry, at least SciPy 0.10 is required to calculate Cramér's V or Chi-Square test."
+msgstr "Keshirińiz,  Cramér's V nemese Chi-Square kem degende SciPy 0.10 test esepteý úshin qajet."
+
+#: .././cogstat.py:228
+msgid "SPSS file - "
+msgstr "SPSS faıly - "
+
+#: .././cogstat.py:601
+msgid "Explore relation of variable pair"
+msgstr "Aınymaly juptyń qatynasyn zertteńiz"
+
+#: .././cogstat.py:725 ../ui/compare_vars.py:65
+msgid "Compare repeated measures variables"
+msgstr "Qaıtalanǵan ólshemderdi salystyrý"
+
+#: .././cogstat.py:758 .././cogstat.py:928 .././cogstat.py:1129
+msgid "N of missing cases"
+msgstr "Jetispeıtin oqıǵalardyn N"
+
+#: .././cogstat.py:1192
+msgid "Two grouping variables. "
+msgstr ""
+
+#: .././cogstat.py:1196
+msgid "Choosing factorial ANOVA."
+msgstr "ANOVA faktorıalyn tańdaý."
+
+#: .././cogstat.py:614
+msgid "N of valid pairs"
+msgstr ""
+
+#: .././cogstat.py:615
+msgid "N of missing pairs"
+msgstr "Jetispeıtin jup N"
+
+#: .././cogstat.py:937
+msgid "N of missing group cases"
+msgstr "Joǵalǵan toptyq ister N"
+
+#: .././cogstat.py:1144
+msgid "N of missing grouping variable in %s"
+msgstr ""
+
+#: .././cogstat_stat.py:437
+msgid "Skewness"
+msgstr "Asımetrıa"
+
+#: .././cogstat_stat.py:437
+msgid "Kurtosis"
+msgstr "Eksess"
+
+#: .././cogstat_stat.py:437
+msgid "Range"
+msgstr "Dıapazony"
+
+#: .././cogstat_stat.py:454
+msgid "Descriptives for the variable"
+msgstr "Aınymalyǵa arnalǵan deskrıptıvter"
+
+#: .././cogstat.py:49
+msgid "The measurement levels of the variables are not set. Set them in your data source."
+msgstr "Aınymalylardy ólsheý deńgeıleri qoıylmaıdy. Olardy derekter kózine ornatyńyz."
+
+#: .././cogstat_gui.py:52 .././cogstat_gui.py:401
+msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
+msgstr "Ary-qaraı oqý Másele týraly qalaı habarlaýǵa bolady <a href = \"%s\">munda</a>."
+
+#: .././cogstat_gui.py:225
+msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+msgstr "CogStat týraly tolyq aqparatty onyń <a href = \"https://www.cogstat.org\">web-betinde</a> tabýǵa bolady nemese ári qaraı <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+
+#: .././cogstat_stat.py:59 .././cogstat.py:50 .././cogstat.py:171
+#: .././cogstat.py:179 .././cogstat.py:284 .././cogstat.py:292
+msgid "Read more about this issue <a href = \"%s\">here</a>."
+msgstr "Bul másele týraly tolyǵyraq oqyńyz <a href = \"%s\">munda</a>."
+
+#: .././cogstat_stat.py:816
+msgid "Result of slope test with %s:"
+msgstr "%s kólbeý testiniń nátıjesi:"
+
+#: .././cogstat.py:168
+msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
+msgstr "Jol aınymalylary CogStat-ta aralyq nemese rettik aınymaly bola almaıdy. Bul aınymalylar avtomatty túrde nomınaldy mánge ornatylady: "
+
+#: .././cogstat.py:170 .././cogstat.py:178 .././cogstat.py:283
+#: .././cogstat.py:291
+msgid "You can fix this in your data source."
+msgstr "Bul derekter kózinde túzetýge bolady."
+
+#: .././cogstat.py:177
+msgid "The measurement level was not set for all variables."
+msgstr "Ólsheý deńgeıi barlyq aınymalylarǵa ornatylmaǵan."
+
+#: .././cogstat.py:281
+msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr ""
+
+#: .././cogstat.py:289
+msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr ""
+
+#: .././cogstat.py:627 .././cogstat.py:656 .././cogstat.py:672
+#: .././cogstat.py:1085
+msgid "Standardized effect size:"
+msgstr "Áserdiń standarttalǵan ólshemi:"
+
+#: .././cogstat_gui.py:132
+msgid "Open d&emo data file"
+msgstr "D&emo derekter faıldaryn ashý"
+
+#: .././cogstat_gui.py:132
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: .././cogstat_gui.py:154
+msgid "&Increase text size"
+msgstr "Mátin ólshemin &úlkeıtý"
+
+#: .././cogstat_gui.py:154
+msgid "Ctrl++"
+msgstr "Ctrl++"
+
+#: .././cogstat_gui.py:155
+msgid "&Decrease text size"
+msgstr "Mátin ólshemin &Kishireıtý"
+
+#: .././cogstat_gui.py:155
+msgid "Ctrl+-"
+msgstr "Ctrl+-"
+
+#: .././cogstat_gui.py:160
+msgid "&Save results"
+msgstr "Nátıjelerdi &saqtaý"
+
+#: .././cogstat_gui.py:161
+msgid "Save results &as"
+msgstr "Nátıjelerdi saqtaý &retinde"
+
+#: .././cogstat_chart.py:454
+msgid "Boxplots and individual data of the variables"
+msgstr "Baǵanalyq dıagram men aınymalylardyń jeke derekteri"
+
+#: .././cogstat_chart.py:602
+msgid "Largest individual sign displays %d cases."
+msgstr "Eń úlken jeke belgi %d oqıǵasyn kórsetedi."
+
+#: .././cogstat_chart.py:612
+msgid "Boxplots and individual data of the rank data of the groups"
+msgstr ""
+
+#: .././cogstat_chart.py:628
+msgid "Boxplots and individual data of the groups"
+msgstr ""
+
+#: .././cogstat_stat.py:535 .././cogstat_stat.py:715
+msgid "95% CI (low)"
+msgstr "95% CI (tómen)"
+
+#: .././cogstat_stat.py:536 .././cogstat_stat.py:716
+msgid "95% CI (high)"
+msgstr "95% Cl (joǵary)"
+
+#: .././cogstat_stat.py:996
+msgid "Results of Dunn's test (p values)."
+msgstr "Dunn testiniń nátıjeleri (p values)."
+
+#: .././cogstat.py:564 .././cogstat.py:792 .././cogstat.py:972
+#: .././cogstat.py:1181
+msgid "Present confidence interval values suppose normality."
+msgstr "Senimdi ıntervaldyń bar mánderi normalylyqty boljaıdy."
+
+#: .././cogstat.py:792 .././cogstat.py:972 .././cogstat.py:1181
+msgid "Means"
+msgstr "Quraldar"
+
+#: .././cogstat_gui.py:152
+msgid "Ctrl+Del"
+msgstr "Ctrl+Del"
+
+#: .././cogstat_gui.py:148
+msgid "&Text is editable"
+msgstr "&Mátin redaksıalaý úshin qol jetimdi"
+
+#: .././cogstat_gui.py:158
+msgid "Ctrl+Shift+E"
+msgstr "Ctrl+Shift+E"
+
+#: .././cogstat_gui.py:161
+msgid "Ctrl+Shift+P"
+msgstr "Ctrl+Shift+P"
+
+#: .././cogstat.py:322
+msgid "The next %s cases will not be printed. You can check all cases in the original data source."
+msgstr "Kelesi %s jaǵdaılary basylmaıdy. Bastapqy derekter kózindegi barlyq ótinishterdi tekserýge bolady."
+
+#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:76
+#: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
+#: ../ui/explore_var_pairs.py:54 ../ui/compare_vars.py:67
+msgid "Available variables"
+msgstr "Qoljetimdi aınymalylar"
+
+#: .././cogstat_stat.py:125 ../ui/pivot.py:107
+msgid "N"
+msgstr "N"
+
+#: .././cogstat_stat.py:125 ../ui/pivot.py:108
+msgid "Sum"
+msgstr "Soma"
+
+#: .././cogstat_stat.py:126 ../ui/pivot.py:111
+msgid "Lower quartile"
+msgstr "Tómengi oram"
+
+#: .././cogstat_stat.py:127 ../ui/pivot.py:114
+msgid "Variance"
+msgstr "Aıyrmashylyq"
+
+#: ../ui/pivot.py:115
+msgid "Rows"
+msgstr ""
+
+#: ../ui/pivot.py:116
+msgid "Columns"
+msgstr "Baǵandar"
+
+#: ../ui/pivot.py:117
+msgid "Pages"
+msgstr "Better"
+
+#: ../ui/pivot.py:118
+msgid "Dependent variable"
+msgstr "Táýeldi aınymaly"
+
+#: ../ui/pivot.py:119
+msgid "Function"
+msgstr "Fýnksıasy"
+
+#: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
+#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:75
+#: ../ui/compare_groups.py:79 ../ui/compare_groups_single_case_slope.py:64
+#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:57
+#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:68
+msgid "<="
+msgstr "<="
+
+#: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
+#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:78
+#: ../ui/compare_groups.py:81 ../ui/compare_groups_single_case_slope.py:67
+#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:56
+#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:66
+msgid "=>"
+msgstr "=>"
+
+#: ../ui/compare_groups.py:77
+msgid "Dependent variable(s)"
+msgstr "Táýeldi aınymal(dar)"
+
+#: ../ui/compare_groups.py:80
+msgid "Group(s)"
+msgstr "Top(tar)"
+
+#: ../ui/compare_groups.py:82
+msgid "Single case slope..."
+msgstr "Jaǵdaıdyń jalǵyz kólbeýi..."
+
+#: ../ui/preferences.py:53
+msgid "Preferences"
+msgstr "Artyqshylyq"
+
+#: ../ui/preferences.py:54
+msgid "Language"
+msgstr "Tili"
+
+#: ../ui/preferences.py:55
+msgid "You should restart CogStat to use the new language"
+msgstr "Jańa tildi paıdalaný úshin CogStat qaıta iske qosý kerek"
+
+#: ../ui/preferences.py:56
+msgid "Chart theme"
+msgstr "Dıagram taqyryby"
+
+#: ../ui/preferences.py:57
+msgid "You should restart CogStat to use the new theme"
+msgstr "Jańa taqyrypty paıdalaný úshin CogStat qaıta iske qosý kerek"
+
+#: ../ui/compare_groups_single_case_slope.py:63
+msgid "Compare groups - Single case slope"
+msgstr "Toptardy salystyrý - Bir istiq betkeı"
+
+#: ../ui/compare_groups_single_case_slope.py:66
+msgid "Slope SE variable"
+msgstr "SE eńis aınymaly"
+
+#: ../ui/compare_groups_single_case_slope.py:68
+msgid "Number of trials"
+msgstr "Sot prosesteriniń sany"
+
+#: ../ui/var_properties.py:68
+msgid "Explore variables"
+msgstr "Aınymalylardy zertteý"
+
+#: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
+#: ../ui/explore_var_pairs.py:55 ../ui/compare_vars_wiz.py:67
+#: ../ui/compare_vars.py:69
+msgid "Selected variables"
+msgstr "Tańdalǵan aınymalylar"
+
+#: ../ui/var_properties.py:71
+msgid "Statistics"
+msgstr "Statıstıka "
+
+#: ../ui/var_properties.py:73
+msgid "0"
+msgstr "0"
+
+#: ../ui/var_properties.py:74
+msgid "Central tendency test value"
+msgstr "Ortalyq baǵa úrdisi"
+
+#: ../ui/explore_var_pairs.py:53
+msgid "Explore relation of variable pairs"
+msgstr "Qos aınymalynyń táýeldiligin zertteý"
+
+#: ../ui/compare_vars_wiz.py:61
+msgid "Wizard"
+msgstr "Sıqyrshy"
+
+#: ../ui/compare_vars_wiz.py:62
+msgid "One factor"
+msgstr "Bir faktor"
+
+#: ../ui/compare_vars_wiz.py:63
+msgid "Several factors"
+msgstr "Birneshe faktorlar"
+
+#: ../ui/compare_vars_wiz.py:64
+msgid "Not implemented yet"
+msgstr "Áli iske asyrylmaǵan"
+
+#: ../ui/compare_vars_wiz.py:66
+msgid "Variables to choose from"
+msgstr "Tańdaý aınymalylary"
+
+#: ../ui/data_measlev.py:37
+msgid "Variable properties"
+msgstr "Aınymalylardyń qasıetteri"
+
+#: .././cogstat_gui.py:135 .././cogstat_gui.py:180
+msgid "&Filter outliers"
+msgstr ""
+
+#: .././cogstat_gui.py:135
+msgid "Ctrl+L"
+msgstr ""
+
+#: .././cogstat_gui.py:158
+msgid "Text is &editable"
+msgstr ""
+
+#: .././cogstat_gui.py:166
+msgid "Ctrl+Shift+R"
+msgstr ""
+
+#: .././cogstat_gui.py:436
+msgid "Filter outlier."
+msgstr ""
+
+#: .././cogstat_stat.py:668
+msgid "Main effect of %s"
+msgstr ""
+
+#: .././cogstat_stat.py:670
+msgid "Interaction of factors %s"
+msgstr ""
+
+#: .././cogstat.py:347
+msgid "Only interval variables can be used for filtering. Ignoring variable %s."
+msgstr ""
+
+#: .././cogstat.py:729
+msgid "Factors (number of levels): "
+msgstr ""
+
+#: .././cogstat.py:880
+msgid "Interval variables with several factors."
+msgstr ""
+
+#: .././cogstat.py:881
+msgid "Choosing repeated measures ANOVA."
+msgstr ""
+
+#: .././cogstat.py:885
+msgid "Ordinal variables with several factors."
+msgstr ""
+
+#: .././cogstat.py:888
+msgid "Nominal variables with several factors."
+msgstr ""
+
+#: ../ui/filter_outlier.py:69
+msgid "Filter outlier"
+msgstr ""
+
+#: ../ui/factors.py:41
+msgid "Factors"
+msgstr ""
+
+#: ../ui/factors.py:42
+msgid "Add factor"
+msgstr ""
+
+#: ../ui/factors.py:43
+msgid "Alt+A"
+msgstr ""
+
+#: ../ui/factors.py:44
+msgid "Modify factor"
+msgstr ""
+
+#: ../ui/factors.py:45
+msgid "Alt+M"
+msgstr ""
+
+#: ../ui/factors.py:46
+msgid "Remove factor"
+msgstr ""
+
+#: ../ui/factors.py:47
+msgid "Alt+R"
+msgstr ""
+
+#: ../ui/compare_vars.py:70
+msgid "Factors..."
+msgstr ""
+
+#: ../ui/compare_vars.py:71
+msgid "Alt+F"
+msgstr ""
+
+#: ../ui/factor.py:43
+msgid "Set factor"
+msgstr ""
+
+#: ../ui/factor.py:44
+msgid "Name of the factor"
+msgstr ""
+
+#: ../ui/factor.py:45
+msgid "Number of levels"
+msgstr ""
+
+#: ../ui/filter_outlier.py:74
+msgid "Only interval variables are available"
+msgstr ""
+
