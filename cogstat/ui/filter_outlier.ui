@@ -146,7 +146,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Only integer variables are available</string>
+    <string>Only interval variables are available</string>
    </property>
    <property name="wordWrap">
     <bool>true</bool>

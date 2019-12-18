@@ -71,7 +71,7 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "Available variables"))
         self.removeVar.setText(_translate("Dialog", "<="))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
-        self.label_3.setText(_translate("Dialog", "Only integer variables are available"))
+        self.label_3.setText(_translate("Dialog", "Only interval variables are available"))
 
 
 
