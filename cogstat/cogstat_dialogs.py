@@ -367,6 +367,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             add_to_list_widget(self.source_listWidget, self.selected_listWidget)
         else:
             add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+
     def remove_var(self):
         if len(self.factors) < 2:
             remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
@@ -376,7 +377,17 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
     def show_factors(self):
         # remove all items first
         for i in range(self.selected_listWidget.count()):
-            self.selected_listWidget.takeItem(0)
+            item = self.selected_listWidget.takeItem(0)
+            if ' :: ' in item.text():
+                if not(item.text().endswith(' :: ')):
+                    self.source_listWidget.insertItem(
+                        find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                        item.text().split(' :: ')[1])
+                    item.setText(item.text().split(' :: ')[0] + ' :: ')
+            else:
+                self.source_listWidget.insertItem(
+                    find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                    item.text())
 
         # add new empty factor levels
         factor_combinations = ['']
@@ -398,7 +409,17 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                 self.show_factors()
             else:  # remove the factor levels
                 for i in range(self.selected_listWidget.count()):
-                    self.selected_listWidget.takeItem(0)
+                    item = self.selected_listWidget.takeItem(0)
+                    if ' :: ' in item.text():
+                        self.source_listWidget.insertItem(
+                            find_previous_item_position(self.source_listWidget, self.names,
+                                                        item.text().split(' :: ')[1]),
+                            item.text().split(' :: ')[1])
+                        item.setText(item.text().split(' :: ')[0] + ' :: ')
+                    else:
+                        self.source_listWidget.insertItem(
+                            find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                            item.text())
 
     def read_parameters(self):
         if len(self.factors) > 1:
