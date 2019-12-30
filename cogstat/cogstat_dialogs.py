@@ -172,8 +172,7 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         remove_item_from_list_widget(self.sourceListWidget, self.pagesListWidget, self.names)
     def add_dependent(self):
         if self.dependentListWidget.count() == 0:  # do this only if the list is empty
-            self.dependentListWidget.addItem(QString(self.sourceListWidget.currentItem().text()))
-            self.sourceListWidget.takeItem(self.sourceListWidget.row(self.sourceListWidget.currentItem()))
+            add_to_list_widget(self.sourceListWidget, self.dependentListWidget)
     def remove_dependent(self):
         remove_item_from_list_widget(self.sourceListWidget, self.dependentListWidget, self.names)
     
@@ -183,6 +182,75 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
                 [str(self.pagesListWidget.item(i).text()) for i in range(self.pagesListWidget.count())], 
                 [str(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())], 
                 str(self.function.currentText()))
+
+
+from .ui import diffusion
+
+
+class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
+    def __init__(self, parent=None, names=[]):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.addRT.clicked.connect(self.add_RT)
+        self.removeRT.clicked.connect(self.remove_RT)
+        self.RTListWidget.doubleClicked.connect(self.remove_RT)
+        self.addError.clicked.connect(self.add_error)
+        self.removeError.clicked.connect(self.remove_error)
+        self.errorListWidget.doubleClicked.connect(self.remove_error)
+        self.addParticipant.clicked.connect(self.add_participant)
+        self.removeParticipant.clicked.connect(self.remove_participant)
+        self.participantListWidget.doubleClicked.connect(self.remove_participant)
+        self.addCondition.clicked.connect(self.add_condition)
+        self.removeCondition.clicked.connect(self.remove_condition)
+        self.conditionListWidget.doubleClicked.connect(self.remove_condition)
+
+        self.init_vars(names)
+        self.show()
+
+    def init_vars(self, names):
+        self.names = names
+        remove_ceased_vars(self.RTListWidget, names)
+        remove_ceased_vars(self.errorListWidget, names)
+        remove_ceased_vars(self.participantListWidget, names)
+        remove_ceased_vars(self.conditionListWidget, names)
+        init_source_vars(self.sourceListWidget, names,
+                         [self.RTListWidget, self.errorListWidget, self.participantListWidget, self.conditionListWidget])
+
+    def add_RT(self):
+        if self.RTListWidget.count() == 0:  # do this only if the list is empty
+            add_to_list_widget(self.sourceListWidget, self.RTListWidget)
+
+    def remove_RT(self):
+        remove_item_from_list_widget(self.sourceListWidget, self.RTListWidget, self.names)
+
+    def add_error(self):
+        if self.errorListWidget.count() == 0:  # do this only if the list is empty
+            add_to_list_widget(self.sourceListWidget, self.errorListWidget)
+
+    def remove_error(self):
+        remove_item_from_list_widget(self.sourceListWidget, self.errorListWidget, self.names)
+
+    def add_participant(self):
+        if self.participantListWidget.count() == 0:  # do this only if the list is empty
+            add_to_list_widget(self.sourceListWidget, self.participantListWidget)
+
+    def remove_participant(self):
+        remove_item_from_list_widget(self.sourceListWidget, self.participantListWidget, self.names)
+
+    def add_condition(self):
+        add_to_list_widget(self.sourceListWidget, self.conditionListWidget)
+
+    def remove_condition(self):
+        remove_item_from_list_widget(self.sourceListWidget, self.conditionListWidget, self.names)
+
+    def read_parameters(self):
+        return ([str(self.RTListWidget.item(i).text()) for i in range(self.RTListWidget.count())],
+                [str(self.errorListWidget.item(i).text()) for i in range(self.errorListWidget.count())],
+                [str(self.participantListWidget.item(i).text()) for i in range(self.participantListWidget.count())],
+                [str(self.conditionListWidget.item(i).text()) for i in range(self.conditionListWidget.count())])
 
 
 from .ui import filter_outlier

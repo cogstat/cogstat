@@ -143,6 +143,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-scatter-plot-48.png', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), 'self.explore_variable_pair', True],
                                 ['separator'],
                                 ['/icons8-pivot-table-48.png', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
+                                #['/icons8-electrical-threshold-48.png', _('Behavioral data di&ffusion analysis') + '...', 'Ctrl+F', 'self.diffusion', True],
                                 ['separator'],
                                 ['/icons8-combo-chart-48.png', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', 'self.compare_variables', True],
                                 ['/icons8-bar-chart-48.png', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups', True],
@@ -179,6 +180,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Enable these commands only when active_data is available
         self.analysis_commands = [_('&Save data'), _('Save data &as')+'...', _('&Display data'), _('Display data &briefly'), _('&Filter outliers')+'...',
                                   _('Pivot &table')+'...', _('&Explore variable')+'...',
+                                  #_('Behavioral data di&ffusion analysis') + '...',
                                   _('Explore relation of variable &pair')+'...', _('Compare repeated measures va&riables')+'...', _('Compare &groups')+'...',
                                   _('&Compare groups and variables')+'...']
 
@@ -539,7 +541,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """Build a pivot table.
         
         Arguments:
-        depend_names (str): name of the dependent variable
+        depend_names (list of str): name of the dependent variable
         row_names, col_names, page_names (lists of str): name of the independent variables
         function (str): available functions: N,Sum, Mean, Median, Standard Deviation, Variance (default Mean)
         """
@@ -563,6 +565,40 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
             except:
                 text_result = cs_util.reformat_output(broken_analysis % _('Pivot table.'))
+                traceback.print_exc()
+        self.analysis_results[-1].add_output(text_result)
+        self._print_to_output_pane()
+        self._busy_signal(False)
+
+    def diffusion(self, RT_name=[], error_name=[], participant_name=[], condition_names=[]):
+        """Run a diffusion analysis on behavioral data.
+
+        Arguments:
+        RT_name, error name, participant_name (lists of str): name of the variables
+        condition_names (lists of str): name of the condition(s) variables
+        """
+        if not RT_name:
+            try:
+                self.dial_diffusion
+            except:
+                self.dial_diffusion = cogstat_dialogs.diffusion_dialog(names=self.active_data.data_frame.columns)
+            else:
+                self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
+            if self.dial_diffusion.exec_():
+                RT_name, error_name, participant_name, condition_names = self.dial_diffusion.read_parameters()
+            else:
+                return
+        self._busy_signal(True)
+        self.analysis_results.append(GuiResultPackage())
+        if (not RT_name) or (not error_name):  # TODO this check should go to the dialog
+            text_result = cs_util.reformat_output('<default>%s %s' % (
+            _('Diffusion analysis.'), _('At least the RT and the error variables should be given.')))
+        else:
+            try:
+                text_result = 'Not implemented yet'
+                #text_result = self.active_data.diffusion(RT_name, error_name, participant_name, condition_names)
+            except:
+                text_result = cs_util.reformat_output(broken_analysis % _('Diffusion analysis.'))
                 traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
         self._print_to_output_pane()
