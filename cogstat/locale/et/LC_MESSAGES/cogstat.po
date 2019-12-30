@@ -1,0 +1,1528 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: CogStat\n"
+"Language: et\n"
+
+#: .././cogstat_stat.py:58
+msgid "The properties of the variables are not set. Set them in your data source."
+msgstr "Muutujate omadused ei ole sätestatud. Sätestage need oma andmeallikas."
+
+#: .././cogstat_stat.py:122
+msgid "Sorry, only one dependent variable can be used."
+msgstr "Vabandust, kasutada saab ainult ühte sõltuvat muutujat."
+
+#: .././cogstat_stat.py:124
+msgid "Sorry, string variables cannot be used in Pivot table."
+msgstr "Vabandust, kategoriaalseid muutujaid ei saa kasutada risttabelis."
+
+#: .././cogstat_stat.py:130
+msgid "Independent variable(s) - Pages: "
+msgstr "Sõltumatu(d) muutuja(d) - Lehed: "
+
+#: .././cogstat_stat.py:132
+msgid "Independent variable(s) - Columns: "
+msgstr "Sõltumatu(d) muutuja(d) - Veerud: "
+
+#: .././cogstat_stat.py:134
+msgid "Independent variable(s) - Rows: "
+msgstr "Sõltumatu(d) muutuja(d) - Read: "
+
+#: .././cogstat_stat.py:135
+msgid "Function: "
+msgstr "Funktsioon: "
+
+#: .././cogstat_chart.py:484 .././cogstat_chart.py:536 .././cogstat_stat.py:270
+#: .././cogstat_stat.py:272
+msgid "Value"
+msgstr "Väärtus"
+
+#: .././cogstat_chart.py:199 .././cogstat_chart.py:266
+msgid "Largest tick on the x axes displays %d cases."
+msgstr "Suurim märk x-teljel märgib %d juhtumitest."
+
+#: .././cogstat_chart.py:216
+msgid "Histogram with individual data and boxplot"
+msgstr "Histogramm üksikandmete ja karpdiagrammiga."
+
+#: .././cogstat_chart.py:166 .././cogstat_chart.py:222
+msgid "Frequency"
+msgstr "Sagedus"
+
+#: .././cogstat_chart.py:163
+msgid "Histogram"
+msgstr "Histogramm"
+
+#: .././cogstat_stat.py:225
+msgid "N of valid cases: %g"
+msgstr "N valiidseid juhtumeid: %g"
+
+#: .././cogstat.py:533 .././cogstat.py:571
+msgid "Median: %0.*f"
+msgstr "Mediaan: %0.*f"
+
+#: .././cogstat_stat.py:315
+msgid "Normality can be checked only for interval variables."
+msgstr "Normaalsust saab kontrollida ainult intervallmuutujate puhul."
+
+#: .././cogstat_stat.py:334
+msgid "Shapiro-Wilk normality test in variable %s%s"
+msgstr "Shapiro-Wilk normaalsuse test muutujas %s%s"
+
+#: .././cogstat_chart.py:275
+msgid "Histogram with individual data and normal distribution"
+msgstr "Histogramm üksikandmete ja normaaljaotusega"
+
+#: .././cogstat_chart.py:282
+msgid "Normalized relative frequency"
+msgstr "Normaliseeritud suhteline sagedus"
+
+#: .././cogstat_chart.py:300
+msgid "Quantile-quantile plot"
+msgstr "Kvantiil-kvantiil graafik"
+
+#: .././cogstat_stat.py:365
+msgid "One sample t-test cannot be run for constant variable.\n"
+""
+msgstr "Ühe valimi t-testi ei ole võimalik teha konstantse muutujaga."
+
+#: .././cogstat_stat.py:378
+msgid "Sorry, newer statsmodels module is required for confidence interval.\n"
+""
+msgstr "Vabandust, uuem statistilise mooduli mudel on nõutud usaldusintervalli tegemiseks."
+
+#: .././cogstat_stat.py:379
+msgid "One sample t-test against %g"
+msgstr "Ühe valimi t-test %g kohta"
+
+#: .././cogstat_chart.py:313
+msgid "Mean value with 95% confidence interval"
+msgstr "Keskmine väärtus 95% usaldusintervalliga"
+
+#: .././cogstat_stat.py:384
+msgid "One sample t-test is computed only for interval variables."
+msgstr "Ühe valimi t-testi saab arvutada ainult intervallmuutujate kohta."
+
+#: .././cogstat_chart.py:325
+msgid "Median value"
+msgstr "Mediaanväärtus"
+
+#: .././cogstat_stat.py:418
+msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
+msgstr "Wilcoxoni astakmärgitesti saab arvutada ainult intervall- või ordinaalmuutujate kohta."
+
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 .././cogstat.py:558
+#: .././cogstat.py:561 ../ui/pivot.py:109
+msgid "Mean"
+msgstr "Keskmine"
+
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 ../ui/pivot.py:110
+msgid "Median"
+msgstr "Mediaan"
+
+#: .././cogstat_chart.py:531
+msgid "Medians for the variables"
+msgstr "Muutujate mediaanväärtused"
+
+#: .././cogstat_chart.py:677
+msgid "Medians for the groups"
+msgstr "Gruppide mediaanväärtused"
+
+#: .././cogstat_stat.py:480 .././cogstat_stat.py:482
+msgid "No data"
+msgstr "Andmed puuduvad"
+
+#: .././cogstat_chart.py:362
+msgid "Largest sign on the graph displays %d cases."
+msgstr "Suurim märk joonisel märgib %d juhtumitest."
+
+#: .././cogstat_chart.py:379
+msgid "Scatterplot of the variables"
+msgstr "Muutujate hajuvusdiagramm"
+
+#: .././cogstat_chart.py:420 .././cogstat_chart.py:505
+msgid "Mosaic plot of the variables"
+msgstr "Muutujate mosaiikdiagramm"
+
+#: .././cogstat_chart.py:510
+msgid "Sorry, the mosaic plot can not be drawn with those data."
+msgstr "Vabandust, antud andmetega ei ole võimalik mosaiikdiagrammi koostada."
+
+#: .././cogstat_chart.py:470
+msgid "Thickest line displays %d cases."
+msgstr "Pakseim joon märgib %d juhtumitest."
+
+#: .././cogstat_chart.py:524
+msgid "Means and 95% confidence intervals for the variables"
+msgstr "Muutjate keskmised ja 95% usaldusintervallid"
+
+#: .././cogstat_stat.py:552
+msgid "Paired t-test requires two variables."
+msgstr "Paarisvõrdluse t-test nõuab kahte muutujat."
+
+#: .././cogstat_stat.py:557
+msgid "Result of paired samples t-test"
+msgstr "Paarisvõrdluse t-testi tulemus"
+
+#: .././cogstat_stat.py:574
+msgid "Paired Wilcoxon test requires two variables."
+msgstr "Paarisvõrdluse Wilcoxoni test nõuab kahte muutujat."
+
+#: .././cogstat_stat.py:688
+msgid "Friedman test requires at least two variables."
+msgstr "Friedmani test nõuab vähemalt kahte muutujat."
+
+#: .././cogstat_stat.py:694
+msgid "Result of the Friedman test: "
+msgstr "Friemani testi tulemus: "
+
+#: .././cogstat_stat.py:1097
+msgid "Largest individual data display %d cases."
+msgstr "Suurimad üksikandmed näitavad %d juhtumitest."
+
+#: .././cogstat_stat.py:1125
+msgid "Boxplot and individual data of the groups"
+msgstr "Karpdiagramm ja gruppide üksikandmed."
+
+#: .././cogstat_chart.py:644
+msgid "Mosaic plot of the groups"
+msgstr "Gruppide mosaiikdiagramm"
+
+#: .././cogstat_chart.py:668
+msgid "Means and 95% confidence intervals for the groups"
+msgstr "Gruppide keskmised ja 95% usaldusintervallid"
+
+#: .././cogstat_stat.py:738
+msgid "Levene test"
+msgstr "Levene'i test"
+
+#: .././cogstat_stat.py:770
+msgid "Difference between the two groups:"
+msgstr "Kahe gruppide erinevused:"
+
+#: .././cogstat_stat.py:771
+msgid "95%% confidence interval [%0.*f, %0.*f]"
+msgstr "95%% usaldusintervall [%0.*f, %0.*f]"
+
+#: .././cogstat_stat.py:772
+msgid "Result of independent samples t-test:"
+msgstr "Sõltumatute gruppide t-testi tulemus:"
+
+#: .././cogstat_stat.py:802
+msgid "One of the groups should include only a single data."
+msgstr "Üks gruppidest peaks sisaldama ainult üksikandmeid."
+
+#: .././cogstat_stat.py:799
+msgid "Result of the modified independent samples t-test:"
+msgstr "Muudetud sõltumatute gruppidega t-testi tulemus:"
+
+#: .././cogstat_stat.py:853 .././cogstat_stat.py:858 .././cogstat_stat.py:861
+msgid "Result of independent samples Mann-Whitney rank test: "
+msgstr "Sõltumatute gruppidega Mann-Whitney tähtsusastme testi tulemus: "
+
+#: .././cogstat_stat.py:887
+msgid "Result of one-way ANOVA: "
+msgstr "Ühefaktorilise dispersioonianalüüsi tulemus: "
+
+#: .././cogstat_stat.py:893
+msgid "Effect size: "
+msgstr "Efektisuurus: "
+
+#: .././cogstat_stat.py:898 .././cogstat_stat.py:995
+msgid "Groups differ. Post-hoc test of the means."
+msgstr "Grupid erinevad. Keskmiste post-hoc test."
+
+#: .././cogstat_stat.py:991 .././cogstat_stat.py:1002
+msgid "Result of the Kruskal-Wallis test: "
+msgstr "Kruskal-Wallis testi tulemus: "
+
+#: .././cogstat_stat.py:1021
+msgid "Cramér's V measure of association: "
+msgstr "Cramér'i V seose mõõdik: "
+
+#: .././cogstat_stat.py:1024
+msgid "Result of the Pearson's Chi-square test: "
+msgstr "Pearson'i Hii-ruut-testi tulemus: "
+
+#: .././cogstat_gui.py:130
+msgid "&Data"
+msgstr "&Andmed"
+
+#: .././cogstat_gui.py:131
+msgid "&Open data file"
+msgstr "&Ava andmefail"
+
+#: .././cogstat_gui.py:131
+msgid "Ctrl+O"
+msgstr "Ctrl+O"
+
+#: .././cogstat_gui.py:133
+msgid "&Paste data"
+msgstr "&Kleepige andmed"
+
+#: .././cogstat_gui.py:133
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: .././cogstat_gui.py:137 .././cogstat_gui.py:180
+msgid "&Display data"
+msgstr "&Kuvage andmed"
+
+#: .././cogstat_gui.py:137
+msgid "Ctrl+D"
+msgstr "Ctrl+D"
+
+#: .././cogstat_gui.py:138 .././cogstat_gui.py:180
+msgid "Display data &briefly"
+msgstr "Kuva andmed &lühidalt"
+
+#: .././cogstat_gui.py:141
+msgid "&Analysis"
+msgstr "&Analüüs"
+
+#: .././cogstat_gui.py:142
+msgid "Ctrl+1"
+msgstr "Ctrl+1"
+
+#: .././cogstat_gui.py:143
+msgid "Ctrl+2"
+msgstr "Ctrl+2"
+
+#: .././cogstat_gui.py:145 .././cogstat_gui.py:181
+msgid "Pivot &table"
+msgstr "Rist &tabel"
+
+#: .././cogstat_gui.py:148 .././cogstat_gui.py:182
+msgid "Compare &groups"
+msgstr "Võrdle &gruppe"
+
+#: .././cogstat.py:906 ../ui/compare_groups.py:74
+msgid "Compare groups"
+msgstr "Võrdle gruppe"
+
+#: .././cogstat_gui.py:151
+msgid "&Results"
+msgstr "&Tulemused"
+
+#: .././cogstat_gui.py:152
+msgid "&Clear results"
+msgstr "&Puhasta tulemused"
+
+#: .././cogstat_gui.py:143 .././cogstat_gui_qt4.py:144
+msgid "Save results"
+msgstr "Salvesta tulemused"
+
+#: .././cogstat_gui.py:160
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: .././cogstat_gui.py:144 .././cogstat_gui_qt4.py:145
+msgid "Save results as"
+msgstr "Salvesta tulemused kui"
+
+#: .././cogstat_gui.py:164
+msgid "&CogStat"
+msgstr "&CogStat"
+
+#: .././cogstat_gui.py:165
+msgid "&Help"
+msgstr "&Abi"
+
+#: .././cogstat_gui.py:165
+msgid "F1"
+msgstr "F1"
+
+#: .././cogstat_gui.py:166
+msgid "&Preferences"
+msgstr "&Eelistused"
+
+#: .././cogstat_gui.py:167
+msgid "Request a &feature"
+msgstr "Päri &omadust"
+
+#: .././cogstat_gui.py:171
+msgid "&Report a problem"
+msgstr "&Teata probleemist"
+
+#: .././cogstat_gui.py:172
+msgid "&Diagnosis information"
+msgstr "&Informatsiooni diagnoos"
+
+#: .././cogstat_gui.py:174
+msgid "&About"
+msgstr "&Programmist"
+
+#: .././cogstat_gui.py:176
+msgid "&Exit"
+msgstr "&Välju"
+
+#: .././cogstat_gui.py:176
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: .././cogstat_gui.py:180
+msgid "&Save data"
+msgstr "&Salvesta andmed"
+
+#: .././cogstat_gui.py:180
+msgid "Save data &as"
+msgstr "Salvesta andmed &kui"
+
+#: .././cogstat_gui.py:183
+msgid "&Compare groups and variables"
+msgstr "&Võrdle gruppe ja muutjaid"
+
+#: .././cogstat_gui.py:385
+msgid "Import error"
+msgstr "Impordi viga"
+
+#: .././cogstat_gui.py:385
+msgid "Data could not be loaded."
+msgstr "Andmeid ei olnud võimalik laadida."
+
+#: .././cogstat_gui.py:517 .././cogstat_gui.py:595
+msgid "At least two variables should be set."
+msgstr "Vähemalt kaks muutujat peaksid olema määratud."
+
+#: .././cogstat.py:713 ../ui/pivot.py:105
+msgid "Pivot table"
+msgstr "Risttabel"
+
+#: .././cogstat_gui.py:560
+msgid "The dependent variable and at least one grouping variable should be given."
+msgstr "Sõltuv muutuja ja vähemalt üks grupeeriv muutuja peaksid olema määratud."
+
+#: .././cogstat_gui.py:630
+msgid "Both the dependent and the grouping variables should be set."
+msgstr "Nii sõltuv kui ka grupeeriv muutuja peaksid olema määratud."
+
+#: .././cogstat_gui.py:648
+msgid "Clear output"
+msgstr "Puhasta väljund"
+
+#: .././cogstat_gui.py:649
+msgid "Are you sure you want to delete the output?"
+msgstr "Kas te olete kindlad, et tahate väljundit kustutada?"
+
+#: .././cogstat_gui.py:715
+msgid "About CogStat "
+msgstr "Cogstatist "
+
+#: .././cogstat_gui.py:725
+msgid "System components"
+msgstr "Süsteemi komponendid"
+
+#: .././cogstat_gui.py:737
+msgid "Save output"
+msgstr "Salvesta väljund"
+
+#: .././cogstat_gui.py:738
+msgid "Output has unsaved results. Do you want to save it?"
+msgstr "Väljundis on salvestama tulemusi. Kas soovite seda salvestada?"
+
+#: .././cogstat.py:306
+msgid "Data"
+msgstr "Andmed"
+
+#: .././cogstat.py:307
+msgid "Source: "
+msgstr "Allikas: "
+
+#: .././cogstat.py:308
+msgid " variables and "
+msgstr " muutujad ja "
+
+#: .././cogstat.py:309
+msgid " cases"
+msgstr " juhtumid"
+
+#: .././cogstat.py:320
+msgid " further cases are not displayed..."
+msgstr " järgnevad juhtumid ei ole näidatud..."
+
+#: .././cogstat.py:546 .././cogstat.py:1012 .././cogstat.py:1059
+#: .././cogstat.py:1195
+msgid "Interval variable."
+msgstr "Intervallmuutuja."
+
+#: .././cogstat.py:576 .././cogstat.py:1047 .././cogstat.py:1097
+#: .././cogstat.py:1200
+msgid "Ordinal variable."
+msgstr "Ordinaalmuutuja."
+
+#: .././cogstat.py:472
+msgid "Explore variable"
+msgstr "Uuri muutujat"
+
+#: .././cogstat.py:473
+msgid "Exploring variable: "
+msgstr "Uurin muutujat: "
+
+#: .././cogstat.py:488 ../ui/var_properties.py:72
+msgid "Frequencies"
+msgstr "Sagedused"
+
+#: .././cogstat.py:513
+msgid "Normality"
+msgstr "Normaalsus"
+
+#: .././cogstat.py:602
+msgid "Exploring variable pair: "
+msgstr "Uurin muutujapaari: "
+
+#: .././cogstat.py:637 .././cogstat.py:812 .././cogstat.py:845
+msgid "Interval variables."
+msgstr "Intervallmuutujad."
+
+#: .././cogstat.py:638
+msgid "Running Pearson's and Spearman's correlation."
+msgstr "Jooksutan Pearson'i ja Spearman'i korrelatsiooni."
+
+#: .././cogstat.py:642 .././cogstat.py:643 .././cogstat.py:644
+msgid "Pearson's correlation"
+msgstr "Pearson'i korrelatsioon"
+
+#: .././cogstat.py:650
+msgid "Linear regression"
+msgstr "Lineaarregressioon"
+
+#: .././cogstat.py:654 .././cogstat.py:655 .././cogstat.py:659
+#: .././cogstat.py:670 .././cogstat.py:671 .././cogstat.py:674
+msgid "Spearman's rank-order correlation"
+msgstr "Spearman'i tähtsus-järjestuse korrelatsioon"
+
+#: .././cogstat.py:665 .././cogstat.py:832 .././cogstat.py:868
+msgid "Ordinal variables."
+msgstr "Ordinaalmuutujad."
+
+#: .././cogstat.py:665
+msgid "Running Spearman's correlation."
+msgstr "Jooksutan Spearman'i korrelatsiooni."
+
+#: .././cogstat.py:681
+msgid "Not all variables are nominal. Consider comparing groups."
+msgstr "Mitte kõik muutujad ei ole nominaalskaalal. Kaalutle gruppide võrdlemist."
+
+#: .././cogstat.py:682
+msgid "Nominal variables."
+msgstr "Nominaalmuutujad."
+
+#: .././cogstat.py:682
+msgid "Running Cramér's V."
+msgstr "Jooksutan Cramér'i V'd."
+
+#: .././cogstat.py:727
+msgid "Variables to compare: "
+msgstr "Muutjad võrdlemiseks: "
+
+#: .././cogstat.py:744
+msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
+msgstr "Vabandust, erineva mõõtmistasemega muutujaid ei ole võimalik võrrelda. Saaksite minna kõrgemalt mõõtmistasemelt madalamale, et saada sama mõõtmistaset."
+
+#: .././cogstat.py:807
+msgid "At least two variables required."
+msgstr "Vaja on vähemalt kahte muutujat."
+
+#: .././cogstat.py:809
+msgid "Two variables. "
+msgstr "Kaks muutujat. "
+
+#: .././cogstat.py:550 .././cogstat.py:814 .././cogstat.py:849
+#: .././cogstat.py:996 .././cogstat.py:1015 .././cogstat.py:1063
+msgid "Checking for normality."
+msgstr "Kontrollin normaalsust."
+
+#: .././cogstat.py:1003
+msgid "Normality is violated in variable "
+msgstr "Normaalsus on rikutud muutujas "
+
+#: .././cogstat.py:825
+msgid "Normality is not violated. >> Running paired t-test."
+msgstr "Normaalsust ei ole rikutud. >> Jooksutan paarisvõrdluse t-testi."
+
+#: .././cogstat.py:829 .././cogstat.py:832
+msgid "Running paired Wilcoxon test."
+msgstr "Jooksutan kahe paarisvõrdluse Wilcoxoni testi."
+
+#: .././cogstat.py:582 .././cogstat.py:841 .././cogstat.py:877
+#: .././cogstat.py:886 .././cogstat.py:889 .././cogstat.py:1201
+#: .././cogstat.py:1204
+msgid "Sorry, not implemented yet."
+msgstr "Vabandust, ei ole veel rakendatud."
+
+#: .././cogstat.py:843
+msgid "More than two variables. "
+msgstr "Rohkem kui kaks muutujat. "
+
+#: .././cogstat.py:865 .././cogstat.py:868
+msgid "Running Friedman test."
+msgstr "Jooksutan Friedmani testi."
+
+#: .././cogstat_stat.py:135 .././cogstat.py:909
+msgid "Dependent variable: "
+msgstr "Sõltuv muutuja: "
+
+#: .././cogstat.py:910
+msgid "Group(s): "
+msgstr "Grupp(id): "
+
+#: .././cogstat.py:984
+msgid "One grouping variable. "
+msgstr "Üks gruppeeriv muutuja. "
+
+#: .././cogstat.py:986
+msgid "There is only one group. At least two groups required."
+msgstr "On kõigest üks grupp. Vähemalt kaks gruppi on nõutud."
+
+#: .././cogstat.py:990
+msgid "Two groups. "
+msgstr "Kaks gruppi. "
+
+#: .././cogstat.py:994
+msgid "One group contains only one case. >> Choosing modified t-test."
+msgstr "Üks grupp sisaldab vaid ühte juhtumit. >> Valin modifitseeritud t-testi."
+
+#: .././cogstat.py:1004
+msgid "group "
+msgstr "grupp "
+
+#: .././cogstat.py:1005 .././cogstat.py:1039 .././cogstat.py:1047
+msgid "Running Mann-Whitney test."
+msgstr "Jooksutan Mann-Whitney testi."
+
+#: .././cogstat.py:1008
+msgid "Normality is not violated. >> Running modified t-test."
+msgstr "Normaalsust ei ole rikutud. >> Jooksutan modifitseeritud t-testi."
+
+#: .././cogstat.py:1050 .././cogstat.py:1101 .././cogstat.py:1203
+msgid "Nominal variable."
+msgstr "Nominaalmuutuja."
+
+#: .././cogstat.py:1050 .././cogstat.py:1101
+msgid "Running Chi-square test."
+msgstr "Jooksutan Hii-ruut-testi."
+
+#: .././cogstat.py:1057
+msgid "More than two groups."
+msgstr "Rohkem kui kaks gruppi."
+
+#: .././cogstat.py:1093 .././cogstat.py:1097
+msgid "Running Kruskal-Wallis test."
+msgstr "Jooksutan Kruskal-Wallise testi."
+
+#: .././cogstat.py:1207
+msgid "Several grouping variables."
+msgstr "Mitu grupeerivat muutujat."
+
+#: .././cogstat_dialogs.py:23 .././cogstat_dialogs.py:27
+msgid "Open data file"
+msgstr "Ava andmefail"
+
+#: .././cogstat_dialogs.py:31
+msgid "Save result file"
+msgstr "Salvesta tulemuste fail"
+
+#: .././cogstat_gui.py:142 .././cogstat_gui.py:181
+msgid "&Explore variable"
+msgstr "&Uuri muutujat"
+
+#: .././cogstat_gui.py:384 .././cogstat.py:251
+msgid "Import failed"
+msgstr "Importimine ebaõnnestus"
+
+#: .././cogstat_stat.py:270 .././cogstat_stat.py:272
+msgid "Freq"
+msgstr "Sag"
+
+#: .././cogstat_stat.py:270 .././cogstat_stat.py:272 .././cogstat_stat.py:274
+msgid "Rel freq"
+msgstr "Suht sag"
+
+#: .././cogstat_stat.py:272
+msgid "Cum freq"
+msgstr "Kum sag"
+
+#: .././cogstat_stat.py:272 .././cogstat_stat.py:274
+msgid "Cum rel freq"
+msgstr "Kum suht sag"
+
+#: .././cogstat_stat.py:1023
+msgid "Cramér's V measure of association cannot be computed (division by zero)."
+msgstr "Cramér'i V suhte mõõtmist ei ole võimalik arvutada (nulliga jagamine)."
+
+#: .././cogstat.py:137 .././cogstat.py:145
+msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
+msgstr "Mõõtmistaseme arv ei vasta andmete arvule. Mõõtmistaseme täpsustust ei võeta arvesse."
+
+#: .././cogstat.py:187
+msgid "pandas dataframe"
+msgstr "pandas andmefreim"
+
+#: .././cogstat.py:213
+msgid "text file - "
+msgstr "tekstifail - "
+
+#: .././cogstat.py:248
+msgid "clipboard"
+msgstr "lõikelaud"
+
+#: .././cogstat.py:317
+msgid "Type"
+msgstr "Tüüp"
+
+#: .././cogstat.py:317
+msgid "Level"
+msgstr "Tase"
+
+#: .././cogstat.py:336
+msgid "Filtering"
+msgstr "Filtreerimine"
+
+#: .././cogstat.py:340
+msgid "Filtering is switched off."
+msgstr "Filtreerimine on väljalülitatud."
+
+#: .././cogstat.py:355
+msgid "Filtering based on %s.\n"
+""
+msgstr "Filtreerimine %s baasil."
+
+#: .././cogstat.py:355 .././cogstat.py:371
+msgid " (2 SD)"
+msgstr " (2 SH)"
+
+#: .././cogstat.py:357
+msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
+""
+msgstr "Juhtumid, mis on vahemikust väljas ei võeta arvesse:  %0.*f  --  %0.*f"
+
+#: .././cogstat.py:364
+msgid "The following cases will be excluded: "
+msgstr "Järgnevaid juhtumeid ei võeta arvesse: "
+
+#: .././cogstat.py:367
+msgid "No cases were excluded."
+msgstr "Ühtegi juhtumit ei arvatud välja."
+
+#: .././cogstat.py:1024 .././cogstat.py:1072
+msgid "Checking for homogeneity of variance across groups."
+msgstr "Kontrollin muutuvuse homogeensust gruppides."
+
+#: .././cogstat_gui.py:51
+msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "%s Oih, miski läks valesti, CogStat ei saanud analüüsi jooksutada. Peaksite sellest teatama."
+
+#: .././cogstat_gui.py:492
+msgid "Explore variable."
+msgstr "Uuri muutujat."
+
+#: .././cogstat_gui.py:517 .././cogstat_gui.py:533
+msgid "Explore variable pair."
+msgstr "Uuri muutujapaari."
+
+#: .././cogstat_gui.py:560 .././cogstat_gui.py:565
+msgid "Pivot table."
+msgstr "Risttabel."
+
+#: .././cogstat_gui.py:595 .././cogstat_gui.py:603
+msgid "Compare variables."
+msgstr "Võrdle muutujaid."
+
+#: .././cogstat_gui.py:630 .././cogstat_gui.py:641
+msgid "Compare groups."
+msgstr "Võrdle gruppe."
+
+#: .././cogstat_stat.py:317
+msgid "Normality cannot be checked for constant variable in %s%s.\n"
+""
+msgstr "Normaalsust ei olnud võimalik kontrollida konstantse muutuja %s%s puhul."
+
+#: .././cogstat_stat.py:331
+msgid "Too small sample to test normality in variable %s%s.\n"
+""
+msgstr "Liiga väike valim, et normaalsust kontrollida muutujas %s%s."
+
+#: .././cogstat_stat.py:587
+msgid "Result of the McNemar test"
+msgstr "McNemari testi tulemus"
+
+#: .././cogstat_stat.py:593
+msgid "Result of Cochran's Q test"
+msgstr "Cochran'i Q testi tulemus"
+
+#: .././cogstat_stat.py:610
+msgid "Result of Mauchly's test to check sphericity"
+msgstr "Mauchly sfäärilisuse kontrolli testi tulemus "
+
+#: .././cogstat_stat.py:614
+msgid "Sphericity is violated."
+msgstr "Sfäärilisus on rikutud."
+
+#: .././cogstat_stat.py:615
+msgid "Using Greenhouse-Geisser correction."
+msgstr "Kasutan Greenhouse-Geisser korrigeerimist."
+
+#: .././cogstat_stat.py:616 .././cogstat_stat.py:621
+msgid "Result of repeated measures ANOVA"
+msgstr "Kordusmōōtmiste dispersioonanalüüsi tulemus"
+
+#: .././cogstat_stat.py:620
+msgid "Sphericity is not violated. "
+msgstr "Sfäärilisus ei ole rikutud. "
+
+#: .././cogstat_stat.py:627
+msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
+msgstr "Võrdlen muutujaid paarihaaval kasutades Holm-Bonferroni korrigeerimist."
+
+#: .././cogstat_stat.py:837
+msgid "Result of Welch's unequal variances t-test:"
+msgstr "Welch'i mittevõrdsete dispersioonide t-testi tulemus:"
+
+#: .././cogstat.py:812
+msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
+msgstr "Valin paarisvõrdluse t-testi või paarisvõrdluse Wilcoxoni testi sõltuvalt eeldustest."
+
+#: .././cogstat.py:828 .././cogstat.py:864
+msgid "Normality is violated in variable(s): %s."
+msgstr "Normaalsus on rikutud muutuja(te)s: %s."
+
+#: .././cogstat.py:836 .././cogstat.py:872
+msgid "Nominal dichotomous variables."
+msgstr "Nominaalsed kahepoolsed andmed."
+
+#: .././cogstat.py:836
+msgid "Running McNemar test."
+msgstr "Jooksutan McNemari testi."
+
+#: .././cogstat.py:840 .././cogstat.py:876
+msgid "Nominal non dichotomous variables."
+msgstr "Nominaalsed mitte kahepoolsed andmed."
+
+#: .././cogstat.py:846
+msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
+msgstr "Valin kordusmōōtmiste dispersioonanalüüsi või Friedmani testi sõltuvalt eeldustest."
+
+#: .././cogstat.py:872
+msgid "Running Cochran's Q test."
+msgstr "Jooksutan Cochrani Q testi."
+
+#: .././cogstat.py:1013
+msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
+msgstr "Valin kahe valimiga t-testi, Mann-Whitney testi või Welch'i t-testi sõltuvalt eeldustest."
+
+#: .././cogstat.py:1037
+msgid "Normality is violated in variable %s, group(s) %s."
+msgstr "Normaalsus on rikutud muutujas %s, grup(p)i(de)s %s."
+
+#: .././cogstat.py:1042
+msgid "Homeogeneity of variance violated in variable %s."
+msgstr "Dispersiooni homogeensus on rikutud muutujas %s."
+
+#: .././cogstat.py:1043
+msgid "Running Welch's t-test."
+msgstr "Jooksutan Welch'i t-testi."
+
+#: .././cogstat.py:1060
+msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
+msgstr "Valin ühefaktoriline dispersioonanalüüsi või Kruskal-Wallise testi sõltuvalt eeldustest."
+
+#: .././cogstat.py:1088
+msgid "Normality is violated in variable %s, group(s) %s. "
+msgstr "Normaalsus on rikutud muutujas %s, grup(p)i(de)s %s. "
+
+#: .././cogstat.py:1091
+msgid "Homeogeneity of variance violated in variable %s. "
+msgstr "Dispersiooni homogeensus on rikutud muutujas %s. "
+
+#: .././cogstat.py:555 .././cogstat.py:860
+msgid "Normality is not violated."
+msgstr "Normaalsust ei ole rikutud."
+
+#: .././cogstat.py:861
+msgid "Running repeated measures one-way ANOVA."
+msgstr "Jooksutan korduvate mõõtmistega ühesuunalist dispersioonianalüüsi."
+
+#: .././cogstat_gui.py:138
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: .././cogstat_gui.py:400
+msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
+msgstr "Ava andmed. Oih, miski läks valesti, CogStat ei saanud avada neid andmeid. Peaksite veast teatama."
+
+#: .././cogstat_stat.py:227
+msgid "N of missing cases: %g"
+msgstr "N puuduvatest juhtumitest: %g"
+
+#: .././cogstat_chart.py:144 .././cogstat_chart.py:229
+#: .././cogstat_chart.py:403 .././cogstat_chart.py:404
+#: .././cogstat_chart.py:608
+msgid "Rank of %s"
+msgstr "%s järjestus"
+
+#: .././cogstat_stat.py:414 .././cogstat_stat.py:578
+msgid "Result of Wilcoxon signed-rank test"
+msgstr "Wilcoxoni astakmärgitesti tulemus"
+
+#: .././cogstat_chart.py:146 .././cogstat.py:478 .././cogstat.py:608
+#: .././cogstat.py:751 .././cogstat.py:921 .././cogstat.py:1109
+msgid "Raw data"
+msgstr "Toorandmed"
+
+#: .././cogstat.py:484 .././cogstat.py:624 .././cogstat.py:771
+#: .././cogstat.py:952 .././cogstat.py:1160
+msgid "Sample properties"
+msgstr "Valimi omadused"
+
+#: .././cogstat.py:530
+msgid "Population parameter estimations and tests"
+msgstr "Populatsiooni parameetri hinnangud ja testid"
+
+#: .././cogstat.py:537 .././cogstat.py:635 .././cogstat.py:663
+#: .././cogstat.py:678
+msgid "Hypothesis test: "
+msgstr "Hüpoteesi test: "
+
+#: .././cogstat.py:539
+msgid "Testing if mean deviates from the value %s."
+msgstr "Testin, kas keskmine erineb väärtusest %s."
+
+#: .././cogstat.py:541
+msgid "Testing if median deviates from the value %s."
+msgstr "Testin, kas mediaan erineb väärtusest %s."
+
+#: .././cogstat.py:548
+msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
+msgstr "Valin ühe valimiga t-testi või Wilcoxoni astakmärgitesti sõltuvalt eeldusest."
+
+#: .././cogstat.py:556
+msgid "Running one-sample t-test."
+msgstr "Jooksutan ühe valimiga t-testi."
+
+#: .././cogstat.py:569
+msgid "Normality is violated."
+msgstr "Normaalsust on rikutud."
+
+#: .././cogstat.py:570 .././cogstat.py:577
+msgid "Running Wilcoxon signed-rank test."
+msgstr "Jooksutan Wilcoxoni astakmärgitesti."
+
+#: .././cogstat.py:509 .././cogstat.py:628 .././cogstat.py:787
+#: .././cogstat.py:970 .././cogstat.py:1180
+msgid "Population properties"
+msgstr "Populatsiooni omadused"
+
+#: .././cogstat.py:635 .././cogstat.py:663
+msgid "Testing if correlation differs from 0."
+msgstr "Testin, kas korrelatsioon on 0 erinev."
+
+#: .././cogstat.py:678
+msgid "Testing if variables are independent."
+msgstr "Testin, kas muutujad on sõltumatud."
+
+#: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
+msgid "Hypothesis testing: "
+msgstr "Hüpoteesi testimine: "
+
+#: .././cogstat.py:800 .././cogstat.py:978 .././cogstat.py:1186
+msgid "Testing if the means are the same."
+msgstr "Testin, kas keskmised on samad."
+
+#: .././cogstat.py:802 .././cogstat.py:980 .././cogstat.py:1188
+msgid "Testing if the medians are the same."
+msgstr "Testin, kas mediaanid on samad."
+
+#: .././cogstat.py:804 .././cogstat.py:982 .././cogstat.py:1190
+msgid "Testing if the distributions are the same."
+msgstr "Testin, kas jaotused on samad."
+
+#: .././cogstat.py:1033
+msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
+msgstr "Normaalsus ja dispersiooni homogeensus ei ole rikutud. >> Jooksutan kahe valimiga t-testi."
+
+#: .././cogstat.py:1081
+msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
+msgstr "Normaalsus ja dispersiooni homogeensus ei ole rikutud. >> Jooksutan ühesuunalist dispersioonianalüüsi."
+
+#: .././cogstat_gui.py:715
+msgid "Simple automatic data analysis software"
+msgstr "Lithne automaatne andmeanalüüsi tarkvara"
+
+#: .././cogstat_gui.py:715
+msgid "Visit CogStat website"
+msgstr "Külastage CogStat'i kodulehekülge"
+
+#: .././cogstat_gui.py:223
+msgid "Welcome to CogStat!"
+msgstr "Tere tulemast CogStat'i!"
+
+#: .././cogstat_gui.py:223
+msgid "CogStat makes statistical analysis more simple and efficient."
+msgstr "CogStat muudab statistilise analüüsi lihtsamaks ja efektiivsemaks."
+
+#: .././cogstat_gui.py:224
+msgid "To start working open a data file or paste your data from a spreadsheet."
+msgstr "Et tööga alustada, avage andmefail või kleepi andmed arvutustabelist."
+
+#: .././cogstat_chart.py:143
+msgid "Rank of the raw data"
+msgstr "Toorandmete järjestus"
+
+#: .././cogstat_chart.py:214
+msgid "Histogram of rank data with individual data and boxplot"
+msgstr "Järjestatud üksikandmete histogramm koos karpdiagrammiga"
+
+#: .././cogstat_chart.py:402
+msgid "Scatterplot of the rank of the variables"
+msgstr "Muutujate järjestuse hajuvusdiagramm"
+
+#: .././cogstat_chart.py:452
+msgid "Individual data of the variables"
+msgstr "Muutujate üksikandmed"
+
+#: .././cogstat_chart.py:610
+msgid "Individual data of the rank data of the groups"
+msgstr "Gruppide järjestatud andmete üksikandmed"
+
+#: .././cogstat_stat.py:1109
+msgid "Boxplot and individual data of the rank data of the groups"
+msgstr "Gruppide järjestatud andmete karpdiagramm ja üksikandmed"
+
+#: .././cogstat_chart.py:626
+msgid "Individual data of the groups"
+msgstr "Gruppide üksikandmed"
+
+#: .././cogstat_stat.py:532 .././cogstat_stat.py:712 .././cogstat.py:557
+#: .././cogstat.py:558 .././cogstat.py:629
+msgid "Point estimation"
+msgstr "Punkti hinnang"
+
+#: .././cogstat.py:557 .././cogstat.py:561 .././cogstat.py:629
+msgid "95% confidence interval"
+msgstr "95% usaldusintervall"
+
+#: .././cogstat_stat.py:127 .././cogstat_stat.py:435 .././cogstat.py:562
+#: ../ui/pivot.py:113
+msgid "Standard deviation"
+msgstr "Standardhälve"
+
+#: .././cogstat.py:757 .././cogstat.py:927 .././cogstat.py:1126
+msgid "N of valid cases"
+msgstr "N valiidsetest juhtumitest"
+
+#: .././cogstat_gui.py:109
+msgid "Update available"
+msgstr "Uuendus on saadaval"
+
+#: .././cogstat_gui.py:110
+msgid "New version is available."
+msgstr "Uus versioon on saadaval"
+
+#: .././cogstat_gui.py:111
+msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
+msgstr "Saate uue versiooni <br> alla laadida <a href = \"%s\">CogStat download page</a>."
+
+#: .././cogstat_gui.py:143 .././cogstat_gui.py:182
+msgid "Explore relation of variable &pair"
+msgstr "Uuri muutuja &paari suhet"
+
+#: .././cogstat_gui.py:147 .././cogstat_gui.py:182
+msgid "Compare repeated measures va&riables"
+msgstr "Võrdle kordusmõõtmiste muu&tujaid"
+
+#: .././cogstat_stat.py:435
+msgid "Minimum"
+msgstr "Miinimum"
+
+#: .././cogstat_stat.py:436
+msgid "Maximum"
+msgstr "Maksimum"
+
+#: .././cogstat_stat.py:126 .././cogstat_stat.py:436 ../ui/pivot.py:112
+msgid "Upper quartile"
+msgstr "Ülemine kvartiil"
+
+#: .././cogstat_stat.py:454
+msgid "Descriptives for the variables"
+msgstr "Muutujate kirjeldav statistika"
+
+#: .././cogstat_stat.py:468
+msgid "Descriptives for the groups"
+msgstr "Gruppide kirjeldav statistika"
+
+#: .././cogstat_stat.py:514
+msgid "Contingency table"
+msgstr "Risttabel"
+
+#: .././cogstat_stat.py:936
+msgid "Result of two-way ANOVA:\n"
+""
+msgstr "Kahefaktorilise dispersioonanalüüsi tulemus:"
+
+#: .././cogstat_stat.py:939
+msgid "Main effect of %s: "
+msgstr "%s põhiefekt: "
+
+#: .././cogstat_stat.py:943
+msgid "Interaction of %s and %s: "
+msgstr "%s ja %s interaktsioon: "
+
+#: .././cogstat_stat.py:1027
+msgid "Sorry, at least SciPy 0.10 is required to calculate Cramér's V or Chi-Square test."
+msgstr "Vabandust, vähemalt SciPy 0.10 on vajalik, et arvutada Cramér'i V'd või Hii-ruut-testi."
+
+#: .././cogstat.py:228
+msgid "SPSS file - "
+msgstr "SPSS fail - "
+
+#: .././cogstat.py:601
+msgid "Explore relation of variable pair"
+msgstr "Uuri muutujapaari suhet"
+
+#: .././cogstat.py:725 ../ui/compare_vars.py:65
+msgid "Compare repeated measures variables"
+msgstr "Võrdle kordusmõõtmiste muutujaid"
+
+#: .././cogstat.py:758 .././cogstat.py:928 .././cogstat.py:1129
+msgid "N of missing cases"
+msgstr "N puuduvatest juhtumitest"
+
+#: .././cogstat.py:1192
+msgid "Two grouping variables. "
+msgstr "Kaks grupeerivat muutujat. "
+
+#: .././cogstat.py:1196
+msgid "Choosing factorial ANOVA."
+msgstr "Valin faktoriaalse dispersioonianalüüsi."
+
+#: .././cogstat.py:614
+msgid "N of valid pairs"
+msgstr "N valiidsetest paaridest"
+
+#: .././cogstat.py:615
+msgid "N of missing pairs"
+msgstr "N puuduvatest paaridest"
+
+#: .././cogstat.py:937
+msgid "N of missing group cases"
+msgstr "N puuduvatest grupi juhtumitest"
+
+#: .././cogstat.py:1144
+msgid "N of missing grouping variable in %s"
+msgstr "N puuduvast grupeerivast muutujast %s"
+
+#: .././cogstat_stat.py:437
+msgid "Skewness"
+msgstr "Asümmeetriakordaja"
+
+#: .././cogstat_stat.py:437
+msgid "Kurtosis"
+msgstr "Järskuskordaja"
+
+#: .././cogstat_stat.py:437
+msgid "Range"
+msgstr "Haare"
+
+#: .././cogstat_stat.py:454
+msgid "Descriptives for the variable"
+msgstr "Muutuja kirjeldav statistika"
+
+#: .././cogstat.py:49
+msgid "The measurement levels of the variables are not set. Set them in your data source."
+msgstr "Muutujate mõõtmistasemed ei ole sätestatud. Sätestage need oma andmeallikas."
+
+#: .././cogstat_gui.py:52 .././cogstat_gui.py:401
+msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
+msgstr "Lugege rohkem, kuidas teavitada probleemist <a href = \"%s\">siit</a>."
+
+#: .././cogstat_gui.py:225
+msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+msgstr "Leidke rohkem informatsioon CogStatist selle<a href = \"https://www.cogstat.org\">kodulehel</a> või lugege <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">kiirõpetust.</a>"
+
+#: .././cogstat_stat.py:59 .././cogstat.py:50 .././cogstat.py:171
+#: .././cogstat.py:179 .././cogstat.py:284 .././cogstat.py:292
+msgid "Read more about this issue <a href = \"%s\">here</a>."
+msgstr "Lugege sellest probleemist rohkem <a href = \"%s\">siit</a>."
+
+#: .././cogstat_stat.py:816
+msgid "Result of slope test with %s:"
+msgstr "Tõusutesti tulemus %s:"
+
+#: .././cogstat.py:168
+msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
+msgstr "Kategoriaalsed muutujad ei saa olla intervall- ega ordinaalmuutujad CogStatis. Need muutujad on automaatselt sätestatud nominaalseteks: "
+
+#: .././cogstat.py:170 .././cogstat.py:178 .././cogstat.py:283
+#: .././cogstat.py:291
+msgid "You can fix this in your data source."
+msgstr "Te saate seda parandada andmeallikas."
+
+#: .././cogstat.py:177
+msgid "The measurement level was not set for all variables."
+msgstr "Mõõtmistase ei olnud sätestatud kõikidele muutujatele."
+
+#: .././cogstat.py:281
+msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr "Mõne(de) muutuja(te) nimede(s) sisalduvad mitte inglise keelsed tähemärgid, mis tekitavad probleeme mõnedes analüüsides: %s."
+
+#: .././cogstat.py:289
+msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr "Mõne(d) muutuja(d) sisaldavad mitte inglise keelseid tähemärke, mis tekitavad probleeme mõnedes analüüsides: %s."
+
+#: .././cogstat.py:627 .././cogstat.py:656 .././cogstat.py:672
+#: .././cogstat.py:1085
+msgid "Standardized effect size:"
+msgstr "Standardiseeritud efektisuurus:"
+
+#: .././cogstat_gui.py:132
+msgid "Open d&emo data file"
+msgstr "Ava d&emo andmefail"
+
+#: .././cogstat_gui.py:132
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: .././cogstat_gui.py:154
+msgid "&Increase text size"
+msgstr "&Suurenda teksti suurust"
+
+#: .././cogstat_gui.py:154
+msgid "Ctrl++"
+msgstr "Ctrl++"
+
+#: .././cogstat_gui.py:155
+msgid "&Decrease text size"
+msgstr "&Vähenda teksti suurust"
+
+#: .././cogstat_gui.py:155
+msgid "Ctrl+-"
+msgstr "Ctrl+-"
+
+#: .././cogstat_gui.py:160
+msgid "&Save results"
+msgstr "&Salvesta tulemused"
+
+#: .././cogstat_gui.py:161
+msgid "Save results &as"
+msgstr "Salvesta tulemused &kui"
+
+#: .././cogstat_chart.py:454
+msgid "Boxplots and individual data of the variables"
+msgstr "Muutujate karpdiagrammid ja üksikandmed"
+
+#: .././cogstat_chart.py:602
+msgid "Largest individual sign displays %d cases."
+msgstr "Suurim üksikmärk märgib %d juhtumitest."
+
+#: .././cogstat_chart.py:612
+msgid "Boxplots and individual data of the rank data of the groups"
+msgstr "Gruppide järjestatud andmete karpdiagrammid ja üksikandmed "
+
+#: .././cogstat_chart.py:628
+msgid "Boxplots and individual data of the groups"
+msgstr "Gruppide andmete karpdiagrammid ja üksikandmed"
+
+#: .././cogstat_stat.py:535 .././cogstat_stat.py:715
+msgid "95% CI (low)"
+msgstr "95% UI (madal)"
+
+#: .././cogstat_stat.py:536 .././cogstat_stat.py:716
+msgid "95% CI (high)"
+msgstr "95% UI (kõrge)"
+
+#: .././cogstat_stat.py:996
+msgid "Results of Dunn's test (p values)."
+msgstr "Dunn'i testi tulemused (p väärtused)."
+
+#: .././cogstat.py:564 .././cogstat.py:792 .././cogstat.py:972
+#: .././cogstat.py:1181
+msgid "Present confidence interval values suppose normality."
+msgstr "Antud usaldusintervalli väärtused oletavad normaalsust."
+
+#: .././cogstat.py:792 .././cogstat.py:972 .././cogstat.py:1181
+msgid "Means"
+msgstr "Keskmised"
+
+#: .././cogstat_gui.py:152
+msgid "Ctrl+Del"
+msgstr "Ctrl+Del"
+
+#: .././cogstat_gui.py:148
+msgid "&Text is editable"
+msgstr "&Tekst on muudetav"
+
+#: .././cogstat_gui.py:158
+msgid "Ctrl+Shift+E"
+msgstr "Ctrl+Shift+E"
+
+#: .././cogstat_gui.py:161
+msgid "Ctrl+Shift+P"
+msgstr "Ctrl+Shift+P"
+
+#: .././cogstat.py:322
+msgid "The next %s cases will not be printed. You can check all cases in the original data source."
+msgstr "Järgmiseid %s juhtumeid ei kuvata. Saate kontrollida kõiki juhtumeid originaalses andmeallikas."
+
+#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:76
+#: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
+#: ../ui/explore_var_pairs.py:54 ../ui/compare_vars.py:67
+msgid "Available variables"
+msgstr "Saadavad muutujad"
+
+#: .././cogstat_stat.py:125 ../ui/pivot.py:107
+msgid "N"
+msgstr "N"
+
+#: .././cogstat_stat.py:125 ../ui/pivot.py:108
+msgid "Sum"
+msgstr "Summa"
+
+#: .././cogstat_stat.py:126 ../ui/pivot.py:111
+msgid "Lower quartile"
+msgstr "Alamkvartiil"
+
+#: .././cogstat_stat.py:127 ../ui/pivot.py:114
+msgid "Variance"
+msgstr "Dispersioon"
+
+#: ../ui/pivot.py:115
+msgid "Rows"
+msgstr "Read"
+
+#: ../ui/pivot.py:116
+msgid "Columns"
+msgstr "Veerud"
+
+#: ../ui/pivot.py:117
+msgid "Pages"
+msgstr "Lehed"
+
+#: ../ui/pivot.py:118
+msgid "Dependent variable"
+msgstr "Sõltuv muutuja"
+
+#: ../ui/pivot.py:119
+msgid "Function"
+msgstr "Funktsioon"
+
+#: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
+#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:75
+#: ../ui/compare_groups.py:79 ../ui/compare_groups_single_case_slope.py:64
+#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:57
+#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:68
+msgid "<="
+msgstr "<="
+
+#: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
+#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:78
+#: ../ui/compare_groups.py:81 ../ui/compare_groups_single_case_slope.py:67
+#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:56
+#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:66
+msgid "=>"
+msgstr "=>"
+
+#: ../ui/compare_groups.py:77
+msgid "Dependent variable(s)"
+msgstr "Sõltuv(ad) muutuja(d)"
+
+#: ../ui/compare_groups.py:80
+msgid "Group(s)"
+msgstr "Grupp(id)"
+
+#: ../ui/compare_groups.py:82
+msgid "Single case slope..."
+msgstr "Üksiku juhtumi tõus..."
+
+#: ../ui/preferences.py:53
+msgid "Preferences"
+msgstr "Eelistused"
+
+#: ../ui/preferences.py:54
+msgid "Language"
+msgstr "Keel"
+
+#: ../ui/preferences.py:55
+msgid "You should restart CogStat to use the new language"
+msgstr "Peaksite CogStat'i täiskäivitama, et kasutada uut keelt"
+
+#: ../ui/preferences.py:56
+msgid "Chart theme"
+msgstr "Graafiku teema"
+
+#: ../ui/preferences.py:57
+msgid "You should restart CogStat to use the new theme"
+msgstr "Peaksite CogStat'i täiskäivitama, et kasutada uut teemat"
+
+#: ../ui/compare_groups_single_case_slope.py:63
+msgid "Compare groups - Single case slope"
+msgstr "Võrdle gruppe - Üksiku juhtumi tõus"
+
+#: ../ui/compare_groups_single_case_slope.py:66
+msgid "Slope SE variable"
+msgstr "SE muutuja tõus"
+
+#: ../ui/compare_groups_single_case_slope.py:68
+msgid "Number of trials"
+msgstr "Katsete arv"
+
+#: ../ui/var_properties.py:68
+msgid "Explore variables"
+msgstr "Uuri muutujaid"
+
+#: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
+#: ../ui/explore_var_pairs.py:55 ../ui/compare_vars_wiz.py:67
+#: ../ui/compare_vars.py:69
+msgid "Selected variables"
+msgstr "Valitud muutujad"
+
+#: ../ui/var_properties.py:71
+msgid "Statistics"
+msgstr "Statistikud"
+
+#: ../ui/var_properties.py:73
+msgid "0"
+msgstr "0"
+
+#: ../ui/var_properties.py:74
+msgid "Central tendency test value"
+msgstr "Keskse suundumuse testi väärtus"
+
+#: ../ui/explore_var_pairs.py:53
+msgid "Explore relation of variable pairs"
+msgstr "Uuri muutujate paaride suhet"
+
+#: ../ui/compare_vars_wiz.py:61
+msgid "Wizard"
+msgstr "Võlur"
+
+#: ../ui/compare_vars_wiz.py:62
+msgid "One factor"
+msgstr "Üks faktor"
+
+#: ../ui/compare_vars_wiz.py:63
+msgid "Several factors"
+msgstr "Mitu faktorit"
+
+#: ../ui/compare_vars_wiz.py:64
+msgid "Not implemented yet"
+msgstr "Ei ole veel rakendatud"
+
+#: ../ui/compare_vars_wiz.py:66
+msgid "Variables to choose from"
+msgstr "Muutujad, millest valida"
+
+#: ../ui/data_measlev.py:37
+msgid "Variable properties"
+msgstr "Muutujate omadused"
+
+#: .././cogstat_gui.py:135 .././cogstat_gui.py:180
+msgid "&Filter outliers"
+msgstr "&Filtreeri erindeid"
+
+#: .././cogstat_gui.py:135
+msgid "Ctrl+L"
+msgstr "Ctrl+L"
+
+#: .././cogstat_gui.py:158
+msgid "Text is &editable"
+msgstr "Tekst on &muudetav"
+
+#: .././cogstat_gui.py:166
+msgid "Ctrl+Shift+R"
+msgstr "Ctrl+Shift+R"
+
+#: .././cogstat_gui.py:436
+msgid "Filter outlier."
+msgstr "Filtreeri erind."
+
+#: .././cogstat_stat.py:668
+msgid "Main effect of %s"
+msgstr "%s põhiefekt"
+
+#: .././cogstat_stat.py:670
+msgid "Interaction of factors %s"
+msgstr "Faktorite interaktsioon %s"
+
+#: .././cogstat.py:347
+msgid "Only interval variables can be used for filtering. Ignoring variable %s."
+msgstr "Filtreerimiseks saab kasutada ainult intervallmuutujaid. Ignoreerin muutujat %s."
+
+#: .././cogstat.py:729
+msgid "Factors (number of levels): "
+msgstr "Faktorid (tasemete arv): "
+
+#: .././cogstat.py:880
+msgid "Interval variables with several factors."
+msgstr "Intervallmuutujad mitmete faktoritega."
+
+#: .././cogstat.py:881
+msgid "Choosing repeated measures ANOVA."
+msgstr "Valin kordusmōōtmiste dispersioonanalüüsi."
+
+#: .././cogstat.py:885
+msgid "Ordinal variables with several factors."
+msgstr "Ordinaalmuutujad mitmete faktoritega."
+
+#: .././cogstat.py:888
+msgid "Nominal variables with several factors."
+msgstr "Nominaalmuutujad mitmete faktoritega."
+
+#: ../ui/filter_outlier.py:69
+msgid "Filter outlier"
+msgstr "Filtreeri erind"
+
+#: ../ui/factors.py:41
+msgid "Factors"
+msgstr "Faktorid"
+
+#: ../ui/factors.py:42
+msgid "Add factor"
+msgstr "Lisa faktor"
+
+#: ../ui/factors.py:43
+msgid "Alt+A"
+msgstr "Alt+A"
+
+#: ../ui/factors.py:44
+msgid "Modify factor"
+msgstr "Muuda faktorit"
+
+#: ../ui/factors.py:45
+msgid "Alt+M"
+msgstr "Alt+M"
+
+#: ../ui/factors.py:46
+msgid "Remove factor"
+msgstr "Eemalda faktor"
+
+#: ../ui/factors.py:47
+msgid "Alt+R"
+msgstr "Alt+R"
+
+#: ../ui/compare_vars.py:70
+msgid "Factors..."
+msgstr "Faktorid..."
+
+#: ../ui/compare_vars.py:71
+msgid "Alt+F"
+msgstr "Alt+F"
+
+#: ../ui/factor.py:43
+msgid "Set factor"
+msgstr "Määra faktor"
+
+#: ../ui/factor.py:44
+msgid "Name of the factor"
+msgstr "Faktori nimi"
+
+#: ../ui/factor.py:45
+msgid "Number of levels"
+msgstr "Tasemete arv"
+
+#: ../ui/filter_outlier.py:74
+msgid "Only interval variables are available"
+msgstr "Ainult intervallmuutujad on saadaval"
+

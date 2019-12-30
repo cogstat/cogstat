@@ -15,6 +15,7 @@ Upcoming release
     - Norwegian Bokmål (Irmelin Hovland-Hegg)
     - Russian (Nikolay Kuzmenko)
     - Kazakh (Danagul Duisekenova)
+    - Estonian (Deniss Kovaljov)
     - Updated formerly abandoned Italian version (Roland Kasza, Andrea Bortoletti) and Romanian version (Borbála Tölgyesi)
 
 ## Fixes
