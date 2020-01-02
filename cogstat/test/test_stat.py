@@ -151,7 +151,7 @@ class CogStatTestCase(unittest.TestCase):
         data_diffusion = cs.CogStatData(data='data/diffusion.csv')
         result = data_diffusion.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'], condition_names=['Num1', 'Num2'])
         # Drift rate
-        self.assertTrue('<td>zsiraf</td>      <td>-0.190</td>      <td>-0.276</td>      <td>-0.197</td>      <td>-0.235</td>      <td>-0.213</td>' in result[1])
+        self.assertTrue('<td>zsiraf</td>      <td>0.190</td>      <td>0.276</td>      <td>0.197</td>      <td>0.235</td>      <td>0.213</td>' in result[1])
         # Threshold
         self.assertTrue('<td>zsiraf</td>      <td>0.178</td>      <td>0.096</td>      <td>0.171</td>      <td>0.112</td>      <td>0.088</td>' in result[1])
         # Nondecision time

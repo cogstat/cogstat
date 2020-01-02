@@ -208,9 +208,9 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     var_correct_RT_table = pd.pivot_table(df[df[error_name[0]] == 0], values=RT_name[0], index=participant_name,
                                           columns=condition_names, aggfunc=np.var)
     # TODO for the var function do we need a ddof=1 parameter?
-    mean_percent_correct_table = pd.pivot_table(df, values=error_name[0], index=participant_name,
-                                                columns=condition_names,
-                                                aggfunc=cs_stat_num.diffusion_edge_correction_mean)
+    mean_percent_correct_table = 1 - pd.pivot_table(df, values=error_name[0], index=participant_name,
+                                                    columns=condition_names,
+                                                    aggfunc=cs_stat_num.diffusion_edge_correction_mean)
     previous_precision = pd.get_option('precision')
     pd.set_option('precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
     result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.to_html(bold_rows=False))
