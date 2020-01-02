@@ -305,3 +305,48 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
     table = np.hstack([table, np.asarray(list(zip(bonf_list, holm_list)))])
     table = pd.DataFrame(table, index=pd.MultiIndex.from_tuples(pairings), columns=['t', 'p', 'p (Bonf)', 'p (Holm)'])
     return table
+
+def diffusion_edge_correction_mean(data):
+    """For behavioral data calculate mean error rate with edge correction for the EZ  diffusion analysis.
+    See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007). An EZ-diffusion model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22. https://doi.org/10.3758/BF03194023
+
+    data: list of values (error rates) to be corrected
+    return: corrected mean error rate
+    """
+    mean = np.mean(data)
+    if mean == 0:
+        mean = 1.0/(len(data)*2)
+    elif mean == 1:
+        mean = 1-1.0/(len(data)*2)
+    elif mean == 0.5:
+        mean = 1-1.0/(len(data)*2)
+    return mean
+
+def diffusion_get_ez_params (Pc, VRT, MRT, s=0.1):
+    """For behavioral data recover the diffusion parameters with the EZ method
+    See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007). An EZ-diffusion model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22. https://doi.org/10.3758/BF03194023
+
+    Pc: percent correct
+    VRT: correct reaction time variance
+    MRT: mean correct reaction time
+    s:
+
+    returns:
+    v: drift rate
+    a: threshold
+    ter: nondecision time
+
+    Example of the paper Wagenmakers, van der Maas, Grasman, 2007
+    It should return 0.09993853, 0.1399702, 0.30003
+    #diffusion_get_ez_params(0.802, .112, .723)
+    """
+    # This has been handled by the edge correction
+    #if Pc == 0 or Pc == 0.5 or Pc == 1:
+        #pass
+        #print 'Oops, invalid Pc value: %s!'%Pc
+    v = np.sign(Pc-.5)*s*((np.log(Pc/(1-Pc)))*((np.log(Pc/(1-Pc)))*Pc**2 -
+                                               (np.log(Pc/(1-Pc)))*Pc + Pc - .5)/VRT)**(0.25)  # This gives drift rate.
+    a = s**2*np.log(Pc/(1-Pc))/v  # This gives boundary separation.
+    ter = MRT - (a/(2*v)) * (1-np.exp(-v*a/s**2))/(1+np.exp(-v*a/s**2))  # This gives nondecision time.
+
+    return v, a, ter

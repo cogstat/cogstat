@@ -79,13 +79,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Only for testing
 #        self.open_file('cogstat/sample_data/example_data.csv'); #self.compare_groups()
-#        self.open_file('cogstat/test/data/rep_meas.csv')
+#        self.open_file('cogstat/test/data/diffusion.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable(['X'])
 #        self.explore_variable(['a'], freq=False)
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
+#        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'], condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['A', 'B', 'C1'])
 #        self.compare_variables(['D', 'E', 'F'])
@@ -570,7 +571,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_output_pane()
         self._busy_signal(False)
 
-    def diffusion(self, RT_name=[], error_name=[], participant_name=[], condition_names=[]):
+    def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
         """Run a diffusion analysis on behavioral data.
 
         Arguments:
@@ -585,7 +586,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_diffusion.exec_():
-                RT_name, error_name, participant_name, condition_names = self.dial_diffusion.read_parameters()
+                error_name, RT_name, participant_name, condition_names = self.dial_diffusion.read_parameters()
             else:
                 return
         self._busy_signal(True)
@@ -595,8 +596,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             _('Diffusion analysis.'), _('At least the RT and the error variables should be given.')))
         else:
             try:
-                text_result = 'Not implemented yet'
-                #text_result = self.active_data.diffusion(RT_name, error_name, participant_name, condition_names)
+                text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names)
             except:
                 text_result = cs_util.reformat_output(broken_analysis % _('Diffusion analysis.'))
                 traceback.print_exc()

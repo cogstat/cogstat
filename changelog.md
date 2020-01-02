@@ -5,6 +5,12 @@ Upcoming release
 ================
 
 ## New features
+- Behavioral data diffusion analysis
+
+1.9.0 (2020)
+================
+
+## New features
 - Multi-way repeated measures ANOVA
 - Outlier filtering is available from Data > Filter outliers... menu
 - Output may be edited (Results > Text is editable menu)

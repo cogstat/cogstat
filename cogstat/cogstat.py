@@ -714,6 +714,21 @@ class CogStatData:
         pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_names, function)
         return self._convert_output([title, pivot_result])
 
+    def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
+        """Runs diffusion analysis on behavioral data
+
+        :param error_name:
+        :param RT_name:
+        :param participant_name:
+        :param condition_names:
+
+        :return:
+        """
+        # TODO return pandas DataFrame
+        title = csc.heading_style_begin + _('Behavioral data diffusion analysis') + csc.heading_style_end
+        pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names)
+        return self._convert_output([title, pivot_result])
+
     def compare_variables(self, var_names, factors=[]):
         """Compare variables
 

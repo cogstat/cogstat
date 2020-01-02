@@ -75,6 +75,7 @@ def _get_R_output(obj):
     return mystdout.getvalue()
 '''
 
+
 def _split_into_groups(pdf, var_name, grouping_name):
     """
     arguments:
@@ -111,6 +112,7 @@ def _format_html_table(html_table, add_style=False):
         return '<style> th, td {padding-right: 5px; padding-left: 5px} </style>' + html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
     else:
         return html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
+
 
 def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     """
@@ -188,6 +190,47 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
                 ptable_result = '%s\n%s' % (ptable_result, temp_result)
         return ptable_result
     result += '<fix_width_font>%s\n<default>' % print_pivot_page(pdf, page_names)
+    return result
+
+
+def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
+    """Behavioral diffusion analysis"""
+    if not (error_name and RT_name and participant_name and condition_names):
+        result = _('Specify all the required parameters (reaction time, error, particpant and condition variables).')
+        return result
+    result = ''
+    result += _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
+              (error_name[0], RT_name[0], participant_name[0], ','.join(condition_names))
+
+    # Calculate RT and error rate statistics
+    mean_correct_RT_table = pd.pivot_table(df[df[error_name[0]] == 0], values=RT_name[0], index=participant_name,
+                                           columns=condition_names, aggfunc=np.mean)
+    var_correct_RT_table = pd.pivot_table(df[df[error_name[0]] == 0], values=RT_name[0], index=participant_name,
+                                          columns=condition_names, aggfunc=np.var)
+    # TODO for the var function do we need a ddof=1 parameter?
+    mean_percent_correct_table = pd.pivot_table(df, values=error_name[0], index=participant_name,
+                                                columns=condition_names,
+                                                aggfunc=cs_stat_num.diffusion_edge_correction_mean)
+    previous_precision = pd.get_option('precision')
+    pd.set_option('precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
+    result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.to_html(bold_rows=False))
+    result += '\n\n' + _('Mean correct reaction time') + _format_html_table(mean_correct_RT_table.to_html(bold_rows=False))
+    result += '\n\n' + _('Correct reaction time variance') + _format_html_table(var_correct_RT_table.to_html(bold_rows=False))
+
+    # Recover diffusion parameters
+    EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names),
+                               var_correct_RT_table.stack(condition_names),
+                               mean_correct_RT_table.stack(condition_names)],
+                              axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x), axis=1)
+    EZ_parameters.columns = ['drift rate', 'threshold', 'nondecision time']
+    drift_rate_table = EZ_parameters['drift rate'].unstack(condition_names)
+    threshold_table = EZ_parameters['threshold'].unstack(condition_names)
+    nondecision_time_table = EZ_parameters['nondecision time'].unstack(condition_names)
+    result += '\n\n' + _('Drift rate') + _format_html_table(drift_rate_table.to_html(bold_rows=False))
+    result += '\n\n' + _('Threshold') + _format_html_table(threshold_table.to_html(bold_rows=False))
+    result += '\n\n' + _('Nondecision time') + _format_html_table(nondecision_time_table.to_html(bold_rows=False))
+    pd.set_option('precision', previous_precision)
+
     return result
 
 
