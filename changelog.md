@@ -19,7 +19,7 @@ Upcoming release
     - Add a toolbar
 - New localizations
     - Norwegian Bokmål (Irmelin Hovland-Hegg)
-    - Russian (Nikolay Kuzmenko)
+    - Russian (Nikolay Kuzmenko, Danagul Duisekenova)
     - Kazakh (Danagul Duisekenova)
     - Estonian (Deniss Kovaljov)
     - Updated formerly abandoned Italian version (Roland Kasza, Andrea Bortoletti) and Romanian version (Borbála Tölgyesi)
