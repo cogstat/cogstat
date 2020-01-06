@@ -20,7 +20,6 @@ import statsmodels.api as sm
 import string
 import sys
 from io import StringIO
-from distutils.version import LooseVersion
 from scipy import stats
 import itertools
 
@@ -173,13 +172,8 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
             if page_value_list:
                 ptable_result = '%s\n\n%s' % (ptable_result, page_value_list)
             if row_names or col_names:
-                
-                if LooseVersion(csc.versions['pandas']) < LooseVersion('0.14'):
-                    ptable = pd.pivot_table(df, values=depend_name, rows=row_names, cols=col_names,
-                                            aggfunc=eval(function_code[function]))
-                else:
-                    ptable = pd.pivot_table(df, values=depend_name, index=row_names, columns=col_names,
-                                            aggfunc=eval(function_code[function]))
+                ptable = pd.pivot_table(df, values=depend_name, index=row_names, columns=col_names,
+                                        aggfunc=eval(function_code[function]))
                 ptable_result = '%s\n%s' % (ptable_result, _format_html_table(ptable.
                                             to_html(bold_rows=False, sparsify=False, float_format=format_output),
                                                                               add_style=False))
@@ -410,15 +404,11 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         data = pdf[var_name].dropna()
         descr = DescrStatsW(data)
         t, p, df = descr.ttest_mean(float(test_value))
-        if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
-            # Or we could use confidence_interval_t
-            cil, cih = descr.tconfint_mean()
-            ci = (cih-cil)/2
-            prec = cs_util.precision(data)+1
-            ci_text = '[%0.*f, %0.*f]' %(prec, cil, prec, cih)
-        else:
-            ci = 0  # only with statsmodels
-            ci_text=_('Sorry, newer statsmodels module is required for confidence interval.\n')
+        # Or we could use confidence_interval_t
+        cil, cih = descr.tconfint_mean()
+        ci = (cih-cil)/2
+        prec = cs_util.precision(data)+1
+        ci_text = '[%0.*f, %0.*f]' %(prec, cil, prec, cih)
         text_result += _('One sample t-test against %g')%float(test_value)+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
         
         # Graph
@@ -532,12 +522,9 @@ def confidence_interval_t(data, ci_only=True):
     http://statsmodels.sourceforge.net/stable/_modules/statsmodels/stats/weightstats.html#DescrStatsW.tconfint_mean
     """
     # FIXME is this solution slow? Should we write our own CI function?
-    if LooseVersion(csc.versions['statsmodels']) >= LooseVersion('0.5'):
-        descr = DescrStatsW(data)
-        cil, cih = descr.tconfint_mean()
-        ci = (cih-cil)/2
-    else:
-        cil = cih = ci = [None for i in data]  # FIXME maybe this one is not correct
+    descr = DescrStatsW(data)
+    cil, cih = descr.tconfint_mean()
+    ci = (cih-cil)/2
     if ci_only:
         if isinstance(data, pd.Series):
             return ci  # FIXME this one is for series? The other is for dataframes?
@@ -1057,15 +1044,12 @@ def chi_square_test(pdf, var_name, grouping_name):
     """
     text_result = ''
     cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])#, rownames = [x], colnames = [y])
-    if LooseVersion(csc.versions['scipy'])>=LooseVersion('0.10'):
-        chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
-        try:
-            cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5
-            cramer_result = _('Cramér\'s V measure of association: ')+'&phi;<i><sub>c</sub></i> = %.3f\n' % cramersv
-        except ZeroDivisionError:  # TODO could this be avoided?
-            cramer_result = _('Cramér\'s V measure of association cannot be computed (division by zero).')
-        chi_result = _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
-                                                                      (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
-    else:
-        return _("Sorry, at least SciPy 0.10 is required to calculate Cramér\'s V or Chi-Square test.", None)
+    chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
+    try:
+        cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5
+        cramer_result = _('Cramér\'s V measure of association: ')+'&phi;<i><sub>c</sub></i> = %.3f\n' % cramersv
+    except ZeroDivisionError:  # TODO could this be avoided?
+        cramer_result = _('Cramér\'s V measure of association cannot be computed (division by zero).')
+    chi_result = _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
+                                                                  (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
     return cramer_result, chi_result

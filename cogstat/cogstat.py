@@ -12,7 +12,6 @@ QString = str
 import csv
 import gettext
 import logging
-from distutils.version import LooseVersion
 import os
 import itertools
 
@@ -394,10 +393,7 @@ class CogStatData:
             figure.canvas.draw()
             size_x, size_y = figure.get_size_inches()*rcParams['figure.dpi']
             # TODO is it better to use figure.canvas.width(), figure.canvas.height()
-            if LooseVersion(csc.versions['matplotlib']) < LooseVersion('1.2'):
-                string_buffer = figure.canvas.buffer_rgba(0, 0)
-            else:
-                string_buffer = figure.canvas.buffer_rgba()
+            string_buffer = figure.canvas.buffer_rgba()
             qimage = QtGui.QImage(string_buffer, size_x*app_devicePixelRatio, size_y*app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
             QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
             return qimage
