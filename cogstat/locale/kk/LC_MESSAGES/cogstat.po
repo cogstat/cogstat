@@ -595,7 +595,7 @@ msgstr "Mann-Whitney synaǵyn iske qosý."
 
 #: .././cogstat.py:1008
 msgid "Normality is not violated. >> Running modified t-test."
-msgstr ""
+msgstr "Birqalyptylyq buzylmaıdy. >> Túrlendirilgen t-synaqty iske qosý."
 
 #: .././cogstat.py:1050 .././cogstat.py:1101 .././cogstat.py:1203
 msgid "Nominal variable."
@@ -615,7 +615,7 @@ msgstr "Kruskal-Wallis synaǵyn iske qosý."
 
 #: .././cogstat.py:1207
 msgid "Several grouping variables."
-msgstr ""
+msgstr "Birneshe aınymalylardy toptastyrady."
 
 #: .././cogstat_dialogs.py:23 .././cogstat_dialogs.py:27
 msgid "Open data file"
@@ -651,7 +651,7 @@ msgstr "Cum rel freq"
 
 #: .././cogstat_stat.py:1023
 msgid "Cramér's V measure of association cannot be computed (division by zero)."
-msgstr ""
+msgstr "Cramér's V qaýymdastyǵynyń ólshemi eseptelmeıdi (nólge bólý)."
 
 #: .././cogstat.py:137 .././cogstat.py:145
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
@@ -697,7 +697,7 @@ msgstr " (2 SD)"
 #: .././cogstat.py:357
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
-msgstr ""
+msgstr "Aýqymnan tys jaǵdaılar bolmaıdy: %0.*f  --  %0.*f"
 
 #: .././cogstat.py:364
 msgid "The following cases will be excluded: "
@@ -705,11 +705,11 @@ msgstr "Kelesi jaǵdaılar alynyp tastalady:"
 
 #: .././cogstat.py:367
 msgid "No cases were excluded."
-msgstr ""
+msgstr "Birde-bir jaǵdaı joq."
 
 #: .././cogstat.py:1024 .././cogstat.py:1072
 msgid "Checking for homogeneity of variance across groups."
-msgstr ""
+msgstr "Toptar boıynsha dıspersıanyń birtektiligin tekserý."
 
 #: .././cogstat_gui.py:51
 msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
@@ -775,7 +775,7 @@ msgstr "Sferıkalyq buzylmaıdy."
 
 #: .././cogstat_stat.py:627
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
-msgstr ""
+msgstr "Holm-Bonferroni túzetýmen aýyspaly ekeýara salystyrý: "
 
 #: .././cogstat_stat.py:837
 msgid "Result of Welch's unequal variances t-test:"
@@ -783,7 +783,7 @@ msgstr "Welch teńsiz aýytqýlar T-test nátıjesi:"
 
 #: .././cogstat.py:812
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
-msgstr ""
+msgstr "Juptyq t-synaǵyn nemese juptyq Wilcoxon synaǵyn boljamdarǵa baılanysty tańdaý."
 
 #: .././cogstat.py:828 .././cogstat.py:864
 msgid "Normality is violated in variable(s): %s."
@@ -803,7 +803,7 @@ msgstr "Dıhotomıalyq aınymalylardyń nomınaldy nómirleri."
 
 #: .././cogstat.py:846
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
-msgstr ""
+msgstr "Qaıta ólsheý ANOVA nemese Friedman synaǵyn boljamdarǵa baılanysty tańdaý."
 
 #: .././cogstat.py:872
 msgid "Running Cochran's Q test."
@@ -811,15 +811,15 @@ msgstr "Running Cochran's Q synaǵyn iske qosý."
 
 #: .././cogstat.py:1013
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
-msgstr ""
+msgstr "Eki úlgiq t-synaǵyn, Mann-Whitney synaǵyn nemese Welch t-synaǵyn boljamdarǵa baılanysty tańdaý."
 
 #: .././cogstat.py:1037
 msgid "Normality is violated in variable %s, group(s) %s."
-msgstr ""
+msgstr "Birqalyptylyq %s,  group(s) %s aınymalyda buzylady."
 
 #: .././cogstat.py:1042
 msgid "Homeogeneity of variance violated in variable %s."
-msgstr ""
+msgstr "Dıspersıanyń gomeogendigi %s aınymalyda buzylady."
 
 #: .././cogstat.py:1043
 msgid "Running Welch's t-test."
@@ -827,23 +827,23 @@ msgstr "Welch synaǵyn iske qosý."
 
 #: .././cogstat.py:1060
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
-msgstr ""
+msgstr "Bir faktorly ANOVA nemese Kruskal-Wallis synaǵyn boljamdarǵa baılanysty tańdaý."
 
 #: .././cogstat.py:1088
 msgid "Normality is violated in variable %s, group(s) %s. "
-msgstr ""
+msgstr "Birqalyptylyq %s,  group(s) %s aınymalyda buzylady. "
 
 #: .././cogstat.py:1091
 msgid "Homeogeneity of variance violated in variable %s. "
-msgstr ""
+msgstr "Dıspersıanyń gomeogendigi %s aınymalyda buzylady. "
 
 #: .././cogstat.py:555 .././cogstat.py:860
 msgid "Normality is not violated."
-msgstr ""
+msgstr "Birqalyptylyq buzylmaıdy."
 
 #: .././cogstat.py:861
 msgid "Running repeated measures one-way ANOVA."
-msgstr ""
+msgstr "Qaıta ólsheýlermen bir faktorly ANOVA iske qosý."
 
 #: .././cogstat_gui.py:138
 msgid "Ctrl+B"
@@ -851,11 +851,11 @@ msgstr "Ctrl+B"
 
 #: .././cogstat_gui.py:400
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
-msgstr ""
+msgstr "Ashyq derekter. Oi, birdeme durys emes, CogStat derekterdi asha almady. Múmkin, siz Másele týraly habarlaǵyńyz keledi."
 
 #: .././cogstat_stat.py:227
 msgid "N of missing cases: %g"
-msgstr ""
+msgstr "Jiberilgen ister N: %g"
 
 #: .././cogstat_chart.py:144 .././cogstat_chart.py:229
 #: .././cogstat_chart.py:403 .././cogstat_chart.py:404
@@ -865,7 +865,7 @@ msgstr "%s dárejesi"
 
 #: .././cogstat_stat.py:414 .././cogstat_stat.py:578
 msgid "Result of Wilcoxon signed-rank test"
-msgstr ""
+msgstr "Wilcoxon rangtik ólsheminiń nátıjesi"
 
 #: .././cogstat_chart.py:146 .././cogstat.py:478 .././cogstat.py:608
 #: .././cogstat.py:751 .././cogstat.py:921 .././cogstat.py:1109
@@ -888,15 +888,15 @@ msgstr "Boljamdy tekserý: "
 
 #: .././cogstat.py:539
 msgid "Testing if mean deviates from the value %s."
-msgstr ""
+msgstr "Ortasha %s máninen aýytqyǵan jaǵdaıda tekserý."
 
 #: .././cogstat.py:541
 msgid "Testing if median deviates from the value %s."
-msgstr ""
+msgstr "Medıan %s máninen bas tartylsa, tekserý."
 
 #: .././cogstat.py:548
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
-msgstr ""
+msgstr "Bir úlgimen t-test nemese Wilcoxon rangtik ólshemi test boljamdarǵa baılanysty tańdaý."
 
 #: .././cogstat.py:556
 msgid "Running one-sample t-test."
@@ -904,11 +904,11 @@ msgstr "Bir úlgiliq t-test iske qosý."
 
 #: .././cogstat.py:569
 msgid "Normality is violated."
-msgstr ""
+msgstr "buzylady."
 
 #: .././cogstat.py:570 .././cogstat.py:577
 msgid "Running Wilcoxon signed-rank test."
-msgstr ""
+msgstr "Wilcoxon rangtik ólshemi test jiberý."
 
 #: .././cogstat.py:509 .././cogstat.py:628 .././cogstat.py:787
 #: .././cogstat.py:970 .././cogstat.py:1180
@@ -921,7 +921,7 @@ msgstr "Teksersiń, eger korrelásıa 0-den ózgeshe bolsa."
 
 #: .././cogstat.py:678
 msgid "Testing if variables are independent."
-msgstr ""
+msgstr "Tekserý, eger aınymalylar táýelsiz bolyp tabylady."
 
 #: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
 msgid "Hypothesis testing: "
@@ -945,11 +945,11 @@ msgstr "Dıspersıanyń normalylyǵy men birtektiligi buzylmaıdy. >> T-testini�
 
 #: .././cogstat.py:1081
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
-msgstr ""
+msgstr "Dıspersıanyń birqalyptylyq pen birtektiligi buzylmaıdy. >> Birfaktorly ANOVA taldaý jiberý."
 
 #: .././cogstat_gui.py:715
 msgid "Simple automatic data analysis software"
-msgstr ""
+msgstr "Derekterdi avtomatty taldaý úshin jeńil baǵdarlamalyq qamtamasyz etý"
 
 #: .././cogstat_gui.py:715
 msgid "Visit CogStat website"
@@ -969,15 +969,15 @@ msgstr "Jumysty bastaý úshin derekter faılyn ashyńyz nemese elektrondyq kest
 
 #: .././cogstat_chart.py:143
 msgid "Rank of the raw data"
-msgstr ""
+msgstr "Óńdelmegen derekter dárejesi"
 
 #: .././cogstat_chart.py:214
 msgid "Histogram of rank data with individual data and boxplot"
-msgstr ""
+msgstr "Jeke derekter jáne boxplot gıstogrammasy"
 
 #: .././cogstat_chart.py:402
 msgid "Scatterplot of the rank of the variables"
-msgstr ""
+msgstr "Aınymaly ranginiń shashyraý dıagramsy"
 
 #: .././cogstat_chart.py:452
 msgid "Individual data of the variables"
@@ -989,7 +989,7 @@ msgstr "Toptardyń rangtik derekteriniń jeke derekteri"
 
 #: .././cogstat_stat.py:1109
 msgid "Boxplot and individual data of the rank data of the groups"
-msgstr ""
+msgstr "Boxplot jáne toptardyń rangalyq derekteri"
 
 #: .././cogstat_chart.py:626
 msgid "Individual data of the groups"
@@ -1027,7 +1027,7 @@ msgstr "Siz jańa nusqasyn<br> júkteı alasyz <a href = \"%s\">CogStat júkteý
 
 #: .././cogstat_gui.py:143 .././cogstat_gui.py:182
 msgid "Explore relation of variable &pair"
-msgstr ""
+msgstr "Aınymaly &juptyń qatynasyn zertteńiz"
 
 #: .././cogstat_gui.py:147 .././cogstat_gui.py:182
 msgid "Compare repeated measures va&riables"
@@ -1092,7 +1092,7 @@ msgstr "Jetispeıtin oqıǵalardyn N"
 
 #: .././cogstat.py:1192
 msgid "Two grouping variables. "
-msgstr ""
+msgstr "Eki toptyq aınymalylar. "
 
 #: .././cogstat.py:1196
 msgid "Choosing factorial ANOVA."
@@ -1100,7 +1100,7 @@ msgstr "ANOVA faktorıalyn tańdaý."
 
 #: .././cogstat.py:614
 msgid "N of valid pairs"
-msgstr ""
+msgstr "Naqty etilgen jup N"
 
 #: .././cogstat.py:615
 msgid "N of missing pairs"
@@ -1112,7 +1112,7 @@ msgstr "Joǵalǵan toptyq ister N"
 
 #: .././cogstat.py:1144
 msgid "N of missing grouping variable in %s"
-msgstr ""
+msgstr "N jiberilgen toptyq aınymaly %s"
 
 #: .././cogstat_stat.py:437
 msgid "Skewness"
@@ -1166,11 +1166,11 @@ msgstr "Ólsheý deńgeıi barlyq aınymalylarǵa ornatylmaǵan."
 
 #: .././cogstat.py:281
 msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "Keıbir aınymaly(lar) aǵylshyn emes sımvoldaryn qamtıdy, bul keıbir taldaýlarda problemalar týdyrady:  %s."
 
 #: .././cogstat.py:289
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "Keıbir aınymaly(lar) aǵylshyn emes sımvoldaryn qamtıdy, bul keıbir taldaýlarda problemalar týdyrady:  %s."
 
 #: .././cogstat.py:627 .././cogstat.py:656 .././cogstat.py:672
 #: .././cogstat.py:1085
@@ -1219,11 +1219,11 @@ msgstr "Eń úlken jeke belgi %d oqıǵasyn kórsetedi."
 
 #: .././cogstat_chart.py:612
 msgid "Boxplots and individual data of the rank data of the groups"
-msgstr ""
+msgstr "Boxplot jáne toptardyń rangalyq derekteri"
 
 #: .././cogstat_chart.py:628
 msgid "Boxplots and individual data of the groups"
-msgstr ""
+msgstr "Boks-kesteler jáne toptardyń jeke derekteri"
 
 #: .././cogstat_stat.py:535 .././cogstat_stat.py:715
 msgid "95% CI (low)"
@@ -1290,7 +1290,7 @@ msgstr "Aıyrmashylyq"
 
 #: ../ui/pivot.py:115
 msgid "Rows"
-msgstr ""
+msgstr "Joldar"
 
 #: ../ui/pivot.py:116
 msgid "Columns"
@@ -1420,109 +1420,109 @@ msgstr "Aınymalylardyń qasıetteri"
 
 #: .././cogstat_gui.py:135 .././cogstat_gui.py:180
 msgid "&Filter outliers"
-msgstr ""
+msgstr "&Shyǵaryndylar súzgisi."
 
 #: .././cogstat_gui.py:135
 msgid "Ctrl+L"
-msgstr ""
+msgstr "Ctrl+L"
 
 #: .././cogstat_gui.py:158
 msgid "Text is &editable"
-msgstr ""
+msgstr "Mátin &redaksıalaý úshin qol jetimdi"
 
 #: .././cogstat_gui.py:166
 msgid "Ctrl+Shift+R"
-msgstr ""
+msgstr "Ctrl+Shift+R"
 
 #: .././cogstat_gui.py:436
 msgid "Filter outlier."
-msgstr ""
+msgstr "Shyǵaryndylar súzgisi."
 
 #: .././cogstat_stat.py:668
 msgid "Main effect of %s"
-msgstr ""
+msgstr "%s negizgi áseri"
 
 #: .././cogstat_stat.py:670
 msgid "Interaction of factors %s"
-msgstr ""
+msgstr "%s faktorlardyń ózara árekettesýi"
 
 #: .././cogstat.py:347
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
-msgstr ""
+msgstr "Súzý úshin tek aralyq aınymalylardy paıdalanýǵa bolady. Aınymalyny elemeý %s."
 
 #: .././cogstat.py:729
 msgid "Factors (number of levels): "
-msgstr ""
+msgstr "Faktorlar (deńgeıler Sany): "
 
 #: .././cogstat.py:880
 msgid "Interval variables with several factors."
-msgstr ""
+msgstr "Birneshe faktorly ıntervaldyq aınymalylar."
 
 #: .././cogstat.py:881
 msgid "Choosing repeated measures ANOVA."
-msgstr ""
+msgstr "Ólshemniń qaıta ANOVA taldaýyn tańdaý."
 
 #: .././cogstat.py:885
 msgid "Ordinal variables with several factors."
-msgstr ""
+msgstr "Birneshe faktorly rettik aınymalylar."
 
 #: .././cogstat.py:888
 msgid "Nominal variables with several factors."
-msgstr ""
+msgstr "Birneshe faktorly nomınaldy aınymalylar."
 
 #: ../ui/filter_outlier.py:69
 msgid "Filter outlier"
-msgstr ""
+msgstr "Shyǵaryndylar súzgisi."
 
 #: ../ui/factors.py:41
 msgid "Factors"
-msgstr ""
+msgstr "Faktorlar"
 
 #: ../ui/factors.py:42
 msgid "Add factor"
-msgstr ""
+msgstr "Faktordy qosý"
 
 #: ../ui/factors.py:43
 msgid "Alt+A"
-msgstr ""
+msgstr "Alt+A"
 
 #: ../ui/factors.py:44
 msgid "Modify factor"
-msgstr ""
+msgstr "Faktordy túrlendirý"
 
 #: ../ui/factors.py:45
 msgid "Alt+M"
-msgstr ""
+msgstr "Alt+M"
 
 #: ../ui/factors.py:46
 msgid "Remove factor"
-msgstr ""
+msgstr "Faktordy óshirý"
 
 #: ../ui/factors.py:47
 msgid "Alt+R"
-msgstr ""
+msgstr "Alt+R"
 
 #: ../ui/compare_vars.py:70
 msgid "Factors..."
-msgstr ""
+msgstr "Faktorlar..."
 
 #: ../ui/compare_vars.py:71
 msgid "Alt+F"
-msgstr ""
+msgstr "Alt+F"
 
 #: ../ui/factor.py:43
 msgid "Set factor"
-msgstr ""
+msgstr "Berilgen faktory"
 
 #: ../ui/factor.py:44
 msgid "Name of the factor"
-msgstr ""
+msgstr "Faktordyń ataýy"
 
 #: ../ui/factor.py:45
 msgid "Number of levels"
-msgstr ""
+msgstr "Deńgeıler sany"
 
 #: ../ui/filter_outlier.py:74
 msgid "Only interval variables are available"
-msgstr ""
+msgstr "Tek aralyq aınymalylar qol jetimdi"
 
