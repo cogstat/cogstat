@@ -7,177 +7,178 @@ msgstr ""
 "Project-Id-Version: CogStat\n"
 "Language: hr\n"
 
-#: .././cogstat_stat.py:57
+#: .././cogstat_stat.py:58
 msgid "The properties of the variables are not set. Set them in your data source."
 msgstr "Svojstva varijabli nisu definirana. Postavite ih u Vašoj izvornoj datoteci."
 
-#: .././cogstat_stat.py:121
+#: .././cogstat_stat.py:122
 msgid "Sorry, only one dependent variable can be used."
 msgstr "Žao nam je, samo jedna zavisna varijabla može biti korištena.\n"
 ""
 
-#: .././cogstat_stat.py:123
+#: .././cogstat_stat.py:124
 msgid "Sorry, string variables cannot be used in Pivot table."
 msgstr "Žao nam je, kategoričke varijable ne mogu biti korištene u Pivot tablici."
 
-#: .././cogstat_stat.py:128
+#: .././cogstat_stat.py:130
 msgid "Independent variable(s) - Pages: "
 msgstr "Nezavisn(a)e varijabl(a)e - Stranice: "
 
-#: .././cogstat_stat.py:130
+#: .././cogstat_stat.py:132
 msgid "Independent variable(s) - Columns: "
 msgstr "Nezavisn(a)e varijabl(a)e - Stupci: "
 
-#: .././cogstat_stat.py:132
+#: .././cogstat_stat.py:134
 msgid "Independent variable(s) - Rows: "
 msgstr "Nezavisn(a)e varijabl(a)e - Redovi: "
 
-#: .././cogstat_stat.py:133
+#: .././cogstat_stat.py:135
 msgid "Function: "
 msgstr "Funkcija: "
 
-#: .././cogstat_chart.py:482 .././cogstat_chart.py:534 .././cogstat_stat.py:268
-#: .././cogstat_stat.py:270
+#: .././cogstat_chart.py:484 .././cogstat_chart.py:536 .././cogstat_stat.py:270
+#: .././cogstat_stat.py:272
 msgid "Value"
 msgstr "Vrijednost\n"
 ""
 
-#: .././cogstat_chart.py:197 .././cogstat_chart.py:264
+#: .././cogstat_chart.py:199 .././cogstat_chart.py:266
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "Najveća oznaka na x-osi prikazuje %d slučajeva."
 
-#: .././cogstat_chart.py:214
+#: .././cogstat_chart.py:216
 msgid "Histogram with individual data and boxplot"
 msgstr "Histogram sa individualnim podacima i kutijastim dijagramom"
 
-#: .././cogstat_chart.py:164 .././cogstat_chart.py:220
+#: .././cogstat_chart.py:166 .././cogstat_chart.py:222
 msgid "Frequency"
 msgstr "Frekvencija"
 
-#: .././cogstat_chart.py:161
+#: .././cogstat_chart.py:163
 msgid "Histogram"
 msgstr "Histogram"
 
-#: .././cogstat_stat.py:223
+#: .././cogstat_stat.py:225
 msgid "N of valid cases: %g"
 msgstr "N valjanih slučajeva: %g"
 
-#: .././cogstat.py:530 .././cogstat.py:568
+#: .././cogstat.py:533 .././cogstat.py:571
 msgid "Median: %0.*f"
 msgstr "Medijan: %0.*f"
 
-#: .././cogstat_stat.py:313
+#: .././cogstat_stat.py:315
 msgid "Normality can be checked only for interval variables."
 msgstr "Normalnost može biti provjerena samo za intervalne varijable."
 
-#: .././cogstat_stat.py:332
+#: .././cogstat_stat.py:334
 msgid "Shapiro-Wilk normality test in variable %s%s"
 msgstr "Shapiro-Wilk test normalnosti za varijablu %s%s"
 
-#: .././cogstat_chart.py:273
+#: .././cogstat_chart.py:275
 msgid "Histogram with individual data and normal distribution"
 msgstr "Histogram sa individualnim podacima i normalnom distribucijom"
 
-#: .././cogstat_chart.py:280
+#: .././cogstat_chart.py:282
 msgid "Normalized relative frequency"
 msgstr "Normalizirana relativna frekvencija"
 
 #. In Croatian, we have many expressions directly taken from English, very often not even slightly customed, and this "Quantile-quantile" is one of the examples in a row. I decided to use the form "Q-Q", as the full and completely English naming wouldn't be appropriate for Croatian version of the CogStat, while, for the informed and knowledgeable users, there shouldn't be any confusion what "Q-Q" represents.
-#: .././cogstat_chart.py:298
+#: .././cogstat_chart.py:300
 msgid "Quantile-quantile plot"
 msgstr "\"Q-Q\" dijagram"
 
-#: .././cogstat_stat.py:363
+#: .././cogstat_stat.py:365
 msgid "One sample t-test cannot be run for constant variable.\n"
 ""
 msgstr "T-test na jednom uzorku ne može biti izračunat za konstantne varijable."
 
-#: .././cogstat_stat.py:376
+#: .././cogstat_stat.py:378
 msgid "Sorry, newer statsmodels module is required for confidence interval.\n"
 ""
 msgstr "Žao nam je, novije verzije \"Statsmodels-a\" su potrebne za izračun intervala pouzdanosti."
 
-#: .././cogstat_stat.py:377
+#: .././cogstat_stat.py:379
 msgid "One sample t-test against %g"
 msgstr "T-test na jednom uzorku nasuprot %g"
 
-#: .././cogstat_chart.py:311
+#: .././cogstat_chart.py:313
 msgid "Mean value with 95% confidence interval"
 msgstr "Aritmetička sredina s intervalom pouzdanosti od 95%"
 
-#: .././cogstat_stat.py:382
+#: .././cogstat_stat.py:384
 msgid "One sample t-test is computed only for interval variables."
 msgstr "T-test na jednom uzorku se izračunava samo za intervalne varijable."
 
-#: .././cogstat_chart.py:323
+#: .././cogstat_chart.py:325
 msgid "Median value"
 msgstr "Vrijednost medijana"
 
-#: .././cogstat_stat.py:416
+#: .././cogstat_stat.py:418
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "Wilcoxonov test usklađenih parova se izračunava samo za intervalne ili ordinalne varijable."
 
-#: .././cogstat_stat.py:433 .././cogstat.py:555 .././cogstat.py:558
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 .././cogstat.py:558
+#: .././cogstat.py:561 ../ui/pivot.py:109
 msgid "Mean"
 msgstr "Aritmetička sredina"
 
-#: .././cogstat_stat.py:433
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 ../ui/pivot.py:110
 msgid "Median"
 msgstr "Medijan"
 
-#: .././cogstat_chart.py:529
+#: .././cogstat_chart.py:531
 msgid "Medians for the variables"
 msgstr "Medijan za varijable"
 
-#: .././cogstat_chart.py:675
+#: .././cogstat_chart.py:677
 msgid "Medians for the groups"
 msgstr "Medijan za grupe"
 
-#: .././cogstat_stat.py:478 .././cogstat_stat.py:480
+#: .././cogstat_stat.py:480 .././cogstat_stat.py:482
 msgid "No data"
 msgstr "Nema podataka"
 
-#: .././cogstat_chart.py:360
+#: .././cogstat_chart.py:362
 msgid "Largest sign on the graph displays %d cases."
 msgstr "Najveća oznaka na grafu, prikazuje &d slučajeva."
 
-#: .././cogstat_chart.py:377
+#: .././cogstat_chart.py:379
 msgid "Scatterplot of the variables"
 msgstr "Dijagram raspršenja za varijable"
 
-#: .././cogstat_chart.py:418 .././cogstat_chart.py:503
+#: .././cogstat_chart.py:420 .././cogstat_chart.py:505
 msgid "Mosaic plot of the variables"
 msgstr "Mozaični dijagram varijabli"
 
-#: .././cogstat_chart.py:508
+#: .././cogstat_chart.py:510
 msgid "Sorry, the mosaic plot can not be drawn with those data."
 msgstr "Žao nam je, mozaični dijagram ne može biti nacrtan na osnovu ovih podataka."
 
-#: .././cogstat_chart.py:468
+#: .././cogstat_chart.py:470
 msgid "Thickest line displays %d cases."
 msgstr "Najdeblja linija prikazuje % slučajeva."
 
-#: .././cogstat_chart.py:522
+#: .././cogstat_chart.py:524
 msgid "Means and 95% confidence intervals for the variables"
 msgstr "Aritmetička sredina i interval pouzdanosti od 95% za varijable"
 
-#: .././cogstat_stat.py:550
+#: .././cogstat_stat.py:552
 msgid "Paired t-test requires two variables."
 msgstr "T-test za parne (zavisne) uzorke zahtjeva dvije varijable."
 
-#: .././cogstat_stat.py:555
+#: .././cogstat_stat.py:557
 msgid "Result of paired samples t-test"
 msgstr "Rezultati t-testa za parne (zavisne) uzorke"
 
-#: .././cogstat_stat.py:572
+#: .././cogstat_stat.py:574
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "Wilcoxonov parni test zahtjeva dvije varijable."
 
-#: .././cogstat_stat.py:640
+#: .././cogstat_stat.py:688
 msgid "Friedman test requires at least two variables."
 msgstr "Friedmanov test zahtjeva najmanje dvije varijable."
 
-#: .././cogstat_stat.py:646
+#: .././cogstat_stat.py:694
 msgid "Result of the Friedman test: "
 msgstr "Rezultat Friedmanovog testa: "
 
@@ -189,139 +190,135 @@ msgstr "Najveći individualni prikaz podataka &d slučajeva."
 msgid "Boxplot and individual data of the groups"
 msgstr "Kutijasti dijagram i individualni podaci grupe"
 
-#: .././cogstat_chart.py:642
+#: .././cogstat_chart.py:644
 msgid "Mosaic plot of the groups"
 msgstr "Mozaični dijagram grupe"
 
-#: .././cogstat_chart.py:666
+#: .././cogstat_chart.py:668
 msgid "Means and 95% confidence intervals for the groups"
 msgstr "Aritmetička sredina i interval pouzdanost od 95% za grupe"
 
-#: .././cogstat_stat.py:690
+#: .././cogstat_stat.py:738
 msgid "Levene test"
 msgstr "Leveneov test"
 
-#: .././cogstat_stat.py:722
+#: .././cogstat_stat.py:770
 msgid "Difference between the two groups:"
 msgstr "Razlika između dvije grupe:"
 
-#: .././cogstat_stat.py:723
+#: .././cogstat_stat.py:771
 msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr "Interval pouzdanost od 95% [%0.*f, %0.*f]"
 
-#: .././cogstat_stat.py:724
+#: .././cogstat_stat.py:772
 msgid "Result of independent samples t-test:"
 msgstr "Rezultat t-testa na nezavisnim uzorcima:"
 
-#: .././cogstat_stat.py:754
+#: .././cogstat_stat.py:802
 msgid "One of the groups should include only a single data."
 msgstr "Jedna od grupa bi trebala uključivati samo jedan podatak."
 
-#: .././cogstat_stat.py:751
+#: .././cogstat_stat.py:799
 msgid "Result of the modified independent samples t-test:"
 msgstr "Rezultat modificiranog t-test na nezavisnim uzorcima:"
 
-#: .././cogstat_stat.py:805 .././cogstat_stat.py:810 .././cogstat_stat.py:813
+#: .././cogstat_stat.py:853 .././cogstat_stat.py:858 .././cogstat_stat.py:861
 msgid "Result of independent samples Mann-Whitney rank test: "
 msgstr "Rezultat Mann-Whitney testa rangova na nezavisnim uzorcima: "
 
-#: .././cogstat_stat.py:839
+#: .././cogstat_stat.py:887
 msgid "Result of one-way ANOVA: "
 msgstr "Rezultati jednosmjerne analize varijance: "
 
-#: .././cogstat_stat.py:845
+#: .././cogstat_stat.py:893
 msgid "Effect size: "
 msgstr "Veličina efekta: "
 
-#: .././cogstat_stat.py:850 .././cogstat_stat.py:947
+#: .././cogstat_stat.py:898 .././cogstat_stat.py:995
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "Razlike među grupama: post-hoc test aritmetičkih sredina"
 
-#: .././cogstat_stat.py:943 .././cogstat_stat.py:954
+#: .././cogstat_stat.py:991 .././cogstat_stat.py:1002
 msgid "Result of the Kruskal-Wallis test: "
 msgstr "Rezultat Kruskal-Wallisovog testa: "
 
-#: .././cogstat_stat.py:973
+#: .././cogstat_stat.py:1021
 msgid "Cramér's V measure of association: "
 msgstr "Cramerov V, mjera asocijacije: "
 
-#: .././cogstat_stat.py:976
+#: .././cogstat_stat.py:1024
 msgid "Result of the Pearson's Chi-square test: "
 msgstr "Rezultat Pearsonovog hi-kvadrat testa: "
 
-#: .././cogstat_gui.py:127
+#: .././cogstat_gui.py:130
 msgid "&Data"
 msgstr "&Podaci"
 
-#: .././cogstat_gui.py:128
+#: .././cogstat_gui.py:131
 msgid "&Open data file"
 msgstr "&Otvorite datoteku s podacima"
 
-#: .././cogstat_gui.py:128
+#: .././cogstat_gui.py:131
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: .././cogstat_gui.py:130
+#: .././cogstat_gui.py:133
 msgid "&Paste data"
 msgstr "&zalijepite podatke"
 
-#: .././cogstat_gui.py:130
+#: .././cogstat_gui.py:133
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: .././cogstat_gui.py:134 .././cogstat_gui.py:171
+#: .././cogstat_gui.py:137 .././cogstat_gui.py:180
 msgid "&Display data"
 msgstr "&prikažite podatke"
 
-#: .././cogstat_gui.py:134
+#: .././cogstat_gui.py:137
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: .././cogstat_gui.py:135 .././cogstat_gui.py:171
+#: .././cogstat_gui.py:138 .././cogstat_gui.py:180
 msgid "Display data &briefly"
 msgstr "Prikažite podatke &kratko"
 
-#: .././cogstat_gui.py:137
+#: .././cogstat_gui.py:141
 msgid "&Analysis"
 msgstr "&Analiza"
 
-#: .././cogstat_gui.py:138
+#: .././cogstat_gui.py:142
 msgid "Ctrl+1"
 msgstr "Ctrl+1"
 
-#: .././cogstat_gui.py:139
+#: .././cogstat_gui.py:143
 msgid "Ctrl+2"
 msgstr "Ctrl+2"
 
-#: .././cogstat_gui.py:141 .././cogstat_gui.py:172
+#: .././cogstat_gui.py:145 .././cogstat_gui.py:181
 msgid "Pivot &table"
 msgstr "Pivot &tablica"
 
-#: .././cogstat_gui.py:144 .././cogstat_gui.py:173
+#: .././cogstat_gui.py:148 .././cogstat_gui.py:182
 msgid "Compare &groups"
 msgstr "Usporedite &grupe"
 
-#: .././cogstat.py:877
+#: .././cogstat.py:906 ../ui/compare_groups.py:74
 msgid "Compare groups"
 msgstr "Usporedite grupe"
 
-#: .././cogstat_gui.py:146
+#: .././cogstat_gui.py:151
 msgid "&Results"
 msgstr "&Rezultati"
 
-#: .././cogstat_gui.py:147
+#: .././cogstat_gui.py:152
 msgid "&Clear results"
 msgstr "&Očistite rezultate"
-
-#: .././cogstat_gui.py:147
-msgid "Del"
-msgstr "Izbrišite"
 
 #: .././cogstat_gui.py:143 .././cogstat_gui_qt4.py:144
 msgid "Save results"
 msgstr "Spremite rezultate"
 
-#: .././cogstat_gui.py:154
+#: .././cogstat_gui.py:160
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
@@ -329,113 +326,109 @@ msgstr "Ctrl+P"
 msgid "Save results as"
 msgstr "Spremite rezultate kao"
 
-#: .././cogstat_gui.py:155
-msgid "Shift+Ctrl+P"
-msgstr "Shift+Ctrl+P"
-
-#: .././cogstat_gui.py:157
+#: .././cogstat_gui.py:164
 msgid "&CogStat"
 msgstr "&CogStat"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:165
 msgid "&Help"
 msgstr "&Pomoć"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:165
 msgid "F1"
 msgstr "F1"
 
-#: .././cogstat_gui.py:159
+#: .././cogstat_gui.py:166
 msgid "&Preferences"
 msgstr "&Preferencije"
 
-#: .././cogstat_gui.py:160
+#: .././cogstat_gui.py:167
 msgid "Request a &feature"
 msgstr "Zatražite &značajku"
 
-#: .././cogstat_gui.py:162
+#: .././cogstat_gui.py:171
 msgid "&Report a problem"
 msgstr "&Prijavite problem"
 
-#: .././cogstat_gui.py:163
+#: .././cogstat_gui.py:172
 msgid "&Diagnosis information"
 msgstr "&Dijagnostička informacija"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:174
 msgid "&About"
 msgstr "&0"
 
-#: .././cogstat_gui.py:167
+#: .././cogstat_gui.py:176
 msgid "&Exit"
 msgstr "&Izlaz"
 
-#: .././cogstat_gui.py:167
+#: .././cogstat_gui.py:176
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: .././cogstat_gui.py:171
+#: .././cogstat_gui.py:180
 msgid "&Save data"
 msgstr "&Spremite podatke"
 
-#: .././cogstat_gui.py:171
+#: .././cogstat_gui.py:180
 msgid "Save data &as"
 msgstr "Sačuvajte podatke &kao"
 
-#: .././cogstat_gui.py:174
+#: .././cogstat_gui.py:183
 msgid "&Compare groups and variables"
 msgstr "&Usporedite grupe i varijable"
 
-#: .././cogstat_gui.py:362
+#: .././cogstat_gui.py:385
 msgid "Import error"
 msgstr "Unijeti pogrešku"
 
-#: .././cogstat_gui.py:362
+#: .././cogstat_gui.py:385
 msgid "Data could not be loaded."
 msgstr "Podaci se nisu mogli učitati."
 
-#: .././cogstat_gui.py:460 .././cogstat_gui.py:535
+#: .././cogstat_gui.py:517 .././cogstat_gui.py:595
 msgid "At least two variables should be set."
 msgstr "Najmanje dvije varijable trebaju biti definirane."
 
-#: .././cogstat.py:710
+#: .././cogstat.py:713 ../ui/pivot.py:105
 msgid "Pivot table"
 msgstr "Pivot tablica"
 
-#: .././cogstat_gui.py:503
+#: .././cogstat_gui.py:560
 msgid "The dependent variable and at least one grouping variable should be given."
 msgstr "Zavisna varijabla i najmanje jedna grupirajuća varijabla, trebaju biti određene."
 
-#: .././cogstat_gui.py:570
+#: .././cogstat_gui.py:630
 msgid "Both the dependent and the grouping variables should be set."
 msgstr "I zavisna varijabla i grupirajuće varijable trebaju biti određene."
 
-#: .././cogstat_gui.py:588
+#: .././cogstat_gui.py:648
 msgid "Clear output"
 msgstr "Očistiti izlazni produkt"
 
-#: .././cogstat_gui.py:589
+#: .././cogstat_gui.py:649
 msgid "Are you sure you want to delete the output?"
 msgstr "Jeste li sigurni da želite obrisati izlazni produkt?"
 
-#: .././cogstat_gui.py:648
+#: .././cogstat_gui.py:715
 msgid "About CogStat "
 msgstr "O CogStat "
 
-#: .././cogstat_gui.py:658
+#: .././cogstat_gui.py:725
 msgid "System components"
 msgstr "Programske sastavnice"
 
-#: .././cogstat_gui.py:670
+#: .././cogstat_gui.py:737
 msgid "Save output"
 msgstr "Spremite izlazni produkt"
 
-#: .././cogstat_gui.py:671
+#: .././cogstat_gui.py:738
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr "Izlazni produkt sadrži podatke koje nisu spremljeni. Želite li ih spremiti?"
 
 #: .././cogstat.py:306
 msgid "Data"
-msgstr "Podaci"
+msgstr "Podatci"
 
 #: .././cogstat.py:307
 msgid "Source: "
@@ -453,217 +446,214 @@ msgstr " slučajevi"
 msgid " further cases are not displayed..."
 msgstr " sljedeći slučajevi nisu prikazani..."
 
-#: .././cogstat.py:322
-msgid "You probably would not want to print the next %s cases..."
-msgstr "Vjerojatno ne biste željeli ispisati sljedeće %s slučajeve..."
-
-#: .././cogstat.py:543 .././cogstat.py:983 .././cogstat.py:1030
-#: .././cogstat.py:1166
+#: .././cogstat.py:546 .././cogstat.py:1012 .././cogstat.py:1059
+#: .././cogstat.py:1195
 msgid "Interval variable."
 msgstr "Intervalna varijabla."
 
-#: .././cogstat.py:573 .././cogstat.py:1018 .././cogstat.py:1068
-#: .././cogstat.py:1171
+#: .././cogstat.py:576 .././cogstat.py:1047 .././cogstat.py:1097
+#: .././cogstat.py:1200
 msgid "Ordinal variable."
 msgstr "Ordinalna varijabla."
 
-#: .././cogstat.py:469
+#: .././cogstat.py:472
 msgid "Explore variable"
 msgstr "Ispitati varijablu"
 
-#: .././cogstat.py:470
+#: .././cogstat.py:473
 msgid "Exploring variable: "
 msgstr "Ispitivajući varijablu "
 
-#: .././cogstat.py:485
+#: .././cogstat.py:488 ../ui/var_properties.py:72
 msgid "Frequencies"
 msgstr "Frekvencije"
 
-#: .././cogstat.py:510
+#: .././cogstat.py:513
 msgid "Normality"
 msgstr "Normalnost"
 
-#: .././cogstat.py:599
+#: .././cogstat.py:602
 msgid "Exploring variable pair: "
 msgstr "Ispitivajući par varijabli "
 
-#: .././cogstat.py:634 .././cogstat.py:795 .././cogstat.py:828
+#: .././cogstat.py:637 .././cogstat.py:812 .././cogstat.py:845
 msgid "Interval variables."
 msgstr "Intervalne varijable."
 
-#: .././cogstat.py:635
+#: .././cogstat.py:638
 msgid "Running Pearson's and Spearman's correlation."
 msgstr "Izvođenje Pearsonove i Spearmanove korelacije."
 
-#: .././cogstat.py:639 .././cogstat.py:640 .././cogstat.py:641
+#: .././cogstat.py:642 .././cogstat.py:643 .././cogstat.py:644
 msgid "Pearson's correlation"
 msgstr "Pearsonova korelacija"
 
-#: .././cogstat.py:647
+#: .././cogstat.py:650
 msgid "Linear regression"
 msgstr "Linearna regresija"
 
-#: .././cogstat.py:651 .././cogstat.py:652 .././cogstat.py:656
-#: .././cogstat.py:667 .././cogstat.py:668 .././cogstat.py:671
+#: .././cogstat.py:654 .././cogstat.py:655 .././cogstat.py:659
+#: .././cogstat.py:670 .././cogstat.py:671 .././cogstat.py:674
 msgid "Spearman's rank-order correlation"
 msgstr "Spearmanov produkt rang korelacije"
 
-#: .././cogstat.py:662 .././cogstat.py:815 .././cogstat.py:851
+#: .././cogstat.py:665 .././cogstat.py:832 .././cogstat.py:868
 msgid "Ordinal variables."
 msgstr "Ordinalne varijable."
 
-#: .././cogstat.py:662
+#: .././cogstat.py:665
 msgid "Running Spearman's correlation."
 msgstr "Izvođenje Spearmanove korelacija."
 
-#: .././cogstat.py:678
+#: .././cogstat.py:681
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr "Nisu sve varijable nominalne. Razmotrite usporedbu grupa."
 
-#: .././cogstat.py:679
+#: .././cogstat.py:682
 msgid "Nominal variables."
 msgstr "Nominalne varijable."
 
-#: .././cogstat.py:679
+#: .././cogstat.py:682
 msgid "Running Cramér's V."
 msgstr "Izvođenje Cramerovog V."
 
-#: .././cogstat.py:723
+#: .././cogstat.py:727
 msgid "Variables to compare: "
 msgstr "Varijable za usporedbu: "
 
-#: .././cogstat.py:731
+#: .././cogstat.py:744
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
 msgstr "Žao nam je, nije moguće usporediti varijable s različitim razinama mjerenja. Opcionalno, možete reducirati one s većim brojem mjerenja, kako biste u konačnici dobili jednake razine."
 
-#: .././cogstat.py:790
+#: .././cogstat.py:807
 msgid "At least two variables required."
 msgstr "Najmanje dvije varijable su potrebne."
 
-#: .././cogstat.py:792
+#: .././cogstat.py:809
 msgid "Two variables. "
 msgstr "Dvije varijable. "
 
-#: .././cogstat.py:547 .././cogstat.py:797 .././cogstat.py:832
-#: .././cogstat.py:967 .././cogstat.py:986 .././cogstat.py:1034
+#: .././cogstat.py:550 .././cogstat.py:814 .././cogstat.py:849
+#: .././cogstat.py:996 .././cogstat.py:1015 .././cogstat.py:1063
 msgid "Checking for normality."
 msgstr "Provjeravanje normalnosti."
 
-#: .././cogstat.py:974
+#: .././cogstat.py:1003
 msgid "Normality is violated in variable "
 msgstr "Normalnost je narušena u varijabli "
 
-#: .././cogstat.py:808
+#: .././cogstat.py:825
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "Normalnost nije narušena.>> Provođenje parnih (zavisnih) t-testova."
 
-#: .././cogstat.py:812 .././cogstat.py:815
+#: .././cogstat.py:829 .././cogstat.py:832
 msgid "Running paired Wilcoxon test."
 msgstr "Provođenje parnog Wilcoxonovog testa."
 
-#: .././cogstat.py:579 .././cogstat.py:824 .././cogstat.py:860
-#: .././cogstat.py:1172 .././cogstat.py:1175
+#: .././cogstat.py:582 .././cogstat.py:841 .././cogstat.py:877
+#: .././cogstat.py:886 .././cogstat.py:889 .././cogstat.py:1201
+#: .././cogstat.py:1204
 msgid "Sorry, not implemented yet."
 msgstr "Žao nam je, još uvijek nije primijenjeno."
 
-#: .././cogstat.py:826
+#: .././cogstat.py:843
 msgid "More than two variables. "
 msgstr "Više od dvije varijable. "
 
-#: .././cogstat.py:848 .././cogstat.py:851
+#: .././cogstat.py:865 .././cogstat.py:868
 msgid "Running Friedman test."
 msgstr "Provođenje Friedmanovog testa."
 
-#: .././cogstat_stat.py:133 .././cogstat.py:880
+#: .././cogstat_stat.py:135 .././cogstat.py:909
 msgid "Dependent variable: "
 msgstr "Zavisna varijabla: "
 
-#: .././cogstat.py:881
+#: .././cogstat.py:910
 msgid "Group(s): "
 msgstr "Grupa/grupe: "
 
-#: .././cogstat.py:955
+#: .././cogstat.py:984
 msgid "One grouping variable. "
 msgstr "Jedna grupirajuća varijabla "
 
-#: .././cogstat.py:957
+#: .././cogstat.py:986
 msgid "There is only one group. At least two groups required."
 msgstr "Samo je jedna grupa prisutna. Potrebne su najmanje dvije."
 
-#: .././cogstat.py:961
+#: .././cogstat.py:990
 msgid "Two groups. "
 msgstr "Dvije grupe. "
 
-#: .././cogstat.py:965
+#: .././cogstat.py:994
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr "Jedna grupa sadrži samo jedan slučaj. >> Biranje modificiranog t-testa."
 
-#: .././cogstat.py:975
+#: .././cogstat.py:1004
 msgid "group "
 msgstr "grupa "
 
-#: .././cogstat.py:976 .././cogstat.py:1010 .././cogstat.py:1018
+#: .././cogstat.py:1005 .././cogstat.py:1039 .././cogstat.py:1047
 msgid "Running Mann-Whitney test."
 msgstr "Provođenje Mann-Whitney testa"
 
-#: .././cogstat.py:979
+#: .././cogstat.py:1008
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "Normalnost nije narušena. >> Provođenje modificiranog t-testa."
 
-#: .././cogstat.py:1021 .././cogstat.py:1072 .././cogstat.py:1174
+#: .././cogstat.py:1050 .././cogstat.py:1101 .././cogstat.py:1203
 msgid "Nominal variable."
 msgstr "Nominalna varijabla."
 
-#: .././cogstat.py:1021 .././cogstat.py:1072
+#: .././cogstat.py:1050 .././cogstat.py:1101
 msgid "Running Chi-square test."
 msgstr "Provođenje hi-kvadrat testa."
 
-#: .././cogstat.py:1028
+#: .././cogstat.py:1057
 msgid "More than two groups."
 msgstr "Više nego dvije skupine."
 
-#: .././cogstat.py:1064 .././cogstat.py:1068
+#: .././cogstat.py:1093 .././cogstat.py:1097
 msgid "Running Kruskal-Wallis test."
 msgstr "Provođenje Kruskal-Wallis testa."
 
-#: .././cogstat.py:1178
+#: .././cogstat.py:1207
 msgid "Several grouping variables."
 msgstr "Nekoliko grupirajućih varijabli."
 
-#: .././cogstat_dialogs.py:19 .././cogstat_dialogs.py:23
+#: .././cogstat_dialogs.py:23 .././cogstat_dialogs.py:27
 msgid "Open data file"
 msgstr "Otvoriti datoteku s podatcima"
 
-#: .././cogstat_dialogs.py:27
+#: .././cogstat_dialogs.py:31
 msgid "Save result file"
 msgstr "Spremiti datoteku s rezultatima"
 
-#: .././cogstat_gui.py:138 .././cogstat_gui.py:172
+#: .././cogstat_gui.py:142 .././cogstat_gui.py:181
 msgid "&Explore variable"
 msgstr "&Ispitati varijablu"
 
-#: .././cogstat_gui.py:361 .././cogstat.py:251
+#: .././cogstat_gui.py:384 .././cogstat.py:251
 msgid "Import failed"
 msgstr "Unos nije uspio"
 
-#: .././cogstat_stat.py:268 .././cogstat_stat.py:270
+#: .././cogstat_stat.py:270 .././cogstat_stat.py:272
 msgid "Freq"
 msgstr "Frekv"
 
 #. Should I make abbreviations in Croatian, as well? They do not appear nice for those expressions.
-#: .././cogstat_stat.py:268 .././cogstat_stat.py:270 .././cogstat_stat.py:272
+#: .././cogstat_stat.py:270 .././cogstat_stat.py:272 .././cogstat_stat.py:274
 msgid "Rel freq"
 msgstr "Rel frekv"
 
-#: .././cogstat_stat.py:270
+#: .././cogstat_stat.py:272
 msgid "Cum freq"
 msgstr "Kum frekv"
 
-#: .././cogstat_stat.py:270 .././cogstat_stat.py:272
+#: .././cogstat_stat.py:272 .././cogstat_stat.py:274
 msgid "Cum rel freq"
 msgstr "Kum rel frekv"
 
-#: .././cogstat_stat.py:975
+#: .././cogstat_stat.py:1023
 msgid "Cramér's V measure of association cannot be computed (division by zero)."
 msgstr "Cramerov V, mjera asocijacije, ne može biti izračunata (dijeljenje s nulom)."
 
@@ -701,29 +691,29 @@ msgstr "Filtriranje"
 msgid "Filtering is switched off."
 msgstr "Filtriranje je isključeno."
 
-#: .././cogstat.py:352
+#: .././cogstat.py:355
 msgid "Filtering based on %s.\n"
 ""
 msgstr "Filtriranje bazirano na %s."
 
-#: .././cogstat.py:352 .././cogstat.py:368
+#: .././cogstat.py:355 .././cogstat.py:371
 msgid " (2 SD)"
 msgstr " (2 SD)"
 
-#: .././cogstat.py:354
+#: .././cogstat.py:357
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
 msgstr "Slučajevi izvan raspona će biti isključeni: %0.*f  --  %0.*f"
 
-#: .././cogstat.py:361
+#: .././cogstat.py:364
 msgid "The following cases will be excluded: "
 msgstr "Sljedeći slučajevi će biti izostavljeni: "
 
-#: .././cogstat.py:364
+#: .././cogstat.py:367
 msgid "No cases were excluded."
 msgstr "Niti jedan slučaj nije izostavljen."
 
-#: .././cogstat.py:995 .././cogstat.py:1043
+#: .././cogstat.py:1024 .././cogstat.py:1072
 msgid "Checking for homogeneity of variance across groups."
 msgstr "Provjeravanje homogenosti varijance u grupama."
 
@@ -731,301 +721,302 @@ msgstr "Provjeravanje homogenosti varijance u grupama."
 msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
 msgstr "%s Ups, nešto je pošlo krivo, CogStat nije u mogućnosti provesti analizu. Vjerojatno želite ovo i prijaviti. "
 
-#: .././cogstat_gui.py:435
+#: .././cogstat_gui.py:492
 msgid "Explore variable."
 msgstr "Ispitati varijablu."
 
-#: .././cogstat_gui.py:460 .././cogstat_gui.py:476
+#: .././cogstat_gui.py:517 .././cogstat_gui.py:533
 msgid "Explore variable pair."
 msgstr "Ispitati par varijabli."
 
-#: .././cogstat_gui.py:503 .././cogstat_gui.py:508
+#: .././cogstat_gui.py:560 .././cogstat_gui.py:565
 msgid "Pivot table."
 msgstr "Pivot tablica."
 
-#: .././cogstat_gui.py:535 .././cogstat_gui.py:543
+#: .././cogstat_gui.py:595 .././cogstat_gui.py:603
 msgid "Compare variables."
 msgstr "Usporedite varijable."
 
-#: .././cogstat_gui.py:570 .././cogstat_gui.py:581
+#: .././cogstat_gui.py:630 .././cogstat_gui.py:641
 msgid "Compare groups."
 msgstr "Usporedite grupe."
 
-#: .././cogstat_stat.py:315
+#: .././cogstat_stat.py:317
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
 msgstr "Normalnost ne može biti provjerena za konstantne vrijednosti u %s%s."
 
-#: .././cogstat_stat.py:329
+#: .././cogstat_stat.py:331
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
 msgstr "Nedovoljno velik uzorak za testiranje normalnosti u varijabli %s%s."
 
-#: .././cogstat_stat.py:585
+#: .././cogstat_stat.py:587
 msgid "Result of the McNemar test"
 msgstr "Rezultat McNemarovog testa."
 
-#: .././cogstat_stat.py:591
+#: .././cogstat_stat.py:593
 msgid "Result of Cochran's Q test"
 msgstr "Rezultat Cochranovog Q testa."
 
-#: .././cogstat_stat.py:598
+#: .././cogstat_stat.py:610
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "Rezultat Mauchlyevog testa za provjeru sfernosti."
 
-#: .././cogstat_stat.py:602
+#: .././cogstat_stat.py:614
 msgid "Sphericity is violated."
 msgstr "Sfericitet je narušen."
 
-#: .././cogstat_stat.py:603
+#: .././cogstat_stat.py:615
 msgid "Using Greenhouse-Geisser correction."
 msgstr "Korištenje Greenhouse-Geisserove korekcije."
 
-#: .././cogstat_stat.py:604 .././cogstat_stat.py:609
+#: .././cogstat_stat.py:616 .././cogstat_stat.py:621
 msgid "Result of repeated measures ANOVA"
 msgstr "Rezultat analize varijance s ponovljenim mjerenjima."
 
-#: .././cogstat_stat.py:608
+#: .././cogstat_stat.py:620
 msgid "Sphericity is not violated. "
 msgstr "Sfericitet nije narušen. "
 
-#: .././cogstat_stat.py:615
+#: .././cogstat_stat.py:627
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
 msgstr "Usporedba uparenih varijabli Holm-Bonferronijevom korekcijom:"
 
-#: .././cogstat_stat.py:789
+#: .././cogstat_stat.py:837
 msgid "Result of Welch's unequal variances t-test:"
 msgstr "Rezultat Welchovog t-testa nejednakih varijanci."
 
-#: .././cogstat.py:795
+#: .././cogstat.py:812
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "Biranje t-testa za parne (zavisne) uzorke ili Wilcoxonovog testa parova, ovisno o pretpostavkama."
 
-#: .././cogstat.py:811 .././cogstat.py:847
+#: .././cogstat.py:828 .././cogstat.py:864
 msgid "Normality is violated in variable(s): %s."
 msgstr "Normalnost je narušena u varijabli/varijablama: %s."
 
-#: .././cogstat.py:819 .././cogstat.py:855
+#: .././cogstat.py:836 .././cogstat.py:872
 msgid "Nominal dichotomous variables."
 msgstr "Nominalne dihotomne varijable."
 
-#: .././cogstat.py:819
+#: .././cogstat.py:836
 msgid "Running McNemar test."
 msgstr "Provođenje McNemarovog testa."
 
-#: .././cogstat.py:823 .././cogstat.py:859
+#: .././cogstat.py:840 .././cogstat.py:876
 msgid "Nominal non dichotomous variables."
 msgstr "Nominalne nedihotomne varijable."
 
-#: .././cogstat.py:829
+#: .././cogstat.py:846
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "Biranje analize varijance s ponovljenim mjerenjima ili Friedmanovog testa, ovisno o pretpostavkama."
 
-#: .././cogstat.py:855
+#: .././cogstat.py:872
 msgid "Running Cochran's Q test."
 msgstr "Provođenje Cochranovog Q testa."
 
-#: .././cogstat.py:984
+#: .././cogstat.py:1013
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
 msgstr "Biranje t-testa za dva uzorka, Mann-Whitney testa ili Welchovog testa, ovisno o pretpostavkama."
 
-#: .././cogstat.py:1008
+#: .././cogstat.py:1037
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "Normalnost je narušena u varijabli %s, grupi/grupama %."
 
-#: .././cogstat.py:1013
+#: .././cogstat.py:1042
 msgid "Homeogeneity of variance violated in variable %s."
 msgstr "Homogenost varijance je narušena u varijabli %."
 
-#: .././cogstat.py:1014
+#: .././cogstat.py:1043
 msgid "Running Welch's t-test."
 msgstr "Provođenja Welchovog t-testa."
 
-#: .././cogstat.py:1031
+#: .././cogstat.py:1060
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
 msgstr "Biranje jednosmjerne analize varijance ili Kruskal-Wallisovog testa, ovisno o pretpostavkama."
 
-#: .././cogstat.py:1059
+#: .././cogstat.py:1088
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr "Normalnost je narušena u varijabli %s, grupi/grupama %. "
 
-#: .././cogstat.py:1062
+#: .././cogstat.py:1091
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr "Homogenost varijance je narušena u varijabli %. "
 
-#: .././cogstat.py:552 .././cogstat.py:843
+#: .././cogstat.py:555 .././cogstat.py:860
 msgid "Normality is not violated."
 msgstr "Normalnost nije narušena."
 
-#: .././cogstat.py:844
+#: .././cogstat.py:861
 msgid "Running repeated measures one-way ANOVA."
 msgstr "Provođenje jednosmjerne analize varijance s ponovljenim mjerenjima."
 
-#: .././cogstat_gui.py:135
+#: .././cogstat_gui.py:138
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: .././cogstat_gui.py:377
+#: .././cogstat_gui.py:400
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
 msgstr "Otvorite podatke. Ups, nešto je pošlo krivo, CogStat ne može pristupiti podatcima. Možda želite prijaviti ovaj problem."
 
-#: .././cogstat_stat.py:225
+#: .././cogstat_stat.py:227
 msgid "N of missing cases: %g"
 msgstr "N slučajeva koji nedostaju: %g"
 
-#: .././cogstat_chart.py:142 .././cogstat_chart.py:227
-#: .././cogstat_chart.py:401 .././cogstat_chart.py:402
-#: .././cogstat_chart.py:606
+#: .././cogstat_chart.py:144 .././cogstat_chart.py:229
+#: .././cogstat_chart.py:403 .././cogstat_chart.py:404
+#: .././cogstat_chart.py:608
 msgid "Rank of %s"
 msgstr "Rang %s"
 
-#: .././cogstat_stat.py:412 .././cogstat_stat.py:576
+#: .././cogstat_stat.py:414 .././cogstat_stat.py:578
 msgid "Result of Wilcoxon signed-rank test"
 msgstr "Rezultati Wilcoxonovog testa usklađenih parova."
 
-#: .././cogstat_chart.py:144 .././cogstat.py:475 .././cogstat.py:605
-#: .././cogstat.py:738 .././cogstat.py:892 .././cogstat.py:1080
+#: .././cogstat_chart.py:146 .././cogstat.py:478 .././cogstat.py:608
+#: .././cogstat.py:751 .././cogstat.py:921 .././cogstat.py:1109
 msgid "Raw data"
 msgstr "Neobrađeni podatci"
 
-#: .././cogstat.py:481 .././cogstat.py:621 .././cogstat.py:758
-#: .././cogstat.py:923 .././cogstat.py:1131
+#: .././cogstat.py:484 .././cogstat.py:624 .././cogstat.py:771
+#: .././cogstat.py:952 .././cogstat.py:1160
 msgid "Sample properties"
 msgstr "Svojstva uzorka"
 
-#: .././cogstat.py:527
+#: .././cogstat.py:530
 msgid "Population parameter estimations and tests"
 msgstr "Procjene parametara i testovi na razini populacije"
 
-#: .././cogstat.py:534 .././cogstat.py:632 .././cogstat.py:660
-#: .././cogstat.py:675
+#: .././cogstat.py:537 .././cogstat.py:635 .././cogstat.py:663
+#: .././cogstat.py:678
 msgid "Hypothesis test: "
 msgstr "Hipoteza testira: "
 
-#: .././cogstat.py:536
+#: .././cogstat.py:539
 msgid "Testing if mean deviates from the value %s."
 msgstr "Testiranje odstupa li aritmetička sredina od vrijednosti %s."
 
-#: .././cogstat.py:538
+#: .././cogstat.py:541
 msgid "Testing if median deviates from the value %s."
 msgstr "Testiranje odstupa li medijan od vrijednosti %s."
 
-#: .././cogstat.py:545
+#: .././cogstat.py:548
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
 msgstr "Biranje t-testa na jednom uzorku ili Wilcoxonovog testa usklađenih parova, ovisno o pretpostavkama."
 
-#: .././cogstat.py:553
+#: .././cogstat.py:556
 msgid "Running one-sample t-test."
 msgstr "Provođenje t-testa na jednom uzroku."
 
-#: .././cogstat.py:566
+#: .././cogstat.py:569
 msgid "Normality is violated."
 msgstr "Normalnost je narušena."
 
-#: .././cogstat.py:567 .././cogstat.py:574
+#: .././cogstat.py:570 .././cogstat.py:577
 msgid "Running Wilcoxon signed-rank test."
 msgstr "Provođenje Wilcoxonovog testa usklađenih parova."
 
-#: .././cogstat.py:506 .././cogstat.py:625 .././cogstat.py:774
-#: .././cogstat.py:941 .././cogstat.py:1151
+#: .././cogstat.py:509 .././cogstat.py:628 .././cogstat.py:787
+#: .././cogstat.py:970 .././cogstat.py:1180
 msgid "Population properties"
 msgstr "Svojstva populacije"
 
-#: .././cogstat.py:632 .././cogstat.py:660
+#: .././cogstat.py:635 .././cogstat.py:663
 msgid "Testing if correlation differs from 0."
 msgstr "Testiranje je li korelacija različita od 0"
 
-#: .././cogstat.py:675
+#: .././cogstat.py:678
 msgid "Testing if variables are independent."
 msgstr "Testiranje jesu li varijable nezavisne."
 
-#: .././cogstat.py:781 .././cogstat.py:947 .././cogstat.py:1155
+#: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
 msgid "Hypothesis testing: "
 msgstr "Hipoteza testira: "
 
-#: .././cogstat.py:783 .././cogstat.py:949 .././cogstat.py:1157
+#: .././cogstat.py:800 .././cogstat.py:978 .././cogstat.py:1186
 msgid "Testing if the means are the same."
 msgstr "Testiranje jesu li vrijednosti aritmetičkih sredina jednake."
 
-#: .././cogstat.py:785 .././cogstat.py:951 .././cogstat.py:1159
+#: .././cogstat.py:802 .././cogstat.py:980 .././cogstat.py:1188
 msgid "Testing if the medians are the same."
 msgstr "Testiranje jesu li vrijednosti medijana jednake."
 
-#: .././cogstat.py:787 .././cogstat.py:953 .././cogstat.py:1161
+#: .././cogstat.py:804 .././cogstat.py:982 .././cogstat.py:1190
 msgid "Testing if the distributions are the same."
 msgstr "Testiranje jesu li distribucije jednake."
 
-#: .././cogstat.py:1004
+#: .././cogstat.py:1033
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
 msgstr "Normalnost i homogenost varijance nisu narušeni. >> Provođenje t-testa za dva uzorka."
 
-#: .././cogstat.py:1052
+#: .././cogstat.py:1081
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
 msgstr "Normalnost i homogenost varijance nisu narušeni. >> Provođenje jednosmjerne analize varijance."
 
-#: .././cogstat_gui.py:648
+#: .././cogstat_gui.py:715
 msgid "Simple automatic data analysis software"
 msgstr "Program za jednostavnu, automatsku analizu podataka."
 
-#: .././cogstat_gui.py:648
+#: .././cogstat_gui.py:715
 msgid "Visit CogStat website"
 msgstr "Posjetite CogStat internet stranicu"
 
-#: .././cogstat_gui.py:201
+#: .././cogstat_gui.py:223
 msgid "Welcome to CogStat!"
 msgstr "Dobrodošli u CogStat!"
 
-#: .././cogstat_gui.py:201
+#: .././cogstat_gui.py:223
 msgid "CogStat makes statistical analysis more simple and efficient."
 msgstr "CogStat čini statističke analize jednostavnijim i učinkovitijim."
 
-#: .././cogstat_gui.py:202
+#: .././cogstat_gui.py:224
 msgid "To start working open a data file or paste your data from a spreadsheet."
 msgstr "Kako biste započeli s radom, otvorite datoteku ili uvezite podatke sa matrice."
 
-#: .././cogstat_chart.py:141
+#: .././cogstat_chart.py:143
 msgid "Rank of the raw data"
 msgstr "Rang neobrađenih podataka"
 
-#: .././cogstat_chart.py:212
+#: .././cogstat_chart.py:214
 msgid "Histogram of rank data with individual data and boxplot"
 msgstr "Histogram rangiranih podataka sa pojedinačnim podatcima i kutijastim dijagramom"
 
-#: .././cogstat_chart.py:400
+#: .././cogstat_chart.py:402
 msgid "Scatterplot of the rank of the variables"
-msgstr "Dijagram raspršenja za rang varijabli"
+msgstr "Dijagram raspršenja za rang varijable"
 
-#: .././cogstat_chart.py:450
+#: .././cogstat_chart.py:452
 msgid "Individual data of the variables"
 msgstr "Individualni podatci varijabli"
 
-#: .././cogstat_chart.py:608
+#: .././cogstat_chart.py:610
 msgid "Individual data of the rank data of the groups"
-msgstr "Individualni podatci ranga  grupe"
+msgstr "Individualni podatci ranga grupe"
 
 #: .././cogstat_stat.py:1109
 msgid "Boxplot and individual data of the rank data of the groups"
 msgstr "Kutijasti dijagram i individualni podaci ranga grupe"
 
-#: .././cogstat_chart.py:624
+#: .././cogstat_chart.py:626
 msgid "Individual data of the groups"
 msgstr "Individualni podaci grupe"
 
 #. I know what the "point estimation" represents among the stats terminology, however, when I translate it to Croatian, it sounds like "dot" (same as the dot used after ending the sentence), more than "the best numerical value" as it should be, so I am not sure whether this is fine. Additional issue is that we use many English terms (and this is one of them), so Croatian version in some of the cases may sound clumsy and unfamiliar.
-#: .././cogstat_stat.py:530 .././cogstat_stat.py:664 .././cogstat.py:554
-#: .././cogstat.py:555 .././cogstat.py:626
+#: .././cogstat_stat.py:532 .././cogstat_stat.py:712 .././cogstat.py:557
+#: .././cogstat.py:558 .././cogstat.py:629
 msgid "Point estimation"
 msgstr "Najbolje točka procjene"
 
-#: .././cogstat.py:554 .././cogstat.py:558 .././cogstat.py:626
+#: .././cogstat.py:557 .././cogstat.py:561 .././cogstat.py:629
 msgid "95% confidence interval"
 msgstr "95% interval pouzdanosti"
 
-#: .././cogstat_stat.py:433 .././cogstat.py:559
+#: .././cogstat_stat.py:127 .././cogstat_stat.py:435 .././cogstat.py:562
+#: ../ui/pivot.py:113
 msgid "Standard deviation"
 msgstr "Standardna devijacija"
 
-#: .././cogstat.py:744 .././cogstat.py:898 .././cogstat.py:1097
+#: .././cogstat.py:757 .././cogstat.py:927 .././cogstat.py:1126
 msgid "N of valid cases"
 msgstr "N valjanih slučajeva "
 
@@ -1041,52 +1032,52 @@ msgstr "Nova verzija je dostupna"
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
 msgstr "Možete preuzeti novu verziju <br> sa <a href =\"%s>CogStat download page</a>."
 
-#: .././cogstat_gui.py:139 .././cogstat_gui.py:173
+#: .././cogstat_gui.py:143 .././cogstat_gui.py:182
 msgid "Explore relation of variable &pair"
 msgstr "Istražite odnos %para varijabli"
 
-#: .././cogstat_gui.py:143 .././cogstat_gui.py:173
+#: .././cogstat_gui.py:147 .././cogstat_gui.py:182
 msgid "Compare repeated measures va&riables"
 msgstr "Usporedite varijable ponovljenih mjerenja"
 
-#: .././cogstat_stat.py:433
+#: .././cogstat_stat.py:435
 msgid "Minimum"
 msgstr "Minimum"
 
-#: .././cogstat_stat.py:434
+#: .././cogstat_stat.py:436
 msgid "Maximum"
 msgstr "Maksimum"
 
-#: .././cogstat_stat.py:434
+#: .././cogstat_stat.py:126 .././cogstat_stat.py:436 ../ui/pivot.py:112
 msgid "Upper quartile"
 msgstr "Gornji kvartil"
 
-#: .././cogstat_stat.py:452
+#: .././cogstat_stat.py:454
 msgid "Descriptives for the variables"
 msgstr "Deskriptivne vrijednosti varijabli"
 
-#: .././cogstat_stat.py:466
+#: .././cogstat_stat.py:468
 msgid "Descriptives for the groups"
 msgstr "Deskriptivne vrijednosti grupe"
 
-#: .././cogstat_stat.py:512
+#: .././cogstat_stat.py:514
 msgid "Contingency table"
 msgstr "Tablica kontingencije"
 
-#: .././cogstat_stat.py:888
+#: .././cogstat_stat.py:936
 msgid "Result of two-way ANOVA:\n"
 ""
 msgstr "Rezultat dvosmjerne analize varijance:"
 
-#: .././cogstat_stat.py:891
+#: .././cogstat_stat.py:939
 msgid "Main effect of %s: "
 msgstr "Glavni efekt %s: "
 
-#: .././cogstat_stat.py:895
+#: .././cogstat_stat.py:943
 msgid "Interaction of %s and %s: "
 msgstr "Interakcija %s i %s: "
 
-#: .././cogstat_stat.py:979
+#: .././cogstat_stat.py:1027
 msgid "Sorry, at least SciPy 0.10 is required to calculate Cramér's V or Chi-Square test."
 msgstr "Žao nam je, najmanje SciPy 0.10 je potreban za izračun Cramerovog V i hi-kvadrat testa."
 
@@ -1094,55 +1085,55 @@ msgstr "Žao nam je, najmanje SciPy 0.10 je potreban za izračun Cramerovog V i 
 msgid "SPSS file - "
 msgstr "SPSS datoteka- "
 
-#: .././cogstat.py:598
+#: .././cogstat.py:601
 msgid "Explore relation of variable pair"
 msgstr "Istražite odnos para varijabli"
 
-#: .././cogstat.py:721
+#: .././cogstat.py:725 ../ui/compare_vars.py:65
 msgid "Compare repeated measures variables"
 msgstr "Usporedite varijable ponovljenog mjerenja"
 
-#: .././cogstat.py:745 .././cogstat.py:899 .././cogstat.py:1100
+#: .././cogstat.py:758 .././cogstat.py:928 .././cogstat.py:1129
 msgid "N of missing cases"
 msgstr "N slučajeva koju nedostaju"
 
-#: .././cogstat.py:1163
+#: .././cogstat.py:1192
 msgid "Two grouping variables. "
 msgstr "Dvije grupirajuće varijable: "
 
-#: .././cogstat.py:1167
+#: .././cogstat.py:1196
 msgid "Choosing factorial ANOVA."
 msgstr "Biranje faktorijalne analize varijance."
 
-#: .././cogstat.py:611
+#: .././cogstat.py:614
 msgid "N of valid pairs"
 msgstr "N valjanih parova"
 
-#: .././cogstat.py:612
+#: .././cogstat.py:615
 msgid "N of missing pairs"
 msgstr "N parova koji nedostaju"
 
-#: .././cogstat.py:908
+#: .././cogstat.py:937
 msgid "N of missing group cases"
 msgstr "N slučajeva koji nedostaju unutar grupe"
 
-#: .././cogstat.py:1115
+#: .././cogstat.py:1144
 msgid "N of missing grouping variable in %s"
 msgstr "N grupirajućih varijabli koji nedostaju u %s"
 
-#: .././cogstat_stat.py:435
+#: .././cogstat_stat.py:437
 msgid "Skewness"
 msgstr "Asimetričnost"
 
-#: .././cogstat_stat.py:435
+#: .././cogstat_stat.py:437
 msgid "Kurtosis"
 msgstr "Spljoštenost"
 
-#: .././cogstat_stat.py:435
+#: .././cogstat_stat.py:437
 msgid "Range"
 msgstr "Opseg"
 
-#: .././cogstat_stat.py:452
+#: .././cogstat_stat.py:454
 msgid "Descriptives for the variable"
 msgstr "Deskriptivne vrijednosti varijabli"
 
@@ -1150,20 +1141,20 @@ msgstr "Deskriptivne vrijednosti varijabli"
 msgid "The measurement levels of the variables are not set. Set them in your data source."
 msgstr "Mjerne razine za varijable nisu postavljene. Postavite ih u Vašoj izvorišnoj datoteci."
 
-#: .././cogstat_gui.py:52 .././cogstat_gui.py:378
+#: .././cogstat_gui.py:52 .././cogstat_gui.py:401
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
 msgstr "Saznajte više kako uspješno prijaviti problem <a href = \"%s\">here</a>."
 
-#: .././cogstat_gui.py:203
+#: .././cogstat_gui.py:225
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
 msgstr "Pronađite više informacija o CogStat na <a href = \"https://www.cogstat.org\">webpage</a> ili pročitajte kratki tutorijal <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
 
-#: .././cogstat_stat.py:58 .././cogstat.py:50 .././cogstat.py:171
+#: .././cogstat_stat.py:59 .././cogstat.py:50 .././cogstat.py:171
 #: .././cogstat.py:179 .././cogstat.py:284 .././cogstat.py:292
 msgid "Read more about this issue <a href = \"%s\">here</a>."
 msgstr "Pročitajte više o ovome problemu <a href = \"%s\">here</a>."
 
-#: .././cogstat_stat.py:768
+#: .././cogstat_stat.py:816
 msgid "Result of slope test with %s:"
 msgstr "Rezultati testa nagiba sa %s:"
 
@@ -1188,79 +1179,359 @@ msgstr "Pojedini nazivi varijabli uključuju i znakove koji nisu karakterističn
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
 msgstr "Pojedine varijable uključuju znakove koji nisu karakteristični za engleski jezik, što može uzrokovati probleme u nekim analizama: %s."
 
-#: .././cogstat.py:624 .././cogstat.py:653 .././cogstat.py:669
-#: .././cogstat.py:1056
+#: .././cogstat.py:627 .././cogstat.py:656 .././cogstat.py:672
+#: .././cogstat.py:1085
 msgid "Standardized effect size:"
 msgstr "Standardizirana veličina efekta:"
 
-#: .././cogstat_gui.py:129
+#: .././cogstat_gui.py:132
 msgid "Open d&emo data file"
 msgstr "Otvorite d&emo podatkovnu datoteku"
 
-#: .././cogstat_gui.py:129
+#: .././cogstat_gui.py:132
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: .././cogstat_gui.py:149
+#: .././cogstat_gui.py:154
 msgid "&Increase text size"
 msgstr "&Povećajte veličinu teksta"
 
-#: .././cogstat_gui.py:149
+#: .././cogstat_gui.py:154
 msgid "Ctrl++"
 msgstr "Ctrl++"
 
-#: .././cogstat_gui.py:150
+#: .././cogstat_gui.py:155
 msgid "&Decrease text size"
 msgstr "&Smanjite veličinu teksta"
 
-#: .././cogstat_gui.py:150
+#: .././cogstat_gui.py:155
 msgid "Ctrl+-"
 msgstr "Ctrl+-"
 
-#: .././cogstat_gui.py:154
+#: .././cogstat_gui.py:160
 msgid "&Save results"
 msgstr "&Spremite rezultate"
 
-#: .././cogstat_gui.py:155
+#: .././cogstat_gui.py:161
 msgid "Save results &as"
 msgstr "Spremite rezultate &kao"
 
-#: .././cogstat_chart.py:452
+#: .././cogstat_chart.py:454
 msgid "Boxplots and individual data of the variables"
 msgstr "Kutijasti dijagram i individualni podatci varijabli"
 
-#: .././cogstat_chart.py:600
+#: .././cogstat_chart.py:602
 msgid "Largest individual sign displays %d cases."
 msgstr "Najveća individualna oznaka prikazuje %d slučajeva."
 
-#: .././cogstat_chart.py:610
+#: .././cogstat_chart.py:612
 msgid "Boxplots and individual data of the rank data of the groups"
 msgstr "Kutijasti dijagram i individualni podaci ranga grupe"
 
-#: .././cogstat_chart.py:626
+#: .././cogstat_chart.py:628
 msgid "Boxplots and individual data of the groups"
 msgstr "Kutijasti dijagram i individualni podatci grupe"
 
 #. Just to double check this one: 
 #. CI - confidence interval, or "interval pouzdanosti" in Croatian. I might refer it solely as "IP", but that is not a common abbreviation, so maybe a full title would be a wiser option? Depends on context, of course.
-#: .././cogstat_stat.py:533 .././cogstat_stat.py:667
+#: .././cogstat_stat.py:535 .././cogstat_stat.py:715
 msgid "95% CI (low)"
 msgstr "95% interval pouzdanosti (niski)"
 
-#: .././cogstat_stat.py:534 .././cogstat_stat.py:668
+#: .././cogstat_stat.py:536 .././cogstat_stat.py:716
 msgid "95% CI (high)"
 msgstr "95% interval pouzdanosti (visoki)"
 
-#: .././cogstat_stat.py:948
+#: .././cogstat_stat.py:996
 msgid "Results of Dunn's test (p values)."
 msgstr "Rezultati Dunnovog testa (p vrijednost)."
 
-#: .././cogstat.py:561 .././cogstat.py:776 .././cogstat.py:943
-#: .././cogstat.py:1152
+#: .././cogstat.py:564 .././cogstat.py:792 .././cogstat.py:972
+#: .././cogstat.py:1181
 msgid "Present confidence interval values suppose normality."
 msgstr "Prisutni interval pouzdanosti sugerira normalnost."
 
-#: .././cogstat.py:776 .././cogstat.py:943 .././cogstat.py:1152
+#: .././cogstat.py:792 .././cogstat.py:972 .././cogstat.py:1181
 msgid "Means"
 msgstr "Aritmetička sredina"
+
+#: .././cogstat_gui.py:152
+msgid "Ctrl+Del"
+msgstr "Ctrl*Del"
+
+#: .././cogstat_gui.py:148
+msgid "&Text is editable"
+msgstr "&Tekst je podložan uređivanju"
+
+#: .././cogstat_gui.py:158
+msgid "Ctrl+Shift+E"
+msgstr "Ctrl+Shift+E"
+
+#: .././cogstat_gui.py:161
+msgid "Ctrl+Shift+P"
+msgstr "Ctrl+Shift+P"
+
+#: .././cogstat.py:322
+msgid "The next %s cases will not be printed. You can check all cases in the original data source."
+msgstr "Idući% slučajevi neće biti poslani na ispis. Sve slučajeve možete provjeriti u Vašoj izvornoj datoteci."
+
+#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:76
+#: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
+#: ../ui/explore_var_pairs.py:54 ../ui/compare_vars.py:67
+msgid "Available variables"
+msgstr "Dostupne varijable"
+
+#: .././cogstat_stat.py:125 ../ui/pivot.py:107
+msgid "N"
+msgstr "N"
+
+#: .././cogstat_stat.py:125 ../ui/pivot.py:108
+msgid "Sum"
+msgstr "Zbroj"
+
+#: .././cogstat_stat.py:126 ../ui/pivot.py:111
+msgid "Lower quartile"
+msgstr "Donji kvartil"
+
+#: .././cogstat_stat.py:127 ../ui/pivot.py:114
+msgid "Variance"
+msgstr "Varijanca"
+
+#: ../ui/pivot.py:115
+msgid "Rows"
+msgstr "Redovi"
+
+#: ../ui/pivot.py:116
+msgid "Columns"
+msgstr "Stupci"
+
+#: ../ui/pivot.py:117
+msgid "Pages"
+msgstr "Stranice"
+
+#: ../ui/pivot.py:118
+msgid "Dependent variable"
+msgstr "Zavisne varijable"
+
+#: ../ui/pivot.py:119
+msgid "Function"
+msgstr "Funkcija"
+
+#: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
+#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:75
+#: ../ui/compare_groups.py:79 ../ui/compare_groups_single_case_slope.py:64
+#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:57
+#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:68
+msgid "<="
+msgstr "<="
+
+#: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
+#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:78
+#: ../ui/compare_groups.py:81 ../ui/compare_groups_single_case_slope.py:67
+#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:56
+#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:66
+msgid "=>"
+msgstr "=>"
+
+#: ../ui/compare_groups.py:77
+msgid "Dependent variable(s)"
+msgstr "Zavisna varijabla(e)"
+
+#: ../ui/compare_groups.py:80
+msgid "Group(s)"
+msgstr "Grupa(e)"
+
+#: ../ui/compare_groups.py:82
+msgid "Single case slope..."
+msgstr "Nagib pojedinačnog slučaja"
+
+#: ../ui/preferences.py:53
+msgid "Preferences"
+msgstr "Preference"
+
+#: ../ui/preferences.py:54
+msgid "Language"
+msgstr "Jezik"
+
+#: ../ui/preferences.py:55
+msgid "You should restart CogStat to use the new language"
+msgstr "Trebate ponovno pokrenuti CogStat, kako biste koristili novoodabrani jezik"
+
+#: ../ui/preferences.py:56
+msgid "Chart theme"
+msgstr "Tema grafikona"
+
+#: ../ui/preferences.py:57
+msgid "You should restart CogStat to use the new theme"
+msgstr "Trebate ponovno pokrenuti CogStat, kako biste koristili novoodabranu temu"
+
+#: ../ui/compare_groups_single_case_slope.py:63
+msgid "Compare groups - Single case slope"
+msgstr "Usporedite grupe - Nagib pojedinačnog slučaja"
+
+#: ../ui/compare_groups_single_case_slope.py:66
+msgid "Slope SE variable"
+msgstr "Standardna greška varijable nagiba"
+
+#: ../ui/compare_groups_single_case_slope.py:68
+msgid "Number of trials"
+msgstr "Broj proba"
+
+#: ../ui/var_properties.py:68
+msgid "Explore variables"
+msgstr "Istražite varijable"
+
+#: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
+#: ../ui/explore_var_pairs.py:55 ../ui/compare_vars_wiz.py:67
+#: ../ui/compare_vars.py:69
+msgid "Selected variables"
+msgstr "Odabrane varijable"
+
+#: ../ui/var_properties.py:71
+msgid "Statistics"
+msgstr "Statistika"
+
+#: ../ui/var_properties.py:73
+msgid "0"
+msgstr "0"
+
+#: ../ui/var_properties.py:74
+msgid "Central tendency test value"
+msgstr "Vrijednost testa centralne tendencije"
+
+#: ../ui/explore_var_pairs.py:53
+msgid "Explore relation of variable pairs"
+msgstr "Istražite odnose parova varijabi"
+
+#: ../ui/compare_vars_wiz.py:61
+msgid "Wizard"
+msgstr "Čarobnjak"
+
+#: ../ui/compare_vars_wiz.py:62
+msgid "One factor"
+msgstr "Jedan faktor"
+
+#: ../ui/compare_vars_wiz.py:63
+msgid "Several factors"
+msgstr "Nekoliko faktora"
+
+#: ../ui/compare_vars_wiz.py:64
+msgid "Not implemented yet"
+msgstr "Još uvijek nije primjenjivo"
+
+#: ../ui/compare_vars_wiz.py:66
+msgid "Variables to choose from"
+msgstr "Varijable između kojih je moguće birati"
+
+#: ../ui/data_measlev.py:37
+msgid "Variable properties"
+msgstr "Svojstva varijable"
+
+#: .././cogstat_gui.py:135 .././cogstat_gui.py:180
+msgid "&Filter outliers"
+msgstr "%Filtiraj vrijednosti koje odstupaju"
+
+#: .././cogstat_gui.py:135
+msgid "Ctrl+L"
+msgstr "Ctrl+L"
+
+#: .././cogstat_gui.py:158
+msgid "Text is &editable"
+msgstr "Teks je &podložan uređivanju"
+
+#: .././cogstat_gui.py:166
+msgid "Ctrl+Shift+R"
+msgstr "Ctrl+Shift+R"
+
+#: .././cogstat_gui.py:436
+msgid "Filter outlier."
+msgstr "Filtriraj vrijednosti koje odstupaju."
+
+#: .././cogstat_stat.py:668
+msgid "Main effect of %s"
+msgstr "Glavni efekt od &s"
+
+#: .././cogstat_stat.py:670
+msgid "Interaction of factors %s"
+msgstr "Interakcije faktora %s"
+
+#: .././cogstat.py:347
+msgid "Only interval variables can be used for filtering. Ignoring variable %s."
+msgstr "Samo intervalne varijable mogu biti korištene za filtiranje. Ignoriranje varijable %s."
+
+#: .././cogstat.py:729
+msgid "Factors (number of levels): "
+msgstr "Faktori (broj razina): "
+
+#: .././cogstat.py:880
+msgid "Interval variables with several factors."
+msgstr "Intervalne varijable sa nekoliko faktora."
+
+#: .././cogstat.py:881
+msgid "Choosing repeated measures ANOVA."
+msgstr "Biranje ANOVE s ponovljenim mjerenjima."
+
+#: .././cogstat.py:885
+msgid "Ordinal variables with several factors."
+msgstr "Ordinalne varijable sa nekoliko faktora."
+
+#: .././cogstat.py:888
+msgid "Nominal variables with several factors."
+msgstr "Nominalne varijable sa nekoliko faktora."
+
+#: ../ui/filter_outlier.py:69
+msgid "Filter outlier"
+msgstr "Filtriraj vrijednosti koje odstupaju."
+
+#: ../ui/factors.py:41
+msgid "Factors"
+msgstr "Faktori"
+
+#: ../ui/factors.py:42
+msgid "Add factor"
+msgstr "Dodati faktor"
+
+#: ../ui/factors.py:43
+msgid "Alt+A"
+msgstr "Alt+A"
+
+#: ../ui/factors.py:44
+msgid "Modify factor"
+msgstr "Promijeni faktor"
+
+#: ../ui/factors.py:45
+msgid "Alt+M"
+msgstr "Alt+M"
+
+#: ../ui/factors.py:46
+msgid "Remove factor"
+msgstr "Ukloni faktor"
+
+#: ../ui/factors.py:47
+msgid "Alt+R"
+msgstr "Alt+R"
+
+#: ../ui/compare_vars.py:70
+msgid "Factors..."
+msgstr "Faktori..."
+
+#: ../ui/compare_vars.py:71
+msgid "Alt+F"
+msgstr "Alt+F"
+
+#: ../ui/factor.py:43
+msgid "Set factor"
+msgstr "Odredi faktor"
+
+#: ../ui/factor.py:44
+msgid "Name of the factor"
+msgstr "Naziv faktora"
+
+#: ../ui/factor.py:45
+msgid "Number of levels"
+msgstr "Broj razina"
+
+#: ../ui/filter_outlier.py:74
+msgid "Only interval variables are available"
+msgstr "Samo intervalne varijable su dostupne"
 
