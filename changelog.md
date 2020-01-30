@@ -7,7 +7,7 @@ Upcoming release
 ## New features
 - Behavioral data diffusion analysis
 
-1.9.0 (2020)
+1.9.0 (20 January 2020)
 ================
 
 ## New features
