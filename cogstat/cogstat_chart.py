@@ -15,10 +15,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.pylab
 
-try:
-    from statsmodels.graphics.mosaicplot import mosaic
-except:
-    pass
+from statsmodels.graphics.mosaicplot import mosaic
 
 from . import cogstat_config as csc
 from . import cogstat_stat as cs_stat
@@ -491,15 +488,11 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
         import itertools
         graph = []
         for var_pair in itertools.combinations(var_names, 2):
-            # workaround to draw mosaic plots with zero cell, see #1
             # fig, rects = mosaic(data_frame, [var_pair[1], var_pair[0]]) # previous version
             ct = pd.crosstab(data_frame[var_pair[0]], data_frame[var_pair[1]]).sort_index(axis='index',
                                                                                           ascending=False) \
                 .unstack()
-            if 0 in ct.values:
-                fig, rects = mosaic(ct + 1e-9, label_rotation=[0.0, 90.0])
-            else:
-                fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
+            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
             fig.set_facecolor(csc.bg_col)
             ax = plt.subplot(111)
             ax.set_xlabel(var_pair[1])
@@ -631,14 +624,10 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             _set_axis_measurement_level(ax, 'nom', 'int')
         graph = fig
     elif meas_level in ['nom']:
-        # workaround to draw mosaic plots with zero cell, see #1
         #fig, rects = mosaic(data_frame, [groups[0], var_names[0]])  # previous version
         ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()
         #print ct
-        if 0 in ct.values:
-            fig, rects = mosaic(ct+1e-9, label_rotation=[0.0, 90.0])
-        else:
-            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
+        fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
         fig.set_facecolor(csc.bg_col)
         ax = plt.subplot(111)
         ax.set_xlabel(' : '.join(groups))
