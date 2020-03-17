@@ -6,6 +6,7 @@ Upcoming release
 
 ## New features
 - Behavioral data diffusion analysis
+- Find text in results
 
 1.9.0 (30 January 2020)
 ================

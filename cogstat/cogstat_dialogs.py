@@ -3,7 +3,7 @@
 import gettext
 import os
 from . import cogstat_config as csc
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 QString = str
 
@@ -579,9 +579,29 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
                 self.single_case_slope_SEs, int(self.single_case_slope_trial_n))
 
 
+from .ui import find_text
+class find_text_dialog(QtWidgets.QDialog, find_text.Ui_Dialog):
+    def __init__(self, parent=None, output_pane=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.output_pane = output_pane
+        self.pushButton_next.clicked.connect(self.find_forward_text)
+        self.pushButton_previous.clicked.connect(self.find_backward_text)
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.Close).clicked.connect(self.reject)
+        self.lineEdit.setFocus()
+        self.show()
+
+    def find_forward_text(self):
+        self.output_pane.find(self.lineEdit.text())
+
+    def find_backward_text(self):
+        self.output_pane.find(self.lineEdit.text(), QtGui.QTextDocument.FindBackward)
+
+
 from .ui import preferences
 class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.setModal(True)
