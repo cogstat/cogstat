@@ -414,12 +414,7 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
 
         #mosaic(data_frame, [x, y])  # Previous version
-        if 0 in cont_table_data.values:
-            fig, rects = mosaic(cont_table_data.unstack()+1e-9, label_rotation=[0.0, 90.0])
-            # this is a workaround for mosaic limitation, which cannot draw cells with 0 frequency
-            # see https://github.com/cogstat/cogstat/issues/1
-        else:
-            fig, rects = mosaic(cont_table_data.unstack(), label_rotation=[0.0, 90.0])
+        fig, rects = mosaic(cont_table_data.unstack(), label_rotation=[0.0, 90.0])
         fig.set_facecolor(csc.bg_col)
         ax = plt.subplot(111)
         ax.set_xlabel(x)
