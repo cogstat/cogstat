@@ -446,7 +446,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
             # correction=True in order to work like the R wilcox.test
         text_result += _('Result of Wilcoxon signed-rank test')+': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
 
-        image = cs_chart.create_variable_popuplation_chart_2(data, var_name)
+        image = cs_chart.create_variable_population_chart_2(data, var_name)
     else:
         text_result += _('Wilcoxon signed-rank test is computed only for interval or ordinal variables.')
         image = None

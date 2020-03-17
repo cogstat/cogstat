@@ -51,8 +51,8 @@ matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
 if csc.language == 'th':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
 #print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
-matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size # title of the charts
-matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size # labels of the axis
+matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
+matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axis
 #print matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize']
 #print matplotlib.rcParams['figure.facecolor']
 #matplotlib.rcParams['figure.facecolor'] = csc.bg_col
@@ -60,7 +60,7 @@ matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size # labels of the axis
 #print matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor']
 if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
     #print matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor'])
-    matplotlib.rcParams['axes.edgecolor'] = 'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor'])==(0, 0, 0, 0) else 'k'
+    matplotlib.rcParams['axes.edgecolor'] = 'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']) == (0, 0, 0, 0) else 'k'
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -73,6 +73,7 @@ if rtl_lang:
     _plt = lambda text: get_display(t.gettext(text))
 else:
     _plt = t.gettext
+
 
 def _wrap_labels(labels):
     """
@@ -95,7 +96,7 @@ def _wrap_labels(labels):
     return wrapped_labels
 
 
-def _set_axis_measurement_level (ax, x_measurement_level, y_measurement_level):
+def _set_axis_measurement_level(ax, x_measurement_level, y_measurement_level):
     """
     Set the axes types of the graph acording to the measurement levels of the variables.
     :param ax: ax object
@@ -117,6 +118,7 @@ def _set_axis_measurement_level (ax, x_measurement_level, y_measurement_level):
 ####################################
 ### Charts for Explore variables ###
 ####################################
+
 
 def create_variable_raw_chart(pdf, data_measlevs, var_name, data):
     """
@@ -316,7 +318,7 @@ def create_variable_population_chart(data, var_name, ci):
     return plt.gcf()
 
 
-def create_variable_popuplation_chart_2(data, var_name):
+def create_variable_population_chart_2(data, var_name):
     # TODO merge with create_variable_popuplation_chart
     plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.35))
     plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar
@@ -404,7 +406,7 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             ax.set_ylabel(_plt('Rank of %s') % y)
         graph = plt.gcf()
     elif meas_lev in ['nom']:
-        cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y]) # TODO use data instead?
+        cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
 
         #mosaic(data_frame, [x, y])  # Previous version
         if 0 in cont_table_data.values:
@@ -454,7 +456,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             plt.title(_plt('Boxplots and individual data of the variables'))
         # Display individual data
         # Find the value among all variables with the largest frequency
-        max_freq = max([max(data.iloc[:,[i,i+1]].groupby([data.columns[i], data.columns[i+1]]).size()) for i in range(len(data.columns) - 1)])
+        max_freq = max([max(data.iloc[:, [i, i+1]].groupby([data.columns[i], data.columns[i+1]]).size()) for i in range(len(data.columns) - 1)])
         for i in range(len(data.columns) - 1):  # for all pairs
             # Prepare the frequencies for the plot
             # Create dataframe with value pairs and their frequencies
@@ -468,7 +470,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
                          solid_capstyle='round')
         if max_freq > 1:
             plt.suptitle(_plt('Thickest line displays %d cases.') % max_freq, x=0.9, y=0.025,
-                     horizontalalignment='right', fontsize=10)
+                         horizontalalignment='right', fontsize=10)
         # Display boxplots
         if not raw_data:
             box1 = ax.boxplot(variables, whis='range')
