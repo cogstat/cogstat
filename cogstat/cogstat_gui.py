@@ -144,7 +144,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-scatter-plot-48.png', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), 'self.explore_variable_pair', True],
                                 ['separator'],
                                 ['/icons8-pivot-table-48.png', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
-                                #['/icons8-electrical-threshold-48.png', _('Behavioral data di&ffusion analysis') + '...', 'Ctrl+F', 'self.diffusion', True],
+                                ['/icons8-electrical-threshold-48.png', _('Behavioral data di&ffusion analysis') + '...', 'Ctrl+F', 'self.diffusion', True],
                                 ['separator'],
                                 ['/icons8-combo-chart-48.png', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', 'self.compare_variables', True],
                                 ['/icons8-bar-chart-48.png', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups', True],
@@ -181,7 +181,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Enable these commands only when active_data is available
         self.analysis_commands = [_('&Save data'), _('Save data &as')+'...', _('&Display data'), _('Display data &briefly'), _('&Filter outliers')+'...',
                                   _('Pivot &table')+'...', _('&Explore variable')+'...',
-                                  #_('Behavioral data di&ffusion analysis') + '...',
+                                  _('Behavioral data di&ffusion analysis') + '...',
                                   _('Explore relation of variable &pair')+'...', _('Compare repeated measures va&riables')+'...', _('Compare &groups')+'...',
                                   _('&Compare groups and variables')+'...']
 
