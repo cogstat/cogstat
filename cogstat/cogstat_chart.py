@@ -298,8 +298,13 @@ def create_normality_chart(data, var_name):
     # QQ plot
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    sm.graphics.qqplot(data, line='s', ax=ax)  # TODO set the color
+    sm.graphics.qqplot(data, line='s', ax=ax, color=theme_colors[0])
+    # Change the red line color (otherwise we should separately call the sm.qqline() function)
+    lines = fig.findobj(lambda x: hasattr(x, 'get_color') and x.get_color() == 'r')
+    [d.set_color(theme_colors[1]) for d in lines]
     plt.title(_plt('Quantile-quantile plot'))
+    plt.xlabel(_plt('Normal theoretical quantiles'))
+    plt.ylabel(_plt('Sample quantiles'))
     ax = plt.gca()
     _set_axis_measurement_level(ax, 'int', 'int')
     qq_plot = plt.gcf()
