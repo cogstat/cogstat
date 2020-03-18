@@ -60,7 +60,6 @@ try:
     theme = config['graph']['theme']
 except:
     theme = ''
-bg_col = config['graph']['background color']
 ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
 fig_size_y = int(config['graph']['graph y size'])

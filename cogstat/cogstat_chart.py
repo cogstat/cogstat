@@ -52,7 +52,6 @@ matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the cha
 matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axis
 #print matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize']
 #print matplotlib.rcParams['figure.facecolor']
-#matplotlib.rcParams['figure.facecolor'] = csc.bg_col
 # Make sure that the axes are visible
 #print matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor']
 if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
@@ -410,7 +409,6 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
         fig, rects = mosaic(cont_table_data.sort_index(ascending=False, level=1).unstack(), label_rotation=[0.0, 90.0])  # sort the index to have the same order on the chart as in the table
-        fig.set_facecolor(csc.bg_col)
         ax = plt.subplot(111)
         ax.set_xlabel(x)
         ax.set_ylabel(y)
@@ -486,7 +484,6 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
                                                                                           ascending=False) \
                 .unstack()  # sort the index to have the same order on the chart as in the table
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
-            fig.set_facecolor(csc.bg_col)
             ax = plt.subplot(111)
             ax.set_xlabel(var_pair[1])
             ax.set_ylabel(var_pair[0])
@@ -619,7 +616,6 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
         #print ct
         fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
-        fig.set_facecolor(csc.bg_col)
         ax = plt.subplot(111)
         ax.set_xlabel(' : '.join(groups))
         ax.set_ylabel(var_names[0])
