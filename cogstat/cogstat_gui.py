@@ -73,7 +73,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # It will be useful when we can rerun all the previous analysis in the GUI output
         # At the moment no former results can be manipulated later
 
-        cogstat.output_type = 'gui'  # For some GUI specific formatting
+        csc.output_type = 'gui'  # For some GUI specific formatting
 
         self.check_for_update()
 
