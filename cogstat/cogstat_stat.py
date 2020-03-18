@@ -453,13 +453,14 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     return text_result, image
 
 
-def print_var_stats(pdf, var_names, groups=None, statistics=[]):
+def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     """
     Computes descriptive stats for variables and/or groups.
 
     arguments:
     var_names: list of variable names to use
     groups: list of grouping variable names
+    meas_levs:
     statistics: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in the
             stat_names list
 
@@ -467,7 +468,8 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
     """
     stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin': _('Minimum'),
                   'amax': _('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile': _('Upper quartile'),
-                  'skew': _('Skewness'), 'kurtosis': _('Kurtosis'), 'ptp':_('Range')}
+                  'skew': _('Skewness'), 'kurtosis': _('Kurtosis'), 'ptp': _('Range'),
+                  'variation_ratio': _('Variation ratio')}
     # Create these functions in numpy namespace to enable simple getattr call of them below
     np.lower_quartile = lambda x: np.percentile(x, 25)
     np.upper_quartile = lambda x: np.percentile(x, 75)
@@ -475,10 +477,9 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
     np.skew = lambda x: stats.skew(x, bias=False)
     # with the bias=False it gives the same value as SPSS
     np.kurtosis = lambda x: stats.kurtosis(x, bias=False)
+    np.variation_ratio = lambda x: 1 - (sum(x == stats.mode(x)[0][0]) / len(x))
 
     text_result = ''
-    if sum([pdf[var_name].dtype == 'object' for var_name in var_names]):
-         raise RuntimeError('only numerical variables can be used in print_var_stats')
     # Compute only variable statistics
     if not groups:
         # drop all data with NaN pair
@@ -486,10 +487,12 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
         pdf_result = pd.DataFrame(columns=var_names)
         text_result += _('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')
         for var_name in var_names:
-            prec = cs_util.precision(data[var_name])+1
+            if meas_levs[var_name] != 'nom':
+                prec = cs_util.precision(data[var_name])+1
             for stat in statistics:
                 pdf_result.loc[stat_names[stat], var_name] = '%0.*f' % \
-                                                             (prec, getattr(np, stat)(data[var_name].dropna()))
+                                                             (2 if stat == 'variation_ratio' else prec,
+                                                              getattr(np, stat)(data[var_name].dropna()))
     # There is at least one grouping variable
     else:
         # missing groups and values will be dropped
@@ -505,10 +508,12 @@ def print_var_stats(pdf, var_names, groups=None, statistics=[]):
 #        text_result += pdf_result.T.to_html()
         for group_label, group_data in zip(groups, grouped_data):
             if len(group_data):
-                prec = cs_util.precision(group_data) + 1
+                if meas_levs[var_names[0]] != 'nom':
+                    prec = cs_util.precision(group_data) + 1
                 for stat in statistics:
                     pdf_result.loc[stat_names[stat], group_label] = '%0.*f' % \
-                                                                    (prec, getattr(np, stat)(group_data.dropna()))
+                                                                    (2 if stat == 'variation_ratio' else prec,
+                                                                     getattr(np, stat)(group_data.dropna()))
             else:  # TODO can we remove this part?
                 text_result += _('No data')
                 for stat in statistics:

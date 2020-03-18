@@ -7,6 +7,7 @@ Upcoming release
 ## New features
 - Behavioral data diffusion analysis
 - Find text in results
+- Variation ratio for nominal variables
 - Various output refinements
 
 1.9.0 (30 January 2020)

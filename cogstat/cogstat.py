@@ -485,15 +485,18 @@ class CogStatData:
             text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level) + '\n\n'
 
         # Descriptives
-        if self.data_measlevs[var_name] != 'nom':  # there is no descriptive for nominal variable here
-            if self.data_measlevs[var_name] in ['int', 'unk']:
-                text_result += cs_stat.print_var_stats(self.data_frame, [var_name],
-                                                       statistics=['mean', 'std', 'skew', 'kurtosis', 'ptp',
-                                                                   'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
-            elif self.data_measlevs[var_name] == 'ord':
-                text_result += cs_stat.print_var_stats(self.data_frame, [var_name],
-                                                       statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+        if self.data_measlevs[var_name] in ['int', 'unk']:
+            text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
+                                                   statistics=['mean', 'std', 'skew', 'kurtosis', 'ptp', 'amax',
+                                                               'upper_quartile', 'median', 'lower_quartile', 'amin'])
+        elif self.data_measlevs[var_name] == 'ord':
+            text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
+                                                   statistics=['amax', 'upper_quartile', 'median', 'lower_quartile',
+                                                               'amin'])
             # TODO boxplot also
+        elif self.data_measlevs[var_name] == 'nom':
+            text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
+                                                   statistics=['variation_ratio'])
         result_list.append(text_result)
 
         # Distribution
@@ -782,12 +785,14 @@ class CogStatData:
         sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
         if meas_level in ['int', 'unk']:
-            sample_result += cs_stat.print_var_stats(self.data_frame, var_names,
+            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
                              statistics=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
         elif meas_level == 'ord':
-            sample_result += cs_stat.print_var_stats(self.data_frame, var_names,
+            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
                              statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
         elif meas_level == 'nom':
+            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
+                             statistics=['variation_ratio'])
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
                 cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])
@@ -963,12 +968,19 @@ class CogStatData:
             sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
             if meas_level in ['int', 'unk']:
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                 statistics=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                         groups=groups,
+                                                         statistics=['mean', 'std', 'amax', 'upper_quartile', 'median',
+                                                                     'lower_quartile', 'amin'])
             elif meas_level == 'ord':
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                         groups=groups,
+                                                         statistics=['amax', 'upper_quartile', 'median',
+                                                                     'lower_quartile', 'amin'])
             elif meas_level == 'nom':
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                         groups=groups,
+                                                         statistics=['variation_ratio'])
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
                 sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
 
@@ -1171,12 +1183,19 @@ class CogStatData:
             sample_result = '<h4>' + _('Sample properties') + '</h4>'
 
             if meas_level in ['int', 'unk']:
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                                         statistics=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                         groups=groups,
+                                                         statistics=['mean', 'std', 'amax', 'upper_quartile', 'median',
+                                                                     'lower_quartile', 'amin'])
             elif meas_level == 'ord':
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], groups=groups,
-                                                         statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                         groups=groups,
+                                                         statistics=['amax', 'upper_quartile', 'median',
+                                                                     'lower_quartile', 'amin'])
             elif meas_level == 'nom':
+                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                         groups=groups,
+                                                         statistics=['variation_ratio'])
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]],
                                               [self.data_frame[groups[i]] for i in range(len(groups))])  # , rownames = [x], colnames = [y])
                 sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
