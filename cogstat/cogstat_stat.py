@@ -737,8 +737,8 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
     group_means_pdf = pd.DataFrame()
     if meas_level in ['int', 'unk']:
         pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
-        means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]
-        cis = pdf.groupby(groups, sort=False).aggregate(confidence_interval_t)[var_names[0]]
+        means = pdf.groupby(groups, sort=True).aggregate(np.mean)[var_names[0]]
+        cis = pdf.groupby(groups, sort=True).aggregate(confidence_interval_t)[var_names[0]]
         group_means_pdf[_('Point estimation')] = means
         # APA format, but cannot be used the numbers if copied to spreadsheet
         #group_means_pdf[_('95% confidence interval')] = '['+ (means-cis).map(str) + ', ' + (means+cis).map(str) + ']'
