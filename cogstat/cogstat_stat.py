@@ -106,7 +106,7 @@ def _format_html_table(html_table):
 
     :return: str html
     """
-    if False:
+    if csc.output_type == 'gui':
         # Because qt does not support table borders, use padding to have a more reviewable table
         return '<style> th, td {padding-right: 5px; padding-left: 5px} </style>' + html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
     else:
