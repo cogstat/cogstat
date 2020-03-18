@@ -409,9 +409,7 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         graph = plt.gcf()
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
-
-        #mosaic(data_frame, [x, y])  # Previous version
-        fig, rects = mosaic(cont_table_data.unstack(), label_rotation=[0.0, 90.0])
+        fig, rects = mosaic(cont_table_data.sort_index(ascending=False, level=1).unstack(), label_rotation=[0.0, 90.0])  # sort the index to have the same order on the chart as in the table
         fig.set_facecolor(csc.bg_col)
         ax = plt.subplot(111)
         ax.set_xlabel(x)
@@ -488,10 +486,9 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
         import itertools
         graph = []
         for var_pair in itertools.combinations(var_names, 2):
-            # fig, rects = mosaic(data_frame, [var_pair[1], var_pair[0]]) # previous version
             ct = pd.crosstab(data_frame[var_pair[0]], data_frame[var_pair[1]]).sort_index(axis='index',
                                                                                           ascending=False) \
-                .unstack()
+                .unstack()  # sort the index to have the same order on the chart as in the table
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
             fig.set_facecolor(csc.bg_col)
             ax = plt.subplot(111)
@@ -624,8 +621,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             _set_axis_measurement_level(ax, 'nom', 'int')
         graph = fig
     elif meas_level in ['nom']:
-        #fig, rects = mosaic(data_frame, [groups[0], var_names[0]])  # previous version
-        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()
+        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
         #print ct
         fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
         fig.set_facecolor(csc.bg_col)
