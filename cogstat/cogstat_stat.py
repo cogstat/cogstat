@@ -101,12 +101,12 @@ def _split_into_groups(pdf, var_name, grouping_name):
     return level_combinations, grouped_data
 
 
-def _format_html_table(html_table, add_style=False):
+def _format_html_table(html_table):
     """Format html table
 
     :return: str html
     """
-    if add_style:
+    if False:
         # Because qt does not support table borders, use padding to have a more reviewable table
         return '<style> th, td {padding-right: 5px; padding-left: 5px} </style>' + html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
     else:
@@ -175,8 +175,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
                 ptable = pd.pivot_table(df, values=depend_name, index=row_names, columns=col_names,
                                         aggfunc=eval(function_code[function]))
                 ptable_result = '%s\n%s' % (ptable_result, _format_html_table(ptable.
-                                            to_html(bold_rows=False, sparsify=False, float_format=format_output),
-                                                                              add_style=False))
+                                            to_html(bold_rows=False, sparsify=False, float_format=format_output)))
             else:
                 temp_result = eval(function_code[function])(np.array(df[depend_name]))
                 # TODO convert to html output; when ready stop using fix_width_font

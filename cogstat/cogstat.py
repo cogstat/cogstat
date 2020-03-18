@@ -358,7 +358,7 @@ class CogStatData:
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
                     text_output += _('The following cases will be excluded: ')
-                    text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False), add_style=False)
+                    text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False))
                 else:
                     text_output += _('No cases were excluded.') + '\n'
             self.data_frame = self.orig_data_frame.copy()
