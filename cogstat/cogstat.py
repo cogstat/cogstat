@@ -50,9 +50,6 @@ warn_unknown_variable = '<warning>'+_('The measurement levels of the variables a
                         % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                         + '\n<default>'  # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
 
-output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
-                    # any other code will leave the output (e.g., for testing)
-
 app_devicePixelRatio = 1.0 # this will be overwritten from cogstat_gui; this is needed for high dpi screens
 
 class CogStatData:
@@ -400,13 +397,13 @@ class CogStatData:
                 # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding
                 # this should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI
 
-        if output_type in ['ipnb', 'gui']:
+        if csc.output_type in ['ipnb', 'gui']:
             # convert custom notation to html
             new_output = []
             for i, output in enumerate(outputs):
                 if isinstance(output, Figure):
                     # For gui convert matplotlib to qImage
-                    new_output.append(output if output_type == 'ipnb' else _figure_to_qimage(output))
+                    new_output.append(output if csc.output_type == 'ipnb' else _figure_to_qimage(output))
                 elif isinstance(output, str):
                     new_output.append(cs_util.reformat_output(output))
                 elif isinstance(output, list):  # flat list

@@ -7,6 +7,12 @@ import configobj  # Would it be better to use the standard configparser module?
 from . import appdirs
 import os
 
+# Settings not handled in cogstat.ini
+output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
+                    # any other code will leave the output (e.g., for testing)
+
+
+# Handle cogstat.ini file
 dirs = appdirs.AppDirs('cogstat')
 
 if not os.path.isfile(dirs.user_config_dir+'/cogstat.ini'):
