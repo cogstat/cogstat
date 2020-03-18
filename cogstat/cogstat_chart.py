@@ -416,11 +416,7 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         ax.set_ylabel(y)
         plt.title(_plt('Mosaic plot of the variables'))
         _set_axis_measurement_level(ax, 'nom', 'nom')
-        try:
-            graph = plt.gcf()
-        except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
-            print('Error, the mosaic plot can not be drawn with those data.')
-
+        graph = plt.gcf()
     return graph
 
 
@@ -496,10 +492,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             ax.set_ylabel(var_pair[0])
             plt.title(_plt('Mosaic plot of the variables'))
             _set_axis_measurement_level(ax, 'nom', 'nom')
-            try:
-                graph.append(plt.gcf())
-            except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
-                intro_result = '\n' + _('Sorry, the mosaic plot can not be drawn with those data.')
+            graph.append(plt.gcf())
     return graph
 
 
@@ -630,10 +623,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         ax.set_ylabel(var_names[0])
         plt.title(_plt('Mosaic plot of the groups'))
         _set_axis_measurement_level(ax, 'nom', 'nom')
-        try:
-            graph = fig
-        except:  # in some cases mosaic cannot be drawn  # TODO how to solve this?
-            print('Sorry, the mosaic plot can not be drawn with those data.')
+        graph = fig
     else:
         graph = None
     return graph
