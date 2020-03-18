@@ -806,7 +806,10 @@ class CogStatData:
         mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
         if meas_level in ['int', 'unk']:
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
-        population_result += cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+        prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+        population_result += \
+            cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
+                                                                float_format=lambda x: '%0.*f' % (prec, x)))
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, self.data_frame)
 
@@ -993,7 +996,10 @@ class CogStatData:
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
             if meas_level in ['int', 'unk']:
                 population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
-                population_result += cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+                prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+                population_result += \
+                    cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
+                                                                        float_format=lambda x: '%0.*f' % (prec, x)))
             standardized_effect_size_result = None
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
@@ -1209,7 +1215,10 @@ class CogStatData:
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
-            population_result += cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False))
+            prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+            population_result += \
+                cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
+                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
 
             result_ht = '<decision>' + _('Hypothesis testing: ')
             if meas_level in ['int', 'unk']:

@@ -10,6 +10,9 @@ Upcoming release
 - Variation ratio for nominal variables
 - Various output refinements
 
+## Fixes
+- Various output fixes
+
 1.9.0 (30 January 2020)
 ================
 
