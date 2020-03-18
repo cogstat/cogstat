@@ -570,6 +570,8 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             plt.setp(box1['caps'], color=theme_colors[0])
             plt.setp(box1['medians'], color=theme_colors[0])
             plt.setp(box1['fliers'], color=theme_colors[0])
+        else:
+            ax.set_xlim(0.5, len(group_levels) + 0.5)
         # Display individual data
         # Find the value among all groups with the largest frequency
         max_freq = max([max(variables[var_i].value_counts()) for var_i in range(len(variables))])
