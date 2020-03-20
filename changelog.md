@@ -5,13 +5,15 @@ Upcoming release
 ================
 
 ## New features
-- Behavioral data diffusion analysis
-- Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
-- Variation ratio for nominal variables
+- Statistical analysis
+    - Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
+    - Variation ratio for nominal variables
+    - Various output refinements
+- Data analysis
+    - Behavioral data diffusion analysis
 - Charts
     - Set minimum and maximum axes values for interval and ordinal variables in variable pair, compare repeated measures and compare groups analyses   
     - Various chart refinements
-- Various output refinements
 - GUI
     - Find text in results
 
