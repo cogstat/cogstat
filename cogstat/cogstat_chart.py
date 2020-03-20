@@ -336,7 +336,8 @@ def create_variable_population_chart_2(data, var_name):
 #########################################
 
 
-def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=False):
+def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=False, xlims=[None, None],
+                               ylims=[None, None]):
     """
 
     :param data:
@@ -347,6 +348,8 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
     :param y:
     :param data_frame:
     :param raw_data:
+    :param xlims: List of values that may overwrite the automatic xlim values for interval and ordinal variables
+    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
     :return:
     """
     if meas_lev in ['int', 'ord']:
@@ -405,6 +408,16 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             plt.title(_plt('Scatterplot of the rank of the variables'))
             ax.set_xlabel(_plt('Rank of %s') % x)
             ax.set_ylabel(_plt('Rank of %s') % y)
+        # Set manual xlim values
+        if xlims[0]:
+            ax.set_xlim(left=xlims[0])
+        if xlims[1]:
+            ax.set_xlim(right=xlims[1])
+        # Set manual ylim values
+        if ylims[0]:
+            ax.set_ylim(bottom=ylims[0])
+        if ylims[1]:
+            ax.set_ylim(top=ylims[1])
         graph = plt.gcf()
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
@@ -423,13 +436,14 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
 #########################################
 
 
-def create_repeated_measures_sample_chart(data, var_names, meas_level, data_frame, raw_data=False):
+def create_repeated_measures_sample_chart(data, var_names, meas_level, data_frame, raw_data=False, ylims=[None, None]):
     """
     :param data:
     :param var_names:
     :param meas_level:
     :param data_frame:
     :param raw_data:
+    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
     :return:
     """
     graph = None
@@ -473,6 +487,12 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             ax.set_xlim(0.5, len(var_names) + 0.5)
         plt.xticks(list(range(1, len(var_names) + 1)), _wrap_labels(var_names))
         plt.ylabel(_('Value'))
+        # Set manual ylim values
+        if ylims[0]:
+            ax.set_ylim(bottom=ylims[0])
+        if ylims[1]:
+            ax.set_ylim(top=ylims[1])
+
         if meas_level in ['int', 'unk']:
             _set_axis_measurement_level(ax, 'nom', 'int')
         graph = plt.gcf()
@@ -493,8 +513,9 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
     return graph
 
 
-def create_repeated_measures_population_chart(data, var_names, meas_level, data_frame):
+def create_repeated_measures_population_chart(data, var_names, meas_level, data_frame, ylims=[None, None]):
     """Draw means with CI for int vars, and medians for ord vars.
+    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
     """
     graph = None
     if meas_level in ['int', 'unk']:
@@ -516,6 +537,12 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, data_
                    color=theme_colors[0], ecolor='0')
         plt.xticks(list(range(len(var_names))), _wrap_labels(var_names))
         plt.ylabel(_plt('Value'))
+        # Set manual ylim values
+        if ylims[0]:
+            ax.set_ylim(bottom=ylims[0])
+        if ylims[1]:
+            ax.set_ylim(top=ylims[1])
+
         _set_axis_measurement_level(ax, 'nom', 'int')
         graph = plt.gcf()
     return graph
@@ -526,7 +553,8 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, data_
 #################################
 
 
-def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups, group_levels, raw_data_only=False):
+def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups, group_levels, raw_data_only=False,
+                                       ylims=[None, None]):
     """Display the boxplot of the groups with individual data or the mosaic plot
 
     :param data_frame: The data frame
@@ -536,6 +564,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     :param group_levels: List of lists or tuples with group levels (1 grouping variable) or group level combinations
     (more than 1 grouping variables)
     :param raw_data_only: Only the raw data are displayed
+    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
     :return:
     """
     if meas_level in ['int', 'ord']:  # TODO 'unk'?
@@ -585,6 +614,11 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         if max_freq > 1:
             plt.suptitle(_plt('Largest individual sign displays %d cases.') % max_freq, x=0.9, y=0.025,
                          horizontalalignment='right', fontsize=10)
+        # Set manual ylim values
+        if ylims[0]:
+            ax.set_ylim(bottom=ylims[0])
+        if ylims[1]:
+            ax.set_ylim(top=ylims[1])
         # Add labels
         plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
         plt.xlabel(' : '.join(groups))
@@ -627,8 +661,9 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     return graph
 
 
-def create_compare_groups_population_chart(data_frame, meas_level, var_names, groups, group_levels):
+def create_compare_groups_population_chart(data_frame, meas_level, var_names, groups, group_levels, ylims=[None, None]):
     """Draw means with CI for int vars, and medians for ord vars.
+    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
     """
     graph = None
     #    if len(groups) == 1:
@@ -659,5 +694,12 @@ def create_compare_groups_population_chart(data_frame, meas_level, var_names, gr
                    _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
         plt.xlabel(' : '.join(groups))
         plt.ylabel(var_names[0])
+
+        # Set manual ylim values
+        if ylims[0]:
+            ax.set_ylim(bottom=ylims[0])
+        if ylims[1]:
+            ax.set_ylim(top=ylims[1])
+
         graph = fig
     return graph

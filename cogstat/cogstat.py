@@ -585,11 +585,13 @@ class CogStatData:
         result_list.append(text_result)
         return self._convert_output(result_list)
 
-    def explore_variable_pair(self, x, y):
+    def explore_variable_pair(self, x, y, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
 
         :param x: name of x variable (str)
         :param y: name of y variable (str)
+        :param xlims: List of values that may overwrite the automatic xlim values for interval and ordinal variables
+        :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
         :return:
         """
         plt.close('all')
@@ -612,9 +614,10 @@ class CogStatData:
 
         # Raw data chart
         temp_raw_result = cs_stat.var_pair_contingency_table(meas_lev, x, y, self.data_frame)
-        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, self.data_frame,
-                                                         raw_data=True)  # slope and intercept are set to 0, but they
-                                                                         # are not used with raw_data
+        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, self.data_frame, raw_data=True,
+                                                        xlims=xlims, ylims=ylims)
+                                                        # slope and intercept are set to 0, but they
+                                                        # are not used with raw_data
 
         # 2-3. Sample and population properties
         sample_result = '<h4>'+_('Sample properties')+'</h4>'
@@ -686,7 +689,8 @@ class CogStatData:
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev in ['int', 'unk']:
             temp_text_result = cs_stat.var_pair_contingency_table(meas_lev, x, y, self.data_frame)
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, self.data_frame)
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, self.data_frame,
+                                                               xlims=xlims, ylims=ylims)
             if temp_text_result:
                 population_result += temp_text_result
         else:
@@ -725,11 +729,12 @@ class CogStatData:
         pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names)
         return self._convert_output([title, pivot_result])
 
-    def compare_variables(self, var_names, factors=[]):
+    def compare_variables(self, var_names, factors=[], ylims=[None, None]):
         """Compare variables
 
         :param var_names: list of variable names (list of str)
         :param factors: list of lists, [['name of the factor', number_of_the_levels], ['name of the factor 2', number_of_the_levels]]
+        :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
         :return:
         """
         plt.close('all')
@@ -769,12 +774,14 @@ class CogStatData:
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
-        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame, raw_data=True)
+        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame,
+                                                                   raw_data=True, ylims=ylims)
 
         # Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
-            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame)
+            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame,
+                                                                          ylims=ylims)
         else:
             sample_graph = None
 
@@ -808,7 +815,8 @@ class CogStatData:
             cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
                                                                 float_format=lambda x: '%0.*f' % (prec, x)))
 
-        population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, self.data_frame)
+        population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level,
+                                                                              self.data_frame, ylims=ylims)
 
         # 3b. Hypothesis tests
         result_ht = '<decision>' + _('Hypothesis testing: ')
@@ -906,13 +914,15 @@ class CogStatData:
 
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])
 
-    def compare_groups(self, var_name, grouping_variables,  single_case_slope_SEs=[], single_case_slope_trial_n=None):
+    def compare_groups(self, var_name, grouping_variables,  single_case_slope_SEs=[], single_case_slope_trial_n=None,
+                       ylims=[None, None]):
         """Compare groups.
 
         :param var_name: name of the dependent variables (str)
         :param grouping_variables: list of names of grouping variables (list of str)
         :param single_case_slope_SEs: list of a single string with the name of the slope SEs for singla case control group
         :param single_case_slope_trial: number of trials in slope calculation for single case
+        :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
         :return:
         """
         plt.close('all')
@@ -954,13 +964,13 @@ class CogStatData:
 
             # Plot individual data
             raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                  group_levels, raw_data_only=True)
+                                                                  group_levels, raw_data_only=True, ylims=ylims)
 
             # Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
                 sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                    group_levels)
+                                                                    group_levels, ylims=ylims)
             else:
                 sample_graph = None
 
@@ -987,7 +997,8 @@ class CogStatData:
             # 3. Population properties
             # Plot population estimations
             mean_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
-            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names, groups, group_levels)
+            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
+                                                                               groups, group_levels, ylims=ylims)
 
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
@@ -1172,13 +1183,13 @@ class CogStatData:
             # Plot individual data
 
             raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                  level_combinations, raw_data_only=True)
+                                                                  level_combinations, raw_data_only=True, ylims=ylims)
 
             # Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
                 sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                         level_combinations)
+                                                                         level_combinations, ylims=ylims)
             else:
                 sample_graph = None
 
@@ -1206,8 +1217,8 @@ class CogStatData:
             # 3. Population properties
             # Plot population estimations
             mean_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
-            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names, groups,
-                                                                level_combinations)
+            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
+                                                                               groups, level_combinations, ylims=ylims)
 
             # Hypothesis testing
             population_result = '<h4>' + _('Population properties') + '</h4>\n'
