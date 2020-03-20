@@ -49,8 +49,10 @@ def get_versions():
     try:
         import matplotlib
         csc.versions['matplotlib'] = matplotlib.__version__
+        csc.versions['matplotlib_backend'] = matplotlib.get_backend()
     except:
         csc.versions['matplotlib'] = None
+        csc.versions['matplotlib_backend'] = None
     try:
         from PyQt5.Qt import PYQT_VERSION_STR
         csc.versions['pyqt'] = PYQT_VERSION_STR
@@ -81,7 +83,7 @@ def get_versions():
         csc.versions['car'] = None
     '''
 
-def print_versions():
+def print_versions(main_window):
     text_output = ''
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
     text_output += 'Platform: %s\n' % csc.versions['platform']
@@ -98,8 +100,9 @@ def print_versions():
     text_output += 'Pandas: %s\n' % csc.versions['pandas']
     text_output += 'Statsmodels: %s\n' % csc.versions['statsmodels']
     text_output += 'Matplotlib: %s\n' % csc.versions['matplotlib']
+    text_output += 'Matplotlib backend: %s\n' % csc.versions['matplotlib_backend']
     text_output += 'PyQt: %s\n' % csc.versions['pyqt']
-    #text_output += 'PyQt QStyle:%s\n' % csc.versions['pyqtstyle']
+    text_output += 'PyQt QStyle:%s\n' % main_window.style().metaObject().className()
     #text_output += 'R: %s\n' % csc.versions['r']
     #text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
     text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
