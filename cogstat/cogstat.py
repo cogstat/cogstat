@@ -1108,7 +1108,7 @@ class CogStatData:
                                   + '\n<default>'
                         anova_result, effect_size_result = cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
                         result_ht += anova_result
-                        standardized_effect_size_result = _('Standardized effect size:') + '\n' + effect_size_result
+                        standardized_effect_size_result = '\n'+_('Standardized effect size:') + '\n' + effect_size_result
 
                     if non_normal_groups:
                         result_ht += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % \
@@ -1244,7 +1244,7 @@ class CogStatData:
             return self._convert_output([title, raw_result])
 
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
-                                     population_graph, result_ht, standardized_effect_size_result])
+                                     standardized_effect_size_result, population_graph, result_ht])
 
 
 def display(results):
