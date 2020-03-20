@@ -408,7 +408,17 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         ci = (cih-cil)/2
         prec = cs_util.precision(data)+1
         ci_text = '[%0.*f, %0.*f]' %(prec, cil, prec, cih)
-        text_result += _('One sample t-test against %g')%float(test_value)+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
+
+        # Sensitivity power analysis
+        from statsmodels.stats.power import TTestPower
+        power_analysis = TTestPower()
+        text_result = _(
+            'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s):') % _(
+            'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
+                                                           alternative='two-sided')
+
+        text_result += _('One sample t-test against %g') % \
+                       float(test_value)+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
         
         # Graph
         image = cs_chart.create_variable_population_chart(data, var_name, ci)
@@ -584,11 +594,19 @@ def paired_t_test(pdf, var_names):
     # Not available in statsmodels
     if len(var_names) != 2:
         return _('Paired t-test requires two variables.')
-    
+
     variables = pdf[var_names].dropna()
+
+    # Sensitivity power analysis
+    from statsmodels.stats.power import TTestPower
+    power_analysis = TTestPower()
+    text_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s):') % _(
+        'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
+                                                       alternative='two-sided')
+
     df = len(variables)-1
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
-    text_result = _('Result of paired samples t-test')+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
+    text_result += _('Result of paired samples t-test')+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
 
     return text_result
 
@@ -801,6 +819,15 @@ def independent_t_test(pdf, var_name, grouping_name):
     lci = mean_diff - t_cl*s_m1m2
     hci = mean_diff + t_cl*s_m1m2
     prec = cs_util.precision(var1.append(var2))+1
+
+    # Sensitivity power analysis
+    from statsmodels.stats.power import TTestIndPower
+    power_analysis = TTestIndPower()
+    text_result += _(
+        'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s):') % _(
+        'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
+                                                       ratio=len(var2) / len(var1), alternative='two-sided')
+
     text_result += _('Difference between the two groups:') +' %0.*f, ' % (prec, mean_diff) + \
                    _('95%% confidence interval [%0.*f, %0.*f]') % (prec, lci, prec, hci)+'\n'
     text_result += _('Result of independent samples t-test:')+' <i>t</i>(%0.3g) = %0.3g, %s\n' % \
@@ -910,6 +937,15 @@ def one_way_anova(pdf, var_name, grouping_name):
     from statsmodels.formula.api import ols
     from statsmodels.stats.anova import anova_lm
     data = pdf.dropna(subset=[var_name, grouping_name])
+
+    # Sensitivity power analysis
+    from statsmodels.stats.power import FTestAnovaPower
+    power_analysis = FTestAnovaPower()
+    text_result += _(
+        'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s):') % _('f') + \
+                   ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
+                                                           k_groups=len(set(data[grouping_name])))
+
     # from IPython import embed; embed()
     # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
@@ -1054,6 +1090,15 @@ def chi_square_test(pdf, var_name, grouping_name):
         cramer_result = _('Cramér\'s V measure of association: ')+'&phi;<i><sub>c</sub></i> = %.3f\n' % cramersv
     except ZeroDivisionError:  # TODO could this be avoided?
         cramer_result = _('Cramér\'s V measure of association cannot be computed (division by zero).')
-    chi_result = _("Result of the Pearson's Chi-square test: ")+'</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
-                                                                  (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
+
+    # Sensitivity power analysis
+    from statsmodels.stats.power import GofChisquarePower
+    power_analysis = GofChisquarePower()
+    chi_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s):') % _(
+        'w') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(), alpha=0.05,
+                                                       power=0.95, n_bins=cont_table_data.size)
+
+    chi_result += _("Result of the Pearson's Chi-square test: ") + \
+                  '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
+                  (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
     return cramer_result, chi_result

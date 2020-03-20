@@ -6,9 +6,11 @@ Upcoming release
 
 ## New features
 - Behavioral data diffusion analysis
-- Find text in results
+- Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
 - Variation ratio for nominal variables
 - Various output refinements
+- GUI
+    - Find text in results
 
 ## Fixes
 - Various output fixes
