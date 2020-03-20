@@ -12,9 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(381, 133)
+        Dialog.resize(393, 133)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(30, 90, 341, 31))
+        self.buttonBox.setGeometry(QtCore.QRect(20, 90, 341, 31))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
         self.buttonBox.setCenterButtons(False)

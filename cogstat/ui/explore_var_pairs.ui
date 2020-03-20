@@ -131,6 +131,19 @@
     <string>&lt;=</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>240</y>
+     <width>88</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Options...</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

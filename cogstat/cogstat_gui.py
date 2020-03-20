@@ -512,7 +512,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_var_pair.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_pair.exec_():
-                var_names = self.dial_var_pair.read_parameters()
+                var_names, xlims, ylims = self.dial_var_pair.read_parameters()
             else:
                 return
         self._busy_signal(True)
@@ -528,7 +528,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         if pass_diag:
                             self.analysis_results.append(GuiResultPackage())
                             self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
-                            result_list = self.active_data.explore_variable_pair(x, y)
+                            result_list = self.active_data.explore_variable_pair(x, y, xlims, ylims)
                             self.analysis_results[-1].add_output(result_list)
                             self._print_to_output_pane()
                         if x == y:
@@ -619,7 +619,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var.exec_():
-                var_names, factors = self.dial_comp_var.read_parameters()  # TODO check if settings are appropriate
+                var_names, factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are appropriate
             else:
                 return
         self._busy_signal(True)
@@ -633,7 +633,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
-                result_list = self.active_data.compare_variables(var_names, factors)
+                result_list = self.active_data.compare_variables(var_names, factors, ylims)
                 for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
                     self.analysis_results[-1].add_output(result)
             except:
@@ -657,7 +657,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
-                var_names, groups, single_case_slope_SEs, single_case_slope_trial_n = self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
+                var_names, groups, single_case_slope_SEs, single_case_slope_trial_n, ylims = self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
             else:
                 return
         self._busy_signal(True)
@@ -671,7 +671,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 try:
                     self.analysis_results.append(GuiResultPackage())
                     self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-                    result_list = self.active_data.compare_groups(var_name, groups,  single_case_slope_SEs, single_case_slope_trial_n)
+                    result_list = self.active_data.compare_groups(var_name, groups, single_case_slope_SEs,
+                                                                  single_case_slope_trial_n, ylims)
                     self.analysis_results[-1].add_output(result_list)
                     self._print_to_output_pane()
                 except:

@@ -48,8 +48,11 @@ class Ui_Dialog(object):
         self.source_listWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.source_listWidget.setObjectName("source_listWidget")
         self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(90, 240, 87, 29))
+        self.pushButton.setGeometry(QtCore.QRect(20, 240, 87, 29))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_2.setGeometry(QtCore.QRect(110, 240, 88, 28))
+        self.pushButton_2.setObjectName("pushButton_2")
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -69,6 +72,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Selected variables"))
         self.pushButton.setText(_translate("Dialog", "Factors..."))
         self.pushButton.setShortcut(_translate("Dialog", "Alt+F"))
+        self.pushButton_2.setText(_translate("Dialog", "Options..."))
 
 
 

@@ -124,6 +124,12 @@ def remove_from_list_widget_with_factors(source_list_widget, target_list_widget,
             source_list_widget.insertItem(find_previous_item_position(source_list_widget, names, item.text().split(' :: ')[1]), item.text().split(' :: ')[1])
             item.setText(item.text().split(' :: ')[0]+' :: ')
 
+def _float_or_none(x):
+    try:
+        return float(x)
+    except:
+        return None
+
 ### Data dialogs ###
 
 from .ui import pivot
@@ -314,6 +320,19 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
                  str(self.ttest_value.text()))
 
 
+from .ui import xylims
+class xylims_dialog(QtWidgets.QDialog, xylims.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+    def read_parameters(self):
+        return [self.lineEdit.text(), self.lineEdit_2.text()], [self.lineEdit_3.text(), self.lineEdit_4.text()]
+
+
 from .ui import explore_var_pairs
 class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
@@ -326,6 +345,11 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
+        self.pushButton.clicked.connect(self.optionsButton_clicked)
+
+        self.xylims_dialog = xylims_dialog(self)
+        self.xlims = [None, None]
+        self.ylims = [None, None]
 
         self.init_vars(names)
         self.show()
@@ -338,9 +362,18 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
         remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
-    
+
+    def optionsButton_clicked(self):
+        if self.xylims_dialog.exec_():
+            self.xlims, self.ylims = self.xylims_dialog.read_parameters()
+            self.xlims[0] = _float_or_none(self.xlims[0])
+            self.xlims[1] = _float_or_none(self.xlims[1])
+            self.ylims[0] = _float_or_none(self.ylims[0])
+            self.ylims[1] = _float_or_none(self.ylims[1])
+
     def read_parameters(self):
-        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+               self.xlims, self.ylims
 
 
 from .ui import factor
@@ -402,6 +435,18 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
         return [self.listWidget.item(i).text() for i in range(self.listWidget.count())]
         #return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
+from .ui import ylims
+class ylims_dialog(QtWidgets.QDialog, ylims.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+    def read_parameters(self):
+        return [self.lineEdit.text(), self.lineEdit_2.text()]
+
 
 from .ui import compare_vars
 class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
@@ -416,9 +461,12 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.factorsButton_clicked)
+        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
 
         self.factors_dialog = factors_dialog(self)
+        self.ylims_dialog = ylims_dialog(self)
         self.factors = []
+        self.ylims = [None, None]
 
         self.init_vars(names)
         self.show()
@@ -489,12 +537,18 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                             find_previous_item_position(self.source_listWidget, self.names, item.text()),
                             item.text())
 
+    def optionsButton_clicked(self):
+        if self.ylims_dialog.exec_():
+            self.ylims = self.ylims_dialog.read_parameters()
+            self.ylims[0] = _float_or_none(self.ylims[0])
+            self.ylims[1] = _float_or_none(self.ylims[1])
+
     def read_parameters(self):
         if len(self.factors) > 1:
-            return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())], self.factors
+            return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())], self.factors, self.ylims
         else:
             return [str(self.selected_listWidget.item(i).text()) for i in
-                    range(self.selected_listWidget.count())], self.factors
+                    range(self.selected_listWidget.count())], self.factors, self.ylims
 
 from .ui import compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_single_case_slope.Ui_Dialog):
@@ -544,9 +598,12 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.add_group_button.clicked.connect(self.add_group)
         self.remove_group_button.clicked.connect(self.remove_group)
         self.pushButton.clicked.connect(self.on_slopeButton_clicked)
+        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
 
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
+        self.ylims_dialog = ylims_dialog(self)
         self.single_case_slope_SEs, self.single_case_slope_trial_n = [], 0
+        self.ylims = [None, None]
 
         self.init_vars(names)
         self.show()
@@ -573,10 +630,16 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.slope_dialog.exec_()
         self.single_case_slope_SEs, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
+    def optionsButton_clicked(self):
+        if self.ylims_dialog.exec_():
+            self.ylims = self.ylims_dialog.read_parameters()
+            self.ylims[0] = _float_or_none(self.ylims[0])
+            self.ylims[1] = _float_or_none(self.ylims[1])
+
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
-                self.single_case_slope_SEs, int(self.single_case_slope_trial_n))
+                self.single_case_slope_SEs, int(self.single_case_slope_trial_n), self.ylims)
 
 
 from .ui import find_text

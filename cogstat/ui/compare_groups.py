@@ -12,14 +12,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(390, 270)
+        Dialog.resize(410, 308)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
-        Dialog.setMinimumSize(QtCore.QSize(390, 270))
-        Dialog.setMaximumSize(QtCore.QSize(390, 270))
         self.source_listWidget = QtWidgets.QListWidget(Dialog)
         self.source_listWidget.setGeometry(QtCore.QRect(10, 30, 161, 192))
         self.source_listWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
@@ -37,7 +35,7 @@ class Ui_Dialog(object):
         self.addVar.setGeometry(QtCore.QRect(180, 60, 21, 16))
         self.addVar.setObjectName("addVar")
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(40, 230, 341, 32))
+        self.buttonBox.setGeometry(QtCore.QRect(190, 270, 191, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setCenterButtons(False)
@@ -65,6 +63,9 @@ class Ui_Dialog(object):
         self.pushButton.setEnabled(True)
         self.pushButton.setGeometry(QtCore.QRect(10, 230, 161, 27))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_2.setGeometry(QtCore.QRect(10, 270, 88, 28))
+        self.pushButton_2.setObjectName("pushButton_2")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -80,6 +81,7 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Group(s)"))
         self.add_group_button.setText(_translate("Dialog", "=>"))
         self.pushButton.setText(_translate("Dialog", "Single case slope..."))
+        self.pushButton_2.setText(_translate("Dialog", "Options..."))
 
 
 

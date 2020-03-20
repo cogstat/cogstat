@@ -44,6 +44,9 @@ class Ui_Dialog(object):
         self.removeVar = QtWidgets.QPushButton(Dialog)
         self.removeVar.setGeometry(QtCore.QRect(190, 120, 21, 21))
         self.removeVar.setObjectName("removeVar")
+        self.pushButton = QtWidgets.QPushButton(Dialog)
+        self.pushButton.setGeometry(QtCore.QRect(20, 240, 88, 28))
+        self.pushButton.setObjectName("pushButton")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -55,6 +58,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Selected variables"))
         self.addVar.setText(_translate("Dialog", "=>"))
         self.removeVar.setText(_translate("Dialog", "<="))
+        self.pushButton.setText(_translate("Dialog", "Options..."))
 
 
 

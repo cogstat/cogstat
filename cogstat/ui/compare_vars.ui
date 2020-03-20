@@ -134,7 +134,7 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>20</x>
      <y>240</y>
      <width>87</width>
      <height>29</height>
@@ -145,6 +145,19 @@
    </property>
    <property name="shortcut">
     <string>Alt+F</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>240</y>
+     <width>88</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Options...</string>
    </property>
   </widget>
  </widget>

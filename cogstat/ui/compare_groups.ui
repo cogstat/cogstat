@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>390</width>
-    <height>270</height>
+    <width>410</width>
+    <height>308</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,18 +15,6 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>390</width>
-    <height>270</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>390</width>
-    <height>270</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Compare groups</string>
@@ -99,9 +87,9 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>230</y>
-     <width>341</width>
+     <x>190</x>
+     <y>270</y>
+     <width>191</width>
      <height>32</height>
     </rect>
    </property>
@@ -200,6 +188,19 @@
    </property>
    <property name="text">
     <string>Single case slope...</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>88</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Options...</string>
    </property>
   </widget>
  </widget>
