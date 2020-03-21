@@ -213,7 +213,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         self.toolbar.addAction(self.toolbar_actions[menu_item[1]])
 
 
-        self.menus[2].actions()[4].setCheckable(True)  # _('&Text is editable') menu is a checkbox
+        self.menus[2].actions()[5].setCheckable(True)  # _('&Text is editable') menu is a checkbox
+                                                       # # see also text_editable()
         #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
         #self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
         #self.menus[3].actions()[4].setChecked(True)  # Set the default value On
@@ -702,7 +703,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.output_pane.zoomOut(1)
 
     def text_editable(self):
-        self.output_pane.setReadOnly(not(self.menus[2].actions()[4].isChecked()))
+        self.output_pane.setReadOnly(not(self.menus[2].actions()[5].isChecked()))  # see also _init_UI
         #self.output_pane.setReadOnly(not(self.toolbar.actions()[15].isChecked()))
         # TODO if the position of this menu is changed, then this function will not work
         # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
