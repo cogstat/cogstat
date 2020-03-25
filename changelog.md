@@ -6,7 +6,6 @@ Upcoming release
 
 ## New features
 - Statistical analysis
-    - Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
     - Variation ratio for nominal variables
     - Various output refinements
 - Data analysis
