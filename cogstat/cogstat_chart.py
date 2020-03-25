@@ -409,14 +409,14 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             ax.set_xlabel(_plt('Rank of %s') % x)
             ax.set_ylabel(_plt('Rank of %s') % y)
         # Set manual xlim values
-        if xlims[0]:
+        if xlims[0] is not None:
             ax.set_xlim(left=xlims[0])
-        if xlims[1]:
+        if xlims[1] is not None:
             ax.set_xlim(right=xlims[1])
         # Set manual ylim values
-        if ylims[0]:
+        if ylims[0] is not None:
             ax.set_ylim(bottom=ylims[0])
-        if ylims[1]:
+        if ylims[1] is not None:
             ax.set_ylim(top=ylims[1])
         graph = plt.gcf()
     elif meas_lev in ['nom']:
@@ -488,9 +488,9 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
         plt.xticks(list(range(1, len(var_names) + 1)), _wrap_labels(var_names))
         plt.ylabel(_('Value'))
         # Set manual ylim values
-        if ylims[0]:
+        if ylims[0] is not None:
             ax.set_ylim(bottom=ylims[0])
-        if ylims[1]:
+        if ylims[1] is not None:
             ax.set_ylim(top=ylims[1])
 
         if meas_level in ['int', 'unk']:
@@ -538,9 +538,9 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, data_
         plt.xticks(list(range(len(var_names))), _wrap_labels(var_names))
         plt.ylabel(_plt('Value'))
         # Set manual ylim values
-        if ylims[0]:
+        if ylims[0] is not None:
             ax.set_ylim(bottom=ylims[0])
-        if ylims[1]:
+        if ylims[1] is not None:
             ax.set_ylim(top=ylims[1])
 
         _set_axis_measurement_level(ax, 'nom', 'int')
@@ -615,9 +615,9 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             plt.suptitle(_plt('Largest individual sign displays %d cases.') % max_freq, x=0.9, y=0.025,
                          horizontalalignment='right', fontsize=10)
         # Set manual ylim values
-        if ylims[0]:
+        if ylims[0] is not None:
             ax.set_ylim(bottom=ylims[0])
-        if ylims[1]:
+        if ylims[1] is not None:
             ax.set_ylim(top=ylims[1])
         # Add labels
         plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
@@ -696,9 +696,9 @@ def create_compare_groups_population_chart(data_frame, meas_level, var_names, gr
         plt.ylabel(var_names[0])
 
         # Set manual ylim values
-        if ylims[0]:
+        if ylims[0] is not None:
             ax.set_ylim(bottom=ylims[0])
-        if ylims[1]:
+        if ylims[1] is not None:
             ax.set_ylim(top=ylims[1])
 
         graph = fig
