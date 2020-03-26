@@ -479,18 +479,33 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
 
     Now it only handles a single dependent variable and a single grouping variable.
     """
-    stat_names = {'mean': _('Mean'), 'median': _('Median'), 'std': _('Standard deviation'), 'amin': _('Minimum'),
-                  'amax': _('Maximum'), 'lower_quartile': 'Lower quartile', 'upper_quartile': _('Upper quartile'),
-                  'skew': _('Skewness'), 'kurtosis': _('Kurtosis'), 'ptp': _('Range'),
-                  'variation_ratio': _('Variation ratio')}
-    # Create these functions in numpy namespace to enable simple getattr call of them below
-    np.lower_quartile = lambda x: np.percentile(x, 25)
-    np.upper_quartile = lambda x: np.percentile(x, 75)
-    # with the bias=False it gives the same value as SPSS
-    np.skew = lambda x: stats.skew(x, bias=False)
-    # with the bias=False it gives the same value as SPSS
-    np.kurtosis = lambda x: stats.kurtosis(x, bias=False)
-    np.variation_ratio = lambda x: 1 - (sum(x == stats.mode(x)[0][0]) / len(x))
+    stat_names = {'mean': _('Mean'),
+                  'median': _('Median'),
+                  'std': _('Standard deviation'),
+                  'min': _('Minimum'),
+                  'max': _('Maximum'),
+                  'range': _('Range'),
+                  'lower quartile': _('Lower quartile'),
+                  'upper quartile': _('Upper quartile'),
+                  'skewness': _('Skewness'),
+                  'kurtosis': _('Kurtosis'),
+                  'variation ratio': _('Variation ratio')
+                  }
+
+    stat_functions = {'mean': np.mean,
+                      'median': np.median,
+                      'std': np.std,
+                      'min': np.amin,
+                      'max': np.amax,
+                      'range': np.ptp,
+                      'lower quartile': lambda x: np.percentile(x, 25),
+                      'upper quartile': lambda x: np.percentile(x, 75),
+                      # with the bias=False it gives the same value as SPSS
+                      'skewness': lambda x: stats.skew(x, bias=False),
+                      # with the bias=False it gives the same value as SPSS
+                      'kurtosis': lambda x: stats.kurtosis(x, bias=False),
+                      'variation ratio': lambda x: 1 - (sum(x == stats.mode(x)[0][0]) / len(x))
+                      }
 
     text_result = ''
     # Compute only variable statistics
@@ -505,7 +520,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
             for stat in statistics:
                 pdf_result.loc[stat_names[stat], var_name] = '%0.*f' % \
                                                              (2 if stat == 'variation_ratio' else prec,
-                                                              getattr(np, stat)(data[var_name].dropna()))
+                                                              stat_functions[stat](data[var_name].dropna()))
     # There is at least one grouping variable
     else:
         # missing groups and values will be dropped
@@ -526,7 +541,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
                 for stat in statistics:
                     pdf_result.loc[stat_names[stat], group_label] = '%0.*f' % \
                                                                     (2 if stat == 'variation_ratio' else prec,
-                                                                     getattr(np, stat)(group_data.dropna()))
+                                                                     stat_functions[stat](group_data.dropna()))
             else:  # TODO can we remove this part?
                 text_result += _('No data')
                 for stat in statistics:

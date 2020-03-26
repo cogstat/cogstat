@@ -484,12 +484,12 @@ class CogStatData:
         # Descriptives
         if self.data_measlevs[var_name] in ['int', 'unk']:
             text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
-                                                   statistics=['mean', 'std', 'skew', 'kurtosis', 'ptp', 'amax',
-                                                               'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                                                   statistics=['mean', 'std', 'skewness', 'kurtosis', 'range', 'max',
+                                                               'upper quartile', 'median', 'lower quartile', 'min'])
         elif self.data_measlevs[var_name] == 'ord':
             text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
-                                                   statistics=['amax', 'upper_quartile', 'median', 'lower_quartile',
-                                                               'amin'])
+                                                   statistics=['max', 'upper quartile', 'median', 'lower quartile',
+                                                               'min'])
             # TODO boxplot also
         elif self.data_measlevs[var_name] == 'nom':
             text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
@@ -790,10 +790,10 @@ class CogStatData:
 
         if meas_level in ['int', 'unk']:
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
-                             statistics=['mean', 'std', 'amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                             statistics=['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'])
         elif meas_level == 'ord':
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
-                             statistics=['amax', 'upper_quartile', 'median', 'lower_quartile', 'amin'])
+                             statistics=['max', 'upper quartile', 'median', 'lower quartile', 'min'])
         elif meas_level == 'nom':
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
                              statistics=['variation_ratio'])
@@ -980,13 +980,13 @@ class CogStatData:
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
-                                                         statistics=['mean', 'std', 'amax', 'upper_quartile', 'median',
-                                                                     'lower_quartile', 'amin'])
+                                                         statistics=['mean', 'std', 'max', 'upper quartile', 'median',
+                                                                     'lower quartile', 'min'])
             elif meas_level == 'ord':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
-                                                         statistics=['amax', 'upper_quartile', 'median',
-                                                                     'lower_quartile', 'amin'])
+                                                         statistics=['max', 'upper quartile', 'median',
+                                                                     'lower quartile', 'min'])
             elif meas_level == 'nom':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
@@ -1199,13 +1199,13 @@ class CogStatData:
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
-                                                         statistics=['mean', 'std', 'amax', 'upper_quartile', 'median',
-                                                                     'lower_quartile', 'amin'])
+                                                         statistics=['mean', 'std', 'max', 'upper quartile', 'median',
+                                                                     'lower quartile', 'min'])
             elif meas_level == 'ord':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
-                                                         statistics=['amax', 'upper_quartile', 'median',
-                                                                     'lower_quartile', 'amin'])
+                                                         statistics=['max', 'upper quartile', 'median',
+                                                                     'lower quartile', 'min'])
             elif meas_level == 'nom':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
