@@ -163,7 +163,9 @@ def _create_default_mosaic_properties(data):
     # hue = np.linspace(1.0, 0.0, L+1)[:-1]
     #hue = np.linspace(0.0, 1.0, L + 2)[:-2]
     # CogStat specific code: Apply the hues of the matplotlib style color hues
-    hue = np.array([rgb_to_hsv(matplotlib.colors.to_rgb(theme_colors[i]))[0] for i in range(L)])
+    theme_colors_long = theme_colors * int(np.ceil(L / len(theme_colors)))
+        # if we have less colors than categories then cycle through the colors
+    hue = np.array([rgb_to_hsv(matplotlib.colors.to_rgb(theme_colors_long[i]))[0] for i in range(L)])
     # second level, the saturation
     L = len(categories_levels[1]) if Nlevels > 1 else 1
     saturation = np.linspace(0.5, 1.0, L + 1)[:-1]
