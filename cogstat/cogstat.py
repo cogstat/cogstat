@@ -796,7 +796,7 @@ class CogStatData:
                              statistics=['max', 'upper quartile', 'median', 'lower quartile', 'min'])
         elif meas_level == 'nom':
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
-                             statistics=['variation_ratio'])
+                             statistics=['variation ratio'])
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
                 cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])
