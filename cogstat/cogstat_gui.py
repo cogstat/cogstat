@@ -499,7 +499,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self._print_to_output_pane()
         self._busy_signal(False)
 
-    def explore_variable_pair(self, var_names=None):
+    def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
         
         Arguments:
@@ -606,7 +606,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_output_pane()
         self._busy_signal(False)
 
-    def compare_variables(self, var_names=None, factors=[]):
+    def compare_variables(self, var_names=None, factors=[], ylims=[None, None]):
         """Compare variables.
         
         Arguments:
@@ -643,7 +643,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_output_pane()
         self._busy_signal(False)
         
-    def compare_groups(self, var_names=None, groups=None, single_case_slope_SEs=None, single_case_slope_trial_n=None):
+    def compare_groups(self, var_names=None, groups=None, single_case_slope_SEs=None, single_case_slope_trial_n=None,
+                       ylims=[None, None]):
         """Compare groups.
         
         Arguments:
