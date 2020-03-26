@@ -111,6 +111,91 @@ def _set_axis_measurement_level(ax, x_measurement_level, y_measurement_level):
     ax.spines['bottom'].set_linestyle(measurement_level_to_line_styles[x_measurement_level])
     ax.spines['left'].set_linestyle(measurement_level_to_line_styles[y_measurement_level])
 
+
+def _create_default_mosaic_properties(data):
+    """"    Code from
+    https://www.statsmodels.org/stable/_modules/statsmodels/graphics/mosaicplot.html
+    and adapted to CogStat to use the matplotlib style colors
+
+    Create the default properties of the mosaic given the data
+    first it will varies the color hue (first category) then the color
+    saturation (second category) and then the color value
+    (third category).  If a fourth category is found, it will put
+    decoration on the rectangle.  Does not manage more than four
+    level of categories
+    """
+    from statsmodels.compat.python import iterkeys, lzip
+    from collections import OrderedDict
+    from itertools import product
+    from numpy import array
+    from matplotlib.colors import rgb_to_hsv
+
+    def _single_hsv_to_rgb(hsv):
+        """Transform a color from the hsv space to the rgb."""
+        from matplotlib.colors import hsv_to_rgb
+        return hsv_to_rgb(array(hsv).reshape(1, 1, 3)).reshape(3)
+
+    def _tuplify(obj):
+        """convert an object in a tuple of strings (even if it is not iterable,
+        like a single integer number, but keep the string healthy)
+        """
+        if np.iterable(obj) and not isinstance(obj, str):
+            res = tuple(str(o) for o in obj)
+        else:
+            res = (str(obj),)
+        return res
+
+    def _categories_level(keys):
+        """use the Ordered dict to implement a simple ordered set
+        return each level of each category
+        [[key_1_level_1,key_2_level_1],[key_1_level_2,key_2_level_2]]
+        """
+        res = []
+        for i in zip(*(keys)):
+            tuplefied = _tuplify(i)
+            res.append(list(OrderedDict([(j, None) for j in tuplefied])))
+        return res
+
+    categories_levels = _categories_level(list(iterkeys(data)))
+    Nlevels = len(categories_levels)
+    # first level, the hue
+    L = len(categories_levels[0])
+    # hue = np.linspace(1.0, 0.0, L+1)[:-1]
+    #hue = np.linspace(0.0, 1.0, L + 2)[:-2]
+    # CogStat specific code: Apply the hues of the matplotlib style color hues
+    hue = np.array([rgb_to_hsv(matplotlib.colors.to_rgb(theme_colors[i]))[0] for i in range(L)])
+    # second level, the saturation
+    L = len(categories_levels[1]) if Nlevels > 1 else 1
+    saturation = np.linspace(0.5, 1.0, L + 1)[:-1]
+    # third level, the value
+    L = len(categories_levels[2]) if Nlevels > 2 else 1
+    value = np.linspace(0.5, 1.0, L + 1)[:-1]
+    # fourth level, the hatch
+    L = len(categories_levels[3]) if Nlevels > 3 else 1
+    hatch = ['', '/', '-', '|', '+'][:L + 1]
+    # convert in list and merge with the levels
+    hue = lzip(list(hue), categories_levels[0])
+    saturation = lzip(list(saturation),
+                     categories_levels[1] if Nlevels > 1 else [''])
+    value = lzip(list(value),
+                     categories_levels[2] if Nlevels > 2 else [''])
+    hatch = lzip(list(hatch),
+                     categories_levels[3] if Nlevels > 3 else [''])
+    # create the properties dictionary
+    properties = {}
+    for h, s, v, t in product(hue, saturation, value, hatch):
+        hv, hn = h
+        sv, sn = s
+        vv, vn = v
+        tv, tn = t
+        level = (hn,) + ((sn,) if sn else tuple())
+        level = level + ((vn,) if vn else tuple())
+        level = level + ((tn,) if tn else tuple())
+        hsv = array([hv, sv, vv])
+        prop = {'color': _single_hsv_to_rgb(hsv), 'hatch': tv, 'lw': 0}
+        properties[level] = prop
+    return properties
+
 ####################################
 ### Charts for Explore variables ###
 ####################################
@@ -421,7 +506,9 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         graph = plt.gcf()
     elif meas_lev in ['nom']:
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
-        fig, rects = mosaic(cont_table_data.sort_index(ascending=False, level=1).unstack(), label_rotation=[0.0, 90.0])  # sort the index to have the same order on the chart as in the table
+        mosaic_data = cont_table_data.sort_index(ascending=False, level=1).unstack()    # sort the index to have the same order on the chart as in the table
+        fig, rects = mosaic(mosaic_data, label_rotation=[0.0, 90.0],
+                            properties=_create_default_mosaic_properties(mosaic_data))
         ax = plt.subplot(111)
         ax.set_xlabel(x)
         ax.set_ylabel(y)
@@ -503,7 +590,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             ct = pd.crosstab(data_frame[var_pair[0]], data_frame[var_pair[1]]).sort_index(axis='index',
                                                                                           ascending=False) \
                 .unstack()  # sort the index to have the same order on the chart as in the table
-            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
+            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0], properties=_create_default_mosaic_properties(ct))
             ax = plt.subplot(111)
             ax.set_xlabel(var_pair[1])
             ax.set_ylabel(var_pair[0])
@@ -649,7 +736,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     elif meas_level in ['nom']:
         ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
         #print ct
-        fig, rects = mosaic(ct, label_rotation=[0.0, 90.0])
+        fig, rects = mosaic(ct, label_rotation=[0.0, 90.0], properties=_create_default_mosaic_properties(ct))
         ax = plt.subplot(111)
         ax.set_xlabel(' : '.join(groups))
         ax.set_ylabel(var_names[0])
