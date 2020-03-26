@@ -493,7 +493,7 @@ class CogStatData:
             # TODO boxplot also
         elif self.data_measlevs[var_name] == 'nom':
             text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
-                                                   statistics=['variation_ratio'])
+                                                   statistics=['variation ratio'])
         result_list.append(text_result)
 
         # Distribution
@@ -990,7 +990,7 @@ class CogStatData:
             elif meas_level == 'nom':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
-                                                         statistics=['variation_ratio'])
+                                                         statistics=['variation ratio'])
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
                 sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
 
@@ -1209,7 +1209,7 @@ class CogStatData:
             elif meas_level == 'nom':
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
-                                                         statistics=['variation_ratio'])
+                                                         statistics=['variation ratio'])
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]],
                                               [self.data_frame[groups[i]] for i in range(len(groups))])  # , rownames = [x], colnames = [y])
                 sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
