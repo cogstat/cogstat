@@ -519,7 +519,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
                 prec = cs_util.precision(data[var_name])+1
             for stat in statistics:
                 pdf_result.loc[stat_names[stat], var_name] = '%0.*f' % \
-                                                             (2 if stat == 'variation_ratio' else prec,
+                                                             (2 if stat == 'variation ratio' else prec,
                                                               stat_functions[stat](data[var_name].dropna()))
     # There is at least one grouping variable
     else:
@@ -540,7 +540,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
                     prec = cs_util.precision(group_data) + 1
                 for stat in statistics:
                     pdf_result.loc[stat_names[stat], group_label] = '%0.*f' % \
-                                                                    (2 if stat == 'variation_ratio' else prec,
+                                                                    (2 if stat == 'variation ratio' else prec,
                                                                      stat_functions[stat](group_data.dropna()))
             else:  # TODO can we remove this part?
                 text_result += _('No data')
