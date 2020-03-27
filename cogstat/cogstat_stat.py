@@ -508,6 +508,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
                       }
 
     text_result = ''
+    prec = None
     # Compute only variable statistics
     if not groups:
         # drop all data with NaN pair
