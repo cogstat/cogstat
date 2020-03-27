@@ -6,6 +6,10 @@ Upcoming release
 
 ## New features
 - Statistical analysis
+    - Contingency table improvements (in explore relation of variable pairs, compare repeated measures variables, compare groups)
+        - Display margins
+        - Display percentage
+        - Confidence interval for multinomial proportions
     - Variation ratio for nominal variables
     - Various output refinements
 - Data analysis

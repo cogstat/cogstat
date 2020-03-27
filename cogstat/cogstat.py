@@ -613,7 +613,6 @@ class CogStatData:
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
-        temp_raw_result = cs_stat.var_pair_contingency_table(meas_lev, x, y, self.data_frame)
         raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, self.data_frame, raw_data=True,
                                                         xlims=xlims, ylims=ylims)
                                                         # slope and intercept are set to 0, but they
@@ -621,8 +620,8 @@ class CogStatData:
 
         # 2-3. Sample and population properties
         sample_result = '<h4>'+_('Sample properties')+'</h4>'
-        if temp_raw_result:
-            sample_result += temp_raw_result
+        if meas_lev == 'nom':
+            sample_result += cs_stat.contingency_table(self.data_frame, x, y, count=True, percent=True, margins=True)
         standardized_effect_size_result = _('Standardized effect size:') + '\n'
         estimation_result = '<h4>'+_('Population properties')+'</h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
@@ -674,7 +673,8 @@ class CogStatData:
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
         elif meas_lev == 'nom':
-            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if variables are independent.') \
+            population_result += cs_stat.contingency_table(self.data_frame, x, y, ci=True)
+            population_result += '\n<decision>' + _('Hypothesis test: ') + _('Testing if variables are independent.') \
                                  + '<default>\n'
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
@@ -688,11 +688,8 @@ class CogStatData:
         # Make graph
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev in ['int', 'unk']:
-            temp_text_result = cs_stat.var_pair_contingency_table(meas_lev, x, y, self.data_frame)
             sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, self.data_frame,
                                                                xlims=xlims, ylims=ylims)
-            if temp_text_result:
-                population_result += temp_text_result
         else:
             sample_graph = None
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
@@ -799,9 +796,8 @@ class CogStatData:
                              statistics=['variation ratio'])
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
-                cont_table_data = pd.crosstab(self.data_frame[var_pair[0]], self.data_frame[var_pair[1]])
-                    #, rownames = [x], colnames = [y])
-                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
+                sample_result += cs_stat.contingency_table(self.data_frame, var_pair[1], var_pair[0],
+                                                           count=True, percent=True, margins=True)
 
         # 3. Population properties
         population_result = '<h4>' + _('Population properties') + '</h4>\n'
@@ -814,6 +810,9 @@ class CogStatData:
             population_result += \
                 cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+        elif meas_level == 'nom':
+            for var_pair in itertools.combinations(var_names, 2):
+                population_result += cs_stat.contingency_table(self.data_frame, var_pair[1], var_pair[0], ci=True)
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level,
                                                                               self.data_frame, ylims=ylims)
@@ -964,13 +963,13 @@ class CogStatData:
 
             # Plot individual data
             raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                  group_levels, raw_data_only=True, ylims=ylims)
+                                                                    group_levels, raw_data_only=True, ylims=ylims)
 
             # Plot the individual data with boxplots
             # There's no need to repeat the mosaic plot for the nominal variables
             if meas_level in ['int', 'unk', 'ord']:
-                sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                    group_levels, ylims=ylims)
+                sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names,
+                                                                           groups, group_levels, ylims=ylims)
             else:
                 sample_graph = None
 
@@ -991,8 +990,8 @@ class CogStatData:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
                                                          statistics=['variation ratio'])
-                cont_table_data = pd.crosstab(self.data_frame[var_names[0]], self.data_frame[groups[0]])#, rownames = [x], colnames = [y])
-                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
+                sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups[0], var_names[0],
+                                                                  count=True, percent=True, margins=True)
 
             # 3. Population properties
             # Plot population estimations
@@ -1008,6 +1007,9 @@ class CogStatData:
                 population_result += \
                     cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
+            elif meas_level == 'nom':
+                population_result += cs_stat.contingency_table(self.data_frame, groups[0], var_names[0], ci=True)
+
             standardized_effect_size_result = None
 
             result_ht = '<decision>' + _('Hypothesis testing: ')

@@ -570,14 +570,54 @@ def confidence_interval_t(data, ci_only=True):
 ### Variable pairs ###
 
 
-def var_pair_contingency_table(meas_lev, x, y, data_frame):
-    if meas_lev in ['nom']:
-        cont_table_data = pd.crosstab(data_frame[y],
-                                      data_frame[x])  # , rownames = [x], colnames = [y]) # TODO use data instead?
-        text_result = '\n%s\n%s\n' % (_('Contingency table'),
-                                      _format_html_table(cont_table_data.to_html(bold_rows=False)))
-    else:
-        text_result = None
+def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
+    """ Create contingency tables. Use for nominal data.
+    :param data_frame:
+    :param x:
+    :param y:
+    :param count:
+    :param percent:
+    :param ci: multinomial, goodman method
+    :param margins: ci calculation ignores it
+
+    :return:
+    """
+    text_result=''
+    if count:
+        cont_table_count = pd.crosstab(data_frame[y], data_frame[x], margins=margins, margins_name=_('Total'))
+        text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Case count'),
+                                            _format_html_table(cont_table_count.to_html(bold_rows=False)))
+    if percent:
+        cont_table_perc = pd.crosstab(data_frame[y], data_frame[x], normalize=True,
+                                      margins=margins, margins_name=_('Total')) * 100
+        text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Percentage'),
+                                            _format_html_table(cont_table_perc.to_html(bold_rows=False,
+                                                                                       float_format=lambda x : '%.1f%%' % x)))
+    if ci:
+        from statsmodels.stats import proportion
+        cont_table_count = pd.crosstab(data_frame[y], data_frame[x])  # don't use margins
+        cont_table_ci_np = proportion.multinomial_proportions_confint(cont_table_count.unstack())
+        cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=['low', 'high']).stack().unstack(level=[0, 2]) * 100
+        text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Confidence interval (multinomial proportions)'),
+                                            _format_html_table(cont_table_ci.to_html(bold_rows=False,
+                                                                                     float_format=lambda x : '%.1f%%' % x)))
+
+    """
+    # Binomial CI with continuity correction
+    n = cont_table_count.values.sum()
+    margin_of_error = 1.96 * np.sqrt(cont_table_perc * (1 - cont_table_perc) / n) + 0.5 / n
+    ct_low = cont_table_perc - margin_of_error
+    ct_high = cont_table_perc + margin_of_error
+    ct_ci = pd.concat([ct_low, ct_high], keys=[_('CI low'), _('CI high')])
+    text_result += '\n%s\n%s\n' % (_('Proportions 95% CI'),
+                                  _format_html_table(ct_ci.unstack(level=0).to_html(bold_rows=False, float_format=lambda x : '%.1f%%'%x)))
+
+    # Binomial CI without continuity correction
+    from statsmodels.stats import proportion
+    pci = lambda x: proportion.proportion_confint(x, nobs=n, method='normal')
+    cont_table_count.applymap(pci)
+    """
+
     return text_result
 
 
