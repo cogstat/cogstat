@@ -601,7 +601,10 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
         cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=['low', 'high']).stack().unstack(level=[0, 2]) * 100
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Confidence interval (multinomial proportions)'),
                                             _format_html_table(cont_table_ci.to_html(bold_rows=False,
-                                                                                     float_format=lambda x : '%.1f%%' % x)))
+                                                                                     float_format=lambda x: '%.1f%%' % x)))
+        if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason, so we use the np version
+            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '<default>\n'
+
 
     """
     # Binomial CI with continuity correction
