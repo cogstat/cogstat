@@ -10,6 +10,7 @@ Upcoming release
         - Display margins
         - Display percentage
         - Confidence interval for multinomial proportions
+    - Confidence interval for proportions in explore variable
     - Variation ratio for nominal variables
     - Various output refinements
 - Data analysis

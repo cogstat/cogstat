@@ -518,7 +518,7 @@ class CogStatData:
         else:
             result_list.append(text_result[:-2])
 
-        # Test central tendency
+        # Population estimations
         if meas_level in ['int', 'ord', 'unk']:
             prec = cs_util.precision(self.data_frame[var_name]) + 1
 
@@ -527,9 +527,11 @@ class CogStatData:
             # Calculations are below, after the normality test
         elif meas_level == 'ord':
             population_param_text = _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
-        else:
-            population_param_text = ''
+        elif meas_level == 'nom':
+            population_param_text = cs_stat.proportions_ci(self.data_frame, var_name)
         text_result = '\n'
+
+        # Hypothesis tests
         text_result += '<decision>' + _('Hypothesis test: ')
         if self.data_measlevs[var_name] in ['int', 'unk']:
             text_result += _('Testing if mean deviates from the value %s.') % central_value + '<default>\n'

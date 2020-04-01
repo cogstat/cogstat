@@ -280,13 +280,33 @@ def frequencies(pdf, var_name, meas_level):
     freq[_('Value')] = freq.index
     freq[_('Freq')] = pdf[var_name].value_counts(dropna=False).sort_index()
     freq[_('Value')] = freq.index  # previous assignment gives nans for empty df
-    freq[_('Cum freq')] = freq[_('Freq')].cumsum()
     if meas_level != 'nom':
-        freq[_('Rel freq')] = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index() * 100
+        freq[_('Cum freq')] = freq[_('Freq')].cumsum()
+    freq[_('Rel freq')] = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index() * 100
+    if meas_level != 'nom':
         freq[_('Cum rel freq')] = freq[_('Rel freq')].cumsum()
     text_result = _format_html_table(freq.to_html(formatters={_('Rel freq'): lambda x: '%.1f%%' % x,
                                                               _('Cum rel freq'): lambda x: '%.1f%%' % x},
                                                   bold_rows=False, index=False))
+    return text_result
+
+
+def proportions_ci(pdf, var_name):
+    """Proportions confidence intervals
+
+    arguments:
+    var_name (str): name of the variable
+    """
+    from statsmodels.stats import proportion
+
+    proportions = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index()
+    proportions_ci_np = proportion.multinomial_proportions_confint(proportions)
+    proportions_ci_pd = pd.DataFrame(proportions_ci_np, index=proportions.index, columns=[_('low'), _('high')]) * 100
+    text_result = '\n%s - %s\n%s' % (_('Relative frequencies'), _('95% confidence interval (multinomial proportions)'),
+                                     _format_html_table(proportions_ci_pd.to_html(bold_rows=False,
+                                                                                  float_format=lambda x: '%.1f%%' % x)))
+    if (pdf[var_name].value_counts(dropna=False) < 5).any():
+        text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '<default>\n'
     return text_result
 
 
@@ -575,8 +595,8 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
         from statsmodels.stats import proportion
         cont_table_count = pd.crosstab(data_frame[y], data_frame[x])  # don't use margins
         cont_table_ci_np = proportion.multinomial_proportions_confint(cont_table_count.unstack())
-        cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=['low', 'high']).stack().unstack(level=[0, 2]) * 100
-        text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Confidence interval (multinomial proportions)'),
+        cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=[_('low'), _('high')]).stack().unstack(level=[0, 2]) * 100
+        text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('95% confidence interval (multinomial proportions)'),
                                             _format_html_table(cont_table_ci.to_html(bold_rows=False,
                                                                                      float_format=lambda x: '%.1f%%' % x)))
         if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason, so we use the np version
