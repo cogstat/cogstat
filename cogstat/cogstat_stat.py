@@ -285,31 +285,16 @@ def frequencies(pdf, var_name, meas_level):
         else:
             raise TypeError("Numeric type required")
 
-    # TODO rewrite this; can we use pandas here?
-    freq1 = [[i, list(pdf[var_name]).count(i)] for i in set(pdf[var_name])]
-    # Remove and count nans - otherwise sort() does not function correctly
-    freq = [x for x in freq1 if x[0] == x[0]]
-    nan_n = len(freq1) - len(freq)
-    freq.sort()
-    if nan_n:
-        freq.append(['nan', nan_n])
-    total_count = float(len(pdf[var_name]))
-    running_total = 0
-    running_rel_total = 0.0
-    for i in range(len(freq)):
-        rel_freq = freq[i][1]/total_count
-        running_total += freq[i][1]
-        running_rel_total += rel_freq
-        if meas_level == 'nom':
-            freq[i].extend([rel_freq])
-        else:
-            freq[i].extend([rel_freq, running_total, running_rel_total])
-    if meas_level == 'nom':
-        column_names = [_('Value'), _('Freq'), _('Rel freq')]
-    else:
-        column_names = [_('Value'), _('Freq'), _('Rel freq'), _('Cum freq'), _('Cum rel freq')]
-    text_result = _format_html_table(pd.DataFrame(freq, columns=column_names).\
-        to_html(formatters={_('Rel freq'): as_percent, _('Cum rel freq'): as_percent}, bold_rows=False, index=False))
+    freq = pd.DataFrame()
+    freq[_('Value')] = freq.index
+    freq[_('Freq')] = pdf[var_name].value_counts(dropna=False).sort_index()
+    freq[_('Value')] = freq.index  # previous assignment gives nans for empty df
+    freq[_('Cum freq')] = freq[_('Freq')].cumsum()
+    if meas_level != 'nom':
+        freq[_('Rel freq')] = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index()
+        freq[_('Cum rel freq')] = freq[_('Rel freq')].cumsum()
+    text_result = _format_html_table(freq.to_html(formatters={_('Rel freq'): as_percent, _('Cum rel freq'): as_percent},
+                                                  bold_rows=False, index=False))
     return text_result
 
 
