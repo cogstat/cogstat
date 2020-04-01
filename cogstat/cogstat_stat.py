@@ -276,24 +276,16 @@ def frequencies(pdf, var_name, meas_level):
     meas_level: measurement level of the variable
     """
 
-    def as_percent(v, precision='0.1'):
-        """Convert number to percentage string."""
-        # http://blog.henryhhammond.com/pandas-formatting-snippets/
-        from numbers import Number
-        if isinstance(v, Number):
-            return "{{:{}%}}".format(precision).format(v)
-        else:
-            raise TypeError("Numeric type required")
-
     freq = pd.DataFrame()
     freq[_('Value')] = freq.index
     freq[_('Freq')] = pdf[var_name].value_counts(dropna=False).sort_index()
     freq[_('Value')] = freq.index  # previous assignment gives nans for empty df
     freq[_('Cum freq')] = freq[_('Freq')].cumsum()
     if meas_level != 'nom':
-        freq[_('Rel freq')] = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index()
+        freq[_('Rel freq')] = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index() * 100
         freq[_('Cum rel freq')] = freq[_('Rel freq')].cumsum()
-    text_result = _format_html_table(freq.to_html(formatters={_('Rel freq'): as_percent, _('Cum rel freq'): as_percent},
+    text_result = _format_html_table(freq.to_html(formatters={_('Rel freq'): lambda x: '%.1f%%' % x,
+                                                              _('Cum rel freq'): lambda x: '%.1f%%' % x},
                                                   bold_rows=False, index=False))
     return text_result
 
@@ -578,7 +570,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
                                       margins=margins, margins_name=_('Total')) * 100
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Percentage'),
                                             _format_html_table(cont_table_perc.to_html(bold_rows=False,
-                                                                                       float_format=lambda x : '%.1f%%' % x)))
+                                                                                       float_format=lambda x: '%.1f%%' % x)))
     if ci:
         from statsmodels.stats import proportion
         cont_table_count = pd.crosstab(data_frame[y], data_frame[x])  # don't use margins
@@ -599,7 +591,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
     ct_high = cont_table_perc + margin_of_error
     ct_ci = pd.concat([ct_low, ct_high], keys=[_('CI low'), _('CI high')])
     text_result += '\n%s\n%s\n' % (_('Proportions 95% CI'),
-                                  _format_html_table(ct_ci.unstack(level=0).to_html(bold_rows=False, float_format=lambda x : '%.1f%%'%x)))
+                                  _format_html_table(ct_ci.unstack(level=0).to_html(bold_rows=False, float_format=lambda x: '%.1f%%'%x)))
 
     # Binomial CI without continuity correction
     from statsmodels.stats import proportion
