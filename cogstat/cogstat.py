@@ -299,7 +299,7 @@ class CogStatData:
 
     def print_data(self, brief=False):
         """Print data."""
-        output = csc.heading_style_begin + _('Data')+csc.heading_style_end
+        output = f"{csc.heading_style_begin}{_('Data')}{csc.heading_style_end}"
         output += '<default>'+_('Source: ') + self.import_source + '\n'
         output += str(len(self.data_frame.columns))+_(' variables and ') + \
                   str(len(self.data_frame.index))+_(' cases') + '\n'
@@ -329,7 +329,7 @@ class CogStatData:
                 only 2sd is available at the moment
         :return:
         """
-        title = csc.heading_style_begin + _('Filtering')+csc.heading_style_end
+        title = f"{csc.heading_style_begin}{_('Filtering')}{csc.heading_style_end}"
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
             self.filtering_status = None
@@ -462,19 +462,19 @@ class CogStatData:
         """
         plt.close('all')
         meas_level, unknown_type = self._meas_lev_vars([var_name])
-        result_list = [csc.heading_style_begin + _('Explore variable')+csc.heading_style_end]
+        result_list = [f"{csc.heading_style_begin}{_('Explore variable')}{csc.heading_style_end}"]
         result_list.append(_('Exploring variable: ') + var_name + ' (%s)\n'%meas_level)
         if self._filtering_status():
             result_list[-1] += self._filtering_status()
 
         # 1. Raw data
-        text_result = '<h4>'+_('Raw data')+'</h4>'
+        text_result = f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
         text_result2, image = cs_stat.display_variable_raw_data(self.data_frame, self.data_measlevs, var_name)
         result_list.append(text_result+text_result2)
         result_list.append(image)
 
         # 2. Sample properties
-        text_result = '<h4>\n'+_('Sample properties')+'</h4>\n'
+        text_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
 
         # Frequencies
         if frequencies:
@@ -502,7 +502,7 @@ class CogStatData:
             result_list.append(image)
 
         # 3. Population properties
-        text_result = '<h4>\n'+_('Population properties')+'</h4>\n'
+        text_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
 
         # Normality
         if meas_level in ['int', 'unk']:
@@ -598,14 +598,14 @@ class CogStatData:
         """
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
-        title = csc.heading_style_begin + _('Explore relation of variable pair') + csc.heading_style_end
+        title = f"{csc.heading_style_begin}{_('Explore relation of variable pair')}{csc.heading_style_end}"
         raw_result = _('Exploring variable pair: ') + x + ' (%s), '%self.data_measlevs[x] + y + ' (%s)\n'%self.data_measlevs[y]
         raw_result += self._filtering_status()
         if unknown_var:
             raw_result += '<decision>'+warn_unknown_variable+'\n<default>'
 
         # 1. Raw data
-        raw_result += '<h4>'+_('Raw data')+'</h4>'
+        raw_result = f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[[x, y]].dropna()
@@ -621,11 +621,11 @@ class CogStatData:
                                                         # are not used with raw_data
 
         # 2-3. Sample and population properties
-        sample_result = '<h4>'+_('Sample properties')+'</h4>'
+        sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(self.data_frame, x, y, count=True, percent=True, margins=True)
         standardized_effect_size_result = _('Standardized effect size:') + '\n'
-        estimation_result = '<h4>'+_('Population properties')+'</h4>'
+        estimation_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         population_result = '\n'
 
@@ -709,7 +709,7 @@ class CogStatData:
         :return:
         """
         # TODO optionally return pandas DataFrame or Panel
-        title = csc.heading_style_begin + _('Pivot table') + csc.heading_style_end
+        title = f"{csc.heading_style_begin}{_('Pivot table')}{csc.heading_style_end}"
         pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_names, function)
         return self._convert_output([title, pivot_result])
 
@@ -724,7 +724,7 @@ class CogStatData:
         :return:
         """
         # TODO return pandas DataFrame
-        title = csc.heading_style_begin + _('Behavioral data diffusion analysis') + csc.heading_style_end
+        title = f"{csc.heading_style_begin}{_('Behavioral data diffusion analysis')}{csc.heading_style_end}"
         pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names)
         return self._convert_output([title, pivot_result])
 
@@ -737,7 +737,7 @@ class CogStatData:
         :return:
         """
         plt.close('all')
-        title = csc.heading_style_begin + _('Compare repeated measures variables') + csc.heading_style_end
+        title = f"{csc.heading_style_begin}{_('Compare repeated measures variables')}{csc.heading_style_end}"
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         raw_result = '<default>'+_('Variables to compare: ') + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
         if factors:
@@ -763,7 +763,7 @@ class CogStatData:
             raw_result += '\n<decision>'+warn_unknown_variable+'<default>'
 
         # 1. Raw data
-        raw_result += '<h4>' + _('Raw data') + '</h4>'
+        raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
@@ -785,7 +785,7 @@ class CogStatData:
             sample_graph = None
 
         # 2. Sample properties
-        sample_result = '<h4>' + _('Sample properties') + '</h4>'
+        sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
 
         if meas_level in ['int', 'unk']:
             sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
@@ -802,7 +802,7 @@ class CogStatData:
                                                            count=True, percent=True, margins=True)
 
         # 3. Population properties
-        population_result = '<h4>' + _('Population properties') + '</h4>\n'
+        population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
 
         # 3a. Population estimations
         if meas_level in ['int', 'unk']:
@@ -930,7 +930,7 @@ class CogStatData:
         var_names = [var_name]
         groups = grouping_variables
         # TODO check if there is only one dep.var.
-        title = csc.heading_style_begin + _('Compare groups') + csc.heading_style_end
+        title = f"{csc.heading_style_begin}{_('Compare groups')}{csc.heading_style_end}"
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         group_meas_levels = [self.data_measlevs[group] for group in groups]
         raw_result = '<default>'+_('Dependent variable: ') + ', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '. ' + \
@@ -945,7 +945,7 @@ class CogStatData:
         # One grouping variable
         if len(groups) == 1:
             # 1. Raw data
-            raw_result += '<h4>' + _('Raw data') + '</h4>'
+            raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
 
             data = self.data_frame[[groups[0], var_names[0]]].dropna()
             group_levels = sorted(set(data[groups[0]]))
@@ -976,7 +976,7 @@ class CogStatData:
                 sample_graph = None
 
             # 2. Descriptive data
-            sample_result = '<h4>' + _('Sample properties') + '</h4>'
+            sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
 
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
@@ -1002,7 +1002,7 @@ class CogStatData:
                                                                                groups, group_levels, ylims=ylims)
 
             # Hypothesis testing
-            population_result = '<h4>' + _('Population properties') + '</h4>\n'
+            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
             if meas_level in ['int', 'unk']:
                 population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
                 prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
@@ -1147,7 +1147,7 @@ class CogStatData:
         # Two grouping variables
         elif len(groups) == 2:
             # 1. Raw data
-            raw_result += '<h4>' + _('Raw data') + '</h4>'
+            raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
 
             standardized_effect_size_result = None
 
@@ -1198,7 +1198,7 @@ class CogStatData:
                 sample_graph = None
 
             # 2. Sample properties
-            sample_result = '<h4>' + _('Sample properties') + '</h4>'
+            sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
 
             if meas_level in ['int', 'unk']:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
@@ -1225,7 +1225,7 @@ class CogStatData:
                                                                                groups, level_combinations, ylims=ylims)
 
             # Hypothesis testing
-            population_result = '<h4>' + _('Population properties') + '</h4>\n'
+            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
             population_result += \
