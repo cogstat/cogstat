@@ -226,8 +226,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.output_pane.document().setDefaultStyleSheet('body {color:black;} h2 {color:%s;} h3 {color:%s}' %
                                                          (csc.mpl_theme_color_dark, csc.mpl_theme_color))
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        self.output_pane.setText('<br><b>%s</b><br>%s<br>%s<br>%s<br>' %
-                                 (_('Welcome to CogStat!'), _('CogStat makes statistical analysis more simple and efficient.'),
+        self.output_pane.setText('%s%s%s%s<br>%s<br>%s<br>' %
+                                 (csc.heading_style_begin, _('Welcome to CogStat!'), csc.heading_style_end,
+                                  _('CogStat makes statistical analysis more simple and efficient.'),
                                   _('To start working open a data file or paste your data from a spreadsheet.'),
                                   _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>')))
         self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
