@@ -10,7 +10,7 @@ Upcoming release
         - Display margins
         - Display percentage
         - Confidence interval for multinomial proportions
-    - Confidence interval for medians (in Compare repeated measures variables and Compare groups)
+    - Confidence interval for medians (in Explore variable, Compare repeated measures variables and Compare groups)
     - Confidence interval for proportions in explore variable
     - Variation ratio for nominal variables
     - Various output refinements

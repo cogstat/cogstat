@@ -528,7 +528,15 @@ class CogStatData:
         if meas_level in ['int', 'unk']:
             pass  # Calculations are below, after the normality test
         elif meas_level == 'ord':
-            population_param_text += _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
+            pdf_result = pd.DataFrame()
+            pdf_result.loc[_('Median'), _('Point estimation')] = np.median(self.data_frame[var_name].dropna())
+            pdf_result.loc[_('Median'), _('95% confidence interval (low)')], \
+            pdf_result.loc[_('Median'), _('95% confidence interval (high)')] = \
+                cs_stat_num.median_ci(pd.DataFrame(self.data_frame[var_name].dropna()))
+            pdf_result = pdf_result.fillna(_('Out of the data range'))
+            population_param_text += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False,
+                                                                                   classes="table_cs_pd",
+                                                                                   float_format=lambda x: '%0.*f' % (prec, x)))
         elif meas_level == 'nom':
             population_param_text += cs_stat.proportions_ci(self.data_frame, var_name)
         text_result = '\n'
@@ -554,16 +562,18 @@ class CogStatData:
             if norm:
                 text_result += '<decision>' + _('Normality is not violated.') + ' >> ' + \
                                _('Running one-sample t-test.') + '<default>\n'
-                pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
-                pdf_result.loc[_('Mean'), _('Point estimation')] = ('%0.*f') % (prec, np.mean(self.data_frame[var_name].dropna()))
-                ci_text, text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
-                                                         test_value=central_value)
-                pdf_result.loc[_('Mean'), _('95% confidence interval')] = ci_text
+                pdf_result = pd.DataFrame()
+                pdf_result.loc[_('Mean'), _('Point estimation')] = np.mean(self.data_frame[var_name].dropna())
+                cil, cih, text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
+                                                                   test_value=central_value)
+                pdf_result.loc[_('Mean'), _('95% confidence interval (low)')] = cil
+                pdf_result.loc[_('Mean'), _('95% confidence interval (high)')] = cih
                 pdf_result.loc[_('Standard deviation')] = \
-                    [('%0.*f') % (prec, np.std(self.data_frame[var_name].dropna(), ddof=1)), '']
-                population_param_text += _('Present confidence interval values suppose normality.') +'\n'
+                    [np.std(self.data_frame[var_name].dropna(), ddof=1), '', '']
+                population_param_text += _('Present confidence interval values suppose normality.') + '\n'
                 population_param_text += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False,
-                                                                                       classes="table_cs_pd"))
+                                                                                       classes="table_cs_pd",
+                                                                                       float_format=lambda x: '%0.*f' % (prec, x)))
                 population_param_text += '\n\n'
 
             else:

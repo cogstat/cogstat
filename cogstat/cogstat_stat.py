@@ -407,7 +407,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         cil, cih = descr.tconfint_mean()
         ci = (cih-cil)/2
         prec = cs_util.precision(data)+1
-        ci_text = '[%0.*f, %0.*f]' %(prec, cil, prec, cih)
+        #ci_text = '[%0.*f, %0.*f]' %(prec, cil, prec, cih)
         text_result = ''
 
         # Sensitivity power analysis
@@ -427,7 +427,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
         image = None
-    return ci_text, text_result, image
+    return cil, cih, text_result, image
 
 
 def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
