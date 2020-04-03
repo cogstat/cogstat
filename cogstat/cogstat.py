@@ -311,7 +311,8 @@ class CogStatData:
                                  columns=self.data_frame.columns)
         data_comb = pd.concat([data_prop, self.data_frame])
         data_comb.index = [_('Type'), _('Level')]+[' ']*len(self.data_frame)
-        output += cs_stat._format_html_table(data_comb[:12 if brief else 1002].to_html(bold_rows=False))
+        output += cs_stat._format_html_table(data_comb[:12 if brief else 1002].to_html(bold_rows=False,
+                                                                                       classes="table_cs_pd"))
         if brief and (len(self.data_frame.index) > 10):
             output += str(len(self.data_frame.index)-10) + _(' further cases are not displayed...')+'\n'
         elif len(self.data_frame.index) > 999:
@@ -358,7 +359,8 @@ class CogStatData:
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
                     text_output += _('The following cases will be excluded: ')
-                    text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False))
+                    text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
+                                                                                     classes="table_cs_pd"))
                 else:
                     text_output += _('No cases were excluded.') + '\n'
             self.data_frame = self.orig_data_frame.copy()
@@ -478,7 +480,7 @@ class CogStatData:
 
         # Frequencies
         if frequencies:
-            text_result += '<b>'+_('Frequencies')+'</b>\n'
+            text_result += '<b>'+_('Frequencies')+'</b>'
             text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level) + '\n\n'
 
         # Descriptives
@@ -522,17 +524,17 @@ class CogStatData:
         if meas_level in ['int', 'ord', 'unk']:
             prec = cs_util.precision(self.data_frame[var_name]) + 1
 
+        population_param_text = '\n<b>' + _('Population parameter estimations') + '</b>\n'
         if meas_level in ['int', 'unk']:
-            population_param_text = '\n<b>'+_('Population parameter estimations and tests')+'</b>\n'
-            # Calculations are below, after the normality test
+            pass  # Calculations are below, after the normality test
         elif meas_level == 'ord':
-            population_param_text = _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
+            population_param_text += _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
         elif meas_level == 'nom':
-            population_param_text = cs_stat.proportions_ci(self.data_frame, var_name)
+            population_param_text += cs_stat.proportions_ci(self.data_frame, var_name)
         text_result = '\n'
 
         # Hypothesis tests
-        text_result += '<decision>' + _('Hypothesis test: ')
+        text_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
         if self.data_measlevs[var_name] in ['int', 'unk']:
             text_result += _('Testing if mean deviates from the value %s.') % central_value + '<default>\n'
         elif self.data_measlevs[var_name] == 'ord':
@@ -559,8 +561,9 @@ class CogStatData:
                 pdf_result.loc[_('Mean'), _('95% confidence interval')] = ci_text
                 pdf_result.loc[_('Standard deviation')] = \
                     [('%0.*f') % (prec, np.std(self.data_frame[var_name].dropna(), ddof=1)), '']
-                population_param_text += _('Present confidence interval values suppose normality.')
-                population_param_text += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
+                population_param_text += _('Present confidence interval values suppose normality.') +'\n'
+                population_param_text += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False,
+                                                                                       classes="table_cs_pd"))
                 population_param_text += '\n\n'
 
             else:
@@ -625,15 +628,16 @@ class CogStatData:
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(self.data_frame, x, y, count=True, percent=True, margins=True)
         standardized_effect_size_result = _('Standardized effect size:') + '\n'
-        estimation_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
+        estimation_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
+                            f"<b>{_('Population parameter estimations')}</b>\n"
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         population_result = '\n'
 
         # Compute and print numeric results
         slope, intercept = None, None
         if meas_lev == 'int':
-            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlation differs from 0.') \
-                                 + '<default>\n'
+            population_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>' + \
+                                 _('Testing if correlation differs from 0.') + '<default>\n'
             population_result += '<decision>'+_('Interval variables.')+' >> '+\
                            _("Running Pearson's and Spearman's correlation.")+'\n<default>'
             df = len(data)-2
@@ -642,8 +646,7 @@ class CogStatData:
             standardized_effect_size_result += _("Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
             pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             population_result += _("Pearson's correlation") + \
-                           ': <i>r</i>(%d) = %0.3f, %s\n' % \
-                           (df, r, cs_util.print_p(p))
+                           ': <i>r</i>(%d) = %0.3f, %s\n' % (df, r, cs_util.print_p(p))
 
             slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
             # TODO output with the precision of the data
@@ -654,14 +657,15 @@ class CogStatData:
             standardized_effect_size_result += _("Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
-                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, escape=False))
+                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                                 escape=False))
 
             population_result += _("Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
         elif meas_lev == 'ord':
-            population_result += '<decision>' + _('Hypothesis test: ') + _('Testing if correlation differs from 0.') \
-                                 + '<default>\n'
+            population_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>' + \
+                                 _('Testing if correlation differs from 0.') + '<default>\n'
             population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
                            '\n<default>'
             df = len(data)-2
@@ -670,14 +674,15 @@ class CogStatData:
             standardized_effect_size_result += _("Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
-                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, escape=False))
+                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                                 escape=False))
             population_result += _("Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
         elif meas_lev == 'nom':
-            population_result += cs_stat.contingency_table(self.data_frame, x, y, ci=True)
-            population_result += '\n<decision>' + _('Hypothesis test: ') + _('Testing if variables are independent.') \
-                                 + '<default>\n'
+            estimation_result += cs_stat.contingency_table(self.data_frame, x, y, ci=True)
+            population_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>' + \
+                                 _('Testing if variables are independent.') + '<default>\n'
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
             population_result += '<decision>'+_('Nominal variables.')+' >> '+_('Running Cramér\'s V.')+'\n<default>'
@@ -800,34 +805,37 @@ class CogStatData:
             for var_pair in itertools.combinations(var_names, 2):
                 sample_result += cs_stat.contingency_table(self.data_frame, var_pair[1], var_pair[0],
                                                            count=True, percent=True, margins=True)
+            sample_result += '\n'
 
         # 3. Population properties
         population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
 
         # 3a. Population estimations
+        population_result += f"<b>{_('Population parameter estimations')}</b>\n"
         if meas_level in ['int', 'unk']:
-            population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+            population_result += f"{_('Means')}\n{_('Present confidence interval values suppose normality.')}"
             mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
             population_result += \
-                cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
+                cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
         elif meas_level == 'ord':
-            population_result += f"<b>{_('Median')}</b>"
+            population_result += f"{_('Median')}"
             median_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
             population_result += \
-                cs_stat._format_html_table(median_estimations.to_html(bold_rows=False,
+                cs_stat._format_html_table(median_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                       float_format=lambda x: '%0.*f' % (prec, x)))
         elif meas_level == 'nom':
             for var_pair in itertools.combinations(var_names, 2):
                 population_result += cs_stat.contingency_table(self.data_frame, var_pair[1], var_pair[0], ci=True)
+        population_result += '\n'
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level,
                                                                               self.data_frame, ylims=ylims)
 
         # 3b. Hypothesis tests
-        result_ht = '<decision>' + _('Hypothesis testing: ')
+        result_ht = f"<b>{_('Hypothesis tests')}</b>\n" '<decision>'
         if meas_level in ['int', 'unk']:
             result_ht += _('Testing if the means are the same.') + '<default>\n'
         elif meas_level == 'ord':
@@ -965,7 +973,7 @@ class CogStatData:
 #                valid_n = sum(data[groups[0]]==group)
 #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
 #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
-            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
+            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
             valid_n = len(self.data_frame[groups[0]].dropna())
             missing_n = len(self.data_frame[groups[0]])-valid_n
             raw_result += '\n\n'+_('N of missing group cases') + ': %g' % missing_n +'\n'
@@ -1009,25 +1017,28 @@ class CogStatData:
                                                                                groups, group_levels, ylims=ylims)
 
             # Hypothesis testing
-            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
+            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
+                                f"<b>{_('Population parameter estimations')}</b>\n"
             if meas_level in ['int', 'unk']:
                 population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
                 prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
                 population_result += \
-                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False,
+                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
             elif meas_level == 'ord':
-                population_result += f"<b>{_('Medians')}</b>\n"
+                population_result += f"{_('Medians')}\n"
                 prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
                 population_result += \
-                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False,
+                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
+                population_result += '\n'
             elif meas_level == 'nom':
                 population_result += cs_stat.contingency_table(self.data_frame, groups[0], var_names[0], ci=True)
+                population_result += '\n'
 
             standardized_effect_size_result = None
 
-            result_ht = '<decision>' + _('Hypothesis testing: ')
+            result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
             if meas_level in ['int', 'unk']:
                 result_ht += _('Testing if the means are the same.') + '<default>\n'
             elif meas_level == 'ord':
@@ -1190,7 +1201,7 @@ class CogStatData:
             #                valid_n = sum(data[groups[0]]==group)
             #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
             #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
-            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False))
+            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
             raw_result += '\n\n'
             for group in groups:
                 valid_n = len(self.data_frame[group].dropna())
@@ -1229,7 +1240,8 @@ class CogStatData:
                                                          statistics=['variation ratio'])
                 cont_table_data = pd.crosstab(self.data_frame[var_names[0]],
                                               [self.data_frame[groups[i]] for i in range(len(groups))])  # , rownames = [x], colnames = [y])
-                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False))
+                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False,
+                                                                                    classes="table_cs_pd"))
 
             # 3. Population properties
             # Plot population estimations
@@ -1238,17 +1250,19 @@ class CogStatData:
                                                                                groups, level_combinations, ylims=ylims)
 
             # Hypothesis testing
-            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
+            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
+                                f"<b>{_('Population parameter estimations')}</b>\n"
             if meas_level in ['int', 'unk']:
                 population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             elif meas_level == 'ord':
-                population_result += f"<b>{_('Medians')}</b>\n"
+                population_result += f"{_('Medians')}"
             prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
             population_result += \
-                cs_stat._format_html_table(group_estimations.to_html(bold_rows=False,
+                cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+            population_result += '\n'
 
-            result_ht = '<decision>' + _('Hypothesis testing: ')
+            result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
             if meas_level in ['int', 'unk']:
                 result_ht += _('Testing if the means are the same.') + '<default>\n'
             elif meas_level == 'ord':

@@ -223,7 +223,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Prepare Output pane
         self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        self.output_pane.document().setDefaultStyleSheet('body {color:black;} h2 {color:%s;} h3 {color:%s}' %
+        self.output_pane.document().setDefaultStyleSheet('body {color:black;} h2 {color:%s;} h3 {color:%s} .table_cs_pd th {font-weight:normal;}' %
                                                          (csc.mpl_theme_color_dark, csc.mpl_theme_color))
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         self.output_pane.setText('%s%s%s%s<br>%s<br>%s<br>' %
@@ -342,10 +342,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if self.welcome_text_on:
             self.output_pane.clear()
+            #self.output_pane.setHtml(csc.heading_style_begin + '&nbsp;' + csc.heading_style_end)
             self.welcome_text_on = False
+        #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #print(self.output_pane.toHtml())
         for output in self.analysis_results[index].output:
             if isinstance(output, str):
-                self.output_pane.append(output)
+                self.output_pane.append(output)  # insertHtml() messes up the html doc, check it with self.output_pane.toHtml()
             elif isinstance(output, QtGui.QImage):
                 self.output_pane.moveCursor(11, 0)  # Moves cursor to the end
                 self.output_pane.textCursor().insertImage(output)

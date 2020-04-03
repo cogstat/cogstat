@@ -184,7 +184,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
                 # np.array conversion needed, np.mean requires axis name for pandas dataframe
                 ptable_result = '%s\n%s' % (ptable_result, temp_result)
         return ptable_result
-    result += '<fix_width_font>%s\n<default>' % print_pivot_page(pdf, page_names)
+    result += '%s\n' % print_pivot_page(pdf, page_names)
     return result
 
 
@@ -287,7 +287,7 @@ def frequencies(pdf, var_name, meas_level):
         freq[_('Cum rel freq')] = freq[_('Rel freq')].cumsum()
     text_result = _format_html_table(freq.to_html(formatters={_('Rel freq'): lambda x: '%.1f%%' % x,
                                                               _('Cum rel freq'): lambda x: '%.1f%%' % x},
-                                                  bold_rows=False, index=False))
+                                                  bold_rows=False, index=False, classes="table_cs_pd"))
     return text_result
 
 
@@ -302,9 +302,10 @@ def proportions_ci(pdf, var_name):
     proportions = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index()
     proportions_ci_np = proportion.multinomial_proportions_confint(proportions)
     proportions_ci_pd = pd.DataFrame(proportions_ci_np, index=proportions.index, columns=[_('low'), _('high')]) * 100
-    text_result = '\n%s - %s\n%s' % (_('Relative frequencies'), _('95% confidence interval (multinomial proportions)'),
+    text_result = '%s - %s\n%s' % (_('Relative frequencies'), _('95% confidence interval (multinomial proportions)'),
                                      _format_html_table(proportions_ci_pd.to_html(bold_rows=False,
-                                                                                  float_format=lambda x: '%.1f%%' % x)))
+                                                                                  float_format=lambda x: '%.1f%%' % x,
+                                                                                  classes="table_cs_pd")))
     if (pdf[var_name].value_counts(dropna=False) < 5).any():
         text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '<default>\n'
     return text_result
@@ -511,7 +512,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names)
-        text_result += _('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')
+        text_result += f"<b>{_('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')}</b>"
         for var_name in var_names:
             if meas_levs[var_name] != 'nom':
                 prec = cs_util.precision(data[var_name])+1
@@ -527,7 +528,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
 
-        text_result += _('Descriptives for the groups')
+        text_result += f"<b>{_('Descriptives for the groups')}</b>"
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
 #        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)
@@ -544,7 +545,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
                 text_result += _('No data')
                 for stat in statistics:
                     pdf_result.loc[stat_names[stat], group_label] = _('No data')
-    text_result += _format_html_table(pdf_result.to_html(bold_rows=False))
+    text_result += _format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
     return text_result
 
 
@@ -584,23 +585,26 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
     if count:
         cont_table_count = pd.crosstab(data_frame[y], data_frame[x], margins=margins, margins_name=_('Total'))
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Case count'),
-                                            _format_html_table(cont_table_count.to_html(bold_rows=False)))
+                                            _format_html_table(cont_table_count.to_html(bold_rows=False,
+                                                                                        classes="table_cs_pd")))
     if percent:
         cont_table_perc = pd.crosstab(data_frame[y], data_frame[x], normalize=True,
                                       margins=margins, margins_name=_('Total')) * 100
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Percentage'),
                                             _format_html_table(cont_table_perc.to_html(bold_rows=False,
+                                                                                       classes="table_cs_pd",
                                                                                        float_format=lambda x: '%.1f%%' % x)))
     if ci:
         from statsmodels.stats import proportion
         cont_table_count = pd.crosstab(data_frame[y], data_frame[x])  # don't use margins
         cont_table_ci_np = proportion.multinomial_proportions_confint(cont_table_count.unstack())
         cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=[_('low'), _('high')]).stack().unstack(level=[0, 2]) * 100
-        text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('95% confidence interval (multinomial proportions)'),
+        text_result += '%s - %s\n%s\n' % (_('Contingency table'), _('95% confidence interval (multinomial proportions)'),
                                             _format_html_table(cont_table_ci.to_html(bold_rows=False,
+                                                                                     classes="table_cs_pd",
                                                                                      float_format=lambda x: '%.1f%%' % x)))
         if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason, so we use the np version
-            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '<default>\n'
+            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '<default>'
 
 
     """
@@ -747,7 +751,8 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
             pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
 
             pht_text = pht[['text']]
-            text_result += _format_html_table(pht_text.to_html(bold_rows=True, escape=False, header=False))
+            text_result += _format_html_table(pht_text.to_html(bold_rows=True, classes="table_cs_pd", escape=False,
+                                                               header=False))
 
             # Or we can print them in a matrix
             #pht_text = pht[['text']].unstack()
@@ -1145,7 +1150,8 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
             text_result += _("Results of Dunn's test (p values).") + '\n'
             posthoc_result = scikit_posthocs.posthoc_dunn(pdf.dropna(subset=[grouping_name]),
                                                           val_col=var_name, group_col=grouping_name)
-            text_result += _format_html_table(posthoc_result.to_html(float_format=lambda x : '%.3f'%x))
+            text_result += _format_html_table(posthoc_result.to_html(classes="table_cs_pd",
+                                                                     float_format=lambda x : '%.3f'%x))
 
     except Exception as e:
         text_result += _('Result of the Kruskal-Wallis test: ')+str(e)
