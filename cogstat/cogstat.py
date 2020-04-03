@@ -812,6 +812,13 @@ class CogStatData:
             population_result += \
                 cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+        elif meas_level == 'ord':
+            population_result += f"<b>{_('Median')}</b>"
+            median_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
+            prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+            population_result += \
+                cs_stat._format_html_table(median_estimations.to_html(bold_rows=False,
+                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
         elif meas_level == 'nom':
             for var_pair in itertools.combinations(var_names, 2):
                 population_result += cs_stat.contingency_table(self.data_frame, var_pair[1], var_pair[0], ci=True)
@@ -997,7 +1004,7 @@ class CogStatData:
 
             # 3. Population properties
             # Plot population estimations
-            mean_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
+            group_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
             population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
                                                                                groups, group_levels, ylims=ylims)
 
@@ -1007,7 +1014,13 @@ class CogStatData:
                 population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
                 prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
                 population_result += \
-                    cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
+                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False,
+                                                                        float_format=lambda x: '%0.*f' % (prec, x)))
+            elif meas_level == 'ord':
+                population_result += f"<b>{_('Medians')}</b>\n"
+                prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+                population_result += \
+                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False,
                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
             elif meas_level == 'nom':
                 population_result += cs_stat.contingency_table(self.data_frame, groups[0], var_names[0], ci=True)
@@ -1220,16 +1233,19 @@ class CogStatData:
 
             # 3. Population properties
             # Plot population estimations
-            mean_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
+            group_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
             population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
                                                                                groups, level_combinations, ylims=ylims)
 
             # Hypothesis testing
             population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}"
-            population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+            if meas_level in ['int', 'unk']:
+                population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+            elif meas_level == 'ord':
+                population_result += f"<b>{_('Medians')}</b>\n"
             prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
             population_result += \
-                cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False,
+                cs_stat._format_html_table(group_estimations.to_html(bold_rows=False,
                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
 
             result_ht = '<decision>' + _('Hypothesis testing: ')

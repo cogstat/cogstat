@@ -12,7 +12,24 @@ import numpy as np
 from scipy import stats
 import pandas as pd
 
-### Variable pairs ###
+
+def median_ci(data, quantile=0.5):
+    """
+    https://www-users.york.ac.uk/~mb55/intro/cicent.htm
+
+    :param data:
+    :param quantile: the default value is median
+    :return:
+    """
+    n = len(data)
+    lower_limit = (n * quantile) - (1.96 * np.sqrt(n * quantile * (1 - quantile)))
+    upper_limit = 1 + (n * quantile) + (1.96 * np.sqrt(n * quantile * (1 - quantile)))
+    median_ci_np = np.sort(data, axis=0)[[max(0, int(np.round(lower_limit-1))), min(n-1, int(np.round(upper_limit-1)))], :]
+    if lower_limit < 1:
+        median_ci_np[0] = np.nan
+    if upper_limit > n + 1:
+        median_ci_np[1] = np.nan
+    return median_ci_np
 
 
 def corr_ci(r, n, confidence=0.95):

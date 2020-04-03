@@ -629,16 +629,20 @@ def repeated_measures_estimations(data, meas_level):
     """Draw means with CI for int vars, and medians for ord vars.
     """
     # TODO the same things are calculated in cs_chart.create_repeated_measures_population_chart()
-    condition_means_pdf = pd.DataFrame()
+    condition_estimations_pdf = pd.DataFrame()
     if meas_level in ['int', 'unk']:
-        means = np.mean(data)
-        cis, cils, cihs = confidence_interval_t(data, ci_only=False)
-        condition_means_pdf[_('Point estimation')] = means
+        condition_estimations_pdf[_('Point estimation')] = data.mean()
         # APA format, but cannot be used the numbers if copied to spreadsheet
         #group_means_pdf[_('95% confidence interval')] = '['+ cils.map(str) + ', ' + cihs.map(str) + ']'
-        condition_means_pdf[_('95% CI (low)')] = cils
-        condition_means_pdf[_('95% CI (high)')] = cihs
-    return condition_means_pdf
+        cis, cils, cihs = confidence_interval_t(data, ci_only=False)
+        condition_estimations_pdf[_('95% CI (low)')] = cils
+        condition_estimations_pdf[_('95% CI (high)')] = cihs
+    if meas_level == 'ord':
+        condition_estimations_pdf[_('Point estimation')] = data.median()
+        cis_np = cs_stat_num.median_ci(data)
+        condition_estimations_pdf[_('95% CI (low)')], condition_estimations_pdf[_('95% CI (high)')] = cis_np
+        condition_estimations_pdf = condition_estimations_pdf.fillna(_('Out of the data range'))
+    return condition_estimations_pdf
 
 
 def paired_t_test(pdf, var_names):
@@ -818,17 +822,28 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
 def comp_group_estimations(data_frame, meas_level, var_names, groups):
     """Draw means with CI for int vars, and medians for ord vars.
     """
-    group_means_pdf = pd.DataFrame()
+    group_estimations_pdf = pd.DataFrame()
     if meas_level in ['int', 'unk']:
         pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
         means = pdf.groupby(groups, sort=True).aggregate(np.mean)[var_names[0]]
         cis = pdf.groupby(groups, sort=True).aggregate(confidence_interval_t)[var_names[0]]
-        group_means_pdf[_('Point estimation')] = means
+        group_estimations_pdf[_('Point estimation')] = means
         # APA format, but cannot be used the numbers if copied to spreadsheet
         #group_means_pdf[_('95% confidence interval')] = '['+ (means-cis).map(str) + ', ' + (means+cis).map(str) + ']'
-        group_means_pdf[_('95% CI (low)')] = means - cis
-        group_means_pdf[_('95% CI (high)')] = means + cis
-    return group_means_pdf
+        group_estimations_pdf[_('95% CI (low)')] = means - cis
+        group_estimations_pdf[_('95% CI (high)')] = means + cis
+    elif meas_level == 'ord':
+        pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
+        group_estimations_pdf[_('Point estimation')] = pdf.groupby(groups, sort=True).aggregate(np.median)[var_names[0]]
+        cis = pdf.groupby(groups, group_keys=False, sort=True).apply(lambda x: cs_stat_num.median_ci(x)[:, 0])
+            # TODO this solution works, but a more reasonable code would be nicer
+        # APA format, but cannot be used the numbers if copied to spreadsheet
+        #group_means_pdf[_('95% confidence interval')] = '['+ (means-cis).map(str) + ', ' + (means+cis).map(str) + ']'
+        group_estimations_pdf[_('95% CI (low)')] = np.concatenate(cis.values).reshape((-1, 2))[:, 0]
+        group_estimations_pdf[_('95% CI (high)')] = np.concatenate(cis.values).reshape((-1, 2))[:, 1]
+            # TODO this solution works, but a more reasonable code would be nicer
+        group_estimations_pdf = group_estimations_pdf.fillna(_('Out of the data range'))
+    return group_estimations_pdf
 
 
 def levene_test(pdf, var_name, group_name):
