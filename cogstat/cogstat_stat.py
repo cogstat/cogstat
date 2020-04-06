@@ -427,7 +427,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
         image = None
-    return cil, cih, text_result, image
+    return text_result, image
 
 
 def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
@@ -547,6 +547,36 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
                     pdf_result.loc[stat_names[stat], group_label] = _('No data')
     text_result += _format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
     return text_result
+
+
+def variable_estimation(data, statistics=[]):
+    """
+
+    :param data:
+    :param statistics:
+    :return:
+    """
+    pdf_result = pd.DataFrame()
+    population_param_text = ''
+    for statistic in statistics:
+        if statistic == 'mean':
+            population_param_text += _('Present confidence interval values for the mean suppose normality.') + '\n'
+            pdf_result.loc[_('Mean'), _('Point estimation')] = np.mean(data.dropna())
+            pdf_result.loc[_('Mean'), _('95% confidence interval (high)')], \
+            pdf_result.loc[_('Mean'), _('95% confidence interval (low)')] = DescrStatsW(data).tconfint_mean()
+        if statistic == "std":
+            pdf_result.loc[_('Standard deviation')] = [np.std(data.dropna(), ddof=1), '', '']
+        if statistic == 'median':
+            pdf_result.loc[_('Median'), _('Point estimation')] = np.median(data.dropna())
+            pdf_result.loc[_('Median'), _('95% confidence interval (low)')], \
+            pdf_result.loc[_('Median'), _('95% confidence interval (high)')] = \
+                cs_stat_num.median_ci(pd.DataFrame(data.dropna()))
+    pdf_result = pdf_result.fillna(_('Out of the data range'))
+    prec = cs_util.precision(data) + 1
+    population_param_text += _format_html_table(pdf_result.to_html(bold_rows=False,
+                                                                  classes="table_cs_pd",
+                                                                  float_format=lambda x: '%0.*f' % (prec, x)))
+    return population_param_text
 
 
 def confidence_interval_t(data, ci_only=True):
