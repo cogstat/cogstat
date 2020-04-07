@@ -8,22 +8,24 @@ from . import appdirs
 import os
 
 # Settings not handled in cogstat.ini
-output_type = 'ipnb'  # if run from GUI, this is switched to 'gui'
-                    # any other code will leave the output (e.g., for testing)
+output_type = 'ipnb'  # if run from GUI, this is switched to 'gui' any other
+# code will leave the output (e.g., for testing)
 
 
 # Handle cogstat.ini file
 dirs = appdirs.AppDirs('cogstat')
 
-if not os.path.isfile(dirs.user_config_dir+'/cogstat.ini'):
+if not os.path.isfile(dirs.user_config_dir + '/cogstat.ini'):
     import shutil
     if not os.path.exists(dirs.user_config_dir):
         os.makedirs(dirs.user_config_dir)
-    shutil.copyfile(os.path.dirname(os.path.abspath(__file__))+'/cogstat.ini', dirs.user_config_dir+'/cogstat.ini')
+    shutil.copyfile(os.path.dirname(os.path.abspath(__file__)) +
+                    '/cogstat.ini', dirs.user_config_dir + '/cogstat.ini')
 
-config = configobj.ConfigObj(dirs.user_config_dir+'/cogstat.ini')
+config = configobj.ConfigObj(dirs.user_config_dir + '/cogstat.ini')
 # If new key was added to the default ini file, add it to the user ini file
-default_config = configobj.ConfigObj(os.path.dirname(os.path.abspath(__file__))+'/cogstat.ini')
+default_config = configobj.ConfigObj(os.path.dirname(os.path.abspath(
+    __file__)) + '/cogstat.ini')
 old_config = dict(config)
 
 for key in default_config.keys():
@@ -38,7 +40,8 @@ for key in default_config.keys():
                 config[key][key2] = default_config[key][key2]
                 config.write()
 """
-# This will not only add new keys from default ini to existing custom ini, but will change values to default, too
+# This will not only add new keys from default ini to existing custom ini,
+but  will change values to default, too
 config.merge(default_config)
 if old_config != dict(config):
     config.write()
@@ -60,7 +63,7 @@ styles = config['other styles']  # it reads the params as dictionary
 # Graph parameters
 try:
     theme = config['graph']['theme']
-except:
+except KeyError:
     theme = ''
 ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
@@ -71,7 +74,7 @@ versions = {}  # To be modified from cogstat.py
 
 
 def save(keys, value):
-    if len(keys)==2:
+    if len(keys) == 2:
         config[keys[0]][keys[1]] = value
     else:
         config[keys[0]] = value
