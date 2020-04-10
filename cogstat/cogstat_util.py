@@ -19,49 +19,51 @@ def get_versions():
     import platform
 
     csc.versions['platform'] = platform.platform()
-    
+
     # Python components
     csc.versions['python'] = sys.version
     try:
         import numpy
-        csc.versions['numpy'] = numpy.__version__ 
-    except:
+        csc.versions['numpy'] = numpy.__version__
+    except (ModuleNotFoundError, NameError):
         csc.versions['numpy'] = None
     try:
         import pandas
         csc.versions['pandas'] = pandas.__version__
-        #csc.versions['pandas'] = pandas.version.version
-    except:
+        # csc.versions['pandas'] = pandas.version.version
+    except (ModuleNotFoundError, NameError):
         csc.versions['pandas'] = None
     try:
         import scipy.stats
         csc.versions['scipy'] = scipy.version.version
-    except:
+    except (ModuleNotFoundError, NameError):
         csc.versions['scipy'] = None
     try:
         import statsmodels
         csc.versions['statsmodels'] = statsmodels.version.version
-    except:
+    except (ModuleNotFoundError, NameError):
         try:
             csc.versions['statsmodels'] = statsmodels.__version__
-        except:
+        except NameError:
             csc.versions['statsmodels'] = None
     try:
         import matplotlib
         csc.versions['matplotlib'] = matplotlib.__version__
         csc.versions['matplotlib_backend'] = matplotlib.get_backend()
-    except:
+    except (ModuleNotFoundError, NameError):
         csc.versions['matplotlib'] = None
         csc.versions['matplotlib_backend'] = None
     try:
         from PyQt5.Qt import PYQT_VERSION_STR
         csc.versions['pyqt'] = PYQT_VERSION_STR
-        # PyQt style can be checked only if the window is open and the object is available
+        # PyQt style can be checked only if the window is open and the object
+        # is available
         # It is GUI specific
-        #csc.versions['pyqtstyle'] = main_window.style().metaObject().className()
-    except:
+        # csc.versions['pyqtstyle'] =
+        # main_window.style().metaObject().className()
+    except (ModuleNotFoundError, NameError):
         csc.versions['pyqt'] = None
-        #csc.versions['pyqtstyle'] = None
+        # csc.versions['pyqtstyle'] = None
 
     # R components
     '''
@@ -83,6 +85,7 @@ def get_versions():
         csc.versions['car'] = None
     '''
 
+
 def print_versions(main_window):
     text_output = ''
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
@@ -90,22 +93,26 @@ def print_versions(main_window):
     text_output += 'Python: %s\n' % csc.versions['python']
     try:
         text_output += 'Stdout encoding: %s\n' % str(sys.stdout.encoding)
-    except:
+    except:  # TODO add exception type
         pass
         # with pythonw stdout is not available
-    text_output += 'Filesystem encoding: %s\n' % str(sys.getfilesystemencoding())
+    text_output += 'Filesystem encoding: %s\n' % \
+                   str(sys.getfilesystemencoding())
     text_output += 'Language: %s\n' % csc.language
     text_output += 'Numpy: %s\n' % csc.versions['numpy']
     text_output += 'Scipy: %s\n' % csc.versions['scipy']
     text_output += 'Pandas: %s\n' % csc.versions['pandas']
     text_output += 'Statsmodels: %s\n' % csc.versions['statsmodels']
     text_output += 'Matplotlib: %s\n' % csc.versions['matplotlib']
-    text_output += 'Matplotlib backend: %s\n' % csc.versions['matplotlib_backend']
+    text_output += 'Matplotlib backend: %s\n' % \
+                   csc.versions['matplotlib_backend']
     text_output += 'PyQt: %s\n' % csc.versions['pyqt']
-    text_output += 'PyQt QStyle:%s\n' % main_window.style().metaObject().className()
-    #text_output += 'R: %s\n' % csc.versions['r']
-    #text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
-    text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
+    text_output += 'PyQt QStyle:%s\n' % \
+                   main_window.style().metaObject().className()
+    # text_output += 'R: %s\n' % csc.versions['r']
+    # text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
+    text_output += 'CogStat path: %s\n' % \
+                   os.path.dirname(os.path.abspath(__file__))
 
 #    import os
 #    text_output += '\n'
@@ -137,10 +144,12 @@ def precision(data):
         return None
 
     # Check if data includes numbers (actually only the first item is checked)
-    # np.integer should also be included, because in some systems it is not recognised as int
-    # or http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
+    # np.integer should also be included, because in some systems it is not
+    # recognised as int or
+    # http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
     if isinstance(data.iloc[0], (int, float, complex, np.integer)):
-        return max([len(('%d' % x if int(x) == x else '%s' % x).partition('.')[2]) for x in data])
+        return max([len(('%d' % x if int(x) == x else '%s' % x).
+                        partition('.')[2]) for x in data])
     else:
         return None
 
@@ -155,6 +164,9 @@ def reformat_output(output):
     output = output.replace('\n', '<br>')
     for style_element in list(csc.styles.keys()):
         output = output.replace(style_element, csc.styles[style_element])
-        output = output.replace(str(style_element), str(csc.styles[style_element]))
-    output = output.replace('<\xa0', '&lt; ')  # In the R output the '< ' (which is non breaking space here (\xa0) ) would be handled as html tag
+        output = output.replace(str(style_element),
+                                str(csc.styles[style_element]))
+    # In the R output the '< ' (which is non breaking space here (\xa0) )
+    # would be handled as html tag
+    output = output.replace('<\xa0', '&lt; ')
     return output
