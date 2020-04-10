@@ -1015,13 +1015,13 @@ class CogStatData:
                 prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
                 population_result += \
                     cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                        float_format=lambda x: '%0.*f' % (prec, x)))
+                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
             elif meas_level == 'ord':
                 population_result += f"{_('Medians')}\n"
                 prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
                 population_result += \
                     cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                        float_format=lambda x: '%0.*f' % (prec, x)))
+                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
                 population_result += '\n'
             elif meas_level == 'nom':
                 population_result += cs_stat.contingency_table(self.data_frame, groups[0], var_names[0], ci=True)
@@ -1247,11 +1247,12 @@ class CogStatData:
                 population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             elif meas_level == 'ord':
                 population_result += f"{_('Medians')}"
-            prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
-            population_result += \
-                cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
-            population_result += '\n'
+            if meas_level in ['int', 'unk', 'ord']:
+                prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+                population_result += \
+                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
+                population_result += '\n'
 
             result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
             if meas_level in ['int', 'unk']:

@@ -743,15 +743,18 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             _set_axis_measurement_level(ax, 'nom', 'int')
         graph = fig
     elif meas_level in ['nom']:
-        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[groups[i]] for i in range(len(groups))]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
-        #print ct
-        fig, rects = mosaic(ct, label_rotation=[0.0, 90.0], properties=_create_default_mosaic_properties(ct))
-        ax = plt.subplot(111)
-        ax.set_xlabel(' : '.join(groups))
-        ax.set_ylabel(var_names[0])
-        plt.title(_plt('Mosaic plot of the groups'))
-        _set_axis_measurement_level(ax, 'nom', 'nom')
-        graph = fig
+        graph = []
+        for group in groups:
+            ct = pd.crosstab(data_frame[var_names[0]], data_frame[group]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
+            #print(ct)
+            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0], properties=_create_default_mosaic_properties(ct))
+            ax = plt.subplot(111)
+            #ax.set_xlabel(' : '.join(groups))
+            ax.set_xlabel(group)
+            ax.set_ylabel(var_names[0])
+            plt.title(_plt('Mosaic plot of the groups'))
+            _set_axis_measurement_level(ax, 'nom', 'nom')
+            graph.append(fig)
     else:
         graph = None
     return graph
