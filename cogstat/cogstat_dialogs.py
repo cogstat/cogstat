@@ -495,7 +495,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         for i in range(self.selected_listWidget.count()):
             item = self.selected_listWidget.takeItem(0)
             if ' :: ' in item.text():
-                if not(item.text().endswith(' :: ')):
+                if not item.text().endswith(' :: '):
                     self.source_listWidget.insertItem(
                         find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
                         item.text().split(' :: ')[1])
@@ -523,15 +523,17 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             #print(self.factors)
             if len(self.factors) > 1:
                 self.show_factors()
-            else:  # remove the factor levels
+            else:  # remove the factor levels if there is one or zero factor level
                 for i in range(self.selected_listWidget.count()):
                     item = self.selected_listWidget.takeItem(0)
+                    # move formerly selected variables back to the source list
                     if ' :: ' in item.text():
-                        self.source_listWidget.insertItem(
-                            find_previous_item_position(self.source_listWidget, self.names,
-                                                        item.text().split(' :: ')[1]),
-                            item.text().split(' :: ')[1])
-                        item.setText(item.text().split(' :: ')[0] + ' :: ')
+                        if not item.text().endswith(' :: '):  # if there is a factor name and a variable
+                            self.source_listWidget.insertItem(
+                                find_previous_item_position(self.source_listWidget, self.names,
+                                                            item.text().split(' :: ')[1]),
+                                item.text().split(' :: ')[1])
+                            item.setText(item.text().split(' :: ')[0] + ' :: ')
                     else:
                         self.source_listWidget.insertItem(
                             find_previous_item_position(self.source_listWidget, self.names, item.text()),
