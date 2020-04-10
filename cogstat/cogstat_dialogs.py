@@ -253,8 +253,8 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         remove_item_from_list_widget(self.sourceListWidget, self.conditionListWidget, self.names)
 
     def read_parameters(self):
-        return ([str(self.RTListWidget.item(i).text()) for i in range(self.RTListWidget.count())],
-                [str(self.errorListWidget.item(i).text()) for i in range(self.errorListWidget.count())],
+        return ([str(self.errorListWidget.item(i).text()) for i in range(self.errorListWidget.count())],
+                [str(self.RTListWidget.item(i).text()) for i in range(self.RTListWidget.count())],
                 [str(self.participantListWidget.item(i).text()) for i in range(self.participantListWidget.count())],
                 [str(self.conditionListWidget.item(i).text()) for i in range(self.conditionListWidget.count())])
 
