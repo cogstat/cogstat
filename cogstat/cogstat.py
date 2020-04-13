@@ -617,7 +617,7 @@ class CogStatData:
         # 2-3. Sample and population properties
         sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
         if meas_lev == 'nom':
-            sample_result += cs_stat.contingency_table(self.data_frame, x, y, count=True, percent=True, margins=True)
+            sample_result += cs_stat.contingency_table(self.data_frame, [x], [y], count=True, percent=True, margins=True)
         standardized_effect_size_result = _('Standardized effect size:') + '\n'
         estimation_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
                             f"<b>{_('Population parameter estimations')}</b>\n"
@@ -671,7 +671,7 @@ class CogStatData:
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
         elif meas_lev == 'nom':
-            estimation_result += cs_stat.contingency_table(self.data_frame, x, y, ci=True)
+            estimation_result += cs_stat.contingency_table(self.data_frame, [x], [y], ci=True)
             population_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>' + \
                                  _('Testing if variables are independent.') + '<default>\n'
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
@@ -794,7 +794,7 @@ class CogStatData:
                              statistics=['variation ratio'])
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
-                sample_result += cs_stat.contingency_table(self.data_frame, var_pair[1], var_pair[0],
+                sample_result += cs_stat.contingency_table(self.data_frame, [var_pair[1]], [var_pair[0]],
                                                            count=True, percent=True, margins=True)
             sample_result += '\n'
 
@@ -819,7 +819,7 @@ class CogStatData:
                                                                       float_format=lambda x: '%0.*f' % (prec, x)))
         elif meas_level == 'nom':
             for var_pair in itertools.combinations(var_names, 2):
-                population_result += cs_stat.contingency_table(self.data_frame, var_pair[1], var_pair[0], ci=True)
+                population_result += cs_stat.contingency_table(self.data_frame, [var_pair[1]], [var_pair[0]], ci=True)
         population_result += '\n'
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level,
@@ -998,7 +998,7 @@ class CogStatData:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
                                                          statistics=['variation ratio'])
-                sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups[0], var_names[0],
+                sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names,
                                                                   count=True, percent=True, margins=True)
 
             # 3. Population properties
@@ -1024,7 +1024,7 @@ class CogStatData:
                                                                          float_format=lambda x: '%0.*f' % (prec, x)))
                 population_result += '\n'
             elif meas_level == 'nom':
-                population_result += cs_stat.contingency_table(self.data_frame, groups[0], var_names[0], ci=True)
+                population_result += cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True)
                 population_result += '\n'
 
             standardized_effect_size_result = None
@@ -1229,10 +1229,8 @@ class CogStatData:
                 sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
                                                          groups=groups,
                                                          statistics=['variation ratio'])
-                cont_table_data = pd.crosstab(self.data_frame[var_names[0]],
-                                              [self.data_frame[groups[i]] for i in range(len(groups))])  # , rownames = [x], colnames = [y])
-                sample_result += cs_stat._format_html_table(cont_table_data.to_html(bold_rows=False,
-                                                                                    classes="table_cs_pd"))
+                sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names,
+                                                                  count=True, percent=True, margins=True)
 
             # 3. Population properties
             # Plot population estimations
@@ -1253,6 +1251,8 @@ class CogStatData:
                     cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                          float_format=lambda x: '%0.*f' % (prec, x)))
                 population_result += '\n'
+            if meas_level == 'nom':
+                population_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True)
 
             result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
             if meas_level in ['int', 'unk']:

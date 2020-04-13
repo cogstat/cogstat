@@ -601,34 +601,38 @@ def confidence_interval_t(data, ci_only=True):
 
 def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
     """ Create contingency tables. Use for nominal data.
+    It works for any number of x and y variables.
     :param data_frame:
-    :param x:
-    :param y:
+    :param x: list of variable names (for columns)
+    :param y: list of variable names (for rows)
     :param count:
     :param percent:
     :param ci: multinomial, goodman method
-    :param margins: ci calculation ignores it
+    :param margins:option for count and percent tables,  ci calculation ignores it
 
     :return:
     """
     text_result=''
     if count:
-        cont_table_count = pd.crosstab(data_frame[y], data_frame[x], margins=margins, margins_name=_('Total'))
+        cont_table_count = pd.crosstab(index=[data_frame[ddd] for ddd in data_frame[y]], columns=[data_frame[ddd] for ddd in data_frame[x]], margins=margins, margins_name=_('Total'))
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Case count'),
                                             _format_html_table(cont_table_count.to_html(bold_rows=False,
                                                                                         classes="table_cs_pd")))
     if percent:
-        cont_table_perc = pd.crosstab(data_frame[y], data_frame[x], normalize=True,
-                                      margins=margins, margins_name=_('Total')) * 100
+        # for the pd.crosstab() function normalize=True parameter does not work with mutliple column variables (neither pandas version 0.22 nor 1.0.3 works, though with different error messages), so make a workaround
+        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]], [data_frame[ddd] for ddd in data_frame[x]], margins=margins, margins_name=_('Total'))
+        # normalize by the total count
+        cont_table_perc = cont_table_count / cont_table_count.iloc[-1, -1] * 100
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Percentage'),
                                             _format_html_table(cont_table_perc.to_html(bold_rows=False,
                                                                                        classes="table_cs_pd",
                                                                                        float_format=lambda x: '%.1f%%' % x)))
     if ci:
         from statsmodels.stats import proportion
-        cont_table_count = pd.crosstab(data_frame[y], data_frame[x])  # don't use margins
+        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]], [data_frame[ddd] for ddd in data_frame[x]])  # don't use margins
         cont_table_ci_np = proportion.multinomial_proportions_confint(cont_table_count.unstack())
-        cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=[_('low'), _('high')]).stack().unstack(level=[0, 2]) * 100
+        # add index and column names for the numpy results, and reformat (unstack) to the original arrangement
+        cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=[_('low'), _('high')]).stack().unstack(level=list(range(len(x))) + [len(x)+1]) * 100
         text_result += '%s - %s\n%s\n' % (_('Contingency table'), _('95% confidence interval (multinomial proportions)'),
                                             _format_html_table(cont_table_ci.to_html(bold_rows=False,
                                                                                      classes="table_cs_pd",
