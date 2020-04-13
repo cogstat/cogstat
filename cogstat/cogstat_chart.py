@@ -517,7 +517,8 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
         mosaic_data = cont_table_data.sort_index(ascending=False, level=1).unstack()    # sort the index to have the same order on the chart as in the table
         fig, rects = mosaic(mosaic_data, label_rotation=[0.0, 90.0],
-                            properties=_create_default_mosaic_properties(mosaic_data))
+                            properties=_create_default_mosaic_properties(mosaic_data),
+                            labelizer=lambda l: "\n".join(l) if mosaic_data[l] != 0 else "")
         ax = plt.subplot(111)
         ax.set_xlabel(x)
         ax.set_ylabel(y)
@@ -599,7 +600,9 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             ct = pd.crosstab(data_frame[var_pair[0]], data_frame[var_pair[1]]).sort_index(axis='index',
                                                                                           ascending=False) \
                 .unstack()  # sort the index to have the same order on the chart as in the table
-            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0], properties=_create_default_mosaic_properties(ct))
+            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
+                                properties=_create_default_mosaic_properties(ct),
+                                labelizer=lambda l: "\n".join(l) if ct[l] != 0 else "")
             ax = plt.subplot(111)
             ax.set_xlabel(var_pair[1])
             ax.set_ylabel(var_pair[0])
@@ -747,7 +750,9 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         for group in groups:
             ct = pd.crosstab(data_frame[var_names[0]], data_frame[group]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
             #print(ct)
-            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0], properties=_create_default_mosaic_properties(ct))
+            fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
+                                properties=_create_default_mosaic_properties(ct),
+                                labelizer=lambda l: " : ".join(l) if ct[l] != 0 else "")
             ax = plt.subplot(111)
             #ax.set_xlabel(' : '.join(groups))
             ax.set_xlabel(group)
