@@ -67,7 +67,7 @@ class CogStatTestCase(unittest.TestCase):
 
         # Int variable
         result = data.explore_variable('a', 1, 2.0)
-        #for i, res in enumerate(result): print i, res
+        #for i, res in enumerate(result): print(i, res)
         self.assertTrue('N of valid cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
         self.assertTrue('<td>Mean</td>      <td>3.1438</td>' in result[4])
@@ -85,7 +85,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>p</i> = 0.287' in result[6])
 
         # Population estimation and one sample t-test
-        self.assertTrue('[1.9227, 4.3649]' in result[9])  # CI of the mean
+        self.assertTrue('<td>1.9227</td>      <td>4.3649</td>' in result[9])  # CI of the mean
         self.assertTrue('3.2702' in result[9])  # SD
         self.assertTrue('t</i>(29) = 1.92' in result[11])
         self.assertTrue('p</i> = 0.065' in result[11])
@@ -230,7 +230,7 @@ class CogStatTestCase(unittest.TestCase):
         # 2 Nom variables
         result = data.compare_variables(['i', 'j'])
         # TODO on Linux the row labels are 0.0 and 1.0 instead of 0 and 1
-        self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])
+        self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>      <td>13</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])
         self.assertTrue('&chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.0556, <i>p</i> = 0.814' in result[5])
 
         # 3 Nom variables
@@ -264,9 +264,9 @@ class CogStatTestCase(unittest.TestCase):
         # 3 Int groups
         result = data.compare_groups('r', ['q'])
         self.assertTrue('<td>3.2869</td>      <td>5.0400</td>      <td>7.2412</td>' in result[3])
-        self.assertTrue('<i>W</i> = 0.675, <i>p</i> = 0.517' in result[7])  # TODO this might be incorrect
-        self.assertTrue('<i>F</i>(2, 27) = 4, <i>p</i> = 0.030' in result[7])
-        self.assertTrue('&omega;<sup>2</sup> = 0.167' in result[8])
+        self.assertTrue('<i>W</i> = 0.675, <i>p</i> = 0.517' in result[8])  # TODO this might be incorrect
+        self.assertTrue('<i>F</i>(2, 27) = 4, <i>p</i> = 0.030' in result[8])
+        self.assertTrue('&omega;<sup>2</sup> = 0.167' in result[6])
         # TODO post-hoc
 
         # 3 Int groups with assumption violation
