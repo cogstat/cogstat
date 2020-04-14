@@ -1008,7 +1008,7 @@ class CogStatData:
             population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
                                                                                groups, group_levels, ylims=ylims)
 
-            # Hypothesis testing
+            # Population estimations
             population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
                                 f"<b>{_('Population parameter estimations')}</b>\n"
             if meas_level in ['int', 'unk']:
@@ -1030,135 +1030,9 @@ class CogStatData:
 
             standardized_effect_size_result = None
 
-            result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
-            if meas_level in ['int', 'unk']:
-                result_ht += _('Testing if the means are the same.') + '<default>\n'
-            elif meas_level == 'ord':
-                result_ht += _('Testing if the medians are the same.') + '<default>\n'
-            elif meas_level == 'nom':
-                result_ht += _('Testing if the distributions are the same.') + '<default>\n'
-
-            result_ht += '<decision>'+_('One grouping variable. ')+'<default>'
-            if len(group_levels) == 1:
-                result_ht += _('There is only one group. At least two groups required.')+'\n<default>'
-
-            # Compare two groups
-            elif len(group_levels) == 2:
-                result_ht += '<decision>'+_('Two groups. ')+'<default>'
-                if meas_level == 'int':
-                    group_levels, [var1, var2] = cs_stat._split_into_groups(self.data_frame, var_names[0], groups)
-                    if len(var1) == 1 or len(var2) == 1:  # Single case vs control group
-                        result_ht += '<decision>'+_('One group contains only one case. >> Choosing modified t-test.') + \
-                                  '\n<default>'
-                        result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
-                        group = group_levels[1] if len(var1) == 1 else group_levels[0]
-                        norm, text_result, graph_dummy, graph2_dummy = \
-                            cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
-                                                   group_name=groups[0], group_value=group[0])
-                        result_ht += text_result
-                        if not norm:
-                            result_ht += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', ' + \
-                                      _('group ')+str(group)+'.\n<default>'
-                            result_ht += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
-                            result_ht += cs_hyp_test.mann_whitney_test(self.data_frame, var_names[0], groups[0])
-                        else:
-                            result_ht += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + \
-                                      '\n<default>'
-                            result_ht += cs_hyp_test.single_case_task_extremity(self.data_frame, var_names[0], groups[0], single_case_slope_SEs[0] if single_case_slope_SEs else None, single_case_slope_trial_n)
-                    else:
-                        result_ht += '<decision>'+_('Interval variable.')+' >> ' + \
-                                  _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + \
-                                  '\n<default>'
-                        result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
-                        non_normal_groups = []
-                        for group in group_levels:
-                            norm, text_result, graph_dummy, graph2_dummy = \
-                                cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
-                                                       group_name=groups[0], group_value=group[0])
-                            result_ht += text_result
-                            if not norm:
-                                non_normal_groups.append(group)
-                        result_ht += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
-                        hoemogeneity_vars = True
-                        p, text_result = cs_hyp_test.levene_test(self.data_frame, var_names[0], groups[0])
-                        result_ht += text_result
-                        if p < 0.05:
-                            hoemogeneity_vars = False
-
-                        if not(non_normal_groups) and hoemogeneity_vars:
-                            result_ht += '<decision>' + \
-                                      _('Normality and homogeneity of variance are not violated. >> Running two sample t-test.') + \
-                                      '\n<default>'
-                            result_ht += cs_hyp_test.independent_t_test(self.data_frame, var_names[0], groups[0])
-                        elif non_normal_groups:
-                            result_ht += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % \
-                                                   (var_names[0], ', '.join(map(str, non_normal_groups)))+' >> ' + \
-                                      _('Running Mann-Whitney test.')+'\n<default>'
-                            result_ht += cs_hyp_test.mann_whitney_test(self.data_frame, var_names[0], groups[0])
-                        elif not hoemogeneity_vars:
-                            result_ht += '<decision>'+_('Homeogeneity of variance violated in variable %s.') % \
-                                                   var_names[0] + ' >> ' + _("Running Welch's t-test.")+'\n<default>'
-                            result_ht += cs_hyp_test.welch_t_test(self.data_frame, var_names[0], groups[0])
-
-                elif meas_level == 'ord':
-                    result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n'
-                    result_ht += cs_hyp_test.mann_whitney_test(self.data_frame, var_names[0], groups[0])
-                elif meas_level == 'nom':
-                    result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+' '+'<default>\n'
-                    cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
-                    sample_result += '\n\n' + cramer_result
-                    result_ht += chi_result
-
-            # Compare more than two groups
-            elif len(group_levels) > 2:
-                result_ht += '<decision>'+_('More than two groups.')+' <default>'
-                if meas_level == 'int':
-                    result_ht += '<decision>'+_('Interval variable.')+' >> ' + \
-                              _('Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions.') + \
-                              '<default>'+'\n'
-
-                    result_ht += '<decision>'+_('Checking for normality.')+'\n<default>'
-                    non_normal_groups = []
-                    for group in group_levels:
-                        norm, text_result, graph_dummy, graph2_dummy = \
-                            cs_stat.normality_test(self.data_frame, self.data_measlevs, var_names[0],
-                                                   group_name=groups[0], group_value=group)
-                        result_ht += text_result
-                        if not norm:
-                            non_normal_groups.append(group)
-                    result_ht += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
-                    hoemogeneity_vars = True
-                    p, text_result = cs_hyp_test.levene_test(self.data_frame, var_names[0], groups[0])
-                    result_ht += text_result
-                    if p < 0.05:
-                        hoemogeneity_vars = False
-
-                    if not(non_normal_groups) and hoemogeneity_vars:
-                        result_ht += '<decision>' + \
-                                  _('Normality and homogeneity of variance are not violated. >> Running one-way ANOVA.')\
-                                  + '\n<default>'
-                        anova_result, effect_size_result = cs_stat.one_way_anova(self.data_frame, var_names[0], groups[0])
-                        result_ht += anova_result
-                        standardized_effect_size_result = '\n'+_('Standardized effect size:') + '\n' + effect_size_result
-
-                    if non_normal_groups:
-                        result_ht += '<decision>'+_('Normality is violated in variable %s, group(s) %s. ') % \
-                                               (var_names[0], ', '.join(map(str, non_normal_groups)))
-                    if not hoemogeneity_vars:
-                        result_ht += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]
-                    if non_normal_groups or (not hoemogeneity_vars):
-                        result_ht += '>> '+_('Running Kruskal-Wallis test.')+'\n<default>'
-                        result_ht += cs_hyp_test.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
-
-                elif meas_level == 'ord':
-                    result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Kruskal-Wallis test.') + \
-                              '<default>\n<default>'
-                    result_ht += cs_hyp_test.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
-                elif meas_level == 'nom':
-                    result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
-                    cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
-                    sample_result += '\n\n' + cramer_result
-                    result_ht += chi_result
+            # Hypothesis testing
+            standardized_effect_size_result, sample_result_temp, result_ht = cs_hyp_test.decision_one_grouping_variable(self.data_frame, meas_level, self.data_measlevs, var_names, groups, group_levels, single_case_slope_SEs, single_case_slope_trial_n)
+            sample_result += sample_result_temp
 
         # Two grouping variables
         elif len(groups) == 2:
@@ -1239,7 +1113,7 @@ class CogStatData:
             population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
                                                                                groups, level_combinations, ylims=ylims)
 
-            # Hypothesis testing
+            # Population estimation
             population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
                                 f"<b>{_('Population parameter estimations')}</b>\n"
             if meas_level in ['int', 'unk']:
@@ -1255,27 +1129,8 @@ class CogStatData:
             if meas_level == 'nom':
                 population_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True)
 
-            result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
-            if meas_level in ['int', 'unk']:
-                result_ht += _('Testing if the means are the same.') + '<default>\n'
-            elif meas_level == 'ord':
-                result_ht += _('Testing if the medians are the same.') + '<default>\n'
-            elif meas_level == 'nom':
-                result_ht += _('Testing if the distributions are the same.') + '<default>\n'
-
-            result_ht += '<decision>' + _('Two grouping variables. ') + '<default>'
-            if meas_level == 'int':
-                group_levels, vars = cs_stat._split_into_groups(self.data_frame, var_names[0], groups)
-                result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
-                             _("Choosing factorial ANOVA.") + '\n<default>'
-                result_ht += cs_hyp_test.two_way_anova(self.data_frame, var_names[0], groups)
-
-            elif meas_level == 'ord':
-                result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + \
-                             _('Sorry, not implemented yet.') + '<default>\n'
-            elif meas_level == 'nom':
-                result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + \
-                             _('Sorry, not implemented yet.') + ' ' + '<default>\n'
+            # Hypothesis testing
+            result_ht = cs_hyp_test.decision_two_grouping_variables(self.data_frame, meas_level, var_names, groups)
 
         elif len(groups) > 2:
             raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n'
