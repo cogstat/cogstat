@@ -41,7 +41,7 @@ def get_versions():
     try:
         import statsmodels
         csc.versions['statsmodels'] = statsmodels.version.version
-    except (ModuleNotFoundError, NameError):
+    except (ModuleNotFoundError, NameError, AttributeError):
         try:
             csc.versions['statsmodels'] = statsmodels.__version__
         except NameError:
