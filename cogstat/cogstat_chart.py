@@ -206,7 +206,7 @@ def _create_default_mosaic_properties(data):
     return properties
 
 
-def _mosaic_labelizer(crosstab_data, l, separator):
+def _mosaic_labelizer(crosstab_data, l, separator='\n'):
     """Custom labelizer function for statsmodel mosaic function
     """
     try:
@@ -759,6 +759,25 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         graph = fig
     elif meas_level in ['nom']:
         graph = []
+        """
+        # TODO keep implementing several grouping variables mosaic plot
+        # Current issues:
+        # - if there are cells with zero value, three variables mosaic plot will not run - probably statsmodels issue
+        # - ax = plt.subplot(111) removes the labels of the third variable at the top
+        # - dependent variable should go to the y axis when there are three variables
+        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[ddd] for ddd in data_frame[groups]]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
+        print(ct)
+        fig, rects = mosaic(ct, label_rotation=[0.0, 90.0] if len(groups) == 1 else [0.0, 90.0, 0.0],
+                            labelizer=lambda x: _mosaic_labelizer(ct, x, ' : '),
+                            properties=_create_default_mosaic_properties(ct))
+        ax = plt.subplot(111)
+        # ax.set_xlabel(' : '.join(groups))
+        ax.set_xlabel(groups[0])
+        ax.set_ylabel(groups[1] if len(groups) > 1 else var_names[0])
+        plt.title(_plt('Mosaic plot of the groups'))
+        _set_axis_measurement_level(ax, 'nom', 'nom')
+        graph.append(fig)
+        #"""
         for group in groups:
             ct = pd.crosstab(data_frame[var_names[0]], data_frame[group]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
             #print(ct)
@@ -766,7 +785,6 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
                                 properties=_create_default_mosaic_properties(ct),
                                 labelizer=lambda x: _mosaic_labelizer(ct, x, ' : '))
             ax = plt.subplot(111)
-            #ax.set_xlabel(' : '.join(groups))
             ax.set_xlabel(group)
             ax.set_ylabel(var_names[0])
             plt.title(_plt('Mosaic plot of the groups'))
