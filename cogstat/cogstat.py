@@ -25,6 +25,7 @@ from . import cogstat_config as csc
 csc.versions['cogstat'] = __version__
 from . import cogstat_stat as cs_stat
 from . import cogstat_stat_num as cs_stat_num
+from . import cogstat_hyp_test as cs_hyp_test
 from . import cogstat_util as cs_util
 from . import cogstat_chart as cs_chart
 cs_util.get_versions()
@@ -854,19 +855,19 @@ class CogStatData:
 
                     if not non_normal_vars:
                         result_ht += '<decision>'+_('Normality is not violated. >> Running paired t-test.')+'\n<default>'
-                        result_ht += cs_stat.paired_t_test(self.data_frame, var_names)
+                        result_ht += cs_hyp_test.paired_t_test(self.data_frame, var_names)
                     else:  # TODO should the descriptive be the mean or the median?
                         result_ht += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
                             join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.')+'\n<default>'
-                        result_ht += cs_stat.paired_wilcox_test(self.data_frame, var_names)
+                        result_ht += cs_hyp_test.paired_wilcox_test(self.data_frame, var_names)
                 elif meas_level == 'ord':
                     result_ht += '<decision>'+_('Ordinal variables.')+' >> '+_('Running paired Wilcoxon test.')+'\n<default>'
-                    result_ht += cs_stat.paired_wilcox_test(self.data_frame, var_names)
+                    result_ht += cs_hyp_test.paired_wilcox_test(self.data_frame, var_names)
                 else:  # nominal variables
                     if len(set(data.values.ravel())) == 2:
                         result_ht += '<decision>'+_('Nominal dichotomous variables.')+' >> ' + _('Running McNemar test.') \
                                   + '\n<default>'
-                        result_ht += cs_stat.mcnemar_test(self.data_frame, var_names)
+                        result_ht += cs_hyp_test.mcnemar_test(self.data_frame, var_names)
                     else:
                         result_ht += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' + \
                                   _('Sorry, not implemented yet.')+'\n<default>'
@@ -890,19 +891,19 @@ class CogStatData:
                     if not non_normal_vars:
                         result_ht += '<decision>'+_('Normality is not violated.') + ' >> ' + \
                                   _('Running repeated measures one-way ANOVA.')+'\n<default>'
-                        result_ht += cs_stat.repeated_measures_anova(self.data_frame, var_names)
+                        result_ht += cs_hyp_test.repeated_measures_anova(self.data_frame, var_names)
                     else:
                         result_ht += '<decision>'+_('Normality is violated in variable(s): %s.') % ', '.\
                             join(non_normal_vars) + ' >> ' + _('Running Friedman test.')+'\n<default>'
-                        result_ht += cs_stat.friedman_test(self.data_frame, var_names)
+                        result_ht += cs_hyp_test.friedman_test(self.data_frame, var_names)
                 elif meas_level == 'ord':
                     result_ht += '<decision>'+_('Ordinal variables.')+' >> '+_('Running Friedman test.')+'\n<default>'
-                    result_ht += cs_stat.friedman_test(self.data_frame, var_names)
+                    result_ht += cs_hyp_test.friedman_test(self.data_frame, var_names)
                 else:
                     if len(set(data.values.ravel())) == 2:
                         result_ht += '<decision>'+_('Nominal dichotomous variables.')+' >> '+_("Running Cochran's Q test.") + \
                                   '\n<default>'
-                        result_ht += cs_stat.cochran_q_test(self.data_frame, var_names)
+                        result_ht += cs_hyp_test.cochran_q_test(self.data_frame, var_names)
                     else:
                         result_ht += '<decision>'+_('Nominal non dichotomous variables.')+' >> ' \
                                   + _('Sorry, not implemented yet.')+'\n<default>'
@@ -911,7 +912,7 @@ class CogStatData:
                 result_ht += '<decision>' + _('Interval variables with several factors.') + ' >> ' + \
                              _('Choosing repeated measures ANOVA.') + \
                              '\n<default>'
-                result_ht += cs_stat.repeated_measures_anova(self.data_frame, var_names, factors)
+                result_ht += cs_hyp_test.repeated_measures_anova(self.data_frame, var_names, factors)
             elif meas_level == 'ord':
                 result_ht += '<decision>' + _('Ordinal variables with several factors.') + ' >> ' \
                              + _('Sorry, not implemented yet.') + '\n<default>'
@@ -1059,11 +1060,11 @@ class CogStatData:
                             result_ht += '<decision>'+_('Normality is violated in variable ')+var_names[0]+', ' + \
                                       _('group ')+str(group)+'.\n<default>'
                             result_ht += '<decision>>> '+_('Running Mann-Whitney test.')+'\n<default>'
-                            result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_hyp_test.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         else:
                             result_ht += '<decision>'+_('Normality is not violated. >> Running modified t-test.') + \
                                       '\n<default>'
-                            result_ht += cs_stat.single_case_task_extremity(self.data_frame, var_names[0], groups[0], single_case_slope_SEs[0] if single_case_slope_SEs else None, single_case_slope_trial_n)
+                            result_ht += cs_hyp_test.single_case_task_extremity(self.data_frame, var_names[0], groups[0], single_case_slope_SEs[0] if single_case_slope_SEs else None, single_case_slope_trial_n)
                     else:
                         result_ht += '<decision>'+_('Interval variable.')+' >> ' + \
                                   _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + \
@@ -1079,7 +1080,7 @@ class CogStatData:
                                 non_normal_groups.append(group)
                         result_ht += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
                         hoemogeneity_vars = True
-                        p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
+                        p, text_result = cs_hyp_test.levene_test(self.data_frame, var_names[0], groups[0])
                         result_ht += text_result
                         if p < 0.05:
                             hoemogeneity_vars = False
@@ -1088,20 +1089,20 @@ class CogStatData:
                             result_ht += '<decision>' + \
                                       _('Normality and homogeneity of variance are not violated. >> Running two sample t-test.') + \
                                       '\n<default>'
-                            result_ht += cs_stat.independent_t_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_hyp_test.independent_t_test(self.data_frame, var_names[0], groups[0])
                         elif non_normal_groups:
                             result_ht += '<decision>'+_('Normality is violated in variable %s, group(s) %s.') % \
                                                    (var_names[0], ', '.join(map(str, non_normal_groups)))+' >> ' + \
                                       _('Running Mann-Whitney test.')+'\n<default>'
-                            result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_hyp_test.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                         elif not hoemogeneity_vars:
                             result_ht += '<decision>'+_('Homeogeneity of variance violated in variable %s.') % \
                                                    var_names[0] + ' >> ' + _("Running Welch's t-test.")+'\n<default>'
-                            result_ht += cs_stat.welch_t_test(self.data_frame, var_names[0], groups[0])
+                            result_ht += cs_hyp_test.welch_t_test(self.data_frame, var_names[0], groups[0])
 
                 elif meas_level == 'ord':
                     result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Mann-Whitney test.')+'<default>\n'
-                    result_ht += cs_stat.mann_whitney_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += cs_hyp_test.mann_whitney_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
                     result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+' '+'<default>\n'
                     cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
@@ -1127,7 +1128,7 @@ class CogStatData:
                             non_normal_groups.append(group)
                     result_ht += '<decision>'+_('Checking for homogeneity of variance across groups.')+'\n<default>'
                     hoemogeneity_vars = True
-                    p, text_result = cs_stat.levene_test(self.data_frame, var_names[0], groups[0])
+                    p, text_result = cs_hyp_test.levene_test(self.data_frame, var_names[0], groups[0])
                     result_ht += text_result
                     if p < 0.05:
                         hoemogeneity_vars = False
@@ -1147,12 +1148,12 @@ class CogStatData:
                         result_ht += '<decision>'+_('Homeogeneity of variance violated in variable %s. ') % var_names[0]
                     if non_normal_groups or (not hoemogeneity_vars):
                         result_ht += '>> '+_('Running Kruskal-Wallis test.')+'\n<default>'
-                        result_ht += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
+                        result_ht += cs_hyp_test.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
 
                 elif meas_level == 'ord':
                     result_ht += '<decision>'+_('Ordinal variable.')+' >> '+_('Running Kruskal-Wallis test.') + \
                               '<default>\n<default>'
-                    result_ht += cs_stat.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
+                    result_ht += cs_hyp_test.kruskal_wallis_test(self.data_frame, var_names[0], groups[0])
                 elif meas_level == 'nom':
                     result_ht += '<decision>'+_('Nominal variable.')+' >> '+_('Running Chi-square test.')+'<default>\n'
                     cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, var_names[0], groups[0])
@@ -1267,7 +1268,7 @@ class CogStatData:
                 group_levels, vars = cs_stat._split_into_groups(self.data_frame, var_names[0], groups)
                 result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
                              _("Choosing factorial ANOVA.") + '\n<default>'
-                result_ht += cs_stat.two_way_anova(self.data_frame, var_names[0], groups)
+                result_ht += cs_hyp_test.two_way_anova(self.data_frame, var_names[0], groups)
 
             elif meas_level == 'ord':
                 result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + \
