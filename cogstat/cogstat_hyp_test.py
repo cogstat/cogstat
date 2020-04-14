@@ -36,6 +36,108 @@ _ = t.gettext
 ### Compare variables ###
 
 
+def decision_repeated_measures(df, meas_level, factors, var_names, data, data_measlevs):
+    result_ht = f"<b>{_('Hypothesis tests')}</b>\n" '<decision>'
+    if meas_level in ['int', 'unk']:
+        result_ht += _('Testing if the means are the same.') + '<default>\n'
+    elif meas_level == 'ord':
+        result_ht += _('Testing if the medians are the same.') + '<default>\n'
+    elif meas_level == 'nom':
+        result_ht += _('Testing if the distributions are the same.') + '<default>\n'
+    if not factors:  # one-way comparison
+        if len(var_names) < 2:
+            result_ht += _('At least two variables required.')
+        elif len(var_names) == 2:
+            result_ht += '<decision>' + _('Two variables. ') + '<default>'
+
+            if meas_level == 'int':
+                result_ht += '<decision>' + _('Interval variables.') + ' >> ' + _(
+                    'Choosing paired t-test or paired Wilcoxon test depending on the assumptions.') + '\n<default>'
+
+                result_ht += '<decision>' + _('Checking for normality.') + '\n<default>'
+                non_normal_vars = []
+                temp_diff_var_name = 'Difference of %s and %s' % tuple(var_names)
+                data[temp_diff_var_name] = data[var_names[0]] - data[var_names[1]]
+                norm, text_result, graph_dummy, graph2_dummy = \
+                    cs_stat.normality_test(df, {temp_diff_var_name: 'int'}, temp_diff_var_name,
+                                           alt_data=data)
+                result_ht += text_result
+                if not norm:
+                    non_normal_vars.append(temp_diff_var_name)
+
+                if not non_normal_vars:
+                    result_ht += '<decision>' + _(
+                        'Normality is not violated. >> Running paired t-test.') + '\n<default>'
+                    result_ht += paired_t_test(df, var_names)
+                else:  # TODO should the descriptive be the mean or the median?
+                    result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
+                        join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.') + '\n<default>'
+                    result_ht += paired_wilcox_test(df, var_names)
+            elif meas_level == 'ord':
+                result_ht += '<decision>' + _('Ordinal variables.') + ' >> ' + _(
+                    'Running paired Wilcoxon test.') + '\n<default>'
+                result_ht += paired_wilcox_test(df, var_names)
+            else:  # nominal variables
+                if len(set(data.values.ravel())) == 2:
+                    result_ht += '<decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
+                        'Running McNemar test.') \
+                                 + '\n<default>'
+                    result_ht += mcnemar_test(df, var_names)
+                else:
+                    result_ht += '<decision>' + _('Nominal non dichotomous variables.') + ' >> ' + \
+                                 _('Sorry, not implemented yet.') + '\n<default>'
+        else:
+            result_ht += '<decision>' + _('More than two variables. ') + '<default>'
+            if meas_level in ['int', 'unk']:
+                result_ht += '<decision>' + _('Interval variables.') + ' >> ' + \
+                             _('Choosing repeated measures ANOVA or Friedman test depending on the assumptions.') + \
+                             '\n<default>'
+
+                result_ht += '<decision>' + _('Checking for normality.') + '\n<default>'
+                non_normal_vars = []
+                for var_name in var_names:
+                    norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(df, data_measlevs, var_name,
+                                                                                          alt_data=data)
+                    result_ht += text_result
+                    if not norm:
+                        non_normal_vars.append(var_name)
+
+                if not non_normal_vars:
+                    result_ht += '<decision>' + _('Normality is not violated.') + ' >> ' + \
+                                 _('Running repeated measures one-way ANOVA.') + '\n<default>'
+                    result_ht += repeated_measures_anova(df, var_names)
+                else:
+                    result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
+                        join(non_normal_vars) + ' >> ' + _('Running Friedman test.') + '\n<default>'
+                    result_ht += friedman_test(df, var_names)
+            elif meas_level == 'ord':
+                result_ht += '<decision>' + _('Ordinal variables.') + ' >> ' + _(
+                    'Running Friedman test.') + '\n<default>'
+                result_ht += friedman_test(df, var_names)
+            else:
+                if len(set(data.values.ravel())) == 2:
+                    result_ht += '<decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
+                        "Running Cochran's Q test.") + \
+                                 '\n<default>'
+                    result_ht += cochran_q_test(df, var_names)
+                else:
+                    result_ht += '<decision>' + _('Nominal non dichotomous variables.') + ' >> ' \
+                                 + _('Sorry, not implemented yet.') + '\n<default>'
+    else:  # two- or more-ways comparison
+        if meas_level in ['int', 'unk']:
+            result_ht += '<decision>' + _('Interval variables with several factors.') + ' >> ' + \
+                         _('Choosing repeated measures ANOVA.') + \
+                         '\n<default>'
+            result_ht += repeated_measures_anova(df, var_names, factors)
+        elif meas_level == 'ord':
+            result_ht += '<decision>' + _('Ordinal variables with several factors.') + ' >> ' \
+                         + _('Sorry, not implemented yet.') + '\n<default>'
+        elif meas_level == 'nom':
+            result_ht += '<decision>' + _('Nominal variables with several factors.') + ' >> ' \
+                         + _('Sorry, not implemented yet.') + '\n<default>'
+    return result_ht
+
+
 def paired_t_test(pdf, var_names):
     """Paired sample t-test
 
