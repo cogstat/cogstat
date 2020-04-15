@@ -959,7 +959,7 @@ class CogStatData:
                 single_case_slope_SEs, single_case_slope_trial_n)
             sample_result += sample_result_temp
         else:
-            result_ht = cs_hyp_test.decision_two_grouping_variables(self.data_frame, meas_level, var_names, groups)
+            result_ht = cs_hyp_test.decision_several_grouping_variables(self.data_frame, meas_level, var_names, groups)
 
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                      standardized_effect_size_result, population_graph, result_ht])

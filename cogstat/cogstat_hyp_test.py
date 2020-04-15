@@ -14,6 +14,7 @@ import gettext
 import os
 from scipy import stats
 import numpy as np
+import re
 
 from . import cogstat_config as csc
 from . import cogstat_stat_num as cs_stat_num
@@ -458,7 +459,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
     return standardized_effect_size_result, sample_result, result_ht
 
 
-def decision_two_grouping_variables(df, meas_level, var_names, groups):
+def decision_several_grouping_variables(df, meas_level, var_names, groups):
     result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '<default>\n'
@@ -467,12 +468,12 @@ def decision_two_grouping_variables(df, meas_level, var_names, groups):
     elif meas_level == 'nom':
         result_ht += _('Testing if the distributions are the same.') + '<default>\n'
 
-    result_ht += '<decision>' + _('Two grouping variables. ') + '<default>'
+    result_ht += '<decision>' + _('At least two grouping variables. ') + '<default>'
     if meas_level == 'int':
         #group_levels, vars = cs_stat._split_into_groups(df, var_names[0], groups)
         result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
                      _("Choosing factorial ANOVA.") + '\n<default>'
-        result_ht += two_way_anova(df, var_names[0], groups)
+        result_ht += multi_way_anova(df, var_names[0], groups)
 
     elif meas_level == 'ord':
         result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + \
@@ -640,7 +641,7 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     return text_result
 
 
-def two_way_anova(pdf, var_name, grouping_names):
+def multi_way_anova(pdf, var_name, grouping_names):
     """Two-way ANOVA
 
     Arguments:
@@ -648,29 +649,29 @@ def two_way_anova(pdf, var_name, grouping_names):
     var_name (str):
     grouping_names (list of str):
     """
-    # TODO extend it to multi-way ANOVA
-    text_result = ''
-
     # http://statsmodels.sourceforge.net/stable/examples/generated/example_interactions.html#one-way-anova
     from statsmodels.formula.api import ols
     from statsmodels.stats.anova import anova_lm
     data = pdf.dropna(subset=[var_name] + grouping_names)
-    # from IPython import embed; embed()
+
     # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    anova_model = ols(str('%s ~ C(%s) + C(%s) + C(%s):C(%s)' % (var_name, grouping_names[0], grouping_names[1], grouping_names[0], grouping_names[1])), data=data).fit()
+    anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'C({group_name})' for group_name in grouping_names]))), data=data).fit()
     anova_result = anova_lm(anova_model, typ=3)
-    text_result += _('Result of two-way ANOVA:' + '\n')
+    text_result = _('Result of multi-way ANOVA') + ':\n'
+
     # Main effects
     for group_i, group in enumerate(grouping_names):
         text_result += _('Main effect of %s: ' % group) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
-                       (anova_result['df'][group_i+1], anova_result['df'][4], anova_result['F'][group_i+1],
+                       (anova_result['df'][group_i+1], anova_result['df'][-1], anova_result['F'][group_i+1],
                         cs_util.print_p(anova_result['PR(>F)'][group_i+1]))
+
     # Interaction effects
-    text_result += _('Interaction of %s and %s: ') % (grouping_names[0], grouping_names[1]) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
-                   (anova_result['df'][3], anova_result['df'][4], anova_result['F'][3], cs_util.print_p(anova_result['PR(>F)'][3]))
+    for interaction_line in range(group_i+2, len(anova_result)-1):
+        text_result += _('Interaction of %s: ') % (' and '.join([a[1:-1] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
+                       (anova_result['df'][interaction_line], anova_result['df'][-1], anova_result['F'][interaction_line], cs_util.print_p(anova_result['PR(>F)'][interaction_line]))
 
     """ # TODO
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
