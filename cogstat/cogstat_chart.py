@@ -682,8 +682,6 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         # TODO is this OK for ordinal?
         # Get the data to display
         # group the raw the data according to the level combinations
-        if len(groups) == 1:
-            group_levels = [[group_level] for group_level in group_levels]
         variables = [data_frame[var_names[0]][(data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1)].dropna() for group_level in group_levels]
         if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
             index_ranks = dict(list(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables)))))
@@ -800,8 +798,7 @@ def create_compare_groups_population_chart(data_frame, meas_level, var_names, gr
     :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
     """
     graph = None
-    #    if len(groups) == 1:
-    #        group_levels = [[group_level] for group_level in group_levels]
+    group_levels = [level[0] for level in group_levels] if len(group_levels[0]) == 1 else group_levels
     if meas_level in ['int', 'unk']:
         # ord is excluded at the moment
         fig = plt.figure()

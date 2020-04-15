@@ -858,192 +858,108 @@ class CogStatData:
         if unknown_type:
             raw_result += '<decision>'+warn_unknown_variable+'<default>'
 
-        # One grouping variable
+        # 1. Raw data
+        raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
+
+        standardized_effect_size_result = None
+
+        data = self.data_frame[groups + [var_names[0]]].dropna()
+        # create a list of sets with the levels of all grouping variables
+        levels = [list(set(data[group])) for group in groups]
+        for i in range(len(levels)):
+            levels[i].sort()
+        # TODO sort the levels in other parts of the output, too
+        # create all level combinations for the grouping variables
+        level_combinations = list(itertools.product(*levels))
+
+        # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
+        columns = pd.MultiIndex.from_tuples(level_combinations, names=groups)
+        pdf_result = pd.DataFrame(columns=columns)
+
+        pdf_result.loc[_('N of valid cases')] = [sum(
+            (data[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1))
+                                                 for group_level in level_combinations]
+        pdf_result.loc[_('N of missing cases')] = [sum(
+            (self.data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(
+                axis=1)) -
+                                                   sum((data[groups] == pd.Series({group: level for group, level in
+                                                                                   zip(groups, group_level)})).all(
+                                                       axis=1)) for group_level in level_combinations]
+        #            for group in group_levels:
+        #                valid_n = sum(data[groups[0]]==group)
+        #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
+        #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
+        raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
+        raw_result += '\n\n'
+        for group in groups:
+            valid_n = len(self.data_frame[group].dropna())
+            missing_n = len(self.data_frame[group]) - valid_n
+            raw_result += _('N of missing grouping variable in %s') % group + ': %g\n' % missing_n
+
+        # Plot individual data
+
+        raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
+                                                              level_combinations, raw_data_only=True, ylims=ylims)
+
+        # Plot the individual data with boxplots
+        # There's no need to repeat the mosaic plot for the nominal variables
+        if meas_level in ['int', 'unk', 'ord']:
+            sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
+                                                                     level_combinations, ylims=ylims)
+        else:
+            sample_graph = None
+
+        # 2. Sample properties
+        sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
+
+        if meas_level in ['int', 'unk']:
+            sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                     groups=groups,
+                                                     statistics=['mean', 'std', 'max', 'upper quartile', 'median',
+                                                                 'lower quartile', 'min'])
+        elif meas_level == 'ord':
+            sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                     groups=groups,
+                                                     statistics=['max', 'upper quartile', 'median',
+                                                                 'lower quartile', 'min'])
+        elif meas_level == 'nom':
+            sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+                                                     groups=groups,
+                                                     statistics=['variation ratio'])
+            sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names,
+                                                              count=True, percent=True, margins=True)
+
+        # 3. Population properties
+        # Plot population estimations
+        group_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
+        population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
+                                                                           groups, level_combinations, ylims=ylims)
+
+        # Population estimation
+        population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
+                            f"<b>{_('Population parameter estimations')}</b>\n"
+        if meas_level in ['int', 'unk']:
+            population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+        elif meas_level == 'ord':
+            population_result += f"{_('Medians')}"
+        if meas_level in ['int', 'unk', 'ord']:
+            prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+            population_result += \
+                cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+            population_result += '\n'
+        if meas_level == 'nom':
+            population_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True) + '\n'
+
+        # Hypothesis testing
         if len(groups) == 1:
-            # 1. Raw data
-            raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
-
-            data = self.data_frame[[groups[0], var_names[0]]].dropna()
             group_levels = sorted(set(data[groups[0]]))
-            # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
-            pdf_result = pd.DataFrame(columns=group_levels)
-            pdf_result.loc[_('N of valid cases')] = [sum(data[groups[0]] == group) for group in group_levels]
-            pdf_result.loc[_('N of missing cases')] = [sum(self.data_frame[groups[0]] == group) -
-                                                    sum(data[groups[0]] == group) for group in group_levels]
-#            for group in group_levels:
-#                valid_n = sum(data[groups[0]]==group)
-#                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
-#                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
-            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
-            valid_n = len(self.data_frame[groups[0]].dropna())
-            missing_n = len(self.data_frame[groups[0]])-valid_n
-            raw_result += '\n\n'+_('N of missing group cases') + ': %g' % missing_n +'\n'
-
-            # Plot individual data
-            raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                    group_levels, raw_data_only=True, ylims=ylims)
-
-            # Plot the individual data with boxplots
-            # There's no need to repeat the mosaic plot for the nominal variables
-            if meas_level in ['int', 'unk', 'ord']:
-                sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names,
-                                                                           groups, group_levels, ylims=ylims)
-            else:
-                sample_graph = None
-
-            # 2. Descriptive data
-            sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
-
-            if meas_level in ['int', 'unk']:
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
-                                                         groups=groups,
-                                                         statistics=['mean', 'std', 'max', 'upper quartile', 'median',
-                                                                     'lower quartile', 'min'])
-            elif meas_level == 'ord':
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
-                                                         groups=groups,
-                                                         statistics=['max', 'upper quartile', 'median',
-                                                                     'lower quartile', 'min'])
-            elif meas_level == 'nom':
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
-                                                         groups=groups,
-                                                         statistics=['variation ratio'])
-                sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names,
-                                                                  count=True, percent=True, margins=True)
-
-            # 3. Population properties
-            # Plot population estimations
-            group_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
-            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
-                                                                               groups, group_levels, ylims=ylims)
-
-            # Population estimations
-            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
-                                f"<b>{_('Population parameter estimations')}</b>\n"
-            if meas_level in ['int', 'unk']:
-                population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
-                prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
-                population_result += \
-                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
-            elif meas_level == 'ord':
-                population_result += f"{_('Medians')}\n"
-                prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
-                population_result += \
-                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
-                population_result += '\n'
-            elif meas_level == 'nom':
-                population_result += cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True)
-                population_result += '\n'
-
-            standardized_effect_size_result = None
-
-            # Hypothesis testing
-            standardized_effect_size_result, sample_result_temp, result_ht = cs_hyp_test.decision_one_grouping_variable(self.data_frame, meas_level, self.data_measlevs, var_names, groups, group_levels, single_case_slope_SEs, single_case_slope_trial_n)
+            standardized_effect_size_result, sample_result_temp, result_ht = cs_hyp_test.decision_one_grouping_variable(
+                self.data_frame, meas_level, self.data_measlevs, var_names, groups, group_levels,
+                single_case_slope_SEs, single_case_slope_trial_n)
             sample_result += sample_result_temp
-
-        # Two grouping variables
-        elif len(groups) == 2:
-            # 1. Raw data
-            raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
-
-            standardized_effect_size_result = None
-
-            data = self.data_frame[groups + [var_names[0]]].dropna()
-            # create a list of sets with the levels of all grouping variables
-            levels = [list(set(data[group])) for group in groups]
-            for i in range(len(levels)):
-                levels[i].sort()
-            # TODO sort the levels in other parts of the output, too
-            # create all level combinations for the grouping variables
-            level_combinations = list(itertools.product(*levels))
-
-            # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
-            columns = pd.MultiIndex.from_tuples(level_combinations, names=groups)
-            pdf_result = pd.DataFrame(columns=columns)
-
-            pdf_result.loc[_('N of valid cases')] = [sum(
-                (data[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1))
-                                                     for group_level in level_combinations]
-            pdf_result.loc[_('N of missing cases')] = [sum(
-                (self.data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(
-                    axis=1)) -
-                                                       sum((data[groups] == pd.Series({group: level for group, level in
-                                                                                       zip(groups, group_level)})).all(
-                                                           axis=1)) for group_level in level_combinations]
-            #            for group in group_levels:
-            #                valid_n = sum(data[groups[0]]==group)
-            #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
-            #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %(group, valid_n, missing_n)
-            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
-            raw_result += '\n\n'
-            for group in groups:
-                valid_n = len(self.data_frame[group].dropna())
-                missing_n = len(self.data_frame[group]) - valid_n
-                raw_result += _('N of missing grouping variable in %s') % group + ': %g\n' % missing_n
-
-            # Plot individual data
-
-            raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                  level_combinations, raw_data_only=True, ylims=ylims)
-
-            # Plot the individual data with boxplots
-            # There's no need to repeat the mosaic plot for the nominal variables
-            if meas_level in ['int', 'unk', 'ord']:
-                sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                         level_combinations, ylims=ylims)
-            else:
-                sample_graph = None
-
-            # 2. Sample properties
-            sample_result = f"{csc.subheading_style_begin}{_('Sample properties')}{csc.subheading_style_end}"
-
-            if meas_level in ['int', 'unk']:
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
-                                                         groups=groups,
-                                                         statistics=['mean', 'std', 'max', 'upper quartile', 'median',
-                                                                     'lower quartile', 'min'])
-            elif meas_level == 'ord':
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
-                                                         groups=groups,
-                                                         statistics=['max', 'upper quartile', 'median',
-                                                                     'lower quartile', 'min'])
-            elif meas_level == 'nom':
-                sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
-                                                         groups=groups,
-                                                         statistics=['variation ratio'])
-                sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names,
-                                                                  count=True, percent=True, margins=True)
-
-            # 3. Population properties
-            # Plot population estimations
-            group_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
-            population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
-                                                                               groups, level_combinations, ylims=ylims)
-
-            # Population estimation
-            population_result = f"{csc.subheading_style_begin}{_('Population properties')}{csc.subheading_style_end}" + \
-                                f"<b>{_('Population parameter estimations')}</b>\n"
-            if meas_level in ['int', 'unk']:
-                population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
-            elif meas_level == 'ord':
-                population_result += f"{_('Medians')}"
-            if meas_level in ['int', 'unk', 'ord']:
-                prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
-                population_result += \
-                    cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                         float_format=lambda x: '%0.*f' % (prec, x)))
-                population_result += '\n'
-            if meas_level == 'nom':
-                population_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True)
-
-            # Hypothesis testing
+        else:
             result_ht = cs_hyp_test.decision_two_grouping_variables(self.data_frame, meas_level, var_names, groups)
-
-        elif len(groups) > 2:
-            raw_result += '<decision>'+_('Several grouping variables.')+' >> '+'<default>\n'
-            return self._convert_output([title, raw_result])
 
         return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                      standardized_effect_size_result, population_graph, result_ht])
