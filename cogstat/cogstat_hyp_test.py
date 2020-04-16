@@ -215,9 +215,7 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
                 non_normal_vars = []
                 temp_diff_var_name = 'Difference of %s and %s' % tuple(var_names)
                 data[temp_diff_var_name] = data[var_names[0]] - data[var_names[1]]
-                norm, text_result, graph_dummy, graph2_dummy = \
-                    cs_stat.normality_test(df, {temp_diff_var_name: 'int'}, temp_diff_var_name,
-                                           alt_data=data)
+                norm, text_result = normality_test(df, {temp_diff_var_name: 'int'}, temp_diff_var_name, alt_data=data)
                 result_ht += text_result
                 if not norm:
                     non_normal_vars.append(temp_diff_var_name)
@@ -253,8 +251,7 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
                 result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
                 non_normal_vars = []
                 for var_name in var_names:
-                    norm, text_result, graph_dummy, graph2_dummy = cs_stat.normality_test(df, data_measlevs, var_name,
-                                                                                          alt_data=data)
+                    norm, text_result = normality_test(df, data_measlevs, var_name, alt_data=data)
                     result_ht += text_result
                     if not norm:
                         non_normal_vars.append(var_name)
@@ -498,9 +495,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                              '\n</decision>'
                 result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
                 group = group_levels[1] if len(var1) == 1 else group_levels[0]
-                norm, text_result, graph_dummy, graph2_dummy = \
-                    cs_stat.normality_test(df, data_measlevs, var_names[0],
-                                           group_name=groups[0], group_value=group[0])
+                norm, text_result = normality_test(df, data_measlevs, var_names[0], group_name=groups[0],
+                                                   group_value=group[0])
                 result_ht += text_result
                 if not norm:
                     result_ht += '<decision>' + _('Normality is violated in variable ') + var_names[0] + ', ' + \
@@ -522,9 +518,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
                 non_normal_groups = []
                 for group in group_levels:
-                    norm, text_result, graph_dummy, graph2_dummy = \
-                        cs_stat.normality_test(df, data_measlevs, var_names[0],
-                                               group_name=groups[0], group_value=group[0])
+                    norm, text_result = normality_test(df, data_measlevs, var_names[0], group_name=groups[0],
+                                                       group_value=group[0])
                     result_ht += text_result
                     if not norm:
                         non_normal_groups.append(group)
@@ -573,9 +568,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
             result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
             non_normal_groups = []
             for group in group_levels:
-                norm, text_result, graph_dummy, graph2_dummy = \
-                    cs_stat.normality_test(df, data_measlevs, var_names[0],
-                                           group_name=groups[0], group_value=group)
+                norm, text_result = normality_test(df, data_measlevs, var_names[0], group_name=groups[0],
+                                                   group_value=group)
                 result_ht += text_result
                 if not norm:
                     non_normal_groups.append(group)
