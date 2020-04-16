@@ -472,7 +472,8 @@ class CogStatData:
 
         # 1. Raw data
         text_result = f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
-        text_result2, image = cs_stat.display_variable_raw_data(self.data_frame, self.data_measlevs, var_name)
+        text_result2 = cs_stat.display_variable_raw_data(self.data_frame, var_name)
+        image = cs_chart.create_variable_raw_chart(self.data_frame, self.data_measlevs, var_name, self.data_frame[var_name].dropna())
         result_list.append(text_result+text_result2)
         result_list.append(image)
 
@@ -510,8 +511,8 @@ class CogStatData:
         # Normality
         if meas_level in ['int', 'unk']:
             text_result += '<b>'+_('Normality')+'</b>\n'
-            stat_result, text_result2, image, image2 = cs_stat.normality_test(self.data_frame, self.data_measlevs,
-                                                                              var_name)
+            stat_result, text_result2 = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name)
+            image, image2 = cs_chart.create_normality_chart(self.data_frame[var_name].dropna(), var_name)  # histogram with normality and qq plot
             text_result += text_result2
             result_list.append(text_result)
             if image:
@@ -549,28 +550,31 @@ class CogStatData:
                                'Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
                            '</decision>\n'
             text_result += '<decision>' + _('Checking for normality.') + '\n</decision>'
-            norm, text_result_norm, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame,
-                                                                                       self.data_measlevs, var_name)
+            norm, text_result_norm = cs_stat.normality_test(self.data_frame, self.data_measlevs, var_name)
+
             text_result += text_result_norm
             if norm:
                 text_result += '<decision>' + _('Normality is not violated.') + ' >> ' + \
                                _('Running one-sample t-test.') + '</decision>\n'
-                text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
-                                                         test_value=central_value)
+                text_result2, ci = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
+                                                      test_value=central_value)
+                graph = cs_chart.create_variable_population_chart(self.data_frame[var_name].dropna(), var_name, ci)
+
 
             else:
                 text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
                                _('Running Wilcoxon signed-rank test.') + '</decision>\n'
                 text_result += _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
-                text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
-                                                               value=central_value)
+                text_result2 = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
+                                                        value=central_value)
+                graph = cs_chart.create_variable_population_chart_2(self.data_frame[var_name].dropna(), var_name)
 
         elif meas_level == 'ord':
             text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _(
                 'Running Wilcoxon signed-rank test.') + \
                            '</decision>\n'
-            text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
-                                                           value=central_value)
+            text_result2 = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name, value=central_value)
+            graph = cs_chart.create_variable_population_chart_2(self.data_frame[var_name].dropna(), var_name)
         else:
             text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '</decision>\n'
             graph = None

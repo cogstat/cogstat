@@ -26,7 +26,6 @@ import itertools
 from . import cogstat_config as csc
 from . import cogstat_util as cs_util
 from . import cogstat_stat_num as cs_stat_num
-from . import cogstat_chart as cs_chart
 
 try:
     from statsmodels.graphics.mosaicplot import mosaic
@@ -250,19 +249,14 @@ def safe_var_names(names):  # TODO not used at the moment. maybe could be delete
 ### Single variables ###
 
 
-def display_variable_raw_data(pdf, data_measlevs, var_name):
-    """Display n of valid valid and display raw data on a chart
+def display_variable_raw_data(pdf, var_name):
+    """Display n of valid cases
     """
     data = pdf[var_name].dropna()
-
-    text_result=''
-    text_result += _('N of valid cases: %g') % len(data) + '\n'
+    text_result = _('N of valid cases: %g') % len(data) + '\n'
     missing_cases = len(pdf[var_name])-len(data)
     text_result += _('N of missing cases: %g') % missing_cases + '\n'
-
-    chart = cs_chart.create_variable_raw_chart(pdf, data_measlevs, var_name, data)
-
-    return text_result, chart
+    return text_result
 
 def frequencies(pdf, var_name, meas_level):
     """Frequencies
@@ -365,12 +359,10 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
         W, p = stats.shapiro(data)
         text_result += _('Shapiro-Wilk normality test in variable %s%s') % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '') +': <i>W</i> = %0.3g, %s\n' %(W, cs_util.print_p(p))
 
-    normality_histogram, qq_plot = cs_chart.create_normality_chart(data, var_name)
-    
     # Decide about normality
     norm = False if p < 0.05 else True
     
-    return norm, text_result, normality_histogram, qq_plot
+    return norm, text_result
 
 
 def one_t_test(pdf, data_measlevs, var_name, test_value=0):
@@ -417,13 +409,9 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value)+': <i>t</i>(%d) = %0.3g, %s\n' %(df, t, cs_util.print_p(p))
-        
-        # Graph
-        image = cs_chart.create_variable_population_chart(data, var_name, ci)
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
-        image = None
-    return text_result, image
+    return text_result, ci
 
 
 def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
@@ -435,7 +423,6 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     """
 
     text_result = ''
-    data = pdf[var_name].dropna()
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         if data_measlevs[var_name] == 'unk':
             text_result += warn_unknown_variable
@@ -452,12 +439,9 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
             # we need to convert the pandas dataframe to numpy arraym because pdf cannot be always handled
             # correction=True in order to work like the R wilcox.test
         text_result += _('Result of Wilcoxon signed-rank test')+': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
-
-        image = cs_chart.create_variable_population_chart_2(data, var_name)
     else:
         text_result += _('Wilcoxon signed-rank test is computed only for interval or ordinal variables.')
-        image = None
-    return text_result, image
+    return text_result
 
 
 def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
