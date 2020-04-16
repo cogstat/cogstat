@@ -48,7 +48,7 @@ _ = t.gettext
 
 rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 
-broken_analysis = '<default>'+_('%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
+broken_analysis = _('%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'
 
@@ -409,8 +409,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
             self.analysis_results[-1].\
-                add_output(cs_util.reformat_output('<default>' +
-                                                   _('Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue.') \
+                add_output(cs_util.reformat_output(_('Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue.') \
                                                    + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
                                                    % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'))
             traceback.print_exc()
@@ -527,7 +526,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<default> %s %s'%(_('Explore variable pair.'), _('At least two variables should be set.')))
+            text_result = cs_util.reformat_output('%s %s'%(_('Explore variable pair.'), _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
@@ -570,7 +569,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         if not depend_names or not (row_names or col_names or page_names):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('<default>%s %s'%(_('Pivot table.'), _('The dependent variable and at least one grouping variable should be given.')))
+            text_result = cs_util.reformat_output('%s %s'%(_('Pivot table.'), _('The dependent variable and at least one grouping variable should be given.')))
         else:
             try:
                 text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
@@ -602,7 +601,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         if (not RT_name) or (not error_name):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('<default>%s %s' % (
+            text_result = cs_util.reformat_output('%s %s' % (
             _('Diffusion analysis.'), _('At least the RT and the error variables should be given.')))
         else:
             try:
@@ -637,7 +636,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if len(factors) == 1:
             factors = []  # ignore single factor
         if len(var_names) < 2:
-            text_result = cs_util.reformat_output('<default>%s %s' %
+            text_result = cs_util.reformat_output('%s %s' %
                                                   (_('Compare variables.'), _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
@@ -674,7 +673,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if not var_names or not groups:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-            text_result = cs_util.reformat_output('<default>%s %s' % (_('Compare groups.'), _('Both the dependent and the grouping variables should be set.')))
+            text_result = cs_util.reformat_output('%s %s' % (_('Compare groups.'), _('Both the dependent and the grouping variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             for var_name in var_names:

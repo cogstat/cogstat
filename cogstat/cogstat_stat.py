@@ -55,7 +55,7 @@ _ = t.gettext
 warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                         % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                        + '\n<default>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
+                        + '\n</warning>' # XXX ezt talán elég az importnál nézni, az elemzéseknél lehet már másként.
 
 ### Various things ###
 
@@ -303,7 +303,7 @@ def proportions_ci(pdf, var_name):
                                                                                   float_format=lambda x: '%.1f%%' % x,
                                                                                   classes="table_cs_pd")))
     if (pdf[var_name].value_counts(dropna=False) < 5).any():
-        text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '<default>\n'
+        text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '</warning>\n'
     return text_result
 
 
@@ -344,7 +344,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
         data = temp_data[var_name].dropna()
 
     if data_measlevs[var_name] in ['nom', 'ord']:
-        return False, '<decision>'+_('Normality can be checked only for interval variables.')+'\n<default>', None, None
+        return False, '<decision>'+_('Normality can be checked only for interval variables.')+'\n</decision>', None, None
     if len(set(data)) == 1:
         return False, _('Normality cannot be checked for constant variable in %s%s.\n' % (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '')), None, None
     # TODO do we need this?
@@ -634,7 +634,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
                                                                                      classes="table_cs_pd",
                                                                                      float_format=lambda x: '%.1f%%' % x)))
         if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason, so we use the np version
-            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '<default>'
+            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '</warning>'
 
 
     """
@@ -754,7 +754,7 @@ def one_way_anova(pdf, var_name, grouping_name):
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n'+_('Groups differ. Post-hoc test of the means.')+'\n'
-        text_result += ('<fix_width_font>%s\n<default>' % post_hoc_res).replace(' ', '\u00a0')
+        text_result += ('<fix_width_font>%s\n</fix_width_font>' % post_hoc_res).replace(' ', '\u00a0')
         ''' # TODO create our own output
         http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
         These are the original data:

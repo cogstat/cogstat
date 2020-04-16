@@ -49,7 +49,7 @@ _ = t.gettext
 warn_unknown_variable = '<warning>'+_('The measurement levels of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                         % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                        + '\n<default>'  # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
+                        + '\n</warning>'  # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
 
 app_devicePixelRatio = 1.0 # this will be overwritten from cogstat_gui; this is needed for high dpi screens
 
@@ -149,7 +149,7 @@ class CogStatData:
                 #self.data_measlevs =
                 # dict(zip(self.data_frame.columns, [u'nom' if self.data_frame[name].dtype == 'object'
                 # else u'unk' for name in self.data_frame.columns]))
-                self.import_message += '\n<warning>'+warn_unknown_variable+'<default>'
+                self.import_message += '\n<warning>'+warn_unknown_variable+'</warning>'
 
             # 2. Check for inconsistencies in measurement levels.
             # If str var is set to int or ord set it to nom
@@ -167,7 +167,7 @@ class CogStatData:
                                        _('You can fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                       + '<default>'
+                                       + '</warning>'
 
             if set(self.data_measlevs) in ['unk']:
                 self.import_message += '\n<warning>' + \
@@ -175,7 +175,7 @@ class CogStatData:
                                        +_('You can fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                       + '<default>'
+                                       + '</warning>'
 
         file_measurement_level = ''
         # Import from pandas DataFrame
@@ -280,7 +280,7 @@ class CogStatData:
                                    + ' ' + _('You can fix this in your data source.') \
                                    + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                    % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                   + '<default>'
+                                   + '</warning>'
         if non_ascii_vars:
             self.import_message += '\n<warning>' + \
                                    _('Some variable(s) include non-English characters, which will cause problems in some analyses: %s.') \
@@ -288,7 +288,7 @@ class CogStatData:
                                    + ' ' + _('You can fix this in your data source.') \
                                    + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                    % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                   + '<default>'
+                                   + '</warning>'
 
         self.orig_data_frame = self.data_frame.copy()
 
@@ -301,7 +301,7 @@ class CogStatData:
     def print_data(self, brief=False):
         """Print data."""
         output = f"{csc.heading_style_begin}{_('Data')}{csc.heading_style_end}"
-        output += '<default>'+_('Source: ') + self.import_source + '\n'
+        output += _('Source: ') + self.import_source + '\n'
         output += str(len(self.data_frame.columns))+_(' variables and ') + \
                   str(len(self.data_frame.index))+_(' cases') + '\n'
         output += self._filtering_status()
@@ -320,7 +320,7 @@ class CogStatData:
             output += _('The next %s cases will not be printed. You can check all cases in the original data source.') % \
                       (len(self.data_frame.index)-1000) + '\n'
 
-        return self._convert_output([output+'<default>'])
+        return self._convert_output([output])
 
     def filter_outlier(self, var_names=None, mode='2sd'):  # TODO GUI for this function
         """
@@ -537,30 +537,30 @@ class CogStatData:
         # Hypothesis tests
         text_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
         if self.data_measlevs[var_name] in ['int', 'unk']:
-            text_result += _('Testing if mean deviates from the value %s.') % central_value + '<default>\n'
+            text_result += _('Testing if mean deviates from the value %s.') % central_value + '</decision>\n'
         elif self.data_measlevs[var_name] == 'ord':
-            text_result += _('Testing if median deviates from the value %s.') % central_value + '<default>\n'
+            text_result += _('Testing if median deviates from the value %s.') % central_value + '</decision>\n'
 
         if unknown_type:
-            text_result += '<decision>' + warn_unknown_variable + '\n<default>'
+            text_result += '<decision>' + warn_unknown_variable + '\n</decision>'
         if meas_level in ['int', 'unk']:
             text_result += '<decision>' + _('Interval variable.') + ' >> ' + \
                            _(
                                'Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
-                           '<default>\n'
-            text_result += '<decision>' + _('Checking for normality.') + '\n<default>'
+                           '</decision>\n'
+            text_result += '<decision>' + _('Checking for normality.') + '\n</decision>'
             norm, text_result_norm, graph_dummy, graph2_dummy = cs_stat.normality_test(self.data_frame,
                                                                                        self.data_measlevs, var_name)
             text_result += text_result_norm
             if norm:
                 text_result += '<decision>' + _('Normality is not violated.') + ' >> ' + \
-                               _('Running one-sample t-test.') + '<default>\n'
+                               _('Running one-sample t-test.') + '</decision>\n'
                 text_result2, graph = cs_stat.one_t_test(self.data_frame, self.data_measlevs, var_name,
                                                          test_value=central_value)
 
             else:
                 text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
-                               _('Running Wilcoxon signed-rank test.') + '<default>\n'
+                               _('Running Wilcoxon signed-rank test.') + '</decision>\n'
                 text_result += _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
                 text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
                                                                value=central_value)
@@ -568,11 +568,11 @@ class CogStatData:
         elif meas_level == 'ord':
             text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _(
                 'Running Wilcoxon signed-rank test.') + \
-                           '<default>\n'
+                           '</decision>\n'
             text_result2, graph = cs_stat.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
                                                            value=central_value)
         else:
-            text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '<default>\n'
+            text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '</decision>\n'
             graph = None
         text_result += text_result2
 
@@ -597,7 +597,7 @@ class CogStatData:
         raw_result = _('Exploring variable pair: ') + x + ' (%s), '%self.data_measlevs[x] + y + ' (%s)\n'%self.data_measlevs[y]
         raw_result += self._filtering_status()
         if unknown_var:
-            raw_result += '<decision>'+warn_unknown_variable+'\n<default>'
+            raw_result += '<decision>'+warn_unknown_variable+'\n</decision>'
 
         # 1. Raw data
         raw_result = f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
@@ -629,9 +629,9 @@ class CogStatData:
         slope, intercept = None, None
         if meas_lev == 'int':
             population_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>' + \
-                                 _('Testing if correlation differs from 0.') + '<default>\n'
+                                 _('Testing if correlation differs from 0.') + '</decision>\n'
             population_result += '<decision>'+_('Interval variables.')+' >> '+\
-                           _("Running Pearson's and Spearman's correlation.")+'\n<default>'
+                           _("Running Pearson's and Spearman's correlation.")+'\n</decision>'
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
@@ -657,9 +657,9 @@ class CogStatData:
                            (df, r, cs_util.print_p(p))
         elif meas_lev == 'ord':
             population_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>' + \
-                                 _('Testing if correlation differs from 0.') + '<default>\n'
+                                 _('Testing if correlation differs from 0.') + '</decision>\n'
             population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
-                           '\n<default>'
+                           '\n</decision>'
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
@@ -674,10 +674,10 @@ class CogStatData:
         elif meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(self.data_frame, [x], [y], ci=True)
             population_result += f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>' + \
-                                 _('Testing if variables are independent.') + '<default>\n'
+                                 _('Testing if variables are independent.') + '</decision>\n'
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
-                population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'<default>\n'
-            population_result += '<decision>'+_('Nominal variables.')+' >> '+_('Running Cramér\'s V.')+'\n<default>'
+                population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'</warning>\n'
+            population_result += '<decision>'+_('Nominal variables.')+' >> '+_('Running Cramér\'s V.')+'\n</decision>'
             cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
             standardized_effect_size_result += cramer_result
             population_result += chi_result
@@ -736,7 +736,7 @@ class CogStatData:
         plt.close('all')
         title = f"{csc.heading_style_begin}{_('Compare repeated measures variables')}{csc.heading_style_end}"
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
-        raw_result = '<default>'+_('Variables to compare: ') + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+        raw_result = _('Variables to compare: ') + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
         if factors:
             raw_result += _('Factors (number of levels): ') + ', '.join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
             factor_combinations = ['']
@@ -753,11 +753,11 @@ class CogStatData:
         if len(meas_levels) > 1:
             if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together,
                                                                 # since unk is taken as int by default
-                return self._convert_output([title, raw_result, '<decision>'+_("Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'<default>'])
+                return self._convert_output([title, raw_result, '<decision>'+_("Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'</decision>'])
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
-            raw_result += '\n<decision>'+warn_unknown_variable+'<default>'
+            raw_result += '\n<decision>'+warn_unknown_variable+'</decision>'
 
         # 1. Raw data
         raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
@@ -849,14 +849,14 @@ class CogStatData:
         title = f"{csc.heading_style_begin}{_('Compare groups')}{csc.heading_style_end}"
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         group_meas_levels = [self.data_measlevs[group] for group in groups]
-        raw_result = '<default>'+_('Dependent variable: ') + ', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '. ' + \
+        raw_result = _('Dependent variable: ') + ', '.join('%s (%s)'%(var, meas) for var, meas in zip(var_names, meas_levels)) + '. ' + \
                        _('Group(s): ') + ', '.join('%s (%s)'%(var, meas) for var, meas in zip(groups, group_meas_levels)) + '\n'
         raw_result += self._filtering_status()
 
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars([var_names[0]])
         if unknown_type:
-            raw_result += '<decision>'+warn_unknown_variable+'<default>'
+            raw_result += '<decision>'+warn_unknown_variable+'</decision>'
 
         # 1. Raw data
         raw_result += f"{csc.subheading_style_begin}{_('Raw data')}{csc.subheading_style_end}"
