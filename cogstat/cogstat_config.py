@@ -51,10 +51,6 @@ if old_config != dict(config):
 language = config['language']
 
 # Output styles
-heading_style_begin = config['style']['heading begin']
-heading_style_end = config['style']['heading end']
-subheading_style_begin = config['style']['subheading begin']
-subheading_style_end = config['style']['subheading end']
 default_font = config['style']['default output font']
 default_font_size = float(config['style']['default output font size'])
 

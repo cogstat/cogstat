@@ -228,7 +228,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                          (csc.mpl_theme_color_dark, csc.mpl_theme_color))
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         self.output_pane.setText('%s%s%s%s<br>%s<br>%s<br>' %
-                                 (csc.heading_style_begin, _('Welcome to CogStat!'), csc.heading_style_end,
+                                 ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
                                   _('CogStat makes statistical analysis more simple and efficient.'),
                                   _('To start working open a data file or paste your data from a spreadsheet.'),
                                   _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>')))
@@ -343,7 +343,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if self.welcome_text_on:
             self.output_pane.clear()
-            #self.output_pane.setHtml(csc.heading_style_begin + '&nbsp;' + csc.heading_style_end)
+            #self.output_pane.setHtml('<cs_h1>' + '&nbsp;' + '<cs_h1>')
             self.welcome_text_on = False
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
@@ -773,7 +773,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         text_output = cs_util.reformat_output(cs_util.print_versions(self))
         
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_output(csc.heading_style_begin + _('System components') + csc.heading_style_end)
+        self.analysis_results[-1].add_output('<cs_h1>' + _('System components') + '</cs_h1>')
         self.analysis_results[-1].add_output(text_output)
         self._print_to_output_pane()
         self._busy_signal(False)

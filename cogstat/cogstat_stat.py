@@ -344,7 +344,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names)
-        text_result += f"<b>{_('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')}</b>"
+        text_result += f"<cs_h3>{_('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')}</cs_h3>"
         for var_name in var_names:
             if meas_levs[var_name] != 'nom':
                 prec = cs_util.precision(data[var_name])+1
@@ -360,7 +360,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
 
-        text_result += f"<b>{_('Descriptives for the groups')}</b>"
+        text_result += f"<cs_h3>{_('Descriptives for the groups')}</cs_h3>"
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
 #        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)

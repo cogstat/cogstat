@@ -194,7 +194,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 
 def decision_repeated_measures(df, meas_level, factors, var_names, data, data_measlevs):
-    result_ht = f"<b>{_('Hypothesis tests')}</b>\n" '<decision>'
+    result_ht = f"<cs_h3>{_('Hypothesis tests')}</cs_h3>\n" + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
     elif meas_level == 'ord':
@@ -473,7 +473,7 @@ def friedman_test(pdf, var_names):
 def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels, single_case_slope_SEs, single_case_slope_trial_n):
     sample_result = ''
     standardized_effect_size_result = None
-    result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
+    result_ht = f"<cs_h3>{_('Hypothesis tests')}</cs_h3>\n" + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
     elif meas_level == 'ord':
@@ -610,7 +610,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
 
 
 def decision_several_grouping_variables(df, meas_level, var_names, groups):
-    result_ht = f"<b>{_('Hypothesis tests')}</b>\n" + '<decision>'
+    result_ht = f"<cs_h3>{_('Hypothesis tests')}</cs_h3>\n" + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
     elif meas_level == 'ord':
