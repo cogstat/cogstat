@@ -10,6 +10,7 @@ import numpy as np
 
 from . import cogstat_config as csc
 
+app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
 
 def get_versions():
     """
@@ -152,6 +153,52 @@ def precision(data):
                         partition('.')[2]) for x in data])
     else:
         return None
+
+def convert_output(outputs):
+    """
+    Convert output either to the GUI or to the IPython Notebook
+    :param outputs: list of the output items
+    :return: converted output, list of items
+    """
+
+    import logging
+    from matplotlib.figure import Figure
+    from matplotlib import rcParams
+    from PyQt5 import QtGui
+
+    rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
+
+    def _figure_to_qimage(figure):
+        """Convert matplotlib figure to pyqt qImage.
+        """
+        figure.canvas.draw()
+        size_x, size_y = figure.get_size_inches()*rcParams['figure.dpi']
+        # TODO is it better to use figure.canvas.width(), figure.canvas.height()
+        string_buffer = figure.canvas.buffer_rgba()
+        qimage = QtGui.QImage(string_buffer, size_x*app_devicePixelRatio, size_y*app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
+        QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
+        return qimage
+            # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding
+            # this should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI
+
+    if csc.output_type in ['ipnb', 'gui']:
+        # convert custom notation to html
+        new_output = []
+        for i, output in enumerate(outputs):
+            if isinstance(output, Figure):
+                # For gui convert matplotlib to qImage
+                new_output.append(output if csc.output_type == 'ipnb' else _figure_to_qimage(output))
+            elif isinstance(output, str):
+                new_output.append(reformat_output(output))
+            elif isinstance(output, list):  # flat list
+                new_output.extend(convert_output(output))
+            elif output is None:
+                pass  # drop None-s from outputs
+            else:  # No other types are expected
+                logging.error('Output includes wrong type: %s' % type(output))
+        return new_output
+    else:
+        return outputs
 
 
 def reformat_output(output):

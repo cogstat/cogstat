@@ -34,15 +34,8 @@ import numpy as np
 from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
-from matplotlib.figure import Figure
-
-from PyQt5 import QtGui
 
 logging.root.setLevel(logging.INFO)
-
-rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
-
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
@@ -50,8 +43,6 @@ warn_unknown_variable = '<warning>'+_('The measurement levels of the variables a
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                         % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                         + '\n</warning>'  # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
-
-app_devicePixelRatio = 1.0 # this will be overwritten from cogstat_gui; this is needed for high dpi screens
 
 class CogStatData:
     """Class to process data."""
@@ -320,7 +311,7 @@ class CogStatData:
             output += _('The next %s cases will not be printed. You can check all cases in the original data source.') % \
                       (len(self.data_frame.index)-1000) + '\n'
 
-        return self._convert_output([output])
+        return cs_util.convert_output([output])
 
     def filter_outlier(self, var_names=None, mode='2sd'):  # TODO GUI for this function
         """
@@ -370,54 +361,13 @@ class CogStatData:
             self.filtering_status = ', '.join(var_names) + _(' (2 SD)')
             # TODO Add graph about the excluded cases based on the variable
 
-        return self._convert_output([title, text_output])
+        return cs_util.convert_output([title, text_output])
 
     def _filtering_status(self):
         if self.filtering_status:
             return '<b>Filtering is on: %s</b>\n' % self.filtering_status
         else:
             return ''
-
-    ### Handle output ###
-
-    def _convert_output(self, outputs):
-        """
-        Convert output either to the GUI or to the IPython Notebook
-        :param outputs: list of the output items
-        :return: converted output, list of items
-        """
-
-        def _figure_to_qimage(figure):
-            """Convert matplotlib figure to pyqt qImage.
-            """
-            figure.canvas.draw()
-            size_x, size_y = figure.get_size_inches()*rcParams['figure.dpi']
-            # TODO is it better to use figure.canvas.width(), figure.canvas.height()
-            string_buffer = figure.canvas.buffer_rgba()
-            qimage = QtGui.QImage(string_buffer, size_x*app_devicePixelRatio, size_y*app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
-            QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
-            return qimage
-                # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding
-                # this should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI
-
-        if csc.output_type in ['ipnb', 'gui']:
-            # convert custom notation to html
-            new_output = []
-            for i, output in enumerate(outputs):
-                if isinstance(output, Figure):
-                    # For gui convert matplotlib to qImage
-                    new_output.append(output if csc.output_type == 'ipnb' else _figure_to_qimage(output))
-                elif isinstance(output, str):
-                    new_output.append(cs_util.reformat_output(output))
-                elif isinstance(output, list):  # flat list
-                    new_output.extend(self._convert_output(output))
-                elif output is None:
-                    pass  # drop None-s from outputs
-                else:  # No other types are expected
-                    logging.error('Output includes wrong type: %s' % type(output))
-            return new_output
-        else:
-            return outputs
 
     ### Various things ###
 
@@ -584,7 +534,7 @@ class CogStatData:
         if graph:
             result_list.append(graph)
         result_list.append(text_result)
-        return self._convert_output(result_list)
+        return cs_util.convert_output(result_list)
 
     def explore_variable_pair(self, x, y, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
@@ -695,7 +645,7 @@ class CogStatData:
                                                                xlims=xlims, ylims=ylims)
         else:
             sample_graph = None
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
+        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
                                      standardized_effect_size_result, estimation_result, population_result])
 
     #correlations(x,y)  # test
@@ -712,7 +662,7 @@ class CogStatData:
         # TODO optionally return pandas DataFrame or Panel
         title = f"<cs_h1>{_('Pivot table')}</cs_h1>"
         pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_names, function)
-        return self._convert_output([title, pivot_result])
+        return cs_util.convert_output([title, pivot_result])
 
     def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
         """Runs diffusion analysis on behavioral data
@@ -727,7 +677,7 @@ class CogStatData:
         # TODO return pandas DataFrame
         title = f"<cs_h1>{_('Behavioral data diffusion analysis')}</cs_h1>"
         pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names)
-        return self._convert_output([title, pivot_result])
+        return cs_util.convert_output([title, pivot_result])
 
     def compare_variables(self, var_names, factors=[], ylims=[None, None]):
         """Compare variables
@@ -757,7 +707,7 @@ class CogStatData:
         if len(meas_levels) > 1:
             if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together,
                                                                 # since unk is taken as int by default
-                return self._convert_output([title, raw_result, '<decision>'+_("Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'</decision>'])
+                return cs_util.convert_output([title, raw_result, '<decision>'+_("Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level.")+'</decision>'])
         # level of measurement of the variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
@@ -833,7 +783,7 @@ class CogStatData:
         # 3b. Hypothesis tests
         result_ht = cs_hyp_test.decision_repeated_measures(self.data_frame, meas_level, factors, var_names, data, self.data_measlevs)
 
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])
+        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])
 
     def compare_groups(self, var_name, grouping_variables,  single_case_slope_SEs=[], single_case_slope_trial_n=None,
                        ylims=[None, None]):
@@ -965,7 +915,7 @@ class CogStatData:
         else:
             result_ht = cs_hyp_test.decision_several_grouping_variables(self.data_frame, meas_level, var_names, groups)
 
-        return self._convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
+        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                      standardized_effect_size_result, population_graph, result_ht])
 
 

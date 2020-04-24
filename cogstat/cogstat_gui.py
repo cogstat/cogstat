@@ -35,7 +35,7 @@ from . import cogstat_util as cs_util
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
-cogstat.app_devicePixelRatio = app.devicePixelRatio()
+cs_util.app_devicePixelRatio = app.devicePixelRatio()
 
 cs_util.get_versions()
 
@@ -227,11 +227,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.output_pane.document().setDefaultStyleSheet('body {color:black;} h2 {color:%s;} h3 {color:%s} .table_cs_pd th {font-weight:normal;}' %
                                                          (csc.mpl_theme_color_dark, csc.mpl_theme_color))
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        self.output_pane.setText('%s%s%s%s<br>%s<br>%s<br>' %
+        welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
                                  ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
                                   _('CogStat makes statistical analysis more simple and efficient.'),
                                   _('To start working open a data file or paste your data from a spreadsheet.'),
-                                  _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>')))
+                                  _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>'))
+        self.output_pane.setText(cs_util.convert_output([welcome_message])[0])
         self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
         self.output_pane.setReadOnly(True)
         self.output_pane.setOpenExternalLinks(True)
@@ -343,7 +344,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if self.welcome_text_on:
             self.output_pane.clear()
-            #self.output_pane.setHtml('<cs_h1>' + '&nbsp;' + '<cs_h1>')
+            #self.output_pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
             self.welcome_text_on = False
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
@@ -773,7 +774,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         text_output = cs_util.reformat_output(cs_util.print_versions(self))
         
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_output('<cs_h1>' + _('System components') + '</cs_h1>')
+        self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])[0])
         self.analysis_results[-1].add_output(text_output)
         self._print_to_output_pane()
         self._busy_signal(False)
