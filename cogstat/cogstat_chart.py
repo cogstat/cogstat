@@ -327,7 +327,7 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         # Lower part showing the boxplot
         ax_low = plt.axes([0.1, 0.13, 0.8, 0.17], sharex=ax_up)
         box1 = plt.boxplot(data.values, vert=0,
-                           whis='range')  # .values needed, otherwise error when the first case is missing data
+                           whis=[0, 100])  # .values needed, otherwise error when the first case is missing data
         plt.gca().axes.get_yaxis().set_visible(False)
         if data_measlevs[var_name] == 'ord':
             plt.xlabel(_('Rank of %s') % var_name)
@@ -585,7 +585,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
                          horizontalalignment='right', fontsize=10)
         # Display boxplots
         if not raw_data:
-            box1 = ax.boxplot(variables, whis='range')
+            box1 = ax.boxplot(variables, whis=[0, 100])
             # ['medians', 'fliers', 'whiskers', 'boxes', 'caps']
             plt.setp(box1['boxes'], color=theme_colors[0])
             plt.setp(box1['whiskers'], color=theme_colors[0])
@@ -699,7 +699,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         ax = fig.add_subplot(111)
         # Add boxplot
         if not raw_data_only:
-            box1 = ax.boxplot(variables, whis='range')
+            box1 = ax.boxplot(variables, whis=[0, 100])
             plt.setp(box1['boxes'], color=theme_colors[0])
             plt.setp(box1['whiskers'], color=theme_colors[0])
             plt.setp(box1['caps'], color=theme_colors[0])
