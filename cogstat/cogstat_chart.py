@@ -365,7 +365,7 @@ def create_normality_chart(data, var_name):
     # Prepare the frequencies for the plot
     val_count = data.value_counts()
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
-    n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
+    n, bins, patches = plt.hist(data.values, density=True, color=theme_colors[0])
     if max(val_count) > 1:
         plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
                      x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
@@ -373,8 +373,8 @@ def create_normality_chart(data, var_name):
 
     # Graph
     plt.figure()
-    n, bins, patches = plt.hist(data.values, normed=True, color=theme_colors[0])
-    plt.plot(bins, matplotlib.pylab.normpdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
+    n, bins, patches = plt.hist(data.values, density=True, color=theme_colors[0])
+    plt.plot(bins, stats.norm.pdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
              linewidth=3)
     plt.title(_plt('Histogram with individual data and normal distribution'))
     plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
