@@ -206,7 +206,8 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names),
                                var_correct_RT_table.stack(condition_names),
                                mean_correct_RT_table.stack(condition_names)],
-                              axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x), axis=1)
+                              axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x),
+                                            axis=1, result_type='expand')
     EZ_parameters.columns = ['drift rate', 'threshold', 'nondecision time']
     drift_rate_table = EZ_parameters['drift rate'].unstack(condition_names)
     threshold_table = EZ_parameters['threshold'].unstack(condition_names)
