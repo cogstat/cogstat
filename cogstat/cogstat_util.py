@@ -90,8 +90,11 @@ def get_versions():
 def print_versions(main_window):
     text_output = ''
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
+    text_output += 'CogStat path: %s\n' % \
+                   os.path.dirname(os.path.abspath(__file__))
     text_output += 'Platform: %s\n' % csc.versions['platform']
     text_output += 'Python: %s\n' % csc.versions['python']
+    text_output += 'Python interpreter path: %s\n' % sys.executable
     try:
         text_output += 'Stdout encoding: %s\n' % str(sys.stdout.encoding)
     except:  # TODO add exception type
@@ -112,8 +115,6 @@ def print_versions(main_window):
                    main_window.style().metaObject().className()
     # text_output += 'R: %s\n' % csc.versions['r']
     # text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
-    text_output += 'CogStat path: %s\n' % \
-                   os.path.dirname(os.path.abspath(__file__))
 
 #    import os
 #    text_output += '\n'
