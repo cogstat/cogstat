@@ -213,7 +213,7 @@ def _mosaic_labelizer(crosstab_data, l, separator='\n'):
         return separator.join(l) if crosstab_data[l] != 0 else ""
     except KeyError:
         # nominal variable might be coded as integers, which cannot be handled by statsmodels mosaic
-        ll = tuple([int(l_x) for l_x in l])
+        ll = tuple([int(float(l_x)) for l_x in l])
         return separator.join(l) if crosstab_data[ll] != 0 else ""
 
 
