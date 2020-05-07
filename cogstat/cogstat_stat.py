@@ -432,6 +432,40 @@ def confidence_interval_t(data, ci_only=True):
 ### Variable pairs ###
 
 
+def variable_pair_standard_effect_size(data, meas_lev, sample=True):
+    """
+
+    :param data:
+    :param meas_lev:
+    :param sample: Ture for sample descriptives, False for population estimations
+    :return:
+    """
+    results_pd = pd.DataFrame()
+    standardized_effect_size_result = _('Standardized effect size:')
+    if sample:
+        if meas_lev in ['int', 'unk']:
+            results_pd.loc[_("Pearson's correlation"), _('Value')] = \
+                '<i>r</i> = %0.3f' % stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])[0]
+            results_pd.loc[_("Spearman's rank-order correlation"), _('Value')] = \
+                '<i>r<sub>s</sub></i> = %0.3f' % stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])[0]
+        elif meas_lev == 'ord':
+            results_pd.loc[_("Spearman's rank-order correlation"), _('Value')] = \
+                '<i>r<sub>s</sub></i> = %0.3f' % stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])[0]
+        elif meas_lev == 'nom':
+            cont_table_data = pd.crosstab(data.iloc[:, 0], data.iloc[:, 1])
+            chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
+            try:
+                cramersv = (chi2 / (cont_table_data.values.sum() * (min(cont_table_data.shape) - 1))) ** 0.5
+                results_pd.loc[_("Cramér's V measure of association"), _('Value')] = \
+                    '&phi;<i><sub>c</sub></i> = %.3f' % cramersv
+            except ZeroDivisionError:  # TODO could this be avoided?
+                results_pd.loc[_("Cramér's V measure of association"), _('Value')] = \
+                    'cannot be computed (division by zero)'
+
+    standardized_effect_size_result += _format_html_table(results_pd.to_html(bold_rows=False, escape=False, classes="table_cs_pd"))
+    return standardized_effect_size_result
+
+
 def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
     """ Create contingency tables. Use for nominal data.
     It works for any number of x and y variables.
@@ -616,7 +650,7 @@ def chi_square_test(pdf, var_name, grouping_name):
     grouping_name (str):
     """
     text_result = ''
-    cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])#, rownames = [x], colnames = [y])
+    cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])
     chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
     try:
         cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5

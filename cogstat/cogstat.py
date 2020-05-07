@@ -573,7 +573,6 @@ class CogStatData:
         sample_result = f"<cs_h2>{_('Sample properties')}</cs_h2>"
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(self.data_frame, [x], [y], count=True, percent=True, margins=True)
-        standardized_effect_size_result = _('Standardized effect size:') + '\n'
         estimation_result = f"<cs_h2>{_('Population properties')}</cs_h2>" + \
                             f"<cs_h3>{_('Population parameter estimations')}</cs_h3>\n"
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
@@ -589,7 +588,6 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            standardized_effect_size_result += _("Pearson's correlation") + ': <i>r</i> = %0.3f\n' % r
             pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             population_result += _("Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, %s\n' % (df, r, cs_util.print_p(p))
@@ -600,7 +598,6 @@ class CogStatData:
 
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            standardized_effect_size_result += _("Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
                                  + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
@@ -617,7 +614,6 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            standardized_effect_size_result += _("Spearman's rank-order correlation") + ': <i>r<sub>s</sub></i> = %0.3f\n' % r
             pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             estimation_result += _('Standardized effect size:') \
                                  + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
@@ -633,8 +629,8 @@ class CogStatData:
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'</warning>\n'
             population_result += '<decision>'+_('Nominal variables.')+' >> '+_('Running Cramér\'s V.')+'\n</decision>'
             cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
-            standardized_effect_size_result += cramer_result
             population_result += chi_result
+        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
         sample_result += '\n'
         population_result += '\n'
 
@@ -645,8 +641,8 @@ class CogStatData:
                                                                xlims=xlims, ylims=ylims)
         else:
             sample_graph = None
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
-                                     standardized_effect_size_result, estimation_result, population_result])
+        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, standardized_effect_size_result,
+                                       sample_graph, estimation_result, population_result])
 
     #correlations(x,y)  # test
 
