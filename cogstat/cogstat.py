@@ -615,7 +615,7 @@ class CogStatData:
             if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
                 population_result += '<warning>'+_('Not all variables are nominal. Consider comparing groups.')+'</warning>\n'
             population_result += '<decision>'+_('Nominal variables.')+' >> '+_('Running Cramér\'s V.')+'\n</decision>'
-            cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
+            chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
             population_result += chi_result
         standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
         estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)

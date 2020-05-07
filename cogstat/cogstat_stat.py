@@ -708,11 +708,6 @@ def chi_square_test(pdf, var_name, grouping_name):
     text_result = ''
     cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])
     chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
-    try:
-        cramersv = (chi2 / (cont_table_data.values.sum()*(min(cont_table_data.shape)-1)))**0.5
-        cramer_result = _('Cramér\'s V measure of association: ')+'&phi;<i><sub>c</sub></i> = %.3f\n' % cramersv
-    except ZeroDivisionError:  # TODO could this be avoided?
-        cramer_result = _('Cramér\'s V measure of association cannot be computed (division by zero).')
     chi_result = ''
 
     # Sensitivity power analysis
@@ -726,4 +721,4 @@ def chi_square_test(pdf, var_name, grouping_name):
     chi_result += _("Result of the Pearson's Chi-square test: ") + \
                   '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
                   (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
-    return cramer_result, chi_result
+    return chi_result

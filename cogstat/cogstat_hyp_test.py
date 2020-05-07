@@ -551,7 +551,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
         elif meas_level == 'nom':
             result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _(
                 'Running Chi-square test.') + ' ' + '</decision>\n'
-            cramer_result, chi_result = cs_stat.chi_square_test(df, var_names[0], groups[0])
+            chi_result = cs_stat.chi_square_test(df, var_names[0], groups[0])
             result_ht += chi_result
 
     # Compare more than two groups
@@ -599,7 +599,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
             result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
             result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _('Running Chi-square test.') + '</decision>\n'
-            cramer_result, chi_result = cs_stat.chi_square_test(df, var_names[0], groups[0])
+            chi_result = cs_stat.chi_square_test(df, var_names[0], groups[0])
             result_ht += chi_result
     return result_ht
 
