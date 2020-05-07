@@ -587,8 +587,6 @@ class CogStatData:
                            _("Running Pearson's and Spearman's correlation.")+'\n</decision>'
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
-            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
             population_result += _("Pearson's correlation") + \
                            ': <i>r</i>(%d) = %0.3f, %s\n' % (df, r, cs_util.print_p(p))
 
@@ -597,12 +595,6 @@ class CogStatData:
             sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (slope, intercept)
 
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
-            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
-            estimation_result += _('Standardized effect size:') \
-                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                                 escape=False))
-
             population_result += _("Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
@@ -613,11 +605,6 @@ class CogStatData:
                            '\n</decision>'
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
-            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
-            pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
-            estimation_result += _('Standardized effect size:') \
-                                 + cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                                 escape=False))
             population_result += _("Spearman's rank-order correlation") + \
                            ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % \
                            (df, r, cs_util.print_p(p))
@@ -631,6 +618,7 @@ class CogStatData:
             cramer_result, chi_result = cs_stat.chi_square_test(self.data_frame, x, y)
             population_result += chi_result
         standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
+        estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
         sample_result += '\n'
         population_result += '\n'
 

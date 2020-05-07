@@ -434,35 +434,53 @@ def confidence_interval_t(data, ci_only=True):
 
 def variable_pair_standard_effect_size(data, meas_lev, sample=True):
     """
+    (Some stats are also calculated elsewhere, making the analysis slower, but separation is a priority.)
 
     :param data:
     :param meas_lev:
-    :param sample: Ture for sample descriptives, False for population estimations
+    :param sample: True for sample descriptives, False for population estimations
     :return:
     """
-    results_pd = pd.DataFrame()
-    standardized_effect_size_result = _('Standardized effect size:')
+    pdf_result = pd.DataFrame()
+    standardized_effect_size_result = _('Standardized effect size')
     if sample:
         if meas_lev in ['int', 'unk']:
-            results_pd.loc[_("Pearson's correlation"), _('Value')] = \
+            pdf_result.loc[_("Pearson's correlation"), _('Value')] = \
                 '<i>r</i> = %0.3f' % stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])[0]
-            results_pd.loc[_("Spearman's rank-order correlation"), _('Value')] = \
+            pdf_result.loc[_("Spearman's rank-order correlation"), _('Value')] = \
                 '<i>r<sub>s</sub></i> = %0.3f' % stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])[0]
         elif meas_lev == 'ord':
-            results_pd.loc[_("Spearman's rank-order correlation"), _('Value')] = \
+            pdf_result.loc[_("Spearman's rank-order correlation"), _('Value')] = \
                 '<i>r<sub>s</sub></i> = %0.3f' % stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])[0]
         elif meas_lev == 'nom':
             cont_table_data = pd.crosstab(data.iloc[:, 0], data.iloc[:, 1])
             chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
             try:
                 cramersv = (chi2 / (cont_table_data.values.sum() * (min(cont_table_data.shape) - 1))) ** 0.5
-                results_pd.loc[_("Cramér's V measure of association"), _('Value')] = \
+                pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                     '&phi;<i><sub>c</sub></i> = %.3f' % cramersv
             except ZeroDivisionError:  # TODO could this be avoided?
-                results_pd.loc[_("Cramér's V measure of association"), _('Value')] = \
+                pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                     'cannot be computed (division by zero)'
-
-    standardized_effect_size_result += _format_html_table(results_pd.to_html(bold_rows=False, escape=False, classes="table_cs_pd"))
+    else:  # population estimations
+        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        if meas_lev in ['int', 'unk']:
+            df = len(data) - 2
+            r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])
+            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
+            pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = \
+                ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+        if meas_lev in ['int', 'unk', 'ord']:
+            df = len(data) - 2
+            r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
+            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
+            pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = \
+                ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+        elif meas_lev == 'nom':
+            standardized_effect_size_result = ''
+    if standardized_effect_size_result:
+        standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
+                                                                                 classes="table_cs_pd"))
     return standardized_effect_size_result
 
 
