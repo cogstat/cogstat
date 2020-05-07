@@ -271,7 +271,7 @@ class CogStatTestCase(unittest.TestCase):
 
         # 3 Int groups with assumption violation
         result = data.compare_groups('o', ['q'])
-        self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[7])
+        self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 8.37, <i>p</i> = 0.015' in result[8])
 
         # 2 Ord groups
         data.data_measlevs['o'] = 'ord'

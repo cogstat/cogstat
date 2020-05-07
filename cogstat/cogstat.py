@@ -889,10 +889,18 @@ class CogStatData:
         if meas_level == 'nom':
             population_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True) + '\n'
 
+        # effect size
+        if meas_level in ['int', 'unk']:
+            if len(groups) == 1:
+                group_levels = sorted(set(data[groups[0]]))
+                if len(group_levels) > 2:
+                    standardized_effect_size_result = cs_stat.compare_groups_effect_size(self.data_frame, var_names,
+                                                                                         groups, meas_level, sample=False)
+
         # Hypothesis testing
         if len(groups) == 1:
             group_levels = sorted(set(data[groups[0]]))
-            standardized_effect_size_result, sample_result_temp, result_ht = cs_hyp_test.decision_one_grouping_variable(
+            sample_result_temp, result_ht = cs_hyp_test.decision_one_grouping_variable(
                 self.data_frame, meas_level, self.data_measlevs, var_names, groups, group_levels,
                 single_case_slope_SEs, single_case_slope_trial_n)
             sample_result += sample_result_temp

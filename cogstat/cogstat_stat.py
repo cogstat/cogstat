@@ -600,6 +600,36 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
     return group_estimations_pdf
 
 
+def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, sample=True):
+
+    pdf_result = pd.DataFrame()
+    standardized_effect_size_result = _('Standardized effect size')
+
+    if sample:
+        pass
+    else:  # population estimations
+        if meas_level in ['int', 'unk']:
+            if len(groups) == 1:
+                from statsmodels.formula.api import ols
+                from statsmodels.stats.anova import anova_lm
+                # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
+                # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
+                # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
+                # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
+                data = pdf.dropna(subset=[dependent_var_name[0], groups[0]])
+                anova_model = ols(str(dependent_var_name[0]+' ~ C('+groups[0]+')'), data=data).fit()
+                # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
+                anova_result = anova_lm(anova_model)
+                # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
+                omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
+                         ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
+                pdf_result.loc[_('Omega squared'), _('Value')] = '&omega;<sup>2</sup> = %0.3g' % omega2
+    standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
+                                                                             classes="table_cs_pd"))
+
+    return standardized_effect_size_result
+
+
 def one_way_anova(pdf, var_name, grouping_name):
     """One-way ANOVA
 
@@ -623,7 +653,6 @@ def one_way_anova(pdf, var_name, grouping_name):
                        ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
                                                                k_groups=len(set(data[grouping_name])))
 
-    # from IPython import embed; embed()
     # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
@@ -634,10 +663,7 @@ def one_way_anova(pdf, var_name, grouping_name):
     text_result += _('Result of one-way ANOVA: ') + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
                                                     (anova_result['df'][0], anova_result['df'][1], anova_result['F'][0],
                                                      cs_util.print_p(anova_result['PR(>F)'][0]))
-    # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
-    omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
-             ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
-    effect_size_result = _('Effect size: ') + '&omega;<sup>2</sup> = %0.3g\n' % omega2
+
     # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
     if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
@@ -656,7 +682,7 @@ def one_way_anova(pdf, var_name, grouping_name):
         post_hoc_res.confint
         post_hoc_res.reject
         '''
-    return text_result, effect_size_result
+    return text_result
 
 
 def chi_square_test(pdf, var_name, grouping_name):

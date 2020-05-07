@@ -472,7 +472,6 @@ def friedman_test(pdf, var_names):
 
 def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels, single_case_slope_SEs, single_case_slope_trial_n):
     sample_result = ''
-    standardized_effect_size_result = None
     result_ht = f"<cs_h3>{_('Hypothesis tests')}</cs_h3>\n" + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
@@ -584,9 +583,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 result_ht += '<decision>' + \
                              _('Normality and homogeneity of variance are not violated. >> Running one-way ANOVA.') \
                              + '\n</decision>'
-                anova_result, effect_size_result = cs_stat.one_way_anova(df, var_names[0], groups[0])
+                anova_result = cs_stat.one_way_anova(df, var_names[0], groups[0])
                 result_ht += anova_result
-                standardized_effect_size_result = '\n' + _('Standardized effect size:') + '\n' + effect_size_result
 
             if non_normal_groups:
                 result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s. ') % \
@@ -606,7 +604,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
             cramer_result, chi_result = cs_stat.chi_square_test(df, var_names[0], groups[0])
             sample_result += '\n\n' + cramer_result
             result_ht += chi_result
-    return standardized_effect_size_result, sample_result, result_ht
+    return sample_result, result_ht
 
 
 def decision_several_grouping_variables(df, meas_level, var_names, groups):
