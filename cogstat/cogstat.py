@@ -867,6 +867,11 @@ class CogStatData:
             sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names,
                                                               count=True, percent=True, margins=True)
 
+        # Effect size
+        if len(groups) == 1:
+            sample_result += cs_stat.compare_groups_effect_size(self.data_frame, var_names, groups, meas_level,
+                                                                sample=True)
+
         # 3. Population properties
         # Plot population estimations
         group_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
@@ -900,10 +905,9 @@ class CogStatData:
         # Hypothesis testing
         if len(groups) == 1:
             group_levels = sorted(set(data[groups[0]]))
-            sample_result_temp, result_ht = cs_hyp_test.decision_one_grouping_variable(
-                self.data_frame, meas_level, self.data_measlevs, var_names, groups, group_levels,
-                single_case_slope_SEs, single_case_slope_trial_n)
-            sample_result += sample_result_temp
+            result_ht = cs_hyp_test.decision_one_grouping_variable(self.data_frame, meas_level, self.data_measlevs,
+                                                                   var_names, groups, group_levels,
+                                                                   single_case_slope_SEs, single_case_slope_trial_n)
         else:
             result_ht = cs_hyp_test.decision_several_grouping_variables(self.data_frame, meas_level, var_names, groups)
 

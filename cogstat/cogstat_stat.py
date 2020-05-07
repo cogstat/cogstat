@@ -606,7 +606,19 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
     standardized_effect_size_result = _('Standardized effect size')
 
     if sample:
-        pass
+        if meas_level == 'nom':
+            if len(groups) == 1:
+                data = pdf[[dependent_var_name[0], groups[0]]]
+                cont_table_data = pd.crosstab(data.iloc[:, 0], data.iloc[:, 1])
+                chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
+                try:
+                    cramersv = (chi2 / (cont_table_data.values.sum() * (min(cont_table_data.shape) - 1))) ** 0.5
+                    pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
+                        '&phi;<i><sub>c</sub></i> = %.3f' % cramersv
+                except ZeroDivisionError:  # TODO could this be avoided?
+                    pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
+                        'cannot be computed (division by zero)'
+
     else:  # population estimations
         if meas_level in ['int', 'unk']:
             if len(groups) == 1:

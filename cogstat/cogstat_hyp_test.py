@@ -471,7 +471,6 @@ def friedman_test(pdf, var_names):
 
 
 def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels, single_case_slope_SEs, single_case_slope_trial_n):
-    sample_result = ''
     result_ht = f"<cs_h3>{_('Hypothesis tests')}</cs_h3>\n" + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
@@ -553,7 +552,6 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
             result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _(
                 'Running Chi-square test.') + ' ' + '</decision>\n'
             cramer_result, chi_result = cs_stat.chi_square_test(df, var_names[0], groups[0])
-            sample_result += '\n\n' + cramer_result
             result_ht += chi_result
 
     # Compare more than two groups
@@ -602,9 +600,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
         elif meas_level == 'nom':
             result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _('Running Chi-square test.') + '</decision>\n'
             cramer_result, chi_result = cs_stat.chi_square_test(df, var_names[0], groups[0])
-            sample_result += '\n\n' + cramer_result
             result_ht += chi_result
-    return sample_result, result_ht
+    return result_ht
 
 
 def decision_several_grouping_variables(df, meas_level, var_names, groups):
