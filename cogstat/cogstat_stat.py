@@ -16,7 +16,6 @@ Mostly scipy.stats, statsmodels and matplotlib is used to generate the results.
 import gettext
 import os
 import numpy as np
-import statsmodels.api as sm
 import string
 import sys
 from io import StringIO
@@ -641,84 +640,3 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
 
     return standardized_effect_size_result
 
-
-def one_way_anova(pdf, var_name, grouping_name):
-    """One-way ANOVA
-
-    Arguments:
-    var_name (str):
-    grouping_name (str):
-    """
-    text_result = ''
-    
-    # http://statsmodels.sourceforge.net/stable/examples/generated/example_interactions.html#one-way-anova
-    from statsmodels.formula.api import ols
-    from statsmodels.stats.anova import anova_lm
-    data = pdf.dropna(subset=[var_name, grouping_name])
-
-    # Sensitivity power analysis
-    if run_power_analysis:
-        from statsmodels.stats.power import FTestAnovaPower
-        power_analysis = FTestAnovaPower()
-        text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s):') % _('f') + \
-                       ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
-                                                               k_groups=len(set(data[grouping_name])))
-
-    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
-    # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
-    # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
-    # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    anova_model = ols(str(var_name+' ~ C('+grouping_name+')'), data=data).fit()
-    # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
-    anova_result = anova_lm(anova_model)
-    text_result += _('Result of one-way ANOVA: ') + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
-                                                    (anova_result['df'][0], anova_result['df'][1], anova_result['F'][0],
-                                                     cs_util.print_p(anova_result['PR(>F)'][0]))
-
-    # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
-    if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
-        post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
-                                                            alpha=0.05)
-        text_result += '\n'+_('Groups differ. Post-hoc test of the means.')+'\n'
-        text_result += ('<fix_width_font>%s\n</fix_width_font>' % post_hoc_res).replace(' ', '\u00a0')
-        ''' # TODO create our own output
-        http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
-        These are the original data:
-        post_hoc_res.data
-        post_hoc_res.groups
-
-        These are used for the current output:
-        post_hoc_res.groupsunique
-        post_hoc_res.meandiffs
-        post_hoc_res.confint
-        post_hoc_res.reject
-        '''
-    return text_result
-
-
-def chi_square_test(pdf, var_name, grouping_name):
-    """Chi-Square test
-    Cramer's V: http://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V
-    
-    Arguments:
-    var_name (str):
-    grouping_name (str):
-    """
-    text_result = ''
-    cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])
-    chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
-    chi_result = ''
-
-    # Sensitivity power analysis
-    if run_power_analysis:
-        from statsmodels.stats.power import GofChisquarePower
-        power_analysis = GofChisquarePower()
-        chi_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s):') % _(
-            'w') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(), alpha=0.05,
-                                                           power=0.95, n_bins=cont_table_data.size)
-
-    chi_result += _("Result of the Pearson's Chi-square test: ") + \
-                  '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
-                  (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
-    return chi_result
