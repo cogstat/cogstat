@@ -442,7 +442,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True):
     :return:
     """
     pdf_result = pd.DataFrame()
-    standardized_effect_size_result = _('Standardized effect size')
+    standardized_effect_size_result = f"<cs_h3>{_('Standardized effect size')}</cs_h3>"
     if sample:
         if meas_lev in ['int', 'unk']:
             pdf_result.loc[_("Pearson's correlation"), _('Value')] = \
@@ -575,10 +575,13 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
         pdf_result = pd.DataFrame()
         if len(factors) < 2:  # Single (or no) factor
             if len(var_names) == 2:  # Two variables
-                pdf_result.loc[_("Cohen's d"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
-                                                                                      paired=True, eftype='cohen')
-                pdf_result.loc[_("Eta-squared"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
-                                                                                      paired=True, eftype='eta-square')
+                if meas_level in ['int', 'unk']:
+                    pdf_result.loc[_("Cohen's d"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
+                                                                                          paired=True, eftype='cohen')
+                    pdf_result.loc[_("Eta-squared"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
+                                                                                          paired=True, eftype='eta-square')
+                else:  # ordinal or nominal variable
+                    standardized_effect_size_result = None
             else:  # More than two variables
                 standardized_effect_size_result = None
         else:  # Multiple factors
@@ -588,13 +591,16 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')])
         if len(factors) < 2:  # Single (or no) factor
             if len(var_names) == 2:  # Two variables
-                hedges = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='hedges')
-                hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(pdf[var_names[0]]), ny=len(pdf[var_names[1]]),
-                                                  paired=True, eftype='cohen', confidence=0.95, decimals=3)
-                pdf_result.loc[_("Hedges' g")] = hedges, *hedges_ci
-            else:
+                if meas_level in ['int', 'unk']:
+                    hedges = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='hedges')
+                    hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(pdf[var_names[0]]), ny=len(pdf[var_names[1]]),
+                                                      paired=True, eftype='cohen', confidence=0.95, decimals=3)
+                    pdf_result.loc[_("Hedges' g")] = hedges, *hedges_ci
+                else:  # ordinal or nominal variable
+                    standardized_effect_size_result = None
+            else:  # More than two variables
                 standardized_effect_size_result = None
-        else:
+        else:  # Multiple factors
             standardized_effect_size_result = None
 
     if not pdf_result.empty:
@@ -638,11 +644,25 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
 
 def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, sample=True):
 
-    pdf_result = pd.DataFrame()
-    standardized_effect_size_result = _('Standardized effect size')
+    standardized_effect_size_result = f"<cs_h3>{_('Standardized effect size')}</cs_h3>"
 
     if sample:
-        if meas_level == 'nom':
+        pdf_result = pd.DataFrame()
+        if meas_level in ['int', 'unk']:
+            if len(groups) == 1:
+                group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]].dropna()[groups[0]]))
+                if len(group_levels) == 2:
+                    groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
+                    pdf_result.loc[_("Cohen's d"), _('Value')] = pingouin.compute_effsize(grouped_data[0], grouped_data[1],
+                                                                                          paired=False, eftype='cohen')
+                    pdf_result.loc[_("Eta-squared"), _('Value')] = pingouin.compute_effsize(grouped_data[0],
+                                                                                          grouped_data[1],
+                                                                                          paired=False, eftype='eta-square')
+                else:
+                    standardized_effect_size_result = None
+            else:
+                standardized_effect_size_result = None
+        elif meas_level == 'nom':
             if len(groups) == 1:
                 data = pdf[[dependent_var_name[0], groups[0]]]
                 cont_table_data = pd.crosstab(data.iloc[:, 0], data.iloc[:, 1])
@@ -654,26 +674,46 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                 except ZeroDivisionError:  # TODO could this be avoided?
                     pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                         'cannot be computed (division by zero)'
+            else:
+                standardized_effect_size_result = None
+        else:  # Ordinal variable
+            standardized_effect_size_result = None
 
     else:  # population estimations
+        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')])
         if meas_level in ['int', 'unk']:
             if len(groups) == 1:
-                from statsmodels.formula.api import ols
-                from statsmodels.stats.anova import anova_lm
-                # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
-                # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
-                # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
-                # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-                data = pdf.dropna(subset=[dependent_var_name[0], groups[0]])
-                anova_model = ols(str(dependent_var_name[0]+' ~ C('+groups[0]+')'), data=data).fit()
-                # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
-                anova_result = anova_lm(anova_model)
-                # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
-                omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
-                         ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
-                pdf_result.loc[_('Omega squared'), _('Value')] = '&omega;<sup>2</sup> = %0.3g' % omega2
-    standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
-                                                                             classes="table_cs_pd"))
+                group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]].dropna()[groups[0]]))
+                if len(group_levels) == 2:
+                    groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
+                    hedges = pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='hedges')
+                    hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(grouped_data[0]), ny=len(grouped_data[0]),
+                                                      paired=False, eftype='cohen', confidence=0.95, decimals=3)
+                    pdf_result.loc[_("Hedges' g")] = hedges, *hedges_ci
+                else:  # more than 2 groups
+                    pdf_result = pd.DataFrame()
+                    from statsmodels.formula.api import ols
+                    from statsmodels.stats.anova import anova_lm
+                    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
+                    # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
+                    # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
+                    # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
+                    data = pdf.dropna(subset=[dependent_var_name[0], groups[0]])
+                    anova_model = ols(str(dependent_var_name[0]+' ~ C('+groups[0]+')'), data=data).fit()
+                    # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
+                    anova_result = anova_lm(anova_model)
+                    # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
+                    omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
+                             ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
+                    pdf_result.loc[_('Omega squared'), _('Value')] = '&omega;<sup>2</sup> = %0.3g' % omega2
+            else:  # More than 1 grouping variables
+                standardized_effect_size_result = None
+        else:  # Ordinal or nominal
+            standardized_effect_size_result = None
+
+    if not pdf_result.empty:
+        standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
+                                                                                 float_format=lambda x: '%0.3f' % (x),
+                                                                                 classes="table_cs_pd"))
 
     return standardized_effect_size_result
-

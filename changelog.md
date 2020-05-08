@@ -8,9 +8,9 @@ Upcoming release
 - Statistical analysis
     - Any number of grouping variables in Compare groups
     - New effect sizes
-        - Cohen's d
-        - Hedges' g (with 95% CI)
+        - Cohen's d for two groups or variables
         - Eta-squared for two variables/groups
+        - Hedges' g (with 95% CI) for two groups or variables
     - Contingency table improvements (in Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
         - Display margins
         - Display percentage

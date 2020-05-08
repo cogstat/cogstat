@@ -876,9 +876,10 @@ class CogStatData:
                                                               count=True, percent=True, margins=True)
 
         # Effect size
-        if len(groups) == 1:
-            sample_result += cs_stat.compare_groups_effect_size(self.data_frame, var_names, groups, meas_level,
+        sample_effect_size = cs_stat.compare_groups_effect_size(self.data_frame, var_names, groups, meas_level,
                                                                 sample=True)
+        if sample_effect_size:
+            sample_result += '\n\n' + sample_effect_size
 
         # 3. Population properties
         # Plot population estimations
@@ -903,12 +904,8 @@ class CogStatData:
             population_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True) + '\n'
 
         # effect size
-        if meas_level in ['int', 'unk']:
-            if len(groups) == 1:
-                group_levels = sorted(set(data[groups[0]]))
-                if len(group_levels) > 2:
-                    standardized_effect_size_result = cs_stat.compare_groups_effect_size(self.data_frame, var_names,
-                                                                                         groups, meas_level, sample=False)
+        standardized_effect_size_result = cs_stat.compare_groups_effect_size(self.data_frame, var_names, groups,
+                                                                             meas_level, sample=False)
 
         # Hypothesis testing
         if len(groups) == 1:
