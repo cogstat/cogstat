@@ -737,6 +737,10 @@ class CogStatData:
                                                            count=True, percent=True, margins=True)
             sample_result += '\n'
 
+        # 2b. Effect size
+        sample_result += '\n\n' + cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors,
+                                                                        meas_level, sample=True)
+
         # 3. Population properties
         population_result = f"<cs_h2>{_('Population properties')}</cs_h2>"
 
@@ -764,7 +768,11 @@ class CogStatData:
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level,
                                                                               self.data_frame, ylims=ylims)
 
-        # 3b. Hypothesis tests
+        # 3b. Effect size
+        population_result += '\n' + cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors,
+                                                                            meas_level, sample=False)
+
+        # 3c. Hypothesis tests
         result_ht = cs_hyp_test.decision_repeated_measures(self.data_frame, meas_level, factors, var_names, data, self.data_measlevs)
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result, population_graph, result_ht])

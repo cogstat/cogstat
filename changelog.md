@@ -7,6 +7,10 @@ Upcoming release
 ## New features
 - Statistical analysis
     - Any number of grouping variables in Compare groups
+    - New effect sizes
+        - Cohen's d
+        - Hedges' g (with 95% CI)
+        - Eta-squared for two variables/groups
     - Contingency table improvements (in Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
         - Display margins
         - Display percentage

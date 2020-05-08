@@ -32,6 +32,7 @@ except:
     pass
 from statsmodels.stats.weightstats import DescrStatsW
 import pandas as pd
+import pingouin
 
 '''
 # r is not needed for some time, but may be necessary at some later point again, so keep the code
@@ -565,6 +566,42 @@ def repeated_measures_estimations(data, meas_level):
         condition_estimations_pdf[_('95% CI (low)')], condition_estimations_pdf[_('95% CI (high)')] = cis_np
         condition_estimations_pdf = condition_estimations_pdf.fillna(_('Out of the data range'))
     return condition_estimations_pdf
+
+
+def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=True):
+    standardized_effect_size_result = f"<cs_h3>{_('Standardized effect size')}</cs_h3>"
+
+    if sample:  # Effects sizes for samples
+        pdf_result = pd.DataFrame()
+        if len(factors) < 2:  # Single (or no) factor
+            if len(var_names) == 2:  # Two variables
+                pdf_result.loc[_("Cohen's d"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
+                                                                                      paired=True, eftype='cohen')
+                pdf_result.loc[_("Eta-squared"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
+                                                                                      paired=True, eftype='eta-square')
+            else:  # More than two variables
+                standardized_effect_size_result = None
+        else:  # Multiple factors
+            standardized_effect_size_result = None
+
+    else:  # Effect size estimations
+        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')])
+        if len(factors) < 2:  # Single (or no) factor
+            if len(var_names) == 2:  # Two variables
+                hedges = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='hedges')
+                hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(pdf[var_names[0]]), ny=len(pdf[var_names[1]]),
+                                                  paired=True, eftype='cohen', confidence=0.95, decimals=3)
+                pdf_result.loc[_("Hedges' g")] = hedges, *hedges_ci
+            else:
+                standardized_effect_size_result = None
+        else:
+            standardized_effect_size_result = None
+
+    if not pdf_result.empty:
+        standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
+                                                                                 float_format=lambda x: '%0.3f' % (x),
+                                                                                 classes="table_cs_pd"))
+    return standardized_effect_size_result
 
 
 ### Compare groups ###
