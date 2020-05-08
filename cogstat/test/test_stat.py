@@ -243,20 +243,20 @@ class CogStatTestCase(unittest.TestCase):
         # 2 Int groups
         result = data.compare_groups('l', ['m'])
         self.assertTrue('<td>2.5316</td>      <td>4.5759</td>' in result[3])
-        self.assertTrue('(m: 1.0): <i>W</i> = 0.959, <i>p</i> = 0.683' in result[7])
-        self.assertTrue('(m: 2.0): <i>W</i> = 0.984, <i>p</i> = 0.991' in result[7])
-        self.assertTrue('<i>W</i> = 0.305, <i>p</i> = 0.585' in result[7])
-        self.assertTrue('-2.0443, 95% confidence interval [-4.2157, 0.1272]' in result[7])
-        self.assertTrue('<i>t</i>(28) = -1.93, <i>p</i> = 0.064' in result[7])
+        self.assertTrue('(m: 1.0): <i>W</i> = 0.959, <i>p</i> = 0.683' in result[8])
+        self.assertTrue('(m: 2.0): <i>W</i> = 0.984, <i>p</i> = 0.991' in result[8])
+        self.assertTrue('<i>W</i> = 0.305, <i>p</i> = 0.585' in result[8])
+        self.assertTrue('-2.0443, 95% confidence interval [-4.2157, 0.1272]' in result[8])
+        self.assertTrue('<i>t</i>(28) = -1.93, <i>p</i> = 0.064' in result[8])
 
         # Non-normal group
         result = data.compare_groups('o', ['m'])
-        self.assertTrue('(m: 2.0): <i>W</i> = 0.808, <i>p</i> = 0.005' in result[7])
-        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.011' in result[7])
+        self.assertTrue('(m: 2.0): <i>W</i> = 0.808, <i>p</i> = 0.005' in result[8])
+        self.assertTrue('<i>U</i> = 51, <i>p</i> = 0.011' in result[8])
 
         # Heteroscedastic groups
         result = data.compare_groups('p', ['m'])
-        self.assertTrue('<i>t</i>(25.3) = 0.119, <i>p</i> = 0.907' in result[7])
+        self.assertTrue('<i>t</i>(25.3) = 0.119, <i>p</i> = 0.907' in result[8])
 
 
         # TODO single case vs. group
@@ -320,9 +320,9 @@ Control	0.627	0.065
 Control	0.674	0.105
 Control	0.538	0.107''')
         result = data.compare_groups('slope', ['group'], ['slope_SE'], 25)
-        self.assertTrue('Test d.2: <i>t</i>(42.1) = -4.21, <i>p</i> &lt; 0.001' in result[7])
+        self.assertTrue('Test d.2: <i>t</i>(42.1) = -4.21, <i>p</i> &lt; 0.001' in result[8])
         result = data.compare_groups('slope', ['group'])
-        self.assertTrue('<i>t</i>(5) = -5.05, <i>p</i> = 0.004' in result[7])
+        self.assertTrue('<i>t</i>(5) = -5.05, <i>p</i> = 0.004' in result[8])
 
 if __name__ == '__main__':
     unittest.main()

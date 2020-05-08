@@ -738,8 +738,10 @@ class CogStatData:
             sample_result += '\n'
 
         # 2b. Effect size
-        sample_result += '\n\n' + cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors,
-                                                                        meas_level, sample=True)
+        effect_size_result = cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors,
+                                                                   meas_level, sample=True)
+        if effect_size_result:
+            sample_result += '\n\n' + effect_size_result
 
         # 3. Population properties
         population_result = f"<cs_h2>{_('Population properties')}</cs_h2>"
@@ -769,8 +771,10 @@ class CogStatData:
                                                                               self.data_frame, ylims=ylims)
 
         # 3b. Effect size
-        population_result += '\n' + cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors,
+        effect_size_result = cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors,
                                                                             meas_level, sample=False)
+        if effect_size_result:
+            population_result += '\n' + effect_size_result
 
         # 3c. Hypothesis tests
         result_ht = cs_hyp_test.decision_repeated_measures(self.data_frame, meas_level, factors, var_names, data, self.data_measlevs)
