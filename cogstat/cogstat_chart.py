@@ -3,19 +3,18 @@
 This module contains functions for creating charts.
 """
 
-import os
 import gettext
-import numpy as np
-import pandas as pd
-from scipy import stats
-import statsmodels.api as sm
+import os
 import textwrap
 
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.pylab
-
+import numpy as np
+import pandas as pd
+from scipy import stats
 from statsmodels.graphics.mosaicplot import mosaic
+import statsmodels.api as sm
 
 from . import cogstat_config as csc
 from . import cogstat_stat as cs_stat

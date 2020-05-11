@@ -12,23 +12,22 @@ Mostly scipy.stats and statsmodels are used to generate the results.
 
 import gettext
 import os
+import re
+
+import numpy as np
+import pandas as pd
+import scikit_posthocs
 from scipy import stats
 import statsmodels.api as sm
-import numpy as np
-import re
+from statsmodels.sandbox.stats.runs import mcnemar
+from statsmodels.sandbox.stats.runs import cochrans_q
+from statsmodels.stats.anova import AnovaRM
+from statsmodels.stats.weightstats import DescrStatsW
 
 from . import cogstat_config as csc
 from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
-
-from statsmodels.sandbox.stats.runs import mcnemar
-from statsmodels.sandbox.stats.runs import cochrans_q
-from statsmodels.stats.anova import AnovaRM
-from statsmodels.stats.weightstats import DescrStatsW
-import pandas as pd
-import scikit_posthocs
-
 
 run_power_analysis = False  # should this analysis included?
 

@@ -14,25 +14,23 @@ Mostly scipy.stats, statsmodels and matplotlib is used to generate the results.
 """
 
 import gettext
-import os
-import numpy as np
-import string
-import sys
-from io import StringIO
-from scipy import stats
 import itertools
+import os
+import string
 
-from . import cogstat_config as csc
-from . import cogstat_util as cs_util
-from . import cogstat_stat_num as cs_stat_num
-
+import numpy as np
+import pandas as pd
+import pingouin
+from scipy import stats
 try:
     from statsmodels.graphics.mosaicplot import mosaic
 except:
     pass
 from statsmodels.stats.weightstats import DescrStatsW
-import pandas as pd
-import pingouin
+
+from . import cogstat_config as csc
+from . import cogstat_util as cs_util
+from . import cogstat_stat_num as cs_stat_num
 
 '''
 # r is not needed for some time, but may be necessary at some later point again, so keep the code
@@ -58,6 +56,9 @@ def _get_R_output(obj):
     """
     Returns the output of R, printing obj.
     """
+    from io import StringIO
+    import sys
+
     old_stdout = sys.stdout
     sys.stdout = mystdout = StringIO()
     robjects.r('options')(width=200)  # Controls wrapping the output

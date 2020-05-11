@@ -11,29 +11,27 @@ QString = str
 # go on with regular importing, etc.
 import csv
 import gettext
+import itertools
 import logging
 import os
-import itertools
 
 __version__ = '2.0.0dev'
 
 import matplotlib
 matplotlib.use("qt5agg")
 #print matplotlib.get_backend()
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from scipy import stats
 
 from . import cogstat_config as csc
 csc.versions['cogstat'] = __version__
 from . import cogstat_stat as cs_stat
-from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_hyp_test as cs_hyp_test
 from . import cogstat_util as cs_util
 from . import cogstat_chart as cs_chart
 cs_util.get_versions()
-
-import numpy as np
-from scipy import stats
-import pandas as pd
-import matplotlib.pyplot as plt
 
 logging.root.setLevel(logging.INFO)
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)

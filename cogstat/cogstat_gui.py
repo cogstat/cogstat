@@ -7,9 +7,9 @@ GUI for CogStat.
 import os
 import sys
 
+import imp
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-import imp
 
 app = QtWidgets.QApplication(sys.argv)
 pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'CogStat splash screen.png'), 'PNG')
@@ -18,22 +18,22 @@ splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
 
 # go on with regular imports, etc.
-import sys
-import os
-import webbrowser
+from distutils.version import LooseVersion
 import gettext
 import logging
+import os
+import sys
 import traceback
 from urllib.request import urlopen
-from distutils.version import LooseVersion
+import webbrowser
+
+from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
 from . import cogstat
 from . import cogstat_dialogs
 from . import cogstat_config as csc
 csc.versions['cogstat'] = cogstat.__version__
 from . import cogstat_util as cs_util
-
-from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
 cs_util.app_devicePixelRatio = app.devicePixelRatio()
 

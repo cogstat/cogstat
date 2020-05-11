@@ -3,8 +3,8 @@
 Various functions for CogStat.
 """
 
-import sys
 import os
+import sys
 
 import numpy as np
 

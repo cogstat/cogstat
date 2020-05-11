@@ -2,8 +2,10 @@
 
 import gettext
 import os
-from . import cogstat_config as csc
+
 from PyQt5 import QtWidgets, QtCore, QtGui
+
+from . import cogstat_config as csc
 
 QString = str
 
