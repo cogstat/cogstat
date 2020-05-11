@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains functions for hypothesis tests.
+This module contains functions for hypothesis tests and for related power analyses.
 
 Arguments are the pandas data frame (pdf), and parameters (among others they
 are usually variable names).
@@ -29,7 +29,7 @@ from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
 
-run_power_analysis = False  # should this analysis included?
+run_power_analysis = True  # should the power analyses be run?
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext

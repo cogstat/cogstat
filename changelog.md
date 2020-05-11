@@ -11,6 +11,7 @@ Upcoming release
         - Cohen's d for two groups or variables
         - Eta-squared for two variables/groups
         - Hedges' g (with 95% CI) for two groups or variables
+    - Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
     - Contingency table improvements (in Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
         - Display margins
         - Display percentage
