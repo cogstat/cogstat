@@ -149,7 +149,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
             from statsmodels.stats.power import TTestPower
             power_analysis = TTestPower()
             text_result += _(
-                'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s) with the present sample size for the present hypothesis test:') % _(
+                'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
                 'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
                                                                alternative='two-sided')
 
@@ -314,7 +314,7 @@ def paired_t_test(pdf, var_names):
         from statsmodels.stats.power import TTestPower
         power_analysis = TTestPower()
         text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s) with the present sample size for the present hypothesis test:') % _(
+            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
             'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05,
                                                            power=0.95,
                                                            alternative='two-sided')
@@ -685,7 +685,7 @@ def independent_t_test(pdf, var_name, grouping_name):
         from statsmodels.stats.power import TTestIndPower
         power_analysis = TTestIndPower()
         text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s) with the present sample size for the present hypothesis test:') % _(
+            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
             'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
                                                            ratio=len(var2) / len(var1), alternative='two-sided')
 
@@ -805,7 +805,7 @@ def one_way_anova(pdf, var_name, grouping_name):
         from statsmodels.stats.power import FTestAnovaPower
         power_analysis = FTestAnovaPower()
         text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s) with the present sample size for the present hypothesis test:') % _('f') + \
+            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _('f') + \
                        ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
                                                                k_groups=len(set(data[grouping_name])))
 
@@ -954,7 +954,7 @@ def chi_square_test(pdf, var_name, grouping_name):
         from statsmodels.stats.power import GofChisquarePower
         power_analysis = GofChisquarePower()
         chi_result = _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power (effect size is in %s) with the present sample size for the present hypothesis test:') % _(
+            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
             'w') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
                                                            alpha=0.05,
                                                            power=0.95, n_bins=cont_table_data.size)
