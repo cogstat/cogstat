@@ -586,7 +586,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
 
             if non_normal_groups:
                 result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s. ') % \
-                             (var_names[0], ', '.join(map(str, non_normal_groups)))
+                             (var_names[0], ', '.join(map(str, non_normal_groups))) + '</decision>'
             if not hoemogeneity_vars:
                 result_ht += '<decision>' + _('Homeogeneity of variance violated in variable %s. ') % var_names[0]
             if non_normal_groups or (not hoemogeneity_vars):
