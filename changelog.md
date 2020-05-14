@@ -7,20 +7,19 @@ Upcoming release
 ## New features
 - Statistical analysis
     - Any number of grouping variables in Compare groups
-    - New effect sizes for interval variables 
-        - Cohen's d for two groups or variables
-        - Eta-squared for two variables/groups
-        - Hedges' g (with 95% CI) for two groups or variables
+    - New effect sizes for interval variables for two groups or variables
+        - Cohen's d
+        - Eta-squared
+        - Hedges' g (with 95% CI)
     - Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
     - Confidence intervals
-        - Confidence interval for multinomial proportions
+        - Confidence interval for multinomial proportions (in Explore variable, Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
         - Confidence interval for medians (in Explore variable, Compare repeated measures variables and Compare groups)
-        - Confidence interval for proportions in Explore variable
     - Contingency table improvements (in Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
         - Display margins
         - Display percentage
         - Confidence interval for multinomial proportions (see confidence interval improvements above)
-    - Variation ratio for nominal variables
+    - Variation ratio for nominal variables in Explore variable, Compare repeated measures variables and Compare groups 
     - Various output refinements
 - Data analysis
     - Behavioral data diffusion analysis
