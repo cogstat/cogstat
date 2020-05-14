@@ -182,7 +182,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
 def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
     """Behavioral diffusion analysis"""
     if not (error_name and RT_name and participant_name and condition_names):
-        result = _('Specify all the required parameters (reaction time, error, particpant and condition variables).')
+        result = _('Specify all the required parameters (reaction time, error, participant and condition variables).')
         return result
     result = ''
     result += _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \

@@ -603,7 +603,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         if (not RT_name) or (not error_name):  # TODO this check should go to the dialog
             text_result = cs_util.reformat_output('%s %s' % (
-            _('Diffusion analysis.'), _('At least the RT and the error variables should be given.')))
+            _('Diffusion analysis.'), _('At least the reaction time and the error variables should be given.')))
         else:
             try:
                 text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names)

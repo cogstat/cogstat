@@ -613,7 +613,7 @@ def decision_several_grouping_variables(df, meas_level, var_names, groups):
     elif meas_level == 'nom':
         result_ht += _('Testing if the distributions are the same.') + '</decision>\n'
 
-    result_ht += '<decision>' + _('At least two grouping variables. ') + '</decision>'
+    result_ht += '<decision>' + _('At least two grouping variables.') + ' </decision>'
     if meas_level == 'int':
         #group_levels, vars = cs_stat._split_into_groups(df, var_names[0], groups)
         result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
