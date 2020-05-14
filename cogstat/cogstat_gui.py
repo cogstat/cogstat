@@ -12,7 +12,8 @@ from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 app = QtWidgets.QApplication(sys.argv)
-pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'CogStat splash screen.png'), 'PNG')
+pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources',
+                                    'CogStat splash screen.png'), 'PNG')
 splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
@@ -52,6 +53,7 @@ broken_analysis = _('%s Oops, something went wrong, CogStat could not run the an
                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'
 
+
 class StatMainWindow(QtWidgets.QMainWindow):
     """
     CogStat GUI.
@@ -64,7 +66,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # TODO Maybe all these checking can be removed
         missing_required_components, missing_recommended_components = self._check_installed_components()
         if missing_required_components or missing_recommended_components:
-            QtWidgets.QMessageBox.critical(self, 'Incomplete installation', 'Install missing component(s): ' + ''.join([x+', ' for x in missing_required_components+missing_recommended_components])[:-2]+'.<br><br>'+'<a href = "https://github.com/cogstat/cogstat/wiki/Installation">Visit the installation help page</a> to see how to complete the installation.', QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.critical(self, 'Incomplete installation', 'Install missing component(s): ' +
+                                           ''.join([x+', ' for x in
+                                                    missing_required_components+missing_recommended_components])[:-2] +
+                                           '.<br><br>' + '<a href = "https://github.com/cogstat/cogstat/wiki/'
+                                                         'Installation">Visit the installation help page</a> to see how '
+                                                         'to complete the installation.', QtWidgets.QMessageBox.Ok)
             if missing_required_components:
                 sys.exit()
         
@@ -86,7 +93,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.explore_variable(['a'], freq=False)
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
-#        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'], condition_names=['Num1', 'Num2'])
+#        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'],
+#                       condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['A', 'B', 'C1'])
 #        self.compare_variables(['D', 'E', 'F'])
@@ -109,8 +117,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
             latest_version = urlopen('http://kognitiv.elte.hu/cogstat/version', timeout=3).read().decode('utf-8')
             if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
                 QtWidgets.QMessageBox.about(self, _('Update available'),
-                                        _('New version is available.') + '<br><br>' +
-                                        _('You can download the new version<br>from the <a href = "%s">CogStat download page</a>.')%'http://www.cogstat.org/download.html')
+                                            _('New version is available.') + '<br><br>' +
+                                            _('You can download the new version<br>from the <a href = "%s">CogStat '
+                                              'download page</a>.') % 'http://www.cogstat.org/download.html')
         except:
             print("Couldn't check for update")
 
@@ -118,7 +127,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.resize(830, 600)
         self.setWindowTitle('CogStat')
         # FIXME there could be issues if the __file__ path includes unicode chars
-        # e.g., see pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'), u'resources', u'CogStat splash screen.png'), 'PNG')
+        # e.g., see pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'),
+        # u'resources', u'CogStat splash screen.png'), 'PNG')
         self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + '/resources/CogStat.ico'))
 
         if rtl_lang:
@@ -130,25 +140,34 @@ class StatMainWindow(QtWidgets.QMainWindow):
         icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'icons')
         menu_commands = [
                             [_('&Data'),
-                                ['/icons8-folder-48.png', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file', True],
-                                ['/icons8-folder-eye-48.png', _('Open d&emo data file')+'...', _('Ctrl+E'), 'self.open_demo_file',True],
+                                ['/icons8-folder-48.png', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file',
+                                 True],
+                                ['/icons8-folder-eye-48.png', _('Open d&emo data file')+'...', _('Ctrl+E'),
+                                 'self.open_demo_file',True],
                                 ['/icons8-paste-48.png', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True],
                                 ['separator'],
-                                ['/icons8-filter-48.png', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier', True],
+                                ['/icons8-filter-48.png', _('&Filter outliers')+'...', _('Ctrl+L'),
+                                 'self.filter_outlier', True],
                                 ['separator'],
                                 ['/icons8-data-sheet-48.png', _('&Display data'), _('Ctrl+D'), 'self.print_data', False],
-                                ['/icons8-data-sheet-check-48.png', _('Display data &briefly'), _('Ctrl+B'), 'self._print_data_brief', True],
+                                ['/icons8-data-sheet-check-48.png', _('Display data &briefly'), _('Ctrl+B'),
+                                 'self._print_data_brief', True],
                                 ['toolbar separator']
                             ],
                             [_('&Analysis'),
-                                ['/icons8-normal-distribution-histogram-48.png', _('&Explore variable')+'...', _('Ctrl+1'), 'self.explore_variable', True],
-                                ['/icons8-scatter-plot-48.png', _('Explore relation of variable &pair')+'...', _('Ctrl+2'), 'self.explore_variable_pair', True],
+                                ['/icons8-normal-distribution-histogram-48.png', _('&Explore variable')+'...',
+                                 _('Ctrl+1'), 'self.explore_variable', True],
+                                ['/icons8-scatter-plot-48.png', _('Explore relation of variable &pair')+'...',
+                                 _('Ctrl+2'), 'self.explore_variable_pair', True],
                                 ['separator'],
                                 ['/icons8-pivot-table-48.png', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
-                                ['/icons8-electrical-threshold-48.png', _('Behavioral data &diffusion analysis') + '...', 'Ctrl+Shift+D', 'self.diffusion', True],
+                                ['/icons8-electrical-threshold-48.png', _('Behavioral data &diffusion analysis') +
+                                 '...', 'Ctrl+Shift+D', 'self.diffusion', True],
                                 ['separator'],
-                                ['/icons8-combo-chart-48.png', _('Compare repeated measures va&riables')+'...', 'Ctrl+R', 'self.compare_variables', True],
-                                ['/icons8-bar-chart-48.png', _('Compare &groups')+'...', 'Ctrl+G', 'self.compare_groups', True],
+                                ['/icons8-combo-chart-48.png', _('Compare repeated measures va&riables')+'...',
+                                 'Ctrl+R', 'self.compare_variables', True],
+                                ['/icons8-bar-chart-48.png', _('Compare &groups')+'...', 'Ctrl+G',
+                                 'self.compare_groups', True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
@@ -156,24 +175,32 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-search-48.png', _('&Find text'), _('Ctrl+F'), 'self.find_text', True],
                                 ['separator'],
                                 ['/icons8-zoom-in-48.png', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True],
-                                ['/icons8-zoom-out-48.png', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out', True],
+                                ['/icons8-zoom-out-48.png', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out',
+                                 True],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
-                                ['/icons8-edit-file-48.png', _('Text is &editable'), _('Ctrl+Shift+E'), 'self.text_editable', False],
+                                ['/icons8-edit-file-48.png', _('Text is &editable'), _('Ctrl+Shift+E'),
+                                 'self.text_editable', False],
                                 ['separator'],
                                 ['/icons8-pdf-48.png', _('&Save results'), _('Ctrl+P'), 'self.save_result', False],
-                                ['/icons8-pdf-edit-48.png', _('Save results &as')+'...', _('Ctrl+Shift+P'), 'self.save_result_as', False],
+                                ['/icons8-pdf-edit-48.png', _('Save results &as')+'...', _('Ctrl+Shift+P'),
+                                 'self.save_result_as', False],
                                 ['toolbar separator']
                             ],
                             [_('&CogStat'),
                                 ['/icons8-help-48.png', _('&Help'), _('F1'), 'self._open_help_webpage', True],
-                                ['/icons8-settings-48.png', _('&Preferences')+'...', _('Ctrl+Shift+R'), 'self._show_preferences', True],
-                                ['/icons8-file-add-48.png', _('Request a &feature'), '', 'self._open_reqfeat_webpage', False],
+                                ['/icons8-settings-48.png', _('&Preferences')+'...', _('Ctrl+Shift+R'),
+                                 'self._show_preferences', True],
+                                ['/icons8-file-add-48.png', _('Request a &feature'), '', 'self._open_reqfeat_webpage',
+                                 False],
                                 ['separator'],
-                                #['/icons8-toolbar-50.png', _('Show the &toolbar'), '', 'self.toolbar.toggleViewAction().trigger', False],
+                                #['/icons8-toolbar-50.png', _('Show the &toolbar'), '',
+                                # 'self.toolbar.toggleViewAction().trigger', False],
                                 #['separator'],
-                                ['/icons8-bug-48.png', _('&Report a problem'), '', 'self._open_reportbug_webpage', False],
-                                ['/icons8-system-report-48.png', _('&Diagnosis information'), '', 'self.print_versions', False],
+                                ['/icons8-bug-48.png', _('&Report a problem'), '', 'self._open_reportbug_webpage',
+                                 False],
+                                ['/icons8-system-report-48.png', _('&Diagnosis information'), '', 'self.print_versions',
+                                 False],
                                 ['separator'],
                                 ['/icons8-info-48.png', _('&About'), '', 'self._show_about', False],
                                 ['separator'],
@@ -181,11 +208,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             ]
                         ]
         # Enable these commands only when active_data is available
-        self.analysis_commands = [_('&Save data'), _('Save data &as')+'...', _('&Display data'), _('Display data &briefly'), _('&Filter outliers')+'...',
-                                  _('Pivot &table')+'...', _('&Explore variable')+'...',
-                                  _('Behavioral data &diffusion analysis') + '...',
-                                  _('Explore relation of variable &pair')+'...', _('Compare repeated measures va&riables')+'...', _('Compare &groups')+'...',
-                                  _('&Compare groups and variables')+'...']
+        self.analysis_commands = [_('&Save data'), _('Save data &as') + '...', _('&Display data'),
+                                  _('Display data &briefly'), _('&Filter outliers') + '...', _('Pivot &table') + '...',
+                                  _('&Explore variable') + '...', _('Behavioral data &diffusion analysis') + '...',
+                                  _('Explore relation of variable &pair') + '...',
+                                  _('Compare repeated measures va&riables') + '...', _('Compare &groups') + '...',
+                                  _('&Compare groups and variables') + '...']
 
         # Create menus and commands, create toolbar
         self.menubar = self.menuBar()
@@ -203,20 +231,23 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 elif menu_item[0] == 'toolbar separator':
                     self.toolbar.addSeparator()
                 else:
-                    self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]), menu_item[1], self)
+                    self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]),
+                                                                         menu_item[1], self)
                     self.menu_commands[menu_item[1]].setShortcut(menu_item[2])
                     #self.menu_commands[menu_item[1]].setStatusTip(menu_item[3])
                     self.menu_commands[menu_item[1]].triggered.connect(eval(menu_item[3]))
                     self.menus[-1].addAction(self.menu_commands[menu_item[1]])
                     if menu_item[4]:  # if the menu item should be added to the toolbar
-                        self.toolbar_actions[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]), menu_item[1] + ' (' + menu_item[2] + ')', self)
+                        self.toolbar_actions[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]),
+                                                                               menu_item[1] + ' (' + menu_item[2] + ')',
+                                                                               self)
                         self.toolbar_actions[menu_item[1]].triggered.connect(eval(menu_item[3]))
                         self.toolbar.addAction(self.toolbar_actions[menu_item[1]])
 
-
         self.menus[2].actions()[5].setCheckable(True)  # _('&Text is editable') menu is a checkbox
                                                        # # see also text_editable()
-        #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
+        #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and
+                                                        # the toolbar works independently
         #self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
         #self.menus[3].actions()[4].setChecked(True)  # Set the default value On
             # TODO if the position of these menus are changed, then this setting will not work
@@ -224,14 +255,17 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Prepare Output pane
         self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        self.output_pane.document().setDefaultStyleSheet('body {color:black;} h2 {color:%s;} h3 {color:%s} .table_cs_pd th {font-weight:normal;}' %
+        self.output_pane.document().setDefaultStyleSheet('body {color:black;} h2 {color:%s;} h3 '
+                                                         '{color:%s} .table_cs_pd th {font-weight:normal;}' %
                                                          (csc.mpl_theme_color_dark, csc.mpl_theme_color))
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
-                                 ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
-                                  _('CogStat makes statistical analysis more simple and efficient.'),
-                                  _('To start working open a data file or paste your data from a spreadsheet.'),
-                                  _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>'))
+                          ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
+                           _('CogStat makes statistical analysis more simple and efficient.'),
+                          _('To start working open a data file or paste your data from a spreadsheet.'),
+                          _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> '
+                            'or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">'
+                            'quick start tutorial.</a>'))
         self.output_pane.setText(cs_util.convert_output([welcome_message])[0])
         self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
         self.output_pane.setReadOnly(True)
@@ -351,7 +385,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         #print(self.output_pane.toHtml())
         for output in self.analysis_results[index].output:
             if isinstance(output, str):
-                self.output_pane.append(output)  # insertHtml() messes up the html doc, check it with self.output_pane.toHtml()
+                self.output_pane.append(output)  # insertHtml() messes up the html doc,
+                                                 # check it with self.output_pane.toHtml()
             elif isinstance(output, QtGui.QImage):
                 self.output_pane.moveCursor(11, 0)  # Moves cursor to the end
                 self.output_pane.textCursor().insertImage(output)
@@ -396,22 +431,24 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             self.active_data = cogstat.CogStatData(data=data)
             if self.active_data.import_source == _('Import failed'):
-                QtWidgets.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'), QtWidgets.QMessageBox.Ok)
+                QtWidgets.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'),
+                                              QtWidgets.QMessageBox.Ok)
                 self._show_data_menus(False)
             else:
                 self._show_data_menus()
                 '''
-                self.statusBar().showMessage((_('Data loaded from file: ') if self.active_data.import_source[:9] in ['text file', 'SPSS file'] else _('Data loaded from clipboard: '))
-                                            + _('%s variables and %s cases.') % (len(self.active_data.data_frame.columns),
-                                                                                 len(self.active_data.data_frame.index)))
+                self.statusBar().showMessage((_('Data loaded from file: ') if self.active_data.import_source[:9] in 
+                ['text file', 'SPSS file'] else _('Data loaded from clipboard: ')) + _('%s variables and %s cases.') % 
+                (len(self.active_data.data_frame.columns), len(self.active_data.data_frame.index)))
                 '''
                 self.print_data(brief=True, display_import_message=True)
         except:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
             self.analysis_results[-1].\
-                add_output(cs_util.reformat_output(_('Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue.') \
-                                                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
+                add_output(cs_util.reformat_output(_('Open data. Oops, something went wrong, CogStat could not open the '
+                                                     'data. You may want to report the issue.') + ' ' +
+                                                   _('Read more about how to report an issue <a href = "%s">here</a>.')
                                                    % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'))
             traceback.print_exc()
             self._print_to_output_pane()
@@ -428,11 +465,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.dial_filter
             except:
                 # Only interval variables can be used for filtering
-                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name] in ['int', 'unk'])]
+                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name]
+                                                                                  in ['int', 'unk'])]
                 self.dial_filter = cogstat_dialogs.filter_outlier(names=names)
             else:  # TODO is it not necessary anymore? For all dialogs
                 # Only interval variables can be used for filtering
-                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name] in ['int', 'unk'])]
+                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name]
+                                                                                  in ['int', 'unk'])]
                 self.dial_filter.init_vars(names=names)
             if self.dial_filter.exec_():
                 var_names = self.dial_filter.read_parameters()
@@ -527,7 +566,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('%s %s'%(_('Explore variable pair.'), _('At least two variables should be set.')))
+            text_result = cs_util.reformat_output('%s %s' % (_('Explore variable pair.'),
+                                                             _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
@@ -543,7 +583,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         if x == y:
                             pass_diag = True
             except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable pair.')))
+                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
+                                                                             _('Explore variable pair.')))
                 traceback.print_exc()
                 self._print_to_output_pane()
         self._busy_signal(False)
@@ -570,7 +611,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         if not depend_names or not (row_names or col_names or page_names):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('%s %s'%(_('Pivot table.'), _('The dependent variable and at least one grouping variable should be given.')))
+            text_result = cs_util.reformat_output('%s %s' % (_('Pivot table.'),
+                                                             _('The dependent variable and at least one grouping '
+                                                               'variable should be given.')))
         else:
             try:
                 text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
@@ -603,7 +646,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         if (not RT_name) or (not error_name):  # TODO this check should go to the dialog
             text_result = cs_util.reformat_output('%s %s' % (
-            _('Diffusion analysis.'), _('At least the reaction time and the error variables should be given.')))
+                _('Diffusion analysis.'), _('At least the reaction time and the error variables should be given.')))
         else:
             try:
                 text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names)
@@ -628,7 +671,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var.exec_():
-                var_names, factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are appropriate
+                var_names, factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
+                                                                                  # appropriate
             else:
                 return
         self._busy_signal(True)
@@ -667,14 +711,17 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
-                var_names, groups, single_case_slope_SEs, single_case_slope_trial_n, ylims = self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
+                var_names, groups, single_case_slope_SEs, single_case_slope_trial_n, ylims = self.dial_comp_grp.\
+                    read_parameters()  # TODO check if settings are appropriate
             else:
                 return
         self._busy_signal(True)
         if not var_names or not groups:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-            text_result = cs_util.reformat_output('%s %s' % (_('Compare groups.'), _('Both the dependent and the grouping variables should be set.')))
+            text_result = cs_util.reformat_output('%s %s' % (_('Compare groups.'),
+                                                             _('Both the dependent and the grouping variables should '
+                                                               'be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             for var_name in var_names:
@@ -686,7 +733,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.analysis_results[-1].add_output(result_list)
                     self._print_to_output_pane()
                 except:
-                    self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare groups.')))
+                    self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
+                                                                                 _('Compare groups.')))
                     traceback.print_exc()
                     self._print_to_output_pane()
         self._busy_signal(False)
@@ -694,8 +742,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
     ### Result menu methods ###
     def delete_output(self):
         reply = QtWidgets.QMessageBox.question(self, _('Clear output'),
-            _('Are you sure you want to delete the output?'), QtWidgets.QMessageBox.Yes | 
-            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+                                               _('Are you sure you want to delete the output?'),
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                               QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
             self.output_pane.clear()
             self.analysis_results = []
@@ -716,7 +765,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         #self.output_pane.setReadOnly(not(self.toolbar.actions()[15].isChecked()))
         # TODO if the position of this menu is changed, then this function will not work
         # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
-
 
     def save_result(self):
         """Save the output pane to pdf file."""
@@ -764,7 +812,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Report-a-bug')
         
     def _show_about(self):
-        QtWidgets.QMessageBox.about(self, _('About CogStat ')+csc.versions['cogstat'], 'CogStat '+csc.versions['cogstat']+('<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br><a href = "http://www.cogstat.org">%s</a>'%(_('Simple automatic data analysis software'), 2012, 2020, _('Visit CogStat website'))))
+        QtWidgets.QMessageBox.about(self, _('About CogStat ') + csc.versions['cogstat'], 'CogStat ' +
+                                    csc.versions['cogstat'] + ('<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br>'
+                                                               '<a href = "http://www.cogstat.org">%s</a>' %
+                                                               (_('Simple automatic data analysis software'),
+                                                                2012, 2020, _('Visit CogStat website'))))
 
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""
@@ -774,7 +826,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         text_output = cs_util.reformat_output(cs_util.print_versions(self))
         
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])[0])
+        self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
+                                             [0])
         self.analysis_results[-1].add_output(text_output)
         self._print_to_output_pane()
         self._busy_signal(False)
@@ -787,12 +840,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
         tosave = True
         while self.unsaved_output and tosave:
             reply = QtWidgets.QMessageBox.question(self, _('Save output'),
-                _('Output has unsaved results. Do you want to save it?'), QtWidgets.QMessageBox.Yes | 
-                QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.Yes)
+                    _('Output has unsaved results. Do you want to save it?'), QtWidgets.QMessageBox.Yes |
+                                                   QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.Yes)
             if reply == QtWidgets.QMessageBox.Yes:
                 self.save_result()
             else:
-                tosave=False
+                tosave = False
 
         """
         reply = QtGui.QMessageBox.question(self, _('Confirm exit'), 
@@ -832,6 +885,7 @@ class GuiResultPackage():
                 self.output.append(outp)
         else:
             self.output.append(output)
+
 
 def main():
     splash_screen.close()

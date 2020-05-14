@@ -43,7 +43,6 @@ except:
 '''
 
 run_power_analysis = False  # should this analysis included?
-# - Sensitivity power analysis for one - sample t - test, two - sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -89,8 +88,9 @@ def _split_into_groups(pdf, var_name, grouping_name):
 
     # create all level combinations for the grouping variables
     level_combinations = list(itertools.product(*levels))
-    grouped_data = [pdf[var_name][(pdf[grouping_name] == pd.Series({group: level for group, level in zip(grouping_name, group_level)})).all(axis=1)].dropna() for group_level in
-                 level_combinations]
+    grouped_data = [pdf[var_name][(pdf[grouping_name] == pd.Series({group: level for group, level in
+                                                                    zip(grouping_name, group_level)})).all(axis=1)].
+                        dropna() for group_level in level_combinations]
     return level_combinations, grouped_data
 
 
@@ -101,7 +101,8 @@ def _format_html_table(html_table):
     """
     if csc.output_type == 'gui':
         # Because qt does not support table borders, use padding to have a more reviewable table
-        return '<style> th, td {padding-right: 5px; padding-left: 5px} </style>' + html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
+        return '<style> th, td {padding-right: 5px; padding-left: 5px} </style>' + html_table.replace('\n', '').\
+            replace('border="1"', 'style="border:1px solid black;"')
     else:
         return html_table.replace('\n', '').replace('border="1"', 'style="border:1px solid black;"')
 
@@ -150,7 +151,8 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
             return np.percentile(data.dropna(), 25)
 
         def median(data):
-            # TODO ??? Neither np.median nor stats.nanmedian worked corrrectly ??? or Calc computes percentile in a different way?
+            # TODO ??? Neither np.median nor stats.nanmedian worked corrrectly ???
+            #  or Calc computes percentile in a different way?
             return np.percentile(data.dropna(), 50)
 
         def perc75(data):
@@ -160,7 +162,9 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
             page_values = set(df[page_vars[0]])
             for page_value in page_values:
                 if page_value == page_value:  # skip nan
-                    ptable_result = print_pivot_page(df[df[page_vars[0]] == page_value], page_vars[1:], '%s%s = %s%s' % (page_value_list, page_vars[0], page_value, ', ' if page_vars[1:] else ''), ptable_result)
+                    ptable_result = print_pivot_page(df[df[page_vars[0]] == page_value], page_vars[1:], '%s%s = %s%s' %
+                                                     (page_value_list, page_vars[0], page_value, ', ' if page_vars[1:]
+                                                     else ''), ptable_result)
         else:  # base case
             if page_value_list:
                 ptable_result = '%s\n\n%s' % (ptable_result, page_value_list)
@@ -199,9 +203,12 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
                                                     aggfunc=cs_stat_num.diffusion_edge_correction_mean)
     previous_precision = pd.get_option('precision')
     pd.set_option('precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
-    result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.to_html(bold_rows=False))
-    result += '\n\n' + _('Mean correct reaction time') + _format_html_table(mean_correct_RT_table.to_html(bold_rows=False))
-    result += '\n\n' + _('Correct reaction time variance') + _format_html_table(var_correct_RT_table.to_html(bold_rows=False))
+    result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.
+                                                                                           to_html(bold_rows=False))
+    result += '\n\n' + _('Mean correct reaction time') + _format_html_table(mean_correct_RT_table.
+                                                                            to_html(bold_rows=False))
+    result += '\n\n' + _('Correct reaction time variance') + _format_html_table(var_correct_RT_table.
+                                                                                to_html(bold_rows=False))
 
     # Recover diffusion parameters
     EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names),
@@ -227,10 +234,10 @@ def safe_var_names(names):  # TODO not used at the moment. maybe could be delete
     for i in range(len(names)):
         names[i] = str(names[i]).translate(string.maketrans(' -', '__'))  # use underscore instead of space or dash
         if names[i][0].isdigit():  # do not start with number
-            names[i]='_'+names[i]
+            names[i] = '_'+names[i]
         name_changed = False
         for j in range(i):
-            while names[i]==names[j]:
+            while names[i] == names[j]:
                 if not name_changed:
                     names[i] = names[i]+'_1'
                     name_changed = True
@@ -254,6 +261,7 @@ def display_variable_raw_data(pdf, var_name):
     missing_cases = len(pdf[var_name])-len(data)
     text_result += _('N of missing cases: %g') % missing_cases + '\n'
     return text_result
+
 
 def frequencies(pdf, var_name, meas_level):
     """Frequencies
@@ -290,11 +298,12 @@ def proportions_ci(pdf, var_name):
     proportions_ci_np = proportion.multinomial_proportions_confint(proportions)
     proportions_ci_pd = pd.DataFrame(proportions_ci_np, index=proportions.index, columns=[_('low'), _('high')]) * 100
     text_result = '%s - %s\n%s' % (_('Relative frequencies'), _('95% confidence interval (multinomial proportions)'),
-                                     _format_html_table(proportions_ci_pd.to_html(bold_rows=False,
-                                                                                  float_format=lambda x: '%.1f%%' % x,
-                                                                                  classes="table_cs_pd")))
+                                   _format_html_table(proportions_ci_pd.to_html(bold_rows=False,
+                                                                                float_format=lambda x: '%.1f%%' % x,
+                                                                                classes="table_cs_pd")))
     if (pdf[var_name].value_counts(dropna=False) < 5).any():
-        text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '</warning>\n'
+        text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence '
+                                       'intervals may be invalid.') + '</warning>\n'
     return text_result
 
 
@@ -306,8 +315,8 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     var_names: list of variable names to use
     groups: list of grouping variable names
     meas_levs:
-    statistics: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in the
-            stat_names list
+    statistics: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in
+                the stat_names list
 
     Now it only handles a single dependent variable and a single grouping variable.
     """
@@ -346,7 +355,8 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names)
-        text_result += '<cs_h3>' + (_('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')) + '</cs_h3>'
+        text_result += '<cs_h3>' + (_('Descriptives for the variables') if len(var_names) > 1 else
+                                    _('Descriptives for the variable')) + '</cs_h3>'
         for var_name in var_names:
             if meas_levs[var_name] != 'nom':
                 prec = cs_util.precision(data[var_name])+1
@@ -365,7 +375,8 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         text_result += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
-#        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)
+#        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')],
+#        index=groups)
 #        text_result += pdf_result.T.to_html()
         for group_label, group_data in zip(groups, grouped_data):
             if len(group_data):
@@ -407,9 +418,8 @@ def variable_estimation(data, statistics=[]):
                 cs_stat_num.median_ci(pd.DataFrame(data.dropna()))
     pdf_result = pdf_result.fillna(_('Out of the data range'))
     prec = cs_util.precision(data) + 1
-    population_param_text += _format_html_table(pdf_result.to_html(bold_rows=False,
-                                                                  classes="table_cs_pd",
-                                                                  float_format=lambda x: '%0.*f' % (prec, x)))
+    population_param_text += _format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                   float_format=lambda x: '%0.*f' % (prec, x)))
     return population_param_text
 
 
@@ -498,34 +508,46 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
 
     :return:
     """
-    text_result=''
+    text_result = ''
     if count:
-        cont_table_count = pd.crosstab(index=[data_frame[ddd] for ddd in data_frame[y]], columns=[data_frame[ddd] for ddd in data_frame[x]], margins=margins, margins_name=_('Total'))
+        cont_table_count = pd.crosstab(index=[data_frame[ddd] for ddd in data_frame[y]],
+                                       columns=[data_frame[ddd] for ddd in data_frame[x]], margins=margins,
+                                       margins_name=_('Total'))
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Case count'),
                                             _format_html_table(cont_table_count.to_html(bold_rows=False,
                                                                                         classes="table_cs_pd")))
     if percent:
-        # for the pd.crosstab() function normalize=True parameter does not work with mutliple column variables (neither pandas version 0.22 nor 1.0.3 works, though with different error messages), so make a workaround
-        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]], [data_frame[ddd] for ddd in data_frame[x]], margins=margins, margins_name=_('Total'))
+        # for the pd.crosstab() function normalize=True parameter does not work with mutliple column variables
+        # (neither pandas version 0.22 nor 1.0.3 works, though with different error messages), so make a workaround
+        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]],
+                                       [data_frame[ddd] for ddd in data_frame[x]], margins=margins,
+                                       margins_name=_('Total'))
         # normalize by the total count
         cont_table_perc = cont_table_count / cont_table_count.iloc[-1, -1] * 100
         text_result += '\n%s - %s\n%s\n' % (_('Contingency table'), _('Percentage'),
                                             _format_html_table(cont_table_perc.to_html(bold_rows=False,
                                                                                        classes="table_cs_pd",
-                                                                                       float_format=lambda x: '%.1f%%' % x)))
+                                                                                       float_format=lambda x: '%.1f%%'
+                                                                                                              % x)))
     if ci:
         from statsmodels.stats import proportion
-        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]], [data_frame[ddd] for ddd in data_frame[x]])  # don't use margins
+        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]], [data_frame[ddd] for ddd in
+                                                                                    data_frame[x]])  # don't use margins
         cont_table_ci_np = proportion.multinomial_proportions_confint(cont_table_count.unstack())
         # add index and column names for the numpy results, and reformat (unstack) to the original arrangement
-        cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index, columns=[_('low'), _('high')]).stack().unstack(level=list(range(len(x))) + [len(x)+1]) * 100
-        text_result += '%s - %s\n%s\n' % (_('Contingency table'), _('95% confidence interval (multinomial proportions)'),
+        cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index,
+                                     columns=[_('low'), _('high')]).stack().unstack(level=list(range(len(x))) +
+                                                                                          [len(x)+1]) * 100
+        text_result += '%s - %s\n%s\n' % (_('Contingency table'),
+                                          _('95% confidence interval (multinomial proportions)'),
                                             _format_html_table(cont_table_ci.to_html(bold_rows=False,
                                                                                      classes="table_cs_pd",
-                                                                                     float_format=lambda x: '%.1f%%' % x)))
-        if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason, so we use the np version
-            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid.') + '</warning>'
-
+                                                                                     float_format=lambda x: '%.1f%%' %
+                                                                                                            x)))
+        if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason,
+                                                          # so we use the np version
+            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence '
+                                           'intervals may be invalid.') + '</warning>'
 
     """
     # Binomial CI with continuity correction
@@ -577,10 +599,10 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
         if len(factors) < 2:  # Single (or no) factor
             if len(var_names) == 2:  # Two variables
                 if meas_level in ['int', 'unk']:
-                    pdf_result.loc[_("Cohen's d"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
-                                                                                          paired=True, eftype='cohen')
-                    pdf_result.loc[_("Eta-squared"), _('Value')] = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]],
-                                                                                          paired=True, eftype='eta-square')
+                    pdf_result.loc[_("Cohen's d"), _('Value')] = \
+                        pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='cohen')
+                    pdf_result.loc[_("Eta-squared"), _('Value')] = \
+                        pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='eta-square')
                 else:  # ordinal or nominal variable
                     standardized_effect_size_result = None
             else:  # More than two variables
@@ -593,7 +615,8 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
         if len(factors) < 2:  # Single (or no) factor
             if len(var_names) == 2:  # Two variables
                 if meas_level in ['int', 'unk']:
-                    hedges = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='hedges')
+                    hedges = pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True,
+                                                      eftype='hedges')
                     hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(pdf[var_names[0]]), ny=len(pdf[var_names[1]]),
                                                       paired=True, eftype='cohen', confidence=0.95, decimals=3)
                     pdf_result.loc[_("Hedges' g")] = hedges, *hedges_ci
@@ -616,6 +639,8 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
 
 def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels):
     pass
+
+
 def comp_group_estimations(data_frame, meas_level, var_names, groups):
     """Draw means with CI for int vars, and medians for ord vars.
     """
@@ -654,11 +679,10 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]].dropna()[groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
-                    pdf_result.loc[_("Cohen's d"), _('Value')] = pingouin.compute_effsize(grouped_data[0], grouped_data[1],
-                                                                                          paired=False, eftype='cohen')
-                    pdf_result.loc[_("Eta-squared"), _('Value')] = pingouin.compute_effsize(grouped_data[0],
-                                                                                          grouped_data[1],
-                                                                                          paired=False, eftype='eta-square')
+                    pdf_result.loc[_("Cohen's d"), _('Value')] = \
+                        pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='cohen')
+                    pdf_result.loc[_("Eta-squared"), _('Value')] = \
+                        pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='eta-square')
                 else:
                     standardized_effect_size_result = None
             else:
@@ -695,17 +719,19 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                     pdf_result = pd.DataFrame()
                     from statsmodels.formula.api import ols
                     from statsmodels.stats.anova import anova_lm
-                    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
+                    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the
+                    #  categorical variable
                     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
                     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
                     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
                     data = pdf.dropna(subset=[dependent_var_name[0], groups[0]])
                     anova_model = ols(str(dependent_var_name[0]+' ~ C('+groups[0]+')'), data=data).fit()
-                    # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
+                    # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the
+                    # same results
                     anova_result = anova_lm(anova_model)
                     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
-                    omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1]))/\
-                             ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) +anova_result['mean_sq'][1])
+                    omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1])) / \
+                             ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) + anova_result['mean_sq'][1])
                     pdf_result.loc[_('Omega squared'), _('Value')] = '&omega;<sup>2</sup> = %0.3g' % omega2
             else:  # More than 1 grouping variables
                 standardized_effect_size_result = None

@@ -19,13 +19,11 @@ if not os.path.isfile(dirs.user_config_dir + '/cogstat.ini'):
     import shutil
     if not os.path.exists(dirs.user_config_dir):
         os.makedirs(dirs.user_config_dir)
-    shutil.copyfile(os.path.dirname(os.path.abspath(__file__)) +
-                    '/cogstat.ini', dirs.user_config_dir + '/cogstat.ini')
+    shutil.copyfile(os.path.dirname(os.path.abspath(__file__)) + '/cogstat.ini', dirs.user_config_dir + '/cogstat.ini')
 
 config = configobj.ConfigObj(dirs.user_config_dir + '/cogstat.ini')
 # If new key was added to the default ini file, add it to the user ini file
-default_config = configobj.ConfigObj(os.path.dirname(os.path.abspath(
-    __file__)) + '/cogstat.ini')
+default_config = configobj.ConfigObj(os.path.dirname(os.path.abspath(__file__)) + '/cogstat.ini')
 old_config = dict(config)
 
 for key in default_config.keys():

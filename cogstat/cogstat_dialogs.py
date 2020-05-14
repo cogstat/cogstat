@@ -22,15 +22,18 @@ QtCore.QCoreApplication.translate = _gui
 
 
 def open_data_file():
-    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '', '*.csv *.sav')[0])  #*.txt *.log *.tsv
+    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '', '*.csv *.sav')[0])
+        #*.txt *.log *.tsv
 
 
 def open_demo_data_file():
-    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__)+'/sample_data', '*.csv *.sav')[0])  #*.txt *.log *.tsv
+    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
+                                                     '/sample_data', '*.csv *.sav')[0])  #*.txt *.log *.tsv
 
 
 def save_output():
-    return str(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'CogStat analysis result.pdf', '*.pdf')[0])
+    return str(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'CogStat analysis result.pdf',
+                                                     '*.pdf')[0])
 
 # XXX self.buttonBox.Ok.setEnabled(False) # TODO how can we disable the OK button without the other?
 # TODO Some variables are CamelCase - change them
@@ -91,13 +94,16 @@ def find_previous_item_position(list_widget, names, text_item):
     TODO
     """
     names = list(names)
-    if list(reversed(names[:names.index(text_item)])):  # check if the text_item is not the first in the variable list, otherwise return zero
+    if list(reversed(names[:names.index(text_item)])):  # check if the text_item is not the first in the variable list,
+                                                        # otherwise return zero
         for item in reversed(names[:names.index(text_item)]):
             try:  # if the item is in the list_widget, then return its position
                 return list_widget.row(list_widget.findItems(item, QtCore.Qt.MatchExactly)[0])+1
             except:  # otherwise look further for next variable names
                 pass
-    return 0  # if no earlier variables were found on list_widget (or the text_item is the first in the variable list) insert the item at the beginning of the list_widget
+    return 0  # if no earlier variables were found on list_widget (or the text_item is the first in the variable list)
+              # insert the item at the beginning of the list_widget
+
 
 def add_to_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
     """
@@ -117,19 +123,22 @@ def add_to_list_widget_with_factors(source_list_widget, target_list_widget, name
                 source_list_widget.takeItem(source_list_widget.row(item_source))
                 break
 
+
 def remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
     """
     Remove selected items from target_list_widget.
     """
     for item in target_list_widget.selectedItems():
         if item.text().split(' :: ')[1]:
-            source_list_widget.insertItem(find_previous_item_position(source_list_widget, names, item.text().split(' :: ')[1]), item.text().split(' :: ')[1])
+            source_list_widget.insertItem(find_previous_item_position(source_list_widget, names, item.text().
+                                                                      split(' :: ')[1]), item.text().split(' :: ')[1])
             item.setText(item.text().split(' :: ')[0]+' :: ')
+
 
 def _float_or_none(x):
     try:
         return float(x)
-    except:
+    except ValueError:
         return None
 
 ### Data dialogs ###
@@ -164,7 +173,8 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         remove_ceased_vars(self.columnsListWidget, names)
         remove_ceased_vars(self.rowsListWidget, names)
         remove_ceased_vars(self.dependentListWidget, names)
-        init_source_vars(self.sourceListWidget, names, [self.pagesListWidget, self.columnsListWidget, self.rowsListWidget, self.dependentListWidget])
+        init_source_vars(self.sourceListWidget, names, [self.pagesListWidget, self.columnsListWidget,
+                                                        self.rowsListWidget, self.dependentListWidget])
 
     def add_rows(self):
         add_to_list_widget(self.sourceListWidget, self.rowsListWidget)
@@ -225,7 +235,8 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         remove_ceased_vars(self.participantListWidget, names)
         remove_ceased_vars(self.conditionListWidget, names)
         init_source_vars(self.sourceListWidget, names,
-                         [self.RTListWidget, self.errorListWidget, self.participantListWidget, self.conditionListWidget])
+                         [self.RTListWidget, self.errorListWidget, self.participantListWidget,
+                          self.conditionListWidget])
 
     def add_RT(self):
         if self.RTListWidget.count() == 0:  # do this only if the list is empty
@@ -291,6 +302,7 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
     def read_parameters(self):
         return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
+
 from .ui import var_properties
 class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
     def __init__(self, parent=None, names=[]):
@@ -318,8 +330,7 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
     
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
-                 self.freq_checkbox.isChecked(),
-                 str(self.ttest_value.text()))
+                self.freq_checkbox.isChecked(), str(self.ttest_value.text()))
 
 
 from .ui import xylims
@@ -549,10 +560,12 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
     def read_parameters(self):
         if len(self.factors) > 1:
-            return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())], self.factors, self.ylims
+            return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in
+                    range(self.selected_listWidget.count())], self.factors, self.ylims
         else:
             return [str(self.selected_listWidget.item(i).text()) for i in
                     range(self.selected_listWidget.count())], self.factors, self.ylims
+
 
 from .ui import compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_single_case_slope.Ui_Dialog):
@@ -695,13 +708,15 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
             langs = [file_name.split(os.path.sep)[-3] for file_name in files]
             return langs
 
-        langs = sorted(['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__))+'/locale'))
+        langs = sorted(['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__)) +
+                                                                          '/locale'))
         # local language names based on https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-        lang_names = {'bg':'Български (Bulgarian)', 'de':'Deutsch (German)', 'en': 'English', 'et':'Eesti (Estonian)',
-                      'fa':'فارسی (Persian)', 'he':'עברית (Hebrew)', 'hr':'Hrvatski (Croatian)',
-                      'hu':'Magyar (Hungarian)', 'it':'Italiano (Italian)', 'kk': 'Qazaqsha (Kazakh)',
-                      'nb':'Norsk Bokmål (Norvegian Bokmål)',
-                      'ro':'Română (Romanian)', 'ru':'Русский (Russian)', 'sk':'Slovenčina (Slovak)', 'th':'ไทย (Thai)'}
+        lang_names = {'bg': 'Български (Bulgarian)', 'de': 'Deutsch (German)', 'en': 'English',
+                      'et': 'Eesti (Estonian)', 'fa': 'فارسی (Persian)', 'he': 'עברית (Hebrew)',
+                      'hr': 'Hrvatski (Croatian)', 'hu': 'Magyar (Hungarian)', 'it': 'Italiano (Italian)',
+                      'kk': 'Qazaqsha (Kazakh)', 'nb': 'Norsk Bokmål (Norvegian Bokmål)',
+                      'ro': 'Română (Romanian)', 'ru': 'Русский (Russian)', 'sk': 'Slovenčina (Slovak)',
+                      'th': 'ไทย (Thai)'}
         lang_names_sorted = sorted([lang_names[lang] for lang in langs])
         self.lang_codes = {lang_name:lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
 

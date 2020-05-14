@@ -12,6 +12,7 @@ from . import cogstat_config as csc
 
 app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
 
+
 def get_versions():
     """
     Find the versions of the different components.
@@ -155,6 +156,7 @@ def precision(data):
     else:
         return None
 
+
 def convert_output(outputs):
     """
     Convert output either to the GUI or to the IPython Notebook
@@ -176,7 +178,8 @@ def convert_output(outputs):
         size_x, size_y = figure.get_size_inches()*rcParams['figure.dpi']
         # TODO is it better to use figure.canvas.width(), figure.canvas.height()
         string_buffer = figure.canvas.buffer_rgba()
-        qimage = QtGui.QImage(string_buffer, size_x*app_devicePixelRatio, size_y*app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
+        qimage = QtGui.QImage(string_buffer, size_x*app_devicePixelRatio,
+                              size_y*app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
         QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
         return qimage
             # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding

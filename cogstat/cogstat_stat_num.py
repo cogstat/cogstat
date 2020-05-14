@@ -24,7 +24,8 @@ def median_ci(data, quantile=0.5):
     n = len(data)
     lower_limit = (n * quantile) - (1.96 * np.sqrt(n * quantile * (1 - quantile)))
     upper_limit = 1 + (n * quantile) + (1.96 * np.sqrt(n * quantile * (1 - quantile)))
-    median_ci_np = np.sort(data, axis=0)[[max(0, int(np.round(lower_limit-1))), min(n-1, int(np.round(upper_limit-1)))], :]
+    median_ci_np = np.sort(data, axis=0)[[max(0, int(np.round(lower_limit-1))),
+                                          min(n-1, int(np.round(upper_limit-1)))], :]
     if lower_limit < 1:
         median_ci_np[0] = np.nan
     if upper_limit > n + 1:
@@ -79,7 +80,8 @@ def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_
 
     :param n_trials: number of trials the slopes rely on
     :param case_slope, case_SE: single row pandas data frames with the slope and the standard error of the single case
-    :param control_slopes, control_SEs: single row pandas data frames with the slope and the standard error of the control cases
+    :param control_slopes, control_SEs: single row pandas data frames with the slope and the standard error of the
+            control cases
 
     Returns the appropriate test statistic value, the degree of freedom, the p-value, and the chosen test type (string)
     """
@@ -221,7 +223,8 @@ def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=Tru
         for i, sub in enumerate(list(set(data[id_var]))):
             subset_i = data[data[id_var] == sub]
             subset_ij = subset_j[subset_j[id_var] == sub]
-            q_err.insert(j+i, np.square(np.mean(subset_ij[dep_var]) -np.mean(subset_i[dep_var]) - np.mean(subset_j[dep_var]) + np.mean(data[dep_var])))
+            q_err.insert(j+i, np.square(np.mean(subset_ij[dep_var]) - np.mean(subset_i[dep_var]) -
+                                        np.mean(subset_j[dep_var]) + np.mean(data[dep_var])))
     # F-statistic    
     F = (sum(q_eff)/DFn)/(sum(q_err)/DFd)
     pF = 1-stats.f.cdf(F, DFn, DFd)
@@ -246,7 +249,8 @@ def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=Tru
             row.insert(y, samp_table[x][y]-samp_means[x]-samp_means[y]+samp_table.mean())
         pop_table = np.vstack([pop_table, np.asarray(row)])
     # Mauchly's W statistic
-    W = np.prod([x for x in list(np.linalg.eigvals(pop_table)) if x > 0.00000000001])/np.power(np.trace(pop_table)/(k-1), (k-1)) # uses the pseudo-determinant (discards all near-zero eigenvalues)
+    W = np.prod([x for x in list(np.linalg.eigvals(pop_table)) if x > 0.00000000001]) / \
+        np.power(np.trace(pop_table) / (k-1), (k-1))  # uses the pseudo-determinant (discards all near-zero eigenvalues)
     dfW = int((0.5*k*(k-1))-1)
     fW = float(2*np.square(k-1)+(k-1)+2)/float(6*(k-1)*(n-1))
     chiW = (fW-1)*(n-1)*np.log(W)
@@ -323,9 +327,11 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
     table = pd.DataFrame(table, index=pd.MultiIndex.from_tuples(pairings), columns=['t', 'p', 'p (Bonf)', 'p (Holm)'])
     return table
 
+
 def diffusion_edge_correction_mean(data):
     """For behavioral data calculate mean error rate with edge correction for the EZ  diffusion analysis.
-    See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007). An EZ-diffusion model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22. https://doi.org/10.3758/BF03194023
+    See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007). An EZ-diffusion
+    model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22. https://doi.org/10.3758/BF03194023
 
     data: list of values (error rates) to be corrected
     return: corrected mean error rate
@@ -339,9 +345,12 @@ def diffusion_edge_correction_mean(data):
         mean = 1-1.0/(len(data)*2)
     return mean
 
-def diffusion_get_ez_params (Pc, VRT, MRT, s=0.1):
+
+def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
     """For behavioral data recover the diffusion parameters with the EZ method
-    See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007). An EZ-diffusion model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22. https://doi.org/10.3758/BF03194023
+    See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007).
+    An EZ-diffusion model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22.
+    https://doi.org/10.3758/BF03194023
 
     Pc: percent correct
     VRT: correct reaction time variance

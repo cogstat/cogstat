@@ -88,14 +88,22 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     #        if len(data)<7:
     #            return False, _(u'Sample size must be greater than 7 for normality test.\n'), None, None
 
-    # http://statsmodels.sourceforge.net/stable/generated/statsmodels.stats.diagnostic.kstest_normal.html#statsmodels.stats.diagnostic.kstest_normal
-    # text_result += _('Testing normality with the Kolmogorov-Smirnov test:')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %sm.stats.kstest_normal(data)
-    # text_result += _('Testing normality with the Lillifors test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %sm.stats.lillifors(data)
+    # http://statsmodels.sourceforge.net/stable/generated/statsmodels.stats.diagnostic.kstest_normal.html#
+    # statsmodels.stats.diagnostic.kstest_normal
+    # text_result += _('Testing normality with the Kolmogorov-Smirnov test:')+': <i>D</i> = %0.3g, <i>p</i> =
+    #                %0.3f \n' %sm.stats.kstest_normal(data)
+    # text_result += _('Testing normality with the Lillifors test')+': <i>D</i> = %0.3g, <i>p</i> =
+    #                %0.3f \n' %sm.stats.lillifors(data)
     # A, p = sm.stats.normal_ad(data)
-    # text_result += _('Anderson-Darling normality test in variable %s%s') %(var_name, ' (%s: %s)'%(group_name, group_value) if group_name else '') + ': <i>A<sup>2</sup></i> = %0.3g, %s\n' %(A, cs_util.print_p(p))
-    # text_result += _('Testing normality with the Anderson-Darling test: <i>A<sup>2</sup></i> = %0.3g, critical values: %r, sig_levels: %r \n') %stats.anderson(data, dist='norm')
-    # text_result += _("Testing normality with the D'Agostin and Pearson method")+': <i>k2</i> = %0.3g, <i>p</i> = %0.3f \n' %stats.normaltest(data)
-    # text_result += _('Testing normality with the Kolmogorov-Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %stats.kstest(data, 'norm')
+    # text_result += _('Anderson-Darling normality test in variable %s%s') %(var_name, ' (%s: %s)' %
+    #               (group_name, group_value) if group_name else '') + ': <i>A<sup>2</sup></i> =
+    #               %0.3g, %s\n' %(A, cs_util.print_p(p))
+    # text_result += _('Testing normality with the Anderson-Darling test: <i>A<sup>2</sup></i> = %0.3g,
+    #                critical values: %r, sig_levels: %r \n') %stats.anderson(data, dist='norm')
+    # text_result += _("Testing normality with the D'Agostin and Pearson method")+': <i>k2</i> = %0.3g, <i>p</i> =
+    #                %0.3f \n' %stats.normaltest(data)
+    # text_result += _('Testing normality with the Kolmogorov-Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %
+    #               stats.kstest(data, 'norm')
     if len(data) < 3:
         return False, _('Too small sample to test normality in variable %s%s.\n' %
                         (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
@@ -149,9 +157,10 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
             from statsmodels.stats.power import TTestPower
             power_analysis = TTestPower()
             text_result += _(
-                'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
-                'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
-                                                               alternative='two-sided')
+                'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for '
+                'the present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
+                           power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
+                                                      alternative='two-sided')
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value) + ': <i>t</i>(%d) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
@@ -314,10 +323,10 @@ def paired_t_test(pdf, var_names):
         from statsmodels.stats.power import TTestPower
         power_analysis = TTestPower()
         text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
-            'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05,
-                                                           power=0.95,
-                                                           alternative='two-sided')
+            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the '
+            'present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
+                       power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
+                                                  alternative='two-sided')
 
     df = len(variables) - 1
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
@@ -353,13 +362,13 @@ def paired_wilcox_test(pdf, var_names):
 def mcnemar_test(pdf, var_names):
     chi2, p = mcnemar(pdf[var_names[0]], pdf[var_names[1]], exact=False)
     return _('Result of the McNemar test') + ': &chi;<sup>2</sup>(1, <i>N</i> = %d) = %0.3g, %s\n' % \
-                                              (len(pdf[var_names[0]]), chi2, cs_util.print_p(p))
+           (len(pdf[var_names[0]]), chi2, cs_util.print_p(p))
 
 
 def cochran_q_test(pdf, var_names):
     q, p = cochrans_q(pdf[var_names])
     return _("Result of Cochran's Q test") + ': <i>Q</i>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
-                                              (len(var_names)-1, len(pdf[var_names[0]]), q, cs_util.print_p(p))
+           (len(var_names)-1, len(pdf[var_names[0]]), q, cs_util.print_p(p))
 
 
 def repeated_measures_anova(pdf, var_names, factors=[]):
@@ -376,13 +385,13 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
         [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf[var_names].dropna(), var_names)
         # Choose df correction depending on sphericity violation
         text_result = _("Result of Mauchly's test to check sphericity") + \
-                       ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
+                      ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
         if pw < 0.05:  # sphericity is violated
             p = corr_table[0, 1]
             text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
-                           +_('Using Greenhouse-Geisser correction.') + '\n</decision>' + \
+                           + _('Using Greenhouse-Geisser correction.') + '\n</decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.3g, %s\n' \
-                            % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(p))
+                           % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(p))
         else:  # sphericity is not violated
             p = pf
             text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n</decision>' + \
@@ -397,8 +406,8 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
             pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
 
             pht_text = pht[['text']]
-            text_result += cs_stat._format_html_table(pht_text.to_html(bold_rows=True, classes="table_cs_pd", escape=False,
-                                                               header=False))
+            text_result += cs_stat._format_html_table(pht_text.to_html(bold_rows=True, classes="table_cs_pd",
+                                                                       escape=False, header=False))
 
             # Or we can print them in a matrix
             #pht_text = pht[['text']].unstack()
@@ -470,7 +479,8 @@ def friedman_test(pdf, var_names):
 ### Compare groups ###
 
 
-def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels, single_case_slope_SEs, single_case_slope_trial_n):
+def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels,
+                                   single_case_slope_SEs, single_case_slope_trial_n):
     result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
@@ -504,15 +514,12 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 else:
                     result_ht += '<decision>' + _('Normality is not violated. >> Running modified t-test.') + \
                                  '\n</decision>'
-                    result_ht += single_case_task_extremity(df, var_names[0], groups[0],
-                                                                        single_case_slope_SEs[
-                                                                            0] if single_case_slope_SEs else None,
-                                                                        single_case_slope_trial_n)
+                    result_ht += single_case_task_extremity(df, var_names[0], groups[0], single_case_slope_SEs[0] if
+                                 single_case_slope_SEs else None, single_case_slope_trial_n)
             else:
                 result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
-                             _(
-                                 "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions.") + \
-                             '\n</decision>'
+                             _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on "
+                               "assumptions.") + '\n</decision>'
                 result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
                 non_normal_groups = []
                 for group in group_levels:
@@ -530,9 +537,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
 
                 if not (non_normal_groups) and hoemogeneity_vars:
                     result_ht += '<decision>' + \
-                                 _(
-                                     'Normality and homogeneity of variance are not violated. >> Running two sample t-test.') + \
-                                 '\n</decision>'
+                                 _('Normality and homogeneity of variance are not violated. >> Running two sample '
+                                   't-test.') + '\n</decision>'
                     result_ht += independent_t_test(df, var_names[0], groups[0])
                 elif non_normal_groups:
                     result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s.') % \
@@ -598,7 +604,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                          '</decision>\n'
             result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
-            result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _('Running Chi-square test.') + '</decision>\n'
+            result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _('Running Chi-square test.') + \
+                         '</decision>\n'
             chi_result = chi_square_test(df, var_names[0], groups[0])
             result_ht += chi_result
     return result_ht
@@ -684,10 +691,10 @@ def independent_t_test(pdf, var_name, grouping_name):
     if run_power_analysis:
         from statsmodels.stats.power import TTestIndPower
         power_analysis = TTestIndPower()
-        text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
-            'd') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
-                                                           ratio=len(var2) / len(var1), alternative='two-sided')
+        text_result += _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
+                         'size for the present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
+                       power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
+                                                  ratio=len(var2) / len(var1), alternative='two-sided')
 
     text_result += _('Difference between the two groups:') + ' %0.*f, ' % (prec, mean_diff) + \
                    _('95%% confidence interval [%0.*f, %0.*f]') % (prec, lci, prec, hci) + '\n'
@@ -696,7 +703,7 @@ def independent_t_test(pdf, var_name, grouping_name):
     return text_result
 
 
-def single_case_task_extremity(pdf, var_name, grouping_name, se_name = None, n_trials=None):
+def single_case_task_extremity(pdf, var_name, grouping_name, se_name=None, n_trials=None):
     """Modified t-test for comparing a single case with a group.
     Used typically in case studies.
 
@@ -724,7 +731,7 @@ def single_case_task_extremity(pdf, var_name, grouping_name, se_name = None, n_t
             text_result += _('One of the groups should include only a single data.')
     else:  # slope performance
         group_levels, [se1, se2] = cs_stat._split_into_groups(pdf, se_name, grouping_name)
-        if len(var1)==1:
+        if len(var1) == 1:
             case_var = var1[0]
             control_var = var2
             case_se = se1[0]
@@ -735,7 +742,7 @@ def single_case_task_extremity(pdf, var_name, grouping_name, se_name = None, n_t
             case_se = se2[0]
             control_se = se1
         t, df, p, test = cs_stat_num.slope_extremity_test(n_trials, case_var, case_se, control_var, control_se)
-        text_result += _('Result of slope test with %s:')%(test) + \
+        text_result += _('Result of slope test with %s:') % (test) + \
                        ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
     return text_result
 
@@ -804,12 +811,13 @@ def one_way_anova(pdf, var_name, grouping_name):
     if run_power_analysis:
         from statsmodels.stats.power import FTestAnovaPower
         power_analysis = FTestAnovaPower()
-        text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _('f') + \
+        text_result += _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
+                         'size for the present hypothesis test (effect size is in %s):') % _('f') + \
                        ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
                                                                k_groups=len(set(data[grouping_name])))
 
-    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
+    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical
+    #  variable
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
@@ -854,11 +862,13 @@ def multi_way_anova(pdf, var_name, grouping_names):
     from statsmodels.stats.anova import anova_lm
     data = pdf.dropna(subset=[var_name] + grouping_names)
 
-    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical variable
+    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical
+    #  variable
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'C({group_name})' for group_name in grouping_names]))), data=data).fit()
+    anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'C({group_name})' for group_name in grouping_names]))),
+                      data=data).fit()
     anova_result = anova_lm(anova_model, typ=3)
     text_result = _('Result of multi-way ANOVA') + ':\n'
 
@@ -870,8 +880,11 @@ def multi_way_anova(pdf, var_name, grouping_names):
 
     # Interaction effects
     for interaction_line in range(group_i+2, len(anova_result)-1):
-        text_result += _('Interaction of %s: ') % (' and '.join([a[1:-1] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
-                       (anova_result['df'][interaction_line], anova_result['df'][-1], anova_result['F'][interaction_line], cs_util.print_p(anova_result['PR(>F)'][interaction_line]))
+        text_result += _('Interaction of %s: ') % \
+                       (' and '.join([a[1:-1] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
+                       '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
+                       (anova_result['df'][interaction_line], anova_result['df'][-1],
+                        anova_result['F'][interaction_line], cs_util.print_p(anova_result['PR(>F)'][interaction_line]))
 
     """ # TODO
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
@@ -928,7 +941,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
             posthoc_result = scikit_posthocs.posthoc_dunn(pdf.dropna(subset=[grouping_name]),
                                                           val_col=var_name, group_col=grouping_name)
             text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
-                                                                     float_format=lambda x : '%.3f'%x))
+                                                                             float_format=lambda x: '%.3f' % x))
 
     except Exception as e:
         text_result += _('Result of the Kruskal-Wallis test: ')+str(e)
@@ -953,11 +966,10 @@ def chi_square_test(pdf, var_name, grouping_name):
     if run_power_analysis:
         from statsmodels.stats.power import GofChisquarePower
         power_analysis = GofChisquarePower()
-        chi_result = _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):') % _(
-            'w') + ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
-                                                           alpha=0.05,
-                                                           power=0.95, n_bins=cont_table_data.size)
+        chi_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
+                       'size for the present hypothesis test (effect size is in %s):') % _('w') + ' %0.2f\n' % \
+                     power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),alpha=0.05,
+                                                power=0.95, n_bins=cont_table_data.size)
 
     chi_result += _("Result of the Pearson's Chi-square test: ") + \
                   '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \

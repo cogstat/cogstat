@@ -60,9 +60,11 @@ matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axi
 #print matplotlib.rcParams['figure.facecolor']
 # Make sure that the axes are visible
 #print matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor']
-if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
+if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == \
+        matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
     #print matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor'])
-    matplotlib.rcParams['axes.edgecolor'] = 'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']) == (0, 0, 0, 0) else 'k'
+    matplotlib.rcParams['axes.edgecolor'] = \
+        'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']) == (0, 0, 0, 0) else 'k'
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -94,7 +96,8 @@ def _wrap_labels(labels):
                           labels]
         # the width should not be smaller than a min value, here 5
         # use the unicode() to convert potentially numerical labels
-        # TODO maybe for many lables use rotation, e.g., http://stackoverflow.com/questions/3464359/is-it-possible-to-wrap-the-text-of-xticks-in-matplotlib-in-python
+        # TODO maybe for many lables use rotation, e.g.,
+        # http://stackoverflow.com/questions/3464359/is-it-possible-to-wrap-the-text-of-xticks-in-matplotlib-in-python
     return wrapped_labels
 
 
@@ -184,11 +187,11 @@ def _create_default_mosaic_properties(data):
     # convert in list and merge with the levels
     hue = lzip(list(hue), categories_levels[0])
     saturation = lzip(list(saturation),
-                     categories_levels[1] if Nlevels > 1 else [''])
+                      categories_levels[1] if Nlevels > 1 else [''])
     value = lzip(list(value),
-                     categories_levels[2] if Nlevels > 2 else [''])
+                 categories_levels[2] if Nlevels > 2 else [''])
     hatch = lzip(list(hatch),
-                     categories_levels[3] if Nlevels > 3 else [''])
+                 categories_levels[3] if Nlevels > 3 else [''])
     # create the properties dictionary
     properties = {}
     for h, s, v, t in product(hue, saturation, value, hatch):
@@ -503,11 +506,11 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
                                 if i-1 in range(len(xvalues)) else '%i' % i for i in ax.get_xticks()])
             try:
                 ax.set_yticklabels(['%i\n(%s)' % (i, sorted(yvalues)[int(i-1)])
-                                if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()],
-                               wrap=True)
-            except:  # for matplotlib before 1.5
+                                    if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()],
+                                   wrap=True)
+            except TypeError:  # for matplotlib before 1.5
                 ax.set_yticklabels(['%i\n(%s)' % (i, sorted(yvalues)[int(i-1)])
-                                if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()])
+                                    if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()])
             _set_axis_measurement_level(ax, 'ord', 'ord')
             # Display the labels
             plt.title(_plt('Scatterplot of the rank of the variables'))
@@ -525,8 +528,9 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             ax.set_ylim(top=ylims[1])
         graph = plt.gcf()
     elif meas_lev in ['nom']:
-        cont_table_data = pd.crosstab(data_frame[y], data_frame[x])#, rownames = [x], colnames = [y])  # TODO use data instead?
-        mosaic_data = cont_table_data.sort_index(ascending=False, level=1).unstack()    # sort the index to have the same order on the chart as in the table
+        cont_table_data = pd.crosstab(data_frame[y], data_frame[x])
+        mosaic_data = cont_table_data.sort_index(ascending=False, level=1).unstack()
+            # sort the index to have the same order on the chart as in the table
         fig, rects = mosaic(mosaic_data, label_rotation=[0.0, 90.0],
                             properties=_create_default_mosaic_properties(mosaic_data),
                             labelizer=lambda x: _mosaic_labelizer(mosaic_data, x, '\n'))
@@ -567,11 +571,12 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             plt.title(_plt('Boxplots and individual data of the variables'))
         # Display individual data
         # Find the value among all variables with the largest frequency
-        max_freq = max([max(data.iloc[:, [i, i+1]].groupby([data.columns[i], data.columns[i+1]]).size()) for i in range(len(data.columns) - 1)])
+        max_freq = max([max(data.iloc[:, [i, i+1]].groupby([data.columns[i], data.columns[i+1]]).size()) for i in
+                        range(len(data.columns) - 1)])
         for i in range(len(data.columns) - 1):  # for all pairs
             # Prepare the frequencies for the plot
             # Create dataframe with value pairs and their frequencies
-            xy_set_freq = data.iloc[:,[i,i+1]].groupby([data.columns[i], data.columns[i+1]]).size().reset_index()
+            xy_set_freq = data.iloc[:, [i, i+1]].groupby([data.columns[i], data.columns[i+1]]).size().reset_index()
             if max_freq > 10:
                 xy_set_freq.iloc[:, 2] = (xy_set_freq.iloc[:, 2] - 1) / ((max_freq - 1) / 9.0) + 1
                 # largest dot shouldn't be larger than 10 × of the default size
@@ -681,7 +686,9 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         # TODO is this OK for ordinal?
         # Get the data to display
         # group the raw the data according to the level combinations
-        variables = [data_frame[var_names[0]][(data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1)].dropna() for group_level in group_levels]
+        variables = [data_frame[var_names[0]][(data_frame[groups] ==
+                                               pd.Series({group: level for group, level in zip(groups, group_level)})).
+            all(axis=1)].dropna() for group_level in group_levels]
         if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
             index_ranks = dict(list(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables)))))
             variables_value = pd.concat(variables).values  # original values
@@ -728,7 +735,8 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         if ylims[1] is not None:
             ax.set_ylim(top=ylims[1])
         # Add labels
-        plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for group_level in group_levels]))
+        plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for
+                                                                      group_level in group_levels]))
         plt.xlabel(' : '.join(groups))
         if meas_level == 'ord':
             plt.ylabel(_('Rank of %s') % var_names[0])
@@ -742,7 +750,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
                 ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
                                     if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()],
                                    wrap=True)
-            except:  # for matplotlib before 1.5
+            except TypeError:  # for matplotlib before 1.5
                 ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
                                     if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()])
             _set_axis_measurement_level(ax, 'nom', 'ord')
@@ -762,7 +770,9 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         # - if there are cells with zero value, three variables mosaic plot will not run - probably statsmodels issue
         # - ax = plt.subplot(111) removes the labels of the third variable at the top
         # - dependent variable should go to the y axis when there are three variables
-        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[ddd] for ddd in data_frame[groups]]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
+        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[ddd] for ddd in data_frame[groups]]).
+                sort_index(axis='index', ascending=False).unstack()  
+                # sort the index to have the same order on the chart as in the table
         print(ct)
         fig, rects = mosaic(ct, label_rotation=[0.0, 90.0] if len(groups) == 1 else [0.0, 90.0, 0.0],
                             labelizer=lambda x: _mosaic_labelizer(ct, x, ' : '),
@@ -776,7 +786,8 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         graph.append(fig)
         #"""
         for group in groups:
-            ct = pd.crosstab(data_frame[var_names[0]], data_frame[group]).sort_index(axis='index', ascending=False).unstack()  # sort the index to have the same order on the chart as in the table
+            ct = pd.crosstab(data_frame[var_names[0]], data_frame[group]).sort_index(axis='index', ascending=False).\
+                unstack()  # sort the index to have the same order on the chart as in the table
             #print(ct)
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
                                 properties=_create_default_mosaic_properties(ct),
