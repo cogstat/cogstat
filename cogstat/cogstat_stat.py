@@ -346,7 +346,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         # drop all data with NaN pair
         data = pdf[var_names].dropna()
         pdf_result = pd.DataFrame(columns=var_names)
-        text_result += f"<cs_h3>{_('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')}</cs_h3>"
+        text_result += '<cs_h3>' + (_('Descriptives for the variables') if len(var_names) > 1 else _('Descriptives for the variable')) + '</cs_h3>'
         for var_name in var_names:
             if meas_levs[var_name] != 'nom':
                 prec = cs_util.precision(data[var_name])+1
@@ -362,7 +362,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
 
-        text_result += f"<cs_h3>{_('Descriptives for the groups')}</cs_h3>"
+        text_result += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
 #        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')], index=groups)
@@ -443,7 +443,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True):
     :return:
     """
     pdf_result = pd.DataFrame()
-    standardized_effect_size_result = f"<cs_h3>{_('Standardized effect size')}</cs_h3>"
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
     if sample:
         if meas_lev in ['int', 'unk']:
             pdf_result.loc[_("Pearson's correlation"), _('Value')] = \
@@ -570,7 +570,7 @@ def repeated_measures_estimations(data, meas_level):
 
 
 def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=True):
-    standardized_effect_size_result = f"<cs_h3>{_('Standardized effect size')}</cs_h3>"
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
 
     if sample:  # Effects sizes for samples
         pdf_result = pd.DataFrame()
@@ -645,7 +645,7 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
 
 def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, sample=True):
 
-    standardized_effect_size_result = f"<cs_h3>{_('Standardized effect size')}</cs_h3>"
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
 
     if sample:
         pdf_result = pd.DataFrame()
