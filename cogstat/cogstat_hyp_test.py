@@ -968,7 +968,7 @@ def chi_square_test(pdf, var_name, grouping_name):
         power_analysis = GofChisquarePower()
         chi_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
                        'size for the present hypothesis test (effect size is in %s):') % _('w') + ' %0.2f\n' % \
-                     power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),alpha=0.05,
+                     power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(), alpha=0.05,
                                                 power=0.95, n_bins=cont_table_data.size)
 
     chi_result += _("Result of the Pearson's Chi-square test: ") + \

@@ -13,6 +13,6 @@ setup(name='cogstat',
                         'matplotlib >=1.2.0, !=2.0.1, !=2.0.2', 'IPython', 'Jupyter', 'savReaderWriter', 'configobj',
                         'python-bidi'],
       python_requires='>=3.6',
-      extras_requires={'GUI':['PyQt5']}
+      extras_requires={'GUI': ['PyQt5']}
       # You cannot set the R dependency here, because it is not available with pip installation
       )
