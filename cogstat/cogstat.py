@@ -568,7 +568,7 @@ class CogStatData:
             raw_result += '<decision>'+warn_unknown_variable+'\n</decision>'
 
         # 1. Raw data
-        raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[[x, y]].dropna()
