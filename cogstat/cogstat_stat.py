@@ -302,7 +302,7 @@ def proportions_ci(pdf, var_name):
                                                                                 float_format=lambda x: '%.1f%%' % x,
                                                                                 classes="table_cs_pd")))
     if (pdf[var_name].value_counts(dropna=False) < 5).any():
-        text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence '
+        text_result += '<warning>' + _('Some of the cells do not include at least 5 cases, so the confidence '
                                        'intervals may be invalid.') + '</warning>\n'
     return text_result
 
@@ -546,7 +546,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
                                                                                                             x)))
         if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason,
                                                           # so we use the np version
-            text_result += '<warning>' + _('Some of the cells does not include at least 5 cases, so the confidence '
+            text_result += '<warning>' + _('Some of the cells do not include at least 5 cases, so the confidence '
                                            'intervals may be invalid.') + '</warning>'
 
     """
