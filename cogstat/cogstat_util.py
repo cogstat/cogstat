@@ -49,6 +49,11 @@ def get_versions():
         except NameError:
             csc.versions['statsmodels'] = None
     try:
+        import pingouin
+        csc.versions['pingouin'] = pingouin.__version__
+    except (ModuleNotFoundError, NameError):
+        csc.versions['pingouin'] = None
+    try:
         import matplotlib
         csc.versions['matplotlib'] = matplotlib.__version__
         csc.versions['matplotlib_backend'] = matplotlib.get_backend()
@@ -108,6 +113,7 @@ def print_versions(main_window):
     text_output += 'Scipy: %s\n' % csc.versions['scipy']
     text_output += 'Pandas: %s\n' % csc.versions['pandas']
     text_output += 'Statsmodels: %s\n' % csc.versions['statsmodels']
+    text_output += 'Pingouin: %s\n' % csc.versions['pingouin']
     text_output += 'Matplotlib: %s\n' % csc.versions['matplotlib']
     text_output += 'Matplotlib backend: %s\n' % \
                    csc.versions['matplotlib_backend']
