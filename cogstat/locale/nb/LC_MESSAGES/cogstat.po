@@ -7,242 +7,235 @@ msgstr ""
 "Project-Id-Version: CogStat\n"
 "Language: nb\n"
 
-#: .././cogstat_stat.py:58
+#: .././cogstat_hyp_test.py:37
 msgid "The properties of the variables are not set. Set them in your data source."
 msgstr "Egenskapene til variablene er ikke satt. Angi egenskapene i datakilden."
 
-#: .././cogstat_stat.py:122
+#: .././cogstat_stat.py:116
 msgid "Sorry, only one dependent variable can be used."
-msgstr "Beklager, kun en avhengig (utfalls) variabel kan brukes"
+msgstr "Beklager, kun en avhengig (utfalls) variabel kan benyttes"
+
+#: .././cogstat_stat.py:118
+msgid "Sorry, string variables cannot be used in Pivot table."
+msgstr "Beklager, strengvariabler kan ikke benyttes i en Pivot tabell"
 
 #: .././cogstat_stat.py:124
-msgid "Sorry, string variables cannot be used in Pivot table."
-msgstr "Beklager, strengvariabler kan ikke brukes i en Pivot tabell"
-
-#: .././cogstat_stat.py:130
 msgid "Independent variable(s) - Pages: "
 msgstr "Uavhengige variabler (prediktor variabler) - Side:\n"
 ""
 
-#: .././cogstat_stat.py:132
+#: .././cogstat_stat.py:126
 msgid "Independent variable(s) - Columns: "
 msgstr "Uavhengige variabler (prediktor variabler) - Kolonner:\n"
 ""
 
-#: .././cogstat_stat.py:134
+#: .././cogstat_stat.py:128
 msgid "Independent variable(s) - Rows: "
 msgstr "Uavhengige variabler (prediktor variabler) - Rader:"
 
-#: .././cogstat_stat.py:135
+#: .././cogstat_stat.py:129
 msgid "Function: "
 msgstr "Funksjon:"
 
-#: .././cogstat_chart.py:484 .././cogstat_chart.py:536 .././cogstat_stat.py:270
-#: .././cogstat_stat.py:272
+#: .././cogstat_chart.py:597 .././cogstat_chart.py:649 .././cogstat_stat.py:267
+#: .././cogstat_stat.py:269 .././cogstat_stat.py:449 .././cogstat_stat.py:451
+#: .././cogstat_stat.py:454 .././cogstat_stat.py:461 .././cogstat_stat.py:464
+#: .././cogstat_stat.py:580 .././cogstat_stat.py:582 .././cogstat_stat.py:657
+#: .././cogstat_stat.py:659 .././cogstat_stat.py:673 .././cogstat_stat.py:676
+#: .././cogstat_stat.py:709
 msgid "Value"
 msgstr "Verdi"
 
 #. tick, cases
-#: .././cogstat_chart.py:199 .././cogstat_chart.py:266
+#: .././cogstat_chart.py:302 .././cogstat_chart.py:369
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "Den høyeste kryssmarkeringen på x aksen viser %d caser"
 
-#: .././cogstat_chart.py:216
+#: .././cogstat_chart.py:319
 msgid "Histogram with individual data and boxplot"
 msgstr "Histogram med individuelle data og boksplott"
 
-#: .././cogstat_chart.py:166 .././cogstat_chart.py:222
+#: .././cogstat_chart.py:269 .././cogstat_chart.py:325
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: .././cogstat_chart.py:163
+#: .././cogstat_chart.py:266
 msgid "Histogram"
 msgstr "Histogram"
 
 #. sjekk oversettelse cases
-#: .././cogstat_stat.py:225
+#: .././cogstat_stat.py:253
 msgid "N of valid cases: %g"
-msgstr "N av valide caser:%g"
+msgstr "N av valide caser: %g"
 
-#: .././cogstat.py:533 .././cogstat.py:571
+#: .././cogstat.py:515
 msgid "Median: %0.*f"
 msgstr "Median: %0.*f"
 
-#: .././cogstat_stat.py:315
+#: .././cogstat_hyp_test.py:83
 msgid "Normality can be checked only for interval variables."
 msgstr "Normalitet kan bare sjekkes for intervallvariabler"
 
-#: .././cogstat_stat.py:334
+#: .././cogstat_hyp_test.py:104
 msgid "Shapiro-Wilk normality test in variable %s%s"
 msgstr "Shapiro-Wilk normalitetstest for variabel %s%s"
 
-#: .././cogstat_chart.py:275
+#: .././cogstat_chart.py:378
 msgid "Histogram with individual data and normal distribution"
 msgstr "Histogram med individuelle data og normaldistribusjon"
 
-#: .././cogstat_chart.py:282
+#: .././cogstat_chart.py:385
 msgid "Normalized relative frequency"
 msgstr "Normalisert relativ frekvens"
 
-#: .././cogstat_chart.py:300
+#: .././cogstat_chart.py:406
 msgid "Quantile-quantile plot"
 msgstr "Kvantil- kvantil plott"
 
 #. sjekk
-#: .././cogstat_stat.py:365
+#: .././cogstat_hyp_test.py:135
 msgid "One sample t-test cannot be run for constant variable.\n"
 ""
 msgstr "Ett utvalgs t-test kan ikke kjøres for konstante variabler"
 
-#: .././cogstat_stat.py:378
-msgid "Sorry, newer statsmodels module is required for confidence interval.\n"
-""
-msgstr "Beklager, for beregning av konfidens intervall trengs en nyere modul av statmodellen."
-
-#: .././cogstat_stat.py:379
+#: .././cogstat_hyp_test.py:156
 msgid "One sample t-test against %g"
 msgstr "Ett utvalgs t-test mot %g"
 
-#: .././cogstat_chart.py:313
+#: .././cogstat_chart.py:421
 msgid "Mean value with 95% confidence interval"
-msgstr "Gjennomsnittlig verdi med 95 % konfidensintervall (CI)"
+msgstr "Gjennomsnittlig verdi med 95 % konfidensintervall (KI)"
 
-#: .././cogstat_stat.py:384
+#: .././cogstat_hyp_test.py:159
 msgid "One sample t-test is computed only for interval variables."
 msgstr "Ett utvalgs t-test er beregnet kun for intervall variabler"
 
-#: .././cogstat_chart.py:325
+#: .././cogstat_chart.py:433
 msgid "Median value"
 msgstr "Median verdi"
 
-#: .././cogstat_stat.py:418
+#: .././cogstat_hyp_test.py:189
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "Wilcoxon signed-rank test er beregnet kun for interval eller ordinal variabler"
 
-#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 .././cogstat.py:558
-#: .././cogstat.py:561 ../ui/pivot.py:109
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:314 .././cogstat_stat.py:398
+#: .././cogstat_stat.py:399 .././cogstat_stat.py:400 ../ui/pivot.py:109
 msgid "Mean"
 msgstr "Gjennomsnitt"
 
-#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 ../ui/pivot.py:110
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:315 .././cogstat_stat.py:404
+#: .././cogstat_stat.py:405 .././cogstat_stat.py:406 .././cogstat.py:757
+#: ../ui/pivot.py:110
 msgid "Median"
 msgstr "Median"
 
-#: .././cogstat_chart.py:531
+#: .././cogstat_chart.py:644
 msgid "Medians for the variables"
 msgstr "Median for variablene"
 
-#: .././cogstat_chart.py:677
+#: .././cogstat_chart.py:817
 msgid "Medians for the groups"
 msgstr "Median for gruppene"
 
-#: .././cogstat_stat.py:480 .././cogstat_stat.py:482
+#: .././cogstat_stat.py:379 .././cogstat_stat.py:381
 msgid "No data"
 msgstr "Ingen data"
 
-#: .././cogstat_chart.py:362
+#: .././cogstat_chart.py:473
 msgid "Largest sign on the graph displays %d cases."
 msgstr "Den største markeingen på grafen, viser %d caser"
 
-#: .././cogstat_chart.py:379
+#: .././cogstat_chart.py:490
 msgid "Scatterplot of the variables"
 msgstr "Scatterplott av variablene"
 
-#: .././cogstat_chart.py:420 .././cogstat_chart.py:505
+#: .././cogstat_chart.py:536 .././cogstat_chart.py:620
 msgid "Mosaic plot of the variables"
 msgstr "Mosaikk plott av variablene"
 
-#: .././cogstat_chart.py:510
-msgid "Sorry, the mosaic plot can not be drawn with those data."
-msgstr "Beklager, mosaikk plott kan ikke generes med de oppgitte data"
-
-#: .././cogstat_chart.py:470
+#: .././cogstat_chart.py:583
 msgid "Thickest line displays %d cases."
 msgstr "Den tykke linjen viser %d caser"
 
-#: .././cogstat_chart.py:524
+#: .././cogstat_chart.py:637
 msgid "Means and 95% confidence intervals for the variables"
-msgstr "Gjennomsnitt og 95 % konfidensintervall (CI) for variablene"
+msgstr "Gjennomsnitt og 95 % konfidensintervall (KI) for variablene"
 
-#: .././cogstat_stat.py:552
+#: .././cogstat_hyp_test.py:307
 msgid "Paired t-test requires two variables."
 msgstr "Paret t-test krever to variabler"
 
-#: .././cogstat_stat.py:557
+#: .././cogstat_hyp_test.py:324
 msgid "Result of paired samples t-test"
 msgstr "Resultatet av paret utvalg t-test"
 
-#: .././cogstat_stat.py:574
+#: .././cogstat_hyp_test.py:342
 msgid "Paired Wilcoxon test requires two variables."
-msgstr "Paret\n"
-" Wilcoxon test krever to variabler"
+msgstr "Paret Wilcoxon test krever to variabler"
 
-#: .././cogstat_stat.py:688
+#: .././cogstat_hyp_test.py:458
 msgid "Friedman test requires at least two variables."
 msgstr "Friedman test krever minst to variabler"
 
-#: .././cogstat_stat.py:694
+#: .././cogstat_hyp_test.py:464
 msgid "Result of the Friedman test: "
 msgstr "Resultatet av Friedman test:"
-
-#: .././cogstat_stat.py:1097
-msgid "Largest individual data display %d cases."
-msgstr "Største individuelle data viser %d av casene"
 
 #: .././cogstat_stat.py:1125
 msgid "Boxplot and individual data of the groups"
 msgstr "Boksplot og individuelle data av gruppene"
 
-#: .././cogstat_chart.py:644
+#: .././cogstat_chart.py:787
 msgid "Mosaic plot of the groups"
 msgstr "Mosaikk plott av gruppene"
 
-#: .././cogstat_chart.py:668
+#: .././cogstat_chart.py:808
 msgid "Means and 95% confidence intervals for the groups"
-msgstr "Gjennomsnitt og 95 % konfidensintervall (CI) for gruppene"
+msgstr "Gjennomsnitt og 95 % konfidensintervall (KI) for gruppene"
 
-#: .././cogstat_stat.py:738
+#: .././cogstat_hyp_test.py:650
 msgid "Levene test"
 msgstr "Levene test"
 
-#: .././cogstat_stat.py:770
+#: .././cogstat_hyp_test.py:692
 msgid "Difference between the two groups:"
 msgstr "Forskjell mellom de to gruppene"
 
-#: .././cogstat_stat.py:771
+#: .././cogstat_hyp_test.py:693
 msgid "95%% confidence interval [%0.*f, %0.*f]"
-msgstr "95% konfidensintervall (CI) [%0.*f,%0.*f]"
+msgstr "95%% konfidensintervall (KI) [%0.*f,%0.*f]"
 
-#: .././cogstat_stat.py:772
+#: .././cogstat_hyp_test.py:694
 msgid "Result of independent samples t-test:"
 msgstr "Resultat av independent samples (Uavhengig utvalg) t-test:"
 
 #. sjekk
-#: .././cogstat_stat.py:802
+#: .././cogstat_hyp_test.py:724
 msgid "One of the groups should include only a single data."
 msgstr "En av gruppene bør inneholde kun ett enkelt data."
 
-#: .././cogstat_stat.py:799
+#: .././cogstat_hyp_test.py:721
 msgid "Result of the modified independent samples t-test:"
 msgstr "Resultat av modifisert independent samples (Uavhenging utvalg) t-test:"
 
-#: .././cogstat_stat.py:853 .././cogstat_stat.py:858 .././cogstat_stat.py:861
+#: .././cogstat_hyp_test.py:776 .././cogstat_hyp_test.py:781
+#: .././cogstat_hyp_test.py:784
 msgid "Result of independent samples Mann-Whitney rank test: "
 msgstr "Resultatet av independent samples (Uavhengig utvalg) Mann-Whitney rank test: "
 
-#: .././cogstat_stat.py:887
+#: .././cogstat_hyp_test.py:819
 msgid "Result of one-way ANOVA: "
-msgstr "Resultatet av one-way ANOVA"
+msgstr "Resultatet av one-way ANOVA:"
 
 #: .././cogstat_stat.py:893
 msgid "Effect size: "
-msgstr "Effekt størrelse: "
+msgstr "Effektstørrelse: "
 
-#: .././cogstat_stat.py:898 .././cogstat_stat.py:995
+#: .././cogstat_hyp_test.py:827 .././cogstat_hyp_test.py:926
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "Gruppene er forskjellige. Post-host test av gjennomsnittsverdi(er)."
 
-#: .././cogstat_stat.py:991 .././cogstat_stat.py:1002
+#: .././cogstat_hyp_test.py:922 .././cogstat_hyp_test.py:934
 msgid "Result of the Kruskal-Wallis test: "
 msgstr "Resultatet av Kruskal-Wallis test:"
 
@@ -251,413 +244,411 @@ msgid "Cramér's V measure of association: "
 msgstr "Cramér's V assosiasjonsmål: \n"
 ""
 
-#: .././cogstat_stat.py:1024
+#: .././cogstat_hyp_test.py:962
 msgid "Result of the Pearson's Chi-square test: "
 msgstr "Resultatet av Pearsons Chi-Square test: "
 
-#: .././cogstat_gui.py:130
+#: .././cogstat_gui.py:132
 msgid "&Data"
 msgstr "&Data"
 
-#: .././cogstat_gui.py:131
+#: .././cogstat_gui.py:133
 msgid "&Open data file"
 msgstr "&Åpne data fil"
 
-#: .././cogstat_gui.py:131
+#: .././cogstat_gui.py:133
 msgid "Ctrl+O"
 msgstr "Crtl + O"
 
-#: .././cogstat_gui.py:133
+#: .././cogstat_gui.py:135
 msgid "&Paste data"
 msgstr "&Lim inn data"
 
-#: .././cogstat_gui.py:133
+#: .././cogstat_gui.py:135
 msgid "Ctrl+V"
 msgstr "Crtl + V"
 
-#: .././cogstat_gui.py:137 .././cogstat_gui.py:180
+#: .././cogstat_gui.py:139 .././cogstat_gui.py:184
 msgid "&Display data"
 msgstr "&Vis data"
 
-#: .././cogstat_gui.py:137
+#: .././cogstat_gui.py:139
 msgid "Ctrl+D"
 msgstr "Crtl + D"
 
-#: .././cogstat_gui.py:138 .././cogstat_gui.py:180
+#: .././cogstat_gui.py:140 .././cogstat_gui.py:184
 msgid "Display data &briefly"
 msgstr "Vis data &kort"
 
-#: .././cogstat_gui.py:141
+#: .././cogstat_gui.py:143
 msgid "&Analysis"
 msgstr "&Analyse"
 
-#: .././cogstat_gui.py:142
+#: .././cogstat_gui.py:144
 msgid "Ctrl+1"
 msgstr "Crtl+1"
 
-#: .././cogstat_gui.py:143
+#: .././cogstat_gui.py:145
 msgid "Ctrl+2"
 msgstr "Crtl+2"
 
 #. Pivot in this context - does it refer to an axis, a rotation, an arrow or stem?
-#: .././cogstat_gui.py:145 .././cogstat_gui.py:181
+#: .././cogstat_gui.py:147 .././cogstat_gui.py:185
 msgid "Pivot &table"
 msgstr "Pivot &tabell"
 
-#: .././cogstat_gui.py:148 .././cogstat_gui.py:182
+#: .././cogstat_gui.py:151 .././cogstat_gui.py:187
 msgid "Compare &groups"
 msgstr "Sammenlign &grupper"
 
-#: .././cogstat.py:906 ../ui/compare_groups.py:74
+#: .././cogstat.py:797 ../ui/compare_groups.py:75
 msgid "Compare groups"
 msgstr "Sammenlign grupper"
 
-#: .././cogstat_gui.py:151
+#: .././cogstat_gui.py:154
 msgid "&Results"
-msgstr "%Resultater"
+msgstr "&Resultater"
 
-#: .././cogstat_gui.py:152
+#: .././cogstat_gui.py:155
 msgid "&Clear results"
 msgstr "&Fjern resultat(er)"
 
-#: .././cogstat_gui.py:143 .././cogstat_gui_qt4.py:144
-msgid "Save results"
-msgstr "Lagre resultater"
-
-#: .././cogstat_gui.py:160
+#: .././cogstat_gui.py:164
 msgid "Ctrl+P"
 msgstr "Crtl+P"
 
-#: .././cogstat_gui.py:144 .././cogstat_gui_qt4.py:145
-msgid "Save results as"
-msgstr "Lagre resultat som"
-
-#: .././cogstat_gui.py:164
+#: .././cogstat_gui.py:168
 msgid "&CogStat"
 msgstr "&CogStat"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:169
 msgid "&Help"
 msgstr "&Hjelp"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:169
 msgid "F1"
 msgstr "F1"
 
-#: .././cogstat_gui.py:166
+#: .././cogstat_gui.py:170
 msgid "&Preferences"
 msgstr "&Preferanser"
 
-#: .././cogstat_gui.py:167
+#: .././cogstat_gui.py:171
 msgid "Request a &feature"
 msgstr "Vis &egenskap"
 
-#: .././cogstat_gui.py:171
+#: .././cogstat_gui.py:175
 msgid "&Report a problem"
 msgstr "&Rapportér et problem"
 
-#: .././cogstat_gui.py:172
+#: .././cogstat_gui.py:176
 msgid "&Diagnosis information"
 msgstr "&Diagnostikk"
 
-#: .././cogstat_gui.py:174
+#: .././cogstat_gui.py:178
 msgid "&About"
 msgstr "&Om"
 
-#: .././cogstat_gui.py:176
+#: .././cogstat_gui.py:180
 msgid "&Exit"
 msgstr "&Avslutt"
 
-#: .././cogstat_gui.py:176
+#: .././cogstat_gui.py:180
 msgid "Ctrl+Q"
 msgstr "Crtl+Q"
 
-#: .././cogstat_gui.py:180
+#: .././cogstat_gui.py:184
 msgid "&Save data"
 msgstr "&Lagre data"
 
-#: .././cogstat_gui.py:180
+#: .././cogstat_gui.py:184
 msgid "Save data &as"
 msgstr "Lagre data &som"
 
-#: .././cogstat_gui.py:183
+#: .././cogstat_gui.py:188
 msgid "&Compare groups and variables"
 msgstr "&Sammenlign grupper og variabler"
 
-#: .././cogstat_gui.py:385
+#: .././cogstat_gui.py:399
 msgid "Import error"
 msgstr "Feil under import"
 
-#: .././cogstat_gui.py:385
+#: .././cogstat_gui.py:399
 msgid "Data could not be loaded."
 msgstr "Data kan ikke lastes"
 
-#: .././cogstat_gui.py:517 .././cogstat_gui.py:595
+#: .././cogstat_gui.py:530 .././cogstat_gui.py:641
 msgid "At least two variables should be set."
 msgstr "Minst to variabler bør angis"
 
-#: .././cogstat.py:713 ../ui/pivot.py:105
+#: .././cogstat.py:645 ../ui/pivot.py:105
 msgid "Pivot table"
 msgstr "Pivot tabell"
 
-#: .././cogstat_gui.py:560
+#: .././cogstat_gui.py:573
 msgid "The dependent variable and at least one grouping variable should be given."
-msgstr "Den avhengige (utfalls) variablene og minst en gruppevariabel må oppgis"
+msgstr "Den avhengige (utfalls) variablen og minst en gruppevariabel må oppgis"
 
-#: .././cogstat_gui.py:630
+#: .././cogstat_gui.py:677
 msgid "Both the dependent and the grouping variables should be set."
-msgstr "Både avhendig (Utfall) og gruppe variable(r) bør oppgis"
+msgstr "Både avhengig (Utfall) og gruppe variable(r) bør oppgis"
 
-#: .././cogstat_gui.py:648
+#: .././cogstat_gui.py:696
 msgid "Clear output"
 msgstr "Fjern output/resultat"
 
-#: .././cogstat_gui.py:649
+#: .././cogstat_gui.py:697
 msgid "Are you sure you want to delete the output?"
 msgstr "Er du sikker på du vil slette output/resultatet ?"
 
-#: .././cogstat_gui.py:715
+#: .././cogstat_gui.py:767
 msgid "About CogStat "
 msgstr "Om CogStat"
 
-#: .././cogstat_gui.py:725
+#: .././cogstat_gui.py:777
 msgid "System components"
 msgstr "Systemkomponenter"
 
-#: .././cogstat_gui.py:737
+#: .././cogstat_gui.py:789
 msgid "Save output"
 msgstr "Lagre output/resultat"
 
-#: .././cogstat_gui.py:738
+#: .././cogstat_gui.py:790
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr "Output har ulagrede resultater. Vil du lagre de ?"
 
-#: .././cogstat.py:306
+#: .././cogstat.py:292
 msgid "Data"
 msgstr "Data"
 
-#: .././cogstat.py:307
+#: .././cogstat.py:293
 msgid "Source: "
 msgstr "Kilde: "
 
 #. find right sign
-#: .././cogstat.py:308
+#: .././cogstat.py:294
 msgid " variables and "
 msgstr "variabler og\n"
 ""
 
-#: .././cogstat.py:309
+#: .././cogstat.py:295
 msgid " cases"
 msgstr "caser"
 
-#: .././cogstat.py:320
+#: .././cogstat.py:307
 msgid " further cases are not displayed..."
 msgstr "videre caser vises ikke"
 
-#: .././cogstat.py:546 .././cogstat.py:1012 .././cogstat.py:1059
-#: .././cogstat.py:1195
+#: .././cogstat_hyp_test.py:512 .././cogstat_hyp_test.py:561
+#: .././cogstat_hyp_test.py:619 .././cogstat.py:496
 msgid "Interval variable."
 msgstr "Intervall variabel"
 
-#: .././cogstat.py:576 .././cogstat.py:1047 .././cogstat.py:1097
-#: .././cogstat.py:1200
+#: .././cogstat_hyp_test.py:548 .././cogstat_hyp_test.py:597
+#: .././cogstat_hyp_test.py:624 .././cogstat.py:521
 msgid "Ordinal variable."
 msgstr "Ordinal variabel"
 
-#: .././cogstat.py:472
+#: .././cogstat.py:416
 msgid "Explore variable"
 msgstr "Utforsk variabel"
 
-#: .././cogstat.py:473
+#: .././cogstat.py:417
 msgid "Exploring variable: "
 msgstr "Utforsker variabel: "
 
-#: .././cogstat.py:488 ../ui/var_properties.py:72
+#: .././cogstat.py:433 ../ui/var_properties.py:72
 msgid "Frequencies"
 msgstr "Frekvenser"
 
-#: .././cogstat.py:513
+#: .././cogstat.py:461
 msgid "Normality"
 msgstr "Normalitet"
 
-#: .././cogstat.py:602
+#: .././cogstat.py:549
 msgid "Exploring variable pair: "
-msgstr "Utforsker variabel par"
+msgstr "Utforsker variabel par:"
 
-#: .././cogstat.py:637 .././cogstat.py:812 .././cogstat.py:845
+#: .././cogstat_hyp_test.py:211 .././cogstat_hyp_test.py:247
+#: .././cogstat.py:584
 msgid "Interval variables."
-msgstr "Intervall variabler"
+msgstr "Intervall variabler."
 
-#: .././cogstat.py:638
+#: .././cogstat.py:585
 msgid "Running Pearson's and Spearman's correlation."
-msgstr "Kjører Pearson's og Spearman's korrelasjon"
+msgstr "Kjører Pearson's og Spearman's korrelasjon."
 
-#: .././cogstat.py:642 .././cogstat.py:643 .././cogstat.py:644
+#: .././cogstat_stat.py:449 .././cogstat_stat.py:472 .././cogstat.py:588
 msgid "Pearson's correlation"
 msgstr "Pearson's korrelasjon"
 
-#: .././cogstat.py:650
+#: .././cogstat.py:593
 msgid "Linear regression"
 msgstr "Linær regresjon"
 
-#: .././cogstat.py:654 .././cogstat.py:655 .././cogstat.py:659
-#: .././cogstat.py:670 .././cogstat.py:671 .././cogstat.py:674
+#: .././cogstat_stat.py:451 .././cogstat_stat.py:454 .././cogstat_stat.py:478
+#: .././cogstat.py:596 .././cogstat.py:606
 msgid "Spearman's rank-order correlation"
 msgstr "Spearman's rank order korrelasjon"
 
-#: .././cogstat.py:665 .././cogstat.py:832 .././cogstat.py:868
+#: .././cogstat_hyp_test.py:232 .././cogstat_hyp_test.py:268
+#: .././cogstat.py:602
 msgid "Ordinal variables."
-msgstr "Ordinal variabler"
+msgstr "Ordinal variabler."
 
-#: .././cogstat.py:665
+#: .././cogstat.py:602
 msgid "Running Spearman's correlation."
-msgstr "Kjører Spearman's korrelasjon"
+msgstr "Kjører Spearman's korrelasjon."
 
-#: .././cogstat.py:681
+#: .././cogstat.py:614
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr "Ikke alle variablene er nominale. Vurdér å sammeligne grupper. "
 
-#: .././cogstat.py:682
+#: .././cogstat.py:615
 msgid "Nominal variables."
-msgstr "Nominal variabler"
+msgstr "Nominal variabler."
 
-#: .././cogstat.py:682
+#: .././cogstat.py:615
 msgid "Running Cramér's V."
 msgstr "Kjører Cramér's V."
 
-#: .././cogstat.py:727
+#: .././cogstat.py:675
 msgid "Variables to compare: "
 msgstr "Variabler å sammenligne: "
 
-#: .././cogstat.py:744
+#: .././cogstat.py:692
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
-msgstr "Beklager, du kan ikke sammenligne variabler med ulike målenivåer. Du kan  endre høyere målenivåer til lavere for samme målenivå. "
+msgstr "Beklager, du kan ikke sammenligne variabler med ulike målenivåer. Du kan endre høyere målenivåer til lavere for samme målenivå. "
 
-#: .././cogstat.py:807
+#: .././cogstat_hyp_test.py:206
 msgid "At least two variables required."
 msgstr "Minst to variabler kreves."
 
-#: .././cogstat.py:809
+#: .././cogstat_hyp_test.py:208
 msgid "Two variables. "
 msgstr "To variabler: "
 
-#: .././cogstat.py:550 .././cogstat.py:814 .././cogstat.py:849
-#: .././cogstat.py:996 .././cogstat.py:1015 .././cogstat.py:1063
+#: .././cogstat_hyp_test.py:214 .././cogstat_hyp_test.py:251
+#: .././cogstat_hyp_test.py:494 .././cogstat_hyp_test.py:516
+#: .././cogstat_hyp_test.py:565 .././cogstat.py:500
 msgid "Checking for normality."
 msgstr "Sjekker for normalitet."
 
-#: .././cogstat.py:1003
+#: .././cogstat_hyp_test.py:500
 msgid "Normality is violated in variable "
-msgstr "Normalitet er brutt for variabel_"
+msgstr "Normalitet er brutt for variabel"
 
-#: .././cogstat.py:825
+#: .././cogstat_hyp_test.py:225
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "Normalitet er ikke brutt.>> Kjører paret t-test."
 
-#: .././cogstat.py:829 .././cogstat.py:832
+#: .././cogstat_hyp_test.py:229 .././cogstat_hyp_test.py:233
 msgid "Running paired Wilcoxon test."
 msgstr "Kjører paret Wilcoxon test."
 
-#: .././cogstat.py:582 .././cogstat.py:841 .././cogstat.py:877
-#: .././cogstat.py:886 .././cogstat.py:889 .././cogstat.py:1201
-#: .././cogstat.py:1204
+#: .././cogstat_hyp_test.py:243 .././cogstat_hyp_test.py:279
+#: .././cogstat_hyp_test.py:288 .././cogstat_hyp_test.py:291
+#: .././cogstat_hyp_test.py:625 .././cogstat_hyp_test.py:628
+#: .././cogstat.py:527
 msgid "Sorry, not implemented yet."
 msgstr "Beklager, dette er ikke implementert enda. "
 
-#: .././cogstat.py:843
+#: .././cogstat_hyp_test.py:245
 msgid "More than two variables. "
-msgstr "Mer enn to variabler._\n"
+msgstr "Mer enn to variabler.\n"
 ""
 
-#: .././cogstat.py:865 .././cogstat.py:868
+#: .././cogstat_hyp_test.py:265 .././cogstat_hyp_test.py:269
 msgid "Running Friedman test."
 msgstr "Kjører Friedman test."
 
-#: .././cogstat_stat.py:135 .././cogstat.py:909
+#: .././cogstat_stat.py:129 .././cogstat.py:800
 msgid "Dependent variable: "
 msgstr "Avhengig variabel: "
 
-#: .././cogstat.py:910
+#: .././cogstat.py:801
 msgid "Group(s): "
 msgstr "Gruppe(r):"
 
-#: .././cogstat.py:984
+#: .././cogstat_hyp_test.py:482
 msgid "One grouping variable. "
-msgstr "En grupperings variabel. "
+msgstr "En grupperingsvariabel. "
 
-#: .././cogstat.py:986
+#: .././cogstat_hyp_test.py:484
 msgid "There is only one group. At least two groups required."
 msgstr "Det er bare en gruppe. Minst to grupper kreves. "
 
-#: .././cogstat.py:990
+#: .././cogstat_hyp_test.py:488
 msgid "Two groups. "
 msgstr "To grupper. "
 
-#: .././cogstat.py:994
+#: .././cogstat_hyp_test.py:492
 msgid "One group contains only one case. >> Choosing modified t-test."
-msgstr "On gruppe innholder bare en case. >> Velger modifisert t-test."
+msgstr "En gruppe innholder bare en case. >> Velger modifisert t-test."
 
-#: .././cogstat.py:1004
+#: .././cogstat_hyp_test.py:501
 msgid "group "
 msgstr "gruppe"
 
-#: .././cogstat.py:1005 .././cogstat.py:1039 .././cogstat.py:1047
+#: .././cogstat_hyp_test.py:502 .././cogstat_hyp_test.py:540
+#: .././cogstat_hyp_test.py:549
 msgid "Running Mann-Whitney test."
 msgstr "Kjører Mann-Whitney test."
 
-#: .././cogstat.py:1008
+#: .././cogstat_hyp_test.py:505
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "Normalitet er ikke brutt.>> Kjører modifisert t-test."
 
-#: .././cogstat.py:1050 .././cogstat.py:1101 .././cogstat.py:1203
+#: .././cogstat_hyp_test.py:552 .././cogstat_hyp_test.py:601
+#: .././cogstat_hyp_test.py:627
 msgid "Nominal variable."
 msgstr "Nominal variabel."
 
-#: .././cogstat.py:1050 .././cogstat.py:1101
+#: .././cogstat_hyp_test.py:553 .././cogstat_hyp_test.py:601
 msgid "Running Chi-square test."
 msgstr "Kjører Chi-Square test."
 
-#: .././cogstat.py:1057
+#: .././cogstat_hyp_test.py:559
 msgid "More than two groups."
 msgstr "Mer enn to grupper."
 
-#: .././cogstat.py:1093 .././cogstat.py:1097
+#: .././cogstat_hyp_test.py:593 .././cogstat_hyp_test.py:597
 msgid "Running Kruskal-Wallis test."
 msgstr "Kjører Kruskal-Wallis test."
 
 #: .././cogstat.py:1207
 msgid "Several grouping variables."
-msgstr "Flere grupperingsvariabler"
+msgstr "Flere grupperingsvariabler."
 
-#: .././cogstat_dialogs.py:23 .././cogstat_dialogs.py:27
+#: .././cogstat_dialogs.py:25 .././cogstat_dialogs.py:29
 msgid "Open data file"
 msgstr "Åpne data fil"
 
-#: .././cogstat_dialogs.py:31
+#: .././cogstat_dialogs.py:33
 msgid "Save result file"
 msgstr "Lagre resultat fil"
 
-#: .././cogstat_gui.py:142 .././cogstat_gui.py:181
+#: .././cogstat_gui.py:144 .././cogstat_gui.py:185
 msgid "&Explore variable"
 msgstr "&Utforsk variabel"
 
-#: .././cogstat_gui.py:384 .././cogstat.py:251
+#: .././cogstat_gui.py:398 .././cogstat.py:237
 msgid "Import failed"
 msgstr "Import mislyktes"
 
-#: .././cogstat_stat.py:270 .././cogstat_stat.py:272
+#: .././cogstat_stat.py:268 .././cogstat_stat.py:271
 msgid "Freq"
 msgstr "Frekv"
 
-#: .././cogstat_stat.py:270 .././cogstat_stat.py:272 .././cogstat_stat.py:274
+#: .././cogstat_stat.py:272 .././cogstat_stat.py:274 .././cogstat_stat.py:275
 msgid "Rel freq"
 msgstr "Rel frekv"
 
-#: .././cogstat_stat.py:272
+#: .././cogstat_stat.py:271
 msgid "Cum freq"
 msgstr "Kum frekv"
 
-#: .././cogstat_stat.py:272 .././cogstat_stat.py:274
+#: .././cogstat_stat.py:274 .././cogstat_stat.py:276
 msgid "Cum rel freq"
 msgstr "Kum rel frekv"
 
@@ -665,230 +656,230 @@ msgstr "Kum rel frekv"
 msgid "Cramér's V measure of association cannot be computed (division by zero)."
 msgstr "Cramér's V mål på assosiasjon kan ikke beregnes (deles på null)."
 
-#: .././cogstat.py:137 .././cogstat.py:145
+#: .././cogstat.py:123 .././cogstat.py:131
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
 msgstr "Antall målenivåer matcher ikke antall variabler. Spesifikasjoner på målenivåer er ignorert. "
 
-#: .././cogstat.py:187
+#: .././cogstat.py:173
 msgid "pandas dataframe"
 msgstr "pandas dataramme"
 
-#: .././cogstat.py:213
+#: .././cogstat.py:199
 msgid "text file - "
 msgstr "tekst fil - "
 
-#: .././cogstat.py:248
+#: .././cogstat.py:234
 msgid "clipboard"
-msgstr "utklippsbord"
+msgstr "utklippstavle"
 
-#: .././cogstat.py:317
+#: .././cogstat.py:303
 msgid "Type"
 msgstr "Skriv"
 
-#: .././cogstat.py:317
+#: .././cogstat.py:303
 msgid "Level"
 msgstr "Nivå"
 
-#: .././cogstat.py:336
+#: .././cogstat.py:323
 msgid "Filtering"
 msgstr "Filtrering"
 
-#: .././cogstat.py:340
+#: .././cogstat.py:327
 msgid "Filtering is switched off."
 msgstr "Filtrering er slått av."
 
-#: .././cogstat.py:355
+#: .././cogstat.py:342
 msgid "Filtering based on %s.\n"
 ""
 msgstr "Filtrering er basert på %s."
 
-#: .././cogstat.py:355 .././cogstat.py:371
+#: .././cogstat.py:342 .././cogstat.py:359
 msgid " (2 SD)"
-msgstr "(2SD)"
+msgstr "(2 SD)"
 
-#: .././cogstat.py:357
+#: .././cogstat.py:344
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
-msgstr "Caser utenfor området vil bli fjernet %0.*f -- %0.*f"
+msgstr "Caser utenfor området vil bli eksludert: %0.*f -- %0.*f"
 
-#: .././cogstat.py:364
+#: .././cogstat.py:351
 msgid "The following cases will be excluded: "
-msgstr "Følgende caser vil bli fjernet:"
+msgstr "Følgende caser vil bli eksludert:"
 
-#: .././cogstat.py:367
+#: .././cogstat.py:355
 msgid "No cases were excluded."
-msgstr "Ingen caser ble fjernet"
+msgstr "Ingen caser er eksludert"
 
-#: .././cogstat.py:1024 .././cogstat.py:1072
+#: .././cogstat_hyp_test.py:524 .././cogstat_hyp_test.py:573
 msgid "Checking for homogeneity of variance across groups."
-msgstr "Kontrollerer for homogenitet av varians over grupper"
+msgstr "Kontrollerer for homogenitet av varians over gruppene"
 
 #: .././cogstat_gui.py:51
 msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
 msgstr "%s Oops, noe gikk galt, CogStat kan ikke kjøre analysen. Du kan velge å rapportere dette. "
 
-#: .././cogstat_gui.py:492
+#: .././cogstat_gui.py:505
 msgid "Explore variable."
 msgstr "Utforsk variabel."
 
-#: .././cogstat_gui.py:517 .././cogstat_gui.py:533
+#: .././cogstat_gui.py:530 .././cogstat_gui.py:546
 msgid "Explore variable pair."
-msgstr "Utforsk variabel paret"
+msgstr "Utforsk variabel paret."
 
-#: .././cogstat_gui.py:560 .././cogstat_gui.py:565
+#: .././cogstat_gui.py:573 .././cogstat_gui.py:578
 msgid "Pivot table."
-msgstr "Pivot tabell"
+msgstr "Pivot tabell."
 
-#: .././cogstat_gui.py:595 .././cogstat_gui.py:603
+#: .././cogstat_gui.py:641 .././cogstat_gui.py:649
 msgid "Compare variables."
 msgstr "Sammenlign variabler."
 
-#: .././cogstat_gui.py:630 .././cogstat_gui.py:641
+#: .././cogstat_gui.py:677 .././cogstat_gui.py:689
 msgid "Compare groups."
 msgstr "Sammenlign grupper"
 
-#: .././cogstat_stat.py:317
+#: .././cogstat_hyp_test.py:85
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
 msgstr "Normalitet kan ikke kontrolleres for den konstante variabelen i %s%s."
 
-#: .././cogstat_stat.py:331
+#: .././cogstat_hyp_test.py:100
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
-msgstr "Utvalget er for lite til å kunne teste for normalitet i variabel %s%s."
+msgstr "Utvalget er for lite for å kunne teste for normalitet i variabel %s%s."
 
-#: .././cogstat_stat.py:587
+#: .././cogstat_hyp_test.py:355
 msgid "Result of the McNemar test"
 msgstr "Resultat av McNemar test"
 
-#: .././cogstat_stat.py:593
+#: .././cogstat_hyp_test.py:361
 msgid "Result of Cochran's Q test"
 msgstr "Resultat av Cochran's Q test"
 
 #. check spher
-#: .././cogstat_stat.py:610
+#: .././cogstat_hyp_test.py:378
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "Resultat av Mauchly's test for sfærisitet"
 
-#: .././cogstat_stat.py:614
+#: .././cogstat_hyp_test.py:382
 msgid "Sphericity is violated."
 msgstr "Sfærisitet er brutt."
 
-#: .././cogstat_stat.py:615
+#: .././cogstat_hyp_test.py:383
 msgid "Using Greenhouse-Geisser correction."
 msgstr "Bruker Greenhuse-Geisser korreksjon."
 
-#: .././cogstat_stat.py:616 .././cogstat_stat.py:621
+#: .././cogstat_hyp_test.py:384 .././cogstat_hyp_test.py:389
 msgid "Result of repeated measures ANOVA"
 msgstr "Resultatet av repeated measures ANOVA"
 
-#: .././cogstat_stat.py:620
+#: .././cogstat_hyp_test.py:388
 msgid "Sphericity is not violated. "
 msgstr "Sfærisitet er ikke brutt. \n"
 ""
 
-#: .././cogstat_stat.py:627
+#: .././cogstat_hyp_test.py:395
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
 msgstr "Sammenligner variabler parvis med Holm-Bonferroni korreksjon: "
 
-#: .././cogstat_stat.py:837
+#: .././cogstat_hyp_test.py:759
 msgid "Result of Welch's unequal variances t-test:"
-msgstr "Resultat av Welch's ulike varianser t-test."
+msgstr "Resultat av Welch's unequal variances t-test."
 
-#: .././cogstat.py:812
+#: .././cogstat_hyp_test.py:212
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "Velger paret t-test eller paret Wilcoxon test avhengig av antakelsene. "
 
-#: .././cogstat.py:828 .././cogstat.py:864
+#: .././cogstat_hyp_test.py:228 .././cogstat_hyp_test.py:264
 msgid "Normality is violated in variable(s): %s."
 msgstr "Normaltet er overtrådt i variabel(ene): %s."
 
-#: .././cogstat.py:836 .././cogstat.py:872
+#: .././cogstat_hyp_test.py:237 .././cogstat_hyp_test.py:273
 msgid "Nominal dichotomous variables."
 msgstr "Nominal dikotome variabler. "
 
-#: .././cogstat.py:836
+#: .././cogstat_hyp_test.py:238
 msgid "Running McNemar test."
 msgstr "Kjører McNemar test. "
 
 #. sjekk
-#: .././cogstat.py:840 .././cogstat.py:876
+#: .././cogstat_hyp_test.py:242 .././cogstat_hyp_test.py:278
 msgid "Nominal non dichotomous variables."
 msgstr "Nominal ikke-dikotome variabler. "
 
-#: .././cogstat.py:846
+#: .././cogstat_hyp_test.py:248
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "Velger repeated measures ANOVA eller Friedman test avhengig av antakelsene."
 
-#: .././cogstat.py:872
+#: .././cogstat_hyp_test.py:274
 msgid "Running Cochran's Q test."
 msgstr "Kjører Cochran's Q test."
 
-#: .././cogstat.py:1013
+#: .././cogstat_hyp_test.py:514
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
-msgstr "Velger two sample t-test, Mann-Whitney test or Welch's t.test avhengig av antakelser. "
+msgstr "Velger two sample t-test, Mann-Whitney test or Welch's t-test avhengig av antakelser. "
 
-#: .././cogstat.py:1037
+#: .././cogstat_hyp_test.py:538
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "Normaliteten er overtrådt i variabel %s, gruppe(r) %s."
 
-#: .././cogstat.py:1042
+#: .././cogstat_hyp_test.py:543
 msgid "Homeogeneity of variance violated in variable %s."
 msgstr "Homogenitet av variansen er overtrådt i variabel %s. "
 
-#: .././cogstat.py:1043
+#: .././cogstat_hyp_test.py:544
 msgid "Running Welch's t-test."
 msgstr "Kjører Welch's t-test."
 
-#: .././cogstat.py:1060
+#: .././cogstat_hyp_test.py:562
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
-msgstr "Velger en one-way ANOVE eller Kruskal-Wallis test avhengig av antakelsene. "
+msgstr "Velger one-way ANOVE eller Kruskal-Wallis test avhengig av antakelsene. "
 
-#: .././cogstat.py:1088
+#: .././cogstat_hyp_test.py:588
 msgid "Normality is violated in variable %s, group(s) %s. "
-msgstr "Normaliteten er brutt i variabel %S, gruppe(r) %s."
+msgstr "Normaliteten er brutt i variabel %s, gruppe(r) %s."
 
-#: .././cogstat.py:1091
+#: .././cogstat_hyp_test.py:591
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr "Homogenitet av variansen er brutt i variabel &s."
 
-#: .././cogstat.py:555 .././cogstat.py:860
+#: .././cogstat_hyp_test.py:260 .././cogstat.py:505
 msgid "Normality is not violated."
 msgstr "Normalitet er ikke brutt. "
 
-#: .././cogstat.py:861
+#: .././cogstat_hyp_test.py:261
 msgid "Running repeated measures one-way ANOVA."
 msgstr "Kjører repeated measures one-way ANOVA."
 
-#: .././cogstat_gui.py:138
+#: .././cogstat_gui.py:140
 msgid "Ctrl+B"
 msgstr "Crtl+B"
 
-#: .././cogstat_gui.py:400
+#: .././cogstat_gui.py:413
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
 msgstr "Åpne data. Oops, noe gikk galt, CogStat kunne ikke åpne data. Du vil kanskje rapportere feilen. "
 
-#: .././cogstat_stat.py:227
+#: .././cogstat_stat.py:255
 msgid "N of missing cases: %g"
 msgstr "N av manglende caser: %g"
 
-#: .././cogstat_chart.py:144 .././cogstat_chart.py:229
-#: .././cogstat_chart.py:403 .././cogstat_chart.py:404
-#: .././cogstat_chart.py:608
+#: .././cogstat_chart.py:247 .././cogstat_chart.py:332
+#: .././cogstat_chart.py:514 .././cogstat_chart.py:515
+#: .././cogstat_chart.py:734
 msgid "Rank of %s"
 msgstr "Rank av %s"
 
-#: .././cogstat_stat.py:414 .././cogstat_stat.py:578
+#: .././cogstat_hyp_test.py:187 .././cogstat_hyp_test.py:346
 msgid "Result of Wilcoxon signed-rank test"
-msgstr "Resuktat av Wilcoxon signed-rank test"
+msgstr "Resultat av Wilcoxon signed-rank test"
 
-#: .././cogstat_chart.py:146 .././cogstat.py:478 .././cogstat.py:608
-#: .././cogstat.py:751 .././cogstat.py:921 .././cogstat.py:1109
+#: .././cogstat_chart.py:249 .././cogstat.py:422 .././cogstat.py:555
+#: .././cogstat.py:699 .././cogstat.py:810
 msgid "Raw data"
 msgstr "Rådata"
 
-#: .././cogstat.py:484 .././cogstat.py:624 .././cogstat.py:771
-#: .././cogstat.py:952 .././cogstat.py:1160
+#: .././cogstat.py:429 .././cogstat.py:571 .././cogstat.py:721
+#: .././cogstat.py:861
 msgid "Sample properties"
 msgstr "Egenskaper ved utvalget"
 
@@ -899,108 +890,111 @@ msgstr "Populasjonsparameter estimater og tester"
 #: .././cogstat.py:537 .././cogstat.py:635 .././cogstat.py:663
 #: .././cogstat.py:678
 msgid "Hypothesis test: "
-msgstr "Hypotese test:"
+msgstr "Hypotesetest:"
 
-#: .././cogstat.py:539
+#: .././cogstat.py:489
 msgid "Testing if mean deviates from the value %s."
 msgstr "Tester om gjennomsnittet avviker fra verdien %s."
 
-#: .././cogstat.py:541
+#: .././cogstat.py:491
 msgid "Testing if median deviates from the value %s."
 msgstr "Tester om medianen avviker fra verdien %s."
 
-#: .././cogstat.py:548
+#: .././cogstat.py:498
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
 msgstr "Velger one-sample t-test eller Wilcoxon signed rank- test avhengig av antakelse"
 
-#: .././cogstat.py:556
+#: .././cogstat.py:506
 msgid "Running one-sample t-test."
 msgstr "Kjører one-sample t-test"
 
-#: .././cogstat.py:569
+#: .././cogstat.py:513
 msgid "Normality is violated."
 msgstr "Normalitet er brutt"
 
-#: .././cogstat.py:570 .././cogstat.py:577
+#: .././cogstat.py:514 .././cogstat.py:522
 msgid "Running Wilcoxon signed-rank test."
 msgstr "Kjører Wilcoxon signed-rank test"
 
-#: .././cogstat.py:509 .././cogstat.py:628 .././cogstat.py:787
-#: .././cogstat.py:970 .././cogstat.py:1180
+#: .././cogstat.py:457 .././cogstat.py:574 .././cogstat.py:745
+#: .././cogstat.py:893
 msgid "Population properties"
 msgstr "Egenskaper ved populasjonen"
 
-#: .././cogstat.py:635 .././cogstat.py:663
+#: .././cogstat.py:583 .././cogstat.py:601
 msgid "Testing if correlation differs from 0."
 msgstr "Tester om korrelasjonen er forskjellig fra 0."
 
-#: .././cogstat.py:678
+#: .././cogstat.py:612
 msgid "Testing if variables are independent."
 msgstr "Tester om variablene er uavhengige."
 
 #: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
 msgid "Hypothesis testing: "
-msgstr "Hypotese testing: "
+msgstr "Hypotesetesting: "
 
-#: .././cogstat.py:800 .././cogstat.py:978 .././cogstat.py:1186
+#: .././cogstat_hyp_test.py:199 .././cogstat_hyp_test.py:476
+#: .././cogstat_hyp_test.py:610
 msgid "Testing if the means are the same."
 msgstr "Tester om gjennomsnittene er de samme."
 
-#: .././cogstat.py:802 .././cogstat.py:980 .././cogstat.py:1188
+#: .././cogstat_hyp_test.py:201 .././cogstat_hyp_test.py:478
+#: .././cogstat_hyp_test.py:612
 msgid "Testing if the medians are the same."
 msgstr "Tester om medianene er de samme. "
 
-#: .././cogstat.py:804 .././cogstat.py:982 .././cogstat.py:1190
+#: .././cogstat_hyp_test.py:203 .././cogstat_hyp_test.py:480
+#: .././cogstat_hyp_test.py:614
 msgid "Testing if the distributions are the same."
 msgstr "Tester om distribusjonen er den samme."
 
-#: .././cogstat.py:1033
+#: .././cogstat_hyp_test.py:534
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
 msgstr "Normalitet og homogenitet av variansen er ikke brutt.>> Kjører two-sample t-test."
 
-#: .././cogstat.py:1081
+#: .././cogstat_hyp_test.py:582
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
-msgstr "Normalitet og homogenitet av varians er ikke brutt.>> Kjører one-way ANOVA."
+msgstr "Normalitet og homogenitet av variansen er ikke brutt.>> Kjører one-way ANOVA."
 
-#: .././cogstat_gui.py:715
+#: .././cogstat_gui.py:767
 msgid "Simple automatic data analysis software"
 msgstr "Enkel automatisk dataanalyse software."
 
-#: .././cogstat_gui.py:715
+#: .././cogstat_gui.py:767
 msgid "Visit CogStat website"
 msgstr "Besøk CogStat sin hjemmeside"
 
-#: .././cogstat_gui.py:223
+#: .././cogstat_gui.py:231
 msgid "Welcome to CogStat!"
 msgstr "Velkommen til CogStat!"
 
-#: .././cogstat_gui.py:223
+#: .././cogstat_gui.py:232
 msgid "CogStat makes statistical analysis more simple and efficient."
 msgstr "CogStat gjør statistiske analyser enklere og mere effektive. "
 
-#: .././cogstat_gui.py:224
+#: .././cogstat_gui.py:233
 msgid "To start working open a data file or paste your data from a spreadsheet."
 msgstr "For å begynne, åpne en datafil eller lim inn data fra et regneark. "
 
-#: .././cogstat_chart.py:143
+#: .././cogstat_chart.py:246
 msgid "Rank of the raw data"
-msgstr "Rank/rangering av rådata"
+msgstr "Rank av rådata"
 
-#: .././cogstat_chart.py:214
+#: .././cogstat_chart.py:317
 msgid "Histogram of rank data with individual data and boxplot"
 msgstr "Histogram av rank data med individuelle data og boksplott. "
 
-#: .././cogstat_chart.py:402
+#: .././cogstat_chart.py:513
 msgid "Scatterplot of the rank of the variables"
 msgstr "Scatterplott av rangeringen av variablene"
 
 #. check
-#: .././cogstat_chart.py:452
+#: .././cogstat_chart.py:565
 msgid "Individual data of the variables"
 msgstr "Individuelle data av variablene"
 
 #. check
-#: .././cogstat_chart.py:610
+#: .././cogstat_chart.py:736
 msgid "Individual data of the rank data of the groups"
 msgstr "Individuelle data av gruppenes rank data "
 
@@ -1009,70 +1003,72 @@ msgstr "Individuelle data av gruppenes rank data "
 msgid "Boxplot and individual data of the rank data of the groups"
 msgstr "Boksplott og individuelle data av gruppenes rank data "
 
-#: .././cogstat_chart.py:626
+#: .././cogstat_chart.py:752
 msgid "Individual data of the groups"
 msgstr "Individuelle data fra gruppene"
 
-#: .././cogstat_stat.py:532 .././cogstat_stat.py:712 .././cogstat.py:557
-#: .././cogstat.py:558 .././cogstat.py:629
+#: .././cogstat_stat.py:398 .././cogstat_stat.py:404 .././cogstat_stat.py:467
+#: .././cogstat_stat.py:558 .././cogstat_stat.py:565 .././cogstat_stat.py:592
+#: .././cogstat_stat.py:627 .././cogstat_stat.py:634 .././cogstat_stat.py:684
+#: .././cogstat.py:576
 msgid "Point estimation"
 msgstr "Punktestimat"
 
-#: .././cogstat.py:557 .././cogstat.py:561 .././cogstat.py:629
+#: .././cogstat_stat.py:467 .././cogstat.py:576
 msgid "95% confidence interval"
 msgstr "95 % konfidensintervall"
 
-#: .././cogstat_stat.py:127 .././cogstat_stat.py:435 .././cogstat.py:562
+#: .././cogstat_stat.py:121 .././cogstat_stat.py:316 .././cogstat_stat.py:402
 #: ../ui/pivot.py:113
 msgid "Standard deviation"
-msgstr "Standard avvik"
+msgstr "Standardavvik"
 
-#: .././cogstat.py:757 .././cogstat.py:927 .././cogstat.py:1126
+#: .././cogstat.py:705 .././cogstat.py:827
 msgid "N of valid cases"
 msgstr "N av valide caser"
 
-#: .././cogstat_gui.py:109
+#: .././cogstat_gui.py:111
 msgid "Update available"
 msgstr "Oppdatering tilgjengelig"
 
-#: .././cogstat_gui.py:110
+#: .././cogstat_gui.py:112
 msgid "New version is available."
 msgstr "Ny versjon er tilgjengelig"
 
-#: .././cogstat_gui.py:111
+#: .././cogstat_gui.py:113
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
-msgstr "Du kan laste ned den nye versjonen <br> fra <a href = \"%s>CogStat download page <a/>"
+msgstr "Du kan laste ned den nye versjonen <br> fra <a href = \"%s\">CogStat download page </a>."
 
-#: .././cogstat_gui.py:143 .././cogstat_gui.py:182
+#: .././cogstat_gui.py:145 .././cogstat_gui.py:187
 msgid "Explore relation of variable &pair"
 msgstr "Utforsk relasjonen variabel &par"
 
 #. va&riables ???
-#: .././cogstat_gui.py:147 .././cogstat_gui.py:182
+#: .././cogstat_gui.py:150 .././cogstat_gui.py:187
 msgid "Compare repeated measures va&riables"
 msgstr "Sammenlign repeated measures va&riabler"
 
-#: .././cogstat_stat.py:435
+#: .././cogstat_stat.py:317
 msgid "Minimum"
 msgstr "Minimum"
 
-#: .././cogstat_stat.py:436
+#: .././cogstat_stat.py:318
 msgid "Maximum"
 msgstr "Maksimum"
 
-#: .././cogstat_stat.py:126 .././cogstat_stat.py:436 ../ui/pivot.py:112
+#: .././cogstat_stat.py:120 .././cogstat_stat.py:321 ../ui/pivot.py:112
 msgid "Upper quartile"
 msgstr "Øvre kvartil"
 
-#: .././cogstat_stat.py:454
+#: .././cogstat_stat.py:349
 msgid "Descriptives for the variables"
 msgstr "Beskrivelser for variablene"
 
-#: .././cogstat_stat.py:468
+#: .././cogstat_stat.py:365
 msgid "Descriptives for the groups"
 msgstr "Beskrivelser for gruppene"
 
-#: .././cogstat_stat.py:514
+#: .././cogstat_stat.py:504 .././cogstat_stat.py:512 .././cogstat_stat.py:522
 msgid "Contingency table"
 msgstr "Kontingenstabell"
 
@@ -1082,7 +1078,7 @@ msgid "Result of two-way ANOVA:\n"
 msgstr "Resultat av two-way ANOVA:"
 
 #. sjekkkk
-#: .././cogstat_stat.py:939
+#: .././cogstat_hyp_test.py:867
 msgid "Main effect of %s: "
 msgstr "Egenvirkning av %s:"
 
@@ -1090,23 +1086,19 @@ msgstr "Egenvirkning av %s:"
 msgid "Interaction of %s and %s: "
 msgstr "Interaksjon av %s og %s:"
 
-#: .././cogstat_stat.py:1027
-msgid "Sorry, at least SciPy 0.10 is required to calculate Cramér's V or Chi-Square test."
-msgstr "Beklager, minst SciPy 0.10 kreves for å kunne kalkulere Cramér's V eller Chi-Square test. "
-
-#: .././cogstat.py:228
+#: .././cogstat.py:214
 msgid "SPSS file - "
 msgstr "SPSS fil- "
 
-#: .././cogstat.py:601
+#: .././cogstat.py:548
 msgid "Explore relation of variable pair"
 msgstr "Utforsk relasjonen av variabel par"
 
-#: .././cogstat.py:725 ../ui/compare_vars.py:65
+#: .././cogstat.py:673 ../ui/compare_vars.py:68
 msgid "Compare repeated measures variables"
 msgstr "Sammenlign repeated measures variabler"
 
-#: .././cogstat.py:758 .././cogstat.py:928 .././cogstat.py:1129
+#: .././cogstat.py:706 .././cogstat.py:830
 msgid "N of missing cases"
 msgstr "N av manglende caser"
 
@@ -1114,15 +1106,15 @@ msgstr "N av manglende caser"
 msgid "Two grouping variables. "
 msgstr "To grupperingsvariabler:"
 
-#: .././cogstat.py:1196
+#: .././cogstat_hyp_test.py:620
 msgid "Choosing factorial ANOVA."
 msgstr "Velger factorial ANOVA"
 
-#: .././cogstat.py:614
+#: .././cogstat.py:561
 msgid "N of valid pairs"
 msgstr "N av valide par"
 
-#: .././cogstat.py:615
+#: .././cogstat.py:562
 msgid "N of missing pairs"
 msgstr "N av manglende par"
 
@@ -1130,65 +1122,65 @@ msgstr "N av manglende par"
 msgid "N of missing group cases"
 msgstr "N av manglende gruppecaser"
 
-#: .././cogstat.py:1144
+#: .././cogstat.py:845
 msgid "N of missing grouping variable in %s"
 msgstr "N av manglende grupperingsvariabel i %s"
 
-#: .././cogstat_stat.py:437
+#: .././cogstat_stat.py:322
 msgid "Skewness"
 msgstr "Skjevhet (Skewness)"
 
-#: .././cogstat_stat.py:437
+#: .././cogstat_stat.py:323
 msgid "Kurtosis"
 msgstr "Spisshet (Kurtosis)"
 
-#: .././cogstat_stat.py:437
+#: .././cogstat_stat.py:319
 msgid "Range"
 msgstr "Variasjonsbredde"
 
-#: .././cogstat_stat.py:454
+#: .././cogstat_stat.py:349
 msgid "Descriptives for the variable"
 msgstr "Beskrivelser for variabelen"
 
-#: .././cogstat.py:49
+#: .././cogstat.py:40
 msgid "The measurement levels of the variables are not set. Set them in your data source."
 msgstr "Målenivået for variablene er ikke satt. Sett inn disse i datakilden. "
 
-#: .././cogstat_gui.py:52 .././cogstat_gui.py:401
+#: .././cogstat_gui.py:52 .././cogstat_gui.py:414
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
-msgstr "Les mer om hvordan rapportere et problem <a href = %s>her<a/>."
+msgstr "Les mer om hvordan rapportere et problem <a href = \"%s\">her</a>."
 
-#: .././cogstat_gui.py:225
+#: .././cogstat_gui.py:234
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
-msgstr "Finn mer informasjon om CogStat på <a href = \"https://www.cogstat.org\"> webside <a/> eller les <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\"> kom raskt i gang.<a/>"
+msgstr "Finn mer informasjon om CogStat på <a href = \"https://www.cogstat.org\"> webside </a> eller les <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\"> kom raskt i gang.</a>"
 
-#: .././cogstat_stat.py:59 .././cogstat.py:50 .././cogstat.py:171
-#: .././cogstat.py:179 .././cogstat.py:284 .././cogstat.py:292
+#: .././cogstat_hyp_test.py:38 .././cogstat.py:41 .././cogstat.py:157
+#: .././cogstat.py:165 .././cogstat.py:270 .././cogstat.py:278
 msgid "Read more about this issue <a href = \"%s\">here</a>."
 msgstr "Les mer om dette problemet <a href = \"%s\">her</a>."
 
-#: .././cogstat_stat.py:816
+#: .././cogstat_hyp_test.py:738
 msgid "Result of slope test with %s:"
 msgstr "Resultat av slope (stigning) test med %s:"
 
-#: .././cogstat.py:168
+#: .././cogstat.py:154
 msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
 msgstr "Strengvariabler kan ikke være intervall eller ordinal variabler i CogStat. Disse variablene blir automatisk satt til nominal:"
 
-#: .././cogstat.py:170 .././cogstat.py:178 .././cogstat.py:283
-#: .././cogstat.py:291
+#: .././cogstat.py:156 .././cogstat.py:164 .././cogstat.py:269
+#: .././cogstat.py:277
 msgid "You can fix this in your data source."
 msgstr "Du kan ordne dette i data kilden."
 
-#: .././cogstat.py:177
+#: .././cogstat.py:163
 msgid "The measurement level was not set for all variables."
 msgstr "Målenivå er ikke satt for alle variablene."
 
-#: .././cogstat.py:281
+#: .././cogstat.py:267
 msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
 msgstr "Noen navn på variabler inneholder ikke-engelske tegn; dette vil skape problemer i noen analyser: %s."
 
-#: .././cogstat.py:289
+#: .././cogstat.py:275
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
 msgstr "Noen navn på variabler inneholder ikke-engelske tegn; dette vil skape problemer i noen analyser: %s."
 
@@ -1197,115 +1189,112 @@ msgstr "Noen navn på variabler inneholder ikke-engelske tegn; dette vil skape p
 msgid "Standardized effect size:"
 msgstr "Standardisert effektstørrelse"
 
-#: .././cogstat_gui.py:132
+#: .././cogstat_gui.py:134
 msgid "Open d&emo data file"
 msgstr "åpne d%emo datafil"
 
-#: .././cogstat_gui.py:132
+#: .././cogstat_gui.py:134
 msgid "Ctrl+E"
 msgstr "Crtl+ E"
 
-#: .././cogstat_gui.py:154
+#: .././cogstat_gui.py:158
 msgid "&Increase text size"
 msgstr "&Øk tekststørrelse"
 
-#: .././cogstat_gui.py:154
+#: .././cogstat_gui.py:158
 msgid "Ctrl++"
 msgstr "Crtl++"
 
-#: .././cogstat_gui.py:155
+#: .././cogstat_gui.py:159
 msgid "&Decrease text size"
 msgstr "&Reduser tekststørrelse"
 
-#: .././cogstat_gui.py:155
+#: .././cogstat_gui.py:159
 msgid "Ctrl+-"
 msgstr "Crtl+-"
 
-#: .././cogstat_gui.py:160
+#: .././cogstat_gui.py:164
 msgid "&Save results"
 msgstr "&Lagre resultat"
 
-#: .././cogstat_gui.py:161
+#: .././cogstat_gui.py:165
 msgid "Save results &as"
 msgstr "Lagre resultat &som"
 
-#: .././cogstat_chart.py:454
+#: .././cogstat_chart.py:567
 msgid "Boxplots and individual data of the variables"
-msgstr "Boksplott og individuelle data av variabel(ene)"
+msgstr "Boksplott og individuelle data av variablene"
 
-#: .././cogstat_chart.py:602
+#: .././cogstat_chart.py:723
 msgid "Largest individual sign displays %d cases."
 msgstr "Det største individuelle tegnet viser %d caser"
 
 #. find better formulation
-#: .././cogstat_chart.py:612
+#: .././cogstat_chart.py:738
 msgid "Boxplots and individual data of the rank data of the groups"
 msgstr "Boksplott og individuelle data av gruppenes rang data"
 
-#: .././cogstat_chart.py:628
+#: .././cogstat_chart.py:754
 msgid "Boxplots and individual data of the groups"
 msgstr "Boksplott og individuelle data fra gruppene"
 
-#: .././cogstat_stat.py:535 .././cogstat_stat.py:715
+#: .././cogstat_stat.py:562 .././cogstat_stat.py:567 .././cogstat_stat.py:592
+#: .././cogstat_stat.py:630 .././cogstat_stat.py:639 .././cogstat_stat.py:684
 msgid "95% CI (low)"
-msgstr "95% CI (lav)"
+msgstr "95% KI (lav)"
 
-#: .././cogstat_stat.py:536 .././cogstat_stat.py:716
+#: .././cogstat_stat.py:563 .././cogstat_stat.py:567 .././cogstat_stat.py:592
+#: .././cogstat_stat.py:631 .././cogstat_stat.py:640 .././cogstat_stat.py:684
 msgid "95% CI (high)"
-msgstr "95 % CI (høy)"
+msgstr "95 % KI (høy)"
 
-#: .././cogstat_stat.py:996
+#: .././cogstat_hyp_test.py:927
 msgid "Results of Dunn's test (p values)."
 msgstr "Resultat av Dunn's test (p verdier)."
 
-#: .././cogstat.py:564 .././cogstat.py:792 .././cogstat.py:972
-#: .././cogstat.py:1181
+#: .././cogstat.py:750 .././cogstat.py:896
 msgid "Present confidence interval values suppose normality."
 msgstr "Nåværende konfidensintervallverdier antar normalitet."
 
-#: .././cogstat.py:792 .././cogstat.py:972 .././cogstat.py:1181
+#: .././cogstat.py:750 .././cogstat.py:896
 msgid "Means"
 msgstr "Gjennomsnitt"
 
-#: .././cogstat_gui.py:152
+#: .././cogstat_gui.py:155
 msgid "Ctrl+Del"
 msgstr "Crtl+Del"
 
-#: .././cogstat_gui.py:148
-msgid "&Text is editable"
-msgstr "&Tekst kan redigeres"
-
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:162
 msgid "Ctrl+Shift+E"
 msgstr "Crtl+Shift+E"
 
-#: .././cogstat_gui.py:161
+#: .././cogstat_gui.py:165
 msgid "Ctrl+Shift+P"
 msgstr "Crtl+Shift+P"
 
-#: .././cogstat.py:322
+#: .././cogstat.py:309
 msgid "The next %s cases will not be printed. You can check all cases in the original data source."
 msgstr "De neste %s caser vil ikke bli skrevet ut. Du kan sjekke alle casene i den opprinnelige datakilden"
 
-#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:76
+#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:77
 #: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
-#: ../ui/explore_var_pairs.py:54 ../ui/compare_vars.py:67
+#: ../ui/explore_var_pairs.py:57 ../ui/compare_vars.py:70 ../ui/diffusion.py:92
 msgid "Available variables"
 msgstr "Tilgjengelige variabler"
 
-#: .././cogstat_stat.py:125 ../ui/pivot.py:107
+#: .././cogstat_stat.py:119 ../ui/pivot.py:107
 msgid "N"
 msgstr "N"
 
-#: .././cogstat_stat.py:125 ../ui/pivot.py:108
+#: .././cogstat_stat.py:119 ../ui/pivot.py:108
 msgid "Sum"
 msgstr "Sum"
 
-#: .././cogstat_stat.py:126 ../ui/pivot.py:111
+#: .././cogstat_stat.py:120 .././cogstat_stat.py:320 ../ui/pivot.py:111
 msgid "Lower quartile"
 msgstr "Nedre kvartil"
 
-#: .././cogstat_stat.py:127 ../ui/pivot.py:114
+#: .././cogstat_stat.py:121 ../ui/pivot.py:114
 msgid "Variance"
 msgstr "Varians"
 
@@ -1330,30 +1319,32 @@ msgid "Function"
 msgstr "Funksjon"
 
 #: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
-#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:75
-#: ../ui/compare_groups.py:79 ../ui/compare_groups_single_case_slope.py:64
-#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:57
-#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:68
+#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:76
+#: ../ui/compare_groups.py:80 ../ui/compare_groups_single_case_slope.py:64
+#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:60
+#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:71 ../ui/diffusion.py:97
+#: ../ui/diffusion.py:100 ../ui/diffusion.py:102 ../ui/diffusion.py:104
 msgid "<="
 msgstr "<="
 
 #: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
-#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:78
-#: ../ui/compare_groups.py:81 ../ui/compare_groups_single_case_slope.py:67
-#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:56
-#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:66
+#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:79
+#: ../ui/compare_groups.py:82 ../ui/compare_groups_single_case_slope.py:67
+#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:59
+#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:69 ../ui/diffusion.py:98
+#: ../ui/diffusion.py:99 ../ui/diffusion.py:101 ../ui/diffusion.py:103
 msgid "=>"
 msgstr "=>"
 
-#: ../ui/compare_groups.py:77
+#: ../ui/compare_groups.py:78
 msgid "Dependent variable(s)"
-msgstr "Avhengig(e) variabel/variabler"
+msgstr "Avhengig(e) variabel(er)"
 
-#: ../ui/compare_groups.py:80
+#: ../ui/compare_groups.py:81
 msgid "Group(s)"
-msgstr "Grupp(er)"
+msgstr "Gruppe(r)"
 
-#: ../ui/compare_groups.py:82
+#: ../ui/compare_groups.py:83
 msgid "Single case slope..."
 msgstr "Enkelt case stigningstall (slope)..."
 
@@ -1367,7 +1358,7 @@ msgstr "Språk"
 
 #: ../ui/preferences.py:55
 msgid "You should restart CogStat to use the new language"
-msgstr "Du bør restarte CogStat for å bruke et annet språk"
+msgstr "Du bør restarte CogStat for å bruke det nye språket"
 
 #: ../ui/preferences.py:56
 msgid "Chart theme"
@@ -1375,7 +1366,7 @@ msgstr "Diagram tema"
 
 #: ../ui/preferences.py:57
 msgid "You should restart CogStat to use the new theme"
-msgstr "Du bør restarte CogStat for å bruke nytt tema"
+msgstr "Du bør restarte CogStat for å bruke det nye temaet"
 
 #: ../ui/compare_groups_single_case_slope.py:63
 msgid "Compare groups - Single case slope"
@@ -1395,8 +1386,8 @@ msgid "Explore variables"
 msgstr "Utforsk variabler"
 
 #: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
-#: ../ui/explore_var_pairs.py:55 ../ui/compare_vars_wiz.py:67
-#: ../ui/compare_vars.py:69
+#: ../ui/explore_var_pairs.py:58 ../ui/compare_vars_wiz.py:67
+#: ../ui/compare_vars.py:72
 msgid "Selected variables"
 msgstr "Valgte variabler"
 
@@ -1412,7 +1403,7 @@ msgstr "0"
 msgid "Central tendency test value"
 msgstr "Sentral tendens testverdi"
 
-#: ../ui/explore_var_pairs.py:53
+#: ../ui/explore_var_pairs.py:56
 msgid "Explore relation of variable pairs"
 msgstr "Utforsk relasjon mellom par av variabler"
 
@@ -1440,57 +1431,57 @@ msgstr "Variabler å velge fra"
 msgid "Variable properties"
 msgstr "Egenskaper ved variabel/variabler"
 
-#: .././cogstat_gui.py:135 .././cogstat_gui.py:180
+#: .././cogstat_gui.py:137 .././cogstat_gui.py:184
 msgid "&Filter outliers"
-msgstr "&Filter utligger (Uvanlige verdier, \"Outliers\")"
+msgstr "&Filtrer utliggere (Uvanlige verdier, \"Outliers\")"
 
-#: .././cogstat_gui.py:135
+#: .././cogstat_gui.py:137
 msgid "Ctrl+L"
 msgstr "Crtl+L"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:162
 msgid "Text is &editable"
-msgstr "Tekst er &redigerbar"
+msgstr "Teksten er &redigerbar"
 
-#: .././cogstat_gui.py:166
+#: .././cogstat_gui.py:170
 msgid "Ctrl+Shift+R"
 msgstr "Crtl+Shift+R"
 
 #. sjekk!
-#: .././cogstat_gui.py:436
+#: .././cogstat_gui.py:449
 msgid "Filter outlier."
-msgstr "Filter outlier"
+msgstr "Filtrer utliggere"
 
-#: .././cogstat_stat.py:668
+#: .././cogstat_hyp_test.py:437
 msgid "Main effect of %s"
 msgstr "Egenvirkning av %s"
 
-#: .././cogstat_stat.py:670
+#: .././cogstat_hyp_test.py:439
 msgid "Interaction of factors %s"
 msgstr "Interaksjon av faktorer %s"
 
-#: .././cogstat.py:347
+#: .././cogstat.py:334
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
-msgstr "Bare intervall variabler kan brukes for filtering. Ignorerer variabel %s."
+msgstr "Bare intervall variabler kan brukes for filtrering. Ignorerer variabel %s."
 
-#: .././cogstat.py:729
+#: .././cogstat.py:677
 msgid "Factors (number of levels): "
-msgstr "Faktorer ( antall av nivåer):"
+msgstr "Faktorer (antall av nivåer):"
 
-#: .././cogstat.py:880
+#: .././cogstat_hyp_test.py:282
 msgid "Interval variables with several factors."
 msgstr "Intervall variabler med flere faktorer"
 
 #. sjekk!!
-#: .././cogstat.py:881
+#: .././cogstat_hyp_test.py:283
 msgid "Choosing repeated measures ANOVA."
 msgstr "Velger repeterte målinger ANOVA"
 
-#: .././cogstat.py:885
+#: .././cogstat_hyp_test.py:287
 msgid "Ordinal variables with several factors."
 msgstr "Ordinal variabler med flere faktorer"
 
-#: .././cogstat.py:888
+#: .././cogstat_hyp_test.py:290
 msgid "Nominal variables with several factors."
 msgstr "Nomial variabler med flere faktorer"
 
@@ -1527,11 +1518,11 @@ msgstr "Ta bort faktor"
 msgid "Alt+R"
 msgstr "Alt+R"
 
-#: ../ui/compare_vars.py:70
+#: ../ui/compare_vars.py:73
 msgid "Factors..."
 msgstr "Faktorer"
 
-#: ../ui/compare_vars.py:71
+#: ../ui/compare_vars.py:74
 msgid "Alt+F"
 msgstr "Alt+F"
 
@@ -1549,5 +1540,249 @@ msgstr "Antall nivåer"
 
 #: ../ui/filter_outlier.py:74
 msgid "Only interval variables are available"
-msgstr "Kun interval variabler er tilgjengelige"
+msgstr "Kun intervalvariabler er tilgjengelige"
+
+#: .././cogstat_gui.py:148 .././cogstat_gui.py:186
+msgid "Behavioral data &diffusion analysis"
+msgstr "Atferdsdata &diffusjonsanalyse "
+
+#: .././cogstat_gui.py:156
+msgid "&Find text"
+msgstr "&Finn tekst"
+
+#: .././cogstat_gui.py:156
+msgid "Ctrl+F"
+msgstr "Crtl+F"
+
+#: .././cogstat_gui.py:606 .././cogstat_gui.py:611
+msgid "Diffusion analysis."
+msgstr "Diffusjonsanalyse "
+
+#: .././cogstat_hyp_test.py:152 .././cogstat_hyp_test.py:317
+#: .././cogstat_hyp_test.py:688 .././cogstat_hyp_test.py:808
+#: .././cogstat_hyp_test.py:957
+msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
+msgstr "Sensitivitet styrke (power) analyse. Minimum effektstørrelse for å nå 95%% styrke (power) med oppgitt utvalgsstørrelse for test av nåværende hypotese (Effektstørrelse er i %)"
+
+#: .././cogstat_hyp_test.py:153 .././cogstat_hyp_test.py:318
+#: .././cogstat_hyp_test.py:689
+msgid "d"
+msgstr "d"
+
+#: .././cogstat_hyp_test.py:808
+msgid "f"
+msgstr "f"
+
+#: .././cogstat_hyp_test.py:863
+msgid "Result of multi-way ANOVA"
+msgstr "Resultatet av multi-way ANOVA"
+
+#: .././cogstat_hyp_test.py:873
+msgid "Interaction of %s: "
+msgstr "Interaksjonen av %:"
+
+#: .././cogstat_hyp_test.py:958
+msgid "w"
+msgstr "w"
+
+#: .././cogstat_chart.py:407
+msgid "Normal theoretical quantiles"
+msgstr "Normale teoretiske kvantiler"
+
+#: .././cogstat_chart.py:408
+msgid "Sample quantiles"
+msgstr "Utvalgs kvantiler"
+
+#: .././cogstat_stat.py:188
+msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
+msgstr "Feil:%s, Reaksjonstid:%s, Deltaker:%s, Betingelse(r):%s"
+
+#: .././cogstat_stat.py:202
+msgid "Mean percent correct with edge correction"
+msgstr "Gjennomsnittlig prosent korrekt med kantkorreksjon"
+
+#: .././cogstat_stat.py:203
+msgid "Mean correct reaction time"
+msgstr "Gjennomsnittlig korrekt reaksjonstid"
+
+#: .././cogstat_stat.py:204
+msgid "Correct reaction time variance"
+msgstr "Korrekt reaksjonstid varians"
+
+#: .././cogstat_stat.py:216
+msgid "Drift rate"
+msgstr "Drift rate"
+
+#: .././cogstat_stat.py:217
+msgid "Threshold"
+msgstr "Terskel"
+
+#: .././cogstat_stat.py:218
+msgid "Nondecision time"
+msgstr "Nondecision tid"
+
+#: .././cogstat_stat.py:291 .././cogstat_stat.py:521
+msgid "low"
+msgstr "lav"
+
+#: .././cogstat_stat.py:291 .././cogstat_stat.py:521
+msgid "high"
+msgstr "høy"
+
+#: .././cogstat_stat.py:292
+msgid "Relative frequencies"
+msgstr "Relative frekvenser"
+
+#: .././cogstat_stat.py:292 .././cogstat_stat.py:522
+msgid "95% confidence interval (multinomial proportions)"
+msgstr "95% konfidensintervall (KI) (multinominale proposjoner)"
+
+#: .././cogstat_stat.py:297 .././cogstat_stat.py:527
+msgid "Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid."
+msgstr "Noen av cellene inneholder ikke min. 5 caser, så konfidensintervallet kan være ugyldig. "
+
+#: .././cogstat_stat.py:324
+msgid "Variation ratio"
+msgstr "Variasjons ratio"
+
+#: .././cogstat_stat.py:397
+msgid "Present confidence interval values for the mean suppose normality."
+msgstr "Nåværende konfidensintervall (KI) for gjennomsnitt antar normalitet"
+
+#: .././cogstat_stat.py:399 .././cogstat_stat.py:406
+msgid "95% confidence interval (high)"
+msgstr "95% konfidensintervall (høyt)"
+
+#: .././cogstat_stat.py:400 .././cogstat_stat.py:405
+msgid "95% confidence interval (low)"
+msgstr "95% konfidensintervall (lavt)"
+
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:568 .././cogstat_stat.py:642
+msgid "Out of the data range"
+msgstr "Utenfor dataområdet"
+
+#: .././cogstat_stat.py:461 .././cogstat_stat.py:464 .././cogstat_stat.py:673
+#: .././cogstat_stat.py:676
+msgid "Cramér's V measure of association"
+msgstr "Cramérs V assosiasjonsmål"
+
+#: .././cogstat_stat.py:503 .././cogstat_stat.py:509
+msgid "Total"
+msgstr "Total"
+
+#: .././cogstat_stat.py:504
+msgid "Case count"
+msgstr "Antall caser"
+
+#: .././cogstat_stat.py:512
+msgid "Percentage"
+msgstr "Prosentandel"
+
+#: .././cogstat_stat.py:580 .././cogstat_stat.py:657
+msgid "Cohen's d"
+msgstr "Cohens d"
+
+#: .././cogstat_stat.py:582 .././cogstat_stat.py:659
+msgid "Eta-squared"
+msgstr "Eta² (Eta kvadrert)"
+
+#: .././cogstat_stat.py:599 .././cogstat_stat.py:693
+msgid "Hedges' g"
+msgstr "Hedges g"
+
+#: .././cogstat_stat.py:709
+msgid "Omega squared"
+msgstr "Omega² (Omega kvadrert)"
+
+#: .././cogstat.py:477 .././cogstat.py:575 .././cogstat.py:748
+#: .././cogstat.py:894
+msgid "Population parameter estimations"
+msgstr "Populasjonsparameter/sannsynlighetsfordelingen estimert"
+
+#: ../ui/compare_groups.py:84 ../ui/explore_var_pairs.py:61
+#: ../ui/compare_vars.py:75
+msgid "Options..."
+msgstr "Valg..."
+
+#: ../ui/find_text.py:42
+msgid "Find text"
+msgstr "Finn tekst"
+
+#: ../ui/find_text.py:43
+msgid "Text to find"
+msgstr "Skriv for finne tekst"
+
+#: ../ui/find_text.py:44
+msgid "Find next"
+msgstr "Finn tekst"
+
+#: ../ui/find_text.py:45
+msgid "Find previous"
+msgstr "Finn tidligere"
+
+#: .././cogstat.py:660 ../ui/diffusion.py:91
+msgid "Behavioral data diffusion analysis"
+msgstr "Diffusjonsanalyse atferdsdata"
+
+#: ../ui/diffusion.py:93
+msgid "Participant"
+msgstr "Deltaker"
+
+#: ../ui/diffusion.py:94
+msgid "Error"
+msgstr "Feil"
+
+#: ../ui/diffusion.py:95
+msgid "Reaction time (in sec)"
+msgstr "Reaksjonstid (i sek.)"
+
+#: ../ui/diffusion.py:96
+msgid "Condition(s)"
+msgstr "Betingelse(r)"
+
+#: ../ui/xylims.py:62 ../ui/ylims.py:48
+msgid "Options"
+msgstr "Valg"
+
+#: ../ui/xylims.py:63
+msgid "Minimum of x axis"
+msgstr "Minimum av x akse"
+
+#: ../ui/xylims.py:64
+msgid "Maximum of x axis"
+msgstr "Maksimum av x akse"
+
+#: ../ui/xylims.py:65 ../ui/ylims.py:49
+msgid "Minimum of y axis"
+msgstr "Minimum av y akse"
+
+#: ../ui/xylims.py:66 ../ui/ylims.py:50
+msgid "Maximum of y axis"
+msgstr "Maksimum av y akse"
+
+#: .././cogstat_gui.py:606
+msgid "At least the reaction time and the error variables should be given."
+msgstr "Som et minimum må reaksjonstid og feilvariabler oppgis "
+
+#: .././cogstat_hyp_test.py:616
+msgid "At least two grouping variables."
+msgstr "Minst to gruppevariabler"
+
+#: .././cogstat_stat.py:185
+msgid "Specify all the required parameters (reaction time, error, participant and condition variables)."
+msgstr "Spesifiser alle de påkrevde parameterene ( reaksjonstid, feil, deltaker og betingelses variabler)"
+
+#: .././cogstat_hyp_test.py:197 .././cogstat_hyp_test.py:474
+#: .././cogstat_hyp_test.py:608 .././cogstat.py:487 .././cogstat.py:582
+#: .././cogstat.py:600 .././cogstat.py:611
+msgid "Hypothesis tests"
+msgstr "Hypotesetester"
+
+#: .././cogstat.py:898
+msgid "Medians"
+msgstr "Medianer"
+
+#: .././cogstat_stat.py:446 .././cogstat_stat.py:573 .././cogstat_stat.py:648
+msgid "Standardized effect size"
+msgstr "Standardisert effektstørrelse"
 
