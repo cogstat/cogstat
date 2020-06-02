@@ -5,6 +5,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
 print(sys.path)
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from cogstat import cogstat as cs
@@ -165,7 +166,7 @@ class CogStatTestCase(unittest.TestCase):
 
     def test_diffusion(self):
         """Test diffusion analysis"""
-        data_diffusion = cs.CogStatData(data='data/diffusion.csv')
+        data_diffusion = cs.CogStatData(data=str(Path('data/diffusion.csv')))
         result = data_diffusion.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'], condition_names=['Num1', 'Num2'])
         # Drift rate
         self.assertTrue('<td>zsiraf</td>      <td>0.190</td>      <td>0.276</td>      <td>0.197</td>      <td>0.235</td>      <td>0.213</td>' in result[1])
