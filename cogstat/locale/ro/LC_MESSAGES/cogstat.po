@@ -1654,15 +1654,15 @@ msgstr ""
 
 #: .././cogstat_stat.py:503 .././cogstat_stat.py:509
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: .././cogstat_stat.py:504
 msgid "Case count"
-msgstr ""
+msgstr "Număr de cazuri"
 
 #: .././cogstat_stat.py:512
 msgid "Percentage"
-msgstr ""
+msgstr "Procentaj"
 
 #: .././cogstat_stat.py:580 .././cogstat_stat.py:657
 msgid "Cohen's d"
@@ -1770,5 +1770,5 @@ msgstr ""
 
 #: .././cogstat_stat.py:446 .././cogstat_stat.py:573 .././cogstat_stat.py:648
 msgid "Standardized effect size"
-msgstr ""
+msgstr "Standardizarea volumului de efect"
 
