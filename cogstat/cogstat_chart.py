@@ -53,6 +53,9 @@ matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
 #print(matplotlib.rcParams['font.size'], matplotlib.rcParams['font.serif'], matplotlib.rcParams['font.sans-serif'])
 if csc.language == 'th':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
+if csc.language == 'ko':
+    print('kjgjhgjhg')
+    matplotlib.rcParams['font.sans-serif'][0:0] = ['NanumGothic', 'NanumMyeongjo']
 #print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
 matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
 matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axis
