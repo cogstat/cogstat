@@ -806,7 +806,7 @@ def one_way_anova(pdf, var_name, grouping_name):
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    anova_model = ols(str(var_name + ' ~ C(' + grouping_name + ')'), data=data).fit()
+    anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (var_name, grouping_name)), data=data).fit()
     # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
     anova_result = anova_lm(anova_model)
     text_result += _('Result of one-way ANOVA: ') + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
