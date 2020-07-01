@@ -28,6 +28,8 @@ Upcoming release
     - Various chart refinements
 - GUI
     - Find text in results
+- New localization
+    - Korean (Katalin Wild)
 
 ## Fixes
 - Various output fixes
