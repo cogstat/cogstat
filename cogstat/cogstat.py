@@ -96,17 +96,19 @@ class CogStatData:
         def percent2float():
             """ Convert x.x% str format to float in self.data_frame (pandas cannot handle this).
             """
-            # TODO A pandas expert could shorten this
-            for column in self.data_frame.columns:
-                if self.data_frame[column].dtype == 'object':
-                    selected_cells = self.data_frame[column].str.endswith('%')
+            for column in self.data_frame.columns:  # check all variables
+                if self.data_frame[column].dtype == 'object':  # check only string variables (or boolean with NaN)
+                    selected_cells = self.data_frame[column].astype(str).str.endswith('%')
+                    # .str can be used only with strings, but not booleans; so use astype(str) to convert boolean cells
+                    # in an object type variable to str when boolean variable with missing value was imported (therefore
+                    # the dtype is object)
                     if selected_cells.any():
                         # use  selected_cells == True  to overcome the Nan indexes
                         self.data_frame[column][selected_cells == True] = \
                             self.data_frame[column][selected_cells == True].str.replace('%', '').astype('float') / 100.0
                         try:
                             self.data_frame[column] = self.data_frame[column].astype('float')
-                        except ValueError:
+                        except ValueError:  # there may be other non xx% strings in the variable
                             pass
 
         def set_measurement_level(measurement_level=''):
@@ -233,8 +235,7 @@ class CogStatData:
                 next(f)
                 meas_row = next(f).replace('\n', '').replace('\r', '').split(delimiter)
                 # \r was used in Mac after importing from Excel clipboard
-                if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} \
-                        and set(meas_row) != {''}:
+                if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
                     meas_row = ['unk' if item == '' else item for item in meas_row]  # missing level ('') means 'unk'
                     file_measurement_level = ' '.join(meas_row).lower()
                 skiprows = [1] if file_measurement_level else None
