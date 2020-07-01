@@ -673,19 +673,6 @@ def independent_t_test(pdf, var_name, grouping_name):
     var1 = var1.dropna()
     var2 = var2.dropna()
     t, p, df = ttest_ind(var1, var2)
-    # CI http://onlinestatbook.com/2/estimation/difference_means.html
-    # However, there are other computtional methods:
-    # http://dept.stat.lsa.umich.edu/~kshedden/Python-Workshop/stats_calculations.html
-    # http://www.statisticslectures.com/topics/ciindependentsamplest/
-    mean_diff = np.mean(var1) - np.mean(var2)
-    sse = np.sum((np.mean(var1) - var1) ** 2) + np.sum((np.mean(var2) - var2) ** 2)
-    mse = sse / (df)
-    nh = 2.0 / (1.0 / len(var1) + 1.0 / len(var2))
-    s_m1m2 = np.sqrt(2 * mse / (nh))
-    t_cl = stats.t.ppf(1 - (0.05 / 2), df)  # two-tailed
-    lci = mean_diff - t_cl * s_m1m2
-    hci = mean_diff + t_cl * s_m1m2
-    prec = cs_util.precision(var1.append(var2)) + 1
 
     # Sensitivity power analysis
     if run_power_analysis:
@@ -696,8 +683,6 @@ def independent_t_test(pdf, var_name, grouping_name):
                        power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
                                                   ratio=len(var2) / len(var1), alternative='two-sided')
 
-    text_result += _('Difference between the two groups:') + ' %0.*f, ' % (prec, mean_diff) + \
-                   _('95%% confidence interval [%0.*f, %0.*f]') % (prec, lci, prec, hci) + '\n'
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.3g, %s\n' % \
                    (df, t, cs_util.print_p(p))
     return text_result

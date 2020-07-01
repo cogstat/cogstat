@@ -654,6 +654,25 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
         #group_means_pdf[_('95% confidence interval')] = '['+ (means-cis).map(str) + ', ' + (means+cis).map(str) + ']'
         group_estimations_pdf[_('95% CI (low)')] = means - cis
         group_estimations_pdf[_('95% CI (high)')] = means + cis
+        if len(groups)==1 and len(set(data_frame[groups[0]]))==2:  # when we have two groups
+            # TODO same assumptions apply as for t-test?
+            # CI http://onlinestatbook.com/2/estimation/difference_means.html
+            # However, there are other computational methods:
+            # http://dept.stat.lsa.umich.edu/~kshedden/Python-Workshop/stats_calculations.html
+            # http://www.statisticslectures.com/topics/ciindependentsamplest/
+            dummy_groups, [var1, var2] = _split_into_groups(pdf, var_names[0], groups[0])
+            var1 = var1.dropna()
+            var2 = var2.dropna()
+            df = len(var1) + len(var2) - 2
+            mean_diff = np.mean(var1) - np.mean(var2)
+            sse = np.sum((np.mean(var1) - var1) ** 2) + np.sum((np.mean(var2) - var2) ** 2)
+            mse = sse / df
+            nh = 2.0 / (1.0 / len(var1) + 1.0 / len(var2))
+            s_m1m2 = np.sqrt(2 * mse / nh)
+            t_cl = stats.t.ppf(1 - (0.05 / 2), df)  # two-tailed
+            lci = mean_diff - t_cl * s_m1m2
+            hci = mean_diff + t_cl * s_m1m2
+            group_estimations_pdf.loc[_('Difference between the two groups:')] = [mean_diff, lci, hci]
     elif meas_level == 'ord':
         pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
         group_estimations_pdf[_('Point estimation')] = pdf.groupby(groups, sort=True).aggregate(np.median)[var_names[0]]
