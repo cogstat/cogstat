@@ -483,15 +483,17 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
             xy_freq = (xy_freq-1)/((max_freq-1)/9.0)+1
             # largest dot shouldn't be larger than 10 × of the default size
             # smallest dot is 1 unit size
-        if max_freq > 1:
-            plt.suptitle(_plt('Largest sign on the graph displays %d cases.') % max_freq,
-                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
         xy_freq *= 20.0
 
         # Draw figure
         fig = plt.figure()
         ax = fig.add_subplot(111)
+
+        if max_freq > 1:
+            plt.suptitle(_plt('Largest sign on the graph displays %d cases.') % max_freq,
+                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
+
         if meas_lev == 'int':
             # Display the data
             ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
