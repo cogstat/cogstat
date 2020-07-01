@@ -90,12 +90,12 @@ def _wrap_labels(labels):
     label_n = len(labels)
     max_chars_in_row = 55
         # TODO need a more precise method; should depend on font size and graph size;
-        # but cannot be a very precise method unless the font is fixed width
+        # but it cannot be a very precise method unless the font has fixed width
     if isinstance(labels[0], (list, tuple)):
-        wrapped_labels = [textwrap.fill(' : '.join(map(str, label)), max(5, max_chars_in_row/label_n)) for label in
+        wrapped_labels = [textwrap.fill(' : '.join(map(str, label)), max(5, int(max_chars_in_row/label_n))) for label in
                           labels]
     else:
-        wrapped_labels = [textwrap.fill(str(label), max(5, max_chars_in_row / label_n)) for label in
+        wrapped_labels = [textwrap.fill(str(label), max(5, int(max_chars_in_row / label_n))) for label in
                           labels]
         # the width should not be smaller than a min value, here 5
         # use the unicode() to convert potentially numerical labels
