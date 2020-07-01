@@ -801,11 +801,7 @@ def one_way_anova(pdf, var_name, grouping_name):
                        ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
                                                                k_groups=len(set(data[grouping_name])))
 
-    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical
-    #  variable
-    # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
-    # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
-    # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
+    # FIXME https://github.com/cogstat/cogstat/issues/136
     anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (var_name, grouping_name)), data=data).fit()
     # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
     anova_result = anova_lm(anova_model)

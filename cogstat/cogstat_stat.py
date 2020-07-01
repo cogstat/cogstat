@@ -738,11 +738,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                     pdf_result = pd.DataFrame()
                     from statsmodels.formula.api import ols
                     from statsmodels.stats.anova import anova_lm
-                    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the
-                    #  categorical variable
-                    # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
-                    # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
-                    # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
+                    # FIXME https://github.com/cogstat/cogstat/issues/136
                     data = pdf.dropna(subset=[dependent_var_name[0], groups[0]])
                     anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (dependent_var_name[0], groups[0])), data=data).fit()
                     # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the
