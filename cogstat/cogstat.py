@@ -204,7 +204,8 @@ class CogStatData:
                     skiprows = [1] if file_measurement_level else None
 
                     # Read the file
-                    self.data_frame = pd.read_csv(data, delimiter=delimiter, quotechar=quotechar, skiprows=skiprows)
+                    self.data_frame = pd.read_csv(data, delimiter=delimiter, quotechar=quotechar, skiprows=skiprows,
+                                                  skip_blank_lines=False)
                     self.import_source = _('text file - ')+data  # filename
                 # Import SPSS .sav file
                 elif filetype == '.sav':
@@ -242,7 +243,7 @@ class CogStatData:
                 # Read the clipboard
                 clipboard_file = io.StringIO(data)
                 self.data_frame = pd.read_csv(clipboard_file, delimiter=delimiter, quotechar=quotechar,
-                                              skiprows=skiprows)
+                                              skiprows=skiprows, skip_blank_lines=False)
                 self.import_source = _('clipboard')
 
         else:  # Invalid data source
