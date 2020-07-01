@@ -725,7 +725,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
                     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
                     data = pdf.dropna(subset=[dependent_var_name[0], groups[0]])
-                    anova_model = ols(str(dependent_var_name[0]+' ~ C('+groups[0]+')'), data=data).fit()
+                    anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (dependent_var_name[0], groups[0])), data=data).fit()
                     # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the
                     # same results
                     anova_result = anova_lm(anova_model)
