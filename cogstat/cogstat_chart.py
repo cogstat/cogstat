@@ -632,7 +632,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
                                 properties=_create_default_mosaic_properties(ct),
                                 labelizer=lambda x: _mosaic_labelizer(ct, x, '\n'))
-            ax = plt.subplot(111)
+            ax = fig.get_axes()[0]
             ax.set_xlabel(var_pair[1])
             ax.set_ylabel(var_pair[0])
             plt.title(_plt('Mosaic plot of the variables'))
@@ -805,7 +805,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
                                 properties=_create_default_mosaic_properties(ct),
                                 labelizer=lambda x: _mosaic_labelizer(ct, x, ' : '))
-            ax = plt.subplot(111)
+            ax = fig.get_axes()[0]
             ax.set_xlabel(group)
             ax.set_ylabel(var_names[0])
             plt.title(_plt('Mosaic plot of the groups'))
