@@ -501,11 +501,13 @@ class CogStatData:
         text_result = '\n'
 
         # Hypothesis tests
-        text_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
+        text_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n'
         if self.data_measlevs[var_name] in ['int', 'unk']:
-            text_result += _('Testing if mean deviates from the value %s.') % central_value + '</decision>\n'
+            text_result += '<decision>' + _('Testing if mean deviates from the value %s.') % central_value +\
+                           '</decision>\n'
         elif self.data_measlevs[var_name] == 'ord':
-            text_result += _('Testing if median deviates from the value %s.') % central_value + '</decision>\n'
+            text_result += '<decision>' + _('Testing if median deviates from the value %s.') % central_value +\
+                           '</decision>\n'
 
         if unknown_type:
             text_result += '<decision>' + warn_unknown_variable + '\n</decision>'
@@ -533,8 +535,7 @@ class CogStatData:
                 graph = cs_chart.create_variable_population_chart_2(self.data_frame[var_name].dropna(), var_name)
 
         elif meas_level == 'ord':
-            text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _(
-                'Running Wilcoxon signed-rank test.') + \
+            text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Wilcoxon signed-rank test.') + \
                            '</decision>\n'
             text_result2 = cs_hyp_test.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
                                                         value=central_value)
