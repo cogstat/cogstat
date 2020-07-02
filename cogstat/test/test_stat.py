@@ -197,8 +197,10 @@ class CogStatTestCase(unittest.TestCase):
         # Hedges'g (with CI)
             # CS formula: https://pingouin-stats.org/generated/pingouin.compute_effsize.html
             # https://pingouin-stats.org/generated/pingouin.compute_esci.html
-            # Based on the formula, calculated in LO Calc 6.4: 0.029614903724218, -0.328304454244963, 0.3875342616934
-        self.assertTrue("<td>Hedges' g</td>      <td>0.030</td>      <td>-0.328</td>      <td>0.388</td>" in result[5])
+            # Note that the latter (CI) method has changed in v0.3.5 https://pingouin-stats.org/changelog.html
+            # Based on the formula, calculated in LO Calc 7.0: 0.029614903724218, -0.34445335392457, 0.403683161373007
+            # Note that the last value is 0.404 in LO, not .403 as in pingouin
+        self.assertTrue("<td>Hedges' g</td>      <td>0.030</td>      <td>-0.344</td>      <td>0.403</td>" in result[5])
         self.assertTrue('<i>W</i> = 0.954, <i>p</i> = 0.215' in result[7])
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
@@ -296,8 +298,9 @@ class CogStatTestCase(unittest.TestCase):
         # Hedges'g (with CI)
             # CS formula: https://pingouin-stats.org/generated/pingouin.compute_effsize.html
             # https://pingouin-stats.org/generated/pingouin.compute_esci.html
-            # Based on the formula, calculated in LO Calc 6.4: -0.68514025075088, -1.42151557701357, 0.05123507551181
-        self.assertTrue("<td>Hedges' g</td>      <td>-0.685</td>      <td>-1.422</td>      <td>0.051</td>" in result[6])
+            # Note that the latter (CI) method has changed in v0.3.5 https://pingouin-stats.org/changelog.html
+            # Based on the formula, calculated in LO Calc 7.0: -0.685140250750879, -1.45474443187683, 0.084463930375068
+        self.assertTrue("<td>Hedges' g</td>      <td>-0.685</td>      <td>-1.455</td>      <td>0.084</td>" in result[6])
         self.assertTrue('(m: 1.0): <i>W</i> = 0.959, <i>p</i> = 0.683' in result[8])
         self.assertTrue('(m: 2.0): <i>W</i> = 0.984, <i>p</i> = 0.991' in result[8])
         self.assertTrue('<i>W</i> = 0.305, <i>p</i> = 0.585' in result[8])
