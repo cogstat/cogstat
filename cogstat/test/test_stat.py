@@ -300,11 +300,11 @@ class CogStatTestCase(unittest.TestCase):
             # https://pingouin-stats.org/generated/pingouin.compute_esci.html
             # Note that the latter (CI) method has changed in v0.3.5 https://pingouin-stats.org/changelog.html
             # Based on the formula, calculated in LO Calc 7.0: -0.685140250750879, -1.45474443187683, 0.084463930375068
+        self.assertTrue('<td>Difference between the two groups:</td>      <td>-2.0443</td>      <td>-4.2157</td>      <td>0.1272</td>' in result[5])
         self.assertTrue("<td>Hedges' g</td>      <td>-0.685</td>      <td>-1.455</td>      <td>0.084</td>" in result[6])
         self.assertTrue('(m: 1.0): <i>W</i> = 0.959, <i>p</i> = 0.683' in result[8])
         self.assertTrue('(m: 2.0): <i>W</i> = 0.984, <i>p</i> = 0.991' in result[8])
         self.assertTrue('<i>W</i> = 0.305, <i>p</i> = 0.585' in result[8])
-        self.assertTrue('-2.0443, 95% confidence interval [-4.2157, 0.1272]' in result[8])
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 1.3641059
             # jamovi v1.2.19.0, jpower 0.1.2: 1.36
