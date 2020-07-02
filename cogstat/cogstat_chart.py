@@ -547,7 +547,7 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         fig, rects = mosaic(mosaic_data, label_rotation=[0.0, 90.0],
                             properties=_create_default_mosaic_properties(mosaic_data),
                             labelizer=lambda x: _mosaic_labelizer(mosaic_data, x, '\n'))
-        ax = plt.subplot(111)
+        ax = fig.get_axes()[0]
         ax.set_xlabel(x)
         ax.set_ylabel(y)
         plt.title(_plt('Mosaic plot of the variables'))
