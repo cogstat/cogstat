@@ -485,7 +485,7 @@ class CogStatData:
             if image2:
                 result_list.append(image2)
         else:
-            result_list.append(text_result[:-2])
+            result_list.append(text_result)
 
         # Population estimations
         if meas_level in ['int', 'ord', 'unk']:
