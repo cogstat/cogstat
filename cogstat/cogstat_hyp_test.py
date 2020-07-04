@@ -20,7 +20,8 @@ import scikit_posthocs
 from scipy import stats
 import statsmodels.api as sm
 from statsmodels.sandbox.stats.runs import mcnemar
-from statsmodels.sandbox.stats.runs import cochrans_q
+    # TODO https://www.statsmodels.org/stable/generated/statsmodels.stats.contingency_tables.mcnemar.html
+from statsmodels.stats.contingency_tables import cochrans_q
 from statsmodels.stats.anova import AnovaRM
 from statsmodels.stats.weightstats import DescrStatsW
 
@@ -366,9 +367,10 @@ def mcnemar_test(pdf, var_names):
 
 
 def cochran_q_test(pdf, var_names):
-    q, p = cochrans_q(pdf[var_names])
+    q, p, df = cochrans_q(pdf[var_names], return_object=False)
+        # Note that df is not documented as of statsmodels 0.11.1
     return _("Result of Cochran's Q test") + ': <i>Q</i>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
-           (len(var_names)-1, len(pdf[var_names[0]]), q, cs_util.print_p(p))
+           (df, len(pdf[var_names[0]]), q, cs_util.print_p(p))
 
 
 def repeated_measures_anova(pdf, var_names, factors=[]):
