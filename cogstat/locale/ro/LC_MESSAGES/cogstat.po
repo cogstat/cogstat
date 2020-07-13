@@ -423,7 +423,7 @@ msgstr "Sursă: "
 
 #: .././cogstat.py:294
 msgid " variables and "
-msgstr " variabile și"
+msgstr " variabile și "
 
 #: .././cogstat.py:295
 msgid " cases"
@@ -1530,7 +1530,7 @@ msgstr "Numai variabile interval sunt disponibile"
 
 #: .././cogstat_gui.py:148 .././cogstat_gui.py:186
 msgid "Behavioral data &diffusion analysis"
-msgstr ""
+msgstr "Date de comportament &analiza de difuzie"
 
 #: .././cogstat_gui.py:156
 msgid "&Find text"
@@ -1542,13 +1542,13 @@ msgstr "Ctrl+F"
 
 #: .././cogstat_gui.py:606 .././cogstat_gui.py:611
 msgid "Diffusion analysis."
-msgstr ""
+msgstr "Analiza de difuzie"
 
 #: .././cogstat_hyp_test.py:152 .././cogstat_hyp_test.py:317
 #: .././cogstat_hyp_test.py:688 .././cogstat_hyp_test.py:808
 #: .././cogstat_hyp_test.py:957
 msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
-msgstr ""
+msgstr "Analiza puterii de sensibilitate. Mărimea efectului minim pentru a atinge puterea de 95%% cu volumul eșantionului prezent pentru testarea ipotezei prezentă (mărimea efectului este în %s):"
 
 #: .././cogstat_hyp_test.py:153 .././cogstat_hyp_test.py:318
 #: .././cogstat_hyp_test.py:689
@@ -1573,7 +1573,7 @@ msgstr "w"
 
 #: .././cogstat_chart.py:407
 msgid "Normal theoretical quantiles"
-msgstr ""
+msgstr "Quantilele normale teoretice"
 
 #: .././cogstat_chart.py:408
 msgid "Sample quantiles"
@@ -1585,19 +1585,19 @@ msgstr "Eroare: %s, Timp de reacție: %s, Participant: %s, Condiție(i): %s"
 
 #: .././cogstat_stat.py:202
 msgid "Mean percent correct with edge correction"
-msgstr ""
+msgstr "Procent mediu corectat cu corecția marginilor"
 
 #: .././cogstat_stat.py:203
 msgid "Mean correct reaction time"
-msgstr ""
+msgstr "Timp de reacție medie corectă"
 
 #: .././cogstat_stat.py:204
 msgid "Correct reaction time variance"
-msgstr ""
+msgstr "Variație a timpului de reacție corectă"
 
 #: .././cogstat_stat.py:216
 msgid "Drift rate"
-msgstr ""
+msgstr "Drift rate"
 
 #: .././cogstat_stat.py:217
 msgid "Threshold"
@@ -1605,7 +1605,7 @@ msgstr "Prag"
 
 #: .././cogstat_stat.py:218
 msgid "Nondecision time"
-msgstr ""
+msgstr "Timp de non-decizie"
 
 #: .././cogstat_stat.py:291 .././cogstat_stat.py:521
 msgid "low"
@@ -1621,19 +1621,19 @@ msgstr "Frecvențe relative"
 
 #: .././cogstat_stat.py:292 .././cogstat_stat.py:522
 msgid "95% confidence interval (multinomial proportions)"
-msgstr ""
+msgstr "95% interval de încredere (proporții multinomiale)"
 
 #: .././cogstat_stat.py:297 .././cogstat_stat.py:527
 msgid "Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid."
-msgstr ""
+msgstr "Unele dintre celule nu includ cel puțin 5 cazuri, astfel intervalele de încredere pot fi invalide."
 
 #: .././cogstat_stat.py:324
 msgid "Variation ratio"
-msgstr ""
+msgstr "Variații rapoarte"
 
 #: .././cogstat_stat.py:397
 msgid "Present confidence interval values for the mean suppose normality."
-msgstr ""
+msgstr "Valorile prezente ale intervalului de încredere pentru medie presupusă  normalitatea."
 
 #: .././cogstat_stat.py:399 .././cogstat_stat.py:406
 msgid "95% confidence interval (high)"
@@ -1645,12 +1645,12 @@ msgstr "95% interval de încredere (scăzut)"
 
 #: .././cogstat_stat.py:408 .././cogstat_stat.py:568 .././cogstat_stat.py:642
 msgid "Out of the data range"
-msgstr ""
+msgstr "În afara intervalului de date"
 
 #: .././cogstat_stat.py:461 .././cogstat_stat.py:464 .././cogstat_stat.py:673
 #: .././cogstat_stat.py:676
 msgid "Cramér's V measure of association"
-msgstr ""
+msgstr "Măsura de asociere a lui Cramér V"
 
 #: .././cogstat_stat.py:503 .././cogstat_stat.py:509
 msgid "Total"
@@ -1666,109 +1666,109 @@ msgstr "Procentaj"
 
 #: .././cogstat_stat.py:580 .././cogstat_stat.py:657
 msgid "Cohen's d"
-msgstr ""
+msgstr "Cohen's d"
 
 #: .././cogstat_stat.py:582 .././cogstat_stat.py:659
 msgid "Eta-squared"
-msgstr ""
+msgstr "eta pătrat"
 
 #: .././cogstat_stat.py:599 .././cogstat_stat.py:693
 msgid "Hedges' g"
-msgstr ""
+msgstr "Hedges' g"
 
 #: .././cogstat_stat.py:709
 msgid "Omega squared"
-msgstr ""
+msgstr "omega pătrat"
 
 #: .././cogstat.py:477 .././cogstat.py:575 .././cogstat.py:748
 #: .././cogstat.py:894
 msgid "Population parameter estimations"
-msgstr ""
+msgstr "Estimări ale parametrilor populație"
 
 #: ../ui/compare_groups.py:84 ../ui/explore_var_pairs.py:61
 #: ../ui/compare_vars.py:75
 msgid "Options..."
-msgstr ""
+msgstr "Opțiuni..."
 
 #: ../ui/find_text.py:42
 msgid "Find text"
-msgstr ""
+msgstr "Găsiți text"
 
 #: ../ui/find_text.py:43
 msgid "Text to find"
-msgstr ""
+msgstr "Text de găsit"
 
 #: ../ui/find_text.py:44
 msgid "Find next"
-msgstr ""
+msgstr "Găseşte următorul"
 
 #: ../ui/find_text.py:45
 msgid "Find previous"
-msgstr ""
+msgstr "Găsește anteriorul"
 
 #: .././cogstat.py:660 ../ui/diffusion.py:91
 msgid "Behavioral data diffusion analysis"
-msgstr ""
+msgstr "Analiza de difuzie ale datelor de comportament"
 
 #: ../ui/diffusion.py:93
 msgid "Participant"
-msgstr ""
+msgstr "Participant"
 
 #: ../ui/diffusion.py:94
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: ../ui/diffusion.py:95
 msgid "Reaction time (in sec)"
-msgstr ""
+msgstr "Timp de reacție (în sec)"
 
 #: ../ui/diffusion.py:96
 msgid "Condition(s)"
-msgstr ""
+msgstr "Condiție(i)"
 
 #: ../ui/xylims.py:62 ../ui/ylims.py:48
 msgid "Options"
-msgstr ""
+msgstr "Opțiuni"
 
 #: ../ui/xylims.py:63
 msgid "Minimum of x axis"
-msgstr ""
+msgstr "Minim de axis x"
 
 #: ../ui/xylims.py:64
 msgid "Maximum of x axis"
-msgstr ""
+msgstr "Maxim de axis x"
 
 #: ../ui/xylims.py:65 ../ui/ylims.py:49
 msgid "Minimum of y axis"
-msgstr ""
+msgstr "Minim de axis y"
 
 #: ../ui/xylims.py:66 ../ui/ylims.py:50
 msgid "Maximum of y axis"
-msgstr ""
+msgstr "Maxim de axis y"
 
 #: .././cogstat_gui.py:606
 msgid "At least the reaction time and the error variables should be given."
-msgstr ""
+msgstr "Trebuie să fie dat cel puțin timpul reacției și variabilele erorilor."
 
 #: .././cogstat_hyp_test.py:616
 msgid "At least two grouping variables."
-msgstr ""
+msgstr "Cel puțin două variabile de grupare."
 
 #: .././cogstat_stat.py:185
 msgid "Specify all the required parameters (reaction time, error, participant and condition variables)."
-msgstr ""
+msgstr "Specificați toți parametrii cerute (timp de reacție, erori, variabilele de participanți și de condiții)."
 
 #: .././cogstat_hyp_test.py:197 .././cogstat_hyp_test.py:474
 #: .././cogstat_hyp_test.py:608 .././cogstat.py:487 .././cogstat.py:582
 #: .././cogstat.py:600 .././cogstat.py:611
 msgid "Hypothesis tests"
-msgstr ""
+msgstr "Testarea ipotezei"
 
 #: .././cogstat.py:898
 msgid "Medians"
-msgstr ""
+msgstr "Medianele"
 
 #: .././cogstat_stat.py:446 .././cogstat_stat.py:573 .././cogstat_stat.py:648
 msgid "Standardized effect size"
-msgstr "Standardizarea volumului de efect"
+msgstr "Volumului standard de efect"
 
