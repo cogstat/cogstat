@@ -15,7 +15,7 @@ import itertools
 import logging
 import os
 
-__version__ = '2.0.0dev'
+__version__ = '2.0.0'
 
 import matplotlib
 matplotlib.use("qt5agg")
