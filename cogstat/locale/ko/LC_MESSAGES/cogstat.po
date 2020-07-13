@@ -62,7 +62,7 @@ msgstr "히스토그램"
 
 #: .././cogstat_stat.py:253
 msgid "N of valid cases: %g"
-msgstr ""
+msgstr "유효한 사례중 N: %g"
 
 #: .././cogstat.py:515
 msgid "Median: %0.*f"
@@ -154,7 +154,7 @@ msgstr "가장 두꺼운 줄은 %d 개의 사례를 표시합니다."
 
 #: .././cogstat_chart.py:637
 msgid "Means and 95% confidence intervals for the variables"
-msgstr ""
+msgstr "변수들의 평균값 및 95% 신뢰구간"
 
 #: .././cogstat_hyp_test.py:307
 msgid "Paired t-test requires two variables."
@@ -323,7 +323,7 @@ msgstr "F1"
 
 #: .././cogstat_gui.py:170
 msgid "&Preferences"
-msgstr ""
+msgstr "&개인 설정"
 
 #: .././cogstat_gui.py:171
 msgid "Request a &feature"
@@ -391,912 +391,912 @@ msgstr "출력 지우기"
 
 #: .././cogstat_gui.py:697
 msgid "Are you sure you want to delete the output?"
-msgstr ""
+msgstr "출력을 삭제하시겠습니까?"
 
 #: .././cogstat_gui.py:767
 msgid "About CogStat "
-msgstr ""
+msgstr "CogStat에 대해"
 
 #: .././cogstat_gui.py:777
 msgid "System components"
-msgstr ""
+msgstr "시스템 구성 요소"
 
 #: .././cogstat_gui.py:789
 msgid "Save output"
-msgstr ""
+msgstr "출력을 저장하기"
 
 #: .././cogstat_gui.py:790
 msgid "Output has unsaved results. Do you want to save it?"
-msgstr ""
+msgstr "출력은 저장되지 않은 결과 있습니다. 저장 하시겠습니까?"
 
 #: .././cogstat.py:292
 msgid "Data"
-msgstr ""
+msgstr "데이터"
 
 #: .././cogstat.py:293
 msgid "Source: "
-msgstr ""
+msgstr "원천: "
 
 #: .././cogstat.py:294
 msgid " variables and "
-msgstr ""
+msgstr " 변수들과 "
 
 #: .././cogstat.py:295
 msgid " cases"
-msgstr ""
+msgstr " 사례들"
 
 #: .././cogstat.py:307
 msgid " further cases are not displayed..."
-msgstr ""
+msgstr " 추가 사례들은 표시되지 않습니다…"
 
 #: .././cogstat_hyp_test.py:512 .././cogstat_hyp_test.py:561
 #: .././cogstat_hyp_test.py:619 .././cogstat.py:496
 msgid "Interval variable."
-msgstr ""
+msgstr "구간변수."
 
 #: .././cogstat_hyp_test.py:548 .././cogstat_hyp_test.py:597
 #: .././cogstat_hyp_test.py:624 .././cogstat.py:521
 msgid "Ordinal variable."
-msgstr ""
+msgstr "순서변수."
 
 #: .././cogstat.py:416
 msgid "Explore variable"
-msgstr ""
+msgstr "변수를 탐색하기"
 
 #: .././cogstat.py:417
 msgid "Exploring variable: "
-msgstr ""
+msgstr "변수 탐색: "
 
 #: .././cogstat.py:433 ../ui/var_properties.py:72
 msgid "Frequencies"
-msgstr ""
+msgstr "도수"
 
 #: .././cogstat.py:461
 msgid "Normality"
-msgstr ""
+msgstr "정규성"
 
 #: .././cogstat.py:549
 msgid "Exploring variable pair: "
-msgstr ""
+msgstr "변수쌍을 탐색하기: "
 
 #: .././cogstat_hyp_test.py:211 .././cogstat_hyp_test.py:247
 #: .././cogstat.py:584
 msgid "Interval variables."
-msgstr ""
+msgstr "구간변수들."
 
 #: .././cogstat.py:585
 msgid "Running Pearson's and Spearman's correlation."
-msgstr ""
+msgstr "피어슨과  스피어맨의 상관 관계를 실행하기."
 
 #: .././cogstat_stat.py:449 .././cogstat_stat.py:472 .././cogstat.py:588
 msgid "Pearson's correlation"
-msgstr ""
+msgstr "피어슨의 상관 관계"
 
 #: .././cogstat.py:593
 msgid "Linear regression"
-msgstr ""
+msgstr "선형회귀"
 
 #: .././cogstat_stat.py:451 .././cogstat_stat.py:454 .././cogstat_stat.py:478
 #: .././cogstat.py:596 .././cogstat.py:606
 msgid "Spearman's rank-order correlation"
-msgstr ""
+msgstr "스피어 맨의 순위 관계"
 
 #: .././cogstat_hyp_test.py:232 .././cogstat_hyp_test.py:268
 #: .././cogstat.py:602
 msgid "Ordinal variables."
-msgstr ""
+msgstr "순서변수들."
 
 #: .././cogstat.py:602
 msgid "Running Spearman's correlation."
-msgstr ""
+msgstr "스피어맨의 상관 관계를 실행하기."
 
 #: .././cogstat.py:614
 msgid "Not all variables are nominal. Consider comparing groups."
-msgstr ""
+msgstr "변수들중에 비정규변수가 있습니디. 그룹 비교를 고려하세요."
 
 #: .././cogstat.py:615
 msgid "Nominal variables."
-msgstr ""
+msgstr "정규변수들"
 
 #: .././cogstat.py:615
 msgid "Running Cramér's V."
-msgstr ""
+msgstr "크래머의 뷔를 실행하기."
 
 #: .././cogstat.py:675
 msgid "Variables to compare: "
-msgstr ""
+msgstr "비교할 변수들: "
 
 #: .././cogstat.py:692
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
-msgstr ""
+msgstr "측정 수준이 다른 변수들을 비교할 수 없습니다. 동일한 측정 수준을 갖도록 더 높은 측정 수준을 낮은 수준으로 다운그레이드 할 수 있습니다. "
 
 #: .././cogstat_hyp_test.py:206
 msgid "At least two variables required."
-msgstr ""
+msgstr "최소한 두 개의 변수가 필요합니다"
 
 #: .././cogstat_hyp_test.py:208
 msgid "Two variables. "
-msgstr ""
+msgstr "변수들 두 개."
 
 #: .././cogstat_hyp_test.py:214 .././cogstat_hyp_test.py:251
 #: .././cogstat_hyp_test.py:494 .././cogstat_hyp_test.py:516
 #: .././cogstat_hyp_test.py:565 .././cogstat.py:500
 msgid "Checking for normality."
-msgstr ""
+msgstr "정규성을 점검하기."
 
 #: .././cogstat_hyp_test.py:500
 msgid "Normality is violated in variable "
-msgstr ""
+msgstr "변수 정규성이 다음과 같은 변수에서 위반됩니다."
 
 #: .././cogstat_hyp_test.py:225
 msgid "Normality is not violated. >> Running paired t-test."
-msgstr ""
+msgstr "정규성이 위반되지 않습니다. >> 대응표본 t-검정을 실행하기."
 
 #: .././cogstat_hyp_test.py:229 .././cogstat_hyp_test.py:233
 msgid "Running paired Wilcoxon test."
-msgstr ""
+msgstr "윌콕슨 부호순위검정을 실행하기."
 
 #: .././cogstat_hyp_test.py:243 .././cogstat_hyp_test.py:279
 #: .././cogstat_hyp_test.py:288 .././cogstat_hyp_test.py:291
 #: .././cogstat_hyp_test.py:625 .././cogstat_hyp_test.py:628
 #: .././cogstat.py:527
 msgid "Sorry, not implemented yet."
-msgstr ""
+msgstr "죄송하지만 아직 구현되지 않았습니다."
 
 #: .././cogstat_hyp_test.py:245
 msgid "More than two variables. "
-msgstr ""
+msgstr "둘 이상의 변수들. "
 
 #: .././cogstat_hyp_test.py:265 .././cogstat_hyp_test.py:269
 msgid "Running Friedman test."
-msgstr ""
+msgstr "프리드만의 검정을 실행하기."
 
 #: .././cogstat_stat.py:129 .././cogstat.py:800
 msgid "Dependent variable: "
-msgstr ""
+msgstr "종속변수: "
 
 #: .././cogstat.py:801
 msgid "Group(s): "
-msgstr ""
+msgstr "그룹(들): "
 
 #: .././cogstat_hyp_test.py:482
 msgid "One grouping variable. "
-msgstr ""
+msgstr "하나의 그룹화 변수."
 
 #: .././cogstat_hyp_test.py:484
 msgid "There is only one group. At least two groups required."
-msgstr ""
+msgstr "하나의 그룹 만 있습니다. 최소한 두 그룹이 필요합니다."
 
 #: .././cogstat_hyp_test.py:488
 msgid "Two groups. "
-msgstr ""
+msgstr "그룹 두개"
 
 #: .././cogstat_hyp_test.py:492
 msgid "One group contains only one case. >> Choosing modified t-test."
-msgstr ""
+msgstr "한 그룹에는 하나의 사례 만 포함됩니다. >> 수정 된 t- 검정을 선택합니다."
 
 #: .././cogstat_hyp_test.py:501
 msgid "group "
-msgstr ""
+msgstr "그룹 "
 
 #: .././cogstat_hyp_test.py:502 .././cogstat_hyp_test.py:540
 #: .././cogstat_hyp_test.py:549
 msgid "Running Mann-Whitney test."
-msgstr ""
+msgstr "맨-휘트니 검정을 실행하기."
 
 #: .././cogstat_hyp_test.py:505
 msgid "Normality is not violated. >> Running modified t-test."
-msgstr ""
+msgstr "정규성이 위반하지 않습니다. >> 수정 된 t-검정을 실행합니다."
 
 #: .././cogstat_hyp_test.py:552 .././cogstat_hyp_test.py:601
 #: .././cogstat_hyp_test.py:627
 msgid "Nominal variable."
-msgstr ""
+msgstr "명목변수."
 
 #: .././cogstat_hyp_test.py:553 .././cogstat_hyp_test.py:601
 msgid "Running Chi-square test."
-msgstr ""
+msgstr "카이제곱 검정을 실행하기."
 
 #: .././cogstat_hyp_test.py:559
 msgid "More than two groups."
-msgstr ""
+msgstr "둘 이상의 그룹들."
 
 #: .././cogstat_hyp_test.py:593 .././cogstat_hyp_test.py:597
 msgid "Running Kruskal-Wallis test."
-msgstr ""
+msgstr "크루스칼-왈리스 검정을 실행하기."
 
 #: .././cogstat.py:1207
 msgid "Several grouping variables."
-msgstr ""
+msgstr "여러 그룹화 변수들."
 
 #: .././cogstat_dialogs.py:25 .././cogstat_dialogs.py:29
 msgid "Open data file"
-msgstr ""
+msgstr "데이터 파일 열기."
 
 #: .././cogstat_dialogs.py:33
 msgid "Save result file"
-msgstr ""
+msgstr "결과 파일 저장하기"
 
 #: .././cogstat_gui.py:144 .././cogstat_gui.py:185
 msgid "&Explore variable"
-msgstr ""
+msgstr "&변수를 탐색하기"
 
 #: .././cogstat_gui.py:398 .././cogstat.py:237
 msgid "Import failed"
-msgstr ""
+msgstr "가져오기 실패했습니다"
 
 #: .././cogstat_stat.py:268 .././cogstat_stat.py:271
 msgid "Freq"
-msgstr ""
+msgstr "도수"
 
 #: .././cogstat_stat.py:272 .././cogstat_stat.py:274 .././cogstat_stat.py:275
 msgid "Rel freq"
-msgstr ""
+msgstr "상대 도수"
 
 #: .././cogstat_stat.py:271
 msgid "Cum freq"
-msgstr ""
+msgstr "누적도수"
 
 #: .././cogstat_stat.py:274 .././cogstat_stat.py:276
 msgid "Cum rel freq"
-msgstr ""
+msgstr "누적상대도수"
 
 #: .././cogstat_stat.py:1023
 msgid "Cramér's V measure of association cannot be computed (division by zero)."
-msgstr ""
+msgstr "크라메르의 비 연관성 측도를 계산할 수 없습니다 (0으로 나누다)."
 
 #: .././cogstat.py:123 .././cogstat.py:131
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
-msgstr ""
+msgstr "측정 수준 수가 변수 수와 일치하지 않습니다. 측정 수준 사양은 무시됩니다."
 
 #: .././cogstat.py:173
 msgid "pandas dataframe"
-msgstr ""
+msgstr "판다스 데이터프레임"
 
 #: .././cogstat.py:199
 msgid "text file - "
-msgstr ""
+msgstr "텍스트 파일"
 
 #: .././cogstat.py:234
 msgid "clipboard"
-msgstr ""
+msgstr "클립 보드"
 
 #: .././cogstat.py:303
 msgid "Type"
-msgstr ""
+msgstr "종류"
 
 #: .././cogstat.py:303
 msgid "Level"
-msgstr ""
+msgstr "레벨"
 
 #: .././cogstat.py:323
 msgid "Filtering"
-msgstr ""
+msgstr "필터링"
 
 #: .././cogstat.py:327
 msgid "Filtering is switched off."
-msgstr ""
+msgstr "필터링이 꺼져 있습니다."
 
 #: .././cogstat.py:342
 msgid "Filtering based on %s.\n"
 ""
-msgstr ""
+msgstr "%s 에 근거한 필터링. "
 
 #: .././cogstat.py:342 .././cogstat.py:359
 msgid " (2 SD)"
-msgstr ""
+msgstr " (2 표준편차)"
 
 #: .././cogstat.py:344
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
-msgstr ""
+msgstr "범위를 벗어난 사례는 제외됩니다: %0.*f  --  %0.*f"
 
 #: .././cogstat.py:351
 msgid "The following cases will be excluded: "
-msgstr ""
+msgstr "다음과 같은 사례는 제외됩니다:"
 
 #: .././cogstat.py:355
 msgid "No cases were excluded."
-msgstr ""
+msgstr "제외된 사례가 없습니다."
 
 #: .././cogstat_hyp_test.py:524 .././cogstat_hyp_test.py:573
 msgid "Checking for homogeneity of variance across groups."
-msgstr ""
+msgstr "그룹 간 분산의 동질성을 확인합니다."
 
 #: .././cogstat_gui.py:51
 msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
-msgstr ""
+msgstr "%s 죄송합니다. 문제가 발생했습니다. CogStat이 분석을 실행할 수 없습니다. 신고하고 싶을 수도 있습니다."
 
 #: .././cogstat_gui.py:505
 msgid "Explore variable."
-msgstr ""
+msgstr "변수를 탐색하기."
 
 #: .././cogstat_gui.py:530 .././cogstat_gui.py:546
 msgid "Explore variable pair."
-msgstr ""
+msgstr "변수 쌍을 탐색하기."
 
 #: .././cogstat_gui.py:573 .././cogstat_gui.py:578
 msgid "Pivot table."
-msgstr ""
+msgstr "피벗테이블."
 
 #: .././cogstat_gui.py:641 .././cogstat_gui.py:649
 msgid "Compare variables."
-msgstr ""
+msgstr "변수들을 비교하기."
 
 #: .././cogstat_gui.py:677 .././cogstat_gui.py:689
 msgid "Compare groups."
-msgstr ""
+msgstr "그룹들을 비교하기."
 
 #: .././cogstat_hyp_test.py:85
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
-msgstr ""
+msgstr "%s%s의 상수 변수에 대한 정규성을 확인할 수 없습니다."
 
 #: .././cogstat_hyp_test.py:100
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
-msgstr ""
+msgstr "변수 %s%s의 정규성을 테스트하기에는 표본크기가 너무 작습니다."
 
 #: .././cogstat_hyp_test.py:355
 msgid "Result of the McNemar test"
-msgstr ""
+msgstr "맥니머 검정의 결과"
 
 #: .././cogstat_hyp_test.py:361
 msgid "Result of Cochran's Q test"
-msgstr ""
+msgstr "코크란 큐 검정의 결과"
 
 #: .././cogstat_hyp_test.py:378
 msgid "Result of Mauchly's test to check sphericity"
-msgstr ""
+msgstr "머쉬리의 구형성 검정의 결과"
 
 #: .././cogstat_hyp_test.py:382
 msgid "Sphericity is violated."
-msgstr ""
+msgstr "구형성이 위반되었습니다."
 
 #: .././cogstat_hyp_test.py:383
 msgid "Using Greenhouse-Geisser correction."
-msgstr ""
+msgstr "그린하우스-가이서 수정을 사용하기."
 
 #: .././cogstat_hyp_test.py:384 .././cogstat_hyp_test.py:389
 msgid "Result of repeated measures ANOVA"
-msgstr ""
+msgstr "반복측정 분산 분석의 결과"
 
 #: .././cogstat_hyp_test.py:388
 msgid "Sphericity is not violated. "
-msgstr ""
+msgstr "구형성이 위반되지 않습니다. "
 
 #: .././cogstat_hyp_test.py:395
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
-msgstr ""
+msgstr "홈-본페로니 수정과 변수를 쌍별으로 비교하기"
 
 #: .././cogstat_hyp_test.py:759
 msgid "Result of Welch's unequal variances t-test:"
-msgstr ""
+msgstr "웰치 t-검정의 결과:"
 
 #: .././cogstat_hyp_test.py:212
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
-msgstr ""
+msgstr "가정에 따라 대응표본 t-검정이나 윌콕슨 부호순위검정을 선택합니다."
 
 #: .././cogstat_hyp_test.py:228 .././cogstat_hyp_test.py:264
 msgid "Normality is violated in variable(s): %s."
-msgstr ""
+msgstr "다음과 같은 변수(들)에서 정규성이 위반되었습니다:  %s."
 
 #: .././cogstat_hyp_test.py:237 .././cogstat_hyp_test.py:273
 msgid "Nominal dichotomous variables."
-msgstr ""
+msgstr "명목 이분적 변수들."
 
 #: .././cogstat_hyp_test.py:238
 msgid "Running McNemar test."
-msgstr ""
+msgstr "맥니머 검정을 실행하기"
 
 #: .././cogstat_hyp_test.py:242 .././cogstat_hyp_test.py:278
 msgid "Nominal non dichotomous variables."
-msgstr ""
+msgstr "명목 비이분적 변수들."
 
 #: .././cogstat_hyp_test.py:248
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
-msgstr ""
+msgstr "가정에 따라 반복측정 분산 분석이나 프리드만의 검정을 선택합니다."
 
 #: .././cogstat_hyp_test.py:274
 msgid "Running Cochran's Q test."
-msgstr ""
+msgstr "코크란 큐 검정을 실행하기."
 
 #: .././cogstat_hyp_test.py:514
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
-msgstr ""
+msgstr "가정에 따라이표본 t-검정, 맨-휘트니 검정이나 웰치 검정을 선택합니다."
 
 #: .././cogstat_hyp_test.py:538
 msgid "Normality is violated in variable %s, group(s) %s."
-msgstr ""
+msgstr "변수 %s, 그룹(들) %s에서 정규성이 위반됩니다."
 
 #: .././cogstat_hyp_test.py:543
 msgid "Homeogeneity of variance violated in variable %s."
-msgstr ""
+msgstr "분산분산 동질성이 변수 %s에 위반되었습니다."
 
 #: .././cogstat_hyp_test.py:544
 msgid "Running Welch's t-test."
-msgstr ""
+msgstr "웰치 t-검정의 결과:"
 
 #: .././cogstat_hyp_test.py:562
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
-msgstr ""
+msgstr "가정에 따라 일원배치 분산 분석이나크루스칼-왈리스 검정을 선택합니다."
 
 #: .././cogstat_hyp_test.py:588
 msgid "Normality is violated in variable %s, group(s) %s. "
-msgstr ""
+msgstr "변수 %s, 그룹(들) %s에서 정규성이 위반됩니다. "
 
 #: .././cogstat_hyp_test.py:591
 msgid "Homeogeneity of variance violated in variable %s. "
-msgstr ""
+msgstr "분산분산 동질성이 변수 %s에 위반되었습니다."
 
 #: .././cogstat_hyp_test.py:260 .././cogstat.py:505
 msgid "Normality is not violated."
-msgstr ""
+msgstr "정규성이 위반되지 않았습니다."
 
 #: .././cogstat_hyp_test.py:261
 msgid "Running repeated measures one-way ANOVA."
-msgstr ""
+msgstr "반복측정 일원배치 분산 분석을 실행하기."
 
 #: .././cogstat_gui.py:140
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: .././cogstat_gui.py:413
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
-msgstr ""
+msgstr "데이터를 열리디. 문제가 발생했습니다. CogStat은 데이터를 열수 없습니다. 문제를 보고 할 수 있습니다."
 
 #: .././cogstat_stat.py:255
 msgid "N of missing cases: %g"
-msgstr ""
+msgstr "누락 된 사례에서 N: %g"
 
 #: .././cogstat_chart.py:247 .././cogstat_chart.py:332
 #: .././cogstat_chart.py:514 .././cogstat_chart.py:515
 #: .././cogstat_chart.py:734
 msgid "Rank of %s"
-msgstr ""
+msgstr "%s의 순위"
 
 #: .././cogstat_hyp_test.py:187 .././cogstat_hyp_test.py:346
 msgid "Result of Wilcoxon signed-rank test"
-msgstr ""
+msgstr "윌콕슨 부호순위검정의 결과"
 
 #: .././cogstat_chart.py:249 .././cogstat.py:422 .././cogstat.py:555
 #: .././cogstat.py:699 .././cogstat.py:810
 msgid "Raw data"
-msgstr ""
+msgstr "원자료"
 
 #: .././cogstat.py:429 .././cogstat.py:571 .././cogstat.py:721
 #: .././cogstat.py:861
 msgid "Sample properties"
-msgstr ""
+msgstr "샘플 속성"
 
 #: .././cogstat.py:530
 msgid "Population parameter estimations and tests"
-msgstr ""
+msgstr "모집단 모수 추정 및 검정들"
 
 #: .././cogstat.py:537 .././cogstat.py:635 .././cogstat.py:663
 #: .././cogstat.py:678
 msgid "Hypothesis test: "
-msgstr ""
+msgstr "가설검정: "
 
 #: .././cogstat.py:489
 msgid "Testing if mean deviates from the value %s."
-msgstr ""
+msgstr "평균이 %s 값과 다른지 테스트합니다."
 
 #: .././cogstat.py:491
 msgid "Testing if median deviates from the value %s."
-msgstr ""
+msgstr "중앙값이 %s 값과 다른지 테스트합니다."
 
 #: .././cogstat.py:498
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
-msgstr ""
+msgstr "가정에 따라 단일표본 t-검정이나 윌콕슨 부호순위검정을 선택합니다."
 
 #: .././cogstat.py:506
 msgid "Running one-sample t-test."
-msgstr ""
+msgstr "단일표본 t-검정을 실행하기."
 
 #: .././cogstat.py:513
 msgid "Normality is violated."
-msgstr ""
+msgstr "정규성이 위반됩니다."
 
 #: .././cogstat.py:514 .././cogstat.py:522
 msgid "Running Wilcoxon signed-rank test."
-msgstr ""
+msgstr "윌콕슨 부호순위검정을 실행하기."
 
 #: .././cogstat.py:457 .././cogstat.py:574 .././cogstat.py:745
 #: .././cogstat.py:893
 msgid "Population properties"
-msgstr ""
+msgstr "모집단의 속성"
 
 #: .././cogstat.py:583 .././cogstat.py:601
 msgid "Testing if correlation differs from 0."
-msgstr ""
+msgstr "상관이 0과 다른지 검정합니다."
 
 #: .././cogstat.py:612
 msgid "Testing if variables are independent."
-msgstr ""
+msgstr "변수가 독립변수인지 검정합니다."
 
 #: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
 msgid "Hypothesis testing: "
-msgstr ""
+msgstr "가설을 검정하기: "
 
 #: .././cogstat_hyp_test.py:199 .././cogstat_hyp_test.py:476
 #: .././cogstat_hyp_test.py:610
 msgid "Testing if the means are the same."
-msgstr ""
+msgstr "평균들은 같은지 검정합니다."
 
 #: .././cogstat_hyp_test.py:201 .././cogstat_hyp_test.py:478
 #: .././cogstat_hyp_test.py:612
 msgid "Testing if the medians are the same."
-msgstr ""
+msgstr "중앙값들은 같은지 검정합니다."
 
 #: .././cogstat_hyp_test.py:203 .././cogstat_hyp_test.py:480
 #: .././cogstat_hyp_test.py:614
 msgid "Testing if the distributions are the same."
-msgstr ""
+msgstr "분포들은 같은지 검정합니다."
 
 #: .././cogstat_hyp_test.py:534
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
-msgstr ""
+msgstr "정규성과 분산의 동질성이 위배되지 않습니다.>> 이표본 t-검정 실행하기."
 
 #: .././cogstat_hyp_test.py:582
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
-msgstr ""
+msgstr "정규성과 분산의 동질성이 위배되지 않습니다.>> 일원 분산 분석을 실행하기."
 
 #: .././cogstat_gui.py:767
 msgid "Simple automatic data analysis software"
-msgstr ""
+msgstr "간단한 자동 데이터 분석 소프트웨어"
 
 #: .././cogstat_gui.py:767
 msgid "Visit CogStat website"
-msgstr ""
+msgstr "CogStat 웹사이트를 방문하기"
 
 #: .././cogstat_gui.py:231
 msgid "Welcome to CogStat!"
-msgstr ""
+msgstr "CogStat에 오신 것을 환영합니다!"
 
 #: .././cogstat_gui.py:232
 msgid "CogStat makes statistical analysis more simple and efficient."
-msgstr ""
+msgstr "CogStat는 통계 분석을 더 간단하고 효율적으로 만듭니다."
 
 #: .././cogstat_gui.py:233
 msgid "To start working open a data file or paste your data from a spreadsheet."
-msgstr ""
+msgstr "작업을 시작하려면 데이터 파일을 열거나 스프레드시트에서 데이터를 붙여 넣습니다."
 
 #: .././cogstat_chart.py:246
 msgid "Rank of the raw data"
-msgstr ""
+msgstr "원자료의 순위"
 
 #: .././cogstat_chart.py:317
 msgid "Histogram of rank data with individual data and boxplot"
-msgstr ""
+msgstr "순위 데이터의 히스토그램과 개별데이터 및 박스플롯"
 
 #: .././cogstat_chart.py:513
 msgid "Scatterplot of the rank of the variables"
-msgstr ""
+msgstr "변수 순위의 산점도"
 
 #: .././cogstat_chart.py:565
 msgid "Individual data of the variables"
-msgstr ""
+msgstr "변수의 개별 데이터"
 
 #: .././cogstat_chart.py:736
 msgid "Individual data of the rank data of the groups"
-msgstr ""
+msgstr "그룹들의 순위 데이터의 개별 데이터"
 
 #: .././cogstat_stat.py:1109
 msgid "Boxplot and individual data of the rank data of the groups"
-msgstr ""
+msgstr "박스플롯 및 그룹들의 순위 데이터의 개별 데이터"
 
 #: .././cogstat_chart.py:752
 msgid "Individual data of the groups"
-msgstr ""
+msgstr "변수의 개별 데이터"
 
 #: .././cogstat_stat.py:398 .././cogstat_stat.py:404 .././cogstat_stat.py:467
 #: .././cogstat_stat.py:558 .././cogstat_stat.py:565 .././cogstat_stat.py:592
 #: .././cogstat_stat.py:627 .././cogstat_stat.py:634 .././cogstat_stat.py:684
 #: .././cogstat.py:576
 msgid "Point estimation"
-msgstr ""
+msgstr "포인트 추정"
 
 #: .././cogstat_stat.py:467 .././cogstat.py:576
 msgid "95% confidence interval"
-msgstr ""
+msgstr "95% 신뢰 구간"
 
 #: .././cogstat_stat.py:121 .././cogstat_stat.py:316 .././cogstat_stat.py:402
 #: ../ui/pivot.py:113
 msgid "Standard deviation"
-msgstr ""
+msgstr "표준편차"
 
 #: .././cogstat.py:705 .././cogstat.py:827
 msgid "N of valid cases"
-msgstr ""
+msgstr "유효한 사례중N"
 
 #: .././cogstat_gui.py:111
 msgid "Update available"
-msgstr ""
+msgstr "업데이트 가능합니다"
 
 #: .././cogstat_gui.py:112
 msgid "New version is available."
-msgstr ""
+msgstr "새로운 버전이 있습니다."
 
 #: .././cogstat_gui.py:113
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
-msgstr ""
+msgstr "새로운 버전을<br>여기서 <a href \"%s\">CogStat download page</a> 다운로드 할 수 있습니다"
 
 #: .././cogstat_gui.py:145 .././cogstat_gui.py:187
 msgid "Explore relation of variable &pair"
-msgstr ""
+msgstr "변수의 관계 탐색 &쌍"
 
 #: .././cogstat_gui.py:150 .././cogstat_gui.py:187
 msgid "Compare repeated measures va&riables"
-msgstr ""
+msgstr "반복측정 변수들을 비교하기"
 
 #: .././cogstat_stat.py:317
 msgid "Minimum"
-msgstr ""
+msgstr "최소값"
 
 #: .././cogstat_stat.py:318
 msgid "Maximum"
-msgstr ""
+msgstr "최대값"
 
 #: .././cogstat_stat.py:120 .././cogstat_stat.py:321 ../ui/pivot.py:112
 msgid "Upper quartile"
-msgstr ""
+msgstr "제3 사분위수"
 
 #: .././cogstat_stat.py:349
 msgid "Descriptives for the variables"
-msgstr ""
+msgstr "변수들에 대한 기술"
 
 #: .././cogstat_stat.py:365
 msgid "Descriptives for the groups"
-msgstr ""
+msgstr "그룹들에 대한 기술"
 
 #: .././cogstat_stat.py:504 .././cogstat_stat.py:512 .././cogstat_stat.py:522
 msgid "Contingency table"
-msgstr ""
+msgstr "분할표"
 
 #: .././cogstat_stat.py:936
 msgid "Result of two-way ANOVA:\n"
 ""
-msgstr ""
+msgstr "이원 분산분석"
 
 #: .././cogstat_hyp_test.py:867
 msgid "Main effect of %s: "
-msgstr ""
+msgstr "%s의 주효과:"
 
 #: .././cogstat_stat.py:943
 msgid "Interaction of %s and %s: "
-msgstr ""
+msgstr "%s와 %s의 상호작용: "
 
 #: .././cogstat.py:214
 msgid "SPSS file - "
-msgstr ""
+msgstr "SPSS 파일 - "
 
 #: .././cogstat.py:548
 msgid "Explore relation of variable pair"
-msgstr ""
+msgstr "변수쌍의 관계를 탐색하기"
 
 #: .././cogstat.py:673 ../ui/compare_vars.py:68
 msgid "Compare repeated measures variables"
-msgstr ""
+msgstr "반복측정 변수들을 비교하기"
 
 #: .././cogstat.py:706 .././cogstat.py:830
 msgid "N of missing cases"
-msgstr ""
+msgstr "누락 된 사례중 N"
 
 #: .././cogstat.py:1192
 msgid "Two grouping variables. "
-msgstr ""
+msgstr "두 개의 그룹화 변수들."
 
 #: .././cogstat_hyp_test.py:620
 msgid "Choosing factorial ANOVA."
-msgstr ""
+msgstr "계승 분산분석을 선택합니다."
 
 #: .././cogstat.py:561
 msgid "N of valid pairs"
-msgstr ""
+msgstr "유효한 쌍 중 N"
 
 #: .././cogstat.py:562
 msgid "N of missing pairs"
-msgstr ""
+msgstr "누락된 쌍 중 N"
 
 #: .././cogstat.py:937
 msgid "N of missing group cases"
-msgstr ""
+msgstr "누락 된 그룹 사례 중 N"
 
 #: .././cogstat.py:845
 msgid "N of missing grouping variable in %s"
-msgstr ""
+msgstr "%s에 누락된 그룹화 변수들 중 N"
 
 #: .././cogstat_stat.py:322
 msgid "Skewness"
-msgstr ""
+msgstr "왜도"
 
 #: .././cogstat_stat.py:323
 msgid "Kurtosis"
-msgstr ""
+msgstr "첨도"
 
 #: .././cogstat_stat.py:319
 msgid "Range"
-msgstr ""
+msgstr "범위"
 
 #: .././cogstat_stat.py:349
 msgid "Descriptives for the variable"
-msgstr ""
+msgstr "변수에 대한 기술"
 
 #: .././cogstat.py:40
 msgid "The measurement levels of the variables are not set. Set them in your data source."
-msgstr ""
+msgstr "변수의 측정 수준이 설정되지 않았습니다. 데이터 소스에서 설정하세요."
 
 #: .././cogstat_gui.py:52 .././cogstat_gui.py:414
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
-msgstr ""
+msgstr "문제를 신고하는 방법에 대해 더 자세히 알아보세요 <a href = \"%s\">here</a>."
 
 #: .././cogstat_gui.py:234
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
-msgstr ""
+msgstr "CogStat에 대한 더 자세한 정보를 CogStat의 <a href = \"https://www.cogstat.org\">웹 사이트상에서</a> 찾아보고나 사용설명서를<a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">읽어보세요</a>"
 
 #: .././cogstat_hyp_test.py:38 .././cogstat.py:41 .././cogstat.py:157
 #: .././cogstat.py:165 .././cogstat.py:270 .././cogstat.py:278
 msgid "Read more about this issue <a href = \"%s\">here</a>."
-msgstr ""
+msgstr "이 문제에 대해 더 자세히 알아보세요 <a href = \"%s\">here</a>."
 
 #: .././cogstat_hyp_test.py:738
 msgid "Result of slope test with %s:"
-msgstr ""
+msgstr "기울기 검정의 결과 과 %s:"
 
 #: .././cogstat.py:154
 msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
-msgstr ""
+msgstr "CogStat에서 문자열 변수는 간격 또는 서수 변수 일 수 없습니다. 해당 변수는 자동으로 명목변수로 설정됩니다."
 
 #: .././cogstat.py:156 .././cogstat.py:164 .././cogstat.py:269
 #: .././cogstat.py:277
 msgid "You can fix this in your data source."
-msgstr ""
+msgstr "당신의 데이터 소스 내에서 고칠 수 있습니다."
 
 #: .././cogstat.py:163
 msgid "The measurement level was not set for all variables."
-msgstr ""
+msgstr "모든 변수에 대해 측정 수준이 설정되지 않았습니다."
 
 #: .././cogstat.py:267
 msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "영어 이외의 다른 언어 문자가 포함된 일부 변수 이름(들) 때문에 일부 분석에서는 문제가 발생할 수 있습니다: %s."
 
 #: .././cogstat.py:275
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "영어 이외의 다른 언어 문자가 포함된 일부 변수 때문에 일부 분석에서 문제가 발생할 수 있습니다: %s."
 
 #: .././cogstat.py:627 .././cogstat.py:656 .././cogstat.py:672
 #: .././cogstat.py:1085
 msgid "Standardized effect size:"
-msgstr ""
+msgstr "표준화된 효과 크기:"
 
 #: .././cogstat_gui.py:134
 msgid "Open d&emo data file"
-msgstr ""
+msgstr "데모 데이터 파일을 열기"
 
 #: .././cogstat_gui.py:134
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: .././cogstat_gui.py:158
 msgid "&Increase text size"
-msgstr ""
+msgstr "&텍스트 크기를 늘리기"
 
 #: .././cogstat_gui.py:158
 msgid "Ctrl++"
-msgstr ""
+msgstr "Ctrl++"
 
 #: .././cogstat_gui.py:159
 msgid "&Decrease text size"
-msgstr ""
+msgstr "&텍스트 크기를 감소하기"
 
 #: .././cogstat_gui.py:159
 msgid "Ctrl+-"
-msgstr ""
+msgstr "Ctrl+-"
 
 #: .././cogstat_gui.py:164
 msgid "&Save results"
-msgstr ""
+msgstr "&결과등을 저장하기"
 
 #: .././cogstat_gui.py:165
 msgid "Save results &as"
-msgstr ""
+msgstr "결과들을 &다른 이름으로 저장하기"
 
 #: .././cogstat_chart.py:567
 msgid "Boxplots and individual data of the variables"
-msgstr ""
+msgstr "박스플롯 및 변수들의 개별 데이터"
 
 #: .././cogstat_chart.py:723
 msgid "Largest individual sign displays %d cases."
-msgstr ""
+msgstr " 가장 큰 개별 기호는 %d 개의 사례를 표시합니다."
 
 #: .././cogstat_chart.py:738
 msgid "Boxplots and individual data of the rank data of the groups"
-msgstr ""
+msgstr "그룹의 순위 데이터의 박스플롯 및 개별 데이터"
 
 #: .././cogstat_chart.py:754
 msgid "Boxplots and individual data of the groups"
-msgstr ""
+msgstr "그룹들의 박스플롯 및 개별 데이터"
 
 #: .././cogstat_stat.py:562 .././cogstat_stat.py:567 .././cogstat_stat.py:592
 #: .././cogstat_stat.py:630 .././cogstat_stat.py:639 .././cogstat_stat.py:684
 msgid "95% CI (low)"
-msgstr ""
+msgstr "95% 신뢰구간 (하한)"
 
 #: .././cogstat_stat.py:563 .././cogstat_stat.py:567 .././cogstat_stat.py:592
 #: .././cogstat_stat.py:631 .././cogstat_stat.py:640 .././cogstat_stat.py:684
 msgid "95% CI (high)"
-msgstr ""
+msgstr "95% 신뢰구간 (상한)"
 
 #: .././cogstat_hyp_test.py:927
 msgid "Results of Dunn's test (p values)."
-msgstr ""
+msgstr "던점검의 결과 (p 값)."
 
 #: .././cogstat.py:750 .././cogstat.py:896
 msgid "Present confidence interval values suppose normality."
-msgstr ""
+msgstr "현재 신뢰구간 값은 정규성을 가정합니다."
 
 #: .././cogstat.py:750 .././cogstat.py:896
 msgid "Means"
-msgstr ""
+msgstr "평균들"
 
 #: .././cogstat_gui.py:155
 msgid "Ctrl+Del"
-msgstr ""
+msgstr "Ctrl+Del"
 
 #: .././cogstat_gui.py:162
 msgid "Ctrl+Shift+E"
-msgstr ""
+msgstr "Ctrl+Shift+E"
 
 #: .././cogstat_gui.py:165
 msgid "Ctrl+Shift+P"
-msgstr ""
+msgstr "Ctrl+Shift+P"
 
 #: .././cogstat.py:309
 msgid "The next %s cases will not be printed. You can check all cases in the original data source."
-msgstr ""
+msgstr "다음 %s 사례는 인쇄되지 않습니다. 원본 데이터 소스에서 모든 사례를 확인할 수 있습니다"
 
 #: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:77
 #: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
 #: ../ui/explore_var_pairs.py:57 ../ui/compare_vars.py:70 ../ui/diffusion.py:92
 msgid "Available variables"
-msgstr ""
+msgstr "사용 가능한 변수들"
 
 #: .././cogstat_stat.py:119 ../ui/pivot.py:107
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: .././cogstat_stat.py:119 ../ui/pivot.py:108
 msgid "Sum"
-msgstr ""
+msgstr "합"
 
 #: .././cogstat_stat.py:120 .././cogstat_stat.py:320 ../ui/pivot.py:111
 msgid "Lower quartile"
-msgstr ""
+msgstr "제1 사분위수"
 
 #: .././cogstat_stat.py:121 ../ui/pivot.py:114
 msgid "Variance"
-msgstr ""
+msgstr "분산"
 
 #: ../ui/pivot.py:115
 msgid "Rows"
-msgstr ""
+msgstr "행"
 
 #: ../ui/pivot.py:116
 msgid "Columns"
-msgstr ""
+msgstr "열"
 
 #: ../ui/pivot.py:117
 msgid "Pages"
-msgstr ""
+msgstr "페이지들"
 
 #: ../ui/pivot.py:118
 msgid "Dependent variable"
-msgstr ""
+msgstr "종속변수"
 
 #: ../ui/pivot.py:119
 msgid "Function"
-msgstr ""
+msgstr "함수"
 
 #: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
 #: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:76
@@ -1305,7 +1305,7 @@ msgstr ""
 #: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:71 ../ui/diffusion.py:97
 #: ../ui/diffusion.py:100 ../ui/diffusion.py:102 ../ui/diffusion.py:104
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
 #: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:79
@@ -1314,451 +1314,451 @@ msgstr ""
 #: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:69 ../ui/diffusion.py:98
 #: ../ui/diffusion.py:99 ../ui/diffusion.py:101 ../ui/diffusion.py:103
 msgid "=>"
-msgstr ""
+msgstr "=>"
 
 #: ../ui/compare_groups.py:78
 msgid "Dependent variable(s)"
-msgstr ""
+msgstr "종속변수(들)"
 
 #: ../ui/compare_groups.py:81
 msgid "Group(s)"
-msgstr ""
+msgstr "그룹(들)"
 
 #: ../ui/compare_groups.py:83
 msgid "Single case slope..."
-msgstr ""
+msgstr "단일 사례의 기울기"
 
 #: ../ui/preferences.py:53
 msgid "Preferences"
-msgstr ""
+msgstr "개인 설정"
 
 #: ../ui/preferences.py:54
 msgid "Language"
-msgstr ""
+msgstr "언어"
 
 #: ../ui/preferences.py:55
 msgid "You should restart CogStat to use the new language"
-msgstr ""
+msgstr "새 언어를 사용하려면 CogStat를 다시 시작해야합니다"
 
 #: ../ui/preferences.py:56
 msgid "Chart theme"
-msgstr ""
+msgstr "차트 테마"
 
 #: ../ui/preferences.py:57
 msgid "You should restart CogStat to use the new theme"
-msgstr ""
+msgstr "새로운 테마를 사용하려면 CogStat을 다시 시작해야합니다"
 
 #: ../ui/compare_groups_single_case_slope.py:63
 msgid "Compare groups - Single case slope"
-msgstr ""
+msgstr "그룹들을 비교하기-단일 사례 기울기"
 
 #: ../ui/compare_groups_single_case_slope.py:66
 msgid "Slope SE variable"
-msgstr ""
+msgstr "기울기 표준오차 변수"
 
 #: ../ui/compare_groups_single_case_slope.py:68
 msgid "Number of trials"
-msgstr ""
+msgstr "시행횟수"
 
 #: ../ui/var_properties.py:68
 msgid "Explore variables"
-msgstr ""
+msgstr "변수들을 탐색하기"
 
 #: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
 #: ../ui/explore_var_pairs.py:58 ../ui/compare_vars_wiz.py:67
 #: ../ui/compare_vars.py:72
 msgid "Selected variables"
-msgstr ""
+msgstr "선택된 변수들"
 
 #: ../ui/var_properties.py:71
 msgid "Statistics"
-msgstr ""
+msgstr "통계"
 
 #: ../ui/var_properties.py:73
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../ui/var_properties.py:74
 msgid "Central tendency test value"
-msgstr ""
+msgstr "중심경향 테스트의 값"
 
 #: ../ui/explore_var_pairs.py:56
 msgid "Explore relation of variable pairs"
-msgstr ""
+msgstr "변수쌍의 관계를 탐색하기"
 
 #: ../ui/compare_vars_wiz.py:61
 msgid "Wizard"
-msgstr ""
+msgstr "마법사"
 
 #: ../ui/compare_vars_wiz.py:62
 msgid "One factor"
-msgstr ""
+msgstr "하나의 요인"
 
 #: ../ui/compare_vars_wiz.py:63
 msgid "Several factors"
-msgstr ""
+msgstr "여러가지 요인들"
 
 #: ../ui/compare_vars_wiz.py:64
 msgid "Not implemented yet"
-msgstr ""
+msgstr "아직 구현되지 않았습니다."
 
 #: ../ui/compare_vars_wiz.py:66
 msgid "Variables to choose from"
-msgstr ""
+msgstr "선택할 수있는 변수들"
 
 #: ../ui/data_measlev.py:37
 msgid "Variable properties"
-msgstr ""
+msgstr "변수의 속성"
 
 #: .././cogstat_gui.py:137 .././cogstat_gui.py:184
 msgid "&Filter outliers"
-msgstr ""
+msgstr "&특이점 필터링"
 
 #: .././cogstat_gui.py:137
 msgid "Ctrl+L"
-msgstr ""
+msgstr "Ctrl+L"
 
 #: .././cogstat_gui.py:162
 msgid "Text is &editable"
-msgstr ""
+msgstr "텍스트 &편집이 가능합니다"
 
 #: .././cogstat_gui.py:170
 msgid "Ctrl+Shift+R"
-msgstr ""
+msgstr "Ctrl+Shift+R"
 
 #: .././cogstat_gui.py:449
 msgid "Filter outlier."
-msgstr ""
+msgstr "특이점 필터링."
 
 #: .././cogstat_hyp_test.py:437
 msgid "Main effect of %s"
-msgstr ""
+msgstr "%s의 주효과"
 
 #: .././cogstat_hyp_test.py:439
 msgid "Interaction of factors %s"
-msgstr ""
+msgstr "요인들의 상호작용 %s"
 
 #: .././cogstat.py:334
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
-msgstr ""
+msgstr "필터링에는 구간변수들 만 사용할 수 있습니다. 변수 %s을 무시합니다."
 
 #: .././cogstat.py:677
 msgid "Factors (number of levels): "
-msgstr ""
+msgstr "요인들 (레벨의 수): "
 
 #: .././cogstat_hyp_test.py:282
 msgid "Interval variables with several factors."
-msgstr ""
+msgstr "여러 요인들이 있는 구간변수들."
 
 #: .././cogstat_hyp_test.py:283
 msgid "Choosing repeated measures ANOVA."
-msgstr ""
+msgstr "반복측정 분산 분석을 선택하기."
 
 #: .././cogstat_hyp_test.py:287
 msgid "Ordinal variables with several factors."
-msgstr ""
+msgstr "여러 요인들이 있는 순서변수들."
 
 #: .././cogstat_hyp_test.py:290
 msgid "Nominal variables with several factors."
-msgstr ""
+msgstr "여러 요인들이 있는 명목변수들."
 
 #: ../ui/filter_outlier.py:69
 msgid "Filter outlier"
-msgstr ""
+msgstr "특이점 필터링"
 
 #: ../ui/factors.py:41
 msgid "Factors"
-msgstr ""
+msgstr "요인들"
 
 #: ../ui/factors.py:42
 msgid "Add factor"
-msgstr ""
+msgstr "요인 추가"
 
 #: ../ui/factors.py:43
 msgid "Alt+A"
-msgstr ""
+msgstr "Alt+A"
 
 #: ../ui/factors.py:44
 msgid "Modify factor"
-msgstr ""
+msgstr "요인을 수정하기"
 
 #: ../ui/factors.py:45
 msgid "Alt+M"
-msgstr ""
+msgstr "Alt+M"
 
 #: ../ui/factors.py:46
 msgid "Remove factor"
-msgstr ""
+msgstr "요인 제거하기"
 
 #: ../ui/factors.py:47
 msgid "Alt+R"
-msgstr ""
+msgstr "Alt+R"
 
 #: ../ui/compare_vars.py:73
 msgid "Factors..."
-msgstr ""
+msgstr "요인들…"
 
 #: ../ui/compare_vars.py:74
 msgid "Alt+F"
-msgstr ""
+msgstr "Alt+F"
 
 #: ../ui/factor.py:43
 msgid "Set factor"
-msgstr ""
+msgstr "요인을 설정하기"
 
 #: ../ui/factor.py:44
 msgid "Name of the factor"
-msgstr ""
+msgstr "요인의 이름"
 
 #: ../ui/factor.py:45
 msgid "Number of levels"
-msgstr ""
+msgstr "레벨의 수"
 
 #: ../ui/filter_outlier.py:74
 msgid "Only interval variables are available"
-msgstr ""
+msgstr "구간변수 사용하기만 가능합니다"
 
 #: .././cogstat_gui.py:148 .././cogstat_gui.py:186
 msgid "Behavioral data &diffusion analysis"
-msgstr ""
+msgstr "행동 데이터 &확산 분석"
 
 #: .././cogstat_gui.py:156
 msgid "&Find text"
-msgstr ""
+msgstr "텍스트를 찾기"
 
 #: .././cogstat_gui.py:156
 msgid "Ctrl+F"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: .././cogstat_gui.py:606 .././cogstat_gui.py:611
 msgid "Diffusion analysis."
-msgstr ""
+msgstr "확산 분석."
 
 #: .././cogstat_hyp_test.py:152 .././cogstat_hyp_test.py:317
 #: .././cogstat_hyp_test.py:688 .././cogstat_hyp_test.py:808
 #: .././cogstat_hyp_test.py:957
 msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
-msgstr ""
+msgstr "감도 검정력 분석. 현재 가설검정과 현재 샘플 크기에는 95 %% 검정력에 도달하는 최소 효과 크기가 필요합니다 (효과 크기는 %s):"
 
 #: .././cogstat_hyp_test.py:153 .././cogstat_hyp_test.py:318
 #: .././cogstat_hyp_test.py:689
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #: .././cogstat_hyp_test.py:808
 msgid "f"
-msgstr ""
+msgstr "f"
 
 #: .././cogstat_hyp_test.py:863
 msgid "Result of multi-way ANOVA"
-msgstr ""
+msgstr "다원분산분석"
 
 #: .././cogstat_hyp_test.py:873
 msgid "Interaction of %s: "
-msgstr ""
+msgstr "%s의 상호작용: "
 
 #: .././cogstat_hyp_test.py:958
 msgid "w"
-msgstr ""
+msgstr "w"
 
 #: .././cogstat_chart.py:407
 msgid "Normal theoretical quantiles"
-msgstr ""
+msgstr "일반적인 이론 분위수"
 
 #: .././cogstat_chart.py:408
 msgid "Sample quantiles"
-msgstr ""
+msgstr "샘플 사분위수"
 
 #: .././cogstat_stat.py:188
 msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
-msgstr ""
+msgstr "오류: %s, 반응시간: %s, 참가자: %s, 조건: %s"
 
 #: .././cogstat_stat.py:202
 msgid "Mean percent correct with edge correction"
-msgstr ""
+msgstr "가장자리 보정으로 평균 퍼센트를 수정하기"
 
 #: .././cogstat_stat.py:203
 msgid "Mean correct reaction time"
-msgstr ""
+msgstr "평균 정확한 반응시간"
 
 #: .././cogstat_stat.py:204
 msgid "Correct reaction time variance"
-msgstr ""
+msgstr "정확한 반응시간의 분산"
 
 #: .././cogstat_stat.py:216
 msgid "Drift rate"
-msgstr ""
+msgstr "표류율"
 
 #: .././cogstat_stat.py:217
 msgid "Threshold"
-msgstr ""
+msgstr "분계점"
 
 #: .././cogstat_stat.py:218
 msgid "Nondecision time"
-msgstr ""
+msgstr "비결정시간"
 
 #: .././cogstat_stat.py:291 .././cogstat_stat.py:521
 msgid "low"
-msgstr ""
+msgstr "하한"
 
 #: .././cogstat_stat.py:291 .././cogstat_stat.py:521
 msgid "high"
-msgstr ""
+msgstr "상한"
 
 #: .././cogstat_stat.py:292
 msgid "Relative frequencies"
-msgstr ""
+msgstr "상대도수들"
 
 #: .././cogstat_stat.py:292 .././cogstat_stat.py:522
 msgid "95% confidence interval (multinomial proportions)"
-msgstr ""
+msgstr "95% 신뢰구간 (다항 성질들)"
 
 #: .././cogstat_stat.py:297 .././cogstat_stat.py:527
 msgid "Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid."
-msgstr ""
+msgstr "일부 칸에는 5개 이상의 케이스가 포함되지 않으므로 신뢰구간이 유효하지 않을 수도 있습니다."
 
 #: .././cogstat_stat.py:324
 msgid "Variation ratio"
-msgstr ""
+msgstr "변동비율"
 
 #: .././cogstat_stat.py:397
 msgid "Present confidence interval values for the mean suppose normality."
-msgstr ""
+msgstr "평균에 대한 현재 신뢰구간 값이 정규성을 가정합니다."
 
 #: .././cogstat_stat.py:399 .././cogstat_stat.py:406
 msgid "95% confidence interval (high)"
-msgstr ""
+msgstr "95% 신뢰 구간 (상한)"
 
 #: .././cogstat_stat.py:400 .././cogstat_stat.py:405
 msgid "95% confidence interval (low)"
-msgstr ""
+msgstr "95% 신뢰구간 (하한)"
 
 #: .././cogstat_stat.py:408 .././cogstat_stat.py:568 .././cogstat_stat.py:642
 msgid "Out of the data range"
-msgstr ""
+msgstr "데이터 범위를 벗어납니다"
 
 #: .././cogstat_stat.py:461 .././cogstat_stat.py:464 .././cogstat_stat.py:673
 #: .././cogstat_stat.py:676
 msgid "Cramér's V measure of association"
-msgstr ""
+msgstr "크라메르의 비 연관성 측도"
 
 #: .././cogstat_stat.py:503 .././cogstat_stat.py:509
 msgid "Total"
-msgstr ""
+msgstr "총"
 
 #: .././cogstat_stat.py:504
 msgid "Case count"
-msgstr ""
+msgstr "사례수"
 
 #: .././cogstat_stat.py:512
 msgid "Percentage"
-msgstr ""
+msgstr "백분율"
 
 #: .././cogstat_stat.py:580 .././cogstat_stat.py:657
 msgid "Cohen's d"
-msgstr ""
+msgstr "코헨의 d"
 
 #: .././cogstat_stat.py:582 .././cogstat_stat.py:659
 msgid "Eta-squared"
-msgstr ""
+msgstr "에타 제곱"
 
 #: .././cogstat_stat.py:599 .././cogstat_stat.py:693
 msgid "Hedges' g"
-msgstr ""
+msgstr "헤지스의 g"
 
 #: .././cogstat_stat.py:709
 msgid "Omega squared"
-msgstr ""
+msgstr "오메가 제곱"
 
 #: .././cogstat.py:477 .././cogstat.py:575 .././cogstat.py:748
 #: .././cogstat.py:894
 msgid "Population parameter estimations"
-msgstr ""
+msgstr "모집단 모수 추정"
 
 #: ../ui/compare_groups.py:84 ../ui/explore_var_pairs.py:61
 #: ../ui/compare_vars.py:75
 msgid "Options..."
-msgstr ""
+msgstr "옵션들..."
 
 #: ../ui/find_text.py:42
 msgid "Find text"
-msgstr ""
+msgstr "텍스트를 찾기"
 
 #: ../ui/find_text.py:43
 msgid "Text to find"
-msgstr ""
+msgstr "찾을 텍스트"
 
 #: ../ui/find_text.py:44
 msgid "Find next"
-msgstr ""
+msgstr "다음 찾기"
 
 #: ../ui/find_text.py:45
 msgid "Find previous"
-msgstr ""
+msgstr "이전 찾기"
 
 #: .././cogstat.py:660 ../ui/diffusion.py:91
 msgid "Behavioral data diffusion analysis"
-msgstr ""
+msgstr "행동 데이터 확산 분석"
 
 #: ../ui/diffusion.py:93
 msgid "Participant"
-msgstr ""
+msgstr "참가자"
 
 #: ../ui/diffusion.py:94
 msgid "Error"
-msgstr ""
+msgstr "오류"
 
 #: ../ui/diffusion.py:95
 msgid "Reaction time (in sec)"
-msgstr ""
+msgstr "반응시간 (초)"
 
 #: ../ui/diffusion.py:96
 msgid "Condition(s)"
-msgstr ""
+msgstr "조건(들)"
 
 #: ../ui/xylims.py:62 ../ui/ylims.py:48
 msgid "Options"
-msgstr ""
+msgstr "옵션들"
 
 #: ../ui/xylims.py:63
 msgid "Minimum of x axis"
-msgstr ""
+msgstr "X축의 최소값"
 
 #: ../ui/xylims.py:64
 msgid "Maximum of x axis"
-msgstr ""
+msgstr "X축의 최대값"
 
 #: ../ui/xylims.py:65 ../ui/ylims.py:49
 msgid "Minimum of y axis"
-msgstr ""
+msgstr "Y축의 최소값"
 
 #: ../ui/xylims.py:66 ../ui/ylims.py:50
 msgid "Maximum of y axis"
-msgstr ""
+msgstr "Y축의 최대값"
 
 #: .././cogstat_gui.py:606
 msgid "At least the reaction time and the error variables should be given."
-msgstr ""
+msgstr "최소한 반응시간과 오차변수가 주어져야합니다."
 
 #: .././cogstat_hyp_test.py:616
 msgid "At least two grouping variables."
-msgstr ""
+msgstr "최소한 두 개의 그룹화 변수들."
 
 #: .././cogstat_stat.py:185
 msgid "Specify all the required parameters (reaction time, error, participant and condition variables)."
-msgstr ""
+msgstr "모든 필요한 모수를(반응시간, 오류, 참가자 및 조건변수) 지정하세요."
 
 #: .././cogstat_hyp_test.py:197 .././cogstat_hyp_test.py:474
 #: .././cogstat_hyp_test.py:608 .././cogstat.py:487 .././cogstat.py:582
 #: .././cogstat.py:600 .././cogstat.py:611
 msgid "Hypothesis tests"
-msgstr ""
+msgstr "가설검정들"
 
 #: .././cogstat.py:898
 msgid "Medians"
-msgstr ""
+msgstr "중앙값들"
 
 #: .././cogstat_stat.py:446 .././cogstat_stat.py:573 .././cogstat_stat.py:648
 msgid "Standardized effect size"
-msgstr ""
+msgstr "표준화된 효과크기"
 
