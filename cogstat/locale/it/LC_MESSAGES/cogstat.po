@@ -1551,11 +1551,11 @@ msgstr "Sono disponibili solamente variabili a intervalli"
 
 #: .././cogstat_gui.py:148 .././cogstat_gui.py:186
 msgid "Behavioral data &diffusion analysis"
-msgstr ""
+msgstr "Dati comportamentali  & analisi di diffusione"
 
 #: .././cogstat_gui.py:156
 msgid "&Find text"
-msgstr ""
+msgstr "&Trova testo"
 
 #: .././cogstat_gui.py:156
 msgid "Ctrl+F"
@@ -1563,13 +1563,13 @@ msgstr "Ctrl+F"
 
 #: .././cogstat_gui.py:606 .././cogstat_gui.py:611
 msgid "Diffusion analysis."
-msgstr ""
+msgstr "Analisi di diffusione"
 
 #: .././cogstat_hyp_test.py:152 .././cogstat_hyp_test.py:317
 #: .././cogstat_hyp_test.py:688 .././cogstat_hyp_test.py:808
 #: .././cogstat_hyp_test.py:957
 msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
-msgstr ""
+msgstr "Analisi della potenza della sensibilità. La dimensione dell' effetto minima da raggiungere è del 95%% di potenza con l' attuale dimensione del campione per il presente test di ipotesi (dimensione dell' effetto in %):  "
 
 #: .././cogstat_hyp_test.py:153 .././cogstat_hyp_test.py:318
 #: .././cogstat_hyp_test.py:689
@@ -1582,11 +1582,11 @@ msgstr "f"
 
 #: .././cogstat_hyp_test.py:863
 msgid "Result of multi-way ANOVA"
-msgstr ""
+msgstr "Risultato dell' ANOVA multifattoriale"
 
 #: .././cogstat_hyp_test.py:873
 msgid "Interaction of %s: "
-msgstr ""
+msgstr "Interazione di %"
 
 #: .././cogstat_hyp_test.py:958
 msgid "w"
@@ -1594,23 +1594,23 @@ msgstr "w"
 
 #: .././cogstat_chart.py:407
 msgid "Normal theoretical quantiles"
-msgstr ""
+msgstr "Quantili teorici normalizzati"
 
 #: .././cogstat_chart.py:408
 msgid "Sample quantiles"
-msgstr ""
+msgstr "Quantili del campione"
 
 #: .././cogstat_stat.py:188
 msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
-msgstr ""
+msgstr "Errore: %, Tempo di reazione: %, Participante: %, Condizione/i: %"
 
 #: .././cogstat_stat.py:202
 msgid "Mean percent correct with edge correction"
-msgstr ""
+msgstr "Media percentuale corretta con correzione dei bordi"
 
 #: .././cogstat_stat.py:203
 msgid "Mean correct reaction time"
-msgstr "Media dei tempi di reazione corretti"
+msgstr "Media corretta dei tempi di reazione"
 
 #: .././cogstat_stat.py:204
 msgid "Correct reaction time variance"
@@ -1618,7 +1618,7 @@ msgstr "Varianza dei tempi di reazione corretti"
 
 #: .././cogstat_stat.py:216
 msgid "Drift rate"
-msgstr ""
+msgstr "Tasso di deriva"
 
 #: .././cogstat_stat.py:217
 msgid "Threshold"
@@ -1626,7 +1626,7 @@ msgstr "Soglia"
 
 #: .././cogstat_stat.py:218
 msgid "Nondecision time"
-msgstr ""
+msgstr "Tempo di indecisione"
 
 #: .././cogstat_stat.py:291 .././cogstat_stat.py:521
 msgid "low"
@@ -1729,7 +1729,7 @@ msgstr "Trova il precedente"
 
 #: .././cogstat.py:660 ../ui/diffusion.py:91
 msgid "Behavioral data diffusion analysis"
-msgstr ""
+msgstr "Analisi di diffusione dei dati comportamentali"
 
 #: ../ui/diffusion.py:93
 msgid "Participant"
