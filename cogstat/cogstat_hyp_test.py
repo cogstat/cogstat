@@ -954,7 +954,7 @@ def chi_square_test(pdf, var_name, grouping_name):
                      power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(), alpha=0.05,
                                                 power=0.95, n_bins=cont_table_data.size)
 
-    chi_result += _("Result of the Pearson's Chi-square test: ") + \
+    chi_result += _("Result of the Pearson's chi-squared test: ") + \
                   '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
                   (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
     return chi_result
