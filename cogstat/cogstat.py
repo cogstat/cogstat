@@ -632,7 +632,7 @@ class CogStatData:
                                      '</warning>\n'
             population_result += '<decision>' + _('Nominal variables.') + ' >> ' + _('Running Cramér\'s V.') + \
                                  '\n</decision>'
-            chi_result = cs_hyp_test.chi_square_test(self.data_frame, x, y)
+            chi_result = cs_hyp_test.chi_squared_test(self.data_frame, x, y)
             population_result += chi_result
         standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
         estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)

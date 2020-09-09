@@ -747,7 +747,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
                     omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1])) / \
                              ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) + anova_result['mean_sq'][1])
-                    pdf_result.loc[_('Omega squared'), _('Value')] = '&omega;<sup>2</sup> = %0.3g' % omega2
+                    pdf_result.loc[_('Omega-squared'), _('Value')] = '&omega;<sup>2</sup> = %0.3g' % omega2
             else:  # More than 1 grouping variables
                 standardized_effect_size_result = None
         else:  # Ordinal or nominal

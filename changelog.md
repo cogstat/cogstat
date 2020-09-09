@@ -11,7 +11,7 @@ Trivial changes when a new feature is added are not denoted.
         - Cohen's d
         - Eta-squared
         - Hedges' g (with 95% CI)
-    - Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, Chi-square test, one-way ANOVA
+    - Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, chi-squared test, one-way ANOVA
     - Confidence intervals
         - Confidence interval for multinomial proportions (in Explore variable, Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
         - Confidence interval for medians (in Explore variable, Compare repeated measures variables and Compare groups)
@@ -285,7 +285,7 @@ Trivial changes when a new feature is added are not denoted.
 - Compare groups
 	- Descriptives: means, medians or contingency tables
 	- Diagrams: boxplot with individual data or contingency table
-	- Hypothesis tests: independent smaples t-test, Mann-Whitney test, Chi-square test, one sample ANOVA, Kruskal-Wallis test
+	- Hypothesis tests: independent samples t-test, Mann-Whitney test, chi-squared test, one sample ANOVA, Kruskal-Wallis test
 
 ### Results
 - Clear window

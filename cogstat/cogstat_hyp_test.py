@@ -558,8 +558,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
             result_ht += mann_whitney_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
             result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _(
-                'Running Chi-square test.') + ' ' + '</decision>\n'
-            chi_result = chi_square_test(df, var_names[0], groups[0])
+                'Running chi-squared test.') + ' ' + '</decision>\n'
+            chi_result = chi_squared_test(df, var_names[0], groups[0])
             result_ht += chi_result
 
     # Compare more than two groups
@@ -606,9 +606,9 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                          '</decision>\n'
             result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
-            result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _('Running Chi-square test.') + \
+            result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _('Running chi-squared test.') + \
                          '</decision>\n'
-            chi_result = chi_square_test(df, var_names[0], groups[0])
+            chi_result = chi_squared_test(df, var_names[0], groups[0])
             result_ht += chi_result
     return result_ht
 
@@ -932,8 +932,8 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
     return text_result
 
 
-def chi_square_test(pdf, var_name, grouping_name):
-    """Chi-Square test
+def chi_squared_test(pdf, var_name, grouping_name):
+    """Chi-squared test
     Cramer's V: http://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V
 
     Arguments:

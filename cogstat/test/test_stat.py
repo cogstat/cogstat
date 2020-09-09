@@ -159,7 +159,7 @@ class CogStatTestCase(unittest.TestCase):
             #  TODO GPower gives 0.8707028 with df of 8; Seems like statsmodels GofChisquarePower calculates power
             #  with df=8; should we use 4 or 8 df? https://github.com/cogstat/cogstat/issues/134
         self.assertTrue('(effect size is in w): 0.87' in result[6])
-        # Chi-square
+        # Chi-squared
             # jamovi v1.2.19.0: X2, df, p, N: 8.31, 4, 0.081, 30
         self.assertTrue('(4, <i>N</i> = 30) = 8.312' in result[6])
         self.assertTrue('<i>p</i> = 0.081' in result[6])
