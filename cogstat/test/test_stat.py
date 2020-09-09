@@ -83,7 +83,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<td>Median</td>      <td>2.8545</td>' in result[4])
         self.assertTrue('<td>Lower quartile</td>      <td>1.4190</td>' in result[4])
         self.assertTrue('<td>Minimum</td>      <td>-2.8030</td>' in result[4])
-        # Shapiro-Wilk normality
+        # Shapiro–Wilk normality
         self.assertTrue('<i>W</i> = 0.959' in result[6])
         self.assertTrue('<i>p</i> = 0.287' in result[6])
 

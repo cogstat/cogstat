@@ -91,26 +91,26 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
 
     # http://statsmodels.sourceforge.net/stable/generated/statsmodels.stats.diagnostic.kstest_normal.html#
     # statsmodels.stats.diagnostic.kstest_normal
-    # text_result += _('Testing normality with the Kolmogorov-Smirnov test:')+': <i>D</i> = %0.3g, <i>p</i> =
+    # text_result += _('Testing normality with the Kolmogorov–Smirnov test:')+': <i>D</i> = %0.3g, <i>p</i> =
     #                %0.3f \n' %sm.stats.kstest_normal(data)
     # text_result += _('Testing normality with the Lillifors test')+': <i>D</i> = %0.3g, <i>p</i> =
     #                %0.3f \n' %sm.stats.lillifors(data)
     # A, p = sm.stats.normal_ad(data)
-    # text_result += _('Anderson-Darling normality test in variable %s%s') %(var_name, ' (%s: %s)' %
+    # text_result += _('Anderson–Darling normality test in variable %s%s') %(var_name, ' (%s: %s)' %
     #               (group_name, group_value) if group_name else '') + ': <i>A<sup>2</sup></i> =
     #               %0.3g, %s\n' %(A, cs_util.print_p(p))
-    # text_result += _('Testing normality with the Anderson-Darling test: <i>A<sup>2</sup></i> = %0.3g,
+    # text_result += _('Testing normality with the Anderson–Darling test: <i>A<sup>2</sup></i> = %0.3g,
     #                critical values: %r, sig_levels: %r \n') %stats.anderson(data, dist='norm')
     # text_result += _("Testing normality with the D'Agostin and Pearson method")+': <i>k2</i> = %0.3g, <i>p</i> =
     #                %0.3f \n' %stats.normaltest(data)
-    # text_result += _('Testing normality with the Kolmogorov-Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %
+    # text_result += _('Testing normality with the Kolmogorov–Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %
     #               stats.kstest(data, 'norm')
     if len(data) < 3:
         return False, _('Too small sample to test normality in variable %s%s.\n' %
                         (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
     else:
         w, p = stats.shapiro(data)
-        text_result += _('Shapiro-Wilk normality test in variable %s%s') % \
+        text_result += _('Shapiro–Wilk normality test in variable %s%s') % \
                        (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '') + \
                        ': <i>W</i> = %0.3g, %s\n' % (w, cs_util.print_p(p))
 
@@ -391,7 +391,7 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
         if pw < 0.05:  # sphericity is violated
             p = corr_table[0, 1]
             text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
-                           + _('Using Greenhouse-Geisser correction.') + '\n</decision>' + \
+                           + _('Using Greenhouse–Geisser correction.') + '\n</decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.3g, %s\n' \
                            % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(p))
         else:  # sphericity is not violated
@@ -403,7 +403,7 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
         # Post-hoc tests
         if p < 0.05:
             pht = cs_stat_num.pairwise_ttest(pdf[var_names].dropna(), var_names).sort_index()
-            text_result += '\n' + _('Comparing variables pairwise with the Holm-Bonferroni correction:')
+            text_result += '\n' + _('Comparing variables pairwise with the Holm–Bonferroni correction:')
             #print pht
             pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
 
@@ -511,7 +511,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 if not norm:
                     result_ht += '<decision>' + _('Normality is violated in variable ') + var_names[0] + ', ' + \
                                  _('group ') + str(group) + '.\n</decision>'
-                    result_ht += '<decision>>> ' + _('Running Mann-Whitney test.') + '\n</decision>'
+                    result_ht += '<decision>>> ' + _('Running Mann–Whitney test.') + '\n</decision>'
                     result_ht += mann_whitney_test(df, var_names[0], groups[0])
                 else:
                     result_ht += '<decision>' + _('Normality is not violated. >> Running modified t-test.') + \
@@ -520,7 +520,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                                  single_case_slope_SEs else None, single_case_slope_trial_n)
             else:
                 result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
-                             _("Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on "
+                             _("Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on "
                                "assumptions.") + '\n</decision>'
                 result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
                 non_normal_groups = []
@@ -545,7 +545,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 elif non_normal_groups:
                     result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s.') % \
                                  (var_names[0], ', '.join(map(str, non_normal_groups))) + ' >> ' + \
-                                 _('Running Mann-Whitney test.') + '\n</decision>'
+                                 _('Running Mann–Whitney test.') + '\n</decision>'
                     result_ht += mann_whitney_test(df, var_names[0], groups[0])
                 elif not hoemogeneity_vars:
                     result_ht += '<decision>' + _('Homeogeneity of variance violated in variable %s.') % \
@@ -554,7 +554,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
 
         elif meas_level == 'ord':
             result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + _(
-                'Running Mann-Whitney test.') + '</decision>\n'
+                'Running Mann–Whitney test.') + '</decision>\n'
             result_ht += mann_whitney_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
             result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _(
@@ -567,7 +567,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
         result_ht += '<decision>' + _('More than two groups.') + ' </decision>'
         if meas_level == 'int':
             result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
-                         _('Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions.') + \
+                         _('Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions.') + \
                          '</decision>' + '\n'
 
             result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
@@ -598,11 +598,11 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
             if not hoemogeneity_vars:
                 result_ht += '<decision>' + _('Homeogeneity of variance violated in variable %s. ') % var_names[0]
             if non_normal_groups or (not hoemogeneity_vars):
-                result_ht += '>> ' + _('Running Kruskal-Wallis test.') + '\n</decision>'
+                result_ht += '>> ' + _('Running Kruskal–Wallis test.') + '\n</decision>'
                 result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
 
         elif meas_level == 'ord':
-            result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Kruskal-Wallis test.') + \
+            result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Kruskal–Wallis test.') + \
                          '</decision>\n'
             result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
@@ -755,7 +755,7 @@ def welch_t_test(pdf, var_name, grouping_name):
 
 
 def mann_whitney_test(pdf, var_name, grouping_name):
-    """Mann-Whitney test
+    """Mann–Whitney test
 
     arguments:
     var_name (str):
@@ -767,15 +767,15 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
     try:
         u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna(), alternative='two-sided')
-        text_result += _('Result of independent samples Mann-Whitney rank test: ') + '<i>U</i> = %0.3g, %s\n' % \
+        text_result += _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.3g, %s\n' % \
                        (u, cs_util.print_p(p))
     except:
         try:  # older versions of mannwhitneyu do not include the alternative parameter
             u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna())
-            text_result += _('Result of independent samples Mann-Whitney rank test: ') + '<i>U</i> = %0.3g, %s\n' % \
+            text_result += _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.3g, %s\n' % \
                            (u, cs_util.print_p(p * 2))
         except Exception as e:
-            text_result += _('Result of independent samples Mann-Whitney rank test: ') + str(e)
+            text_result += _('Result of independent samples Mann–Whitney rank test: ') + str(e)
 
     return text_result
 
@@ -900,7 +900,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
 
 
 def kruskal_wallis_test(pdf, var_name, grouping_name):
-    """Kruskal-Wallis test
+    """Kruskal–Wallis test
 
     Arguments:
     var_name (str):
@@ -915,7 +915,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
         H, p = stats.kruskal(*variables)
         df = len(dummy_groups)-1
         n = len(pdf[var_name].dropna())  # TODO Is this OK here?
-        text_result += _('Result of the Kruskal-Wallis test: ')+'&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
+        text_result += _('Result of the Kruskal–Wallis test: ')+'&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
                                                                 (df, n, H, cs_util.print_p(p))  # χ2(1, N=90)=0.89, p=.35
         if p < 0.05:
             # Run the post hoc tests
@@ -927,7 +927,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
                                                                              float_format=lambda x: '%.3f' % x))
 
     except Exception as e:
-        text_result += _('Result of the Kruskal-Wallis test: ')+str(e)
+        text_result += _('Result of the Kruskal–Wallis test: ')+str(e)
 
     return text_result
 

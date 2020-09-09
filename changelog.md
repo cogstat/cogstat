@@ -66,7 +66,7 @@ Trivial changes when a new feature is added are not denoted.
     - Set theme in CogStat > Preferences menu
     - Various chart refinements
 - New hypothesis tests
-    - Dunn's post hoc test after significant Kruskal-Wallis test
+    - Dunn's post hoc test after significant Kruskal–Wallis test
     - Single case test for slope index
 - Numerical results
     - Display mean estimations numerically in group comparison and in repeated measures comparison 
@@ -167,8 +167,8 @@ Trivial changes when a new feature is added are not denoted.
 - Repeated measures ANOVA (Ákos Laczkó)
     - Repeated measures one-way ANOVA
     - Mauchly's test for sphericity
-    - Greenhouse-Geisser correction
-    - Post-hoc pairwise comparison with Holm-Bonferroni correction 
+    - Greenhouse–Geisser correction
+    - Post-hoc pairwise comparison with Holm–Bonferroni correction 
 - Confidence interval for correlation coefficients
 - McNemar test
 - Cochran's Q test
@@ -216,7 +216,7 @@ Trivial changes when a new feature is added are not denoted.
 ================
 ## New features
 - Statistics improvements
-    - :warning: Improved normality test: Shapiro-Wilk test instead of Anderson-Darling test (thanks to Ákos Laczkó)
+    - :warning: Improved normality test: Shapiro–Wilk test instead of Anderson–Darling test (thanks to Ákos Laczkó)
     - Confidence interval for the difference between two groups
 - Output improvements
     - Individual data signs are proportional with the number of cases for a value in  explore variables, compare variables and compare groups functions
@@ -270,7 +270,7 @@ Trivial changes when a new feature is added are not denoted.
 	- Frequency
 	- Distribution (histogram, raw data points, box plot)
 	- Descriptives (N, mean, standard deviation, skewness, kurtosis, median, range)
-	- Test normality (Anderson-Darling test, histogram with normality test, Q-Q plot)
+	- Test normality (Anderson–Darling test, histogram with normality test, Q-Q plot)
 	- Test central tendency (one sample t-test, confidence interval of the mean, Wilcoxon sign test)
 - Explore variable pairs
 	- Pearson and Spearman coefficients
@@ -285,7 +285,7 @@ Trivial changes when a new feature is added are not denoted.
 - Compare groups
 	- Descriptives: means, medians or contingency tables
 	- Diagrams: boxplot with individual data or contingency table
-	- Hypothesis tests: independent samples t-test, Mann-Whitney test, chi-squared test, one sample ANOVA, Kruskal-Wallis test
+	- Hypothesis tests: independent samples t-test, Mann–Whitney test, chi-squared test, one sample ANOVA, Kruskal–Wallis test
 
 ### Results
 - Clear window
