@@ -30,6 +30,8 @@ Trivial changes when a new feature is added are not denoted.
     - Find text in results
 - New localization
     - Korean (Katalin Wild)
+- Installer
+    - Mac installer (27 September 2020) (Róbert Fodor)
 
 ## Fixes
 - Various output fixes
