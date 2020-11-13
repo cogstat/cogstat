@@ -1,0 +1,1772 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: CogStat\n"
+"Language: el\n"
+
+#: .././cogstat_hyp_test.py:37
+msgid "The properties of the variables are not set. Set them in your data source."
+msgstr "Οι ιδιότητες των μεταβλητών δεν έχουν οριστεί. Ορίστε τα στην πηγή προέλευσης των δεδομένων σας."
+
+#: .././cogstat_stat.py:116
+msgid "Sorry, only one dependent variable can be used."
+msgstr "Δυστυχώς, μόνο μία εξαρτημένη μεταβλητή μπορεί να χρησιμοποιηθεί."
+
+#. μεταβλητή τύπου String, ennyire futotta nekik is, a forrásokban így emlegetik, szó szerint "string típusú változó", de amúgy simán string variable-ként is láttam görög szövegkörnyezetben, nem tudom, hogy lehetne jobb, magyarul egyáltalán van ennek épkézláb fordítása?
+#: .././cogstat_stat.py:118
+msgid "Sorry, string variables cannot be used in Pivot table."
+msgstr "Δυστυχώς, μεταβλητές συμβολοσειρών δεν μπορούν να χρησιμοποιηθούν στον Συγκεντρωτικό Πίνακα."
+
+#: .././cogstat_stat.py:124
+msgid "Independent variable(s) - Pages: "
+msgstr "Aνεξάρτητη(-ες) μεταβλητή(-ες) - Σελίδες: "
+
+#: .././cogstat_stat.py:126
+msgid "Independent variable(s) - Columns: "
+msgstr "Aνεξάρτητη(-ες) μεταβλητή(-ες) - Στήλες: "
+
+#: .././cogstat_stat.py:128
+msgid "Independent variable(s) - Rows: "
+msgstr "Aνεξάρτητη(-ες) μεταβλητή(-ες) - Σειρές: "
+
+#: .././cogstat_stat.py:129
+msgid "Function: "
+msgstr "Συνάρτηση: "
+
+#: .././cogstat_chart.py:597 .././cogstat_chart.py:649 .././cogstat_stat.py:267
+#: .././cogstat_stat.py:269 .././cogstat_stat.py:449 .././cogstat_stat.py:451
+#: .././cogstat_stat.py:454 .././cogstat_stat.py:461 .././cogstat_stat.py:464
+#: .././cogstat_stat.py:580 .././cogstat_stat.py:582 .././cogstat_stat.py:657
+#: .././cogstat_stat.py:659 .././cogstat_stat.py:673 .././cogstat_stat.py:676
+#: .././cogstat_stat.py:709
+msgid "Value"
+msgstr "Τιμή"
+
+#: .././cogstat_chart.py:302 .././cogstat_chart.py:369
+msgid "Largest tick on the x axes displays %d cases."
+msgstr "Το μεγαλύτερο τσεκάρισμα στους άξονες x εμφανίζει %d περιπτώσεις."
+
+#: .././cogstat_chart.py:319
+msgid "Histogram with individual data and boxplot"
+msgstr "Ιστόγραμμα με μεμονωμένα δεδομένα και θηκόγραμμα"
+
+#: .././cogstat_chart.py:269 .././cogstat_chart.py:325
+msgid "Frequency"
+msgstr "Συχνότητα"
+
+#: .././cogstat_chart.py:266
+msgid "Histogram"
+msgstr "Ιστόγραμμα"
+
+#: .././cogstat_stat.py:253
+msgid "N of valid cases: %g"
+msgstr "Ν έγκυρων περιπτώσεων: %g"
+
+#: .././cogstat.py:515
+msgid "Median: %0.*f"
+msgstr "Διάμεσος: %0.*f"
+
+#: .././cogstat_hyp_test.py:83
+msgid "Normality can be checked only for interval variables."
+msgstr "Η κανονικότητα μπορεί να ελεγχθεί μόνο για μεταβλητές διαστήματος."
+
+#: .././cogstat_hyp_test.py:104
+msgid "Shapiro-Wilk normality test in variable %s%s"
+msgstr "Έλεγχος κανονικότητας των Shapiro-Wilk στη μεταβλητή %s%s"
+
+#: .././cogstat_chart.py:378
+msgid "Histogram with individual data and normal distribution"
+msgstr "Ιστόγραμμα με μεμονωμένα δεδομένα και κανονική κατανομή"
+
+#: .././cogstat_chart.py:385
+msgid "Normalized relative frequency"
+msgstr "Κανονικοποιημένη σχετική συχνότητα"
+
+#: .././cogstat_chart.py:406
+msgid "Quantile-quantile plot"
+msgstr "Q-Q διάγραμμα"
+
+#: .././cogstat_hyp_test.py:135
+msgid "One sample t-test cannot be run for constant variable.\n"
+""
+msgstr "Έλεγχος t ενός δείγματος δεν μπορεί να εκτελεστεί για σταθερή μεταβλητή."
+
+#: .././cogstat_hyp_test.py:156
+msgid "One sample t-test against %g"
+msgstr "Έλεγχος t ενός δείγματος κατά %g"
+
+#: .././cogstat_chart.py:421
+msgid "Mean value with 95% confidence interval"
+msgstr "Μέση τιμή με 95% διάστημα εμπιστοσύνης"
+
+#: .././cogstat_hyp_test.py:159
+msgid "One sample t-test is computed only for interval variables."
+msgstr "Έλεγχος t ενός δείγματος υπολογίζεται μόνο για μεταβλητές διαστήματος."
+
+#: .././cogstat_chart.py:433
+msgid "Median value"
+msgstr "Διάμεση τιμή"
+
+#. http://isi.cbs.nl/glossary/term3525.htm ez alapján, de magamtól nem ilyen hosszú elnevezést alkottam először...
+#: .././cogstat_hyp_test.py:189
+msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
+msgstr "Έλεγχος των προσημασμένων τάξεων μεγέθους του Wilcoxon υπολογίζεται μόνο για κλίμακες διαστήματος ή τακτικές κλίμακες."
+
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:314 .././cogstat_stat.py:398
+#: .././cogstat_stat.py:399 .././cogstat_stat.py:400 ../ui/pivot.py:109
+msgid "Mean"
+msgstr "Αριθμητικός μέσος"
+
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:315 .././cogstat_stat.py:404
+#: .././cogstat_stat.py:405 .././cogstat_stat.py:406 .././cogstat.py:757
+#: ../ui/pivot.py:110
+msgid "Median"
+msgstr "Διάμεσος"
+
+#: .././cogstat_chart.py:644
+msgid "Medians for the variables"
+msgstr "Διάμεσοι για τις μεταβλητές"
+
+#: .././cogstat_chart.py:817
+msgid "Medians for the groups"
+msgstr "Διάμεσοι για τις ομάδες"
+
+#: .././cogstat_stat.py:379 .././cogstat_stat.py:381
+msgid "No data"
+msgstr "Δεν υπάρχουν δεδομένα"
+
+#: .././cogstat_chart.py:473
+msgid "Largest sign on the graph displays %d cases."
+msgstr "Το μεγαλύτερο σημείο στη γραφική παράσταση εμφανίζει %d περιπτώσεις."
+
+#: .././cogstat_chart.py:490
+msgid "Scatterplot of the variables"
+msgstr "Διάγραμμα σημείων για τις μεταβλητές"
+
+#: .././cogstat_chart.py:536 .././cogstat_chart.py:620
+msgid "Mosaic plot of the variables"
+msgstr "Διάγραμμα μωσαϊκών για τις μεταβλητές"
+
+#. itt nem birtokos szerkezetet használtam...melyik legyen?
+#: .././cogstat_chart.py:583
+msgid "Thickest line displays %d cases."
+msgstr "Η παχύτερη γραμμή εμφανίζει %d περιπτώσεις."
+
+#: .././cogstat_chart.py:637
+msgid "Means and 95% confidence intervals for the variables"
+msgstr "Μέσοι όροι και 95% διαστήματα εμπιστοσύνης για τις μεταβλητές"
+
+#: .././cogstat_hyp_test.py:307
+msgid "Paired t-test requires two variables."
+msgstr "Ζευγαρωτό t τεστ απαιτεί δύο μεταβλητές."
+
+#: .././cogstat_hyp_test.py:324
+msgid "Result of paired samples t-test"
+msgstr "Αποτέλεσμα ζευγαρωτών t τεστ"
+
+#: .././cogstat_hyp_test.py:342
+msgid "Paired Wilcoxon test requires two variables."
+msgstr "Ζευγαρωτή δοκιμασία Wilcoxon απαιτεί δύο μεταβλητές."
+
+#: .././cogstat_hyp_test.py:458
+msgid "Friedman test requires at least two variables."
+msgstr "Έλεγχος Friedman απαιτεί τουλάχιστον δύο μεταβλητές."
+
+#: .././cogstat_hyp_test.py:464
+msgid "Result of the Friedman test: "
+msgstr "Αποτέλεσμα των έλεγχων Friedman: "
+
+#: .././cogstat_stat.py:1125
+msgid "Boxplot and individual data of the groups"
+msgstr "Θηκόγραμμα και μεμονωμένα δεδομένα για τις ομάδες"
+
+#: .././cogstat_chart.py:787
+msgid "Mosaic plot of the groups"
+msgstr "Διάγραμμα μωσαϊκών για τις ομάδες"
+
+#: .././cogstat_chart.py:808
+msgid "Means and 95% confidence intervals for the groups"
+msgstr "Μέσοι όροι και 95% διάστημα εμπιστοσύνης για τις ομάδες"
+
+#: .././cogstat_hyp_test.py:650
+msgid "Levene test"
+msgstr "Κριτήριο Levene"
+
+#: .././cogstat_hyp_test.py:692
+msgid "Difference between the two groups:"
+msgstr "Διαφορά μεταξύ των δύο ομάδων:"
+
+#: .././cogstat_hyp_test.py:693
+msgid "95%% confidence interval [%0.*f, %0.*f]"
+msgstr "95%% διάστημα εμπιστοσύνης [%0.*f, %0.*f]"
+
+#: .././cogstat_hyp_test.py:694
+msgid "Result of independent samples t-test:"
+msgstr "Αποτέλεσμα ελέγχου t ανεξάρτητων δειγμάτων: "
+
+#: .././cogstat_hyp_test.py:724
+msgid "One of the groups should include only a single data."
+msgstr "Μία από τις ομάδες θα πρέπει να περιλαμβάνει μόνο ένα δεδομένο."
+
+#: .././cogstat_hyp_test.py:721
+msgid "Result of the modified independent samples t-test:"
+msgstr "Αποτέλεσμα τροποποιημένου ελέγχου t ανεξάρτητων δειγμάτων: "
+
+#: .././cogstat_hyp_test.py:776 .././cogstat_hyp_test.py:781
+#: .././cogstat_hyp_test.py:784
+msgid "Result of independent samples Mann-Whitney rank test: "
+msgstr "Αποτέλεσμα της ανεξάρτητης Mann-Whitney δοκιμασίας για τάξεις μεγέθους: "
+
+#: .././cogstat_hyp_test.py:819
+msgid "Result of one-way ANOVA: "
+msgstr "Αποτέλεσμα της μονοδρομής ανάλυσης διακύμανσης: "
+
+#: .././cogstat_stat.py:893
+msgid "Effect size: "
+msgstr "Μέγεθος της επίδρασης: "
+
+#: .././cogstat_hyp_test.py:827 .././cogstat_hyp_test.py:926
+msgid "Groups differ. Post-hoc test of the means."
+msgstr "Οι ομάδες διαφέρουν. Post Hoc έλεγχος των αριθμητικών μέσων."
+
+#: .././cogstat_hyp_test.py:922 .././cogstat_hyp_test.py:934
+msgid "Result of the Kruskal-Wallis test: "
+msgstr "Αποτέλεσμα των ελέγχων Kruskal-Wallis: "
+
+#: .././cogstat_stat.py:1021
+msgid "Cramér's V measure of association: "
+msgstr "Μέτρο σύνδεσης του Cramér's V: "
+
+#: .././cogstat_hyp_test.py:962
+msgid "Result of the Pearson's Chi-square test: "
+msgstr "Αποτέλεσμα των χι-τετράγωνων ελέγχων του Pearson: "
+
+#: .././cogstat_gui.py:132
+msgid "&Data"
+msgstr "&Δεδομένα"
+
+#: .././cogstat_gui.py:133
+msgid "&Open data file"
+msgstr "&Άνοιγμα αρχείου δεδομένων"
+
+#: .././cogstat_gui.py:133
+msgid "Ctrl+O"
+msgstr "Ctrl+O"
+
+#: .././cogstat_gui.py:135
+msgid "&Paste data"
+msgstr "&Επικόλληση δεδομένων"
+
+#: .././cogstat_gui.py:135
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: .././cogstat_gui.py:139 .././cogstat_gui.py:184
+msgid "&Display data"
+msgstr "Ε&μφάνιση δεδομένων"
+
+#: .././cogstat_gui.py:139
+msgid "Ctrl+D"
+msgstr "Ctrl+D"
+
+#: .././cogstat_gui.py:140 .././cogstat_gui.py:184
+msgid "Display data &briefly"
+msgstr "Εμφάνιση δεδομένων εν &ολίγοις"
+
+#: .././cogstat_gui.py:143
+msgid "&Analysis"
+msgstr "&Ανάλυση"
+
+#: .././cogstat_gui.py:144
+msgid "Ctrl+1"
+msgstr "Ctrl+1"
+
+#: .././cogstat_gui.py:145
+msgid "Ctrl+2"
+msgstr "Ctrl+2"
+
+#: .././cogstat_gui.py:147 .././cogstat_gui.py:185
+msgid "Pivot &table"
+msgstr "Συγκεντρωτικός &Πίνακας"
+
+#: .././cogstat_gui.py:151 .././cogstat_gui.py:187
+msgid "Compare &groups"
+msgstr "Σύγκριση &ομάδων"
+
+#: .././cogstat.py:797 ../ui/compare_groups.py:75
+msgid "Compare groups"
+msgstr "Σύγκριση ομάδων"
+
+#: .././cogstat_gui.py:154
+msgid "&Results"
+msgstr "Απο&τελέσματα"
+
+#: .././cogstat_gui.py:155
+msgid "&Clear results"
+msgstr "Ε&κκαθάριση αποτελεσμάτων"
+
+#: .././cogstat_gui.py:164
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: .././cogstat_gui.py:168
+msgid "&CogStat"
+msgstr "&CogStat"
+
+#: .././cogstat_gui.py:169
+msgid "&Help"
+msgstr "&Βοήθεια"
+
+#: .././cogstat_gui.py:169
+msgid "F1"
+msgstr "F1"
+
+#: .././cogstat_gui.py:170
+msgid "&Preferences"
+msgstr "&Προτιμήσεις"
+
+#: .././cogstat_gui.py:171
+msgid "Request a &feature"
+msgstr "Ζητήστε ένα &χαρακτηριστικό"
+
+#: .././cogstat_gui.py:175
+msgid "&Report a problem"
+msgstr "&Αναφορά προβλήματος"
+
+#: .././cogstat_gui.py:176
+msgid "&Diagnosis information"
+msgstr "Πληροφορίες &διάγνωσης"
+
+#: .././cogstat_gui.py:178
+#, fuzzy
+msgid "&About"
+msgstr "&Για"
+
+#: .././cogstat_gui.py:180
+msgid "&Exit"
+msgstr "&Έξοδος"
+
+#: .././cogstat_gui.py:180
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: .././cogstat_gui.py:184
+msgid "&Save data"
+msgstr "&Αποθήκευση δεδομένων"
+
+#: .././cogstat_gui.py:184
+msgid "Save data &as"
+msgstr "Αποθήκευση δεδομένων &ως"
+
+#: .././cogstat_gui.py:188
+msgid "&Compare groups and variables"
+msgstr "&Σύγκριση ομάδων και μεταβλητών"
+
+#: .././cogstat_gui.py:399
+msgid "Import error"
+msgstr "Σφάλμα εισαγωγής"
+
+#: .././cogstat_gui.py:399
+msgid "Data could not be loaded."
+msgstr "Δεν ήταν δυνατή η φόρτωση των δεδομένων."
+
+#: .././cogstat_gui.py:530 .././cogstat_gui.py:641
+msgid "At least two variables should be set."
+msgstr "Πρέπει να οριστούν τουλάχιστον δύο μεταβλητές."
+
+#: .././cogstat.py:645 ../ui/pivot.py:105
+msgid "Pivot table"
+msgstr "Συγκεντρωτικός Πίνακας"
+
+#: .././cogstat_gui.py:573
+msgid "The dependent variable and at least one grouping variable should be given."
+msgstr "Θα πρέπει να δοθεί η εξαρτημένη μεταβλητή και τουλάχιστον μία μεταβλητή ομαδοποίησης."
+
+#: .././cogstat_gui.py:677
+msgid "Both the dependent and the grouping variables should be set."
+msgstr "Πρέπει να οριστούν τόσο οι εξαρτώμενες όσο και οι μεταβλητές ομαδοποίησης."
+
+#: .././cogstat_gui.py:696
+msgid "Clear output"
+msgstr "Εκκαθάριση εξόδου"
+
+#: .././cogstat_gui.py:697
+msgid "Are you sure you want to delete the output?"
+msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε την έξοδο;"
+
+#: .././cogstat_gui.py:767
+#, fuzzy
+msgid "About CogStat "
+msgstr "Για το CogStat "
+
+#: .././cogstat_gui.py:777
+msgid "System components"
+msgstr "Εξαρτήματα συστήματος"
+
+#: .././cogstat_gui.py:789
+msgid "Save output"
+msgstr "Αποθήκευση εξόδου"
+
+#: .././cogstat_gui.py:790
+msgid "Output has unsaved results. Do you want to save it?"
+msgstr "Η έξοδος έχει μη αποθηκευμένα αποτελέσματα. Θέλετε να το αποθηκεύσετε;"
+
+#: .././cogstat.py:292
+msgid "Data"
+msgstr "Δεδομένα"
+
+#: .././cogstat.py:293
+msgid "Source: "
+msgstr "Πηγή προέλευσης: "
+
+#: .././cogstat.py:294
+msgid " variables and "
+msgstr " μεταβλητές και "
+
+#: .././cogstat.py:295
+msgid " cases"
+msgstr " περιπτώσεις"
+
+#: .././cogstat.py:307
+msgid " further cases are not displayed..."
+msgstr " δεν εμφανίζονται άλλες περιπτώσεις..."
+
+#: .././cogstat_hyp_test.py:512 .././cogstat_hyp_test.py:561
+#: .././cogstat_hyp_test.py:619 .././cogstat.py:496
+msgid "Interval variable."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:548 .././cogstat_hyp_test.py:597
+#: .././cogstat_hyp_test.py:624 .././cogstat.py:521
+msgid "Ordinal variable."
+msgstr ""
+
+#: .././cogstat.py:416
+msgid "Explore variable"
+msgstr ""
+
+#: .././cogstat.py:417
+msgid "Exploring variable: "
+msgstr ""
+
+#: .././cogstat.py:433 ../ui/var_properties.py:72
+msgid "Frequencies"
+msgstr ""
+
+#: .././cogstat.py:461
+msgid "Normality"
+msgstr "Κανονικότητα"
+
+#: .././cogstat.py:549
+msgid "Exploring variable pair: "
+msgstr ""
+
+#: .././cogstat_hyp_test.py:211 .././cogstat_hyp_test.py:247
+#: .././cogstat.py:584
+msgid "Interval variables."
+msgstr ""
+
+#: .././cogstat.py:585
+msgid "Running Pearson's and Spearman's correlation."
+msgstr ""
+
+#: .././cogstat_stat.py:449 .././cogstat_stat.py:472 .././cogstat.py:588
+msgid "Pearson's correlation"
+msgstr ""
+
+#: .././cogstat.py:593
+msgid "Linear regression"
+msgstr ""
+
+#: .././cogstat_stat.py:451 .././cogstat_stat.py:454 .././cogstat_stat.py:478
+#: .././cogstat.py:596 .././cogstat.py:606
+msgid "Spearman's rank-order correlation"
+msgstr "Συσχέτιση τάξεων μεγέθους του Spearman"
+
+#: .././cogstat_hyp_test.py:232 .././cogstat_hyp_test.py:268
+#: .././cogstat.py:602
+msgid "Ordinal variables."
+msgstr ""
+
+#: .././cogstat.py:602
+msgid "Running Spearman's correlation."
+msgstr ""
+
+#: .././cogstat.py:614
+msgid "Not all variables are nominal. Consider comparing groups."
+msgstr ""
+
+#: .././cogstat.py:615
+msgid "Nominal variables."
+msgstr "Ονομαστικές μεταβλητές."
+
+#: .././cogstat.py:615
+msgid "Running Cramér's V."
+msgstr ""
+
+#: .././cogstat.py:675
+msgid "Variables to compare: "
+msgstr "Μεταβλητές προς σύγκριση: "
+
+#: .././cogstat.py:692
+msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
+msgstr "Δυστυχώς, δεν μπορείτε να συγκρίνετε μεταβλητές με διαφορετικά επίπεδα μέτρησης. Θα μπορούσατε να υποβαθμίσετε υψηλότερα επίπεδα μέτρησης σε χαμηλότερα για να έχετε το ίδιο επίπεδο μέτρησης."
+
+#: .././cogstat_hyp_test.py:206
+msgid "At least two variables required."
+msgstr "Απαιτούνται τουλάχιστον δύο μεταβλητές."
+
+#: .././cogstat_hyp_test.py:208
+msgid "Two variables. "
+msgstr "Δύο μεταβλητές. "
+
+#: .././cogstat_hyp_test.py:214 .././cogstat_hyp_test.py:251
+#: .././cogstat_hyp_test.py:494 .././cogstat_hyp_test.py:516
+#: .././cogstat_hyp_test.py:565 .././cogstat.py:500
+msgid "Checking for normality."
+msgstr "Έλεγχος για κανονικότητα."
+
+#: .././cogstat_hyp_test.py:500
+msgid "Normality is violated in variable "
+msgstr "Παραβίαση της κανονικότητας στη μεταβλητή "
+
+#: .././cogstat_hyp_test.py:225
+msgid "Normality is not violated. >> Running paired t-test."
+msgstr "Η κανονικότητα δεν παραβιάζεται. >> Εκτέλεση ζευγαρωτό ελέγχου t."
+
+#: .././cogstat_hyp_test.py:229 .././cogstat_hyp_test.py:233
+msgid "Running paired Wilcoxon test."
+msgstr "Εκτέλεση ζευγαρωτή δοκιμασίας Wilcoxon."
+
+#: .././cogstat_hyp_test.py:243 .././cogstat_hyp_test.py:279
+#: .././cogstat_hyp_test.py:288 .././cogstat_hyp_test.py:291
+#: .././cogstat_hyp_test.py:625 .././cogstat_hyp_test.py:628
+#: .././cogstat.py:527
+msgid "Sorry, not implemented yet."
+msgstr "Δυστυχώς, δεν έχει εφαρμοστεί ακόμα."
+
+#: .././cogstat_hyp_test.py:245
+msgid "More than two variables. "
+msgstr "Περισσότερες από δύο μεταβλητές."
+
+#: .././cogstat_hyp_test.py:265 .././cogstat_hyp_test.py:269
+msgid "Running Friedman test."
+msgstr "Εκτέλεση ελέγχου Friedman."
+
+#: .././cogstat_stat.py:129 .././cogstat.py:800
+msgid "Dependent variable: "
+msgstr "Εξαρτημένη μεταβλητή: "
+
+#: .././cogstat.py:801
+msgid "Group(s): "
+msgstr "Ομάδα(-ες): "
+
+#: .././cogstat_hyp_test.py:482
+msgid "One grouping variable. "
+msgstr "Μία μεταβλητή ομαδοποίησης. "
+
+#: .././cogstat_hyp_test.py:484
+msgid "There is only one group. At least two groups required."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:488
+msgid "Two groups. "
+msgstr "Δύο ομάδες. "
+
+#: .././cogstat_hyp_test.py:492
+msgid "One group contains only one case. >> Choosing modified t-test."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:501
+msgid "group "
+msgstr "ομάδα "
+
+#: .././cogstat_hyp_test.py:502 .././cogstat_hyp_test.py:540
+#: .././cogstat_hyp_test.py:549
+msgid "Running Mann-Whitney test."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:505
+msgid "Normality is not violated. >> Running modified t-test."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:552 .././cogstat_hyp_test.py:601
+#: .././cogstat_hyp_test.py:627
+msgid "Nominal variable."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:553 .././cogstat_hyp_test.py:601
+msgid "Running Chi-square test."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:559
+msgid "More than two groups."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:593 .././cogstat_hyp_test.py:597
+msgid "Running Kruskal-Wallis test."
+msgstr ""
+
+#: .././cogstat.py:1207
+msgid "Several grouping variables."
+msgstr "Μερικές μεταβλητές ομαδοποίησης."
+
+#: .././cogstat_dialogs.py:25 .././cogstat_dialogs.py:29
+msgid "Open data file"
+msgstr ""
+
+#: .././cogstat_dialogs.py:33
+msgid "Save result file"
+msgstr ""
+
+#: .././cogstat_gui.py:144 .././cogstat_gui.py:185
+msgid "&Explore variable"
+msgstr "&Εξερεύνηση μεταβλητής"
+
+#: .././cogstat_gui.py:398 .././cogstat.py:237
+msgid "Import failed"
+msgstr ""
+
+#: .././cogstat_stat.py:268 .././cogstat_stat.py:271
+msgid "Freq"
+msgstr ""
+
+#: .././cogstat_stat.py:272 .././cogstat_stat.py:274 .././cogstat_stat.py:275
+msgid "Rel freq"
+msgstr ""
+
+#: .././cogstat_stat.py:271
+msgid "Cum freq"
+msgstr ""
+
+#: .././cogstat_stat.py:274 .././cogstat_stat.py:276
+msgid "Cum rel freq"
+msgstr ""
+
+#: .././cogstat_stat.py:1023
+msgid "Cramér's V measure of association cannot be computed (division by zero)."
+msgstr ""
+
+#: .././cogstat.py:123 .././cogstat.py:131
+msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
+msgstr ""
+
+#: .././cogstat.py:173
+msgid "pandas dataframe"
+msgstr ""
+
+#: .././cogstat.py:199
+msgid "text file - "
+msgstr ""
+
+#: .././cogstat.py:234
+msgid "clipboard"
+msgstr ""
+
+#: .././cogstat.py:303
+msgid "Type"
+msgstr ""
+
+#: .././cogstat.py:303
+msgid "Level"
+msgstr "Eπίπεδο"
+
+#: .././cogstat.py:323
+msgid "Filtering"
+msgstr ""
+
+#: .././cogstat.py:327
+msgid "Filtering is switched off."
+msgstr ""
+
+#: .././cogstat.py:342
+msgid "Filtering based on %s.\n"
+""
+msgstr ""
+
+#: .././cogstat.py:342 .././cogstat.py:359
+msgid " (2 SD)"
+msgstr ""
+
+#. the numbers of newlines at the end of the string does not match, what does this mean?
+#: .././cogstat.py:344
+msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
+""
+msgstr "Εξαιρούνται οι περιπτώσεις εκτός του εύρους: %0.*f  --  %0.*f"
+
+#: .././cogstat.py:351
+msgid "The following cases will be excluded: "
+msgstr "Εξαιρούνται οι ακόλουθες περιπτώσεις: "
+
+#: .././cogstat.py:355
+msgid "No cases were excluded."
+msgstr "Δεν αποκλείστηκαν περιπτώσεις."
+
+#: .././cogstat_hyp_test.py:524 .././cogstat_hyp_test.py:573
+msgid "Checking for homogeneity of variance across groups."
+msgstr ""
+
+#: .././cogstat_gui.py:51
+msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr ""
+
+#: .././cogstat_gui.py:505
+msgid "Explore variable."
+msgstr ""
+
+#: .././cogstat_gui.py:530 .././cogstat_gui.py:546
+msgid "Explore variable pair."
+msgstr ""
+
+#: .././cogstat_gui.py:573 .././cogstat_gui.py:578
+msgid "Pivot table."
+msgstr "Συγκεντρωτικός Πίνακας."
+
+#: .././cogstat_gui.py:641 .././cogstat_gui.py:649
+msgid "Compare variables."
+msgstr ""
+
+#: .././cogstat_gui.py:677 .././cogstat_gui.py:689
+msgid "Compare groups."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:85
+msgid "Normality cannot be checked for constant variable in %s%s.\n"
+""
+msgstr "Η κανονικότητα δεν μπορεί να ελεγχθεί για σταθερή μεταβλητή στο %s%s."
+
+#: .././cogstat_hyp_test.py:100
+msgid "Too small sample to test normality in variable %s%s.\n"
+""
+msgstr "Πολύ μικρό δείγμα για τον έλεγχο της κανονική κατανομής σε μεταβλητή % s% s"
+
+#: .././cogstat_hyp_test.py:355
+msgid "Result of the McNemar test"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:361
+msgid "Result of Cochran's Q test"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:378
+msgid "Result of Mauchly's test to check sphericity"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:382
+msgid "Sphericity is violated."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:383
+msgid "Using Greenhouse-Geisser correction."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:384 .././cogstat_hyp_test.py:389
+msgid "Result of repeated measures ANOVA"
+msgstr "Αποτελέσµα δοκιµασιών ANOVA επαναλαμβανόμενων μετρήσεων"
+
+#: .././cogstat_hyp_test.py:388
+msgid "Sphericity is not violated. "
+msgstr ""
+
+#: .././cogstat_hyp_test.py:395
+msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:759
+msgid "Result of Welch's unequal variances t-test:"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:212
+msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
+msgstr "Επιλογή ζευγαρωτό t τεστ ή ζευγαρωτή δοκιμασίας Wilcoxon ανάλογα με τις υποθέσεις."
+
+#: .././cogstat_hyp_test.py:228 .././cogstat_hyp_test.py:264
+msgid "Normality is violated in variable(s): %s."
+msgstr "Παραβίαση της κανονικότητας στη(σε) μεταβλητή(-ές): %s."
+
+#: .././cogstat_hyp_test.py:237 .././cogstat_hyp_test.py:273
+msgid "Nominal dichotomous variables."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:238
+msgid "Running McNemar test."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:242 .././cogstat_hyp_test.py:278
+msgid "Nominal non dichotomous variables."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:248
+msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
+msgstr "Επιλογή δοκιμασίας ANOVA επαναλαμβανόμενων μετρήσεων ή ελέγχου Friedman ανάλογα με τις υποθέσεις."
+
+#: .././cogstat_hyp_test.py:274
+msgid "Running Cochran's Q test."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:514
+msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
+msgstr "Επιλογή ελέγχου t δύο δειγμάτων, Mann-Whitney δοκιμασίας ή ελέγχου του Welch ανάλογα με τις υποθέσεις."
+
+#: .././cogstat_hyp_test.py:538
+msgid "Normality is violated in variable %s, group(s) %s."
+msgstr "Παραβίαση της κανονικότητας στη μεταβλητή %s, ομάδα(-ες) %s."
+
+#: .././cogstat_hyp_test.py:543
+msgid "Homeogeneity of variance violated in variable %s."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:544
+msgid "Running Welch's t-test."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:562
+msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
+msgstr "Επιλογή μονόδρομη δοκιμασίας ANOVA ή ελέγχου Kruskal-Wallis ανάλογα με τις υποθέσεις."
+
+#: .././cogstat_hyp_test.py:588
+msgid "Normality is violated in variable %s, group(s) %s. "
+msgstr "Παραβίαση της κανονικότητας στη μεταβλητή %s, ομάδα(-ες) %s. "
+
+#: .././cogstat_hyp_test.py:591
+msgid "Homeogeneity of variance violated in variable %s. "
+msgstr ""
+
+#: .././cogstat_hyp_test.py:260 .././cogstat.py:505
+msgid "Normality is not violated."
+msgstr "Η κανονικότητα δεν παραβιάζεται."
+
+#: .././cogstat_hyp_test.py:261
+msgid "Running repeated measures one-way ANOVA."
+msgstr "Εκτέλεση μονοδρομή δοκιμασίας ANOVA επαναλαμβανόμενων μετρήσεων."
+
+#: .././cogstat_gui.py:140
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: .././cogstat_gui.py:413
+msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
+msgstr ""
+
+#: .././cogstat_stat.py:255
+msgid "N of missing cases: %g"
+msgstr "N εκλειπούσων περιπτώσεων: %g"
+
+#: .././cogstat_chart.py:247 .././cogstat_chart.py:332
+#: .././cogstat_chart.py:514 .././cogstat_chart.py:515
+#: .././cogstat_chart.py:734
+msgid "Rank of %s"
+msgstr "Τάξη μεγέθους για %s"
+
+#: .././cogstat_hyp_test.py:187 .././cogstat_hyp_test.py:346
+msgid "Result of Wilcoxon signed-rank test"
+msgstr "Αποτέλεσμα του ελέγχου των προσημασμένων τάξεων μεγέθους του Wilcoxon"
+
+#: .././cogstat_chart.py:249 .././cogstat.py:422 .././cogstat.py:555
+#: .././cogstat.py:699 .././cogstat.py:810
+msgid "Raw data"
+msgstr ""
+
+#: .././cogstat.py:429 .././cogstat.py:571 .././cogstat.py:721
+#: .././cogstat.py:861
+msgid "Sample properties"
+msgstr "Ιδιότητες δείγματος"
+
+#: .././cogstat.py:530
+msgid "Population parameter estimations and tests"
+msgstr ""
+
+#: .././cogstat.py:537 .././cogstat.py:635 .././cogstat.py:663
+#: .././cogstat.py:678
+msgid "Hypothesis test: "
+msgstr ""
+
+#: .././cogstat.py:489
+msgid "Testing if mean deviates from the value %s."
+msgstr "Έλεγχος εάν ο αριθμητικός μέσος αποκλίνει από την τιμή %s."
+
+#: .././cogstat.py:491
+msgid "Testing if median deviates from the value %s."
+msgstr "Έλεγχος εάν ο διάμεσος αποκλίνει από την τιμή %s"
+
+#: .././cogstat.py:498
+msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
+msgstr "Επιλογή ελέγχου t ενός δείγματος ή ελέγχου των προσημασμένων τάξεων μεγέθους του Wilcoxon ανάλογα με τις υποθέσεις."
+
+#: .././cogstat.py:506
+msgid "Running one-sample t-test."
+msgstr "Εκτέλεση ελέγχου t ενός δείγματος."
+
+#: .././cogstat.py:513
+msgid "Normality is violated."
+msgstr "Παραβιάζεται η κανονικότητα."
+
+#: .././cogstat.py:514 .././cogstat.py:522
+msgid "Running Wilcoxon signed-rank test."
+msgstr "Εκτέλεση ελέγχου των προσημασμένων τάξεων μεγέθους του Wilcoxon."
+
+#: .././cogstat.py:457 .././cogstat.py:574 .././cogstat.py:745
+#: .././cogstat.py:893
+msgid "Population properties"
+msgstr ""
+
+#: .././cogstat.py:583 .././cogstat.py:601
+msgid "Testing if correlation differs from 0."
+msgstr ""
+
+#: .././cogstat.py:612
+msgid "Testing if variables are independent."
+msgstr "Έλεγχος εάν οι μεταβλητές είναι ανεξάρτητες."
+
+#: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
+msgid "Hypothesis testing: "
+msgstr ""
+
+#: .././cogstat_hyp_test.py:199 .././cogstat_hyp_test.py:476
+#: .././cogstat_hyp_test.py:610
+msgid "Testing if the means are the same."
+msgstr "Έλεγχος εάν οι αριθμητικοί μέσοι είναι οι ίδιοι."
+
+#: .././cogstat_hyp_test.py:201 .././cogstat_hyp_test.py:478
+#: .././cogstat_hyp_test.py:612
+msgid "Testing if the medians are the same."
+msgstr "Έλεγχος εάν οι διάμεσοι είναι οι ίδιοι."
+
+#: .././cogstat_hyp_test.py:203 .././cogstat_hyp_test.py:480
+#: .././cogstat_hyp_test.py:614
+msgid "Testing if the distributions are the same."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:534
+msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
+msgstr "Κανονικότητα και ομοιογένεια διακύμανσης δεν παραβιάζονται. >> Εκτέλεση ελέγχου t δύο δειγμάτων."
+
+#: .././cogstat_hyp_test.py:582
+msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
+msgstr "Κανονικότητα και ομοιογένεια διακύμανσης δεν παραβιάζονται. >> Εκτέλεση μονόδρομη ANOVA."
+
+#: .././cogstat_gui.py:767
+msgid "Simple automatic data analysis software"
+msgstr ""
+
+#: .././cogstat_gui.py:767
+msgid "Visit CogStat website"
+msgstr "Επισκεφτείτε τον ιστότοπο του CogStat"
+
+#: .././cogstat_gui.py:231
+msgid "Welcome to CogStat!"
+msgstr "Καλώς ήλθατε στο CogStat!"
+
+#: .././cogstat_gui.py:232
+msgid "CogStat makes statistical analysis more simple and efficient."
+msgstr "Το CogStat κάνει τη στατιστική ανάλυση πιο απλή και αποτελεσματική."
+
+#: .././cogstat_gui.py:233
+msgid "To start working open a data file or paste your data from a spreadsheet."
+msgstr ""
+
+#: .././cogstat_chart.py:246
+msgid "Rank of the raw data"
+msgstr "Τάξη μεγέθους ακατέργαστων δεδομένων"
+
+#: .././cogstat_chart.py:317
+msgid "Histogram of rank data with individual data and boxplot"
+msgstr "Ιστόγραμμα δεδομένων τάξη με μεμονωμένα δεδομένα και θηκόγραμμα"
+
+#: .././cogstat_chart.py:513
+msgid "Scatterplot of the rank of the variables"
+msgstr ""
+
+#: .././cogstat_chart.py:565
+msgid "Individual data of the variables"
+msgstr ""
+
+#: .././cogstat_chart.py:736
+msgid "Individual data of the rank data of the groups"
+msgstr "Μεμονωμένα δεδομένα των δεδομένων τάξη των ομάδων"
+
+#: .././cogstat_stat.py:1109
+msgid "Boxplot and individual data of the rank data of the groups"
+msgstr "Θηκόγραμμα και μεμονωμένα δεδομένα των δεδομένων τάξη των ομάδων"
+
+#: .././cogstat_chart.py:752
+msgid "Individual data of the groups"
+msgstr ""
+
+#: .././cogstat_stat.py:398 .././cogstat_stat.py:404 .././cogstat_stat.py:467
+#: .././cogstat_stat.py:558 .././cogstat_stat.py:565 .././cogstat_stat.py:592
+#: .././cogstat_stat.py:627 .././cogstat_stat.py:634 .././cogstat_stat.py:684
+#: .././cogstat.py:576
+msgid "Point estimation"
+msgstr ""
+
+#: .././cogstat_stat.py:467 .././cogstat.py:576
+msgid "95% confidence interval"
+msgstr "95% διάστημα εμπιστοσύνης"
+
+#: .././cogstat_stat.py:121 .././cogstat_stat.py:316 .././cogstat_stat.py:402
+#: ../ui/pivot.py:113
+msgid "Standard deviation"
+msgstr "Τυπική απόκλιση"
+
+#. I'm asking this for all phrases beginning with 'N of..' . I know it means 'Number of...' but should I change the N for Α standing for 'αριθμός' in Greek, or should I leave it as 'N' because it's international?
+#: .././cogstat.py:705 .././cogstat.py:827
+msgid "N of valid cases"
+msgstr "Ν έγκυρων περιπτώσεων"
+
+#: .././cogstat_gui.py:111
+msgid "Update available"
+msgstr "Διαθέσιμη ενημέρωση"
+
+#: .././cogstat_gui.py:112
+msgid "New version is available."
+msgstr "Νέα έκδοση είναι διαθέσιμη."
+
+#: .././cogstat_gui.py:113
+msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
+msgstr "Μπορείτε να κατεβάσετε τη νέα έκδοση<br>from the <a href = \"%s\">CogStat download page</a>."
+
+#: .././cogstat_gui.py:145 .././cogstat_gui.py:187
+msgid "Explore relation of variable &pair"
+msgstr "Εξερεύνηση της σχέσης μεταβλητού &ζεύγους"
+
+#: .././cogstat_gui.py:150 .././cogstat_gui.py:187
+msgid "Compare repeated measures va&riables"
+msgstr "Σύγκριση μεταβλητών επαναλαμβανόμενων &μετρήσεων"
+
+#: .././cogstat_stat.py:317
+msgid "Minimum"
+msgstr ""
+
+#: .././cogstat_stat.py:318
+msgid "Maximum"
+msgstr ""
+
+#: .././cogstat_stat.py:120 .././cogstat_stat.py:321 ../ui/pivot.py:112
+msgid "Upper quartile"
+msgstr ""
+
+#: .././cogstat_stat.py:349
+msgid "Descriptives for the variables"
+msgstr ""
+
+#: .././cogstat_stat.py:365
+msgid "Descriptives for the groups"
+msgstr ""
+
+#: .././cogstat_stat.py:504 .././cogstat_stat.py:512 .././cogstat_stat.py:522
+msgid "Contingency table"
+msgstr "Πίνακας συνάφειας"
+
+#: .././cogstat_stat.py:936
+msgid "Result of two-way ANOVA:\n"
+""
+msgstr ""
+
+#: .././cogstat_hyp_test.py:867
+msgid "Main effect of %s: "
+msgstr ""
+
+#: .././cogstat_stat.py:943
+msgid "Interaction of %s and %s: "
+msgstr ""
+
+#: .././cogstat.py:214
+msgid "SPSS file - "
+msgstr "αρχείο SPSS - "
+
+#: .././cogstat.py:548
+msgid "Explore relation of variable pair"
+msgstr ""
+
+#: .././cogstat.py:673 ../ui/compare_vars.py:68
+msgid "Compare repeated measures variables"
+msgstr "Σύγκριση μεταβλητών επαναλαμβανόμενων μετρήσεων"
+
+#. here I used an ancient Greek term for 'missing' to make it shorter but today it would be 'number of cases that are missing', I'm asking my dad how to put this
+#: .././cogstat.py:706 .././cogstat.py:830
+msgid "N of missing cases"
+msgstr "N εκλειπούσων περιπτώσεων"
+
+#: .././cogstat.py:1192
+msgid "Two grouping variables. "
+msgstr "Δύο μεταβλητές ομαδοποίησης. "
+
+#: .././cogstat_hyp_test.py:620
+msgid "Choosing factorial ANOVA."
+msgstr ""
+
+#: .././cogstat.py:561
+msgid "N of valid pairs"
+msgstr ""
+
+#: .././cogstat.py:562
+msgid "N of missing pairs"
+msgstr "N εκλειπούσων ζευγαριών"
+
+#: .././cogstat.py:937
+msgid "N of missing group cases"
+msgstr "N εκλειπούσων ομαδικών περιπτώσεων"
+
+#: .././cogstat.py:845
+msgid "N of missing grouping variable in %s"
+msgstr "N εκλειπούσων μεταβλητών ομαδοποίησης σε %s"
+
+#: .././cogstat_stat.py:322
+msgid "Skewness"
+msgstr "Αυμμετρία"
+
+#: .././cogstat_stat.py:323
+msgid "Kurtosis"
+msgstr "Κύρτωση"
+
+#: .././cogstat_stat.py:319
+msgid "Range"
+msgstr ""
+
+#: .././cogstat_stat.py:349
+msgid "Descriptives for the variable"
+msgstr ""
+
+#: .././cogstat.py:40
+msgid "The measurement levels of the variables are not set. Set them in your data source."
+msgstr "Τα επίπεδα μέτρησης των μεταβλητών δεν έχουν οριστεί. Ορίστε τα στην πηγή προέλευσης των δεδομένων σας."
+
+#: .././cogstat_gui.py:52 .././cogstat_gui.py:414
+msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
+msgstr ""
+
+#: .././cogstat_gui.py:234
+msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+msgstr "Βρείτε περισσότερες πληροφορίες για το CogStat στο <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+
+#: .././cogstat_hyp_test.py:38 .././cogstat.py:41 .././cogstat.py:157
+#: .././cogstat.py:165 .././cogstat.py:270 .././cogstat.py:278
+msgid "Read more about this issue <a href = \"%s\">here</a>."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:738
+msgid "Result of slope test with %s:"
+msgstr ""
+
+#: .././cogstat.py:154
+msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
+msgstr ""
+
+#: .././cogstat.py:156 .././cogstat.py:164 .././cogstat.py:269
+#: .././cogstat.py:277
+msgid "You can fix this in your data source."
+msgstr "Μπορείτε να το διορθώσετε στην πηγή προέλευσης των δεδομένων σας."
+
+#: .././cogstat.py:163
+msgid "The measurement level was not set for all variables."
+msgstr ""
+
+#: .././cogstat.py:267
+msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr ""
+
+#: .././cogstat.py:275
+msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr ""
+
+#: .././cogstat.py:627 .././cogstat.py:656 .././cogstat.py:672
+#: .././cogstat.py:1085
+msgid "Standardized effect size:"
+msgstr "Τυποποιημένος μέγεθος της επίδρασης:"
+
+#: .././cogstat_gui.py:134
+msgid "Open d&emo data file"
+msgstr "Άνοιγμα δ&ιαδήλωση αρχείου δεδομένων"
+
+#: .././cogstat_gui.py:134
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: .././cogstat_gui.py:158
+msgid "&Increase text size"
+msgstr "Αύ&ξηση μεγέθους κειμένου"
+
+#: .././cogstat_gui.py:158
+msgid "Ctrl++"
+msgstr "Ctrl++"
+
+#: .././cogstat_gui.py:159
+msgid "&Decrease text size"
+msgstr "&Μείωση μεγέθους κειμένου"
+
+#: .././cogstat_gui.py:159
+msgid "Ctrl+-"
+msgstr "Ctrl+-"
+
+#: .././cogstat_gui.py:164
+msgid "&Save results"
+msgstr "Απο&θήκευση αποτελεσμάτων"
+
+#: .././cogstat_gui.py:165
+msgid "Save results &as"
+msgstr "Αποθήκευση αποτελεσμάτων &ως"
+
+#: .././cogstat_chart.py:567
+msgid "Boxplots and individual data of the variables"
+msgstr "Θηκογράμματα και μεμονωμένα δεδομένα των μεταβλητών"
+
+#: .././cogstat_chart.py:723
+msgid "Largest individual sign displays %d cases."
+msgstr "Το μεγαλύτερο μεμονωμένο σύμβολο εμφανίζει %d περιπτώσεις."
+
+#: .././cogstat_chart.py:738
+msgid "Boxplots and individual data of the rank data of the groups"
+msgstr "Θηκογράμματα και μεμονωμένα δεδομένα των δεδομένων τάξη των ομάδων"
+
+#: .././cogstat_chart.py:754
+msgid "Boxplots and individual data of the groups"
+msgstr "Θηκογράμματα και μεμονωμένα δεδομένα των ομάδων"
+
+#: .././cogstat_stat.py:562 .././cogstat_stat.py:567 .././cogstat_stat.py:592
+#: .././cogstat_stat.py:630 .././cogstat_stat.py:639 .././cogstat_stat.py:684
+msgid "95% CI (low)"
+msgstr ""
+
+#: .././cogstat_stat.py:563 .././cogstat_stat.py:567 .././cogstat_stat.py:592
+#: .././cogstat_stat.py:631 .././cogstat_stat.py:640 .././cogstat_stat.py:684
+msgid "95% CI (high)"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:927
+msgid "Results of Dunn's test (p values)."
+msgstr ""
+
+#: .././cogstat.py:750 .././cogstat.py:896
+msgid "Present confidence interval values suppose normality."
+msgstr "Οι τρέχουσες τιμές διαστήματος εμπιστοσύνης υποθέτουν την κανονικότητα."
+
+#: .././cogstat.py:750 .././cogstat.py:896
+msgid "Means"
+msgstr "Αριθμητικοί μέσοι"
+
+#: .././cogstat_gui.py:155
+msgid "Ctrl+Del"
+msgstr "Ctrl+Del"
+
+#: .././cogstat_gui.py:162
+msgid "Ctrl+Shift+E"
+msgstr "Ctrl+Shift+E"
+
+#: .././cogstat_gui.py:165
+msgid "Ctrl+Shift+P"
+msgstr "Ctrl+Shift+P"
+
+#: .././cogstat.py:309
+msgid "The next %s cases will not be printed. You can check all cases in the original data source."
+msgstr "Οι επόμενες %s περιπτώσεις δεν θα εκτυπωθούν. Μπορείτε να ελέγξετε όλες τις περιπτώσεις στην αρχική πηγή προέλευσης των δεδομένων."
+
+#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:77
+#: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
+#: ../ui/explore_var_pairs.py:57 ../ui/compare_vars.py:70 ../ui/diffusion.py:92
+msgid "Available variables"
+msgstr ""
+
+#: .././cogstat_stat.py:119 ../ui/pivot.py:107
+msgid "N"
+msgstr ""
+
+#: .././cogstat_stat.py:119 ../ui/pivot.py:108
+msgid "Sum"
+msgstr ""
+
+#: .././cogstat_stat.py:120 .././cogstat_stat.py:320 ../ui/pivot.py:111
+msgid "Lower quartile"
+msgstr ""
+
+#: .././cogstat_stat.py:121 ../ui/pivot.py:114
+msgid "Variance"
+msgstr ""
+
+#: ../ui/pivot.py:115
+msgid "Rows"
+msgstr ""
+
+#: ../ui/pivot.py:116
+msgid "Columns"
+msgstr ""
+
+#: ../ui/pivot.py:117
+msgid "Pages"
+msgstr ""
+
+#: ../ui/pivot.py:118
+msgid "Dependent variable"
+msgstr "Εξαρτημένη μεταβλητή"
+
+#: ../ui/pivot.py:119
+msgid "Function"
+msgstr ""
+
+#: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
+#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:76
+#: ../ui/compare_groups.py:80 ../ui/compare_groups_single_case_slope.py:64
+#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:60
+#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:71 ../ui/diffusion.py:97
+#: ../ui/diffusion.py:100 ../ui/diffusion.py:102 ../ui/diffusion.py:104
+msgid "<="
+msgstr "<="
+
+#: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
+#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:79
+#: ../ui/compare_groups.py:82 ../ui/compare_groups_single_case_slope.py:67
+#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:59
+#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:69 ../ui/diffusion.py:98
+#: ../ui/diffusion.py:99 ../ui/diffusion.py:101 ../ui/diffusion.py:103
+msgid "=>"
+msgstr "=>"
+
+#: ../ui/compare_groups.py:78
+msgid "Dependent variable(s)"
+msgstr "Εξαρτημένη μεταβλητή(-ές)"
+
+#: ../ui/compare_groups.py:81
+msgid "Group(s)"
+msgstr ""
+
+#: ../ui/compare_groups.py:83
+msgid "Single case slope..."
+msgstr ""
+
+#: ../ui/preferences.py:53
+msgid "Preferences"
+msgstr "Προτιμήσεις"
+
+#: ../ui/preferences.py:54
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: ../ui/preferences.py:55
+msgid "You should restart CogStat to use the new language"
+msgstr "Πρέπει να κάνετε επανεκκίνηση του CogStat για να χρησιμοποιήσετε τη νέα γλώσσα"
+
+#: ../ui/preferences.py:56
+msgid "Chart theme"
+msgstr ""
+
+#: ../ui/preferences.py:57
+msgid "You should restart CogStat to use the new theme"
+msgstr ""
+
+#: ../ui/compare_groups_single_case_slope.py:63
+msgid "Compare groups - Single case slope"
+msgstr ""
+
+#: ../ui/compare_groups_single_case_slope.py:66
+msgid "Slope SE variable"
+msgstr ""
+
+#: ../ui/compare_groups_single_case_slope.py:68
+msgid "Number of trials"
+msgstr ""
+
+#: ../ui/var_properties.py:68
+msgid "Explore variables"
+msgstr ""
+
+#: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
+#: ../ui/explore_var_pairs.py:58 ../ui/compare_vars_wiz.py:67
+#: ../ui/compare_vars.py:72
+msgid "Selected variables"
+msgstr ""
+
+#: ../ui/var_properties.py:71
+msgid "Statistics"
+msgstr ""
+
+#: ../ui/var_properties.py:73
+msgid "0"
+msgstr "0"
+
+#: ../ui/var_properties.py:74
+msgid "Central tendency test value"
+msgstr ""
+
+#: ../ui/explore_var_pairs.py:56
+msgid "Explore relation of variable pairs"
+msgstr ""
+
+#: ../ui/compare_vars_wiz.py:61
+msgid "Wizard"
+msgstr "Μάγος"
+
+#: ../ui/compare_vars_wiz.py:62
+msgid "One factor"
+msgstr ""
+
+#: ../ui/compare_vars_wiz.py:63
+msgid "Several factors"
+msgstr ""
+
+#: ../ui/compare_vars_wiz.py:64
+msgid "Not implemented yet"
+msgstr ""
+
+#: ../ui/compare_vars_wiz.py:66
+msgid "Variables to choose from"
+msgstr "Μεταβλητές για να διαλέξετε"
+
+#: ../ui/data_measlev.py:37
+msgid "Variable properties"
+msgstr ""
+
+#: .././cogstat_gui.py:137 .././cogstat_gui.py:184
+msgid "&Filter outliers"
+msgstr "&Φιλτράρισμα των ακραίων τιμών"
+
+#: .././cogstat_gui.py:137
+msgid "Ctrl+L"
+msgstr "Ctrl+L"
+
+#: .././cogstat_gui.py:162
+msgid "Text is &editable"
+msgstr "Το κείμενο είναι επεξε&ργάσιμο"
+
+#: .././cogstat_gui.py:170
+msgid "Ctrl+Shift+R"
+msgstr "Ctrl+Shift+R"
+
+#: .././cogstat_gui.py:449
+msgid "Filter outlier."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:437
+msgid "Main effect of %s"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:439
+msgid "Interaction of factors %s"
+msgstr ""
+
+#: .././cogstat.py:334
+msgid "Only interval variables can be used for filtering. Ignoring variable %s."
+msgstr ""
+
+#: .././cogstat.py:677
+msgid "Factors (number of levels): "
+msgstr ""
+
+#: .././cogstat_hyp_test.py:282
+msgid "Interval variables with several factors."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:283
+msgid "Choosing repeated measures ANOVA."
+msgstr "Επιλογή δοκιμασίας ANOVA επαναλαμβανόμενων μετρήσεων."
+
+#: .././cogstat_hyp_test.py:287
+msgid "Ordinal variables with several factors."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:290
+msgid "Nominal variables with several factors."
+msgstr ""
+
+#: ../ui/filter_outlier.py:69
+msgid "Filter outlier"
+msgstr ""
+
+#: ../ui/factors.py:41
+msgid "Factors"
+msgstr ""
+
+#: ../ui/factors.py:42
+msgid "Add factor"
+msgstr ""
+
+#: ../ui/factors.py:43
+msgid "Alt+A"
+msgstr "Alt+A"
+
+#: ../ui/factors.py:44
+msgid "Modify factor"
+msgstr ""
+
+#: ../ui/factors.py:45
+msgid "Alt+M"
+msgstr "Alt+M"
+
+#: ../ui/factors.py:46
+msgid "Remove factor"
+msgstr ""
+
+#: ../ui/factors.py:47
+msgid "Alt+R"
+msgstr "Alt+R"
+
+#: ../ui/compare_vars.py:73
+msgid "Factors..."
+msgstr ""
+
+#: ../ui/compare_vars.py:74
+msgid "Alt+F"
+msgstr "Alt+F"
+
+#: ../ui/factor.py:43
+msgid "Set factor"
+msgstr ""
+
+#: ../ui/factor.py:44
+msgid "Name of the factor"
+msgstr "Όνομα του παράγοντα"
+
+#: ../ui/factor.py:45
+msgid "Number of levels"
+msgstr "Αριθμός επιπέδων"
+
+#: ../ui/filter_outlier.py:74
+msgid "Only interval variables are available"
+msgstr ""
+
+#: .././cogstat_gui.py:148 .././cogstat_gui.py:186
+msgid "Behavioral data &diffusion analysis"
+msgstr "Δεδομένα συμπεριφοράς ανάλυση &διάχυσης"
+
+#: .././cogstat_gui.py:156
+msgid "&Find text"
+msgstr "&Εύρεση κειμένου"
+
+#: .././cogstat_gui.py:156
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: .././cogstat_gui.py:606 .././cogstat_gui.py:611
+msgid "Diffusion analysis."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:152 .././cogstat_hyp_test.py:317
+#: .././cogstat_hyp_test.py:688 .././cogstat_hyp_test.py:808
+#: .././cogstat_hyp_test.py:957
+msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
+msgstr "Ανάλυση δύναμης ευαισθησίας. Ελάχιστο μέγεθος της επίδρασης να φτάσει την 95%% δύναμη με το παρόν μέγεθος δείγματος για τον παρόντος έλεγχο υπόθεσης (μέγεθος της επίδρασης είναι σε %s):"
+
+#: .././cogstat_hyp_test.py:153 .././cogstat_hyp_test.py:318
+#: .././cogstat_hyp_test.py:689
+msgid "d"
+msgstr "d"
+
+#: .././cogstat_hyp_test.py:808
+msgid "f"
+msgstr "f"
+
+#: .././cogstat_hyp_test.py:863
+msgid "Result of multi-way ANOVA"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:873
+msgid "Interaction of %s: "
+msgstr ""
+
+#: .././cogstat_hyp_test.py:958
+msgid "w"
+msgstr "w"
+
+#: .././cogstat_chart.py:407
+msgid "Normal theoretical quantiles"
+msgstr ""
+
+#: .././cogstat_chart.py:408
+msgid "Sample quantiles"
+msgstr "Ποσοστημόρια τους δείγματους"
+
+#: .././cogstat_stat.py:188
+msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
+msgstr ""
+
+#: .././cogstat_stat.py:202
+msgid "Mean percent correct with edge correction"
+msgstr "Μέσο ποσοστό σωστό με διόρθωση ακρής"
+
+#: .././cogstat_stat.py:203
+msgid "Mean correct reaction time"
+msgstr "Μέσος σωστού χρόνου αντίδρασης"
+
+#: .././cogstat_stat.py:204
+msgid "Correct reaction time variance"
+msgstr ""
+
+#: .././cogstat_stat.py:216
+msgid "Drift rate"
+msgstr ""
+
+#: .././cogstat_stat.py:217
+msgid "Threshold"
+msgstr "Όριο"
+
+#: .././cogstat_stat.py:218
+msgid "Nondecision time"
+msgstr ""
+
+#: .././cogstat_stat.py:291 .././cogstat_stat.py:521
+msgid "low"
+msgstr "χαμηλό"
+
+#: .././cogstat_stat.py:291 .././cogstat_stat.py:521
+msgid "high"
+msgstr "υψηλό"
+
+#: .././cogstat_stat.py:292
+msgid "Relative frequencies"
+msgstr ""
+
+#: .././cogstat_stat.py:292 .././cogstat_stat.py:522
+msgid "95% confidence interval (multinomial proportions)"
+msgstr "95% διάστημα εμπιστοσύνης (πολυωνυμικές ιδιότητες)"
+
+#: .././cogstat_stat.py:297 .././cogstat_stat.py:527
+msgid "Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid."
+msgstr "Μερικά από τα κελιά δεν περιλαμβάνουν τουλάχιστον 5 περιπτώσεις, επομένως τα διαστήματα εμπιστοσύνης μπορεί να μην είναι έγκυρα."
+
+#: .././cogstat_stat.py:324
+msgid "Variation ratio"
+msgstr ""
+
+#: .././cogstat_stat.py:397
+msgid "Present confidence interval values for the mean suppose normality."
+msgstr "Τρέχουσες τιμές διαστήματος εμπιστοσύνης για το μέσο υποθέτουν κανονικότητα."
+
+#: .././cogstat_stat.py:399 .././cogstat_stat.py:406
+msgid "95% confidence interval (high)"
+msgstr "95% διάστημα εμπιστοσύνης (υψηλό)"
+
+#: .././cogstat_stat.py:400 .././cogstat_stat.py:405
+msgid "95% confidence interval (low)"
+msgstr "95% διάστημα εμπιστοσύνης (χαμηλό)"
+
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:568 .././cogstat_stat.py:642
+msgid "Out of the data range"
+msgstr ""
+
+#: .././cogstat_stat.py:461 .././cogstat_stat.py:464 .././cogstat_stat.py:673
+#: .././cogstat_stat.py:676
+msgid "Cramér's V measure of association"
+msgstr ""
+
+#: .././cogstat_stat.py:503 .././cogstat_stat.py:509
+msgid "Total"
+msgstr ""
+
+#: .././cogstat_stat.py:504
+msgid "Case count"
+msgstr ""
+
+#: .././cogstat_stat.py:512
+msgid "Percentage"
+msgstr "Ποσοστό"
+
+#: .././cogstat_stat.py:580 .././cogstat_stat.py:657
+msgid "Cohen's d"
+msgstr ""
+
+#: .././cogstat_stat.py:582 .././cogstat_stat.py:659
+msgid "Eta-squared"
+msgstr ""
+
+#: .././cogstat_stat.py:599 .././cogstat_stat.py:693
+msgid "Hedges' g"
+msgstr ""
+
+#: .././cogstat_stat.py:709
+msgid "Omega squared"
+msgstr ""
+
+#: .././cogstat.py:477 .././cogstat.py:575 .././cogstat.py:748
+#: .././cogstat.py:894
+msgid "Population parameter estimations"
+msgstr ""
+
+#: ../ui/compare_groups.py:84 ../ui/explore_var_pairs.py:61
+#: ../ui/compare_vars.py:75
+msgid "Options..."
+msgstr "Επιλογές..."
+
+#: ../ui/find_text.py:42
+msgid "Find text"
+msgstr ""
+
+#: ../ui/find_text.py:43
+msgid "Text to find"
+msgstr ""
+
+#: ../ui/find_text.py:44
+msgid "Find next"
+msgstr ""
+
+#: ../ui/find_text.py:45
+msgid "Find previous"
+msgstr ""
+
+#: .././cogstat.py:660 ../ui/diffusion.py:91
+msgid "Behavioral data diffusion analysis"
+msgstr ""
+
+#: ../ui/diffusion.py:93
+msgid "Participant"
+msgstr "Συμμέτοχος"
+
+#: ../ui/diffusion.py:94
+msgid "Error"
+msgstr ""
+
+#: ../ui/diffusion.py:95
+msgid "Reaction time (in sec)"
+msgstr ""
+
+#: ../ui/diffusion.py:96
+msgid "Condition(s)"
+msgstr ""
+
+#: ../ui/xylims.py:62 ../ui/ylims.py:48
+msgid "Options"
+msgstr "Επιλογές"
+
+#: ../ui/xylims.py:63
+msgid "Minimum of x axis"
+msgstr "Ελάχιστο άξονα x"
+
+#: ../ui/xylims.py:64
+msgid "Maximum of x axis"
+msgstr "Μέγιστο άξονα x"
+
+#: ../ui/xylims.py:65 ../ui/ylims.py:49
+msgid "Minimum of y axis"
+msgstr "Ελάχιστο άξονα y"
+
+#: ../ui/xylims.py:66 ../ui/ylims.py:50
+msgid "Maximum of y axis"
+msgstr "Μέγιστο άξονα y"
+
+#: .././cogstat_gui.py:606
+msgid "At least the reaction time and the error variables should be given."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:616
+msgid "At least two grouping variables."
+msgstr "Τουλάχιστον δύο μεταβλητές ομαδοποίησης."
+
+#: .././cogstat_stat.py:185
+msgid "Specify all the required parameters (reaction time, error, participant and condition variables)."
+msgstr ""
+
+#: .././cogstat_hyp_test.py:197 .././cogstat_hyp_test.py:474
+#: .././cogstat_hyp_test.py:608 .././cogstat.py:487 .././cogstat.py:582
+#: .././cogstat.py:600 .././cogstat.py:611
+msgid "Hypothesis tests"
+msgstr ""
+
+#: .././cogstat.py:898
+msgid "Medians"
+msgstr "Διάμεσοι"
+
+#: .././cogstat_stat.py:446 .././cogstat_stat.py:573 .././cogstat_stat.py:648
+msgid "Standardized effect size"
+msgstr "Τυποποιημένος μέγεθος της επίδρασης"
+
