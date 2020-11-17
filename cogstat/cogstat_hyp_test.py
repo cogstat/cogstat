@@ -548,7 +548,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                                  _('Running Mann–Whitney test.') + '\n</decision>'
                     result_ht += mann_whitney_test(df, var_names[0], groups[0])
                 elif not hoemogeneity_vars:
-                    result_ht += '<decision>' + _('Homeogeneity of variance violated in variable %s.') % \
+                    result_ht += '<decision>' + _('Homogeneity of variance violated in variable %s.') % \
                                  var_names[0] + ' >> ' + _("Running Welch's t-test.") + '\n</decision>'
                     result_ht += welch_t_test(df, var_names[0], groups[0])
 
@@ -596,7 +596,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s. ') % \
                              (var_names[0], ', '.join(map(str, non_normal_groups))) + '</decision>'
             if not hoemogeneity_vars:
-                result_ht += '<decision>' + _('Homeogeneity of variance violated in variable %s. ') % var_names[0]
+                result_ht += '<decision>' + _('Homogeneity of variance violated in variable %s. ') % var_names[0]
             if non_normal_groups or (not hoemogeneity_vars):
                 result_ht += '>> ' + _('Running Kruskal–Wallis test.') + '\n</decision>'
                 result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
