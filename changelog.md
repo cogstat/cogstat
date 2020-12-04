@@ -5,8 +5,10 @@ Upcoming release
 ================
 
 ## New features
-- New localization
+- New localizations
     - Greek (Zoé Vulgarasz)
+    - Spanish (Borbála Zulauf)
+    - French (Minka Petánszki)
 
 ## Fixes
 - Various output fixes

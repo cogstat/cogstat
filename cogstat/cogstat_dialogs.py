@@ -712,8 +712,9 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
                                                                           '/locale'))
         # local language names based on https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
         lang_names = {'bg': 'Български (Bulgarian)', 'de': 'Deutsch (German)', 'en': 'English',
-                      'el': 'Ελληνικά (Greek)',
-                      'et': 'Eesti (Estonian)', 'fa': 'فارسی (Persian)', 'he': 'עברית (Hebrew)',
+                      'el': 'Ελληνικά (Greek)', 'es': 'Español (Spanish)',
+                      'et': 'Eesti (Estonian)', 'fa': 'فارسی (Persian)',
+                      'fr': 'Français (French)', 'he': 'עברית (Hebrew)',
                       'hr': 'Hrvatski (Croatian)', 'hu': 'Magyar (Hungarian)', 'it': 'Italiano (Italian)',
                       'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'nb': 'Norsk Bokmål (Norvegian Bokmål)',
                       'ro': 'Română (Romanian)', 'ru': 'Русский (Russian)', 'sk': 'Slovenčina (Slovak)',
