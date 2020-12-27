@@ -209,22 +209,16 @@ class CogStatData:
                     self.import_source = _('text file - ')+data  # filename
                 # Import SPSS .sav file
                 elif filetype == '.sav':
-                    import savReaderWriter
-                    # Get the values
-                    with savReaderWriter.SavReader(data, ioUtf8=True) as reader:
-                        spss_data = [line for line in reader]
-                    # Get the variable names and measurement levels
-                    with savReaderWriter.SavHeaderReader(data, ioUtf8=True) as header:
-                        metadata = header.all()
-                    # Create the CogStat dataframe
-                    self.data_frame = pd.DataFrame.from_records(spss_data, columns=metadata.varNames)
+                    import pyreadstat
+                    spss_data, spss_metadata = pyreadstat.read_sav(data)
+                    self.data_frame = pd.DataFrame.from_records(spss_data, columns=spss_metadata.column_names)
                     # Convert SPSS measurement levels to CogStat
                     spss_to_cogstat_measurement_levels = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
                                                           'scale': 'int', 'ratio': 'int', 'flag': 'nom',
                                                           'typeless': 'unk'}
                     file_measurement_level = \
-                        ' '.join([spss_to_cogstat_measurement_levels[metadata.measureLevels[spss_var]] for spss_var in
-                                  metadata.varNames])
+                        ' '.join([spss_to_cogstat_measurement_levels[spss_metadata.variable_measure[spss_var]] for spss_var in
+                                  spss_metadata.column_names])
                     self.import_source = _('SPSS file - ') + data  # filename
 
             # Import from multiline string, clipboard

@@ -10,7 +10,7 @@ setup(name='cogstat',
       include_package_data=True,
       license='GNU GPL 3',
       install_requires=['numpy', 'pandas >=0.23.0', 'scipy >=0.10', 'statsmodels >=0.9', 'pingouin >=0.3.5', 'scikit-posthocs',
-                        'matplotlib >=1.2.0, !=2.0.1, !=2.0.2', 'IPython', 'Jupyter', 'savReaderWriter', 'configobj',
+                        'matplotlib >=1.2.0, !=2.0.1, !=2.0.2', 'IPython', 'Jupyter', 'pyreadstat', 'configobj',
                         'python-bidi'],
       python_requires='>=3.6',
       extras_requires={'GUI': ['PyQt5']}
