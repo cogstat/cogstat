@@ -208,9 +208,12 @@ class CogStatData:
                                                   skip_blank_lines=False)
                     self.import_source = _('text file - ')+data  # filename
                 # Import SPSS .sav file
-                elif filetype in ['.sav', '.zsav']:
+                elif filetype in ['.sav', '.zsav', '.por']:
                     import pyreadstat
-                    spss_data, spss_metadata = pyreadstat.read_sav(data)
+                    if filetype in ['.sav', '.zsav']:
+                        spss_data, spss_metadata = pyreadstat.read_sav(data)
+                    elif filetype == '.por':
+                        spss_data, spss_metadata = pyreadstat.read_por(data)
                     self.data_frame = pd.DataFrame.from_records(spss_data, columns=spss_metadata.column_names)
                     # Convert SPSS measurement levels to CogStat
                     spss_to_cogstat_measurement_levels = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
