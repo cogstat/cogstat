@@ -5,6 +5,7 @@ Upcoming release
 ================
 
 ## New features
+- Import SPSS .zsav files
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)

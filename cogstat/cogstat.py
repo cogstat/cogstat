@@ -208,7 +208,7 @@ class CogStatData:
                                                   skip_blank_lines=False)
                     self.import_source = _('text file - ')+data  # filename
                 # Import SPSS .sav file
-                elif filetype == '.sav':
+                elif filetype in ['.sav', '.zsav']:
                     import pyreadstat
                     spss_data, spss_metadata = pyreadstat.read_sav(data)
                     self.data_frame = pd.DataFrame.from_records(spss_data, columns=spss_metadata.column_names)
