@@ -9,6 +9,7 @@ Upcoming release
     - SPSS .zsav and .por files
     - SAS .sas7bdat and .xpt files
     - STATA .dta files
+    - R .rdata and .rds files
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)

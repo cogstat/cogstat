@@ -246,7 +246,12 @@ class CogStatData:
                     file_measurement_level = ' '.join([import_to_cs_meas_lev[import_metadata.variable_measure[spss_var]]
                                                        for spss_var in import_metadata.column_names])
 
-                    self.import_source = _('SPSS file - ') + data  # filename
+                    self.import_source = _('SPSS/SAS/STATA file - ') + data  # filename
+                elif filetype.lower() in ['.rdata', '.rds']:
+                    import pyreadr
+                    import_data = pyreadr.read_r(data)
+                    self.data_frame = import_data[list(import_data.keys())[0]]
+                    self.import_source = _('R file - ') + data  # filename
 
             # Import from multiline string, clipboard
             else:  # Multi line text, i.e., clipboard data
@@ -331,7 +336,8 @@ class CogStatData:
                   str(len(self.data_frame.index)) + _(' cases') + '\n'
         output += self._filtering_status()
 
-        dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num', 'object': 'str'}
+        dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num', 'object': 'str',
+                         'category': 'str'}
         data_prop = pd.DataFrame([[dtype_convert[str(self.data_frame[name].dtype)] for name in self.data_frame.columns],
                                   [self.data_measlevs[name] for name in self.data_frame.columns]],
                                  columns=self.data_frame.columns)
