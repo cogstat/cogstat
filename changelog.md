@@ -7,7 +7,7 @@ Upcoming release
 ## New features
 - New import formats
     - SPSS .zsav and .por files
-    - SAS .sas7bdat files 
+    - SAS .sas7bdat and .xpt files 
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)

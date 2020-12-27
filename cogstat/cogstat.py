@@ -208,7 +208,7 @@ class CogStatData:
                                                   skip_blank_lines=False)
                     self.import_source = _('text file - ')+data  # filename
                 # Import SPSS and SAS files
-                elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat']:
+                elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt']:
                     import pyreadstat
                     if filetype in ['.sav', '.zsav']:
                         import_data, import_metadata = pyreadstat.read_sav(data)
@@ -216,13 +216,15 @@ class CogStatData:
                         import_data, import_metadata = pyreadstat.read_por(data)
                     elif filetype == '.sas7bdat':
                         import_data, import_metadata = pyreadstat.read_sas7bdat(data)
+                    elif filetype == '.xpt':
+                        import_data, import_metadata = pyreadstat.read_xport(data)
                     self.data_frame = pd.DataFrame.from_records(import_data, columns=import_metadata.column_names)
                     # Convert measurement levels from import format to CogStat
                     if filetype in ['.sav', '.zsav', '.por']:
                         import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord', 'scale': 'int',
                                                  'ratio': 'int', 'flag': 'nom', 'typeless': 'unk'}
-                    elif filetype in ['.sas7bdat']:
-                        # TODO this should be checked; I couldn't find relevant infromation or test file
+                    elif filetype in ['.sas7bdat', '.xpt']:
+                        # TODO this should be checked; I couldn't find relevant information or test file
                         import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
                                                  'interval': 'int','ratio': 'int'}
                     file_measurement_level = ' '.join([import_to_cs_meas_lev[import_metadata.variable_measure[spss_var]]
