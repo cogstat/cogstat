@@ -22,13 +22,25 @@ QtCore.QCoreApplication.translate = _gui
 
 
 def open_data_file():
-    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '', '*.csv *.sav *.zsav *.por')[0])
+    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',
+                                                     '%s *.csv *.sav *.zsav *.por;;'
+                                                     '%s *.csv;;'
+                                                     '%s *.sav *.zsav *.por' %
+                                                     (_('All importable data files'), _('Text files'),
+                                                      _('SPSS data files'))
+                                                     )[0])
         #*.txt *.log *.tsv
 
 
 def open_demo_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
-                                                     '/sample_data', '*.csv *.sav *.zsav *.por')[0])  #*.txt *.log *.tsv
+                                                     '/sample_data',
+                                                     '%s *.csv *.sav *.zsav *.por;;'
+                                                     '%s *.csv;;'
+                                                     '%s *.sav *.zsav *.por' %
+                                                     (_('All importable data files'), _('Text files'),
+                                                      _('SPSS data files'))
+                                                     )[0])  #*.txt *.log *.tsv
 
 
 def save_output():
