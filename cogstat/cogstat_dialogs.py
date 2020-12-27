@@ -23,12 +23,11 @@ QtCore.QCoreApplication.translate = _gui
 
 def open_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',
-                                                     '%s *.csv *.sav *.zsav *.por *.sas7bdat *.xpt;;'
-                                                     '%s *.csv;;'
-                                                     '%s *.sav *.zsav *.por;;'
-                                                     '%s *.sas7bdat *.xpt'%
+                                                     '%s *.csv *.sav *.zsav *.por *.sas7bdat *.xpt *.dta;;'
+                                                     '%s *.csv;;%s *.sav *.zsav *.por;;'
+                                                     '%s *.sas7bdat *.xpt;; %s *.dta'%
                                                      (_('All importable data files'), _('Text files'),
-                                                      _('SPSS data files'), _('SAS data files'))
+                                                      _('SPSS data files'), _('SAS data files'), _('STATA data files'))
                                                      )[0])
         #*.txt *.log *.tsv
 
@@ -36,12 +35,11 @@ def open_data_file():
 def open_demo_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
                                                      '/sample_data',
-                                                     '%s *.csv *.sav *.zsav *.por *.sas7bdat *.xpt;;'
-                                                     '%s *.csv;;'
-                                                     '%s *.sav *.zsav *.por;;'
-                                                     '%s *.sas7bdat *.xpt'%
+                                                     '%s *.csv *.sav *.zsav *.por *.sas7bdat *.xpt *.dta;;'
+                                                     '%s *.csv;;%s *.sav *.zsav *.por;;'
+                                                     '%s *.sas7bdat *.xpt;; %s *.dta'%
                                                      (_('All importable data files'), _('Text files'),
-                                                      _('SPSS data files'), _('SAS data files'))
+                                                      _('SPSS data files'), _('SAS data files'), _('STATA data files'))
                                                      )[0])  #*.txt *.log *.tsv
 
 

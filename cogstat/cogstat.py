@@ -207,19 +207,33 @@ class CogStatData:
                     self.data_frame = pd.read_csv(data, delimiter=delimiter, quotechar=quotechar, skiprows=skiprows,
                                                   skip_blank_lines=False)
                     self.import_source = _('text file - ')+data  # filename
-                # Import SPSS and SAS files
-                elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt']:
+                # Import SPSS, SAS and STATA files
+                elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt', '.dta']:
                     import pyreadstat
+
+                    # Read import file
                     if filetype in ['.sav', '.zsav']:
                         import_data, import_metadata = pyreadstat.read_sav(data)
+                        # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
                     elif filetype == '.por':
                         import_data, import_metadata = pyreadstat.read_por(data)
+                        # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
                     elif filetype == '.sas7bdat':
                         import_data, import_metadata = pyreadstat.read_sas7bdat(data)
+                        # alternative solution in pandas:
+                        # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
                     elif filetype == '.xpt':
                         import_data, import_metadata = pyreadstat.read_xport(data)
+                        # alternative solution in pandas:
+                        # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
+                    elif filetype == '.dta':
+                        import_data, import_metadata = pyreadstat.read_dta(data)
+                        # alternative solution in pandas:
+                        # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#stata
                     self.data_frame = pd.DataFrame.from_records(import_data, columns=import_metadata.column_names)
+
                     # Convert measurement levels from import format to CogStat
+                    # We use pyreadstat variable_measure https://ofajardo.github.io/pyreadstat_documentation/_build/html/index.html#metadata-object-description
                     if filetype in ['.sav', '.zsav', '.por']:
                         import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord', 'scale': 'int',
                                                  'ratio': 'int', 'flag': 'nom', 'typeless': 'unk'}
@@ -227,8 +241,11 @@ class CogStatData:
                         # TODO this should be checked; I couldn't find relevant information or test file
                         import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
                                                  'interval': 'int','ratio': 'int'}
+                    elif filetype == '.dta':  # filetype does not include measurement level information
+                        import_to_cs_meas_lev = {'unknown': 'unk'}
                     file_measurement_level = ' '.join([import_to_cs_meas_lev[import_metadata.variable_measure[spss_var]]
                                                        for spss_var in import_metadata.column_names])
+
                     self.import_source = _('SPSS file - ') + data  # filename
 
             # Import from multiline string, clipboard
