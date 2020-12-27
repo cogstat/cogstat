@@ -207,21 +207,26 @@ class CogStatData:
                     self.data_frame = pd.read_csv(data, delimiter=delimiter, quotechar=quotechar, skiprows=skiprows,
                                                   skip_blank_lines=False)
                     self.import_source = _('text file - ')+data  # filename
-                # Import SPSS .sav file
-                elif filetype in ['.sav', '.zsav', '.por']:
+                # Import SPSS and SAS files
+                elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat']:
                     import pyreadstat
                     if filetype in ['.sav', '.zsav']:
-                        spss_data, spss_metadata = pyreadstat.read_sav(data)
+                        import_data, import_metadata = pyreadstat.read_sav(data)
                     elif filetype == '.por':
-                        spss_data, spss_metadata = pyreadstat.read_por(data)
-                    self.data_frame = pd.DataFrame.from_records(spss_data, columns=spss_metadata.column_names)
-                    # Convert SPSS measurement levels to CogStat
-                    spss_to_cogstat_measurement_levels = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
-                                                          'scale': 'int', 'ratio': 'int', 'flag': 'nom',
-                                                          'typeless': 'unk'}
-                    file_measurement_level = \
-                        ' '.join([spss_to_cogstat_measurement_levels[spss_metadata.variable_measure[spss_var]] for spss_var in
-                                  spss_metadata.column_names])
+                        import_data, import_metadata = pyreadstat.read_por(data)
+                    elif filetype == '.sas7bdat':
+                        import_data, import_metadata = pyreadstat.read_sas7bdat(data)
+                    self.data_frame = pd.DataFrame.from_records(import_data, columns=import_metadata.column_names)
+                    # Convert measurement levels from import format to CogStat
+                    if filetype in ['.sav', '.zsav', '.por']:
+                        import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord', 'scale': 'int',
+                                                 'ratio': 'int', 'flag': 'nom', 'typeless': 'unk'}
+                    elif filetype in ['.sas7bdat']:
+                        # TODO this should be checked; I couldn't find relevant infromation or test file
+                        import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
+                                                 'interval': 'int','ratio': 'int'}
+                    file_measurement_level = ' '.join([import_to_cs_meas_lev[import_metadata.variable_measure[spss_var]]
+                                                       for spss_var in import_metadata.column_names])
                     self.import_source = _('SPSS file - ') + data  # filename
 
             # Import from multiline string, clipboard

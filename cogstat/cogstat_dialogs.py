@@ -23,11 +23,12 @@ QtCore.QCoreApplication.translate = _gui
 
 def open_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',
-                                                     '%s *.csv *.sav *.zsav *.por;;'
+                                                     '%s *.csv *.sav *.zsav *.por *.sas7bdat;;'
                                                      '%s *.csv;;'
-                                                     '%s *.sav *.zsav *.por' %
+                                                     '%s *.sav *.zsav *.por;;'
+                                                     '%s *.sas7bdat'%
                                                      (_('All importable data files'), _('Text files'),
-                                                      _('SPSS data files'))
+                                                      _('SPSS data files'), _('SAS data files'))
                                                      )[0])
         #*.txt *.log *.tsv
 
@@ -35,11 +36,12 @@ def open_data_file():
 def open_demo_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
                                                      '/sample_data',
-                                                     '%s *.csv *.sav *.zsav *.por;;'
+                                                     '%s *.csv *.sav *.zsav *.por *.sas7bdat;;'
                                                      '%s *.csv;;'
-                                                     '%s *.sav *.zsav *.por' %
+                                                     '%s *.sav *.zsav *.por;;'
+                                                     '%s *.sas7bdat'%
                                                      (_('All importable data files'), _('Text files'),
-                                                      _('SPSS data files'))
+                                                      _('SPSS data files'), _('SAS data files'))
                                                      )[0])  #*.txt *.log *.tsv
 
 
