@@ -5,11 +5,13 @@ Upcoming release
 ================
 
 ## New features
-- New import formats
+- New import file formats
+    - Excel spreadsheet .xls and xlsx files
+    - OpenDocument Spreadsheet .ods files
     - SPSS .zsav and .por files
+    - R .rdata and .rds files
     - SAS .sas7bdat and .xpt files
     - STATA .dta files
-    - R .rdata and .rds files
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)

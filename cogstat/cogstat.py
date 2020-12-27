@@ -194,19 +194,34 @@ class CogStatData:
                     # self.import_source = _('Import failed')
                     # return
 
-                    # Check if there is variable type line
+                    # Check if there is a variable type line
                     f = csv.reader(open(data, 'r'), delimiter=delimiter, quotechar=quotechar)
                     next(f)
                     meas_row = next(f)
-                    if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} \
-                            and set(meas_row) != {''}:
+                    if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
                         file_measurement_level = ' '.join(meas_row).lower()
                     skiprows = [1] if file_measurement_level else None
 
                     # Read the file
                     self.data_frame = pd.read_csv(data, delimiter=delimiter, quotechar=quotechar, skiprows=skiprows,
                                                   skip_blank_lines=False)
-                    self.import_source = _('text file - ')+data  # filename
+                    self.import_source = _('text file - ') + data  # filename
+                # Import from spreadsheet files
+                elif filetype in ['.ods', '.xls', '.xlsx']:
+                    # engine should be set manually in pandas 1.0.5, later pandas version may handle this automatically
+                    if filetype == '.ods':
+                        engine = 'odf'
+                    elif filetype == '.xls':
+                        engine = 'xlrd'
+                    elif filetype == '.xlsx':
+                        engine = 'openpyxl'
+                    self.data_frame = pd.read_excel(data, engine=engine)
+                    # if there is a measurement level line, use it, and reread the spreadsheet
+                    if set(self.data_frame.iloc[0]) <= {'unk', 'nom', 'ord', 'int', ''} and \
+                            set(self.data_frame.iloc[0]) != {''}:
+                        file_measurement_level = ' '.join(self.data_frame.iloc[0]).lower()
+                        self.data_frame = pd.read_excel(data, engine=engine, skiprows=[1])
+                    self.import_source = _('Spreadsheet file - ') + data  # filename
                 # Import SPSS, SAS and STATA files
                 elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt', '.dta']:
                     import pyreadstat
@@ -247,6 +262,7 @@ class CogStatData:
                                                        for spss_var in import_metadata.column_names])
 
                     self.import_source = _('SPSS/SAS/STATA file - ') + data  # filename
+                #Import from R files
                 elif filetype.lower() in ['.rdata', '.rds']:
                     import pyreadr
                     import_data = pyreadr.read_r(data)
