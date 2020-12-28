@@ -91,8 +91,6 @@ class CogStatData:
 
     def _import_data(self, data='', param_measurement_level=''):
 
-        quotechar = '"'
-
         def percent2float():
             """ Convert x.x% str format to float in self.data_frame (pandas cannot handle this).
             """
@@ -181,10 +179,6 @@ class CogStatData:
             self.import_source = _('pandas dataframe')
         elif isinstance(data, str):
 
-            delimiter = '\t'
-            #print csv.Sniffer().sniff(data).delimiter  # In some tests, it didn't find the delimiter reliably and
-                                                        # correctly
-
             # Import from file
             if not ('\n' in data):  # Single line text, i.e., filename
                 filetype = data[data.rfind('.'):]
@@ -194,17 +188,16 @@ class CogStatData:
                     # self.import_source = _('Import failed')
                     # return
 
-                    # Check if there is a variable type line
-                    f = csv.reader(open(data, 'r'), delimiter=delimiter, quotechar=quotechar)
-                    next(f)
-                    meas_row = next(f)
+                    # Check if there is a measurement level line
+                    meas_row = list(pd.read_csv(data, sep=None, engine='python').iloc[0])
+                    meas_row = list(map(str, meas_row))
                     if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
                         file_measurement_level = ' '.join(meas_row).lower()
                     skiprows = [1] if file_measurement_level else None
 
                     # Read the file
-                    self.data_frame = pd.read_csv(data, delimiter=delimiter, quotechar=quotechar, skiprows=skiprows,
-                                                  skip_blank_lines=False)
+                    self.data_frame = pd.read_csv(data, sep=None, engine='python',
+                                                  skiprows=skiprows, skip_blank_lines=False)
                     self.import_source = _('text file - ') + data  # filename
                 # Import from spreadsheet files
                 elif filetype in ['.ods', '.xls', '.xlsx']:
@@ -273,10 +266,15 @@ class CogStatData:
             else:  # Multi line text, i.e., clipboard data
                 # Check if there is variable type line
                 import io
+                clipboard_file = io.StringIO(data)
+                """ # old version; if everything goes smoothly, this can be removed
                 f = io.StringIO(data)
                 next(f)
                 meas_row = next(f).replace('\n', '').replace('\r', '').split(delimiter)
                 # \r was used in Mac after importing from Excel clipboard
+                """
+                meas_row = list(pd.read_csv(clipboard_file, sep=None, engine='python').iloc[0])
+                meas_row = list(map(str, meas_row))
                 if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
                     meas_row = ['unk' if item == '' else item for item in meas_row]  # missing level ('') means 'unk'
                     file_measurement_level = ' '.join(meas_row).lower()
@@ -284,7 +282,7 @@ class CogStatData:
 
                 # Read the clipboard
                 clipboard_file = io.StringIO(data)
-                self.data_frame = pd.read_csv(clipboard_file, delimiter=delimiter, quotechar=quotechar,
+                self.data_frame = pd.read_csv(clipboard_file, sep=None, engine='python',
                                               skiprows=skiprows, skip_blank_lines=False)
                 self.import_source = _('clipboard')
 

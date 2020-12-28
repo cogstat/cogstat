@@ -12,6 +12,7 @@ Upcoming release
     - R .rdata and .rds files
     - SAS .sas7bdat and .xpt files
     - STATA .dta files
+    - Additional .csv formats
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)

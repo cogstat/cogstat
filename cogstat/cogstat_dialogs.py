@@ -23,14 +23,13 @@ QtCore.QCoreApplication.translate = _gui
 
 def open_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',
-                                                     '%s (*.csv *.sav *.zsav *.por *.sas7bdat *.xpt *.dta *.rdata '
-                                                     '*.rds *.ods *.xls *.xlsx);;'
-                                                     '%s *.ods *.xls *xlsx;;'
-                                                     '%s *.csv;;%s *.sav *.zsav *.por;;'
-                                                     '%s *.sas7bdat *.xpt;; %s *.dta;;'
-                                                     '%s *.rdata *.rds'
-                                                     %
-                                                     (_('All importable data files'), _('Spreadsheet files'), _('Text files'),
+                                                     '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.log '
+                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta *.rdata *.rds);;'
+                                                     '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.log;;'
+                                                     '%s *.sav *.zsav *.por;;%s *.sas7bdat *.xpt;; %s *.dta;;'
+                                                     '%s *.rdata *.rds' %
+                                                     (_('All importable data files'),
+                                                      _('Spreadsheet files'), _('Text files'),
                                                       _('SPSS data files'), _('SAS data files'), _('STATA data files'),
                                                       _('R data files'))
                                                      )[0])
@@ -39,14 +38,13 @@ def open_data_file():
 def open_demo_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
                                                      '/sample_data',
-                                                     '%s (*.csv *.sav *.zsav *.por *.sas7bdat *.xpt *.dta *.rdata '
-                                                     '*.rds *.ods *.xls *.xlsx);;'
-                                                     '%s *.ods *.xls *xlsx;;'
-                                                     '%s *.csv;;%s *.sav *.zsav *.por;;'
-                                                     '%s *.sas7bdat *.xpt;; %s *.dta;;'
-                                                     '%s *.rdata *.rds'
-                                                     %
-                                                     (_('All importable data files'), _('Spreadsheet files'), _('Text files'),
+                                                     '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.log '
+                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta *.rdata *.rds);;'
+                                                     '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.log;;'
+                                                     '%s *.sav *.zsav *.por;;%s *.sas7bdat *.xpt;; %s *.dta;;'
+                                                     '%s *.rdata *.rds' %
+                                                     (_('All importable data files'),
+                                                      _('Spreadsheet files'), _('Text files'),
                                                       _('SPSS data files'), _('SAS data files'), _('STATA data files'),
                                                       _('R data files'))
                                                      )[0])
