@@ -442,7 +442,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 (len(self.active_data.data_frame.columns), len(self.active_data.data_frame.index)))
                 '''
                 self.print_data(brief=True, display_import_message=True)
-        except TypeError:
+        except Exception as e:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
             file_content = '<br>' + _('Data file content') + ':<br>' + open(data, 'r').read()[:1000].replace('\n', '<br>') if os.path.exists(data) else ''
@@ -451,6 +451,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                      'data. You may want to report the issue.') + ' ' +
                                                    _('Read more about how to report an issue <a href = "%s">here</a>.')
                                                    % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug') +
+                                                   '<br><br>' + _('Error code') + ': %s' %e +
                                                    '<br><br>' + _('Data to be imported') +
                                                    ':<br>%s<br>%s' % (data, file_content))
             traceback.print_exc()
