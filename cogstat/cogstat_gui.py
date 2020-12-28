@@ -450,7 +450,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             except:
                 file_content = ''
             self.analysis_results[-1].\
-                add_output(cs_util.reformat_output(_('Open data. Oops, something went wrong, CogStat could not open the '
+                add_output(cs_util.reformat_output('<cs_h1>' + _('Data') + '</cs_h1>' +
+                                                   _('Oops, something went wrong, CogStat could not open the '
                                                      'data. You may want to report the issue.') + ' ' +
                                                    _('Read more about how to report an issue <a href = "%s">here</a>.')
                                                    % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug') +
