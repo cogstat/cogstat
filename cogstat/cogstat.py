@@ -256,7 +256,7 @@ class CogStatData:
 
                     self.import_source = _('SPSS/SAS/STATA file - ') + data  # filename
                 #Import from R files
-                elif filetype.lower() in ['.rdata', '.rds']:
+                elif filetype.lower() in ['.rdata', '.rds', '.rda']:
                     import pyreadr
                     import_data = pyreadr.read_r(data)
                     self.data_frame = import_data[list(import_data.keys())[0]]
