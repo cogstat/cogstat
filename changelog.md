@@ -5,7 +5,7 @@ Upcoming release
 ================
 
 ## New features
-- New import file formats
+- New import data file formats
     - Excel spreadsheet .xls and xlsx files
     - OpenDocument Spreadsheet .ods files
     - SPSS .zsav and .por files
@@ -20,6 +20,7 @@ Upcoming release
 
 ## Fixes
 - Various output fixes
+- Various data import fixes
 
 2.0.0 (13 July 2020)
 ================
