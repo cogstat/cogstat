@@ -183,7 +183,7 @@ class CogStatData:
             if not ('\n' in data):  # Single line text, i.e., filename
                 filetype = data[data.rfind('.'):]
                 # Import csv file
-                if filetype in ['.txt', '.csv', '.log', '.tsv']:
+                if filetype in ['.txt', '.csv', '.log', '.dat', '.tsv']:
                     # Check if the file exists # TODO
                     # self.import_source = _('Import failed')
                     # return
