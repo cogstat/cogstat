@@ -13,6 +13,7 @@ Upcoming release
     - SAS .sas7bdat and .xpt files
     - STATA .dta files
     - Additional .csv formats
+- Add more demo data
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)
