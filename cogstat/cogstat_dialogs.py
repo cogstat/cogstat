@@ -22,12 +22,16 @@ QtCore.QCoreApplication.translate = _gui
 
 
 def open_data_file():
+    #dialog = QtWidgets.QFileDialog()
+    #dialog.setFilter(QtCore.QDir.CaseSensitive)
+    # TODO how to make the filter case insensitive?
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',
                                                      '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.log '
-                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta *.rdata *.rds);;'
+                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta '
+                                                     '*.rdata *.Rdata *.rds);;'
                                                      '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.log;;'
                                                      '%s *.sav *.zsav *.por;;%s *.sas7bdat *.xpt;; %s *.dta;;'
-                                                     '%s *.rdata *.rds' %
+                                                     '%s *.rdata *.Rdata *.rds' %
                                                      (_('All importable data files'),
                                                       _('Spreadsheet files'), _('Text files'),
                                                       _('SPSS data files'), _('SAS data files'), _('STATA data files'),
@@ -39,10 +43,11 @@ def open_demo_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
                                                      '/sample_data',
                                                      '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.log '
-                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta *.rdata *.rds);;'
+                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta '
+                                                     '*.rdata *.Rdata *.rds);;'
                                                      '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.log;;'
                                                      '%s *.sav *.zsav *.por;;%s *.sas7bdat *.xpt;; %s *.dta;;'
-                                                     '%s *.rdata *.rds' %
+                                                     '%s *.rdata *.Rdata *.rds' %
                                                      (_('All importable data files'),
                                                       _('Spreadsheet files'), _('Text files'),
                                                       _('SPSS data files'), _('SAS data files'), _('STATA data files'),
