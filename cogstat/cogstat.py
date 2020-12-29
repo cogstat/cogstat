@@ -261,6 +261,7 @@ class CogStatData:
                     import pyreadr
                     import_data = pyreadr.read_r(data)
                     self.data_frame = import_data[list(import_data.keys())[0]]
+                    self.data_frame= self.data_frame.convert_dtypes()
                     self.import_source = _('R file - ') + data  # filename
                 # Import JASP files
                 elif filetype == '.jasp':
@@ -306,8 +307,12 @@ class CogStatData:
         self.data_frame[self.data_frame.select_dtypes(include=['bool']).columns] = \
             self.data_frame.select_dtypes(include=['bool']).astype('object')
         # Some analyses do not handle Int types, but int types
-        self.data_frame[self.data_frame.select_dtypes(include=['Int64']).columns] = \
-            self.data_frame.select_dtypes(include=['Int64']).astype('int64')
+        try:
+            self.data_frame[self.data_frame.select_dtypes(include=['Int64']).columns] = \
+                self.data_frame.select_dtypes(include=['Int64']).astype('int64')
+        except ValueError: # na is not handled in int64
+            self.data_frame[self.data_frame.select_dtypes(include=['Int64']).columns] = \
+                self.data_frame.select_dtypes(include=['Int64']).astype('float64')
         # Some analyses do not handle category types
         self.data_frame[self.data_frame.select_dtypes(include=['category']).columns] = \
             self.data_frame.select_dtypes(include=['category']).astype('object')
@@ -365,8 +370,8 @@ class CogStatData:
                   str(len(self.data_frame.index)) + _(' cases') + '\n'
         output += self._filtering_status()
 
-        dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num', 'object': 'str',
-                         'category': 'str'}
+        dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num',
+                         'object': 'str', 'string': 'str', 'category': 'str'}
         data_prop = pd.DataFrame([[dtype_convert[str(self.data_frame[name].dtype).lower()] for name in self.data_frame.columns],
                                   [self.data_measlevs[name] for name in self.data_frame.columns]],
                                  columns=self.data_frame.columns)
