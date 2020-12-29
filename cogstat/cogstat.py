@@ -371,7 +371,7 @@ class CogStatData:
         output += self._filtering_status()
 
         dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num',
-                         'object': 'str', 'string': 'str', 'category': 'str'}
+                         'object': 'str', 'string': 'str', 'category': 'str', 'datetime64[ns]': 'str'}
         data_prop = pd.DataFrame([[dtype_convert[str(self.data_frame[name].dtype).lower()] for name in self.data_frame.columns],
                                   [self.data_measlevs[name] for name in self.data_frame.columns]],
                                  columns=self.data_frame.columns)
