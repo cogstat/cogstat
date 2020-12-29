@@ -301,21 +301,20 @@ class CogStatData:
 
         # Set other details for all import sources
         percent2float()
-        # Convert boolean variables to string
-        # True and False values should be imported as string, not as boolean - CogStat does not know boolean variables
-        # Although this solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
-        self.data_frame[self.data_frame.select_dtypes(include=['bool']).columns] = \
-            self.data_frame.select_dtypes(include=['bool']).astype('object')
+
+        # Convert dtypes
+        # CogStat does not know boolean variables, it is converted to string
+        #   Although this solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
         # Some analyses do not handle Int types, but int types
-        try:
-            self.data_frame[self.data_frame.select_dtypes(include=['Int64']).columns] = \
-                self.data_frame.select_dtypes(include=['Int64']).astype('int64')
-        except ValueError: # na is not handled in int64
-            self.data_frame[self.data_frame.select_dtypes(include=['Int64']).columns] = \
-                self.data_frame.select_dtypes(include=['Int64']).astype('float64')
         # Some analyses do not handle category types
-        self.data_frame[self.data_frame.select_dtypes(include=['category']).columns] = \
-            self.data_frame.select_dtypes(include=['category']).astype('object')
+        convert_dtypes = [['bool', 'object'], ['Int32', 'int32'], ['Int64', 'int64'], ['Int64', 'float64'], ['category', 'object']]
+        for old_dtype, new_dtype in convert_dtypes:
+            try:
+                self.data_frame[self.data_frame.select_dtypes(include=[old_dtype]).columns] = \
+                    self.data_frame.select_dtypes(include=[old_dtype]).astype(new_dtype)
+            except ValueError:
+                pass
+                # next convert_dtype pair will be used in a next loop if convert_dtypes includes alternatives
 
         set_measurement_level(measurement_level=
                               (param_measurement_level if param_measurement_level else file_measurement_level))
