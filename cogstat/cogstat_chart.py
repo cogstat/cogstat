@@ -474,9 +474,8 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
     if meas_lev in ['int', 'ord']:
 
         # Prepare the frequencies for the plot
-        xy = [(i, j) for i, j in zip(data.iloc[:, 0], data.iloc[:, 1])]
-        xy_set_freq = [[element[0], element[1], xy.count(element)] for element in set(xy)]
-        [xvalues, yvalues, xy_freq] = list(zip(*xy_set_freq))
+        xy_set_freq = data.iloc[:, 0:2].value_counts().reset_index()
+        [xvalues, yvalues, xy_freq] = xy_set_freq.values.T.tolist()
         xy_freq = np.array(xy_freq, dtype=float)
         max_freq = max(xy_freq)
         if max_freq > 10:
