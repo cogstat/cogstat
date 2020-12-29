@@ -27,15 +27,16 @@ def open_data_file():
     # TODO how to make the filter case insensitive?
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',
                                                      '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
-                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta '
+                                                     '*.sav *.zsav *.por *.jasp *.sas7bdat *.xpt *.dta '
                                                      '*.rdata *.Rdata *.rds *.rda);;'
                                                      '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.dat *.log;;'
-                                                     '%s *.sav *.zsav *.por;;%s *.sas7bdat *.xpt;; %s *.dta;;'
+                                                     '%s *.sav *.zsav *.por;;%s *.jasp;;'
+                                                     '%s *.sas7bdat *.xpt;; %s *.dta;;'
                                                      '%s *.rdata *.Rdata *.rds *.rda' %
                                                      (_('All importable data files'),
                                                       _('Spreadsheet files'), _('Text files'),
-                                                      _('SPSS data files'), _('SAS data files'), _('STATA data files'),
-                                                      _('R data files'))
+                                                      _('SPSS data files'), _('JASP data files'), _('SAS data files'),
+                                                      _('STATA data files'), _('R data files'))
                                                      )[0])
 
 
@@ -43,15 +44,16 @@ def open_demo_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
                                                      '/sample_data',
                                                      '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
-                                                     '*.sav *.zsav *.por *.sas7bdat *.xpt *.dta '
+                                                     '*.sav *.zsav *.por *.jasp *.sas7bdat *.xpt *.dta '
                                                      '*.rdata *.Rdata *.rds *.rda);;'
                                                      '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.dat *.log;;'
-                                                     '%s *.sav *.zsav *.por;;%s *.sas7bdat *.xpt;; %s *.dta;;'
+                                                     '%s *.sav *.zsav *.por;;%s *.jasp;;'
+                                                     '%s *.sas7bdat *.xpt;; %s *.dta;;'
                                                      '%s *.rdata *.Rdata *.rds *.rda' %
                                                      (_('All importable data files'),
                                                       _('Spreadsheet files'), _('Text files'),
-                                                      _('SPSS data files'), _('SAS data files'), _('STATA data files'),
-                                                      _('R data files'))
+                                                      _('SPSS data files'), _('JASP data files'), _('SAS data files'),
+                                                      _('STATA data files'), _('R data files'))
                                                      )[0])
 
 

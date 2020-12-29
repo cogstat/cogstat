@@ -255,12 +255,19 @@ class CogStatData:
                                                        for spss_var in import_metadata.column_names])
 
                     self.import_source = _('SPSS/SAS/STATA file - ') + data  # filename
-                #Import from R files
+                # Import from R files
                 elif filetype.lower() in ['.rdata', '.rds', '.rda']:
                     import pyreadr
                     import_data = pyreadr.read_r(data)
                     self.data_frame = import_data[list(import_data.keys())[0]]
                     self.import_source = _('R file - ') + data  # filename
+                # Import JASP files
+                elif filetype == '.jasp':
+                    from . import cogstat_stat_num as cs_stat_num
+                    import_pdf, import_meas_levs = cs_stat_num.read_jasp_file(data)
+                    self.data_frame = import_pdf.convert_dtypes()
+                    file_measurement_level = ' '.join(import_meas_levs)
+                    self.import_source = _('JASP file - ') + data  # filename
 
             # Import from multiline string, clipboard
             else:  # Multi line text, i.e., clipboard data
@@ -352,7 +359,7 @@ class CogStatData:
 
         dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num', 'object': 'str',
                          'category': 'str'}
-        data_prop = pd.DataFrame([[dtype_convert[str(self.data_frame[name].dtype)] for name in self.data_frame.columns],
+        data_prop = pd.DataFrame([[dtype_convert[str(self.data_frame[name].dtype).lower()] for name in self.data_frame.columns],
                                   [self.data_measlevs[name] for name in self.data_frame.columns]],
                                  columns=self.data_frame.columns)
         data_comb = pd.concat([data_prop, self.data_frame])

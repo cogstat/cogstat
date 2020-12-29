@@ -9,6 +9,7 @@ Upcoming release
     - Excel spreadsheet .xls and xlsx files
     - OpenDocument Spreadsheet .ods files
     - SPSS .zsav and .por files
+    - JASP .jasp files
     - R .rdata, .rds, and .rda files
     - SAS .sas7bdat and .xpt files
     - STATA .dta files

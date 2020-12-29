@@ -376,3 +376,73 @@ def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
     ter = MRT - (a/(2*v)) * (1-np.exp(-v*a/s**2))/(1+np.exp(-v*a/s**2))  # This gives nondecision time.
 
     return v, a, ter
+
+from zipfile import ZipFile
+import json
+from tempfile import TemporaryDirectory
+import struct
+import os
+import os.path
+import pandas as pd
+
+
+def read_jasp_file(path):
+    """
+    The code is based on the jasp import filter in jamovi:
+    https://github.com/jamovi/jamovi/blob/master/server/jamovi/server/formatio/jasp.py
+
+    :param path: path of the jasp file
+    :return: pandas dataframe and list of measurement levels
+    """
+
+    with ZipFile(path, 'r') as zip:
+
+        meta_content = zip.read('metadata.json').decode('utf-8')
+        metadata = json.loads(meta_content)
+        meta_dataset = metadata['dataSet']
+
+        # Set variable names and measurement types
+        column_names = []
+        meas_levs = []
+        jasp_to_cs_measurement_levels = {'Nominal': 'nom', 'NominalText': 'nom', 'Ordinal': 'ord', 'Continuous': 'int'}
+        for meta_column in meta_dataset['fields']:
+            column_names.append(meta_column['name'])
+            meas_levs.append(jasp_to_cs_measurement_levels[meta_column['measureType']])
+
+        # TODO labels
+        """
+        try:
+            xdata_content = zip.read('xdata.json').decode('utf-8')
+            xdata = json.loads(xdata_content)
+
+            for column_name in column_names:
+                if column_name in xdata:
+                    meta_labels = xdata[column_name]['labels']
+                    for meta_label in meta_labels:
+                        TODO_store_levels(meta_label[0], meta_label[1], str(meta_label[0]))
+        except Exception:
+            pass
+        """
+
+        row_count = meta_dataset['rowCount']
+        pdf = pd.DataFrame(columns=column_names, index=range(row_count))
+
+        with TemporaryDirectory() as dir:
+            zip.extract('data.bin', dir)
+            data_path = os.path.join(dir, 'data.bin')
+            data_file = open(data_path, 'rb')
+
+            for col_i, meas_lev in enumerate(meas_levs):
+                if meas_lev == 'int':
+                    for i in range(row_count):
+                        byts = data_file.read(8)
+                        value = struct.unpack('<d', byts)
+                        pdf.iloc[i, col_i] = value[0]
+                else:
+                    for i in range(row_count):
+                        byts = data_file.read(4)
+                        value = struct.unpack('<i', byts)
+                        pdf.iloc[i, col_i] = value[0]
+            data_file.close()
+
+        return (pdf, meas_levs)
