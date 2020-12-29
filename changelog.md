@@ -23,6 +23,7 @@ Upcoming release
 ## Fixes
 - Various output fixes
 - Various data import fixes
+- Performance improvements
 
 2.0.0 (13 July 2020)
 ================
