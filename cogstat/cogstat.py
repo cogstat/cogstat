@@ -304,6 +304,13 @@ class CogStatData:
         # Although this solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
         self.data_frame[self.data_frame.select_dtypes(include=['bool']).columns] = \
             self.data_frame.select_dtypes(include=['bool']).astype('object')
+        # Some analyses do not handle Int types, but int types
+        self.data_frame[self.data_frame.select_dtypes(include=['Int64']).columns] = \
+            self.data_frame.select_dtypes(include=['Int64']).astype('int64')
+        # Some analyses do not handle category types
+        self.data_frame[self.data_frame.select_dtypes(include=['category']).columns] = \
+            self.data_frame.select_dtypes(include=['category']).astype('object')
+
         set_measurement_level(measurement_level=
                               (param_measurement_level if param_measurement_level else file_measurement_level))
                                # param_measurement_level overwrites file_measurement_level
