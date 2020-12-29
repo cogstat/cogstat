@@ -42,7 +42,7 @@ def open_data_file():
 
 def open_demo_data_file():
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
-                                                     '/sample_data',
+                                                     '/demo_data',
                                                      '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
                                                      '*.sav *.zsav *.por *.jasp *.sas7bdat *.xpt *.dta '
                                                      '*.rdata *.Rdata *.rds *.rda);;'
