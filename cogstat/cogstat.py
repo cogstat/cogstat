@@ -354,6 +354,13 @@ class CogStatData:
                 self.data_frame = import_pdf.convert_dtypes()
                 self.import_source = _('JASP file - ') + data  # filename
 
+            # Import jamovi files
+            elif filetype == '.omv':
+                from . import cogstat_stat_num as cs_stat_num
+                import_pdf, import_measurement_levels = cs_stat_num.read_jamovi_file(data)
+                self.data_frame = import_pdf.convert_dtypes()
+                self.import_source = _('jamovi file - ') + data  # filename
+
         # 3. Import from clipboard
         elif isinstance(data, str) and ('\n' in data):  # Multi line text, i.e., clipboard data
             # Check if there is variable type line

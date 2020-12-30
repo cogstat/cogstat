@@ -10,6 +10,7 @@ Upcoming release
     - OpenDocument Spreadsheet .ods files
     - SPSS .zsav and .por files
     - JASP .jasp files
+    - jamovi .omv files 
     - R .rdata, .rds, and .rda files
     - SAS .sas7bdat and .xpt files
     - STATA .dta files

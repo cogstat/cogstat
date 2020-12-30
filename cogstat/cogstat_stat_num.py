@@ -8,6 +8,13 @@ Arguments are the pandas data frame (pdf) and parameters.
 Output is the result of the numerical analysis in numerical form.
 """
 
+from zipfile import ZipFile
+import json
+from tempfile import TemporaryDirectory
+import struct
+import os
+import os.path
+
 import numpy as np
 from scipy import stats
 import pandas as pd
@@ -378,15 +385,6 @@ def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
     return v, a, ter
 
 
-from zipfile import ZipFile
-import json
-from tempfile import TemporaryDirectory
-import struct
-import os
-import os.path
-import pandas as pd
-
-
 def read_jasp_file(path):
     """
     The code is based on the jasp import filter in jamovi:
@@ -442,3 +440,130 @@ def read_jasp_file(path):
             data_file.close()
 
         return (pdf, meas_levs)
+
+
+def read_jamovi_file(path):
+    """
+    The code is based on jamovi file import:
+    https://github.com/jamovi/jamovi/blob/master/server/jamovi/server/formatio/omv.py
+    """
+
+    def _read_string_from_table(stream, pos):
+        _buffer = bytearray(512)
+        final_pos = stream.seek(pos)
+        if pos != final_pos:
+            return ''
+        stream.readinto(_buffer)
+        try:
+            end = _buffer.index(bytes(1))  # find string terminator
+            return _buffer[0:end].decode('utf-8', errors='ignore')
+        except ValueError:
+            return _buffer.decode('utf-8', errors='ignore')
+
+    with ZipFile(path, 'r') as zip:
+        meta_dataset = json.loads(zip.read('metadata.json').decode('utf-8'))['dataSet']
+
+        # TODO
+        """
+        if 'transforms' in meta_dataset:
+            for meta_transform in meta_dataset['transforms']:
+                name = meta_transform['name']
+                transform = data.append_transform(name)
+                measure_type_str = meta_transform.get('measureType', 'None')
+                transform.measure_type = MeasureType.parse(measure_type_str)
+        """
+
+        column_names = [meta_column['name'] for meta_column in meta_dataset['fields']]
+        row_count = meta_dataset['rowCount']
+        pdf = pd.DataFrame(columns=column_names, index=range(row_count))
+
+        jamovi_to_cs_measurement_levels = {'ID': 'nom', 'Nominal': 'nom', 'NominalText': 'nom',
+                                           'Ordinal': 'ord', 'Continuous': 'int'}
+        meas_levs = [jamovi_to_cs_measurement_levels[meta_column['measureType']]
+                     for meta_column in meta_dataset['fields']]
+
+        # TODO
+        #missing_values = meta_column.get('missingValues', [])
+
+        # TODO labels
+        """
+        try:
+            xdata_content = zip.read('xdata.json').decode('utf-8')
+            xdata = json.loads(xdata_content)
+
+            for column in data:
+                if column.name in xdata:
+                    try:
+                        meta_labels = xdata[column.name]['labels']
+                        if meta_labels:
+                            for meta_label in meta_labels:
+                                import_value = meta_label[1]
+                                if len(meta_label) > 2:
+                                    import_value = meta_label[2]
+                                column.append_level(meta_label[0], meta_label[1],  import_value)
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+        """
+
+        with TemporaryDirectory() as dir:
+            zip.extract('data.bin', dir)
+            data_file = open(os.path.join(dir, 'data.bin'), 'rb')
+
+            try:
+                zip.extract('strings.bin', dir)
+                string_table_present = True
+                string_table = open(os.path.join(dir, 'strings.bin'), 'rb')
+            except Exception:
+                string_table_present = False
+
+            BUFF_SIZE = 65536
+            buff = memoryview(bytearray(BUFF_SIZE))
+
+            for column_i, column in enumerate(meta_dataset['fields']):
+
+                if column['dataType'] == 'Decimal':
+                    elem_fmt = '<d'
+                    elem_width = 8
+                    transform = None
+                elif column['dataType'] == 'Text' and column['measureType'] == 'ID':
+                    elem_fmt = '<i'
+                    elem_width = 4
+                    if string_table_present:
+                        def transform(x):
+                            if x == -2147483648:
+                                return ''
+                            else:
+                                return _read_string_from_table(string_table, x)
+                    else:
+                        def transform(x):
+                            if x == -2147483648:
+                                return ''
+                            else:
+                                return str(x)
+                else:
+                    elem_fmt = '<i'
+                    elem_width = 4
+                    transform = None
+
+                for row_offset in range(0, row_count, int(BUFF_SIZE / elem_width)):
+                    n_bytes_to_read = min(elem_width * (row_count - row_offset), BUFF_SIZE)
+                    buff_view = buff[0:n_bytes_to_read]
+                    data_file.readinto(buff_view)
+
+                    # TODO
+                    """
+                    if transform:
+                        for i, values in enumerate(struct.iter_unpack(elem_fmt, buff_view)):
+                            pdf.iloc[row_offset + i, column_i] = transform(values[0])
+                    else:
+                    """
+                    for i, values in enumerate(struct.iter_unpack(elem_fmt, buff_view)):
+                        pdf.iloc[row_offset + i, column_i] = values[0]
+
+            data_file.close()
+            if string_table_present:
+                string_table.close()
+
+    return pdf, meas_levs
