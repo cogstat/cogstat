@@ -48,9 +48,32 @@ warn_unknown_variable = '<warning>'+_('The measurement levels of the variables a
 
 class CogStatData:
     """Class to process data."""
-    def __init__(self, data='', measurement_level=''):
+    def __init__(self, data='', measurement_levels=None):
+        """Import data and create CogStat data object.
+
+        data could be:
+        - pandas DataFrame
+        - clipboard data from a spreadsheet (identified as multiline string)
+        - filename (identified as one line text)
+
+        measurement_levels:
+        - None: measurement level of the import file or the clipboard information will be used
+        - List of strings ('nom', 'ord', 'int'): measurement levels will be assigned to variables in that order.
+        It overwrites the import data information. Additional constraints (e.g., string variables can be nominal
+        variables) will overwrite this.
+        - Dictionary, items are variable name and measurement level pairs: measurement levels will be assigned to the
+        appropriate variables. It overwrites the import data information. Additional constraints (e.g., string
+        variables can be nominal variables) will overwrite this.
+
+        Overall, the measurement levels are set in the following order:
+        - All variables are 'unknown'.
+        - Then, if import data includes measurement level, then that information will be used.
+        - Then, if measurement_levels parameter is set, then that will be used.
+        - Finally, constraints (e.g., string variables can be nominal variables) will overwrite measurement level.
         """
-        In the input data:
+
+        """
+                In the input data:
         - First line should be the variable name
         --- If there are missing names, Unnamed:0, Unnamed:1, etc. names are given
         --- If there are repeating var names, new available numbers are added, e.g. a.1, a.2, etc.
@@ -66,16 +89,6 @@ class CogStatData:
 
         self.import_source - text info about the import source
         self.import_message - any text warning about the imported data
-
-        data should be
-        - filename (one line text)
-        - or multiline string (usually clipboard data from spreadsheet)
-        - or pandas DataFrame
-
-        measurement_level:
-        - if measurement level is set,then use it
-        - otherwise look for it in the file/multiline string
-        - otherwise set the types to nom and unk
         """
 
         self.orig_data_frame = None
@@ -86,13 +99,13 @@ class CogStatData:
                                   # since we're in an __init__ method, so store the message here
         self.filtering_status = None
 
-        self._import_data(data=data, param_measurement_level=measurement_level.lower())
+        self._import_data(data=data, measurement_levels=measurement_levels)
 
     ### Import and handle the data ###
 
-    def _import_data(self, data='', param_measurement_level=''):
+    def _import_data(self, data='', measurement_levels=None):
 
-        def percent2float():
+        def _percent2float():
             """ Convert x.x% str format to float in self.data_frame (pandas cannot handle this).
             """
             for column in self.data_frame.select_dtypes('object'):  # check only string variables (or boolean with NaN)
@@ -109,62 +122,71 @@ class CogStatData:
                     except ValueError:  # there may be other non xx% strings in the variable
                         pass
 
-        def set_measurement_level(measurement_level=''):
+        def _set_measurement_level(measurement_levels=None):
             """ Create self.data_measlevs
-            measurement_level:
-                a single string with measurement levels  (int, ord, nom, unk) in the order of the variables
-                or two lines with the names in the first line, and the levels in the second line
+            measurement_levels:
+            - None: measurement level of the import file or the clipboard information will be used
+            - List of strings ('nom', 'ord', 'int'): measurement levels will be assigned to variables in that order.
+            It overwrites the import data information. Additional constraints (e.g., string variables can be nominal
+            variables) will overwrite this.
+            - Dictionary, items are variable name and measurement level pairs: measurement levels will be assigned to
+            the appropriate variables. It overwrites the import data information. Additional constraints (e.g., string
+            variables can be nominal variables) will overwrite this.
             """
-            # 1. Set the levels
-            if measurement_level:  # If levels were given, set them
-                if '\n' in measurement_level:  # Name-level pairs are given in two lines
-                    names, levels = measurement_level.splitlines()
-                    if len(names.split()) == len(levels.split()):
-                        self.data_measlevs = {name: level for name, level in zip(names.split(), levels.split())}
-                    else:
-                        self.import_message += '\n<warning>' + \
-                                               _('Number of measurement level do not match the number of variables. '
-                                                 'Measurement level specification is ignored.')
-                        measurement_level = ''
-                else:  # Only levels are given - in the order of the variables
-                    if len(measurement_level.split()) == len(self.data_frame.columns):
-                        self.data_measlevs = {name: level for name, level in zip(self.data_frame.columns,
-                                                                                 measurement_level.split())}
-                    else:
-                        self.import_message += '\n<warning>' + \
-                                               _('Number of measurement level do not match the number of variables. '
-                                                 'Measurement level specification is ignored.')
-                        measurement_level = ''
-            if not measurement_level:  # Otherwise (or if the given measurement level is incorrect)
-                # set them to be nom if type is a str, unk otherwise
-                self.data_measlevs = {name: ('nom' if self.data_frame[name].dtype == 'object' else 'unk')
-                                      for name in self.data_frame.columns}
-                # TODO Does the line above work? Does the line below work ?
-                #self.data_measlevs =
-                # dict(zip(self.data_frame.columns, [u'nom' if self.data_frame[name].dtype == 'object'
-                # else u'unk' for name in self.data_frame.columns]))
+
+            # By default, all variables have 'unknown' measurement levels
+            self.data_measlevs = {name: 'unk' for name in self.data_frame.columns}
+
+            # 0. Measurement levels are not set
+            if not measurement_levels:
                 self.import_message += '\n<warning>'+warn_unknown_variable+'</warning>'
 
-            # 2. Check for inconsistencies in measurement levels.
-            # If str var is set to int or ord set it to nom
-            invalid_data = []
-            for var_name in self.data_frame.columns:
-                if self.data_measlevs[var_name] in ['int', 'ord', 'unk'] and \
-                        self.data_frame[var_name].dtype == 'object':
-                    # 'object' dtype means string variable
-                    invalid_data.append(var_name)
-            if invalid_data:  # these str variables were set to int or ord
-                for var_name in invalid_data:
+            # 1. Set the levels (coming either from the import data information or from measurement_levels object
+            # parameter)
+            elif measurement_levels:  # If levels were given, set them
+                # Only levels are given - in the order of the variables
+                if type(measurement_levels) is list:
+                    # make levels lowercase and replace '' with 'unk'
+                    measurement_levels = ['unk' if level == '' else level.lower() for level in measurement_levels]
+                    self.data_measlevs = {name: level for name, level in
+                                          zip(self.data_frame.columns, measurement_levels)}
+                    if not (set(measurement_levels) <= {'unk', 'nom', 'ord', 'int', ''}):
+                        raise ValueError('Invalid measurement level')
+
+                # Name-level pairs are given in a dictionary
+                elif type(measurement_levels) is dict:
+                    # make levels lowercase and replace '' with 'unk'
+                    measurement_levels = {name:('unk' if measurement_levels[name] == ''
+                                                else measurement_levels[name].lower())
+                                          for name in measurement_levels.keys()}
+                    self.data_measlevs = {name: measurement_levels[name] for name in measurement_levels.keys()}
+                    if not (set(measurement_levels.values()) <= {'unk', 'nom', 'ord', 'int', ''}):
+                        raise ValueError('Invalid measurement level')
+
+                if len(self.data_frame.columns) != len(measurement_levels):
+                    self.import_message += '\n<warning>' + \
+                                           _('Number of measurement levels do not match the number of variables. '
+                                             'You may want to correct the number of measurement levels.')
+
+            # 2. Apply constraints to measurement levels.
+            # String variables cannot be interval or nominal variables in CogStat, so change them to nominal
+            invalid_var_names = [var_name for var_name in self.data_frame.columns if
+                                 (self.data_measlevs[var_name] in ['int', 'ord', 'unk'] and
+                                  self.data_frame[var_name].dtype == 'object')]
+                # 'object' dtype means string variable
+            if invalid_var_names:  # these str variables were set to int or ord
+                for var_name in invalid_var_names:
                     self.data_measlevs[var_name] = 'nom'
                 self.import_message += '\n<warning>' + \
                                        _('String variables cannot be interval or ordinal variables in CogStat. '
                                          'Those variables are automatically set to nominal: ')\
-                                       + ''.join(', %s' % var_name for var_name in invalid_data)[2:]+'. ' + \
+                                       + ''.join(', %s' % var_name for var_name in invalid_var_names)[2:] + '. ' + \
                                        _('You can fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
 
+            # Warn when not all measurement levels are set
             if set(self.data_measlevs) in ['unk']:
                 self.import_message += '\n<warning>' + \
                                        _('The measurement level was not set for all variables.') + ' '\
@@ -172,188 +194,202 @@ class CogStatData:
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
+        # end of set_measurement_level()
 
-        file_measurement_level = ''
-        # Import from pandas DataFrame
+        def _convert_dtypes():
+            # Convert dtypes
+            # CogStat does not know boolean variables, it is converted to string
+            #   Although this solution changes upper and lower cases: independent of the text,
+            #   it will be 'True' and 'False'
+            # Some analyses do not handle Int types, but int types
+            # Some analyses do not handle category types
+            convert_dtypes = [['bool', 'object'],
+                              ['Int32', 'int32'],
+                              ['Int64', 'int64'], ['Int64', 'float64'],
+                              ['category', 'object']]
+            for old_dtype, new_dtype in convert_dtypes:
+                try:
+                    self.data_frame[self.data_frame.select_dtypes(include=[old_dtype]).columns] = \
+                        self.data_frame.select_dtypes(include=[old_dtype]).astype(new_dtype)
+                except ValueError:
+                    pass
+                    # next convert_dtype pair will be used in a next loop if convert_dtypes includes alternatives
+
+        def _check_unicode_chars():
+            # Check for unicode chars in the data to warn user not to use it
+            # TODO this might be removed with Python3 and with unicode encoding
+            non_ascii_var_names = []
+            non_ascii_vars = []
+            for variable_name in self.data_frame:
+                if not all(ord(char) < 128 for char in variable_name):  # includes non ascii char
+                    non_ascii_var_names.append(variable_name)
+                if self.data_frame[variable_name].dtype == 'object':  # check only string variables
+                    for ind_data in self.data_frame[variable_name]:
+                        if not (ind_data != ind_data) and not (isinstance(ind_data, (bool, int, datetime.date))):
+                            # if not NaN, otherwise the next condition is invalid
+                            # and if not boolean, etc. (int can occur in object dtype)
+                            if not all(ord(char) < 128 for char in ind_data):
+                                non_ascii_vars.append(variable_name)
+                                break  # after finding the first non-ascii data, we can leave the variable
+            if non_ascii_var_names:
+                self.import_message += '\n<warning>' + \
+                                       _('Some variable name(s) include non-English characters, '
+                                         'which will cause problems in some analyses: %s.') \
+                                       % ''.join(
+                    ' %s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) \
+                                       + ' ' + _('You can fix this in your data source.') \
+                                       + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                       + '</warning>'
+            if non_ascii_vars:
+                self.import_message += '\n<warning>' + \
+                                       _('Some variable(s) include non-English characters, '
+                                         'which will cause problems in some analyses: %s.') \
+                                       % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) \
+                                       + ' ' + _('You can fix this in your data source.') \
+                                       + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                       + '</warning>'
+
+
+        import_measurement_levels = None
+
+        # 1. Import from pandas DataFrame
         if isinstance(data, pd.DataFrame):
             self.data_frame = data
             self.import_source = _('pandas dataframe')
-        elif isinstance(data, str):
 
-            # Import from file
-            if not ('\n' in data):  # Single line text, i.e., filename
-                filetype = data[data.rfind('.'):]
-                # Import csv file
-                if filetype in ['.txt', '.csv', '.log', '.dat', '.tsv']:
-                    # Check if the file exists # TODO
-                    # self.import_source = _('Import failed')
-                    # return
+        # 2. Import from file
+        elif isinstance(data, str) and not ('\n' in data):  # Single line text, i.e., filename
+            # Check if the file exists # TODO
+            # self.import_source = _('Import failed')
+            # return
+            filetype = data[data.rfind('.'):]
 
-                    # Check if there is a measurement level line
-                    meas_row = list(pd.read_csv(data, sep=None, engine='python').iloc[0])
-                    meas_row = list(map(str, meas_row))
-                    if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
-                        file_measurement_level = ' '.join(meas_row).lower()
-                    skiprows = [1] if file_measurement_level else None
-
-                    # Read the file
-                    self.data_frame = pd.read_csv(data, sep=None, engine='python',
-                                                  skiprows=skiprows, skip_blank_lines=False)
-                    self.import_source = _('text file - ') + data  # filename
-                # Import from spreadsheet files
-                elif filetype in ['.ods', '.xls', '.xlsx']:
-                    # engine should be set manually in pandas 1.0.5, later pandas version may handle this automatically
-                    if filetype == '.ods':
-                        engine = 'odf'
-                    elif filetype == '.xls':
-                        engine = 'xlrd'
-                    elif filetype == '.xlsx':
-                        engine = 'openpyxl'
-                    self.data_frame = pd.read_excel(data, engine=engine)
-                    # if there is a measurement level line, use it, and reread the spreadsheet
-                    if set(self.data_frame.iloc[0]) <= {'unk', 'nom', 'ord', 'int', ''} and \
-                            set(self.data_frame.iloc[0]) != {''}:
-                        file_measurement_level = ' '.join(self.data_frame.iloc[0]).lower()
-                        self.data_frame = pd.read_excel(data, engine=engine, skiprows=[1])
-                    self.import_source = _('Spreadsheet file - ') + data  # filename
-                # Import SPSS, SAS and STATA files
-                elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt', '.dta']:
-                    import pyreadstat
-
-                    # Read import file
-                    if filetype in ['.sav', '.zsav']:
-                        import_data, import_metadata = pyreadstat.read_sav(data)
-                        # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
-                    elif filetype == '.por':
-                        import_data, import_metadata = pyreadstat.read_por(data)
-                        # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
-                    elif filetype == '.sas7bdat':
-                        import_data, import_metadata = pyreadstat.read_sas7bdat(data)
-                        # alternative solution in pandas:
-                        # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
-                    elif filetype == '.xpt':
-                        import_data, import_metadata = pyreadstat.read_xport(data)
-                        # alternative solution in pandas:
-                        # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
-                    elif filetype == '.dta':
-                        import_data, import_metadata = pyreadstat.read_dta(data)
-                        # alternative solution in pandas:
-                        # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#stata
-                    self.data_frame = pd.DataFrame.from_records(import_data, columns=import_metadata.column_names)
-
-                    # Convert measurement levels from import format to CogStat
-                    # We use pyreadstat variable_measure https://ofajardo.github.io/pyreadstat_documentation/_build/html/index.html#metadata-object-description
-                    if filetype in ['.sav', '.zsav', '.por']:
-                        import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord', 'scale': 'int',
-                                                 'ratio': 'int', 'flag': 'nom', 'typeless': 'unk'}
-                    elif filetype in ['.sas7bdat', '.xpt']:
-                        # TODO this should be checked; I couldn't find relevant information or test file
-                        import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
-                                                 'interval': 'int','ratio': 'int'}
-                    elif filetype == '.dta':  # filetype does not include measurement level information
-                        import_to_cs_meas_lev = {'unknown': 'unk'}
-                    file_measurement_level = ' '.join([import_to_cs_meas_lev[import_metadata.variable_measure[spss_var]]
-                                                       for spss_var in import_metadata.column_names])
-
-                    self.import_source = _('SPSS/SAS/STATA file - ') + data  # filename
-                # Import from R files
-                elif filetype.lower() in ['.rdata', '.rds', '.rda']:
-                    import pyreadr
-                    import_data = pyreadr.read_r(data)
-                    self.data_frame = import_data[list(import_data.keys())[0]]
-                    self.data_frame= self.data_frame.convert_dtypes()
-                    self.import_source = _('R file - ') + data  # filename
-                # Import JASP files
-                elif filetype == '.jasp':
-                    from . import cogstat_stat_num as cs_stat_num
-                    import_pdf, import_meas_levs = cs_stat_num.read_jasp_file(data)
-                    self.data_frame = import_pdf.convert_dtypes()
-                    file_measurement_level = ' '.join(import_meas_levs)
-                    self.import_source = _('JASP file - ') + data  # filename
-
-            # Import from multiline string, clipboard
-            else:  # Multi line text, i.e., clipboard data
-                # Check if there is variable type line
-                import io
-                clipboard_file = io.StringIO(data)
-                """ # old version; if everything goes smoothly, this can be removed
-                f = io.StringIO(data)
-                next(f)
-                meas_row = next(f).replace('\n', '').replace('\r', '').split(delimiter)
-                # \r was used in Mac after importing from Excel clipboard
-                """
-                meas_row = list(pd.read_csv(clipboard_file, sep=None, engine='python').iloc[0])
+            # Import csv file
+            if filetype in ['.txt', '.csv', '.log', '.dat', '.tsv']:
+                # Check if there is a measurement level line
+                meas_row = list(pd.read_csv(data, sep=None, engine='python').iloc[0])
                 meas_row = list(map(str, meas_row))
                 if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
-                    meas_row = ['unk' if item == '' else item for item in meas_row]  # missing level ('') means 'unk'
-                    file_measurement_level = ' '.join(meas_row).lower()
-                skiprows = [1] if file_measurement_level else None
+                    import_measurement_levels = meas_row
+                skiprows = [1] if import_measurement_levels else None
 
-                # Read the clipboard
-                clipboard_file = io.StringIO(data)
-                self.data_frame = pd.read_csv(clipboard_file, sep=None, engine='python',
+                # Read the file
+                self.data_frame = pd.read_csv(data, sep=None, engine='python',
                                               skiprows=skiprows, skip_blank_lines=False)
-                self.import_source = _('clipboard')
+                self.import_source = _('text file - ') + data  # filename
 
-        else:  # Invalid data source
+            # Import from spreadsheet files
+            elif filetype in ['.ods', '.xls', '.xlsx']:
+                # engine should be set manually in pandas 1.0.5, later pandas version may handle this automatically
+                if filetype == '.ods':
+                    engine = 'odf'
+                elif filetype == '.xls':
+                    engine = 'xlrd'
+                elif filetype == '.xlsx':
+                    engine = 'openpyxl'
+                self.data_frame = pd.read_excel(data, engine=engine)
+                # if there is a measurement level line, use it, and reread the spreadsheet
+                if set(self.data_frame.iloc[0]) <= {'unk', 'nom', 'ord', 'int', ''} and \
+                        set(self.data_frame.iloc[0]) != {''}:
+                    import_measurement_levels = self.data_frame.iloc[0]
+                    self.data_frame = pd.read_excel(data, engine=engine, skiprows=[1])
+                self.import_source = _('Spreadsheet file - ') + data  # filename
+
+            # Import SPSS, SAS and STATA files
+            elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt', '.dta']:
+                import pyreadstat
+
+                # Read import file
+                if filetype in ['.sav', '.zsav']:
+                    import_data, import_metadata = pyreadstat.read_sav(data)
+                    # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
+                elif filetype == '.por':
+                    import_data, import_metadata = pyreadstat.read_por(data)
+                    # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
+                elif filetype == '.sas7bdat':
+                    import_data, import_metadata = pyreadstat.read_sas7bdat(data)
+                    # alternative solution in pandas:
+                    # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
+                elif filetype == '.xpt':
+                    import_data, import_metadata = pyreadstat.read_xport(data)
+                    # alternative solution in pandas:
+                    # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
+                elif filetype == '.dta':
+                    import_data, import_metadata = pyreadstat.read_dta(data)
+                    # alternative solution in pandas:
+                    # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#stata
+                self.data_frame = pd.DataFrame.from_records(import_data, columns=import_metadata.column_names)
+
+                # Convert measurement levels from import format to CogStat
+                # We use pyreadstat variable_measure
+                # https://ofajardo.github.io/pyreadstat_documentation/_build/html/index.html#metadata-object-description
+                if filetype in ['.sav', '.zsav', '.por']:
+                    import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord', 'scale': 'int',
+                                             'ratio': 'int', 'flag': 'nom', 'typeless': 'unk'}
+                elif filetype in ['.sas7bdat', '.xpt']:
+                    # TODO this should be checked; I couldn't find relevant information or test file
+                    import_to_cs_meas_lev = {'unknown': 'unk', 'nominal': 'nom', 'ordinal': 'ord',
+                                             'interval': 'int','ratio': 'int'}
+                elif filetype == '.dta':  # filetype does not include measurement level information
+                    import_to_cs_meas_lev = {'unknown': 'unk'}
+                import_measurement_levels = [import_to_cs_meas_lev[import_metadata.variable_measure[var_name]]
+                                             for var_name in import_metadata.column_names]
+
+                self.import_source = _('SPSS/SAS/STATA file - ') + data  # filename
+
+            # Import from R files
+            elif filetype.lower() in ['.rdata', '.rds', '.rda']:
+                import pyreadr
+                import_data = pyreadr.read_r(data)
+                self.data_frame = import_data[list(import_data.keys())[0]]
+                self.data_frame= self.data_frame.convert_dtypes()
+                self.import_source = _('R file - ') + data  # filename
+
+            # Import JASP files
+            elif filetype == '.jasp':
+                from . import cogstat_stat_num as cs_stat_num
+                import_pdf, import_measurement_levels = cs_stat_num.read_jasp_file(data)
+                self.data_frame = import_pdf.convert_dtypes()
+                self.import_source = _('JASP file - ') + data  # filename
+
+        # 3. Import from clipboard
+        elif isinstance(data, str) and ('\n' in data):  # Multi line text, i.e., clipboard data
+            # Check if there is variable type line
+            import io
+            clipboard_file = io.StringIO(data)
+            """ # old version; if everything goes smoothly, this can be removed
+            f = io.StringIO(data)
+            next(f)
+            meas_row = next(f).replace('\n', '').replace('\r', '').split(delimiter)
+            # \r was used in Mac after importing from Excel clipboard
+            """
+            meas_row = list(pd.read_csv(clipboard_file, sep=None, engine='python').iloc[0])
+            meas_row = list(map(str, meas_row))
+            if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
+                meas_row = ['unk' if item == '' else item for item in meas_row]  # missing level ('') means 'unk'
+                import_measurement_levels = meas_row
+            skiprows = [1] if import_measurement_levels else None
+
+            # Read the clipboard
+            clipboard_file = io.StringIO(data)
+            self.data_frame = pd.read_csv(clipboard_file, sep=None, engine='python',
+                                          skiprows=skiprows, skip_blank_lines=False)
+            self.import_source = _('clipboard')
+
+        # 4. Invalid data source
+        else:
             self.import_source = _('Import failed')
             return
 
-        # Set other details for all import sources
-        percent2float()
-
-        # Convert dtypes
-        # CogStat does not know boolean variables, it is converted to string
-        #   Although this solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
-        # Some analyses do not handle Int types, but int types
-        # Some analyses do not handle category types
-        convert_dtypes = [['bool', 'object'], ['Int32', 'int32'], ['Int64', 'int64'], ['Int64', 'float64'], ['category', 'object']]
-        for old_dtype, new_dtype in convert_dtypes:
-            try:
-                self.data_frame[self.data_frame.select_dtypes(include=[old_dtype]).columns] = \
-                    self.data_frame.select_dtypes(include=[old_dtype]).astype(new_dtype)
-            except ValueError:
-                pass
-                # next convert_dtype pair will be used in a next loop if convert_dtypes includes alternatives
-
-        set_measurement_level(measurement_level=
-                              (param_measurement_level if param_measurement_level else file_measurement_level))
-                               # param_measurement_level overwrites file_measurement_level
-
-        # Check for unicode chars in the data to warn user not to use it
-        # TODO this might be removed with Python3 and with unicode encoding
-        non_ascii_var_names = []
-        non_ascii_vars = []
-        for variable_name in self.data_frame:
-            if not all(ord(char) < 128 for char in variable_name):  # includes non ascii char
-                non_ascii_var_names.append(variable_name)
-            if self.data_frame[variable_name].dtype == 'object':  # check only string variables
-                for ind_data in self.data_frame[variable_name]:
-                    if not(ind_data != ind_data) and not (isinstance(ind_data, (bool, int, datetime.date))):
-                        # if not NaN, otherwise the next condition is invalid
-                        # and if not boolean, etc. (int can occur in object dtype)
-                        if not all(ord(char) < 128 for char in ind_data):
-                            non_ascii_vars.append(variable_name)
-                            break  # after finding the first non-ascii data, we can leave the variable
-        if non_ascii_var_names:
-            self.import_message += '\n<warning>' + \
-                                   _('Some variable name(s) include non-English characters, '
-                                     'which will cause problems in some analyses: %s.') \
-                                   % ''.join(' %s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) \
-                                   + ' ' + _('You can fix this in your data source.') \
-                                   + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                   % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                   + '</warning>'
-        if non_ascii_vars:
-            self.import_message += '\n<warning>' + \
-                                   _('Some variable(s) include non-English characters, '
-                                     'which will cause problems in some analyses: %s.') \
-                                   % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) \
-                                   + ' ' + _('You can fix this in your data source.') \
-                                   + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                   % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                   + '</warning>'
-
+        # Set additional details for all import sources
+        _percent2float()
+        _convert_dtypes()
+        _set_measurement_level(measurement_levels=(measurement_levels if measurement_levels else
+                                                  import_measurement_levels))
+                               # measurement_levels overwrites import_measurement_levels
+        _check_unicode_chars()
         self.orig_data_frame = self.data_frame.copy()
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form

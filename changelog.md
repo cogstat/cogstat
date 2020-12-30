@@ -13,12 +13,13 @@ Upcoming release
     - R .rdata, .rds, and .rda files
     - SAS .sas7bdat and .xpt files
     - STATA .dta files
-    - Additional .csv formats
+    - Additional text (e.g., .csv) formats
 - Add more demo datasets
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)
     - French (Minka Petánszki)
+- :warning: Modified API for setting the measurement level when creating CogStat object 
 
 ## Fixes
 - Various output fixes
