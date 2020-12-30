@@ -56,7 +56,7 @@ data_np = np.vstack((
     ))
 data_pd = pd.DataFrame(data_np.T, columns=
                        ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-data = cs.CogStatData(data=data_pd, measurement_level=['int', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int', 'nom',
+data = cs.CogStatData(data=data_pd, measurement_levels=['int', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int', 'nom',
                                                        'nom', 'nom', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int'])
 
 #pd.set_option('display.expand_frame_repr', False)
