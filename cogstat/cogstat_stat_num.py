@@ -377,6 +377,7 @@ def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
 
     return v, a, ter
 
+
 from zipfile import ZipFile
 import json
 from tempfile import TemporaryDirectory
@@ -397,17 +398,12 @@ def read_jasp_file(path):
 
     with ZipFile(path, 'r') as zip:
 
-        meta_content = zip.read('metadata.json').decode('utf-8')
-        metadata = json.loads(meta_content)
-        meta_dataset = metadata['dataSet']
+        meta_dataset = json.loads(zip.read('metadata.json').decode('utf-8'))['dataSet']
 
         # Set variable names and measurement types
-        column_names = []
-        meas_levs = []
+        column_names = [meta_column['name'] for meta_column in meta_dataset['fields']]
         jasp_to_cs_measurement_levels = {'Nominal': 'nom', 'NominalText': 'nom', 'Ordinal': 'ord', 'Continuous': 'int'}
-        for meta_column in meta_dataset['fields']:
-            column_names.append(meta_column['name'])
-            meas_levs.append(jasp_to_cs_measurement_levels[meta_column['measureType']])
+        meas_levs = [jasp_to_cs_measurement_levels[meta_column['measureType']] for meta_column in meta_dataset['fields']]
 
         # TODO labels
         """
