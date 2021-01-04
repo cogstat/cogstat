@@ -800,14 +800,14 @@ class CogStatData:
 
     #correlations(x,y)  # test
 
-    def pivot(self, depend_names=[], row_names=[], col_names=[], page_names=[], function='Mean'):
+    def pivot(self, depend_name='', row_names=[], col_names=[], page_names=[], function='Mean'):
         """
         Compute pivot table.
 
         Parameters
         ----------
-        depend_names : list of str
-            Variables serving as dependent variables.
+        depend_name : str
+            Variable serving as dependent variables.
         row_names : list of str
             Variable names serving as row grouping variables.
         col_names : list of str
@@ -824,7 +824,7 @@ class CogStatData:
         """
         # TODO optionally return pandas DataFrame or Panel
         title = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
-        pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_names, function)
+        pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
         return cs_util.convert_output([title, pivot_result])
 
     def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):

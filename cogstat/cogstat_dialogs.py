@@ -226,7 +226,7 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         return ([str(self.rowsListWidget.item(i).text()) for i in range(self.rowsListWidget.count())],
                 [str(self.columnsListWidget.item(i).text()) for i in range(self.columnsListWidget.count())],
                 [str(self.pagesListWidget.item(i).text()) for i in range(self.pagesListWidget.count())], 
-                [str(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())], 
+                [str(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())][0],
                 str(self.function.currentText()))
 
 

@@ -20,7 +20,9 @@ Upcoming release
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)
     - French (Minka Petánszki)
-- :warning: Modified API for setting the measurement level when creating CogStat object 
+- :warning: Modified APIs
+    - In CogStatData() measurement_levels parameter
+    - In CogStatData.pivot() depend_name parameter
 
 ## Fixes
 - Various output fixes

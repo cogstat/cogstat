@@ -113,9 +113,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     all parameters are lists # TODO doc
     """
             
-    if len(depend_name) != 1:
-        return _('Sorry, only one dependent variable can be used.')
-    if pdf[depend_name[0]].dtype == 'object':
+    if pdf[depend_name].dtype == 'object':
         return _('Sorry, string variables cannot be used in Pivot table.')
     function_code = {_('N'): 'len', _('Sum'): 'np.sum', _('Mean'): 'np.mean', _('Median'): 'median',
                      _('Lower quartile'): 'perc25', _('Upper quartile'): 'perc75',
@@ -127,12 +125,12 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
         result += _('Independent variable(s) - Columns: ') + ', '.join(x for x in col_names) + '\n'
     if row_names:
         result += _('Independent variable(s) - Rows: ') + ', '.join(x for x in row_names) + '\n'
-    result += _('Dependent variable: ') + depend_name[0] + '\n' + _('Function: ') + function + '\n'
+    result += _('Dependent variable: ') + depend_name + '\n' + _('Function: ') + function + '\n'
 
     if function == 'N':
         prec = 0
     else:
-        prec = cs_util.precision(pdf[depend_name[0]])+1
+        prec = cs_util.precision(pdf[depend_name])+1
 
     def format_output(x):
         return '%0.*f' % (prec, x)
