@@ -7,7 +7,7 @@ GUI for CogStat.
 import os
 import sys
 
-import imp
+import importlib
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
@@ -42,7 +42,7 @@ cs_util.get_versions()
 
 logging.root.setLevel(logging.INFO)
 
-imp.reload(sys)
+importlib.reload(sys)  # TODO why do we need this?
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
