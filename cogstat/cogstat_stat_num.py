@@ -20,7 +20,7 @@ from scipy import stats
 import pandas as pd
 
 
-def median_ci(data, quantile=0.5):
+def quantile_ci(data, quantile=0.5):
     """
     Calculate confidence interval of quantiles.
 

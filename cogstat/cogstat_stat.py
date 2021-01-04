@@ -413,7 +413,7 @@ def variable_estimation(data, statistics=[]):
             pdf_result.loc[_('Median'), _('Point estimation')] = np.median(data.dropna())
             pdf_result.loc[_('Median'), _('95% confidence interval (low)')], \
             pdf_result.loc[_('Median'), _('95% confidence interval (high)')] = \
-                cs_stat_num.median_ci(pd.DataFrame(data.dropna()))
+                cs_stat_num.quantile_ci(pd.DataFrame(data.dropna()))
     pdf_result = pdf_result.fillna(_('Out of the data range'))
     prec = cs_util.precision(data) + 1
     population_param_text += _format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",
@@ -583,7 +583,7 @@ def repeated_measures_estimations(data, meas_level):
         condition_estimations_pdf[_('95% CI (high)')] = cihs
     if meas_level == 'ord':
         condition_estimations_pdf[_('Point estimation')] = data.median()
-        cis_np = cs_stat_num.median_ci(data)
+        cis_np = cs_stat_num.quantile_ci(data)
         condition_estimations_pdf[_('95% CI (low)')], condition_estimations_pdf[_('95% CI (high)')] = cis_np
         condition_estimations_pdf = condition_estimations_pdf.fillna(_('Out of the data range'))
     return condition_estimations_pdf
@@ -674,7 +674,7 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
     elif meas_level == 'ord':
         pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
         group_estimations_pdf[_('Point estimation')] = pdf.groupby(groups, sort=True).aggregate(np.median)[var_names[0]]
-        cis = pdf.groupby(groups, group_keys=False, sort=True).apply(lambda x: cs_stat_num.median_ci(x)[:, 0])
+        cis = pdf.groupby(groups, group_keys=False, sort=True).apply(lambda x: cs_stat_num.quantile_ci(x)[:, 0])
             # TODO this solution works, but a more reasonable code would be nicer
         # APA format, but cannot be used the numbers if copied to spreadsheet
         #group_means_pdf[_('95% confidence interval')] = '['+ (means-cis).map(str) + ', ' + (means+cis).map(str) + ']'
