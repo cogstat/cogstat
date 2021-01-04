@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""This module is the main engine for CogStat. It includes the class for the CogStat data. Initialization handles data
-import. Methods implement some data handling and they compile the appropriate statistics for the main analysis commands.
+"""This module is the main engine for CogStat. It includes the class for the CogStat data; initialization handles data
+import; methods implement some data handling and they compile the appropriate statistics for the main analysis commands.
 """
 
 # if CS is used with GUI, start the splash screen
@@ -49,11 +49,25 @@ class CogStatData:
     """
     Import data and create CogStat data object.
 
-    :param data: to-be-imported data
+    The measurement levels are set in the following order:
+
+    - All variables are 'unknown'.
+    - Then, if import data includes measurement level, then that information will be used.
+    - Then, if measurement_levels parameter is set, then that will be used.
+    - Finally, constraints (e.g., string variables can be nominal variables) will overwrite measurement level.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame or str
+        Data to be imported. This can be:
+
         - Pandas DataFrame
         - Clipboard data from a spreadsheet (identified as multiline string)
         - Filename (identified as one line text)
-    :param measurement_levels: optional measurement levels of the variables
+
+    measurement_levels : None, list of {'nom', 'ord', 'int'} or dict of {str: {'nom', 'ord', 'int'}}
+        Optional measurement levels of the variables
+
         - None: measurement level of the import file or the clipboard information will be used
         - List of strings ('nom', 'ord', 'int'): measurement levels will be assigned to variables in that order. It
         overwrites the import data information. Additional constraints (e.g., string variables can be nominal variables)
@@ -61,16 +75,10 @@ class CogStatData:
         - Dictionary, items are variable name and measurement level pairs: measurement levels will be assigned to the
         appropriate variables. It overwrites the import data information. Additional constraints (e.g., string variables
         can be nominal variables) will overwrite this.
-
-    Overall, the measurement levels are set in the following order:
-    - All variables are 'unknown'.
-    - Then, if import data includes measurement level, then that information will be used.
-    - Then, if measurement_levels parameter is set, then that will be used.
-    - Finally, constraints (e.g., string variables can be nominal variables) will overwrite measurement level.
     """
 
-    def __init__(self, data='', measurement_levels=None):
-
+    def __init__(self, data, measurement_levels=None):
+        pass
         """In the input data:
         - First line should be the variable name
         --- If there are missing names, Unnamed:0, Unnamed:1, etc. names are given
@@ -404,12 +412,18 @@ class CogStatData:
             self.data_measlevs[QString(var_name)] = self.data_measlevs[var_name]
 
     def print_data(self, brief=False):
-        """Displays the data.
+        """
+        Display the data.
 
-        :param brief: whether only the first cases or the whole data frame should be displayed
-        :type brief: bool.
-        :return: returns a html string showing the data
-        :rtype: str
+        Parameters
+        ----------
+        brief : bool
+            Should only the first few cases or the whole data frame be displayed?
+
+        Returns
+        -------
+        str
+            HTML string showing the data.
         """
         output = '<cs_h1>' + _('Data') + '</cs_h1>'
         output += _('Source: ') + self.import_source + '\n'
@@ -434,16 +448,24 @@ class CogStatData:
 
         return cs_util.convert_output([output])
 
-    def filter_outlier(self, var_names=None, mode='2sd'):  # TODO GUI for this function
-        """Filter the data_frame based on outliers. All variables are investigated independently and cases are excluded
-        if any variables shows they are outliers.
+    def filter_outlier(self, var_names=None, mode='2sd'):
+        """
+        Filter the data_frame based on outliers.
 
-        :param var_names: list of names of the variables the exclusion is based on or None to include all cases
-        :type var_names: list of str
-        :param mode: mode of the exclusion - only 2sd is available at the moment
-        :type mode: str
-        :return: list of html strings showing the filtered cases; modifies dataframe in place
-        :rtype: list of str
+        All variables are investigated independently and cases are excluded if any variables shows they are outliers.
+        If var_names is None, then all cases are used.
+
+        Parameters
+        ----------
+        var_names : None or list of str
+            Names of the variables the exclusion is based on or None to include all cases.
+        mode : {'2sd'}
+            Mode of the exclusion - only 2sd is available at the moment
+
+        Returns
+        -------
+        list of str
+            List of HTML strings showing the filtered cases. The method modifies the dataframe in place.
         """
         title = '<cs_h1>' + _('Filtering') + '</cs_h1>'
         if var_names is None or var_names == []:  # Switch off outlier filtering
@@ -525,15 +547,22 @@ class CogStatData:
     ### Compile statistics ###
 
     def explore_variable(self, var_name, frequencies=True, central_value=0.0):
-        """Explore a single variable.
+        """
+        Explore a single variable.
 
-        :param var_name: Name of the variable
-        :type var_name: str
-        :param frequencies: should frequencies be shown?
-        :type frequencies: bool
-        :param central_value: test value for testing central tendency
-        :type central_value: float
-        :return: analysis results in html format
+        Parameters
+        ----------
+        var_name : str
+            Name of the variable
+        frequencies : bool
+            Should the frequencies be shown?
+        central_value : float
+            Test value for testing central tendency.
+
+        Returns
+        -------
+        list of str and image
+            Analysis results in HTML format
         """
         plt.close('all')
         meas_level, unknown_type = self._meas_lev_vars([var_name])
@@ -661,17 +690,24 @@ class CogStatData:
         return cs_util.convert_output(result_list)
 
     def explore_variable_pair(self, x, y, xlims=[None, None], ylims=[None, None]):
-        """Explore a variable pair.
+        """
+        Explore a variable pair.
 
-        :param x: name of the x variable
-        :type x: str
-        :param y: name of the y variable
-        :type y: str
-        :param xlims: limit of the x axis for interval and ordinal variables instead of using automatic values
-        :type xlims: list of two numerical values
-        :param ylims: limit of the y axis for interval and ordinal variables instead of using automatic values
-        :type ylims: list of two numerical values
-        :return: analysis results in html format
+        Parameters
+        ----------
+        x : str
+            Name of the x variable.
+        y : str
+            Name of the y variable.
+        xlims : list of {int or float}
+            Limit of the x axis for interval and ordinal variables instead of using automatic values.
+        ylims : list of {int or float}
+            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+
+        Returns
+        -------
+        list of str and image
+            Analysis results in HTML format
         """
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
@@ -765,15 +801,26 @@ class CogStatData:
     #correlations(x,y)  # test
 
     def pivot(self, depend_names=[], row_names=[], col_names=[], page_names=[], function='Mean'):
-        """ Computes pivot table.
-        :param depend_names: list of variables serving as dependent variables
-        :param row_names: list of variable names serving as row grouping variables
-        :param col_names: list of variable names serving as column grouping variables
-        :param page_names: list of variable names serving as page  grouping variables
-        :param function: list of functions applied to pivot cells
-            Available options are (localized version should be used if CogStat is used in a non-English language):
-            'N', 'Sum', 'Mean', 'Median', 'Lower quartile', 'Upper quartile', 'Standard deviation', 'Variance'
-        :return: analysis results in html format
+        """
+        Compute pivot table.
+
+        Parameters
+        ----------
+        depend_names : list of str
+            Variables serving as dependent variables.
+        row_names : list of str
+            Variable names serving as row grouping variables.
+        col_names : list of str
+            Variable names serving as column grouping variables.
+        page_names : list of str
+            Variable names serving as page  grouping variables.
+        function : {'N', 'Sum', 'Mean', 'Median', 'Lower quartile', 'Upper quartile', 'Standard deviation', 'Variance'}
+            Functions applied to pivot cells. Use localized version if CogStat is used in a non-English language.
+
+        Returns
+        -------
+        list of str and image
+            Analysis results in HTML format
         """
         # TODO optionally return pandas DataFrame or Panel
         title = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
@@ -781,16 +828,28 @@ class CogStatData:
         return cs_util.convert_output([title, pivot_result])
 
     def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
-        """Runs diffusion analysis on behavioral data. Dataframe should include a single trial in a case (row).
+        """
+        Run diffusion analysis on behavioral data.
 
-        :param error_name: name of the variable storing the errors
-            Error should be coded as 1, correct response as 0
-        :param RT_name: name of the variable storing response times
+        Dataframe should include a single trial in a case (row).
+
+        Parameters
+        ----------
+        error_name : list of str
+            Name of the variable storing the errors.
+            Error should be coded as 1, correct response as 0.
+        RT_name : list of str
+            Name of the variable storing response times.
             Time should be stored in sec.
-        :param participant_name: name of the variable storing participant IDs
-        :param condition_names: name(s) of the variable(s) storing conditions
+        participant_name : list of str
+            Name of the variable storing participant IDs.
+        condition_names : list of str
+            Name(s) of the variable(s) storing conditions.
 
-        :return: analysis results in html format
+        Returns
+        -------
+        list of str and image
+            Analysis results in HTML format
         """
         # TODO return pandas DataFrame
         title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
@@ -798,16 +857,27 @@ class CogStatData:
         return cs_util.convert_output([title, pivot_result])
 
     def compare_variables(self, var_names, factors=[], ylims=[None, None]):
-        """Compare repeated measures variables.
+        """
+        Compare repeated measures variables.
 
-        :param var_names: list of the variable names (list of str)
-        :param factors: list of the factors and their levels
-            e.g.,
-            [['name of the factor', number_of_the_levels],
-            ['name of the factor 2', number_of_the_levels]]
+        Parameters
+        ----------
+        var_names: list of str
+            The variable to be compared.
+        factors : list of list of [str, int]
+            The factors and their levels, e.g.,
+
+                [['name of the factor', number_of_the_levels],
+                ['name of the factor 2', number_of_the_levels]]
+
             Factorial combination of the factors will be generated, and variables will be assigned respectively
-        :param ylims: limit of the y axis for interval and ordinal variables instead of using automatic values
-        :return: analysis results in html format
+        ylims : list of {int or float}
+            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+
+        Returns
+        -------
+        list of str and image
+            Analysis results in HTML format
         """
         plt.close('all')
         title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
@@ -931,15 +1001,27 @@ class CogStatData:
 
     def compare_groups(self, var_name, grouping_variables,  single_case_slope_SEs=[], single_case_slope_trial_n=None,
                        ylims=[None, None]):
-        """Compare groups.
+        """
+        Compare groups.
 
-        :param var_name: name of the dependent variable (str)
-        :param grouping_variables: list of name(s) of grouping variable(s) (list of str)
-        :param single_case_slope_SEs: when comparing the slope between a single case and a group, list of a single
-            variable name storing the slope SEs
-        :param single_case_slope_trial: when comparing the slope between a single case and a group, number of trials
-        :param ylims: limit of the y axis for interval and ordinal variables instead of using automatic values
-        :return: analysis results in html format
+        Parameters
+        ----------
+        var_name : str
+            Name of the dependent variable
+        grouping_variables : list of str
+            List of name(s) of grouping variable(s).
+        single_case_slope_SEs : list of str
+            When comparing the slope between a single case and a group, list of a single variable name storing the
+            slope SEs
+        single_case_slope_trial : int
+            When comparing the slope between a single case and a group, number of trials.
+        ylims : list of {int or float}
+            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+
+        Returns
+        -------
+        list of str and image
+            Analysis results in HTML format
         """
         plt.close('all')
         var_names = [var_name]
@@ -1076,10 +1158,13 @@ class CogStatData:
 
 
 def display(results):
-    """Display list of output given by CogStat analysis in IPython Notebook
+    """
+    Display list of output given by CogStat analysis in IPython Notebook.
 
-    :param results: list of output
-    :return:
+    Parameters
+    ----------
+    results : list of {str, image}
+        HTML results.
     """
     from IPython.display import display
     from IPython.display import HTML

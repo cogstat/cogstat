@@ -22,11 +22,22 @@ import pandas as pd
 
 def median_ci(data, quantile=0.5):
     """
+    Calculate confidence interval of quantiles.
+
+    Calculation is based on:
     https://www-users.york.ac.uk/~mb55/intro/cicent.htm
 
-    :param data:
-    :param quantile: the default value is median
-    :return:
+    Parameters
+    ----------
+    data : pandas.DataFrame
+    quantile : float
+        Quantile for which CI will be calculated. The default value is median (0.5).
+
+    Returns
+    -------
+    np.array
+        Lower and upper CI of the quantile for all variables.
+
     """
     n = len(data)
     lower_limit = (n * quantile) - (1.96 * np.sqrt(n * quantile * (1 - quantile)))
@@ -41,12 +52,24 @@ def median_ci(data, quantile=0.5):
 
 
 def corr_ci(r, n, confidence=0.95):
-    """ Compute confidence interval for Spearman or Pearson correlation coefficients based on Fisher transformation
+    """
+    Compute confidence interval for Spearman or Pearson correlation coefficients based on Fisher transformation.
+
     https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient#Using_the_Fisher_transformation
-    :param r: correlation coefficient
-    :param n: sample size
-    :param confidence: confidence, default is 0.95
-    :return: low and high
+
+    Parameters
+    ----------
+    r : float
+        Correlation coefficient
+    n : int
+        Sample size
+    confidence : float
+        Confidence, default is 0.95.
+
+    Returns
+    -------
+    (float, float)
+        Lower and upper limit of the CI
     """
     delta = stats.norm.ppf(1.0 - (1 - confidence) / 2) / np.sqrt(n - 3)
     lower = np.tanh(np.arctanh(r) - delta)
@@ -55,18 +78,28 @@ def corr_ci(r, n, confidence=0.95):
 
 
 def modified_t_test(ind_data, group_data):
-    """Compare a single case to a group.
+    """
+    Compare a single case to a group.
 
     More information:
     Crawford, J.R. & Howell, D.C. (1998). Comparing an individual's test score
     against norms derived from small samples. The Clinical Neuropsychologist,
     12, 482-486.
 
-    :param ind_data: single row pandas data frame for the single case
-    :param group_data: several rows of pandas data frame for the control grop values
-    :return tstat: test statistics
-    :return pvalue: p value of the test
-    :return df: degrees fo freedom
+    Parameters
+    ----------
+    ind_data : pandas.DataFrame
+        Single row pandas data frame for the single case
+    group_data : pandas.DataFrame
+        Several rows of pandas data frame for the control group values
+
+    Returns
+    -------
+    float, float, int
+
+        - test statistics
+        - p value of the test
+        - degrees fo freedom
     """
 
     group_data_n = len(group_data)
@@ -78,19 +111,34 @@ def modified_t_test(ind_data, group_data):
 
 def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_SEs):
     """
-    This function checks the extremity of a single case performance expressed as a slope compared to the control data.
+    Check the extremity of a single case performance expressed as a slope compared to the control data.
 
     More information:
     Crawford, J. R., & Garthwaite, P. H. (2004). Statistical Methods for Single-Case Studies in Neuropsychology:
     Comparing the Slope of a Patient’s Regression Line with those of a Control Sample. Cortex, 40(3), 533–548.
     http://doi.org/10.1016/S0010-9452(08)70145-X
 
-    :param n_trials: number of trials the slopes rely on
-    :param case_slope, case_SE: single row pandas data frames with the slope and the standard error of the single case
-    :param control_slopes, control_SEs: single row pandas data frames with the slope and the standard error of the
-            control cases
+    Parameters
+    ----------
+    n_trials : int
+        Number of trials the slopes rely on.
+    case_slope : pandas.DataFrame
+        Single row pandas data frames with the slope of the single case.
+    case_SE : pandas.DataFrame
+        Single row pandas data frames with the standard error of the single case.
+    control_slopes : pandas.DataFrame
+        Single row pandas data frames with the slope of the control cases.
+    control_SEs : pandas.DataFrame
+        Single row pandas data frames with the standard error of the control cases.
 
-    Returns the appropriate test statistic value, the degree of freedom, the p-value, and the chosen test type (string)
+    Returns
+    -------
+    float, int, float, str
+
+        - test statistic value
+        - degree of freedom
+        - p-value
+        - the chosen test type
     """
 
     beta_mean = control_slopes.mean(axis=0)
@@ -188,25 +236,34 @@ def slope_extremity_test(n_trials, case_slope, case_SE, control_slopes, control_
 
 def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=True):
     """
-    Standard one-way repeated measures ANOVA
+    Perform standard one-way repeated measures ANOVA.
     
-    ### Arguments:
-    data: pandas DataFrame
-    dep_var: dependent variable - label (long format) or a list of labels (wide format)
-    indep_var: label of the independent variable (only necessary if data is in long format)
-    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index
-            contains the identifiers.
-    wide: whether the data is in wide format
+    Parameters
+    ----------
+    data : pandas DataFrame
+    dep_var : str or list of str
+        Dependent variable - label (long format) or a list of labels (wide format)
+    indep_var : str
+        Label of the independent variable (only necessary if data is in long format)
+    id_var: str
+        Label of the variable which contains the participants' identifiers. Default assumes that the table index
+        contains the identifiers.
+    wide : bool
+        Whether the data is in wide format.
     
-    ### Returns: [DFn, DFd, F, pF, W, pW], corr_table
-    DFn, DFd: degrees of freedom used when calculating p(F)
-    F: F statistic (uncorrected)
-    pF: p value of the F statistic (uncorrected)
-    W: statistic of Mauchly's test for sphericity
-    pW: p value of Mauchly's test for sphericity (sphericity is violated if p(W)<0.05)
-    corr_table: numpy array, contains Greenhouse & Geisser's, Huhyn & Feldt's, and the "lower-bound" epsilons,
-                and the corrected p values of F (degrees of freedom should be multiplied with the epsilon to get
-                the corrected df values)
+    Returns
+    -------
+    list of [int, int, float, float, sloat, float], numpy.array
+
+        - [DFn, DFd, F, pF, W, pW], corr_table
+        - DFn, DFd: degrees of freedom used when calculating p(F)
+        - F: F statistic (uncorrected)
+        - pF: p value of the F statistic (uncorrected)
+        - W: statistic of Mauchly's test for sphericity
+        - pW: p value of Mauchly's test for sphericity (sphericity is violated if p(W)<0.05)
+        - corr_table: contains Greenhouse & Geisser's, Huhyn & Feldt's, and the "lower-bound" epsilons, and the
+          corrected p values of F (degrees of freedom should be multiplied with the epsilon to get the corrected df
+          values)
     """
     ### Reshaping data
     if wide:
@@ -282,19 +339,27 @@ def repeated_measures_anova(data, dep_var, indep_var=None, id_var=None, wide=Tru
 
 def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired=True):
     """
-    Posthoc pairwise t-tests for ANOVA
+    Calculate posthoc pairwise t-tests for ANOVA.
     
-    ### Arguments:
-    data: pandas DataFrame
-    dep_var: dependent variable - label (long format) or a list of labels (wide format)
-    indep_var: label of the independent variable (only necessary if data is in long format)
-    id_var: label of the variable which contains the participants' identifiers. Default assumes that the table index
-            contains the identifiers.
-    wide: whether the data is in wide format
-    paired: whether the samples are related
-    
-    ### Returns: pandas DataFrame with the t-statistics and associated p values (corrected and uncorrected) of each
-                pairings
+    Parameters
+    ----------
+    data : pandas DataFrame
+    dep_var : str or list of str
+        Dependent variable - label (long format) or a list of labels (wide format)
+    indep_var : str
+        Label of the independent variable (only necessary if data is in long format)
+    id_var: str
+        Label of the variable which contains the participants' identifiers. Default assumes that the table index
+        contains the identifiers.
+    wide : bool
+        Whether the data is in wide format.
+    paired : bool
+        Whether the samples are related.
+
+    Returns
+    -------
+    pandas.DataFrame
+        t-statistics and associated p values (corrected and uncorrected) of each pairings
     """
     # TODO keep the order of the dep_vars
     ### Reshaping data
@@ -336,12 +401,22 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
 
 
 def diffusion_edge_correction_mean(data):
-    """For behavioral data calculate mean error rate with edge correction for the EZ  diffusion analysis.
+    """
+    For behavioral data calculate mean error rate with edge correction for the EZ  diffusion analysis.
+
+
     See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007). An EZ-diffusion
     model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22. https://doi.org/10.3758/BF03194023
 
-    data: list of values (error rates) to be corrected
-    return: corrected mean error rate
+    Parameters
+    ----------
+    data :
+        Values (error rates) to be corrected
+
+    Returns
+    -------
+
+        Corrected mean error rate
     """
     mean = np.mean(data)
     if mean == 0:
@@ -354,24 +429,38 @@ def diffusion_edge_correction_mean(data):
 
 
 def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
-    """For behavioral data recover the diffusion parameters with the EZ method
+    """
+    Recover the diffusion parameters for behavioral data with the EZ method.
+
     See more details at: Wagenmakers, E.-J., van der Maas, H. L. J., & Grasman, R. P. P. P. (2007).
     An EZ-diffusion model for response time and accuracy. Psychonomic Bulletin & Review, 14(1), 3–22.
     https://doi.org/10.3758/BF03194023
 
-    Pc: percent correct
-    VRT: correct reaction time variance
-    MRT: mean correct reaction time
-    s:
+    Parameters
+    ----------
+    Pc : float
+        Percent correct
+    VRT : float
+        Correct reaction time variance
+    MRT : float
+        Mean correct reaction time
+    s : float
 
-    returns:
-    v: drift rate
-    a: threshold
-    ter: nondecision time
 
-    Example of the paper Wagenmakers, van der Maas, Grasman, 2007
+    Returns
+    -------
+    float, float, float
+        - drift rate
+        - threshold
+        - nondecision time
+
+    Examples
+    --------
+    Example of the paper Wagenmakers, van der Maas, Grasman (2007).
+
     It should return 0.09993853, 0.1399702, 0.30003
-    #diffusion_get_ez_params(0.802, .112, .723)
+
+    >>> diffusion_get_ez_params(0.802, .112, .723)
     """
     # This has been handled by the edge correction
     #if Pc == 0 or Pc == 0.5 or Pc == 1:
@@ -387,11 +476,19 @@ def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
 
 def read_jasp_file(path):
     """
+    Open JASP file.
+
     The code is based on the jasp import filter in jamovi:
     https://github.com/jamovi/jamovi/blob/master/server/jamovi/server/formatio/jasp.py
 
-    :param path: path of the jasp file
-    :return: pandas dataframe and list of measurement levels
+    Parameters
+    ----------
+    path : str
+        Path of the jasp file.
+    Returns
+    -------
+    pandas.DataFrame and list of {'nom', 'ord', 'int'}
+        Returns the values, variable names and measurement levels
     """
 
     with ZipFile(path, 'r') as zip:
@@ -444,8 +541,20 @@ def read_jasp_file(path):
 
 def read_jamovi_file(path):
     """
+    Open jamovi file.
+
     The code is based on jamovi file import:
     https://github.com/jamovi/jamovi/blob/master/server/jamovi/server/formatio/omv.py
+
+    Parameters
+    ----------
+    path : str
+        Path of the jasp file.
+    Returns
+    -------
+    pandas.DataFrame and list of {'nom', 'ord', 'int'}
+        Returns the values, variable names and measurement levels
+
     """
 
     def _read_string_from_table(stream, pos):
