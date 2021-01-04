@@ -23,6 +23,7 @@ Upcoming release
 - :warning: Modified APIs
     - In CogStatData() measurement_levels parameter
     - In CogStatData.pivot() depend_name parameter
+    - In CogStatData.compare_groups()  single_case_slope_SE parameter
 
 ## Fixes
 - Various output fixes

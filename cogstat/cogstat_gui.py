@@ -703,7 +703,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_output_pane()
         self._busy_signal(False)
         
-    def compare_groups(self, var_names=None, groups=None, single_case_slope_SEs=None, single_case_slope_trial_n=None,
+    def compare_groups(self, var_names=None, groups=None, single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """Compare groups.
         
@@ -719,7 +719,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
-                var_names, groups, single_case_slope_SEs, single_case_slope_trial_n, ylims = self.dial_comp_grp.\
+                var_names, groups, single_case_slope_SE, single_case_slope_trial_n, ylims = self.dial_comp_grp.\
                     read_parameters()  # TODO check if settings are appropriate
             else:
                 return
@@ -736,7 +736,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 try:
                     self.analysis_results.append(GuiResultPackage())
                     self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-                    result_list = self.active_data.compare_groups(var_name, groups, single_case_slope_SEs,
+                    result_list = self.active_data.compare_groups(var_name, groups, single_case_slope_SE,
                                                                   single_case_slope_trial_n, ylims)
                     self.analysis_results[-1].add_output(result_list)
                     self._print_to_output_pane()

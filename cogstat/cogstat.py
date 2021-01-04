@@ -999,7 +999,7 @@ class CogStatData:
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                        population_graph, result_ht])
 
-    def compare_groups(self, var_name, grouping_variables,  single_case_slope_SEs=[], single_case_slope_trial_n=None,
+    def compare_groups(self, var_name, grouping_variables,  single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """
         Compare groups.
@@ -1010,9 +1010,8 @@ class CogStatData:
             Name of the dependent variable
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
-        single_case_slope_SEs : list of str
-            When comparing the slope between a single case and a group, list of a single variable name storing the
-            slope SEs
+        single_case_slope_SE : str
+            When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
             When comparing the slope between a single case and a group, number of trials.
         ylims : list of {int or float}
@@ -1149,7 +1148,7 @@ class CogStatData:
             group_levels = sorted(set(data[groups[0]]))
             result_ht = cs_hyp_test.decision_one_grouping_variable(self.data_frame, meas_level, self.data_measlevs,
                                                                    var_names, groups, group_levels,
-                                                                   single_case_slope_SEs, single_case_slope_trial_n)
+                                                                   single_case_slope_SE, single_case_slope_trial_n)
         else:
             result_ht = cs_hyp_test.decision_several_grouping_variables(self.data_frame, meas_level, var_names, groups)
 

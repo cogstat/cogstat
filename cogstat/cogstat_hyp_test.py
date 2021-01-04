@@ -482,7 +482,7 @@ def friedman_test(pdf, var_names):
 
 
 def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels,
-                                   single_case_slope_SEs, single_case_slope_trial_n):
+                                   single_case_slope_SE, single_case_slope_trial_n):
     result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
@@ -516,8 +516,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 else:
                     result_ht += '<decision>' + _('Normality is not violated. >> Running modified t-test.') + \
                                  '\n</decision>'
-                    result_ht += single_case_task_extremity(df, var_names[0], groups[0], single_case_slope_SEs[0] if
-                                 single_case_slope_SEs else None, single_case_slope_trial_n)
+                    result_ht += single_case_task_extremity(df, var_names[0], groups[0], single_case_slope_SE if
+                                 single_case_slope_SE else None, single_case_slope_trial_n)
             else:
                 result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
                              _("Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on "

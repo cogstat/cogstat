@@ -624,7 +624,7 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
-        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
+        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())][0],
                 str(self.spinBox.text()))
 
 
@@ -673,7 +673,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
 
     def on_slopeButton_clicked(self):
         self.slope_dialog.exec_()
-        self.single_case_slope_SEs, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
+        self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
     def optionsButton_clicked(self):
         if self.ylims_dialog.exec_():
@@ -684,7 +684,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
-                self.single_case_slope_SEs, int(self.single_case_slope_trial_n), self.ylims)
+                self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims)
 
 
 from .ui import find_text
