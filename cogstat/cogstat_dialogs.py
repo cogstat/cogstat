@@ -647,7 +647,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
 
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
         self.ylims_dialog = ylims_dialog(self)
-        self.single_case_slope_SEs, self.single_case_slope_trial_n = [], 0
+        self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
         self.ylims = [None, None]
 
         self.init_vars(names)
