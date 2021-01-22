@@ -29,7 +29,7 @@ Upcoming release
 - Various output fixes
 - Various data import fixes
 - Performance improvements
-- On Windows, much smaller installer and required space 
+- On Windows, much smaller installer and much less required space 
 
 2.0.0 (13 July 2020)
 ================
