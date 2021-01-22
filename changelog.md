@@ -21,14 +21,15 @@ Upcoming release
     - Spanish (Borbála Zulauf)
     - French (Minka Petánszki)
 - :warning: Modified APIs
-    - In CogStatData() measurement_levels parameter
-    - In CogStatData.pivot() depend_name parameter
-    - In CogStatData.compare_groups()  single_case_slope_SE parameter
+    - CogStatData() measurement_levels parameter
+    - CogStatData.pivot() depend_name parameter
+    - CogStatData.compare_groups()  single_case_slope_SE parameter
 
 ## Fixes
 - Various output fixes
 - Various data import fixes
 - Performance improvements
+- On Windows, much smaller installer and required space 
 
 2.0.0 (13 July 2020)
 ================
