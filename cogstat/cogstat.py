@@ -284,7 +284,7 @@ class CogStatData:
                 # Read the file
                 self.data_frame = pd.read_csv(data, sep=None, engine='python',
                                               skiprows=skiprows, skip_blank_lines=False)
-                self.import_source = _('text file - ') + data  # filename
+                self.import_source = _('Text file') + ' - ' + data  # filename
 
             # Import from spreadsheet files
             elif filetype in ['.ods', '.xls', '.xlsx']:
@@ -301,7 +301,7 @@ class CogStatData:
                         set(self.data_frame.iloc[0]) != {''}:
                     import_measurement_levels = self.data_frame.iloc[0]
                     self.data_frame = pd.read_excel(data, engine=engine, skiprows=[1])
-                self.import_source = _('Spreadsheet file - ') + data  # filename
+                self.import_source = _('Spreadsheet file') + ' - ' + data  # filename
 
             # Import SPSS, SAS and STATA files
             elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt', '.dta']:
@@ -343,7 +343,7 @@ class CogStatData:
                 import_measurement_levels = [import_to_cs_meas_lev[import_metadata.variable_measure[var_name]]
                                              for var_name in import_metadata.column_names]
 
-                self.import_source = _('SPSS/SAS/STATA file - ') + data  # filename
+                self.import_source = _('SPSS/SAS/STATA file') + ' - ' + data  # filename
 
             # Import from R files
             elif filetype.lower() in ['.rdata', '.rds', '.rda']:
@@ -351,21 +351,21 @@ class CogStatData:
                 import_data = pyreadr.read_r(data)
                 self.data_frame = import_data[list(import_data.keys())[0]]
                 self.data_frame= self.data_frame.convert_dtypes()
-                self.import_source = _('R file - ') + data  # filename
+                self.import_source = _('R file') + ' - ' + data  # filename
 
             # Import JASP files
             elif filetype == '.jasp':
                 from . import cogstat_stat_num as cs_stat_num
                 import_pdf, import_measurement_levels = cs_stat_num.read_jasp_file(data)
                 self.data_frame = import_pdf.convert_dtypes()
-                self.import_source = _('JASP file - ') + data  # filename
+                self.import_source = _('JASP file') + ' - ' + data  # filename
 
             # Import jamovi files
             elif filetype == '.omv':
                 from . import cogstat_stat_num as cs_stat_num
                 import_pdf, import_measurement_levels = cs_stat_num.read_jamovi_file(data)
                 self.data_frame = import_pdf.convert_dtypes()
-                self.import_source = _('jamovi file - ') + data  # filename
+                self.import_source = _('jamovi file') + ' - ' + data  # filename
 
         # 3. Import from clipboard
         elif isinstance(data, str) and ('\n' in data):  # Multi line text, i.e., clipboard data
