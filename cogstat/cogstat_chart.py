@@ -136,7 +136,7 @@ def _create_default_mosaic_properties(data):
     decoration on the rectangle.  Does not manage more than four
     level of categories
     """
-    from statsmodels.compat.python import iterkeys, lzip
+    from statsmodels.compat.python import lzip
     from collections import OrderedDict
     from itertools import product
     from numpy import array
@@ -168,7 +168,7 @@ def _create_default_mosaic_properties(data):
             res.append(list(OrderedDict([(j, None) for j in tuplefied])))
         return res
 
-    categories_levels = _categories_level(list(iterkeys(data)))
+    categories_levels = _categories_level(list(iter(data.keys())))
     Nlevels = len(categories_levels)
     # first level, the hue
     L = len(categories_levels[0])
