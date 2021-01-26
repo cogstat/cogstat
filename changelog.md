@@ -26,6 +26,7 @@ Upcoming release
     - CogStatData.compare_groups()  single_case_slope_SE parameter
 
 ## Fixes
+- :warning: EZ parameter recovery gave incorrect result when error rate was 50%
 - Various output fixes
 - Various data import fixes
 - Performance improvements

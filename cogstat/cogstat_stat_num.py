@@ -415,16 +415,16 @@ def diffusion_edge_correction_mean(data):
 
     Returns
     -------
-
+    float
         Corrected mean error rate
     """
     mean = np.mean(data)
     if mean == 0:
-        mean = 1.0/(len(data)*2)
+        mean = 1.0 / (len(data) * 2)
     elif mean == 1:
-        mean = 1-1.0/(len(data)*2)
+        mean = 1 - 1.0 / (len(data) * 2)
     elif mean == 0.5:
-        mean = 1-1.0/(len(data)*2)
+        mean = 0.5 - 1.0 / (len(data) * 2)
     return mean
 
 
@@ -440,6 +440,7 @@ def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
     ----------
     Pc : float
         Percent correct
+        This has to be an edge corrected percent correct value
     VRT : float
         Correct reaction time variance
     MRT : float
@@ -462,14 +463,14 @@ def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
 
     >>> diffusion_get_ez_params(0.802, .112, .723)
     """
-    # This has been handled by the edge correction
+    # The present function expects an edge corrected percent correct value
     #if Pc == 0 or Pc == 0.5 or Pc == 1:
         #pass
         #print 'Oops, invalid Pc value: %s!'%Pc
-    v = np.sign(Pc-.5)*s*((np.log(Pc/(1-Pc)))*((np.log(Pc/(1-Pc)))*Pc**2 -
-                                               (np.log(Pc/(1-Pc)))*Pc + Pc - .5)/VRT)**(0.25)  # This gives drift rate.
-    a = s**2*np.log(Pc/(1-Pc))/v  # This gives boundary separation.
-    ter = MRT - (a/(2*v)) * (1-np.exp(-v*a/s**2))/(1+np.exp(-v*a/s**2))  # This gives nondecision time.
+    v = np.sign(Pc-.5) * s * ((np.log(Pc/(1-Pc)))*((np.log(Pc/(1-Pc)))*Pc**2 -
+                                                   (np.log(Pc/(1-Pc)))*Pc + Pc - .5)/VRT) ** 0.25  # Drift rate
+    a = s**2*np.log(Pc/(1-Pc))/v  # Boundary separation
+    ter = MRT - (a/(2*v)) * (1-np.exp(-v*a/s**2))/(1+np.exp(-v*a/s**2))  # Nondecision time
 
     return v, a, ter
 
