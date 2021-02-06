@@ -181,8 +181,17 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     return result
 
 
-def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
-    """Behavioral diffusion analysis"""
+def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_names=[], case_unsensitive_index_sort=True):
+    """
+    Behavioral diffusion analysis
+
+    Parameters
+    ----------
+
+    case_unsensitive_index_sort : bool
+        Pdf.pivot_table() sorts the index, but unlike spreadsheet software packages, it is case sensitive.
+        If this parameter is True, the indexes will be reordered to be case-insensitive
+    """
     if not (error_name and RT_name and participant_name and condition_names):
         result = _('Specify all the required parameters (reaction time, error, participant and condition variables).')
         return result
@@ -199,6 +208,13 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     mean_percent_correct_table = 1 - pd.pivot_table(df, values=error_name[0], index=participant_name,
                                                     columns=condition_names,
                                                     aggfunc=cs_stat_num.diffusion_edge_correction_mean)
+    if case_unsensitive_index_sort:
+        # default pivot_table() sort returns case-sensitive ordered indexes
+        # we reorder the tables to be case-insensitive
+        mean_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+        var_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+        mean_percent_correct_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+
     previous_precision = pd.get_option('precision')
     pd.set_option('precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
     result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.
@@ -218,6 +234,11 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     drift_rate_table = EZ_parameters['drift rate'].unstack(condition_names)
     threshold_table = EZ_parameters['threshold'].unstack(condition_names)
     nondecision_time_table = EZ_parameters['nondecision time'].unstack(condition_names)
+    if case_unsensitive_index_sort:
+        # .unstack() reorders the already case-insensitive data to case-sensitive, so we re-reorder them
+        drift_rate_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+        threshold_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+        nondecision_time_table.sort_index(inplace=True, key=lambda x: x.str.lower())
     result += '\n\n' + _('Drift rate') + _format_html_table(drift_rate_table.to_html(bold_rows=False))
     result += '\n\n' + _('Threshold') + _format_html_table(threshold_table.to_html(bold_rows=False))
     result += '\n\n' + _('Nondecision time') + _format_html_table(nondecision_time_table.to_html(bold_rows=False))
