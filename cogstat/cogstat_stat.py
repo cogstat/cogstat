@@ -179,7 +179,9 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
                 if case_unsensitive_index_sort:
                     # default pivot_table() sort returns case-sensitive ordered indexes
                     # we reorder the tables to be case-insensitive
-                    ptable.sort_index(inplace=True, key=lambda x: x.str.lower())
+                    from pandas.api.types import is_string_dtype
+                    if is_string_dtype(ptable.index):
+                        ptable.sort_index(inplace=True, key=lambda x: x.str.lower())
                 ptable_result = '%s\n%s' % (ptable_result, _format_html_table(ptable.
                                             to_html(bold_rows=False, sparsify=False, float_format=format_output)))
             else:
@@ -224,9 +226,11 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     if case_unsensitive_index_sort:
         # default pivot_table() sort returns case-sensitive ordered indexes
         # we reorder the tables to be case-insensitive
-        mean_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
-        var_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
-        mean_percent_correct_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+        from pandas.api.types import is_string_dtype
+        if is_string_dtype(mean_correct_RT_table.index):
+            mean_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+            var_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+            mean_percent_correct_table.sort_index(inplace=True, key=lambda x: x.str.lower())
 
     previous_precision = pd.get_option('precision')
     pd.set_option('precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
@@ -249,9 +253,10 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     nondecision_time_table = EZ_parameters['nondecision time'].unstack(condition_names)
     if case_unsensitive_index_sort:
         # .unstack() reorders the already case-insensitive data to case-sensitive, so we re-reorder them
-        drift_rate_table.sort_index(inplace=True, key=lambda x: x.str.lower())
-        threshold_table.sort_index(inplace=True, key=lambda x: x.str.lower())
-        nondecision_time_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+        if is_string_dtype(mean_correct_RT_table.index):
+            drift_rate_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+            threshold_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+            nondecision_time_table.sort_index(inplace=True, key=lambda x: x.str.lower())
     result += '\n\n' + _('Drift rate') + _format_html_table(drift_rate_table.to_html(bold_rows=False))
     result += '\n\n' + _('Threshold') + _format_html_table(threshold_table.to_html(bold_rows=False))
     result += '\n\n' + _('Nondecision time') + _format_html_table(nondecision_time_table.to_html(bold_rows=False))

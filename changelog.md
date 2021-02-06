@@ -26,10 +26,10 @@ Upcoming release
     - CogStatData.compare_groups()  single_case_slope_SE parameter
 
 ## Fixes
-- Behavioral data diffusion analysis
-  - :warning: EZ parameter recovery gave incorrect result when error rate was 50%
-  - :warning: Rows are now ordered to be case-insensitive
-  - :warning: If any data is missing from a trial, the whole trial is dropped
+- :warning: Behavioral data diffusion analysis
+  - EZ parameter recovery gave incorrect result when error rate was 50%
+  - Rows are now ordered to be case-insensitive
+  - If any data is missing from a trial, the whole trial is dropped
 - Various output fixes
   - :warning: In pivot tables, rows are now ordered to be case-insensitive
 - Various data import fixes
