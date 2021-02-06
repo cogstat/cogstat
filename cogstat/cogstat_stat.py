@@ -242,6 +242,8 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
                                                                                 to_html(bold_rows=False))
 
     # Recover diffusion parameters
+    original_index = mean_percent_correct_table.index  # to recover index order later
+    original_columns = mean_percent_correct_table.columns  # to recover column order later
     EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names),
                                var_correct_RT_table.stack(condition_names),
                                mean_correct_RT_table.stack(condition_names)],
@@ -251,12 +253,10 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     drift_rate_table = EZ_parameters['drift rate'].unstack(condition_names)
     threshold_table = EZ_parameters['threshold'].unstack(condition_names)
     nondecision_time_table = EZ_parameters['nondecision time'].unstack(condition_names)
-    if case_unsensitive_index_sort:
-        # .unstack() reorders the already case-insensitive data to case-sensitive, so we re-reorder them
-        if is_string_dtype(mean_correct_RT_table.index):
-            drift_rate_table.sort_index(inplace=True, key=lambda x: x.str.lower())
-            threshold_table.sort_index(inplace=True, key=lambda x: x.str.lower())
-            nondecision_time_table.sort_index(inplace=True, key=lambda x: x.str.lower())
+    # stack() and unstack() may change the order of the indexes and columns, so we recover them
+    drift_rate_table = drift_rate_table.reindex(index=original_index, columns=original_columns)
+    threshold_table = threshold_table.reindex(index=original_index, columns=original_columns)
+    nondecision_time_table = nondecision_time_table.reindex(index=original_index, columns=original_columns)
     result += '\n\n' + _('Drift rate') + _format_html_table(drift_rate_table.to_html(bold_rows=False))
     result += '\n\n' + _('Threshold') + _format_html_table(threshold_table.to_html(bold_rows=False))
     result += '\n\n' + _('Nondecision time') + _format_html_table(nondecision_time_table.to_html(bold_rows=False))
