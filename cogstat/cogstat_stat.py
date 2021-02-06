@@ -135,9 +135,16 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     def format_output(x):
         return '%0.*f' % (prec, x)
     
-    def print_pivot_page(df, page_vars, page_value_list='', ptable_result=''):
+    def print_pivot_page(df, page_vars, page_value_list='', ptable_result='', case_unsensitive_index_sort=True):
         """
         Specify the pages recursively.
+
+        Parameters
+        ----------
+
+        case_unsensitive_index_sort : bool
+            Pdf.pivot_table() sorts the index, but unlike spreadsheet software packages, it is case sensitive.
+            If this parameter is True, the indexes will be reordered to be case-insensitive
         """
 
         # A. These should be used to handle missing data correctly
@@ -169,6 +176,10 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
             if row_names or col_names:
                 ptable = pd.pivot_table(df, values=depend_name, index=row_names, columns=col_names,
                                         aggfunc=eval(function_code[function]))
+                if case_unsensitive_index_sort:
+                    # default pivot_table() sort returns case-sensitive ordered indexes
+                    # we reorder the tables to be case-insensitive
+                    ptable.sort_index(inplace=True, key=lambda x: x.str.lower())
                 ptable_result = '%s\n%s' % (ptable_result, _format_html_table(ptable.
                                             to_html(bold_rows=False, sparsify=False, float_format=format_output)))
             else:

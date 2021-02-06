@@ -28,8 +28,9 @@ Upcoming release
 ## Fixes
 - Behavioral data diffusion analysis
   - :warning: EZ parameter recovery gave incorrect result when error rate was 50%
-  - Rows are now ordered to be case-insensitive
+  - :warning: Rows are now ordered to be case-insensitive
 - Various output fixes
+  - :warning: In pivot tables, rows are now ordered to be case-insensitive
 - Various data import fixes
 - Performance improvements
 - On Windows, much smaller installer and much less required space 
