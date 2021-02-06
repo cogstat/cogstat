@@ -211,12 +211,14 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
               (error_name[0], RT_name[0], participant_name[0], ','.join(condition_names))
 
     # Calculate RT and error rate statistics
-    mean_correct_RT_table = pd.pivot_table(df[df[error_name[0]] == 0], values=RT_name[0], index=participant_name,
-                                           columns=condition_names, aggfunc=np.mean)
-    var_correct_RT_table = pd.pivot_table(df[df[error_name[0]] == 0], values=RT_name[0], index=participant_name,
-                                          columns=condition_names, aggfunc=np.var)
+    # If any data is missing from a trial, drop the whole trial
+    df_filtered = df.dropna(subset=error_name+RT_name+participant_name+condition_names)
+    mean_correct_RT_table = pd.pivot_table(df_filtered[df_filtered[error_name[0]] == 0], values=RT_name[0],
+                                           index=participant_name, columns=condition_names, aggfunc=np.mean)
+    var_correct_RT_table = pd.pivot_table(df_filtered[df_filtered[error_name[0]] == 0], values=RT_name[0],
+                                          index=participant_name, columns=condition_names, aggfunc=np.var)
     # TODO for the var function do we need a ddof=1 parameter?
-    mean_percent_correct_table = 1 - pd.pivot_table(df, values=error_name[0], index=participant_name,
+    mean_percent_correct_table = 1 - pd.pivot_table(df_filtered, values=error_name[0], index=participant_name,
                                                     columns=condition_names,
                                                     aggfunc=cs_stat_num.diffusion_edge_correction_mean)
     if case_unsensitive_index_sort:
