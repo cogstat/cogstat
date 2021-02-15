@@ -15,7 +15,7 @@ import logging
 import os
 import datetime
 
-__version__ = '2.0.0'
+__version__ = '2.1.0rc'
 
 import matplotlib
 matplotlib.use("qt5agg")
