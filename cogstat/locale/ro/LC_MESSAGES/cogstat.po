@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CogStat\n"
 "Language: ro\n"
 
-#: .././cogstat_hyp_test.py:37
+#: .././cogstat_hyp_test.py:38
 msgid "The properties of the variables are not set. Set them in your data source."
 msgstr "Proprietățile variabilelor nu sunt setate Setați-le în sursa de date."
 
@@ -15,60 +15,60 @@ msgstr "Proprietățile variabilelor nu sunt setate Setați-le în sursa de date
 msgid "Sorry, only one dependent variable can be used."
 msgstr "Ne pare rău, doar o singură variabilă dependentă poate fi utilizat."
 
-#: .././cogstat_stat.py:118
+#: .././cogstat_stat.py:117
 msgid "Sorry, string variables cannot be used in Pivot table."
 msgstr "Scuze, variabile în sir nu pot fi utilizate în tabelul Pivot."
 
-#: .././cogstat_stat.py:124
+#: .././cogstat_stat.py:123
 msgid "Independent variable(s) - Pages: "
 msgstr "Variabilă(e) independentă(e) - Pagini: "
 
-#: .././cogstat_stat.py:126
+#: .././cogstat_stat.py:125
 msgid "Independent variable(s) - Columns: "
 msgstr "Variabilă(e) independentă(e) - Coloane: "
 
-#: .././cogstat_stat.py:128
+#: .././cogstat_stat.py:127
 msgid "Independent variable(s) - Rows: "
 msgstr "Variabilă(e) independentă(e) - Rânduri: "
 
-#: .././cogstat_stat.py:129
+#: .././cogstat_stat.py:128
 msgid "Function: "
 msgstr "Funcție: "
 
-#: .././cogstat_chart.py:597 .././cogstat_chart.py:649 .././cogstat_stat.py:267
-#: .././cogstat_stat.py:269 .././cogstat_stat.py:449 .././cogstat_stat.py:451
-#: .././cogstat_stat.py:454 .././cogstat_stat.py:461 .././cogstat_stat.py:464
-#: .././cogstat_stat.py:580 .././cogstat_stat.py:582 .././cogstat_stat.py:657
-#: .././cogstat_stat.py:659 .././cogstat_stat.py:673 .././cogstat_stat.py:676
-#: .././cogstat_stat.py:709
+#: .././cogstat_stat.py:273 .././cogstat_stat.py:275 .././cogstat_stat.py:457
+#: .././cogstat_stat.py:459 .././cogstat_stat.py:462 .././cogstat_stat.py:469
+#: .././cogstat_stat.py:472 .././cogstat_stat.py:600 .././cogstat_stat.py:602
+#: .././cogstat_stat.py:699 .././cogstat_stat.py:701 .././cogstat_stat.py:714
+#: .././cogstat_stat.py:717 .././cogstat_stat.py:748 .././cogstat_chart.py:614
+#: .././cogstat_chart.py:666
 msgid "Value"
 msgstr "Valoare"
 
-#: .././cogstat_chart.py:302 .././cogstat_chart.py:369
+#: .././cogstat_chart.py:316 .././cogstat_chart.py:383
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "Cel mai mare tick pe axa x afișează %d cazuri."
 
-#: .././cogstat_chart.py:319
+#: .././cogstat_chart.py:333
 msgid "Histogram with individual data and boxplot"
 msgstr "Datele individuale cu histogramă și boxplot."
 
-#: .././cogstat_chart.py:269 .././cogstat_chart.py:325
+#: .././cogstat_chart.py:283 .././cogstat_chart.py:339
 msgid "Frequency"
 msgstr "Frecvență"
 
-#: .././cogstat_chart.py:266
+#: .././cogstat_chart.py:280
 msgid "Histogram"
 msgstr "Historgramă"
 
-#: .././cogstat_stat.py:253
+#: .././cogstat_stat.py:258
 msgid "N of valid cases: %g"
 msgstr "N de cazuri valide:% g"
 
-#: .././cogstat.py:515
+#: .././cogstat.py:670
 msgid "Median: %0.*f"
 msgstr "Median:% 0.*f"
 
-#: .././cogstat_hyp_test.py:83
+#: .././cogstat_hyp_test.py:84
 msgid "Normality can be checked only for interval variables."
 msgstr "Verificarea normalităţii poate fi realizată doar utilizând variabile de interval."
 
@@ -76,104 +76,104 @@ msgstr "Verificarea normalităţii poate fi realizată doar utilizând variabile
 msgid "Shapiro-Wilk normality test in variable %s%s"
 msgstr "Shapiro-Wilk test pentru normalitate pentru variabila %s%s"
 
-#: .././cogstat_chart.py:378
+#: .././cogstat_chart.py:392
 msgid "Histogram with individual data and normal distribution"
 msgstr "Histogramă individuale cu distribuție normală."
 
-#: .././cogstat_chart.py:385
+#: .././cogstat_chart.py:399
 msgid "Normalized relative frequency"
 msgstr "Frecvență relativă normalizată"
 
-#: .././cogstat_chart.py:406
+#: .././cogstat_chart.py:420
 msgid "Quantile-quantile plot"
 msgstr "Cuartilă - plot de cuartilă"
 
-#: .././cogstat_hyp_test.py:135
+#: .././cogstat_hyp_test.py:144
 msgid "One sample t-test cannot be run for constant variable.\n"
 ""
 msgstr "Testul t pentru un singur esantion (one sample t test) nu poate fi utilizat pentru variabila constant.\n"
 ""
 
-#: .././cogstat_hyp_test.py:156
+#: .././cogstat_hyp_test.py:166
 msgid "One sample t-test against %g"
 msgstr "One sample t-test pentru %g"
 
-#: .././cogstat_chart.py:421
+#: .././cogstat_chart.py:435
 msgid "Mean value with 95% confidence interval"
 msgstr "Valoare medie cu interval de confidență de 95%"
 
-#: .././cogstat_hyp_test.py:159
+#: .././cogstat_hyp_test.py:169
 msgid "One sample t-test is computed only for interval variables."
 msgstr "One sample t-test este calculat doar pentru variabile de interval."
 
-#: .././cogstat_chart.py:433
+#: .././cogstat_chart.py:447
 msgid "Median value"
 msgstr "Valoarea mediană"
 
-#: .././cogstat_hyp_test.py:189
+#: .././cogstat_hyp_test.py:199
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "Testul Wilcoxon pentru observaţii împerecheate (signed rank test) este calculat doar pentru variabile de interval sau ordinale."
 
-#: .././cogstat_stat.py:119 .././cogstat_stat.py:314 .././cogstat_stat.py:398
-#: .././cogstat_stat.py:399 .././cogstat_stat.py:400 ../ui/pivot.py:109
+#: .././cogstat_stat.py:118 .././cogstat_stat.py:321 .././cogstat_stat.py:407
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:409 ../ui/pivot.py:109
 msgid "Mean"
 msgstr "Medie"
 
-#: .././cogstat_stat.py:119 .././cogstat_stat.py:315 .././cogstat_stat.py:404
-#: .././cogstat_stat.py:405 .././cogstat_stat.py:406 .././cogstat.py:757
+#: .././cogstat_stat.py:118 .././cogstat_stat.py:322 .././cogstat_stat.py:413
+#: .././cogstat_stat.py:414 .././cogstat_stat.py:415 .././cogstat.py:975
 #: ../ui/pivot.py:110
 msgid "Median"
 msgstr "Mediană"
 
-#: .././cogstat_chart.py:644
+#: .././cogstat_chart.py:661
 msgid "Medians for the variables"
 msgstr "Medianele variabilelor"
 
-#: .././cogstat_chart.py:817
+#: .././cogstat_chart.py:840
 msgid "Medians for the groups"
 msgstr "Mediane ale grupurilor"
 
-#: .././cogstat_stat.py:379 .././cogstat_stat.py:381
+#: .././cogstat_stat.py:388 .././cogstat_stat.py:390
 msgid "No data"
 msgstr "Nu există date"
 
-#: .././cogstat_chart.py:473
+#: .././cogstat_chart.py:493
 msgid "Largest sign on the graph displays %d cases."
 msgstr "Cel mai mare semn pe grafic afișează  %d cazuri."
 
-#: .././cogstat_chart.py:490
+#: .././cogstat_chart.py:505
 msgid "Scatterplot of the variables"
 msgstr "Diagrama de împrăştiere a variabilelor"
 
-#: .././cogstat_chart.py:536 .././cogstat_chart.py:620
+#: .././cogstat_chart.py:552 .././cogstat_chart.py:637
 msgid "Mosaic plot of the variables"
 msgstr "Plotul mosaic a variabilelor"
 
-#: .././cogstat_chart.py:583
+#: .././cogstat_chart.py:600
 msgid "Thickest line displays %d cases."
 msgstr "Cea mai groasă linie afișează %d cazuri."
 
-#: .././cogstat_chart.py:637
+#: .././cogstat_chart.py:654
 msgid "Means and 95% confidence intervals for the variables"
 msgstr "Medii și intervale de confidență de 95% pentru variabilele"
 
-#: .././cogstat_hyp_test.py:307
+#: .././cogstat_hyp_test.py:317
 msgid "Paired t-test requires two variables."
 msgstr "Testul t pentru eşantioane perechi (paired samples t test) necesită două variabile."
 
-#: .././cogstat_hyp_test.py:324
+#: .././cogstat_hyp_test.py:334
 msgid "Result of paired samples t-test"
 msgstr "Rezultatul testului t pentru eşantioane perechi (paired samples t test)"
 
-#: .././cogstat_hyp_test.py:342
+#: .././cogstat_hyp_test.py:352
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "Testul Wilcoxon pentru eşantioane perechi necesită două variabile."
 
-#: .././cogstat_hyp_test.py:458
+#: .././cogstat_hyp_test.py:469
 msgid "Friedman test requires at least two variables."
 msgstr "Testul Friedman necesită cel puţin două variabile."
 
-#: .././cogstat_hyp_test.py:464
+#: .././cogstat_hyp_test.py:475
 msgid "Result of the Friedman test: "
 msgstr "Rezultatul testului Friedman: "
 
@@ -181,19 +181,19 @@ msgstr "Rezultatul testului Friedman: "
 msgid "Boxplot and individual data of the groups"
 msgstr "Boxplot și date individuale ale grupurilor"
 
-#: .././cogstat_chart.py:787
+#: .././cogstat_chart.py:810
 msgid "Mosaic plot of the groups"
 msgstr "Plotul mosaic a grupurilor"
 
-#: .././cogstat_chart.py:808
+#: .././cogstat_chart.py:831
 msgid "Means and 95% confidence intervals for the groups"
 msgstr "Medii și intervale de confidenţă a grupurilor"
 
-#: .././cogstat_hyp_test.py:650
+#: .././cogstat_hyp_test.py:659
 msgid "Levene test"
 msgstr "Testul Levene"
 
-#: .././cogstat_hyp_test.py:692
+#: .././cogstat_stat.py:673
 msgid "Difference between the two groups:"
 msgstr "Diferența dintre cele două grupuri:"
 
@@ -201,15 +201,15 @@ msgstr "Diferența dintre cele două grupuri:"
 msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr "interval de confidenţă 95%% [%0.*f, %0.*f] "
 
-#: .././cogstat_hyp_test.py:694
+#: .././cogstat_hyp_test.py:688
 msgid "Result of independent samples t-test:"
 msgstr "Reyultatul testului t pentru două eșantioane independente:"
 
-#: .././cogstat_hyp_test.py:724
+#: .././cogstat_hyp_test.py:718
 msgid "One of the groups should include only a single data."
 msgstr "Unul dintre grupurile ar trebui să includă numai o singură date."
 
-#: .././cogstat_hyp_test.py:721
+#: .././cogstat_hyp_test.py:715
 msgid "Result of the modified independent samples t-test:"
 msgstr "Rezultatul testul t modificat pentru eşantioane independente:"
 
@@ -219,7 +219,7 @@ msgstr "Rezultatul testul t modificat pentru eşantioane independente:"
 msgid "Result of independent samples Mann-Whitney rank test: "
 msgstr "Rezultatul pentru testul U a lui Mann-Whitney pentru două eşantioane independente:"
 
-#: .././cogstat_hyp_test.py:819
+#: .././cogstat_hyp_test.py:810
 msgid "Result of one-way ANOVA: "
 msgstr "Tezultatul testului ANOVA unifactorială: "
 
@@ -227,7 +227,7 @@ msgstr "Tezultatul testului ANOVA unifactorială: "
 msgid "Effect size: "
 msgstr "Mărimea efectului: "
 
-#: .././cogstat_hyp_test.py:827 .././cogstat_hyp_test.py:926
+#: .././cogstat_hyp_test.py:818 .././cogstat_hyp_test.py:922
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "Grupurile diferă. Testul post-hoc a mediilor."
 
@@ -243,345 +243,345 @@ msgstr "Coeficientul V a lui Cramer  pentru măsurarea asocierii "
 msgid "Result of the Pearson's Chi-square test: "
 msgstr "Testul chi-pătrat Pearson al asocierii: "
 
-#: .././cogstat_gui.py:132
+#: .././cogstat_gui.py:142
 msgid "&Data"
 msgstr "&Data"
 
-#: .././cogstat_gui.py:133
+#: .././cogstat_gui.py:143
 msgid "&Open data file"
 msgstr "&Deschide fișierul de date"
 
-#: .././cogstat_gui.py:133
+#: .././cogstat_gui.py:143
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: .././cogstat_gui.py:135
+#: .././cogstat_gui.py:147
 #, fuzzy
 msgid "&Paste data"
 msgstr "&Paste data"
 
-#: .././cogstat_gui.py:135
+#: .././cogstat_gui.py:147
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: .././cogstat_gui.py:139 .././cogstat_gui.py:184
+#: .././cogstat_gui.py:152 .././cogstat_gui.py:211
 msgid "&Display data"
 msgstr "&Date de afişare"
 
-#: .././cogstat_gui.py:139
+#: .././cogstat_gui.py:152
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: .././cogstat_gui.py:140 .././cogstat_gui.py:184
+#: .././cogstat_gui.py:153 .././cogstat_gui.py:212
 msgid "Display data &briefly"
 msgstr "Date de afişare &pe scurt"
 
-#: .././cogstat_gui.py:143
+#: .././cogstat_gui.py:157
 msgid "&Analysis"
 msgstr "&Analiză"
 
-#: .././cogstat_gui.py:144
+#: .././cogstat_gui.py:159
 msgid "Ctrl+1"
 msgstr "Ctrl+1"
 
-#: .././cogstat_gui.py:145
+#: .././cogstat_gui.py:161
 msgid "Ctrl+2"
 msgstr "Ctrl+2"
 
-#: .././cogstat_gui.py:147 .././cogstat_gui.py:185
+#: .././cogstat_gui.py:163 .././cogstat_gui.py:212
 msgid "Pivot &table"
 msgstr "Pivot &tabel"
 
-#: .././cogstat_gui.py:151 .././cogstat_gui.py:187
+#: .././cogstat_gui.py:169 .././cogstat_gui.py:215
 msgid "Compare &groups"
 msgstr "Comparați &grupuri"
 
-#: .././cogstat.py:797 ../ui/compare_groups.py:75
+#: .././cogstat.py:1029 ../ui/compare_groups.py:75
 msgid "Compare groups"
 msgstr "Comparați grupuri"
 
-#: .././cogstat_gui.py:154
+#: .././cogstat_gui.py:173
 msgid "&Results"
 msgstr "&Rezultate"
 
-#: .././cogstat_gui.py:155
+#: .././cogstat_gui.py:174
 msgid "&Clear results"
 msgstr "&Curăţă rezultatele"
 
-#: .././cogstat_gui.py:164
+#: .././cogstat_gui.py:185
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: .././cogstat_gui.py:168
+#: .././cogstat_gui.py:190
 msgid "&CogStat"
 msgstr "&CogStat"
 
-#: .././cogstat_gui.py:169
+#: .././cogstat_gui.py:191
 msgid "&Help"
 msgstr "&Ajutor"
 
-#: .././cogstat_gui.py:169
+#: .././cogstat_gui.py:191
 msgid "F1"
 msgstr "F1"
 
-#: .././cogstat_gui.py:170
+#: .././cogstat_gui.py:192
 msgid "&Preferences"
 msgstr "&Preferințe"
 
-#: .././cogstat_gui.py:171
+#: .././cogstat_gui.py:194
 msgid "Request a &feature"
 msgstr "Solicitaţi un & funcție"
 
-#: .././cogstat_gui.py:175
+#: .././cogstat_gui.py:200
 msgid "&Report a problem"
 msgstr "&Raportați o problemă"
 
-#: .././cogstat_gui.py:176
+#: .././cogstat_gui.py:202
 msgid "&Diagnosis information"
 msgstr "&Informații de diagnostic"
 
-#: .././cogstat_gui.py:178
+#: .././cogstat_gui.py:205
 msgid "&About"
 msgstr "&Despre"
 
-#: .././cogstat_gui.py:180
+#: .././cogstat_gui.py:207
 msgid "&Exit"
 msgstr "&Ieșire"
 
-#: .././cogstat_gui.py:180
+#: .././cogstat_gui.py:207
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: .././cogstat_gui.py:184
+#: .././cogstat_gui.py:211
 msgid "&Save data"
 msgstr "&Salvare date"
 
-#: .././cogstat_gui.py:184
+#: .././cogstat_gui.py:211
 msgid "Save data &as"
 msgstr "Salvare date &ca"
 
-#: .././cogstat_gui.py:188
+#: .././cogstat_gui.py:216
 msgid "&Compare groups and variables"
 msgstr "&Comparați grupuri și variabile"
 
-#: .././cogstat_gui.py:399
+#: .././cogstat_gui.py:434
 msgid "Import error"
 msgstr "Eroare import"
 
-#: .././cogstat_gui.py:399
+#: .././cogstat_gui.py:434
 msgid "Data could not be loaded."
 msgstr "Datele nu a putut fi încărcat."
 
-#: .././cogstat_gui.py:530 .././cogstat_gui.py:641
+#: .././cogstat_gui.py:578 .././cogstat_gui.py:693
 msgid "At least two variables should be set."
 msgstr "Cel puțin două variabile ar trebui stabilite."
 
-#: .././cogstat.py:645 ../ui/pivot.py:105
+#: .././cogstat.py:826 ../ui/pivot.py:105
 msgid "Pivot table"
 msgstr "Tabel pivot"
 
-#: .././cogstat_gui.py:573
+#: .././cogstat_gui.py:623
 msgid "The dependent variable and at least one grouping variable should be given."
 msgstr "Variabila dependentă și cel-putin o variabila de grupare ar trebui acordată."
 
-#: .././cogstat_gui.py:677
+#: .././cogstat_gui.py:731
 #, fuzzy
 msgid "Both the dependent and the grouping variables should be set."
 msgstr "Trebuie setată atât variabila dependentă și cât şi variabila de grupare."
 
-#: .././cogstat_gui.py:696
+#: .././cogstat_gui.py:752
 msgid "Clear output"
 msgstr "Curăţă outputul"
 
-#: .././cogstat_gui.py:697
+#: .././cogstat_gui.py:753
 msgid "Are you sure you want to delete the output?"
 msgstr "Sunteți sigur că doriți să ștergeți outputul?"
 
-#: .././cogstat_gui.py:767
+#: .././cogstat_gui.py:823
 msgid "About CogStat "
 msgstr "Despre CogStat "
 
-#: .././cogstat_gui.py:777
+#: .././cogstat_gui.py:837
 msgid "System components"
 msgstr "Componentele sistemului"
 
-#: .././cogstat_gui.py:789
+#: .././cogstat_gui.py:850
 msgid "Save output"
 msgstr "Salvați outputul"
 
-#: .././cogstat_gui.py:790
+#: .././cogstat_gui.py:851
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr "Outputul are rezultate nesalvate. Doriţi să-l salvați?"
 
-#: .././cogstat.py:292
+#: .././cogstat_gui.py:453 .././cogstat.py:428
 msgid "Data"
 msgstr "Date"
 
-#: .././cogstat.py:293
+#: .././cogstat.py:429
 msgid "Source: "
 msgstr "Sursă: "
 
-#: .././cogstat.py:294
+#: .././cogstat.py:430
 msgid " variables and "
 msgstr " variabile și "
 
-#: .././cogstat.py:295
+#: .././cogstat.py:431
 msgid " cases"
 msgstr " cazuri"
 
-#: .././cogstat.py:307
+#: .././cogstat.py:444
 msgid " further cases are not displayed..."
 msgstr "alte cazuri nu sunt afișate ..."
 
-#: .././cogstat_hyp_test.py:512 .././cogstat_hyp_test.py:561
-#: .././cogstat_hyp_test.py:619 .././cogstat.py:496
+#: .././cogstat.py:653 .././cogstat_hyp_test.py:522
+#: .././cogstat_hyp_test.py:569 .././cogstat_hyp_test.py:628
 msgid "Interval variable."
 msgstr "Variabilă de interval."
 
-#: .././cogstat_hyp_test.py:548 .././cogstat_hyp_test.py:597
-#: .././cogstat_hyp_test.py:624 .././cogstat.py:521
+#: .././cogstat.py:676 .././cogstat_hyp_test.py:556
+#: .././cogstat_hyp_test.py:605 .././cogstat_hyp_test.py:633
 msgid "Ordinal variable."
 msgstr "Variabilă ordinală."
 
-#: .././cogstat.py:416
+#: .././cogstat.py:569
 msgid "Explore variable"
 msgstr "Exploreaza variabila"
 
-#: .././cogstat.py:417
+#: .././cogstat.py:570
 msgid "Exploring variable: "
 msgstr "Explorarea variabilei: "
 
-#: .././cogstat.py:433 ../ui/var_properties.py:72
+#: .././cogstat.py:587 ../ui/var_properties.py:72
 msgid "Frequencies"
 msgstr "Frecvențe"
 
-#: .././cogstat.py:461
+#: .././cogstat.py:615
 msgid "Normality"
 msgstr "Normalitate"
 
-#: .././cogstat.py:549
+#: .././cogstat.py:715
 msgid "Exploring variable pair: "
 msgstr "Explorarea unei perechi de variabile: "
 
-#: .././cogstat_hyp_test.py:211 .././cogstat_hyp_test.py:247
-#: .././cogstat.py:584
+#: .././cogstat.py:752 .././cogstat_hyp_test.py:221
+#: .././cogstat_hyp_test.py:257
 msgid "Interval variables."
 msgstr "Variabile de interval."
 
-#: .././cogstat.py:585
+#: .././cogstat.py:753
 msgid "Running Pearson's and Spearman's correlation."
 msgstr "Rularea corelației Pearson și a lui Spearman."
 
-#: .././cogstat_stat.py:449 .././cogstat_stat.py:472 .././cogstat.py:588
+#: .././cogstat_stat.py:457 .././cogstat_stat.py:480 .././cogstat.py:756
 msgid "Pearson's correlation"
 msgstr "Corelaţia Pearson"
 
-#: .././cogstat.py:593
+#: .././cogstat.py:761
 msgid "Linear regression"
 msgstr "Regresia liniară"
 
-#: .././cogstat_stat.py:451 .././cogstat_stat.py:454 .././cogstat_stat.py:478
-#: .././cogstat.py:596 .././cogstat.py:606
+#: .././cogstat_stat.py:459 .././cogstat_stat.py:462 .././cogstat_stat.py:486
+#: .././cogstat.py:764 .././cogstat.py:773
 #, fuzzy
 msgid "Spearman's rank-order correlation"
 msgstr "Corelaţia Spearman - coeficientul de ordine de rang (rank-order)"
 
-#: .././cogstat_hyp_test.py:232 .././cogstat_hyp_test.py:268
-#: .././cogstat.py:602
+#: .././cogstat.py:769 .././cogstat_hyp_test.py:242
+#: .././cogstat_hyp_test.py:278
 msgid "Ordinal variables."
 msgstr "Variabile ordinale."
 
-#: .././cogstat.py:602
+#: .././cogstat.py:769
 msgid "Running Spearman's correlation."
 msgstr "Rularea corelaţiei Spearman."
 
-#: .././cogstat.py:614
+#: .././cogstat.py:780
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr "Nu toate variabile sunt nominale. Luați în considerare compararea grupurilor."
 
-#: .././cogstat.py:615
+#: .././cogstat.py:782
 msgid "Nominal variables."
 msgstr "Variabile nominale."
 
-#: .././cogstat.py:615
+#: .././cogstat.py:782
 msgid "Running Cramér's V."
 msgstr "Rularea Cramér's V."
 
-#: .././cogstat.py:675
+#: .././cogstat.py:885
 msgid "Variables to compare: "
 msgstr "Variabile de comparare:"
 
-#: .././cogstat.py:692
+#: .././cogstat.py:906
 #, fuzzy
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
 msgstr "Ne pare rău, nu se poate compara variabile cu deferite niveluri de măsurare. Ai putea retrograda niveluri de măsurare mai mari pentru a avea același nivel de măsurare."
 
-#: .././cogstat_hyp_test.py:206
+#: .././cogstat_hyp_test.py:216
 msgid "At least two variables required."
 msgstr "Cel puțin două variabile sunt necesare."
 
-#: .././cogstat_hyp_test.py:208
+#: .././cogstat_hyp_test.py:218
 msgid "Two variables. "
 msgstr "Două variabile. "
 
-#: .././cogstat_hyp_test.py:214 .././cogstat_hyp_test.py:251
-#: .././cogstat_hyp_test.py:494 .././cogstat_hyp_test.py:516
-#: .././cogstat_hyp_test.py:565 .././cogstat.py:500
+#: .././cogstat.py:656 .././cogstat_hyp_test.py:224
+#: .././cogstat_hyp_test.py:261 .././cogstat_hyp_test.py:506
+#: .././cogstat_hyp_test.py:525 .././cogstat_hyp_test.py:573
 msgid "Checking for normality."
 msgstr "Verificarea normalităţii"
 
-#: .././cogstat_hyp_test.py:500
+#: .././cogstat_hyp_test.py:512
 msgid "Normality is violated in variable "
 msgstr "Normalitatea este încălcat în variabila "
 
-#: .././cogstat_hyp_test.py:225
+#: .././cogstat_hyp_test.py:235
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "Normalitatea nu este încălcată. >> Rularea testului t pentru eşantioane perechi."
 
-#: .././cogstat_hyp_test.py:229 .././cogstat_hyp_test.py:233
+#: .././cogstat_hyp_test.py:239 .././cogstat_hyp_test.py:243
 msgid "Running paired Wilcoxon test."
 msgstr "Rularea testului Wilcoxon pentru eşantioane perechi."
 
-#: .././cogstat_hyp_test.py:243 .././cogstat_hyp_test.py:279
-#: .././cogstat_hyp_test.py:288 .././cogstat_hyp_test.py:291
-#: .././cogstat_hyp_test.py:625 .././cogstat_hyp_test.py:628
-#: .././cogstat.py:527
+#: .././cogstat.py:682 .././cogstat_hyp_test.py:253
+#: .././cogstat_hyp_test.py:289 .././cogstat_hyp_test.py:298
+#: .././cogstat_hyp_test.py:301 .././cogstat_hyp_test.py:634
+#: .././cogstat_hyp_test.py:637
 msgid "Sorry, not implemented yet."
 msgstr "Ne pare rău, nu este implementat încă."
 
-#: .././cogstat_hyp_test.py:245
+#: .././cogstat_hyp_test.py:255
 msgid "More than two variables. "
 msgstr "Mai mult de două variabile. "
 
-#: .././cogstat_hyp_test.py:265 .././cogstat_hyp_test.py:269
+#: .././cogstat_hyp_test.py:275 .././cogstat_hyp_test.py:279
 msgid "Running Friedman test."
 msgstr "Rularea testului Friedman."
 
-#: .././cogstat_stat.py:129 .././cogstat.py:800
+#: .././cogstat_stat.py:128 .././cogstat.py:1032
 msgid "Dependent variable: "
 msgstr "Variabilă dependentă: "
 
-#: .././cogstat.py:801
+#: .././cogstat.py:1033
 msgid "Group(s): "
 msgstr "Grup(uri): "
 
-#: .././cogstat_hyp_test.py:482
+#: .././cogstat_hyp_test.py:494
 msgid "One grouping variable. "
 msgstr "O variabilă de grupare. "
 
-#: .././cogstat_hyp_test.py:484
+#: .././cogstat_hyp_test.py:496
 msgid "There is only one group. At least two groups required."
 msgstr "Există o singură grupă. Cel puțin două grupuri sunt necesare."
 
-#: .././cogstat_hyp_test.py:488
+#: .././cogstat_hyp_test.py:500
 msgid "Two groups. "
 msgstr "Două grupuri "
 
-#: .././cogstat_hyp_test.py:492
+#: .././cogstat_hyp_test.py:504
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr " Alegerea >> modificat t-test.Un grup conține doar un singur caz. >> Alegerea testului t modificat."
 
-#: .././cogstat_hyp_test.py:501
+#: .././cogstat_hyp_test.py:513
 msgid "group "
 msgstr "grup "
 
@@ -590,12 +590,12 @@ msgstr "grup "
 msgid "Running Mann-Whitney test."
 msgstr "Rularea testului Mann-Whitney."
 
-#: .././cogstat_hyp_test.py:505
+#: .././cogstat_hyp_test.py:517
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "Normalitatea nu este încălcată.  >> Rularea testului t modificat."
 
-#: .././cogstat_hyp_test.py:552 .././cogstat_hyp_test.py:601
-#: .././cogstat_hyp_test.py:627
+#: .././cogstat_hyp_test.py:560 .././cogstat_hyp_test.py:609
+#: .././cogstat_hyp_test.py:636
 msgid "Nominal variable."
 msgstr "Variabilă nominală."
 
@@ -603,7 +603,7 @@ msgstr "Variabilă nominală."
 msgid "Running Chi-square test."
 msgstr "Rularea testulzi chi-pătrat."
 
-#: .././cogstat_hyp_test.py:559
+#: .././cogstat_hyp_test.py:567
 msgid "More than two groups."
 msgstr "Mai mult de două grupuri."
 
@@ -615,35 +615,35 @@ msgstr "Rularea testului Kruskal-Wallis."
 msgid "Several grouping variables."
 msgstr "Mai multe variabile de grupare."
 
-#: .././cogstat_dialogs.py:25 .././cogstat_dialogs.py:29
+#: .././cogstat_dialogs.py:28 .././cogstat_dialogs.py:45
 msgid "Open data file"
 msgstr "Deschidere fișier de date"
 
-#: .././cogstat_dialogs.py:33
+#: .././cogstat_dialogs.py:63
 msgid "Save result file"
 msgstr "Salvați fișierul rezultat"
 
-#: .././cogstat_gui.py:144 .././cogstat_gui.py:185
+#: .././cogstat_gui.py:158 .././cogstat_gui.py:213
 msgid "&Explore variable"
 msgstr "&Explorează variabila"
 
-#: .././cogstat_gui.py:398 .././cogstat.py:237
+#: .././cogstat_gui.py:433 .././cogstat.py:396
 msgid "Import failed"
 msgstr "Import eşuat"
 
-#: .././cogstat_stat.py:268 .././cogstat_stat.py:271
+#: .././cogstat_stat.py:274 .././cogstat_stat.py:277
 msgid "Freq"
 msgstr "Frec"
 
-#: .././cogstat_stat.py:272 .././cogstat_stat.py:274 .././cogstat_stat.py:275
+#: .././cogstat_stat.py:278 .././cogstat_stat.py:280 .././cogstat_stat.py:281
 msgid "Rel freq"
 msgstr "Frec rel"
 
-#: .././cogstat_stat.py:271
+#: .././cogstat_stat.py:277
 msgid "Cum freq"
 msgstr "Frec cum"
 
-#: .././cogstat_stat.py:274 .././cogstat_stat.py:276
+#: .././cogstat_stat.py:280 .././cogstat_stat.py:282
 msgid "Cum rel freq"
 msgstr "Frec rel cum"
 
@@ -655,109 +655,109 @@ msgstr "Coeficientul V a lui Cramer nu poate fi calculat (diviziune prin zero)."
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
 msgstr "Numărul nivelelor de măsurare nu se potrivesc cu numărul de variabile. Specificarea nivelelor de măsurare este ignorat."
 
-#: .././cogstat.py:173
+#: .././cogstat.py:266
 msgid "pandas dataframe"
 msgstr "dataframe panda"
 
-#: .././cogstat.py:199
+#: .././cogstat.py:287
 msgid "text file - "
 msgstr "text file - "
 
-#: .././cogstat.py:234
+#: .././cogstat.py:392
 msgid "clipboard"
 msgstr "clipboard"
 
-#: .././cogstat.py:303
+#: .././cogstat.py:440
 msgid "Type"
 msgstr "Tip"
 
-#: .././cogstat.py:303
+#: .././cogstat.py:440
 msgid "Level"
 msgstr "Nivel"
 
-#: .././cogstat.py:323
+#: .././cogstat.py:470
 msgid "Filtering"
 msgstr "Filtrare"
 
-#: .././cogstat.py:327
+#: .././cogstat.py:474
 msgid "Filtering is switched off."
 msgstr "Filtrarea este oprit."
 
-#: .././cogstat.py:342
+#: .././cogstat.py:490
 msgid "Filtering based on %s.\n"
 ""
 msgstr "Filtrarea pe baza %s.\n"
 ""
 
-#: .././cogstat.py:342 .././cogstat.py:359
+#: .././cogstat.py:490 .././cogstat.py:507
 msgid " (2 SD)"
 msgstr " (2 SD)"
 
-#: .././cogstat.py:344
+#: .././cogstat.py:492
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
 msgstr "Cazuri în afara domeniului vor fi excluse: %0.*f  --  %0.*f\n"
 ""
 
-#: .././cogstat.py:351
+#: .././cogstat.py:499
 msgid "The following cases will be excluded: "
 msgstr "Următoarele cazuri vor fi excluse: "
 
-#: .././cogstat.py:355
+#: .././cogstat.py:503
 msgid "No cases were excluded."
 msgstr "Niciun caz nu a fost exclus."
 
-#: .././cogstat_hyp_test.py:524 .././cogstat_hyp_test.py:573
+#: .././cogstat_hyp_test.py:533 .././cogstat_hyp_test.py:581
 msgid "Checking for homogeneity of variance across groups."
 msgstr "Verificarea omogenității varianței între grupuri."
 
-#: .././cogstat_gui.py:51
+#: .././cogstat_gui.py:52
 msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
-msgstr "%s Hopa,se pare a apărut o eroare, CogStat nu a putut executa analiza. Fie ca vrei să-l raporteze. Poate că doriți să îl raportați."
+msgstr "%s Hopa,se pare a apărut o eroare, CogStat nu a putut executa analiza. Poate că doriți să îl raportați."
 
-#: .././cogstat_gui.py:505
+#: .././cogstat_gui.py:552
 msgid "Explore variable."
 msgstr "Explorați variabila."
 
-#: .././cogstat_gui.py:530 .././cogstat_gui.py:546
+#: .././cogstat_gui.py:577 .././cogstat_gui.py:595
 msgid "Explore variable pair."
 msgstr "Explorați perechi de variabile."
 
-#: .././cogstat_gui.py:573 .././cogstat_gui.py:578
+#: .././cogstat_gui.py:622 .././cogstat_gui.py:629
 msgid "Pivot table."
 msgstr "Tabel pivot."
 
-#: .././cogstat_gui.py:641 .././cogstat_gui.py:649
+#: .././cogstat_gui.py:693 .././cogstat_gui.py:701
 msgid "Compare variables."
 msgstr "Compară variabile."
 
-#: .././cogstat_gui.py:677 .././cogstat_gui.py:689
+#: .././cogstat_gui.py:730 .././cogstat_gui.py:745
 msgid "Compare groups."
 msgstr "Compară grupuri."
 
-#: .././cogstat_hyp_test.py:85
+#: .././cogstat_hyp_test.py:86
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
 msgstr "Normalitatea nu poate fi verificată pentru variabile constantă în %s%s."
 
-#: .././cogstat_hyp_test.py:100
+#: .././cogstat_hyp_test.py:109
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
 msgstr "Eșantion prea mic pentru normalitate în variabile %s%s."
 
-#: .././cogstat_hyp_test.py:355
+#: .././cogstat_hyp_test.py:365
 msgid "Result of the McNemar test"
 msgstr "Rezultatul testului McNemar"
 
-#: .././cogstat_hyp_test.py:361
+#: .././cogstat_hyp_test.py:372
 msgid "Result of Cochran's Q test"
 msgstr "Statisticile Q ale lui Cochran"
 
-#: .././cogstat_hyp_test.py:378
+#: .././cogstat_hyp_test.py:389
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "Rezultatele testului Mauchly de sfericitate"
 
-#: .././cogstat_hyp_test.py:382
+#: .././cogstat_hyp_test.py:393
 msgid "Sphericity is violated."
 msgstr "Sfericitatea este încălcată."
 
@@ -765,11 +765,11 @@ msgstr "Sfericitatea este încălcată."
 msgid "Using Greenhouse-Geisser correction."
 msgstr "Folosirea corecției Greenhouse-Geisser."
 
-#: .././cogstat_hyp_test.py:384 .././cogstat_hyp_test.py:389
+#: .././cogstat_hyp_test.py:395 .././cogstat_hyp_test.py:400
 msgid "Result of repeated measures ANOVA"
 msgstr "Rezultatul măsurilor repetate ANOVA"
 
-#: .././cogstat_hyp_test.py:388
+#: .././cogstat_hyp_test.py:399
 msgid "Sphericity is not violated. "
 msgstr "Sfericitatea nu este încălcată.␣"
 
@@ -777,35 +777,35 @@ msgstr "Sfericitatea nu este încălcată.␣"
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
 msgstr "Compararea variabilelor pairwise cu corecția Holm-Bonferroni:"
 
-#: .././cogstat_hyp_test.py:759
+#: .././cogstat_hyp_test.py:753
 msgid "Result of Welch's unequal variances t-test:"
 msgstr "Rezultatul testului Welch pentru varianţe inegale:"
 
-#: .././cogstat_hyp_test.py:212
+#: .././cogstat_hyp_test.py:222
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "Alegerea testului t Înperecheat sau testul Wilcoxon în funcție de presupunere."
 
-#: .././cogstat_hyp_test.py:228 .././cogstat_hyp_test.py:264
+#: .././cogstat_hyp_test.py:238 .././cogstat_hyp_test.py:274
 msgid "Normality is violated in variable(s): %s."
 msgstr "Normalitatea este încălcată în variabile: %s."
 
-#: .././cogstat_hyp_test.py:237 .././cogstat_hyp_test.py:273
+#: .././cogstat_hyp_test.py:247 .././cogstat_hyp_test.py:283
 msgid "Nominal dichotomous variables."
 msgstr "Variabile nominale dihitomice."
 
-#: .././cogstat_hyp_test.py:238
+#: .././cogstat_hyp_test.py:248
 msgid "Running McNemar test."
 msgstr "Efectuarea testului McNemar."
 
-#: .././cogstat_hyp_test.py:242 .././cogstat_hyp_test.py:278
+#: .././cogstat_hyp_test.py:252 .././cogstat_hyp_test.py:288
 msgid "Nominal non dichotomous variables."
 msgstr "Variabile nominale non-dihotomice."
 
-#: .././cogstat_hyp_test.py:248
+#: .././cogstat_hyp_test.py:258
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "Alegerea măsurilor repetate ANOVA sau Friedman în funcție de presupunere."
 
-#: .././cogstat_hyp_test.py:274
+#: .././cogstat_hyp_test.py:284
 msgid "Running Cochran's Q test."
 msgstr "Efectuarea testului Q al Cochran."
 
@@ -813,7 +813,7 @@ msgstr "Efectuarea testului Q al Cochran."
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
 msgstr "Alegerea testului t pentru esantioane independente, testul Mann-Whitney sau testul lui Welch în funcție de presununere."
 
-#: .././cogstat_hyp_test.py:538
+#: .././cogstat_hyp_test.py:546
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "Normalitatea este încălcată în variabilele %s, grup(uri) %s."
 
@@ -821,7 +821,7 @@ msgstr "Normalitatea este încălcată în variabilele %s, grup(uri) %s."
 msgid "Homeogeneity of variance violated in variable %s."
 msgstr "Omogenitatea varianței a fost încălcată în variabila %s."
 
-#: .././cogstat_hyp_test.py:544
+#: .././cogstat_hyp_test.py:552
 msgid "Running Welch's t-test."
 msgstr "Efectuarea testului Welch."
 
@@ -829,7 +829,7 @@ msgstr "Efectuarea testului Welch."
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
 msgstr "Alegerea testului ANOVA simplă sau Kruskal-Wallis în funcție de presupunere."
 
-#: .././cogstat_hyp_test.py:588
+#: .././cogstat_hyp_test.py:596
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr "Normalitatea este încălcat în variabila %s, grup(uri) %s.␣"
 
@@ -837,15 +837,15 @@ msgstr "Normalitatea este încălcat în variabila %s, grup(uri) %s.␣"
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr "Omogenitatea variaţiei este încălcată in cazul variabilei %s.␣"
 
-#: .././cogstat_hyp_test.py:260 .././cogstat.py:505
+#: .././cogstat.py:661 .././cogstat_hyp_test.py:270
 msgid "Normality is not violated."
 msgstr "Normalitatea nu este încălcată."
 
-#: .././cogstat_hyp_test.py:261
+#: .././cogstat_hyp_test.py:271
 msgid "Running repeated measures one-way ANOVA."
 msgstr "Efectuarea testului ANOVA simplă cu măsuri repetare."
 
-#: .././cogstat_gui.py:140
+#: .././cogstat_gui.py:153
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
@@ -853,27 +853,27 @@ msgstr "Ctrl+B"
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
 msgstr "Deschidere date. Hopa, se pare că a apărut o eroare, Cogstat nu a putut să deschide fișierul de date. Doriți să raportați problema?"
 
-#: .././cogstat_stat.py:255
+#: .././cogstat_stat.py:260
 msgid "N of missing cases: %g"
 msgstr "N în cazurile absente: %g"
 
-#: .././cogstat_chart.py:247 .././cogstat_chart.py:332
-#: .././cogstat_chart.py:514 .././cogstat_chart.py:515
-#: .././cogstat_chart.py:734
+#: .././cogstat_chart.py:261 .././cogstat_chart.py:346
+#: .././cogstat_chart.py:529 .././cogstat_chart.py:530
+#: .././cogstat_chart.py:754
 msgid "Rank of %s"
 msgstr "Gradului %s"
 
-#: .././cogstat_hyp_test.py:187 .././cogstat_hyp_test.py:346
+#: .././cogstat_hyp_test.py:197 .././cogstat_hyp_test.py:356
 msgid "Result of Wilcoxon signed-rank test"
 msgstr "Resultat testului Wilcoxon al rangurilor pereche"
 
-#: .././cogstat_chart.py:249 .././cogstat.py:422 .././cogstat.py:555
-#: .././cogstat.py:699 .././cogstat.py:810
+#: .././cogstat.py:575 .././cogstat.py:722 .././cogstat.py:915
+#: .././cogstat.py:1043 .././cogstat_chart.py:263
 msgid "Raw data"
 msgstr "Date brute"
 
-#: .././cogstat.py:429 .././cogstat.py:571 .././cogstat.py:721
-#: .././cogstat.py:861
+#: .././cogstat.py:583 .././cogstat.py:738 .././cogstat.py:937
+#: .././cogstat.py:1095
 msgid "Sample properties"
 msgstr "Proprietățile mostrelor"
 
@@ -886,40 +886,40 @@ msgstr "Estimări și teste ale parametrilor populației"
 msgid "Hypothesis test: "
 msgstr "Testarea ipotezei: "
 
-#: .././cogstat.py:489
+#: .././cogstat.py:644
 msgid "Testing if mean deviates from the value %s."
 msgstr "Testarea dacă medie deviază de la valoare %s."
 
-#: .././cogstat.py:491
+#: .././cogstat.py:647
 msgid "Testing if median deviates from the value %s."
 msgstr "Testarea dacă medianul deviază de la valoare %s."
 
-#: .././cogstat.py:498
+#: .././cogstat.py:654
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
 msgstr "Alegerea testul t pentru un singur eșantion sau testul Wilcoxon pentru observații împerecheată (signed-rank test) depinde de presupunere."
 
-#: .././cogstat.py:506
+#: .././cogstat.py:662
 msgid "Running one-sample t-test."
 msgstr "Rulare testul t pentru un singur eșantion."
 
-#: .././cogstat.py:513
+#: .././cogstat.py:668
 msgid "Normality is violated."
 msgstr "Normalitatea este încălcată."
 
-#: .././cogstat.py:514 .././cogstat.py:522
+#: .././cogstat.py:669 .././cogstat.py:676
 msgid "Running Wilcoxon signed-rank test."
 msgstr "Rularea testului Wilcoxon pentru observații împerecheate (signed-rank test)."
 
-#: .././cogstat.py:457 .././cogstat.py:574 .././cogstat.py:745
-#: .././cogstat.py:893
+#: .././cogstat.py:611 .././cogstat.py:742 .././cogstat.py:963
+#: .././cogstat.py:1127
 msgid "Population properties"
 msgstr "Proprietățile populației"
 
-#: .././cogstat.py:583 .././cogstat.py:601
+#: .././cogstat.py:751 .././cogstat.py:768
 msgid "Testing if correlation differs from 0."
 msgstr "Testarea dacă corelația diferă de la 0."
 
-#: .././cogstat.py:612
+#: .././cogstat.py:778
 msgid "Testing if variables are independent."
 msgstr "Testarea dacă variabilele sunt independente."
 
@@ -927,66 +927,66 @@ msgstr "Testarea dacă variabilele sunt independente."
 msgid "Hypothesis testing: "
 msgstr "Testarea ipotezei: "
 
-#: .././cogstat_hyp_test.py:199 .././cogstat_hyp_test.py:476
-#: .././cogstat_hyp_test.py:610
+#: .././cogstat_hyp_test.py:209 .././cogstat_hyp_test.py:488
+#: .././cogstat_hyp_test.py:619
 msgid "Testing if the means are the same."
 msgstr "Testarea dacă mediile sunt aceeași."
 
-#: .././cogstat_hyp_test.py:201 .././cogstat_hyp_test.py:478
-#: .././cogstat_hyp_test.py:612
+#: .././cogstat_hyp_test.py:211 .././cogstat_hyp_test.py:490
+#: .././cogstat_hyp_test.py:621
 msgid "Testing if the medians are the same."
 msgstr "Testarea dacă medianele sunt același."
 
-#: .././cogstat_hyp_test.py:203 .././cogstat_hyp_test.py:480
-#: .././cogstat_hyp_test.py:614
+#: .././cogstat_hyp_test.py:213 .././cogstat_hyp_test.py:492
+#: .././cogstat_hyp_test.py:623
 msgid "Testing if the distributions are the same."
 msgstr "Testarea dacă distribuțile sunt aceeași."
 
-#: .././cogstat_hyp_test.py:534
+#: .././cogstat_hyp_test.py:542
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
 msgstr "Normalitatea și omogenitatea varianței nu sunt încălcate. >> Rulare testul t pentru eșantioane perechi."
 
-#: .././cogstat_hyp_test.py:582
+#: .././cogstat_hyp_test.py:590
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
 msgstr "Normalitatea și omogenitatea varianței nu sunt încălcate. >> Rulare ANOVA simplă."
 
-#: .././cogstat_gui.py:767
+#: .././cogstat_gui.py:826
 msgid "Simple automatic data analysis software"
 msgstr "Software simplu și automatic de analiză de date"
 
-#: .././cogstat_gui.py:767
+#: .././cogstat_gui.py:827
 msgid "Visit CogStat website"
 msgstr "Vizitare pagină de web CogStat"
 
-#: .././cogstat_gui.py:231
+#: .././cogstat_gui.py:263
 msgid "Welcome to CogStat!"
 msgstr "Bun venit la CogStat!"
 
-#: .././cogstat_gui.py:232
+#: .././cogstat_gui.py:264
 msgid "CogStat makes statistical analysis more simple and efficient."
 msgstr "CogStat face analiză de statistică mult mai simplă și efficientă."
 
-#: .././cogstat_gui.py:233
+#: .././cogstat_gui.py:265
 msgid "To start working open a data file or paste your data from a spreadsheet."
 msgstr "Pentru a începe procesul, deschideți un fișier sau introduceți datele de la o foaie de calcul."
 
-#: .././cogstat_chart.py:246
+#: .././cogstat_chart.py:260
 msgid "Rank of the raw data"
 msgstr "Rangul datelor brute"
 
-#: .././cogstat_chart.py:317
+#: .././cogstat_chart.py:331
 msgid "Histogram of rank data with individual data and boxplot"
 msgstr "Histogramă de date de rang cu date individuale și boxplot"
 
-#: .././cogstat_chart.py:513
+#: .././cogstat_chart.py:528
 msgid "Scatterplot of the rank of the variables"
 msgstr "Diagrama de împrăștiere al rangurilor variabilelor"
 
-#: .././cogstat_chart.py:565
+#: .././cogstat_chart.py:581
 msgid "Individual data of the variables"
 msgstr "Date individuale ale variabilerol"
 
-#: .././cogstat_chart.py:736
+#: .././cogstat_chart.py:756
 msgid "Individual data of the rank data of the groups"
 msgstr "Date individuale ale datelor de rang ale grupurilor"
 
@@ -994,71 +994,71 @@ msgstr "Date individuale ale datelor de rang ale grupurilor"
 msgid "Boxplot and individual data of the rank data of the groups"
 msgstr "Boxplot și date individuale ale datelor de rang ale grupurilor"
 
-#: .././cogstat_chart.py:752
+#: .././cogstat_chart.py:772
 msgid "Individual data of the groups"
 msgstr "Date individuale ale grupurilor"
 
-#: .././cogstat_stat.py:398 .././cogstat_stat.py:404 .././cogstat_stat.py:467
-#: .././cogstat_stat.py:558 .././cogstat_stat.py:565 .././cogstat_stat.py:592
-#: .././cogstat_stat.py:627 .././cogstat_stat.py:634 .././cogstat_stat.py:684
-#: .././cogstat.py:576
+#: .././cogstat_stat.py:407 .././cogstat_stat.py:413 .././cogstat_stat.py:475
+#: .././cogstat_stat.py:578 .././cogstat_stat.py:585 .././cogstat_stat.py:612
+#: .././cogstat_stat.py:650 .././cogstat_stat.py:676 .././cogstat_stat.py:725
+#: .././cogstat.py:744
 msgid "Point estimation"
 msgstr "Estimație de punct"
 
-#: .././cogstat_stat.py:467 .././cogstat.py:576
+#: .././cogstat_stat.py:475 .././cogstat.py:744
 msgid "95% confidence interval"
 msgstr "95% interval de încredere"
 
-#: .././cogstat_stat.py:121 .././cogstat_stat.py:316 .././cogstat_stat.py:402
+#: .././cogstat_stat.py:120 .././cogstat_stat.py:323 .././cogstat_stat.py:411
 #: ../ui/pivot.py:113
 msgid "Standard deviation"
 msgstr "Abatere standard"
 
-#: .././cogstat.py:705 .././cogstat.py:827
+#: .././cogstat.py:921 .././cogstat.py:1060
 msgid "N of valid cases"
 msgstr "N din cazuri valide"
 
-#: .././cogstat_gui.py:111
+#: .././cogstat_gui.py:119
 msgid "Update available"
 msgstr "Actualizare este disponibilă"
 
-#: .././cogstat_gui.py:112
+#: .././cogstat_gui.py:120
 msgid "New version is available."
 msgstr "Versiune nouă este disponibilă."
 
-#: .././cogstat_gui.py:113
+#: .././cogstat_gui.py:121
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
 msgstr "Versiunea nouă se descărca<br>de la <a href = \"%s\">pagina de Cogstat</a>."
 
-#: .././cogstat_gui.py:145 .././cogstat_gui.py:187
+#: .././cogstat_gui.py:160 .././cogstat_gui.py:214
 msgid "Explore relation of variable &pair"
 msgstr "Explorează relații între variabile &perechi"
 
-#: .././cogstat_gui.py:150 .././cogstat_gui.py:187
+#: .././cogstat_gui.py:167 .././cogstat_gui.py:215
 msgid "Compare repeated measures va&riables"
 msgstr "Comparația măsurărilor repetate ale variabilelor"
 
-#: .././cogstat_stat.py:317
+#: .././cogstat_stat.py:324
 msgid "Minimum"
 msgstr "Minim"
 
-#: .././cogstat_stat.py:318
+#: .././cogstat_stat.py:325
 msgid "Maximum"
 msgstr "Maxim"
 
-#: .././cogstat_stat.py:120 .././cogstat_stat.py:321 ../ui/pivot.py:112
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:328 ../ui/pivot.py:112
 msgid "Upper quartile"
 msgstr "Quartilele superior"
 
-#: .././cogstat_stat.py:349
+#: .././cogstat_stat.py:356
 msgid "Descriptives for the variables"
 msgstr "Descriptive pentru variabile"
 
-#: .././cogstat_stat.py:365
+#: .././cogstat_stat.py:373
 msgid "Descriptives for the groups"
 msgstr "Descriptive pentru grupuri"
 
-#: .././cogstat_stat.py:504 .././cogstat_stat.py:512 .././cogstat_stat.py:522
+#: .././cogstat_stat.py:514 .././cogstat_stat.py:525 .././cogstat_stat.py:539
 msgid "Contingency table"
 msgstr "Table de contingență"
 
@@ -1069,7 +1069,7 @@ msgstr "Rezultatul testului ANOVA bifactorial (two-way ANOVA):\n"
 "\n"
 ""
 
-#: .././cogstat_hyp_test.py:867
+#: .././cogstat_hyp_test.py:860
 msgid "Main effect of %s: "
 msgstr "Efectul principal al %s: "
 
@@ -1081,15 +1081,15 @@ msgstr "Interacțiuni între %s și %s: "
 msgid "SPSS file - "
 msgstr "Fișier SPSS - "
 
-#: .././cogstat.py:548
+#: .././cogstat.py:714
 msgid "Explore relation of variable pair"
 msgstr "Explorează relații între variabile"
 
-#: .././cogstat.py:673 ../ui/compare_vars.py:68
+#: .././cogstat.py:883 ../ui/compare_vars.py:68
 msgid "Compare repeated measures variables"
 msgstr "Comparați variabilele de măsuri repetate"
 
-#: .././cogstat.py:706 .././cogstat.py:830
+#: .././cogstat.py:922 .././cogstat.py:1063
 msgid "N of missing cases"
 msgstr "N de cazuri absente"
 
@@ -1097,15 +1097,15 @@ msgstr "N de cazuri absente"
 msgid "Two grouping variables. "
 msgstr "Două variabile de grupare. "
 
-#: .././cogstat_hyp_test.py:620
+#: .././cogstat_hyp_test.py:629
 msgid "Choosing factorial ANOVA."
 msgstr "Alegere ANOVA factorială."
 
-#: .././cogstat.py:561
+#: .././cogstat.py:728
 msgid "N of valid pairs"
 msgstr "N din perechi valide"
 
-#: .././cogstat.py:562
+#: .././cogstat.py:729
 msgid "N of missing pairs"
 msgstr "N din perechi absente"
 
@@ -1113,23 +1113,23 @@ msgstr "N din perechi absente"
 msgid "N of missing group cases"
 msgstr "N de cazuri de grup absente"
 
-#: .././cogstat.py:845
+#: .././cogstat.py:1079
 msgid "N of missing grouping variable in %s"
 msgstr "N de variabile grupare absente în %s"
 
-#: .././cogstat_stat.py:322
+#: .././cogstat_stat.py:329
 msgid "Skewness"
 msgstr "Indice de asimetrie"
 
-#: .././cogstat_stat.py:323
+#: .././cogstat_stat.py:330
 msgid "Kurtosis"
 msgstr "Indice de aplatizare"
 
-#: .././cogstat_stat.py:319
+#: .././cogstat_stat.py:326
 msgid "Range"
 msgstr "Mulțime de valori"
 
-#: .././cogstat_stat.py:349
+#: .././cogstat_stat.py:357
 msgid "Descriptives for the variable"
 msgstr "Descriptive pentru variabile"
 
@@ -1137,41 +1137,41 @@ msgstr "Descriptive pentru variabile"
 msgid "The measurement levels of the variables are not set. Set them in your data source."
 msgstr "Nivelul măsurătorilor variabilerol nu sunt stabilite. Stabilește lor în sursa de date."
 
-#: .././cogstat_gui.py:52 .././cogstat_gui.py:414
+#: .././cogstat_gui.py:53 .././cogstat_gui.py:456
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
 msgstr "Citește mai mult despre cum a raporta o problemă <a href = \"%s\">aici</a>."
 
-#: .././cogstat_gui.py:234
+#: .././cogstat_gui.py:266
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
 msgstr "Găsiți mai multe informații despre CogStat pe pagina <a href = \"https://www.cogstat.org\">webpage</a> sau citește <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\"> tutorial de lansare rapidă. </a>"
 
-#: .././cogstat_hyp_test.py:38 .././cogstat.py:41 .././cogstat.py:157
-#: .././cogstat.py:165 .././cogstat.py:270 .././cogstat.py:278
+#: .././cogstat.py:42 .././cogstat.py:191 .././cogstat.py:200
+#: .././cogstat.py:247 .././cogstat.py:256 .././cogstat_hyp_test.py:39
 msgid "Read more about this issue <a href = \"%s\">here</a>."
 msgstr "Citește mai mult despre această problemă <a href = \"%s\">aici</a>."
 
-#: .././cogstat_hyp_test.py:738
+#: .././cogstat_hyp_test.py:732
 msgid "Result of slope test with %s:"
 msgstr "Rezultatea testului de panta cu %s:"
 
-#: .././cogstat.py:154
+#: .././cogstat.py:187
 msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
 msgstr "Variabilele de șir nu poate să fie variabile intervale sau ordinale în CogStat. Acele variabile sunt stabilite automatic nominale: "
 
-#: .././cogstat.py:156 .././cogstat.py:164 .././cogstat.py:269
-#: .././cogstat.py:277
+#: .././cogstat.py:190 .././cogstat.py:199 .././cogstat.py:246
+#: .././cogstat.py:255
 msgid "You can fix this in your data source."
 msgstr "Puteți rezolva acesta în sursa de date."
 
-#: .././cogstat.py:163
+#: .././cogstat.py:198
 msgid "The measurement level was not set for all variables."
 msgstr "Nivelul de măsurare nu au fost stabilite pentru toate variabilele."
 
-#: .././cogstat.py:267
+#: .././cogstat.py:242
 msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
 msgstr "Numele unor variabile includ caractere non-English, care vor să cauzeze probleme în unele analize: %s."
 
-#: .././cogstat.py:275
+#: .././cogstat.py:252
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
 msgstr "Unele variabile includ caractere non-English, care vor să cauzeze probleme în unele analize: %s."
 
@@ -1180,111 +1180,112 @@ msgstr "Unele variabile includ caractere non-English, care vor să cauzeze probl
 msgid "Standardized effect size:"
 msgstr "Standardizarea volumului de effect:"
 
-#: .././cogstat_gui.py:134
+#: .././cogstat_gui.py:145
 msgid "Open d&emo data file"
 msgstr "Deschidere fișierul d&emo"
 
-#: .././cogstat_gui.py:134
+#: .././cogstat_gui.py:145
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:177
 msgid "&Increase text size"
 msgstr "&Creșterea mărimei textului"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:177
 msgid "Ctrl++"
 msgstr "Ctrl++"
 
-#: .././cogstat_gui.py:159
+#: .././cogstat_gui.py:178
 msgid "&Decrease text size"
 msgstr "&Reducerea mărimei textului"
 
-#: .././cogstat_gui.py:159
+#: .././cogstat_gui.py:178
 msgid "Ctrl+-"
 msgstr "Ctrl+-"
 
-#: .././cogstat_gui.py:164
+#: .././cogstat_gui.py:185
 msgid "&Save results"
 msgstr "&Salvare resultate"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:186
 msgid "Save results &as"
 msgstr "Salvare resultate &ca"
 
-#: .././cogstat_chart.py:567
+#: .././cogstat_chart.py:583
 msgid "Boxplots and individual data of the variables"
 msgstr "Boxplot și date individuale ale variabilelor"
 
-#: .././cogstat_chart.py:723
+#: .././cogstat_chart.py:742
 msgid "Largest individual sign displays %d cases."
 msgstr "Cel mai mare semn individual afișează %d de cazuri."
 
-#: .././cogstat_chart.py:738
+#: .././cogstat_chart.py:758
 msgid "Boxplots and individual data of the rank data of the groups"
 msgstr "Boxplot și date individuale ale datelor de ranguri al grupurilor"
 
-#: .././cogstat_chart.py:754
+#: .././cogstat_chart.py:774
 msgid "Boxplots and individual data of the groups"
 msgstr "Boxplot și date individuale al grupurilor"
 
-#: .././cogstat_stat.py:562 .././cogstat_stat.py:567 .././cogstat_stat.py:592
-#: .././cogstat_stat.py:630 .././cogstat_stat.py:639 .././cogstat_stat.py:684
+#: .././cogstat_stat.py:582 .././cogstat_stat.py:587 .././cogstat_stat.py:612
+#: .././cogstat_stat.py:653 .././cogstat_stat.py:681 .././cogstat_stat.py:725
 msgid "95% CI (low)"
 msgstr "95% IÎ (scăzut)"
 
-#: .././cogstat_stat.py:563 .././cogstat_stat.py:567 .././cogstat_stat.py:592
-#: .././cogstat_stat.py:631 .././cogstat_stat.py:640 .././cogstat_stat.py:684
+#: .././cogstat_stat.py:583 .././cogstat_stat.py:587 .././cogstat_stat.py:612
+#: .././cogstat_stat.py:654 .././cogstat_stat.py:682 .././cogstat_stat.py:725
 msgid "95% CI (high)"
 msgstr "95% IÎ (mare)"
 
-#: .././cogstat_hyp_test.py:927
+#: .././cogstat_hyp_test.py:923
 msgid "Results of Dunn's test (p values)."
 msgstr "Resultate testului Dunn (valori p)."
 
-#: .././cogstat.py:750 .././cogstat.py:896
+#: .././cogstat.py:968 .././cogstat.py:1130
 msgid "Present confidence interval values suppose normality."
 msgstr "Valorile intervalului de încredere actual presupun normalitate."
 
-#: .././cogstat.py:750 .././cogstat.py:896
+#: .././cogstat.py:968 .././cogstat.py:1130
 msgid "Means"
 msgstr "Medii"
 
-#: .././cogstat_gui.py:155
+#: .././cogstat_gui.py:174
 msgid "Ctrl+Del"
 msgstr "Ctrl+Del"
 
-#: .././cogstat_gui.py:162
+#: .././cogstat_gui.py:182
 msgid "Ctrl+Shift+E"
 msgstr "Ctrl+Shift+E"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:186
 msgid "Ctrl+Shift+P"
 msgstr "Ctrl+Shift+P"
 
-#: .././cogstat.py:309
+#: .././cogstat.py:446
 msgid "The next %s cases will not be printed. You can check all cases in the original data source."
 msgstr "Cazurile următoare %s nu vor fi imprimate. Puteți verifica toate cazurile în baza de date originală."
 
-#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:77
-#: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
-#: ../ui/explore_var_pairs.py:57 ../ui/compare_vars.py:70 ../ui/diffusion.py:92
+#: ../ui/diffusion.py:92 ../ui/compare_groups.py:77 ../ui/pivot.py:106
+#: ../ui/compare_vars.py:70 ../ui/explore_var_pairs.py:57
+#: ../ui/var_properties.py:69 ../ui/filter_outlier.py:71
+#: ../ui/compare_groups_single_case_slope.py:65
 msgid "Available variables"
 msgstr "Variabile disponibile"
 
-#: .././cogstat_stat.py:119 ../ui/pivot.py:107
+#: .././cogstat_stat.py:118 ../ui/pivot.py:107
 msgid "N"
 msgstr "N"
 
-#: .././cogstat_stat.py:119 ../ui/pivot.py:108
+#: .././cogstat_stat.py:118 ../ui/pivot.py:108
 msgid "Sum"
 msgstr "Sumă"
 
-#: .././cogstat_stat.py:120 .././cogstat_stat.py:320 ../ui/pivot.py:111
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:327 ../ui/pivot.py:111
 msgid "Lower quartile"
 msgstr "Quartilele inferioare"
 
-#: .././cogstat_stat.py:121 ../ui/pivot.py:114
+#: .././cogstat_stat.py:120 ../ui/pivot.py:114
 msgid "Variance"
 msgstr "Dipsersie"
 
@@ -1308,21 +1309,21 @@ msgstr "Variabile dependente"
 msgid "Function"
 msgstr "Funcție"
 
+#: ../ui/diffusion.py:97 ../ui/diffusion.py:100 ../ui/diffusion.py:102
+#: ../ui/diffusion.py:104 ../ui/compare_groups.py:76 ../ui/compare_groups.py:80
 #: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
-#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:76
-#: ../ui/compare_groups.py:80 ../ui/compare_groups_single_case_slope.py:64
-#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:60
-#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:71 ../ui/diffusion.py:97
-#: ../ui/diffusion.py:100 ../ui/diffusion.py:102 ../ui/diffusion.py:104
+#: ../ui/compare_vars.py:71 ../ui/explore_var_pairs.py:60
+#: ../ui/var_properties.py:76 ../ui/filter_outlier.py:72
+#: ../ui/compare_groups_single_case_slope.py:64 ../ui/compare_vars_wiz.py:65
 msgid "<="
 msgstr "<="
 
+#: ../ui/diffusion.py:98 ../ui/diffusion.py:99 ../ui/diffusion.py:101
+#: ../ui/diffusion.py:103 ../ui/compare_groups.py:79 ../ui/compare_groups.py:82
 #: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
-#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:79
-#: ../ui/compare_groups.py:82 ../ui/compare_groups_single_case_slope.py:67
-#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:59
-#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:69 ../ui/diffusion.py:98
-#: ../ui/diffusion.py:99 ../ui/diffusion.py:101 ../ui/diffusion.py:103
+#: ../ui/compare_vars.py:69 ../ui/explore_var_pairs.py:59
+#: ../ui/var_properties.py:75 ../ui/filter_outlier.py:70
+#: ../ui/compare_groups_single_case_slope.py:67 ../ui/compare_vars_wiz.py:68
 msgid "=>"
 msgstr "=>"
 
@@ -1374,9 +1375,9 @@ msgstr "Numărul probelor"
 msgid "Explore variables"
 msgstr "Explorarea variabilelor"
 
-#: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
-#: ../ui/explore_var_pairs.py:58 ../ui/compare_vars_wiz.py:67
-#: ../ui/compare_vars.py:72
+#: ../ui/compare_vars.py:72 ../ui/explore_var_pairs.py:58
+#: ../ui/var_properties.py:70 ../ui/filter_outlier.py:73
+#: ../ui/compare_vars_wiz.py:67
 msgid "Selected variables"
 msgstr "Variabile selectate"
 
@@ -1420,55 +1421,55 @@ msgstr "Alege din variabile"
 msgid "Variable properties"
 msgstr "Proprietățile variabilelor"
 
-#: .././cogstat_gui.py:137 .././cogstat_gui.py:184
+#: .././cogstat_gui.py:149 .././cogstat_gui.py:212
 msgid "&Filter outliers"
 msgstr "&Outliers de filtrare"
 
-#: .././cogstat_gui.py:137
+#: .././cogstat_gui.py:149
 msgid "Ctrl+L"
 msgstr "Ctrl+L"
 
-#: .././cogstat_gui.py:162
+#: .././cogstat_gui.py:182
 msgid "Text is &editable"
 msgstr "Textul este &editabil"
 
-#: .././cogstat_gui.py:170
+#: .././cogstat_gui.py:192
 msgid "Ctrl+Shift+R"
 msgstr "Ctrl+Shift+R"
 
-#: .././cogstat_gui.py:449
+#: .././cogstat_gui.py:496
 msgid "Filter outlier."
 msgstr "Outlier de filtrare."
 
-#: .././cogstat_hyp_test.py:437
+#: .././cogstat_hyp_test.py:448
 msgid "Main effect of %s"
 msgstr "Efectul principal al %s"
 
-#: .././cogstat_hyp_test.py:439
+#: .././cogstat_hyp_test.py:450
 msgid "Interaction of factors %s"
 msgstr "Interacțiunea factorilor %s"
 
-#: .././cogstat.py:334
+#: .././cogstat.py:481
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
 msgstr "Pentru filtrare se pot utiliza numai variabile de interval. Ignorare variabil %s."
 
-#: .././cogstat.py:677
+#: .././cogstat.py:888
 msgid "Factors (number of levels): "
 msgstr "Factori (numărul de niveluri): "
 
-#: .././cogstat_hyp_test.py:282
+#: .././cogstat_hyp_test.py:292
 msgid "Interval variables with several factors."
 msgstr "Variabile de interval cu factori multiple."
 
-#: .././cogstat_hyp_test.py:283
+#: .././cogstat_hyp_test.py:293
 msgid "Choosing repeated measures ANOVA."
 msgstr "Alegere ANOVA cu măsurători repetate."
 
-#: .././cogstat_hyp_test.py:287
+#: .././cogstat_hyp_test.py:297
 msgid "Ordinal variables with several factors."
 msgstr "Variabile ordinale cu factori multiple."
 
-#: .././cogstat_hyp_test.py:290
+#: .././cogstat_hyp_test.py:300
 msgid "Nominal variables with several factors."
 msgstr "Variabile nominale cu factori multiple."
 
@@ -1528,98 +1529,98 @@ msgstr "Numărul de niveluri"
 msgid "Only interval variables are available"
 msgstr "Numai variabile interval sunt disponibile"
 
-#: .././cogstat_gui.py:148 .././cogstat_gui.py:186
+#: .././cogstat_gui.py:164 .././cogstat_gui.py:213
 msgid "Behavioral data &diffusion analysis"
 msgstr "Date de comportament &analiza de difuzie"
 
-#: .././cogstat_gui.py:156
+#: .././cogstat_gui.py:175
 msgid "&Find text"
 msgstr "&Găsiți text"
 
-#: .././cogstat_gui.py:156
+#: .././cogstat_gui.py:175
 msgid "Ctrl+F"
 msgstr "Ctrl+F"
 
-#: .././cogstat_gui.py:606 .././cogstat_gui.py:611
+#: .././cogstat_gui.py:657 .././cogstat_gui.py:662
 msgid "Diffusion analysis."
 msgstr "Analiza de difuzie"
 
-#: .././cogstat_hyp_test.py:152 .././cogstat_hyp_test.py:317
-#: .././cogstat_hyp_test.py:688 .././cogstat_hyp_test.py:808
-#: .././cogstat_hyp_test.py:957
+#: .././cogstat_hyp_test.py:161 .././cogstat_hyp_test.py:327
+#: .././cogstat_hyp_test.py:683 .././cogstat_hyp_test.py:801
+#: .././cogstat_hyp_test.py:952
 msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
 msgstr "Analiza puterii de sensibilitate. Mărimea efectului minim pentru a atinge puterea de 95%% cu volumul eșantionului prezent pentru testarea ipotezei prezentă (mărimea efectului este în %s):"
 
-#: .././cogstat_hyp_test.py:153 .././cogstat_hyp_test.py:318
-#: .././cogstat_hyp_test.py:689
+#: .././cogstat_hyp_test.py:162 .././cogstat_hyp_test.py:328
+#: .././cogstat_hyp_test.py:684
 msgid "d"
 msgstr "d"
 
-#: .././cogstat_hyp_test.py:808
+#: .././cogstat_hyp_test.py:802
 msgid "f"
 msgstr "f"
 
-#: .././cogstat_hyp_test.py:863
+#: .././cogstat_hyp_test.py:856
 msgid "Result of multi-way ANOVA"
 msgstr "Resultat testului ANOVA multi-factorial."
 
-#: .././cogstat_hyp_test.py:873
+#: .././cogstat_hyp_test.py:866
 msgid "Interaction of %s: "
 msgstr "Interacțiunea %s "
 
-#: .././cogstat_hyp_test.py:958
+#: .././cogstat_hyp_test.py:953
 msgid "w"
 msgstr "w"
 
-#: .././cogstat_chart.py:407
+#: .././cogstat_chart.py:421
 msgid "Normal theoretical quantiles"
 msgstr "Quantilele normale teoretice"
 
-#: .././cogstat_chart.py:408
+#: .././cogstat_chart.py:422
 msgid "Sample quantiles"
 msgstr "Quartilele mostrelor"
 
-#: .././cogstat_stat.py:188
+#: .././cogstat_stat.py:190
 msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
 msgstr "Eroare: %s, Timp de reacție: %s, Participant: %s, Condiție(i): %s"
 
-#: .././cogstat_stat.py:202
+#: .././cogstat_stat.py:204
 msgid "Mean percent correct with edge correction"
 msgstr "Procent mediu corectat cu corecția marginilor"
 
-#: .././cogstat_stat.py:203
+#: .././cogstat_stat.py:206
 msgid "Mean correct reaction time"
 msgstr "Timp de reacție medie corectă"
 
-#: .././cogstat_stat.py:204
+#: .././cogstat_stat.py:208
 msgid "Correct reaction time variance"
 msgstr "Variație a timpului de reacție corectă"
 
-#: .././cogstat_stat.py:216
+#: .././cogstat_stat.py:221
 msgid "Drift rate"
 msgstr "Drift rate"
 
-#: .././cogstat_stat.py:217
+#: .././cogstat_stat.py:222
 msgid "Threshold"
 msgstr "Prag"
 
-#: .././cogstat_stat.py:218
+#: .././cogstat_stat.py:223
 msgid "Nondecision time"
 msgstr "Timp de non-decizie"
 
-#: .././cogstat_stat.py:291 .././cogstat_stat.py:521
+#: .././cogstat_stat.py:297 .././cogstat_stat.py:537
 msgid "low"
 msgstr "scăzut"
 
-#: .././cogstat_stat.py:291 .././cogstat_stat.py:521
+#: .././cogstat_stat.py:297 .././cogstat_stat.py:537
 msgid "high"
 msgstr "mare"
 
-#: .././cogstat_stat.py:292
+#: .././cogstat_stat.py:298
 msgid "Relative frequencies"
 msgstr "Frecvențe relative"
 
-#: .././cogstat_stat.py:292 .././cogstat_stat.py:522
+#: .././cogstat_stat.py:298 .././cogstat_stat.py:540
 msgid "95% confidence interval (multinomial proportions)"
 msgstr "95% interval de încredere (proporții multinomiale)"
 
@@ -1627,52 +1628,52 @@ msgstr "95% interval de încredere (proporții multinomiale)"
 msgid "Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid."
 msgstr "Unele dintre celule nu includ cel puțin 5 cazuri, astfel intervalele de încredere pot fi invalide."
 
-#: .././cogstat_stat.py:324
+#: .././cogstat_stat.py:331
 msgid "Variation ratio"
 msgstr "Variații rapoarte"
 
-#: .././cogstat_stat.py:397
+#: .././cogstat_stat.py:406
 msgid "Present confidence interval values for the mean suppose normality."
 msgstr "Valorile prezente ale intervalului de încredere pentru medie presupusă  normalitatea."
 
-#: .././cogstat_stat.py:399 .././cogstat_stat.py:406
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:415
 msgid "95% confidence interval (high)"
 msgstr "95% interval de încredere (mare)"
 
-#: .././cogstat_stat.py:400 .././cogstat_stat.py:405
+#: .././cogstat_stat.py:409 .././cogstat_stat.py:414
 msgid "95% confidence interval (low)"
 msgstr "95% interval de încredere (scăzut)"
 
-#: .././cogstat_stat.py:408 .././cogstat_stat.py:568 .././cogstat_stat.py:642
+#: .././cogstat_stat.py:417 .././cogstat_stat.py:588 .././cogstat_stat.py:684
 msgid "Out of the data range"
 msgstr "În afara intervalului de date"
 
-#: .././cogstat_stat.py:461 .././cogstat_stat.py:464 .././cogstat_stat.py:673
-#: .././cogstat_stat.py:676
+#: .././cogstat_stat.py:469 .././cogstat_stat.py:472 .././cogstat_stat.py:714
+#: .././cogstat_stat.py:717
 msgid "Cramér's V measure of association"
 msgstr "Măsura de asociere a lui Cramér V"
 
-#: .././cogstat_stat.py:503 .././cogstat_stat.py:509
+#: .././cogstat_stat.py:513 .././cogstat_stat.py:522
 msgid "Total"
 msgstr "Total"
 
-#: .././cogstat_stat.py:504
+#: .././cogstat_stat.py:514
 msgid "Case count"
 msgstr "Număr de cazuri"
 
-#: .././cogstat_stat.py:512
+#: .././cogstat_stat.py:525
 msgid "Percentage"
 msgstr "Procentaj"
 
-#: .././cogstat_stat.py:580 .././cogstat_stat.py:657
+#: .././cogstat_stat.py:600 .././cogstat_stat.py:699
 msgid "Cohen's d"
 msgstr "Cohen's d"
 
-#: .././cogstat_stat.py:582 .././cogstat_stat.py:659
+#: .././cogstat_stat.py:602 .././cogstat_stat.py:701
 msgid "Eta-squared"
 msgstr "eta pătrat"
 
-#: .././cogstat_stat.py:599 .././cogstat_stat.py:693
+#: .././cogstat_stat.py:620 .././cogstat_stat.py:734
 msgid "Hedges' g"
 msgstr "Hedges' g"
 
@@ -1680,13 +1681,13 @@ msgstr "Hedges' g"
 msgid "Omega squared"
 msgstr "omega pătrat"
 
-#: .././cogstat.py:477 .././cogstat.py:575 .././cogstat.py:748
-#: .././cogstat.py:894
+#: .././cogstat.py:632 .././cogstat.py:743 .././cogstat.py:966
+#: .././cogstat.py:1128
 msgid "Population parameter estimations"
 msgstr "Estimări ale parametrilor populație"
 
-#: ../ui/compare_groups.py:84 ../ui/explore_var_pairs.py:61
-#: ../ui/compare_vars.py:75
+#: ../ui/compare_groups.py:84 ../ui/compare_vars.py:75
+#: ../ui/explore_var_pairs.py:61
 msgid "Options..."
 msgstr "Opțiuni..."
 
@@ -1706,7 +1707,7 @@ msgstr "Găseşte următorul"
 msgid "Find previous"
 msgstr "Găsește anteriorul"
 
-#: .././cogstat.py:660 ../ui/diffusion.py:91
+#: .././cogstat.py:855 ../ui/diffusion.py:91
 msgid "Behavioral data diffusion analysis"
 msgstr "Analiza de difuzie ale datelor de comportament"
 
@@ -1726,7 +1727,7 @@ msgstr "Timp de reacție (în sec)"
 msgid "Condition(s)"
 msgstr "Condiție(i)"
 
-#: ../ui/xylims.py:62 ../ui/ylims.py:48
+#: ../ui/ylims.py:48 ../ui/xylims.py:62
 msgid "Options"
 msgstr "Opțiuni"
 
@@ -1738,37 +1739,179 @@ msgstr "Minim de axis x"
 msgid "Maximum of x axis"
 msgstr "Maxim de axis x"
 
-#: ../ui/xylims.py:65 ../ui/ylims.py:49
+#: ../ui/ylims.py:49 ../ui/xylims.py:65
 msgid "Minimum of y axis"
 msgstr "Minim de axis y"
 
-#: ../ui/xylims.py:66 ../ui/ylims.py:50
+#: ../ui/ylims.py:50 ../ui/xylims.py:66
 msgid "Maximum of y axis"
 msgstr "Maxim de axis y"
 
-#: .././cogstat_gui.py:606
+#: .././cogstat_gui.py:657
 msgid "At least the reaction time and the error variables should be given."
 msgstr "Trebuie să fie dat cel puțin timpul reacției și variabilele erorilor."
 
-#: .././cogstat_hyp_test.py:616
+#: .././cogstat_hyp_test.py:625
 msgid "At least two grouping variables."
 msgstr "Cel puțin două variabile de grupare."
 
-#: .././cogstat_stat.py:185
+#: .././cogstat_stat.py:187
 msgid "Specify all the required parameters (reaction time, error, participant and condition variables)."
 msgstr "Specificați toți parametrii cerute (timp de reacție, erori, variabilele de participanți și de condiții)."
 
-#: .././cogstat_hyp_test.py:197 .././cogstat_hyp_test.py:474
-#: .././cogstat_hyp_test.py:608 .././cogstat.py:487 .././cogstat.py:582
-#: .././cogstat.py:600 .././cogstat.py:611
+#: .././cogstat.py:642 .././cogstat.py:750 .././cogstat.py:767
+#: .././cogstat.py:777 .././cogstat_hyp_test.py:207
+#: .././cogstat_hyp_test.py:486 .././cogstat_hyp_test.py:617
 msgid "Hypothesis tests"
 msgstr "Testarea ipotezei"
 
-#: .././cogstat.py:898
+#: .././cogstat.py:1132
 msgid "Medians"
 msgstr "Medianele"
 
-#: .././cogstat_stat.py:446 .././cogstat_stat.py:573 .././cogstat_stat.py:648
+#: .././cogstat_stat.py:454 .././cogstat_stat.py:593 .././cogstat_stat.py:690
 msgid "Standardized effect size"
 msgstr "Volumului standard de efect"
+
+#: .././cogstat_dialogs.py:36 .././cogstat_dialogs.py:54
+msgid "All importable data files"
+msgstr "Toate fișierele de date importabile"
+
+#: .././cogstat_dialogs.py:37 .././cogstat_dialogs.py:55
+msgid "Spreadsheet files"
+msgstr "Fișiere de foi de calcul"
+
+#: .././cogstat_dialogs.py:37 .././cogstat_dialogs.py:55
+msgid "Text files"
+msgstr "Fișiere text"
+
+#: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:56
+msgid "SPSS data files"
+msgstr "Fișiere de date SPSS"
+
+#: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:56
+msgid "jamovi data files"
+msgstr "Fișiere de date jamovi"
+
+#: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:57
+msgid "JASP data files"
+msgstr "Fișiere de date JASP"
+
+#: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:57
+msgid "SAS data files"
+msgstr "Fișiere de date SAS"
+
+#: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:58
+msgid "STATA data files"
+msgstr "Fișiere de date STATA"
+
+#: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:58
+msgid "R data files"
+msgstr "Fișiere de date R"
+
+#: .././cogstat_stat.py:303 .././cogstat_stat.py:547
+msgid "Some of the cells do not include at least 5 cases, so the confidence intervals may be invalid."
+msgstr "Unele dintre celule nu include cel puțin 5 cazuri, astfel intervalele de încredere pot fi invalide."
+
+#: .././cogstat_stat.py:748
+msgid "Omega-squared"
+msgstr "Omega-pătrat"
+
+#: .././cogstat_gui.py:449
+msgid "Data file content"
+msgstr "Conținutul fișierului de date"
+
+#: .././cogstat_gui.py:454
+msgid "Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
+msgstr "Hopa, se pare a apărut o eroare, CogStat nu a putut să deschide fișierul de date. Poate că doriți să îl raportați."
+
+#: .././cogstat_gui.py:458
+msgid "Error code"
+msgstr "Cod de eroare"
+
+#: .././cogstat_gui.py:459
+msgid "Data to be imported"
+msgstr "Date să fie importat"
+
+#: .././cogstat.py:174
+msgid "Number of measurement levels do not match the number of variables. You may want to correct the number of measurement levels."
+msgstr "Numărul nivelurilor de măsurare nu se potrivesc cu numărul de variabile. Poate că doriți să corectați numărul nivelurilor de măsurare."
+
+#: .././cogstat_hyp_test.py:113
+msgid "Shapiro–Wilk normality test in variable %s%s"
+msgstr "Testul de normalitate Shapiro–Wilk în variabila %s%s"
+
+#: .././cogstat_hyp_test.py:394
+msgid "Using Greenhouse–Geisser correction."
+msgstr "Utilizarea corecția Greenhouse–Geisser."
+
+#: .././cogstat_hyp_test.py:406
+msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
+msgstr "Compararea variabilele în perechi (pairwise) cu corecția Holm–Bonferroni:"
+
+#: .././cogstat_hyp_test.py:514 .././cogstat_hyp_test.py:548
+#: .././cogstat_hyp_test.py:557
+msgid "Running Mann–Whitney test."
+msgstr "Rularea testului Mann–Whitney."
+
+#: .././cogstat_hyp_test.py:523
+msgid "Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on assumptions."
+msgstr "Alegerea testului t pentru 2 eșantioane independente, testul Mann–Whitney sau t testul lui Welch în funcție de presupunere."
+
+#: .././cogstat_hyp_test.py:551
+msgid "Homogeneity of variance violated in variable %s."
+msgstr "Omogenitatea variației este încălcată în variabile %s."
+
+#: .././cogstat_hyp_test.py:561 .././cogstat_hyp_test.py:609
+msgid "Running chi-squared test."
+msgstr "Rularea testul chi-pătrat."
+
+#: .././cogstat_hyp_test.py:570
+msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
+msgstr "Alegerea testului ANOVA simplă sau Kruskal–Wallis în funcție de presupunere."
+
+#: .././cogstat_hyp_test.py:599
+msgid "Homogeneity of variance violated in variable %s. "
+msgstr "Omogenitatea variației este încălcată în variabile %s. "
+
+#: .././cogstat_hyp_test.py:601 .././cogstat_hyp_test.py:605
+msgid "Running Kruskal–Wallis test."
+msgstr "Rularea testul Kruskal–Wallis."
+
+#: .././cogstat_hyp_test.py:770 .././cogstat_hyp_test.py:775
+#: .././cogstat_hyp_test.py:778
+msgid "Result of independent samples Mann–Whitney rank test: "
+msgstr "Rezultatul testului Mann-Whitney (U) pentru eşantioane independente: "
+
+#: .././cogstat_hyp_test.py:918 .././cogstat_hyp_test.py:930
+msgid "Result of the Kruskal–Wallis test: "
+msgstr "Rezultatul testului Kruskal–Wallis: "
+
+#: .././cogstat_hyp_test.py:957
+msgid "Result of the Pearson's chi-squared test: "
+msgstr "Rezultatul testului Pearson chi-pătrat: "
+
+#: .././cogstat.py:304
+msgid "Spreadsheet file"
+msgstr "Fișier de foaie de calcul"
+
+#: .././cogstat.py:346
+msgid "SPSS/SAS/STATA file"
+msgstr "Fișier de SPSS/SAS/STATA"
+
+#: .././cogstat.py:354
+msgid "R file"
+msgstr "Fișier de R"
+
+#: .././cogstat.py:361
+msgid "JASP file"
+msgstr "Fișier de JASP"
+
+#: .././cogstat.py:368
+msgid "jamovi file"
+msgstr "Fișier de jamovi"
+
+#: .././cogstat.py:287
+msgid "Text file"
+msgstr "Fișier text"
 
