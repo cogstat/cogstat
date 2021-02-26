@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "CogStat"
-#define MyAppVersion "2.1.0rc"
+#define MyAppVersion "2.1.0rc2"
 #define MyAppPublisher "Attila Krajcsi"
 #define MyAppURL "https://www.cogstat.org"
 #define MySource "C:\Users\Attila\CogStat\cogstat_source\"
@@ -59,14 +59,14 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 [Files]
 Source: "{#MySource}run_cogstat_gui.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySource}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Attila\CogStat\Python_CogStat_venv\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Attila\AppData\Local\Programs\Python\Python38\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\Scripts\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"
+Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName} {#MyAppVersion}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\Scripts\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\Scripts\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: quicklaunchicon
+Name: "{commondesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\Scripts\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
+Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
