@@ -299,7 +299,7 @@ class CogStatData:
                 # if there is a measurement level line, use it, and reread the spreadsheet
                 if set(self.data_frame.iloc[0]) <= {'unk', 'nom', 'ord', 'int', ''} and \
                         set(self.data_frame.iloc[0]) != {''}:
-                    import_measurement_levels = self.data_frame.iloc[0]
+                    import_measurement_levels = list(self.data_frame.iloc[0])
                     self.data_frame = pd.read_excel(data, engine=engine, skiprows=[1])
                 self.import_source = _('Spreadsheet file') + ' - ' + data  # filename
 
