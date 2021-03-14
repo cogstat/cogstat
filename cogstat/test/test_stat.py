@@ -88,8 +88,8 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>p</i> = 0.287' in result[6])
 
         # Population estimation and one sample t-test
-        self.assertTrue('<td>1.9227</td>      <td>4.3649</td>' in result[9])  # CI of the mean
-        self.assertTrue('3.2702' in result[9])  # SD
+        self.assertTrue('<td>Mean</td>      <td>3.1438</td>      <td>1.9227</td>      <td>4.3649</td>' in result[9])
+        self.assertTrue('<td>Standard deviation</td>      <td>3.2702</td>      <td>2.6044</td>      <td>4.3961</td>' in result[9])
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681

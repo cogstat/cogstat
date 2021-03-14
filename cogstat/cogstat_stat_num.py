@@ -77,6 +77,31 @@ def corr_ci(r, n, confidence=0.95):
     return lower, upper
 
 
+def stddev_ci(stddev, n, confidence=0.95):
+    """
+    Calculate the confidence interval for a standard deviation.
+
+    e.g., https://www.graphpad.com/guides/prism/latest/statistics/stat_confidence_interval_of_a_stand.htm
+
+    Parameters
+    ----------
+    stddev : float
+        Standard deviation
+    n : int
+        Sample size
+    confidence : float
+        Confidence, default is 0.95.
+
+    Returns
+    -------
+    (float, float)
+        Lower and upper limit of the CI
+    """
+    lower = stddev * np.sqrt((n - 1) / stats.chi2.isf(((1 - confidence) / 2), n - 1))
+    upper = stddev * np.sqrt((n - 1) / stats.chi2.isf(1 - ((1 - confidence) / 2), n - 1))
+    return lower, upper
+
+
 def modified_t_test(ind_data, group_data):
     """
     Compare a single case to a group.

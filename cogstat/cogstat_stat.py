@@ -445,10 +445,19 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
 
 def variable_estimation(data, statistics=[]):
     """
+    Calculate the point and interval estimations of the required parameters.
 
-    :param data:
-    :param statistics:
-    :return:
+    Parameters
+    ----------
+    data :
+
+    statistics : list of str
+        'mean', 'std', 'median'
+
+    Returns
+    -------
+    str
+        Table of the point and interval estimations
     """
     pdf_result = pd.DataFrame()
     population_param_text = ''
@@ -456,10 +465,13 @@ def variable_estimation(data, statistics=[]):
         if statistic == 'mean':
             population_param_text += _('Present confidence interval values for the mean suppose normality.') + '\n'
             pdf_result.loc[_('Mean'), _('Point estimation')] = np.mean(data.dropna())
-            pdf_result.loc[_('Mean'), _('95% confidence interval (high)')], \
-            pdf_result.loc[_('Mean'), _('95% confidence interval (low)')] = DescrStatsW(data).tconfint_mean()
-        if statistic == "std":
-            pdf_result.loc[_('Standard deviation')] = [np.std(data.dropna(), ddof=1), '', '']
+            pdf_result.loc[_('Mean'), _('95% confidence interval (low)')], \
+            pdf_result.loc[_('Mean'), _('95% confidence interval (high)')] = DescrStatsW(data).tconfint_mean()
+        if statistic == 'std':
+            # Currently, sd calculation assumes that mean has already been calculated (and column names are alraedy given)
+            stddev = np.std(data.dropna(), ddof=1)
+            lower, upper = cs_stat_num.stddev_ci(stddev, len(data.dropna()), 0.95)
+            pdf_result.loc[_('Standard deviation')] = [stddev, lower, upper]
         if statistic == 'median':
             pdf_result.loc[_('Median'), _('Point estimation')] = np.median(data.dropna())
             pdf_result.loc[_('Median'), _('95% confidence interval (low)')], \

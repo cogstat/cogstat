@@ -16,6 +16,7 @@ Trivial changes when a new feature is added are not denoted.
     - STATA .dta files
     - Additional text (e.g., .csv) formats
 - Add more demo datasets
+- Confidence interval of the standard deviation in Explore variable
 - Analysis refinements 
   - In behavioral data diffusion analysis  
     - :warning: If any data is missing from a trial, the whole trial is dropped
