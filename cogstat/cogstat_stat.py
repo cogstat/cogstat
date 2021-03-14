@@ -205,22 +205,34 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
         Pdf.pivot_table() sorts the index, but unlike spreadsheet software packages, it is case sensitive.
         If this parameter is True, the indexes will be reordered to be case-insensitive
     """
-    if not (error_name and RT_name and participant_name and condition_names):
-        result = _('Specify all the required parameters (reaction time, error, participant and condition variables).')
+    if not (error_name and RT_name):
+        result = _('Specify the minimum required parameters (reaction time and error).')
         return result
     result = ''
     result += _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
-              (error_name[0], RT_name[0], participant_name[0], ','.join(condition_names))
+              (error_name[0], RT_name[0], participant_name[0] if participant_name != [] else _('None'),
+               ','.join(condition_names) if condition_names != [] else _('None'))
+    df_diff = df
+
+    # If condition and/or participant variables were not given, add a quasi condition/participant variable with
+    # constant values
+    if not condition_names:
+        df_diff[_('Condition')] = _('single condition')
+        condition_names = [_('Condition')]
+    if not participant_name:
+        df_diff[_('Participant')] = _('single participant')
+        participant_name = [_('Participant')]
+
+    # If any data is missing from a trial, drop the whole trial
+    df_diff = df_diff.dropna(subset=error_name+RT_name+participant_name+condition_names)
 
     # Calculate RT and error rate statistics
-    # If any data is missing from a trial, drop the whole trial
-    df_filtered = df.dropna(subset=error_name+RT_name+participant_name+condition_names)
-    mean_correct_RT_table = pd.pivot_table(df_filtered[df_filtered[error_name[0]] == 0], values=RT_name[0],
+    mean_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name[0]] == 0], values=RT_name[0],
                                            index=participant_name, columns=condition_names, aggfunc=np.mean)
-    var_correct_RT_table = pd.pivot_table(df_filtered[df_filtered[error_name[0]] == 0], values=RT_name[0],
+    var_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name[0]] == 0], values=RT_name[0],
                                           index=participant_name, columns=condition_names, aggfunc=np.var)
     # TODO for the var function do we need a ddof=1 parameter?
-    mean_percent_correct_table = 1 - pd.pivot_table(df_filtered, values=error_name[0], index=participant_name,
+    mean_percent_correct_table = 1 - pd.pivot_table(df_diff, values=error_name[0], index=participant_name,
                                                     columns=condition_names,
                                                     aggfunc=cs_stat_num.diffusion_edge_correction_mean)
     if case_unsensitive_index_sort:
