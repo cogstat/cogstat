@@ -16,6 +16,13 @@ Trivial changes when a new feature is added are not denoted.
     - STATA .dta files
     - Additional text (e.g., .csv) formats
 - Add more demo datasets
+- Analysis refinements 
+  - In behavioral data diffusion analysis  
+    - :warning: If any data is missing from a trial, the whole trial is dropped
+    - :warning: Rows are now ordered to be case-insensitive
+    - :warning: All tables have the same column order
+    - Participants and conditions are optional parameters
+ - :warning: In pivot tables, rows are now ordered to be case-insensitive
 - New localizations
     - Greek (Zoé Vulgarasz)
     - Spanish (Borbála Zulauf)
@@ -26,13 +33,8 @@ Trivial changes when a new feature is added are not denoted.
     - CogStatData.compare_groups()  single_case_slope_SE parameter
 
 ## Fixes
-- :warning: Behavioral data diffusion analysis
-  - EZ parameter recovery gave incorrect result when error rate was 50%
-  - If any data is missing from a trial, the whole trial is dropped
-  - Rows are now ordered to be case-insensitive
-  - All tables have the same column order
+- :warning: In behavioral data diffusion analysis, EZ parameter recovery gave incorrect result when error rate was 50%
 - Various output fixes
-  - :warning: In pivot tables, rows are now ordered to be case-insensitive
 - Various data import fixes
 - Performance improvements
 - On Windows, much smaller installer and much less required space 
