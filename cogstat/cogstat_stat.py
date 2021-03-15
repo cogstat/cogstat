@@ -212,7 +212,7 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     result += _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
               (error_name[0], RT_name[0], participant_name[0] if participant_name != [] else _('None'),
                ','.join(condition_names) if condition_names != [] else _('None'))
-    df_diff = df
+    df_diff = df.copy()
 
     # If condition and/or participant variables were not given, add a quasi condition/participant variable with
     # constant values
