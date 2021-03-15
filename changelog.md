@@ -15,9 +15,9 @@ Trivial changes when a new feature is added are not denoted.
     - SAS .sas7bdat and .xpt files
     - STATA .dta files
     - Additional text (e.g., .csv) formats
-- Add more demo datasets
+- More demo datasets are provided
 - Confidence interval of the standard deviation in Explore variable
-- Analysis refinements 
+- Analysis refinements
     - In behavioral data diffusion analysis, participants and conditions are optional parameters
 - New localizations
     - Greek (Zoé Vulgarasz)
