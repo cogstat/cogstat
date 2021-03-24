@@ -8,12 +8,12 @@ import; methods implement some data handling and they compile the appropriate st
 QString = str
 
 # go on with regular importing, etc.
-import csv
 import gettext
 import itertools
 import logging
 import os
 import datetime
+import string
 
 __version__ = '2.1.0rc'
 
@@ -221,22 +221,25 @@ class CogStatData:
                     pass
                     # next convert_dtype pair will be used in a next loop if convert_dtypes includes alternatives
 
-        def _check_unicode_chars():
-            # Check for unicode chars in the data to warn user not to use it
+        def _check_valid_chars():
+            # Check if only valid chars are used in the data, and warn the user if invalid chars are used
             # TODO this might be removed with Python3 and with unicode encoding
             non_ascii_var_names = []
             non_ascii_vars = []
+            valid_chars = string.ascii_letters + string.digits + '_'
             for variable_name in self.data_frame:
-                if not all(ord(char) < 128 for char in variable_name):  # includes non ascii char
+                # check the variable name
+                if not all(char in valid_chars for char in variable_name):  # includes non-valid char
                     non_ascii_var_names.append(variable_name)
+                # check the values
                 if self.data_frame[variable_name].dtype == 'object':  # check only string variables
                     for ind_data in self.data_frame[variable_name]:
                         if not (ind_data != ind_data) and not (isinstance(ind_data, (bool, int, datetime.date))):
                             # if not NaN, otherwise the next condition is invalid
                             # and if not boolean, etc. (int can occur in object dtype)
-                            if not all(ord(char) < 128 for char in ind_data):
+                            if not all(char in valid_chars for char in ind_data):
                                 non_ascii_vars.append(variable_name)
-                                break  # after finding the first non-ascii data, we can leave the variable
+                                break  # after finding the first non-ascii data, we can skip the rest of the variable data
             if non_ascii_var_names:
                 self.import_message += '\n<warning>' + \
                                        _('Some variable name(s) include non-English characters, '
@@ -402,7 +405,7 @@ class CogStatData:
         _set_measurement_level(measurement_levels=(measurement_levels if measurement_levels else
                                                   import_measurement_levels))
                                # measurement_levels overwrites import_measurement_levels
-        _check_unicode_chars()
+        _check_valid_chars()
         self.orig_data_frame = self.data_frame.copy()
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
