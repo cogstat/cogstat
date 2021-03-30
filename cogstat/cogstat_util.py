@@ -131,15 +131,6 @@ def print_versions(main_window):
     return text_output
 
 
-def print_p(p):
-    """
-    Makes an output according to the APA rule:
-    if p < 0.001, then print 'p < 0.001'
-    otherwise 'p = value'
-    """
-    return '<i>p</i> &lt; 0.001' if p < 0.001 else '<i>p</i> = %0.3f' % p
-
-
 def precision(data):
     """Compute the maximal decimal precision in the data.
     data: pandas series

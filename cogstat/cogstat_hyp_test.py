@@ -41,6 +41,29 @@ warn_unknown_variable = '<warning>'+_('The properties of the variables are not s
                         + '\n</warning>'  # TODO maybe this shouldn't be repeated, it's enough to show it at import
 
 
+def print_p(p, style='apa'):
+    """
+    Make an output according to the appropriate rules.
+
+    Currently, APA rule is supported:
+    if p < 0.001, then print 'p < 0.001'
+    otherwise 'p = value'
+
+    Parameters
+    ----------
+    p: float
+        The p value to be displayed
+    style: {'apa'}
+        The format in which the value should be displayed
+
+    Returns
+    -------
+    str
+        p value in appropriate format
+    """
+    return '<i>p</i> &lt; 0.001' if p < 0.001 else '<i>p</i> = %0.3f' % p
+
+
 ### Single variables ###
 
 
@@ -112,7 +135,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
         w, p = stats.shapiro(data)
         text_result += _('Shapiro–Wilk normality test in variable %s%s') % \
                        (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '') + \
-                       ': <i>W</i> = %0.3g, %s\n' % (w, cs_util.print_p(p))
+                       ': <i>W</i> = %0.3g, %s\n' % (w, print_p(p))
 
     # Decide about normality
     norm = False if p < 0.05 else True
@@ -164,7 +187,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
                                                       alternative='two-sided')
 
         text_result += _('One sample t-test against %g') % \
-                       float(test_value) + ': <i>t</i>(%d) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+                       float(test_value) + ': <i>t</i>(%d) = %0.3g, %s\n' % (df, t, print_p(p))
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
     return text_result, ci
@@ -194,7 +217,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
         T, p = stats.wilcoxon(np.array(pdf[var_name] - float(value)), correction=True)
         # we need to convert the pandas dataframe to numpy arraym because pdf cannot be always handled
         # correction=True in order to work like the R wilcox.test
-        text_result += _('Result of Wilcoxon signed-rank test') + ': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
+        text_result += _('Result of Wilcoxon signed-rank test') + ': <i>T</i> = %0.3g, %s\n' % (T, print_p(p))
     else:
         text_result += _('Wilcoxon signed-rank test is computed only for interval or ordinal variables.')
     return text_result
@@ -331,7 +354,7 @@ def paired_t_test(pdf, var_names):
 
     df = len(variables) - 1
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
-    text_result += _('Result of paired samples t-test') + ': <i>t</i>(%d) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+    text_result += _('Result of paired samples t-test') + ': <i>t</i>(%d) = %0.3g, %s\n' % (df, t, print_p(p))
 
     return text_result
 
@@ -353,7 +376,7 @@ def paired_wilcox_test(pdf, var_names):
 
     variables = pdf[var_names].dropna()
     T, p = stats.wilcoxon(variables.iloc[:, 0], variables.iloc[:, 1])
-    text_result += _('Result of Wilcoxon signed-rank test') + ': <i>T</i> = %0.3g, %s\n' % (T, cs_util.print_p(p))
+    text_result += _('Result of Wilcoxon signed-rank test') + ': <i>T</i> = %0.3g, %s\n' % (T, print_p(p))
     # The test does not use df, despite some of the descriptions on the net.
     # So there's no need to display df.
 
@@ -363,14 +386,14 @@ def paired_wilcox_test(pdf, var_names):
 def mcnemar_test(pdf, var_names):
     chi2, p = mcnemar(pdf[var_names[0]], pdf[var_names[1]], exact=False)
     return _('Result of the McNemar test') + ': &chi;<sup>2</sup>(1, <i>N</i> = %d) = %0.3g, %s\n' % \
-           (len(pdf[var_names[0]]), chi2, cs_util.print_p(p))
+           (len(pdf[var_names[0]]), chi2, print_p(p))
 
 
 def cochran_q_test(pdf, var_names):
     q, p, df = cochrans_q(pdf[var_names], return_object=False)
         # Note that df is not documented as of statsmodels 0.11.1
     return _("Result of Cochran's Q test") + ': <i>Q</i>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
-           (df, len(pdf[var_names[0]]), q, cs_util.print_p(p))
+           (df, len(pdf[var_names[0]]), q, print_p(p))
 
 
 def repeated_measures_anova(pdf, var_names, factors=[]):
@@ -387,25 +410,25 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
         [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf[var_names].dropna(), var_names)
         # Choose df correction depending on sphericity violation
         text_result = _("Result of Mauchly's test to check sphericity") + \
-                      ': <i>W</i> = %0.3g, %s. ' % (w, cs_util.print_p(pw))
+                      ': <i>W</i> = %0.3g, %s. ' % (w, print_p(pw))
         if pw < 0.05:  # sphericity is violated
             p = corr_table[0, 1]
             text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
                            + _('Using Greenhouse–Geisser correction.') + '\n</decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.3g, %s\n' \
-                           % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, cs_util.print_p(p))
+                           % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], f, print_p(p))
         else:  # sphericity is not violated
             p = pf
             text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n</decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.3g, %s\n' \
-                                                                    % (dfn, dfd, f, cs_util.print_p(p))
+                                                                    % (dfn, dfd, f, print_p(p))
 
         # Post-hoc tests
         if p < 0.05:
             pht = cs_stat_num.pairwise_ttest(pdf[var_names].dropna(), var_names).sort_index()
             text_result += '\n' + _('Comparing variables pairwise with the Holm–Bonferroni correction:')
             #print pht
-            pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], cs_util.print_p(x['p (Holm)'])), axis=1)
+            pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.3g, %s' % (x['t'], print_p(x['p (Holm)'])), axis=1)
 
             pht_text = pht[['text']]
             text_result += cs_stat._format_html_table(pht_text.to_html(bold_rows=True, classes="table_cs_pd",
@@ -449,7 +472,7 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
             else:
                 text_result += _('Interaction of factors %s') % ', '.join(factor_names)
             text_result += (': <i>F</i>(%d, %d) = %0.3g, %s\n' %
-                            (row['Num DF'], row['Den DF'], row['F Value'], cs_util.print_p(row['Pr > F'])))
+                            (row['Num DF'], row['Den DF'], row['F Value'], print_p(row['Pr > F'])))
 
         # TODO post hoc - procedure for any number of factors (i.e., not only for two factors)
     #print(text_result)
@@ -473,7 +496,7 @@ def friedman_test(pdf, var_names):
     df = len(var_names) - 1
     n = len(variables)
     text_result += _('Result of the Friedman test: ') + '&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
-                   (df, n, chi2, cs_util.print_p(p))  # χ2(1, N=90)=0.89, p=.35
+                   (df, n, chi2, print_p(p))  # χ2(1, N=90)=0.89, p=.35
 
     return text_result
 
@@ -656,7 +679,7 @@ def levene_test(pdf, var_name, group_name):
     for i, var in enumerate(var_s):
         var_s[i] = var_s[i].dropna()
     w, p = stats.levene(*var_s)
-    text_result += _('Levene test') + ': <i>W</i> = %0.3g, %s\n' % (w, cs_util.print_p(p))
+    text_result += _('Levene test') + ': <i>W</i> = %0.3g, %s\n' % (w, print_p(p))
 
     return p, text_result
 
@@ -686,7 +709,7 @@ def independent_t_test(pdf, var_name, grouping_name):
                                                   ratio=len(var2) / len(var1), alternative='two-sided')
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.3g, %s\n' % \
-                   (df, t, cs_util.print_p(p))
+                   (df, t, print_p(p))
     return text_result
 
 
@@ -713,7 +736,7 @@ def single_case_task_extremity(pdf, var_name, grouping_name, se_name=None, n_tri
                 group_data = var1.dropna()
             t, p, df = cs_stat_num.modified_t_test(ind_data, group_data)
             text_result += _('Result of the modified independent samples t-test:') + \
-                           ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+                           ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, print_p(p))
         except ValueError:
             text_result += _('One of the groups should include only a single data.')
     else:  # slope performance
@@ -730,7 +753,7 @@ def single_case_task_extremity(pdf, var_name, grouping_name, se_name=None, n_tri
             control_se = se1
         t, df, p, test = cs_stat_num.slope_extremity_test(n_trials, case_var, case_se, control_var, control_se)
         text_result += _('Result of slope test with %s:') % (test) + \
-                       ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+                       ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, print_p(p))
     return text_result
 
 
@@ -751,7 +774,7 @@ def welch_t_test(pdf, var_name, grouping_name):
     B = np.std(var2)/n2
     df = (A+B)**2/(A**2/(n1-1)+B**2/(n2-1))
     return _("Result of Welch's unequal variances t-test:") + \
-           ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, cs_util.print_p(p))
+           ' <i>t</i>(%0.3g) = %0.3g, %s\n' % (df, t, print_p(p))
 
 
 def mann_whitney_test(pdf, var_name, grouping_name):
@@ -768,12 +791,12 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     try:
         u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna(), alternative='two-sided')
         text_result += _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.3g, %s\n' % \
-                       (u, cs_util.print_p(p))
+                       (u, print_p(p))
     except:
         try:  # older versions of mannwhitneyu do not include the alternative parameter
             u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna())
             text_result += _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.3g, %s\n' % \
-                           (u, cs_util.print_p(p * 2))
+                           (u, print_p(p * 2))
         except Exception as e:
             text_result += _('Result of independent samples Mann–Whitney rank test: ') + str(e)
 
@@ -809,7 +832,7 @@ def one_way_anova(pdf, var_name, grouping_name):
     anova_result = anova_lm(anova_model)
     text_result += _('Result of one-way ANOVA: ') + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
                    (anova_result['df'][0], anova_result['df'][1], anova_result['F'][0],
-                    cs_util.print_p(anova_result['PR(>F)'][0]))
+                    print_p(anova_result['PR(>F)'][0]))
 
     # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
     if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
@@ -859,7 +882,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
     for group_i, group in enumerate(grouping_names):
         text_result += _('Main effect of %s: ' % group) + '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
                        (anova_result['df'][group_i+1], anova_result['df'][-1], anova_result['F'][group_i+1],
-                        cs_util.print_p(anova_result['PR(>F)'][group_i+1]))
+                        print_p(anova_result['PR(>F)'][group_i + 1]))
 
     # Interaction effects
     for interaction_line in range(group_i+2, len(anova_result)-1):
@@ -867,7 +890,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
                        (' and '.join([a[1:-1] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
                        '<i>F</i>(%d, %d) = %0.3g, %s\n' % \
                        (anova_result['df'][interaction_line], anova_result['df'][-1],
-                        anova_result['F'][interaction_line], cs_util.print_p(anova_result['PR(>F)'][interaction_line]))
+                        anova_result['F'][interaction_line], print_p(anova_result['PR(>F)'][interaction_line]))
 
     """ # TODO
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
@@ -916,7 +939,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
         df = len(dummy_groups)-1
         n = len(pdf[var_name].dropna())  # TODO Is this OK here?
         text_result += _('Result of the Kruskal–Wallis test: ')+'&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.3g, %s\n' % \
-                                                                (df, n, H, cs_util.print_p(p))  # χ2(1, N=90)=0.89, p=.35
+                                                                (df, n, H, print_p(p))  # χ2(1, N=90)=0.89, p=.35
         if p < 0.05:
             # Run the post hoc tests
             text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
@@ -956,5 +979,5 @@ def chi_squared_test(pdf, var_name, grouping_name):
 
     chi_result += _("Result of the Pearson's chi-squared test: ") + \
                   '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.3f, %s' % \
-                  (dof, cont_table_data.values.sum(), chi2, cs_util.print_p(p))
+                  (dof, cont_table_data.values.sum(), chi2, print_p(p))
     return chi_result
