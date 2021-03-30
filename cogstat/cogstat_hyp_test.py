@@ -46,8 +46,9 @@ def print_p(p, style='apa'):
     Make an output according to the appropriate rules.
 
     Currently, APA rule is supported:
-    if p < 0.001, then print 'p < 0.001'
-    otherwise 'p = value'
+    - if p < 0.001, then print 'p < .001'
+    - otherwise 'p = value' with 3 decimal places precision
+    - leading zero is not displayed
 
     Parameters
     ----------
@@ -61,7 +62,11 @@ def print_p(p, style='apa'):
     str
         p value in appropriate format
     """
-    return '<i>p</i> &lt; 0.001' if p < 0.001 else '<i>p</i> = %0.3f' % p
+    if style == 'apa':
+        if p < 0.001:
+            return '<i>p</i> &lt; .001'
+        else:
+            return '<i>p</i> = ' + ('%0.3f' % p).lstrip('0')
 
 
 ### Single variables ###
