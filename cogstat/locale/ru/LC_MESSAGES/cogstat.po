@@ -1805,7 +1805,7 @@ msgstr "Некоторые из ячеек не включают, как мин�
 
 #: .././cogstat_stat.py:748
 msgid "Omega-squared"
-msgstr ""
+msgstr "Омега-квадрат"
 
 #: .././cogstat_gui.py:449
 msgid "Data file content"
@@ -1829,57 +1829,57 @@ msgstr "Число измерительных уровней не совпада
 
 #: .././cogstat_hyp_test.py:113
 msgid "Shapiro–Wilk normality test in variable %s%s"
-msgstr ""
+msgstr "Критерий нормальности Шапиро-Уилка для переменной %s%s"
 
 #: .././cogstat_hyp_test.py:394
 msgid "Using Greenhouse–Geisser correction."
-msgstr ""
+msgstr "Использую поправку Гринхауса-Гейсера."
 
 #: .././cogstat_hyp_test.py:406
 msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
-msgstr ""
+msgstr "Сравнение переменных попарно с поправкой Холма-Бонферрони:"
 
 #: .././cogstat_hyp_test.py:514 .././cogstat_hyp_test.py:548
 #: .././cogstat_hyp_test.py:557
 msgid "Running Mann–Whitney test."
-msgstr ""
+msgstr "Запуск теста Манна-Уитни."
 
 #: .././cogstat_hyp_test.py:523
 msgid "Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on assumptions."
-msgstr ""
+msgstr "Выбор двух выборок t-теста, теста Манна-Уитни или t-теста Уэлча в зависимости от гипотезы."
 
 #: .././cogstat_hyp_test.py:551
 msgid "Homogeneity of variance violated in variable %s."
-msgstr ""
+msgstr "Однородность дисперсии нарушена в переменной %s."
 
 #: .././cogstat_hyp_test.py:561 .././cogstat_hyp_test.py:609
 msgid "Running chi-squared test."
-msgstr ""
+msgstr "Запуск критерия хи-квадрат."
 
 #: .././cogstat_hyp_test.py:570
 msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
-msgstr ""
+msgstr "Выбираю одно-факторный тест ANOVA или тест Крускала-Уоллиса в зависимости от гипотезы."
 
 #: .././cogstat_hyp_test.py:599
 msgid "Homogeneity of variance violated in variable %s. "
-msgstr ""
+msgstr "Однородность дисперсии нарушена в переменной %s. "
 
 #: .././cogstat_hyp_test.py:601 .././cogstat_hyp_test.py:605
 msgid "Running Kruskal–Wallis test."
-msgstr ""
+msgstr "Запуск теста Крускала-Уоллиса."
 
 #: .././cogstat_hyp_test.py:770 .././cogstat_hyp_test.py:775
 #: .././cogstat_hyp_test.py:778
 msgid "Result of independent samples Mann–Whitney rank test: "
-msgstr ""
+msgstr "Результат независимых выборок рангового теста Манна-Уитни: "
 
 #: .././cogstat_hyp_test.py:918 .././cogstat_hyp_test.py:930
 msgid "Result of the Kruskal–Wallis test: "
-msgstr ""
+msgstr "Результат теста Крускала-Уоллиса. "
 
 #: .././cogstat_hyp_test.py:957
 msgid "Result of the Pearson's chi-squared test: "
-msgstr ""
+msgstr "Результат критерия Пирсона (хи-квадрат): "
 
 #: .././cogstat.py:304
 msgid "Spreadsheet file"
