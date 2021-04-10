@@ -226,7 +226,8 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         return ([str(self.rowsListWidget.item(i).text()) for i in range(self.rowsListWidget.count())],
                 [str(self.columnsListWidget.item(i).text()) for i in range(self.columnsListWidget.count())],
                 [str(self.pagesListWidget.item(i).text()) for i in range(self.pagesListWidget.count())], 
-                [str(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())][0],
+                [str(self.dependentListWidget.item(i).text()) for i in range(self.dependentListWidget.count())][0] if
+                self.dependentListWidget.count() else [],
                 str(self.function.currentText()))
 
 
@@ -624,7 +625,8 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
-        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())][0],
+        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())][0] if
+                self.selected_listWidget.count() else [],
                 str(self.spinBox.text()))
 
 
@@ -672,8 +674,8 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
     def on_slopeButton_clicked(self):
-        self.slope_dialog.exec_()
-        self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
+        if self.slope_dialog.exec_():
+            self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
     def optionsButton_clicked(self):
         if self.ylims_dialog.exec_():
