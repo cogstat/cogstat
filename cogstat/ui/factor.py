@@ -34,10 +34,10 @@ class Ui_Dialog(object):
         self.spinBox.setMinimum(2)
         self.spinBox.setObjectName("spinBox")
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(30, 20, 171, 17))
+        self.label.setGeometry(QtCore.QRect(30, 20, 181, 17))
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(Dialog)
-        self.label_2.setGeometry(QtCore.QRect(230, 20, 101, 17))
+        self.label_2.setGeometry(QtCore.QRect(230, 20, 141, 17))
         self.label_2.setObjectName("label_2")
 
         self.retranslateUi(Dialog)

@@ -31,7 +31,7 @@ class Ui_Dialog(object):
         self.lineEdit.setGeometry(QtCore.QRect(30, 40, 331, 29))
         self.lineEdit.setObjectName("lineEdit")
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(30, 20, 171, 17))
+        self.label.setGeometry(QtCore.QRect(30, 20, 331, 17))
         self.label.setObjectName("label")
         self.pushButton_next = QtWidgets.QPushButton(Dialog)
         self.pushButton_next.setGeometry(QtCore.QRect(30, 90, 88, 28))
