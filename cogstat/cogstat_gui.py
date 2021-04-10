@@ -174,7 +174,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-file.svg', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output', True],
                                 ['/icons8-search.svg', _('&Find text'), _('Ctrl+F'), 'self.find_text', True],
                                 ['separator'],
-                                ['/icons8-zoom-in.sdg', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True],
+                                ['/icons8-zoom-in.svg', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True],
                                 ['/icons8-zoom-out.svg', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out',
                                  True],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
