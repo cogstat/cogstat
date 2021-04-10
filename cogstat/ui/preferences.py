@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'preferences.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -13,6 +14,8 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(390, 160)
+        Dialog.setMinimumSize(QtCore.QSize(390, 160))
+        Dialog.setMaximumSize(QtCore.QSize(390, 160))
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(20, 120, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -55,8 +58,6 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "You should restart CogStat to use the new language"))
         self.label_3.setText(_translate("Dialog", "Chart theme"))
         self.label_4.setText(_translate("Dialog", "You should restart CogStat to use the new theme"))
-
-
 
 
 if __name__ == "__main__":

@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'filter_outlier.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -72,8 +73,6 @@ class Ui_Dialog(object):
         self.removeVar.setText(_translate("Dialog", "<="))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
         self.label_3.setText(_translate("Dialog", "Only interval variables are available"))
-
-
 
 
 if __name__ == "__main__":

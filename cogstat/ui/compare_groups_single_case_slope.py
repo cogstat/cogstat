@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'compare_groups_single_case_slope.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -66,8 +67,6 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Slope SE variable"))
         self.addVar.setText(_translate("Dialog", "=>"))
         self.label_3.setText(_translate("Dialog", "Number of trials"))
-
-
 
 
 if __name__ == "__main__":

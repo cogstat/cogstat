@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'find_text.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -13,6 +14,13 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(393, 133)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
+        Dialog.setSizePolicy(sizePolicy)
+        Dialog.setMinimumSize(QtCore.QSize(393, 133))
+        Dialog.setMaximumSize(QtCore.QSize(393, 133))
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(20, 90, 341, 31))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -43,8 +51,6 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "Text to find"))
         self.pushButton_next.setText(_translate("Dialog", "Find next"))
         self.pushButton_previous.setText(_translate("Dialog", "Find previous"))
-
-
 
 
 if __name__ == "__main__":

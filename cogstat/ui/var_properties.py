@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'var_properties.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -74,8 +75,6 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Central tendency test value"))
         self.addVar.setText(_translate("Dialog", "=>"))
         self.removeVar.setText(_translate("Dialog", "<="))
-
-
 
 
 if __name__ == "__main__":

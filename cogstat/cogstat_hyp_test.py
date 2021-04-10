@@ -46,6 +46,7 @@ def print_p(p, style='apa'):
     Make an output according to the appropriate rules.
 
     Currently, APA rule is supported:
+
     - if p < 0.001, then print 'p < .001'
     - otherwise 'p = value' with 3 decimal places precision
     - leading zero is not displayed

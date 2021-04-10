@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'ylims.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -18,6 +19,8 @@ class Ui_Dialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
+        Dialog.setMinimumSize(QtCore.QSize(390, 136))
+        Dialog.setMaximumSize(QtCore.QSize(390, 136))
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(30, 90, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -48,8 +51,6 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Options"))
         self.label.setText(_translate("Dialog", "Minimum of y axis"))
         self.label_2.setText(_translate("Dialog", "Maximum of y axis"))
-
-
 
 
 if __name__ == "__main__":

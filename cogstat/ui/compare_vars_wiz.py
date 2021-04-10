@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'compare_vars_wiz.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -66,8 +67,6 @@ class Ui_Wizard(object):
         self.label.setText(_translate("Wizard", "Variables to choose from"))
         self.label_2.setText(_translate("Wizard", "Selected variables"))
         self.addVar.setText(_translate("Wizard", "=>"))
-
-
 
 
 if __name__ == "__main__":

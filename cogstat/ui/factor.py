@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'factor.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -13,6 +14,13 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(390, 164)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
+        Dialog.setSizePolicy(sizePolicy)
+        Dialog.setMinimumSize(QtCore.QSize(390, 164))
+        Dialog.setMaximumSize(QtCore.QSize(390, 164))
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(30, 90, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -43,8 +51,6 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Set factor"))
         self.label.setText(_translate("Dialog", "Name of the factor"))
         self.label_2.setText(_translate("Dialog", "Number of levels"))
-
-
 
 
 if __name__ == "__main__":

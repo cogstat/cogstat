@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'compare_vars.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -73,8 +74,6 @@ class Ui_Dialog(object):
         self.pushButton.setText(_translate("Dialog", "Factors..."))
         self.pushButton.setShortcut(_translate("Dialog", "Alt+F"))
         self.pushButton_2.setText(_translate("Dialog", "Options..."))
-
-
 
 
 if __name__ == "__main__":

@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'compare_groups.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -18,6 +19,8 @@ class Ui_Dialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
+        Dialog.setMinimumSize(QtCore.QSize(410, 308))
+        Dialog.setMaximumSize(QtCore.QSize(410, 308))
         self.source_listWidget = QtWidgets.QListWidget(Dialog)
         self.source_listWidget.setGeometry(QtCore.QRect(10, 30, 161, 192))
         self.source_listWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
@@ -82,8 +85,6 @@ class Ui_Dialog(object):
         self.add_group_button.setText(_translate("Dialog", "=>"))
         self.pushButton.setText(_translate("Dialog", "Single case slope..."))
         self.pushButton_2.setText(_translate("Dialog", "Options..."))
-
-
 
 
 if __name__ == "__main__":
