@@ -985,7 +985,7 @@ msgstr "A csoportok sorrendi adatainak egyedi adatai"
 
 #: .././cogstat_stat.py:1109
 msgid "Boxplot and individual data of the rank data of the groups"
-msgstr "A csoportok sorrendi adatainak Dobozdiagramja és egyedi adatai"
+msgstr "A csoportok sorrendi adatainak dobozdiagramja és egyedi adatai"
 
 #: .././cogstat_chart.py:772
 msgid "Individual data of the groups"
@@ -1208,7 +1208,7 @@ msgstr "Eredmények mentése m&ásként"
 
 #: .././cogstat_chart.py:583
 msgid "Boxplots and individual data of the variables"
-msgstr "A változók doboz diagramjai és egyedi adatai"
+msgstr "A változók dobozdiagramjai és egyedi adatai"
 
 #: .././cogstat_chart.py:742
 msgid "Largest individual sign displays %d cases."
@@ -1216,11 +1216,11 @@ msgstr "A legnagyobb egyedi jel %d esetet jelez."
 
 #: .././cogstat_chart.py:758
 msgid "Boxplots and individual data of the rank data of the groups"
-msgstr "A csoportok rangsor adatainak doboz diagramjai és egyedi adatai"
+msgstr "A csoportok rangsor adatainak dobozdiagramjai és egyedi adatai"
 
 #: .././cogstat_chart.py:774
 msgid "Boxplots and individual data of the groups"
-msgstr "A csoportok doboz diagramjai és egyedi adatai"
+msgstr "A csoportok dobozdiagramjai és egyedi adatai"
 
 #: .././cogstat_stat.py:582 .././cogstat_stat.py:587 .././cogstat_stat.py:612
 #: .././cogstat_stat.py:653 .././cogstat_stat.py:681 .././cogstat_stat.py:725
