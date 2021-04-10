@@ -757,7 +757,8 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
             population_result += _("Pearson's correlation") + \
-                                 ': <i>r</i>(%d) = %0.3f, %s\n' % (df, r, cs_hyp_test.print_p(p))
+                                 ': <i>r</i>(%d) = %0.*f, %s\n' % \
+                                 (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
 
             slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
             # TODO output with the precision of the data
@@ -765,7 +766,8 @@ class CogStatData:
 
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             population_result += _("Spearman's rank-order correlation") + \
-                                 ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % (df, r, cs_hyp_test.print_p(p))
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
         elif meas_lev == 'ord':
             population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
                                  _('Testing if correlation differs from 0.') + '</decision>\n'
@@ -774,7 +776,8 @@ class CogStatData:
             df = len(data)-2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             population_result += _("Spearman's rank-order correlation") + \
-                                 ': <i>r<sub>s</sub></i>(%d) = %0.3f, %s' % (df, r, cs_hyp_test.print_p(p))
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
         elif meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(self.data_frame, [x], [y], ci=True)
             population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
