@@ -14,5 +14,4 @@ configobj
 python-bidi
 IPython
 Jupyter
-PyQt5 ==5.9.2; platform_system == 'Windows' # On Win 8.1 versions PyQt5 >5.9.2 do not work
-PyQt5; platform_system != 'Windows'
+PyQt5
