@@ -14,5 +14,5 @@ setup(name='cogstat',
                         'pyreadstat', 'odfpy', 'xlrd', 'openpyxl', 'pyreadr',
                         'configobj', 'python-bidi', 'IPython', 'Jupyter'],
       python_requires='>=3.6',
-      extras_requires={'GUI': ['PyQt5']}
+      extras_requires={'GUI': ['PyQt5 ==5.9.2; platform_system == "Windows"', 'PyQt5; platform_system != "Windows"']}  # On Win 8.1 versions PyQt5 >5.9.2 do not work
       )
