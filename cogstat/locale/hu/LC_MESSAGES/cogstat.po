@@ -248,7 +248,7 @@ msgstr "&Adat"
 
 #: .././cogstat_gui.py:143
 msgid "&Open data file"
-msgstr "&Adat fájl megnyitása"
+msgstr "&Adatfájl megnyitása"
 
 #: .././cogstat_gui.py:143
 msgid "Ctrl+O"
@@ -612,7 +612,7 @@ msgstr "Több csoportosító változó."
 
 #: .././cogstat_dialogs.py:28 .././cogstat_dialogs.py:45
 msgid "Open data file"
-msgstr "Adat fájl megnyitása"
+msgstr "Adatfájl megnyitása"
 
 #: .././cogstat_dialogs.py:63
 msgid "Save result file"
@@ -656,7 +656,7 @@ msgstr "pandas adat"
 
 #: .././cogstat.py:287
 msgid "text file - "
-msgstr "szöveg fájl - "
+msgstr "szövegfájl - "
 
 #: .././cogstat.py:392
 msgid "clipboard"
@@ -844,7 +844,7 @@ msgstr "Ctrl+B"
 
 #: .././cogstat_gui.py:413
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
-msgstr "Adat fájl megnyitása. Hopplá, valami nem sikerült, CogStat nem tudta megnyitni az adatot. Jelentheted a problémát."
+msgstr "Adatfájl megnyitása. Hopplá, valami nem sikerült, CogStat nem tudta megnyitni az adatot. A problémát be is jelentheted."
 
 #: .././cogstat_stat.py:260
 msgid "N of missing cases: %g"
@@ -1813,7 +1813,7 @@ msgstr "Omega-négyzet"
 
 #: .././cogstat_gui.py:449
 msgid "Data file content"
-msgstr "Adat fájl tartalma"
+msgstr "Adatfájl tartalma"
 
 #: .././cogstat_gui.py:454
 msgid "Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
