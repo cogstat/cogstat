@@ -108,7 +108,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Factors...</string>
+        <string>&amp;Factors...</string>
        </property>
        <property name="shortcut">
         <string>Alt+F</string>
@@ -118,7 +118,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>Options...</string>
+        <string>O&amp;ptions...</string>
        </property>
       </widget>
      </item>
@@ -166,8 +166,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>575</x>
+     <y>261</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -182,8 +182,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>575</x>
+     <y>261</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

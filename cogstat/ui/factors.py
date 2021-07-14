@@ -13,6 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
+        Dialog.resize(392, 246)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.listWidget = QtWidgets.QListWidget(Dialog)
@@ -46,11 +47,11 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Factors"))
-        self.pushButton.setText(_translate("Dialog", "Add factor"))
+        self.pushButton.setText(_translate("Dialog", "&Add factor"))
         self.pushButton.setShortcut(_translate("Dialog", "Alt+A"))
-        self.pushButton_2.setText(_translate("Dialog", "Modify factor"))
+        self.pushButton_2.setText(_translate("Dialog", "&Modify factor"))
         self.pushButton_2.setShortcut(_translate("Dialog", "Alt+M"))
-        self.pushButton_3.setText(_translate("Dialog", "Remove factor"))
+        self.pushButton_3.setText(_translate("Dialog", "&Remove factor"))
         self.pushButton_3.setShortcut(_translate("Dialog", "Alt+R"))
 
 

@@ -155,7 +155,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>Options...</string>
+        <string>O&amp;ptions...</string>
        </property>
       </widget>
      </item>
@@ -165,7 +165,7 @@
         <bool>true</bool>
        </property>
        <property name="text">
-        <string>Single case slope...</string>
+        <string>Single case &amp;slope...</string>
        </property>
       </widget>
      </item>

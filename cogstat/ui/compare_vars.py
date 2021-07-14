@@ -86,9 +86,9 @@ class Ui_Dialog(object):
         self.addVar.setText(_translate("Dialog", "=>"))
         self.removeVar.setText(_translate("Dialog", "<="))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
-        self.pushButton.setText(_translate("Dialog", "Factors..."))
+        self.pushButton.setText(_translate("Dialog", "&Factors..."))
         self.pushButton.setShortcut(_translate("Dialog", "Alt+F"))
-        self.pushButton_2.setText(_translate("Dialog", "Options..."))
+        self.pushButton_2.setText(_translate("Dialog", "O&ptions..."))
 
 
 if __name__ == "__main__":

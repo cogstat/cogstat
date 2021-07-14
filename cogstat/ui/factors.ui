@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>392</width>
+    <height>246</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Factors</string>
   </property>
@@ -14,7 +22,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Add factor</string>
+        <string>&amp;Add factor</string>
        </property>
        <property name="shortcut">
         <string>Alt+A</string>
@@ -24,7 +32,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>Modify factor</string>
+        <string>&amp;Modify factor</string>
        </property>
        <property name="shortcut">
         <string>Alt+M</string>
@@ -34,7 +42,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_3">
        <property name="text">
-        <string>Remove factor</string>
+        <string>&amp;Remove factor</string>
        </property>
        <property name="shortcut">
         <string>Alt+R</string>
@@ -77,12 +85,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>236</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>245</y>
     </hint>
    </hints>
   </connection>
@@ -93,12 +101,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>236</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
-     <y>274</y>
+     <y>245</y>
     </hint>
    </hints>
   </connection>

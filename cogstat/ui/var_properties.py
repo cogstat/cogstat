@@ -90,6 +90,7 @@ class Ui_Dialog(object):
         self.gridLayout_3.addWidget(self.buttonBox, 1, 1, 1, 1, QtCore.Qt.AlignBottom)
         self.label.setBuddy(self.source_listWidget)
         self.label_2.setBuddy(self.selected_listWidget)
+        self.label_3.setBuddy(self.ttest_value)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -101,8 +102,8 @@ class Ui_Dialog(object):
         self.addVar.setText(_translate("Dialog", "=>"))
         self.removeVar.setText(_translate("Dialog", "<="))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
-        self.freq_checkbox.setText(_translate("Dialog", "Frequencies"))
-        self.label_3.setText(_translate("Dialog", "Central tendency test value"))
+        self.freq_checkbox.setText(_translate("Dialog", "&Frequencies"))
+        self.label_3.setText(_translate("Dialog", "Central tendency &test value"))
         self.label_4.setText(_translate("Dialog", "Statistics"))
         self.ttest_value.setText(_translate("Dialog", "0"))
 

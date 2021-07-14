@@ -109,8 +109,8 @@ class Ui_Dialog(object):
         self.remove_group_button.setText(_translate("Dialog", "<="))
         self.label_2.setText(_translate("Dialog", "Dependent variable(s)"))
         self.label_3.setText(_translate("Dialog", "Group(s)"))
-        self.pushButton_2.setText(_translate("Dialog", "Options..."))
-        self.pushButton.setText(_translate("Dialog", "Single case slope..."))
+        self.pushButton_2.setText(_translate("Dialog", "O&ptions..."))
+        self.pushButton.setText(_translate("Dialog", "Single case &slope..."))
 
 
 if __name__ == "__main__":
