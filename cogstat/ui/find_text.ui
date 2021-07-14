@@ -21,6 +21,9 @@
        <property name="text">
         <string>Text to find</string>
        </property>
+       <property name="buddy">
+        <cstring>lineEdit</cstring>
+       </property>
       </widget>
      </item>
      <item>

@@ -51,11 +51,18 @@ class Ui_Dialog(object):
         self.gridLayout.addWidget(self.label_4, 2, 1, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem, 4, 0, 1, 1)
+        self.label_2.setBuddy(self.lineEdit_2)
+        self.label.setBuddy(self.lineEdit)
+        self.label_3.setBuddy(self.lineEdit_3)
+        self.label_4.setBuddy(self.lineEdit_4)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.lineEdit, self.lineEdit_2)
+        Dialog.setTabOrder(self.lineEdit_2, self.lineEdit_3)
+        Dialog.setTabOrder(self.lineEdit_3, self.lineEdit_4)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

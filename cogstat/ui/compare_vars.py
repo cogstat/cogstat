@@ -13,6 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
+        Dialog.resize(586, 272)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -65,15 +66,18 @@ class Ui_Dialog(object):
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout.addWidget(self.buttonBox)
         self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 3)
+        self.label.setBuddy(self.source_listWidget)
+        self.label_2.setBuddy(self.selected_listWidget)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
-        Dialog.setTabOrder(self.source_listWidget, self.selected_listWidget)
-        Dialog.setTabOrder(self.selected_listWidget, self.addVar)
+        Dialog.setTabOrder(self.source_listWidget, self.addVar)
         Dialog.setTabOrder(self.addVar, self.removeVar)
-        Dialog.setTabOrder(self.removeVar, self.buttonBox)
+        Dialog.setTabOrder(self.removeVar, self.selected_listWidget)
+        Dialog.setTabOrder(self.selected_listWidget, self.pushButton)
+        Dialog.setTabOrder(self.pushButton, self.pushButton_2)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

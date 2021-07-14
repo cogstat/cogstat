@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>584</width>
+    <height>313</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Compare groups - Single case slope</string>
   </property>
@@ -12,6 +20,9 @@
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Available variables</string>
+       </property>
+       <property name="buddy">
+        <cstring>source_listWidget</cstring>
        </property>
       </widget>
      </item>
@@ -37,6 +48,9 @@
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Slope SE variable</string>
+       </property>
+       <property name="buddy">
+        <cstring>selected_listWidget</cstring>
        </property>
       </widget>
      </item>
@@ -86,6 +100,9 @@
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Number of trials</string>
+         </property>
+         <property name="buddy">
+          <cstring>spinBox</cstring>
          </property>
         </widget>
        </item>
@@ -141,6 +158,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>source_listWidget</tabstop>
+  <tabstop>addVar</tabstop>
+  <tabstop>removeVar</tabstop>
+  <tabstop>selected_listWidget</tabstop>
+  <tabstop>spinBox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

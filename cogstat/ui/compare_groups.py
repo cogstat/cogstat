@@ -84,9 +84,20 @@ class Ui_Dialog(object):
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout.addWidget(self.buttonBox)
         self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 3)
+        self.label.setBuddy(self.source_listWidget)
+        self.label_2.setBuddy(self.selected_listWidget)
+        self.label_3.setBuddy(self.group_listWidget)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.source_listWidget, self.addVar)
+        Dialog.setTabOrder(self.addVar, self.removeVar)
+        Dialog.setTabOrder(self.removeVar, self.selected_listWidget)
+        Dialog.setTabOrder(self.selected_listWidget, self.add_group_button)
+        Dialog.setTabOrder(self.add_group_button, self.remove_group_button)
+        Dialog.setTabOrder(self.remove_group_button, self.group_listWidget)
+        Dialog.setTabOrder(self.group_listWidget, self.pushButton_2)
+        Dialog.setTabOrder(self.pushButton_2, self.pushButton)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

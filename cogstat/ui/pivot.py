@@ -123,6 +123,12 @@ class Ui_Dialog(object):
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout_5.addWidget(self.buttonBox, 5, 1, 1, 1)
+        self.label.setBuddy(self.sourceListWidget)
+        self.label_4.setBuddy(self.pagesListWidget)
+        self.label_3.setBuddy(self.columnsListWidget)
+        self.label_2.setBuddy(self.rowsListWidget)
+        self.label_5.setBuddy(self.dependentListWidget)
+        self.label_6.setBuddy(self.function)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)

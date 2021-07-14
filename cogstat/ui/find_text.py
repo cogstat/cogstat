@@ -44,6 +44,7 @@ class Ui_Dialog(object):
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout.addWidget(self.buttonBox)
         self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 1)
+        self.label.setBuddy(self.lineEdit)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)

@@ -13,6 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
+        Dialog.resize(584, 313)
         self.gridLayout_2 = QtWidgets.QGridLayout(Dialog)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -68,9 +69,16 @@ class Ui_Dialog(object):
         self.buttonBox.setCenterButtons(False)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout_2.addWidget(self.buttonBox, 2, 1, 1, 1)
+        self.label.setBuddy(self.source_listWidget)
+        self.label_2.setBuddy(self.selected_listWidget)
+        self.label_3.setBuddy(self.spinBox)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.source_listWidget, self.addVar)
+        Dialog.setTabOrder(self.addVar, self.removeVar)
+        Dialog.setTabOrder(self.removeVar, self.selected_listWidget)
+        Dialog.setTabOrder(self.selected_listWidget, self.spinBox)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

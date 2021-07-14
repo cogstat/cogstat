@@ -99,11 +99,28 @@ class Ui_Dialog(object):
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout_5.addWidget(self.buttonBox, 4, 1, 1, 1)
+        self.label.setBuddy(self.sourceListWidget)
+        self.label_3.setBuddy(self.errorListWidget)
+        self.label_4.setBuddy(self.RTListWidget)
+        self.label_2.setBuddy(self.participantListWidget)
+        self.label_5.setBuddy(self.conditionListWidget)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        Dialog.setTabOrder(self.sourceListWidget, self.addError)
+        Dialog.setTabOrder(self.addError, self.removeError)
+        Dialog.setTabOrder(self.removeError, self.errorListWidget)
+        Dialog.setTabOrder(self.errorListWidget, self.addRT)
+        Dialog.setTabOrder(self.addRT, self.removeRT)
+        Dialog.setTabOrder(self.removeRT, self.RTListWidget)
+        Dialog.setTabOrder(self.RTListWidget, self.addParticipant)
+        Dialog.setTabOrder(self.addParticipant, self.removeParticipant)
+        Dialog.setTabOrder(self.removeParticipant, self.participantListWidget)
+        Dialog.setTabOrder(self.participantListWidget, self.addCondition)
+        Dialog.setTabOrder(self.addCondition, self.removeCondition)
+        Dialog.setTabOrder(self.removeCondition, self.conditionListWidget)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
