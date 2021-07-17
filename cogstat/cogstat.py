@@ -129,15 +129,19 @@ class CogStatData:
                         pass
 
         def _set_measurement_level(measurement_levels=None):
-            """ Create self.data_measlevs
-            measurement_levels:
-            - None: measurement level of the import file or the clipboard information will be used
-            - List of strings ('nom', 'ord', 'int'): measurement levels will be assigned to variables in that order.
-            It overwrites the import data information. Additional constraints (e.g., string variables can be nominal
-            variables) will overwrite this.
-            - Dictionary, items are variable name and measurement level pairs: measurement levels will be assigned to
-            the appropriate variables. It overwrites the import data information. Additional constraints (e.g., string
-            variables can be nominal variables) will overwrite this.
+            """ Create self.data_measlevs.
+
+            Parameters
+            ----------
+            measurement_levels: None or list of str or dict
+                None: measurement level of the import file or the clipboard information will be used
+                List of {'nom', 'ord', 'int', 'unk', '', 'nan'}:
+                    measurement levels will be assigned to variables in that order
+                Dictionary, items are variable name and measurement level pairs:
+                    measurement levels will be assigned to the appropriate variables
+            '' and 'nan' is converted to 'unk'
+            List and dict will overwrite the import data information. Additional constraints (e.g., string variables
+            can be nominal variables) will overwrite this.
             """
 
             # By default, all variables have 'unknown' measurement levels
@@ -150,24 +154,25 @@ class CogStatData:
             # 1. Set the levels (coming either from the import data information or from measurement_levels object
             # parameter)
             elif measurement_levels:  # If levels were given, set them
+                # Check if only valid measurement levels were given
+                if not (set(measurement_levels) <= {'unk', 'nom', 'ord', 'int', '', 'nan'}):
+                    raise ValueError('Invalid measurement level')
+
                 # Only levels are given - in the order of the variables
                 if type(measurement_levels) is list:
-                    # make levels lowercase and replace '' with 'unk'
-                    measurement_levels = ['unk' if level == '' else level.lower() for level in measurement_levels]
+                    # make levels lowercase and replace '' or 'nan' with 'unk'
+                    measurement_levels = ['unk' if level.lower in ['', 'nan'] else level.lower()
+                                          for level in measurement_levels]
                     self.data_measlevs = {name: level for name, level in
                                           zip(self.data_frame.columns, measurement_levels)}
-                    if not (set(measurement_levels) <= {'unk', 'nom', 'ord', 'int', ''}):
-                        raise ValueError('Invalid measurement level')
 
                 # Name-level pairs are given in a dictionary
                 elif type(measurement_levels) is dict:
-                    # make levels lowercase and replace '' with 'unk'
-                    measurement_levels = {name:('unk' if measurement_levels[name] == ''
-                                                else measurement_levels[name].lower())
+                    # make levels lowercase and replace '' or 'nan' with 'unk'
+                    measurement_levels = {name: ('unk' if measurement_levels[name].lower() in ['', 'nan']
+                                                 else measurement_levels[name].lower())
                                           for name in measurement_levels.keys()}
                     self.data_measlevs = {name: measurement_levels[name] for name in measurement_levels.keys()}
-                    if not (set(measurement_levels.values()) <= {'unk', 'nom', 'ord', 'int', ''}):
-                        raise ValueError('Invalid measurement level')
 
                 if len(self.data_frame.columns) != len(measurement_levels):
                     self.import_message += '\n<warning>' + \
@@ -252,7 +257,7 @@ class CogStatData:
                                        + '</warning>'
             if non_ascii_vars:
                 self.import_message += '\n<warning>' + \
-                                       _('Some variable(s) include other than English characters, numbers, or '
+                                       _('Some string variable(s) include other than English characters, numbers, or '
                                          'underscore which can cause problems in some analyses: %s.') \
                                        % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) \
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
@@ -280,30 +285,25 @@ class CogStatData:
                 # Check if there is a measurement level line
                 meas_row = list(pd.read_csv(data, sep=None, engine='python').iloc[0])
                 meas_row = list(map(str, meas_row))
-                if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
+                if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', '', 'nan'} and set(meas_row) != {''}:
                     import_measurement_levels = meas_row
                 skiprows = [1] if import_measurement_levels else None
 
                 # Read the file
-                self.data_frame = pd.read_csv(data, sep=None, engine='python',
-                                              skiprows=skiprows, skip_blank_lines=False)
+                self.data_frame = pd.read_csv(data, sep=None, engine='python', skiprows=skiprows,
+                                              skip_blank_lines=False)
                 self.import_source = _('Text file') + ' - ' + data  # filename
 
             # Import from spreadsheet files
             elif filetype in ['.ods', '.xls', '.xlsx']:
                 # engine should be set manually in pandas 1.0.5, later pandas version may handle this automatically
-                if filetype == '.ods':
-                    engine = 'odf'
-                elif filetype == '.xls':
-                    engine = 'xlrd'
-                elif filetype == '.xlsx':
-                    engine = 'openpyxl'
-                self.data_frame = pd.read_excel(data, engine=engine)
+                engine = {'.ods': 'odf', '.xls': 'xlrd', '.xlsx': 'openpyxl'}
+                self.data_frame = pd.read_excel(data, engine=engine[filetype])
                 # if there is a measurement level line, use it, and reread the spreadsheet
-                if set(self.data_frame.iloc[0]) <= {'unk', 'nom', 'ord', 'int', ''} and \
-                        set(self.data_frame.iloc[0]) != {''}:
-                    import_measurement_levels = list(self.data_frame.iloc[0])
-                    self.data_frame = pd.read_excel(data, engine=engine, skiprows=[1])
+                meas_row = list(map(str, list(self.data_frame.iloc[0])))
+                if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', '', 'nan'} and set(meas_row) != {''}:
+                    import_measurement_levels = meas_row
+                    self.data_frame = pd.read_excel(data, engine=engine[filetype], skiprows=[1])
                 self.import_source = _('Spreadsheet file') + ' - ' + data  # filename
 
             # Import SPSS, SAS and STATA files
@@ -383,8 +383,7 @@ class CogStatData:
             """
             meas_row = list(pd.read_csv(clipboard_file, sep=None, engine='python').iloc[0])
             meas_row = list(map(str, meas_row))
-            if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', ''} and set(meas_row) != {''}:
-                meas_row = ['unk' if item == '' else item for item in meas_row]  # missing level ('') means 'unk'
+            if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', '', 'nan'} and set(meas_row) != {''}:
                 import_measurement_levels = meas_row
             skiprows = [1] if import_measurement_levels else None
 
