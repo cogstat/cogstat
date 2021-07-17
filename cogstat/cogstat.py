@@ -242,20 +242,20 @@ class CogStatData:
                                 break  # after finding the first non-ascii data, we can skip the rest of the variable data
             if non_ascii_var_names:
                 self.import_message += '\n<warning>' + \
-                                       _('Some variable name(s) include non-English characters, '
-                                         'which will cause problems in some analyses: %s.') \
+                                       _('Some variable name(s) include other than English characters, numbers, or '
+                                         'underscore which can cause problems in some analyses: %s.') \
                                        % ''.join(
                     ' %s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) \
-                                       + ' ' + _('You can fix this in your data source.') \
+                                       + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
             if non_ascii_vars:
                 self.import_message += '\n<warning>' + \
-                                       _('Some variable(s) include non-English characters, '
-                                         'which will cause problems in some analyses: %s.') \
+                                       _('Some variable(s) include other than English characters, numbers, or '
+                                         'underscore which can cause problems in some analyses: %s.') \
                                        % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) \
-                                       + ' ' + _('You can fix this in your data source.') \
+                                       + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'

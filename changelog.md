@@ -5,8 +5,8 @@ Upcoming release
 ================
 
 ## Fixes
-- Resizable dialogs
-- Various UI and chart fixes
+- Resizable dialogs with shortcuts for buttons and correctly set tab orders
+- Various UI, output, and chart fixes
 
 2.1.0 (21 May 2021)
 ================
