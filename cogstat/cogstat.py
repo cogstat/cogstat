@@ -234,9 +234,9 @@ class CogStatData:
                 # check the values
                 if self.data_frame[variable_name].dtype == 'object':  # check only string variables
                     for ind_data in self.data_frame[variable_name]:
-                        if not (ind_data != ind_data) and not (isinstance(ind_data, (bool, int, datetime.date))):
+                        if not (ind_data != ind_data) and not (isinstance(ind_data, (bool, int, float, datetime.date))):
                             # if not NaN, otherwise the next condition is invalid
-                            # and if not boolean, etc. (int can occur in object dtype)
+                            # and if not boolean, etc. (int and float can occur in object dtype)
                             if not all(char in valid_chars for char in ind_data):
                                 non_ascii_vars.append(variable_name)
                                 break  # after finding the first non-ascii data, we can skip the rest of the variable data
