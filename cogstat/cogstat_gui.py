@@ -237,7 +237,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]),
                                                                          menu_item[1], self)
                     self.menu_commands[menu_item[1]].setShortcut(menu_item[2])
-                    #self.menu_commands[menu_item[1]].setStatusTip(menu_item[3])
                     self.menu_commands[menu_item[1]].triggered.connect(eval(menu_item[3]))
                     self.menus[-1].addAction(self.menu_commands[menu_item[1]])
                     if menu_item[4]:  # if the menu item should be added to the toolbar
@@ -286,7 +285,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.output_pane)
         self.setAcceptDrops(True)
-        #self.statusBar().showMessage(_('Ready'))
 
         self.show()
 
@@ -435,11 +433,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self._show_data_menus(False)
             else:
                 self._show_data_menus()
-                '''
-                self.statusBar().showMessage((_('Data loaded from file: ') if self.active_data.import_source[:9] in 
-                ['text file', 'SPSS file'] else _('Data loaded from clipboard: ')) + _('%s variables and %s cases.') % 
-                (len(self.active_data.data_frame.columns), len(self.active_data.data_frame.index)))
-                '''
                 self.print_data(brief=True, display_import_message=True)
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
