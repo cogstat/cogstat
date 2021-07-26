@@ -154,12 +154,12 @@ class CogStatData:
             # 1. Set the levels (coming either from the import data information or from measurement_levels object
             # parameter)
             elif measurement_levels:  # If levels were given, set them
-                # Check if only valid measurement levels were given
-                if not (set(measurement_levels) <= {'unk', 'nom', 'ord', 'int', '', 'nan'}):
-                    raise ValueError('Invalid measurement level')
 
                 # Only levels are given - in the order of the variables
                 if type(measurement_levels) is list:
+                    # Check if only valid measurement levels were given
+                    if not (set(measurement_levels) <= {'unk', 'nom', 'ord', 'int', '', 'nan'}):
+                        raise ValueError('Invalid measurement level')
                     # make levels lowercase and replace '' or 'nan' with 'unk'
                     measurement_levels = ['unk' if level.lower in ['', 'nan'] else level.lower()
                                           for level in measurement_levels]
@@ -168,6 +168,9 @@ class CogStatData:
 
                 # Name-level pairs are given in a dictionary
                 elif type(measurement_levels) is dict:
+                    # Check if only valid measurement levels were given
+                    if not (set(measurement_levels.values()) <= {'unk', 'nom', 'ord', 'int', '', 'nan'}):
+                        raise ValueError('Invalid measurement level')
                     # make levels lowercase and replace '' or 'nan' with 'unk'
                     measurement_levels = {name: ('unk' if measurement_levels[name].lower() in ['', 'nan']
                                                  else measurement_levels[name].lower())
