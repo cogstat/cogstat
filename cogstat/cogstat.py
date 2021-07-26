@@ -195,7 +195,7 @@ class CogStatData:
                                        _('String variables cannot be interval or ordinal variables in CogStat. '
                                          'Those variables are automatically set to nominal: ')\
                                        + ''.join(', %s' % var_name for var_name in invalid_var_names)[2:] + '. ' + \
-                                       _('You can fix this in your data source.') \
+                                       _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
@@ -204,7 +204,7 @@ class CogStatData:
             if set(self.data_measlevs) in ['unk']:
                 self.import_message += '\n<warning>' + \
                                        _('The measurement level was not set for all variables.') + ' '\
-                                       + _('You can fix this in your data source.') \
+                                       + _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
