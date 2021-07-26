@@ -62,6 +62,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         super(StatMainWindow, self).__init__()  # TOD do we need super()?
         self._init_UI()
 
+        self.unsaved_output = False  # Do not want to save the output with the welcome message
+        self.output_filename = ''
+
         # Check if all required components are installed
         # TODO Maybe all these checking can be removed
         missing_required_components, missing_recommended_components = self._check_installed_components()
@@ -285,9 +288,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.setAcceptDrops(True)
         #self.statusBar().showMessage(_('Ready'))
 
-        self.unsaved_output = False  # Do not want to save the output with the welcome message
-        self.output_filename = ''
-        
         self.show()
 
     def _show_data_menus(self, on=True):
