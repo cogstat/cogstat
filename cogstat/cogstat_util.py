@@ -157,7 +157,6 @@ def precision(data):
         # https://stackoverflow.com/questions/55727214/inconsistent-printing-of-floats-why-does-it-work-sometimes,
         # that is why this workaround)
         data = data.round(15)
-        print([x for x in data])
         # '%s' returns 'x.0' for integers, so use '%d' for integers which returns 'x'
         return max([len(('%d' % x if x.is_integer() else '%s' % x).partition('.')[2]) for x in data])
     else:
