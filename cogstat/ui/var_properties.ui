@@ -57,15 +57,15 @@
        </item>
        <item>
         <widget class="QToolButton" name="addVar">
-         <property name="text">
-          <string>=&gt;</string>
+         <property name="arrowType">
+          <enum>Qt::RightArrow</enum>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="removeVar">
-         <property name="text">
-          <string>&lt;=</string>
+         <property name="arrowType">
+          <enum>Qt::LeftArrow</enum>
          </property>
         </widget>
        </item>
