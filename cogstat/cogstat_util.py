@@ -133,23 +133,33 @@ def print_versions(main_window):
 
 def precision(data):
     """Compute the maximal decimal precision in the data.
-    data: pandas series
 
-    returns:
-        maximum number of decimals in list, or None if data are not numerical
-        or empty list was given
+    Parameters
+    ----------
+    data: pandas series
+        Data series
+
+    Returns
+    -------
+    int or None
+        Maximum number of decimals in data
+        None if data was not numerical or empty series was given
     """
     data = data.dropna()
     if len(data) == 0:
         return None
 
-    # Check if data includes numbers (actually only the first item is checked)
-    # np.integer should also be included, because in some systems it is not
-    # recognised as int or
-    # http://stackoverflow.com/questions/4187185/how-can-i-check-if-my-python-object-is-a-number
+    # Check if data includes numbers (only the first item is checked here).
     if isinstance(data.iloc[0], (int, float, complex, np.integer)):
-        return max([len(('%d' % x if int(x) == x else '%s' % x).
-                        partition('.')[2]) for x in data])
+        # Use round() to avoid floating-point representation error.
+        # It is unlikely that the user uses a scale with higher precision.
+        # (Default solutions (dtoa, dragon4, etc.?) did not always seem to work correctly
+        # https://stackoverflow.com/questions/55727214/inconsistent-printing-of-floats-why-does-it-work-sometimes,
+        # that is why this workaround)
+        data = data.round(15)
+        print([x for x in data])
+        # '%s' returns 'x.0' for integers, so use '%d' for integers which returns 'x'
+        return max([len(('%d' % x if x.is_integer() else '%s' % x).partition('.')[2]) for x in data])
     else:
         return None
 
