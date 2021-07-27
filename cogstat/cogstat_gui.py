@@ -316,7 +316,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def dropEvent(self, event):
         if event.mimeData().hasFormat("text/uri-list"):
-            self.open_file(filename=event.mimeData().urls()[0].toString(options=QtCore.QUrl.PreferLocalFile))
+            self.open_file(path=event.mimeData().urls()[0].toString(options=QtCore.QUrl.PreferLocalFile))
         elif event.mimeData().hasFormat("text/plain"):
             # print 'Dropped Text: ', event.mimeData().text()
             self._open_data(data=str(event.mimeData().text()))
