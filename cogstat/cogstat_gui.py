@@ -64,6 +64,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         self.unsaved_output = False  # Do not want to save the output with the welcome message
         self.output_filename = ''
+        self.last_file_dir = os.path.dirname(csc.__file__)
+        self.last_demo_file_dir = os.path.dirname(csc.__file__) + '/demo_data'
 
         # Check if all required components are installed
         # TODO Maybe all these checking can be removed
@@ -394,26 +396,37 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.unsaved_output = True
                         
     ### Data menu methods ###
-    def open_file(self, filename=''):
-        """Open file.
-        :param filename: filename with path
+    def open_file(self, path=''):
+        """Open data file.
+
+        Parameters
+        ----------
+        path : str
+            Path of the file.
         """
-        if filename in ['', False]:
-            filename = cogstat_dialogs.open_data_file()
-        #print(filename)
-        if filename:
-            self._open_data(str(filename))
+        if path in ['', False]:
+            path = cogstat_dialogs.open_data_file(self.last_file_dir)
+        if path:
+            self.last_file_dir = os.path.dirname(path)
+            self._open_data(path)
 
     ### Data menu methods ###
-    def open_demo_file(self, filename=''):
-        """Open file.
-        :param filename: filename with path
+    def open_demo_file(self, path=''):
+        """Open demo data file.
+
+        Parameters
+        ----------
+        path : str
+            Path of the demo file.
         """
-        if filename in ['', False]:
-            filename = cogstat_dialogs.open_demo_data_file()
-        #print(filename)
-        if filename:
-            self._open_data(str(filename))
+        if path in ['', False]:
+            # If the last directory was outside the demo directory, offer the demo root directory again
+            if self.last_demo_file_dir.find(os.path.dirname(csc.__file__) + '/demo_data') != 0:
+                self.last_demo_file_dir = os.path.dirname(csc.__file__) + '/demo_data'
+            path = cogstat_dialogs.open_demo_data_file(self.last_demo_file_dir)
+        if path:
+            self.last_demo_file_dir = os.path.dirname(path)
+            self._open_data(path)
 
     def open_clipboard(self):
         """Open data copied to clipboard."""

@@ -21,11 +21,11 @@ QtCore.QCoreApplication.translate = _gui
 # http://developer.qt.nokia.com/doc/qt-4.8/QFileDialog.html
 
 
-def open_data_file():
+def open_data_file(directory):
     #dialog = QtWidgets.QFileDialog()
     #dialog.setFilter(QtCore.QDir.CaseSensitive)
     # TODO how to make the filter case insensitive?
-    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), '',
+    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), directory,
                                                      '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
                                                      '*.sav *.zsav *.por *.jasp *.omv *.sas7bdat *.xpt *.dta '
                                                      '*.rdata *.Rdata *.rds *.rda);;'
@@ -41,9 +41,8 @@ def open_data_file():
                                                      )[0])
 
 
-def open_demo_data_file():
-    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), os.path.dirname(csc.__file__) +
-                                                     '/demo_data',
+def open_demo_data_file(directory):
+    return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), directory,
                                                      '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
                                                      '*.sav *.zsav *.por *.jasp *.omv *.sas7bdat *.xpt *.dta '
                                                      '*.rdata *.Rdata *.rds *.rda);;'
