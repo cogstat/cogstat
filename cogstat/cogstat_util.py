@@ -156,7 +156,7 @@ def precision(data):
         # (Default solutions (dtoa, dragon4, etc.?) did not always seem to work correctly
         # https://stackoverflow.com/questions/55727214/inconsistent-printing-of-floats-why-does-it-work-sometimes,
         # that is why this workaround)
-        data = data.round(15)
+        data = data.round(14)
         # '%s' returns 'x.0' for integers, so use '%d' for integers which returns 'x'
         return max([len(('%d' % x if x.is_integer() else '%s' % x).partition('.')[2]) for x in data])
     else:
