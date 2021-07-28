@@ -448,9 +448,9 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<td>Median</td>      <td>1.3340</td>      <td>2.4590</td>      <td>0.9015</td>' in result[3])
         self.assertTrue('<td>Lower quartile</td>      <td>-0.5965</td>      <td>0.8870</td>      <td>-1.1320</td>' in result[3])
         self.assertTrue('<td>Minimum</td>      <td>-2.8030</td>      <td>-2.2890</td>      <td>-1.4860</td>' in result[3])
-        # TODO the two main effects differ from the SPSS result, see https://github.com/cogstat/cogstat/issues/91
-        self.assertTrue('<i>F</i>(2, 21) = 2.35, <i>p</i> = .120' in result[7])
-        self.assertTrue('<i>F</i>(2, 21) = 0.19, <i>p</i> = .832' in result[7])  # <i>F</i>(2, 21) = 0.185
+            # jamovi 2.0.0.0 0.962, 0.398; 0.536, 0.593; 1.145, 0.363
+        self.assertTrue('<i>F</i>(2, 21) = 0.96, <i>p</i> = .398' in result[7])
+        self.assertTrue('<i>F</i>(2, 21) = 0.54, <i>p</i> = .593' in result[7])
         self.assertTrue('<i>F</i>(4, 21) = 1.15, <i>p</i> = .363' in result[7])
 
     def test_single_case(self):

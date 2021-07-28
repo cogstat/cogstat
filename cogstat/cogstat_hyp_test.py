@@ -885,7 +885,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
     # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
     # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
     # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'C({group_name})' for group_name in grouping_names]))),
+    anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'C({group_name}, Sum)' for group_name in grouping_names]))),
                       data=data).fit()
     anova_result = anova_lm(anova_model, typ=3)
     text_result = _('Result of multi-way ANOVA') + ':\n'

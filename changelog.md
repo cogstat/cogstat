@@ -5,6 +5,7 @@ Upcoming release
 ================
 
 ## Fixes
+- :warning: Multi-way between-subjects ANOVA is fixed – previous releases gave incorrect F and p values for the main effects
 - Resizable dialogs with shortcuts for buttons and correctly set tab orders
 - Various UI, output, and chart fixes
 
