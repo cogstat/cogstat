@@ -217,7 +217,7 @@ class CogStatData:
             #   it will be 'True' and 'False'
             # Some analyses do not handle Int types, but int types
             # Some analyses do not handle category types
-            convert_dtypes = [['bool', 'object'],
+            convert_dtypes = [['bool', 'string'],
                               ['Int32', 'int32'],
                               ['Int64', 'int64'], ['Int64', 'float64'],
                               ['category', 'object']]
