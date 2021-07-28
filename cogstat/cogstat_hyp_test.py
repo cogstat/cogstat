@@ -880,13 +880,9 @@ def multi_way_anova(pdf, var_name, grouping_names):
     from statsmodels.stats.anova import anova_lm
     data = pdf.dropna(subset=[var_name] + grouping_names)
 
-    # FIXME If there is a variable called 'C', then patsy is confused whether C is the variable or the categorical
-    #  variable
-    # http://gotoanswer.stanford.edu/?q=Statsmodels+Categorical+Data+from+Formula+%28using+pandas%
-    # http://stackoverflow.com/questions/22545242/statsmodels-categorical-data-from-formula-using-pandas
-    # http://stackoverflow.com/questions/26214409/ipython-notebook-and-patsy-categorical-variable-formula
-    anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'C({group_name}, Sum)' for group_name in grouping_names]))),
-                      data=data).fit()
+    import patsy
+    anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'patsy.builtins.C({group_name}, patsy.builtins.Sum)'
+                                                             for group_name in grouping_names]))), data=data).fit()
     anova_result = anova_lm(anova_model, typ=3)
     text_result = _('Result of multi-way ANOVA') + ':\n'
 
@@ -899,7 +895,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
     # Interaction effects
     for interaction_line in range(group_i+2, len(anova_result)-1):
         text_result += _('Interaction of %s: ') % \
-                       (' and '.join([a[1:-6] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
+                       (' and '.join([a[1:-21] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
                        '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
                        (anova_result['df'][interaction_line], anova_result['df'][-1], non_data_dim_precision,
                         anova_result['F'][interaction_line], print_p(anova_result['PR(>F)'][interaction_line]))
