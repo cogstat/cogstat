@@ -899,7 +899,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
     # Interaction effects
     for interaction_line in range(group_i+2, len(anova_result)-1):
         text_result += _('Interaction of %s: ') % \
-                       (' and '.join([a[1:-1] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
+                       (' and '.join([a[1:-6] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
                        '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
                        (anova_result['df'][interaction_line], anova_result['df'][-1], non_data_dim_precision,
                         anova_result['F'][interaction_line], print_p(anova_result['PR(>F)'][interaction_line]))
