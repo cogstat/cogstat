@@ -19,8 +19,7 @@ import pandas as pd
 import scikit_posthocs
 from scipy import stats
 import statsmodels.api as sm
-from statsmodels.sandbox.stats.runs import mcnemar
-    # TODO https://www.statsmodels.org/stable/generated/statsmodels.stats.contingency_tables.mcnemar.html
+from statsmodels.stats.contingency_tables import mcnemar
 from statsmodels.stats.contingency_tables import cochrans_q
 from statsmodels.stats.anova import AnovaRM
 from statsmodels.stats.weightstats import DescrStatsW
@@ -395,9 +394,9 @@ def paired_wilcox_test(pdf, var_names):
 
 
 def mcnemar_test(pdf, var_names):
-    chi2, p = mcnemar(pdf[var_names[0]], pdf[var_names[1]], exact=False)
+    mcnemar_result = mcnemar(pd.crosstab(pdf[var_names[0]], pdf[var_names[1]]), exact=False)
     return _('Result of the McNemar test') + ': &chi;<sup>2</sup>(1, <i>N</i> = %d) = %0.*f, %s\n' % \
-           (len(pdf[var_names[0]]), non_data_dim_precision, chi2, print_p(p))
+           (len(pdf[var_names[0]]), non_data_dim_precision, mcnemar_result.statistic, print_p(mcnemar_result.pvalue))
 
 
 def cochran_q_test(pdf, var_names):
