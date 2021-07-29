@@ -129,7 +129,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             print("Couldn't check for update")
 
     def _init_UI(self):
-        self.resize(830, 600)
+        self.resize(846, 600)
         self.setWindowTitle('CogStat')
         # FIXME there could be issues if the __file__ path includes unicode chars
         # e.g., see pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'),
