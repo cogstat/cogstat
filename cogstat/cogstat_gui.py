@@ -274,7 +274,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
         self.output_pane.setReadOnly(True)
         self.output_pane.setOpenExternalLinks(True)
-        self.output_pane.setStyleSheet("QTextBrowser { background-color: white; }")
+        self.output_pane.setStyleSheet("QTextBrowser { background-color: white; padding:8px}")
             # Some styles use non-white background (e.g. Linux Mint 17 Mate uses gray)
         # Set default font
         #print self.output_pane.currentFont().toString()
