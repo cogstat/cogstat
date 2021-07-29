@@ -387,8 +387,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.output_pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with self.output_pane.toHtml()
             elif isinstance(output, QtGui.QImage):
-                self.output_pane.moveCursor(11, 0)  # Moves cursor to the end
-                self.output_pane.textCursor().insertImage(output)
+                data = QtCore.QByteArray()
+                buffer = QtCore.QBuffer(data)
+                output.save(buffer, format='PNG')
+                html = '<img src="data:image/png;base64,{0}">'.format(str(data.toBase64())[2:-1])
+                self.output_pane.append(html)
             elif output is None:
                 pass  # We simply don't do anything with None-s
             else:
