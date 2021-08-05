@@ -802,20 +802,11 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     grouping_name (str):
     """
     # Not available in statsmodels
-    text_result = ''
 
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
-    try:
-        u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna(), alternative='two-sided')
-        text_result += _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.*f, %s\n' % \
-                       (non_data_dim_precision, u, print_p(p))
-    except:
-        try:  # older versions of mannwhitneyu do not include the alternative parameter
-            u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna())
-            text_result += _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.*f, %s\n' % \
-                           (non_data_dim_precision, u, print_p(p * 2))
-        except Exception as e:
-            text_result += _('Result of independent samples Mann–Whitney rank test: ') + str(e)
+    u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna(), alternative='two-sided')
+    text_result = _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.*f, %s\n' % \
+                   (non_data_dim_precision, u, print_p(p))
 
     return text_result
 
