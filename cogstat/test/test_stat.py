@@ -426,7 +426,8 @@ class CogStatTestCase(unittest.TestCase):
 
         # 2 Nom groups
         result = data.compare_groups('i', ['j'])
-            # jamovi 2.0.0.0 0.222 TODO
+        # Cramer's V
+            # jamovi 2.0.0.0 0.222 # This is without continuity correction
         self.assertTrue('&phi;<i><sub>c</sub></i> = 0.154' in result[3])
             # jamovi 2.0.0.0 continuity corection 0.710, 0.399
         self.assertTrue('&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.71, <i>p</i> = .399' in result[5])  # &chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.710

@@ -525,10 +525,10 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True):
             pdf_result.loc[_("Spearman's rank-order correlation"), _('Value')] = \
                 '<i>r<sub>s</sub></i> = %0.3f' % stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])[0]
         elif meas_lev == 'nom':
-            cont_table_data = pd.crosstab(data.iloc[:, 0], data.iloc[:, 1])
-            chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
             try:
-                cramersv = (chi2 / (cont_table_data.values.sum() * (min(cont_table_data.shape) - 1))) ** 0.5
+                cramersv = pingouin.chi2_independence(data, data.columns[0], data.columns[1])[2].loc[0, 'cramer']
+                # TODO this should be faster when minimum scipy can be 1.7:
+                # cramersv = stats.contingency.association(data.iloc[:, 0:1], method='cramer')) # new in scipy 1.7
                 pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                     '&phi;<i><sub>c</sub></i> = %.3f' % cramersv
             except ZeroDivisionError:  # TODO could this be avoided?
@@ -770,10 +770,10 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
         elif meas_level == 'nom':
             if len(groups) == 1:
                 data = pdf[[dependent_var_name[0], groups[0]]]
-                cont_table_data = pd.crosstab(data.iloc[:, 0], data.iloc[:, 1])
-                chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
                 try:
-                    cramersv = (chi2 / (cont_table_data.values.sum() * (min(cont_table_data.shape) - 1))) ** 0.5
+                    cramersv = pingouin.chi2_independence(data, data.columns[0], data.columns[1])[2].loc[0, 'cramer']
+                    # TODO this should be faster, when minimum scipy can be 1.7:
+                    #cramersv = stats.contingency.association(data.iloc[:, 0:1], method='cramer')) # new in scipy 1.7
                     pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                         '&phi;<i><sub>c</sub></i> = %.3f' % cramersv
                 except ZeroDivisionError:  # TODO could this be avoided?
