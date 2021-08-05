@@ -6,6 +6,7 @@ Upcoming release
 
 ## Fixes
 - :warning: Multi-way between-subjects ANOVA is fixed – previous releases gave incorrect F and p values for the main effects
+- :warning:  Holm-Bonferroni corrected post-hoc tests is performed with the pingouin module (in some cases, this gives a slightly different result compared with the previoius versions)
 - Resizable dialogs with shortcuts for buttons and correctly set tab orders
 - Various UI, output, and chart fixes
 

@@ -282,9 +282,9 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('sphericity: <i>W</i> = 0.79, <i>p</i> = .039' in result[7])  # <i>W</i> = 0.793
             # jamovi 2.0.0.0 1.66, 48.04, 6.16, 0.007
         self.assertTrue('<i>F</i>(1.66, 48) = 6.16, <i>p</i> = .007' in result[7])
-            # jamovi 2.0.0.0 (Holm correction) 0.110, 0.913; 2.678, 0.026 TODO; 2.809, 0.026
+            # jamovi 2.0.0.0 (Holm correction) 0.110, 0.913; 2.678, 0.026; 2.809, 0.026
         self.assertTrue('0.11, <i>p</i> = .913' in result[7])  # TODO keep the order of the variables, and have a fixed sign
-        self.assertTrue('2.68, <i>p</i> = .024' in result[7])
+        self.assertTrue('2.68, <i>p</i> = .026' in result[7])
         self.assertTrue('2.81, <i>p</i> = .026' in result[7])
 
         # 3 Int variables, non-normal

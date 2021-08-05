@@ -18,6 +18,7 @@ import os.path
 import numpy as np
 from scipy import stats
 import pandas as pd
+import pingouin
 
 
 def quantile_ci(data, quantile=0.5):
@@ -310,14 +311,10 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
                 pairings.append((f, f2))
 
     # Corrections
-    fam_size = (np.square(len(set(data[indep_var])))-len(set(data[indep_var])))/2
-    bonf_list = []
-    holm_list = []
-    sorted_p = sorted(list(table[:, 1]))
-    for p in table[:, 1]:
-        bonf_list.append(min(p*fam_size, 1))
-        holm_list.append(min(p*(fam_size-sorted_p.index(p)), 1))
+    bonf_list = pingouin.multicomp(table[:, 1], method='bonf')[1]
+    holm_list = pingouin.multicomp(table[:, 1], method='holm')[1]
     table = np.hstack([table, np.asarray(list(zip(bonf_list, holm_list)))])
+
     table = pd.DataFrame(table, index=pd.MultiIndex.from_tuples(pairings), columns=['t', 'p', 'p (Bonf)', 'p (Holm)'])
     return table
 
