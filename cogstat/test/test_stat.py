@@ -170,7 +170,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('-0.363' in result[4])
             # TODO validate
         self.assertTrue('[-0.640, -0.003]' in result[6])
-            # jamovi 2.0.0.0 p 0.049 TODO
+            # jamovi 2.0.0.0 p 0.049 (0.04919 with more precision) TODO
         self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.36, <i>p</i> = .048" in result[7])  # <i>r<sub>s</sub></i>(28) = -0.363
 
         # Ord variables
@@ -252,7 +252,9 @@ class CogStatTestCase(unittest.TestCase):
         result = data.compare_variables(['e', 'f'])
             # jamovi 2.0.0.0 0.915, 0.019
         self.assertTrue('<i>W</i> = 0.91, <i>p</i> = .019' in result[7])  # <i>W</i> = 0.915
-            # jamovi 2.0.0.0 110, 0.011 TODO
+        # Wilcoxon signed-rank test
+            # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision) TODO https://github.com/cogstat/cogstat/issues/31
+        print(result[7])
         self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .012' in result[7])
 
         # 3 Int variables
@@ -309,6 +311,7 @@ class CogStatTestCase(unittest.TestCase):
         data.data_measlevs['f'] = 'ord'
         result = data.compare_variables(['e', 'f'])
         self.assertTrue('<td>2.3895</td>      <td>4.2275</td>' in result[3])
+        # Wilcoxon signed-rank test
             # jamovi 2.0.0.0 110, 0.011 TODO
         self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .012' in result[6])
 
@@ -381,7 +384,7 @@ class CogStatTestCase(unittest.TestCase):
         # Heteroscedastic groups
         result = data.compare_groups('p', ['m'])
         # Welch's t-test
-            # jamovi 2.0.0.0 0.119, 0.906 TODO
+            # jamovi 2.0.0.0 0.119, 0.907
         self.assertTrue('<i>t</i>(25.3) = 0.12, <i>p</i> = .907' in result[8])  # <i>t</i>(25.3) = 0.119
 
 
