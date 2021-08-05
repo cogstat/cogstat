@@ -92,6 +92,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Only for testing
 #        self.open_file('cogstat/test/data/example_data.csv'); #self.compare_groups()
 #        self.open_file('cogstat/test/data/VA_test.csv')
+#        self.open_file('cogstat/test/data/test.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.explore_variable(['X'])
@@ -101,7 +102,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'],
 #                       condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
-#        self.compare_variables(['A', 'B', 'C1'])
+#        self.compare_variables(['a', 'e', 'g'])
 #        self.compare_variables(['D', 'E', 'F'])
 #        self.compare_variables()
 #        self.compare_variables(['a', 'b', 'c1', 'd', 'e', 'f', 'g', 'h'],

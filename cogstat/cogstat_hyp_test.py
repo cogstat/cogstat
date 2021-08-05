@@ -23,6 +23,7 @@ from statsmodels.stats.contingency_tables import mcnemar
 from statsmodels.stats.contingency_tables import cochrans_q
 from statsmodels.stats.anova import AnovaRM
 from statsmodels.stats.weightstats import DescrStatsW
+import pingouin
 
 from . import cogstat_config as csc
 from . import cogstat_stat_num as cs_stat_num
@@ -416,22 +417,26 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
     """
 
     if not factors:  # one-way comparison
-        # TODO use statsmodels functions
-        [dfn, dfd, f, pf, w, pw], corr_table = cs_stat_num.repeated_measures_anova(pdf[var_names].dropna(), var_names)
-        # Choose df correction depending on sphericity violation
+        # Mauchly's test for sphericity
+        spher, w, chisq, dof, wp = pingouin.sphericity(pdf[var_names].dropna())
         text_result = _("Result of Mauchly's test to check sphericity") + \
-                      ': <i>W</i> = %0.*f, %s. ' % (non_data_dim_precision, w, print_p(pw))
-        if pw < 0.05:  # sphericity is violated
-            p = corr_table[0, 1]
+                      ': <i>W</i> = %0.*f, %s. ' % (non_data_dim_precision, w, print_p(wp))
+
+        # ANOVA
+        aov = pingouin.rm_anova(pdf[var_names].dropna(), correction=True)
+        if wp < 0.05:  # sphericity is violated
+            p = aov.loc[0, 'p-GG-corr']
             text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
                            + _('Using Greenhouse–Geisser correction.') + '\n</decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.*f, %s\n' \
-                           % (dfn * corr_table[0, 0], dfd * corr_table[0, 0], non_data_dim_precision, f, print_p(p))
+                           % (aov.loc[0, 'ddof1'] * aov.loc[0, 'eps'], aov.loc[0, 'ddof2'] * aov.loc[0, 'eps'],
+                              non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p-GG-corr']))
         else:  # sphericity is not violated
-            p = pf
+            p = aov.loc[0, 'p-unc']
             text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n</decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
-                                                                    % (dfn, dfd, non_data_dim_precision, f, print_p(p))
+                           % (aov.loc[0, 'ddof1'], aov.loc[0, 'ddof2'],
+                              non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p-unc']))
 
         # Post-hoc tests
         if p < 0.05:
