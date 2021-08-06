@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-06 16:41+0200\n"
+"POT-Creation-Date: 2021-08-06 16:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1210,8 +1210,8 @@ msgstr ""
 #: .././cogstat.py:253
 #, python-format
 msgid ""
-"Some variable name(s) include other than English letters, numbers, or "
-"underscore which can cause problems in some analyses: %s."
+"Some variable name(s) include characters other than English letters, "
+"numbers, or underscore which can cause problems in some analyses: %s."
 msgstr ""
 
 #: .././cogstat.py:257 .././cogstat.py:266
@@ -1225,8 +1225,8 @@ msgstr ""
 #: .././cogstat.py:263
 #, python-format
 msgid ""
-"Some string variable(s) include other than English letters, numbers, or "
-"underscore which can cause problems in some analyses: %s."
+"Some string variable(s) include characters other than English letters, "
+"numbers, or underscore which can cause problems in some analyses: %s."
 msgstr ""
 
 #: .././cogstat.py:277
