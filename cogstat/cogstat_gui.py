@@ -65,7 +65,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.unsaved_output = False  # Do not want to save the output with the welcome message
         self.output_filename = ''
         self.last_file_dir = os.path.dirname(csc.__file__)
-        self.last_demo_file_dir = os.path.dirname(csc.__file__) + '/demo_data'
+        self.last_demo_file_dir = os.path.join(os.path.dirname(csc.__file__), 'demo_data')
 
         # Check if all required components are installed
         # TODO Maybe all these checking can be removed
@@ -426,11 +426,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if path in ['', False]:
             # If the last directory was outside the demo directory, offer the demo root directory again
-            if self.last_demo_file_dir.find(os.path.dirname(csc.__file__) + '/demo_data') != 0:
-                self.last_demo_file_dir = os.path.dirname(csc.__file__) + '/demo_data'
+            if self.last_demo_file_dir.find(os.path.join(os.path.dirname(csc.__file__), 'demo_data')) != 0:
+                    self.last_demo_file_dir = os.path.join(os.path.dirname(csc.__file__), 'demo_data')
             path = cogstat_dialogs.open_demo_data_file(self.last_demo_file_dir)
         if path:
-            self.last_demo_file_dir = os.path.dirname(path)
+            self.last_demo_file_dir = os.path.normpath(os.path.dirname(path))
             self._open_data(path)
 
     def open_clipboard(self):
