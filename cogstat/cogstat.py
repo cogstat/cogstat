@@ -202,7 +202,7 @@ class CogStatData:
 
             # Warn when not all measurement levels are set
             if set(self.data_measlevs) in ['unk']:
-                self.import_message += '\n<warning><b>' + _('Measuerement level warning') + '</b> ' + \
+                self.import_message += '\n<warning><b>' + _('Measurement level warning') + '</b> ' + \
                                        _('The measurement level was not set for all variables.') + ' '\
                                        + _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
@@ -250,7 +250,7 @@ class CogStatData:
                                 break  # after finding the first non-ascii data, we can skip the rest of the variable data
             if non_ascii_var_names:
                 self.import_message += '\n<warning><b>' + _('Recommended characters in variable names warning') + '</b> ' + \
-                                       _('Some variable name(s) include other than English characters, numbers, or '
+                                       _('Some variable name(s) include other than English letters, numbers, or '
                                          'underscore which can cause problems in some analyses: %s.') \
                                        % ''.join(
                     ' %s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) \
@@ -260,7 +260,7 @@ class CogStatData:
                                        + '</warning>'
             if non_ascii_vars:
                 self.import_message += '\n<warning><b>' + _('Recommended characters in data values warning') + '</b> ' + \
-                                       _('Some string variable(s) include other than English characters, numbers, or '
+                                       _('Some string variable(s) include other than English letters, numbers, or '
                                          'underscore which can cause problems in some analyses: %s.') \
                                        % ''.join(' %s' % non_ascii_var for non_ascii_var in non_ascii_vars) \
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
