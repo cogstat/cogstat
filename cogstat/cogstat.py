@@ -161,7 +161,7 @@ class CogStatData:
                     if not (set(measurement_levels) <= {'unk', 'nom', 'ord', 'int', '', 'nan'}):
                         raise ValueError('Invalid measurement level')
                     # make levels lowercase and replace '' or 'nan' with 'unk'
-                    measurement_levels = ['unk' if level.lower in ['', 'nan'] else level.lower()
+                    measurement_levels = ['unk' if level.lower() in ['', 'nan'] else level.lower()
                                           for level in measurement_levels]
                     self.data_measlevs = {name: level for name, level in
                                           zip(self.data_frame.columns, measurement_levels)}
