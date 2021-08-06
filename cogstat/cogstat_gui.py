@@ -704,9 +704,15 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
-                result_list = self.active_data.compare_variables(var_names, factors, ylims)
-                for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
-                    self.analysis_results[-1].add_output(result)
+                if '' in var_names:
+                    text_result = cs_util.reformat_output('%s %s' %
+                                                          (_('Compare variables.'),
+                                                           _('All levels of the factors should be set.')))
+                    self.analysis_results[-1].add_output(text_result)
+                else:
+                    result_list = self.active_data.compare_variables(var_names, factors, ylims)
+                    for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
+                        self.analysis_results[-1].add_output(result)
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare variables.')))
                 traceback.print_exc()
