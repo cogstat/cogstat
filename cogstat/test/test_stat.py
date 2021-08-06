@@ -254,7 +254,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>W</i> = 0.91, <i>p</i> = .019' in result[7])  # <i>W</i> = 0.915
         # Wilcoxon signed-rank test
             # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision) TODO https://github.com/cogstat/cogstat/issues/31
-        print(result[7])
+        #print(result[7])
         self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .012' in result[7])
 
         # 3 Int variables
