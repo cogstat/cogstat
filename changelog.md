@@ -9,6 +9,7 @@ Upcoming 2.1.1 release (2021)
 - :warning:  Holm-Bonferroni corrected post-hoc tests is performed with the statsmodels module (in some cases, this gives a slightly different result compared with the previoius versions)
 - Resizable dialogs with shortcuts for buttons and correctly set tab orders
 - Various UI, output, and chart fixes
+- MacOS app version is now signed
 
 2.1.0 (21 May 2021)
 ================
