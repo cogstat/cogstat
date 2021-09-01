@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 
-APP = ['__boot__.py']
+APP = ['run_cogstat_gui.py']
 APP_NAME = "CogStat"
 DATA_FILES = ['cogstat', 'README.md', 'cogstat.icns']
 OPTIONS = {
@@ -10,13 +10,20 @@ OPTIONS = {
         'CFBundleName': APP_NAME,
         'CFBundleDisplayName': APP_NAME,
         'CFBundleGetInfoString': "Simple statistics for researchers.",
-        'CFBundleIdentifier': "com.krajcsi.osx.cogstat",
-        'CFBundleVersion': "2.0.0",
-        'CFBundleShortVersionString': "2.0.0",
+        'CFBundleIdentifier': "com.cogstat.org.cogstat",
+        'CFBundleVersion': "2.1.1RC",
+        'CFBundleShortVersionString': "2.1.1RC",
         'CFBundleIconFile': "cogstat.icns",
         'NSHumanReadableCopyright': "GNU GPL 3",
-        'NSRequiresAquaSystemAppearance': 'YES'
+        'NSRequiresAquaSystemAppearance': 'YES',
+        "LSApplicationCategoryType": 'public.app-category.education',
     }
+    , 'packages': ['numpy', 'scipy', 'matplotlib',
+                        'pandas', 'statsmodels',
+                        'pyreadstat',  'xlrd', 'openpyxl', 'pyreadr',
+                        'configobj',  'IPython', 'Jupyter',
+                        'pingouin', 'python-bidi', 'odfpy', 'scikit-posthocs',
+                        ]
 }
 
 setup(
@@ -24,7 +31,7 @@ setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    version='2.0.0',
+    version='2.1.0',
     description='Simple statistics for researchers.',
     url='https://www.cogstat.org',
     author='Attila Krajcsi',
