@@ -1,12 +1,12 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
-Upcoming 2.1.1 release (2021)
+Upcoming 2.1.1 release (10 September 2021)
 ================
 
 ## Fixes
 - :warning: Multi-way between-subjects ANOVA is fixed – previous releases gave incorrect F and p values for the main effects
-- :warning:  Holm-Bonferroni corrected post-hoc tests is performed with the statsmodels module (in some cases, this gives a slightly different result compared with the previoius versions)
+- :warning:  Holm-Bonferroni corrected post-hoc tests is performed with the statsmodels module (in some cases, this gives a slightly different result compared with the previous versions)
 - Resizable dialogs with shortcuts for buttons and correctly set tab orders
 - Various UI, output, and chart fixes
 - MacOS app version is now signed (Róbert Fodor)
