@@ -26,9 +26,9 @@ def open_data_file(directory):
     #dialog.setFilter(QtCore.QDir.CaseSensitive)
     # TODO how to make the filter case insensitive?
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), directory,
-                                                     '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
+                                                     '%s *.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
                                                      '*.sav *.zsav *.por *.jasp *.omv *.sas7bdat *.xpt *.dta '
-                                                     '*.rdata *.Rdata *.rds *.rda);;'
+                                                     '*.rdata *.Rdata *.rds *.rda;;'
                                                      '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.dat *.log;;'
                                                      '%s *.sav *.zsav *.por;;%s *.omv;;%s *.jasp;;'
                                                      '%s *.sas7bdat *.xpt;; %s *.dta;;'
@@ -43,9 +43,9 @@ def open_data_file(directory):
 
 def open_demo_data_file(directory):
     return str(QtWidgets.QFileDialog.getOpenFileName(None, _('Open data file'), directory,
-                                                     '%s (*.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
+                                                     '%s *.ods *.xls *.xlsx *.csv *.txt *.tsv *.dat *.log '
                                                      '*.sav *.zsav *.por *.jasp *.omv *.sas7bdat *.xpt *.dta '
-                                                     '*.rdata *.Rdata *.rds *.rda);;'
+                                                     '*.rdata *.Rdata *.rds *.rda;;'
                                                      '%s *.ods *.xls *xlsx;;%s *.csv *.txt *.tsv *.dat *.log;;'
                                                      '%s *.sav *.zsav *.por;;%s *.omv;;%s *.jasp;;'
                                                      '%s *.sas7bdat *.xpt;; %s *.dta;;'
