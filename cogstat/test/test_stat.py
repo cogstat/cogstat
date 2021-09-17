@@ -474,5 +474,22 @@ Control	0.538	0.107''')
         result = data.compare_groups('slope', ['group'])
         self.assertTrue('<i>t</i>(5) = -5.05, <i>p</i> = .004' in result[8])
 
+    def test_data_filtering(self):
+
+        data = cs.CogStatData(data='''data dummy
+1
+3
+3
+6
+8
+10
+10
+1000''')
+        result = data.filter_outlier(var_names=['data'], mode='mad')
+        # data of Lays et al. 2013
+        # as in Lays et al. 2013: median is 7, MAD is 5.1891
+        # median +- 2.5*MAD is −5.97275 and 19.97275
+        self.assertTrue('will be excluded: -6.0  --  20.0' in result[1])
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,13 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
+2.2 Upcoming release
+================
+
+## New features
+- :warning: For outlier filtering, median +- 2.5 * MAD is used instead of using mean +- 2 * SD
+
+
 2.1.1 (10 September 2021)
 ================
 

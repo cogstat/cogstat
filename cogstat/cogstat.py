@@ -15,7 +15,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.1.1'
+__version__ = '2.2dev'
 
 import matplotlib
 matplotlib.use("qt5agg")
@@ -453,32 +453,41 @@ class CogStatData:
 
         return cs_util.convert_output([output])
 
-    def filter_outlier(self, var_names=None, mode='2sd'):
+    def filter_outlier(self, var_names=None, mode='mad'):
         """
-        Filter the data_frame based on outliers.
+        Filter self.data_frame based on outliers.
 
         All variables are investigated independently and cases are excluded if any variables shows they are outliers.
-        If var_names is None, then all cases are used.
+        If var_names is None, then all cases are used (i.e., filtering is switched off).
 
         Parameters
         ----------
         var_names : None or list of str
             Names of the variables the exclusion is based on or None to include all cases.
-        mode : {'2sd'}
-            Mode of the exclusion - only 2sd is available at the moment
+        mode : {'mad', '2sd'}
+            Mode of the exclusion:
+                mad: median +- 3 * MAD
+                2sd: mean +- 2 * SD
+            CogStat uses only a single method (MAD), but for possible future code change, the previous (2sd) version is
+            also included.
 
         Returns
         -------
         list of str
-            List of HTML strings showing the filtered cases. The method modifies the dataframe in place.
+            List of HTML strings showing the filtered cases.
+            The method modifies the self.data_frame in place.
         """
+        mode_names = {'2sd': _('2 SD'),  # Used in the output
+                      'mad': _('MAD')}
+
         title = '<cs_h1>' + _('Filtering') + '</cs_h1>'
+
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
             self.filtering_status = None
             text_output = _('Filtering is switched off.')
-        else:  # Create a filtered dataframe based on the variable
-            filtered_data_indexes = []
+        else:  # Create a filtered dataframe based on the variable(s)
+            remaining_cases_indexes = []
             text_output = ''
             self.filtering_status = ''
             for var_name in var_names:
@@ -486,18 +495,34 @@ class CogStatData:
                     text_output += _('Only interval variables can be used for filtering. Ignoring variable %s.') % \
                                    var_name + '\n'
                     continue
-                # Currently only this simple method is used: cases with more than 2 SD difference are excluded
-                mean = np.mean(self.orig_data_frame[var_name].dropna())
-                sd = np.std(self.orig_data_frame[var_name].dropna(), ddof=1)
-                filtered_data_indexes.append(self.orig_data_frame[
-                    (self.orig_data_frame[var_name] < (mean + 2 * sd)) &
-                    (self.orig_data_frame[var_name] > (mean - 2 * sd))].index)
-                text_output += _('Filtering based on %s.\n') % (var_name + _(' (2 SD)'))
-                prec = cs_util.precision(self.orig_data_frame[var_name])+1
+                # Find the lower and upper limit
+                if mode == '2sd':
+                    mean = np.mean(self.orig_data_frame[var_name].dropna())
+                    sd = np.std(self.orig_data_frame[var_name].dropna(), ddof=1)
+                    lower_limit = mean - 2 * sd
+                    upper_limit = mean + 2 * sd
+                elif mode == 'mad':
+                    # Python implementations:
+                    # https://www.statsmodels.org/stable/generated/statsmodels.robust.scale.mad.html
+                    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.median_absolute_deviation.html
+                    from statsmodels.robust.scale import mad as mad_function
+                    median = np.median(self.orig_data_frame[var_name].dropna())
+                    mad_value = mad_function(self.orig_data_frame[var_name].dropna())
+                    lower_limit = median - 2.5 * mad_value
+                    upper_limit = median + 2.5 * mad_value
+                # Find the cases to be kept
+                remaining_cases_indexes.append(self.orig_data_frame[
+                                                 (self.orig_data_frame[var_name] > lower_limit) &
+                                                 (self.orig_data_frame[var_name] < upper_limit)].index)
+
+                # Display filtering information
+                text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
+                prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
                 text_output += _('Cases outside of the range will be excluded: %0.*f  --  %0.*f\n') % \
-                               (prec, mean - 2 * sd, prec, mean + 2 * sd)
+                               (prec, lower_limit, prec, upper_limit)
+                # Display the excluded cases
                 excluded_cases = \
-                    self.orig_data_frame.loc[self.orig_data_frame.index.difference(filtered_data_indexes[-1])]
+                    self.orig_data_frame.drop(remaining_cases_indexes[-1])
                 #excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
@@ -506,11 +531,12 @@ class CogStatData:
                                                                                      classes="table_cs_pd"))
                 else:
                     text_output += _('No cases were excluded.') + '\n'
+
+            # Do the filtering (remove outliers), modify self.data_frame in place
             self.data_frame = self.orig_data_frame.copy()
-            for filtered_data_index in filtered_data_indexes:
-                self.data_frame = self.data_frame.reindex(self.data_frame.index.intersection(filtered_data_index))
-            self.filtering_status = ', '.join(var_names) + _(' (2 SD)')
-            # TODO Add graph about the excluded cases based on the variable
+            for remaining_cases_index in remaining_cases_indexes:
+                self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
+            self.filtering_status = ', '.join(var_names) + ' (%s)' % mode_names[mode]
 
         return cs_util.convert_output([title, text_output])
 
