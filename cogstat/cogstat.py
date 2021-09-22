@@ -453,7 +453,7 @@ class CogStatData:
 
         return cs_util.convert_output([output])
 
-    def filter_outlier(self, var_names=None, mode='mad'):
+    def filter_outlier(self, var_names=None, mode='2.5mad'):
         """
         Filter self.data_frame based on outliers.
 
@@ -464,9 +464,9 @@ class CogStatData:
         ----------
         var_names : None or list of str
             Names of the variables the exclusion is based on or None to include all cases.
-        mode : {'mad', '2sd'}
+        mode : {'2.5mad', '2sd'}
             Mode of the exclusion:
-                mad: median +- 3 * MAD
+                2.5mad: median +- 2.5 * MAD
                 2sd: mean +- 2 * SD
             CogStat uses only a single method (MAD), but for possible future code change, the previous (2sd) version is
             also included.
@@ -478,7 +478,7 @@ class CogStatData:
             The method modifies the self.data_frame in place.
         """
         mode_names = {'2sd': _('2 SD'),  # Used in the output
-                      'mad': _('MAD')}
+                      '2.5mad': _('2.5 MAD')}
 
         title = '<cs_h1>' + _('Filtering') + '</cs_h1>'
 
@@ -501,7 +501,7 @@ class CogStatData:
                     sd = np.std(self.orig_data_frame[var_name].dropna(), ddof=1)
                     lower_limit = mean - 2 * sd
                     upper_limit = mean + 2 * sd
-                elif mode == 'mad':
+                elif mode == '2.5mad':
                     # Python implementations:
                     # https://www.statsmodels.org/stable/generated/statsmodels.robust.scale.mad.html
                     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.median_absolute_deviation.html
