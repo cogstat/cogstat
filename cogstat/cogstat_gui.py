@@ -707,7 +707,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 if '' in var_names:
                     text_result = cs_util.reformat_output('%s %s' %
                                                           (_('Compare variables.'),
-                                                           _('All levels of the factors should be set.')))
+                                                           _('A variable should be assigned to each level of the factors.')))
                     self.analysis_results[-1].add_output(text_result)
                 else:
                     result_list = self.active_data.compare_variables(var_names, factors, ylims)
