@@ -510,6 +510,8 @@ class CogStatData:
                     mad_value = mad_function(self.orig_data_frame[var_name].dropna())
                     lower_limit = median - 2.5 * mad_value
                     upper_limit = median + 2.5 * mad_value
+                else:
+                    raise ValueError('Invalid mode parameter was given')
                 # Find the cases to be kept
                 remaining_cases_indexes.append(self.orig_data_frame[
                                                  (self.orig_data_frame[var_name] > lower_limit) &

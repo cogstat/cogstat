@@ -485,7 +485,7 @@ Control	0.538	0.107''')
 10
 10
 1000''')
-        result = data.filter_outlier(var_names=['data'], mode='mad')
+        result = data.filter_outlier(var_names=['data'], mode='2.5mad')
         # data of Lays et al. 2013
         # as in Lays et al. 2013: median is 7, MAD is 5.1891
         # median +- 2.5*MAD is −5.97275 and 19.97275
