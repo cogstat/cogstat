@@ -584,7 +584,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable pair.'),
+            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore relation of variable pair'),
                                                              _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
             self._print_to_output_pane()
