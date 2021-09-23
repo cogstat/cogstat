@@ -584,7 +584,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('%s %s' % (_('Explore variable pair.'),
+            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable pair.'),
                                                              _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
@@ -629,7 +629,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         if not depend_names or not (row_names or col_names or page_names):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('%s %s' % (_('Pivot table.'),
+            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Pivot table'),
                                                              _('The dependent variable and at least one grouping '
                                                                'variable should be given.')))
         else:
@@ -663,8 +663,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         if (not RT_name) or (not error_name):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('%s %s' % (
-                _('Diffusion analysis.'), _('At least the reaction time and the error variables should be given.')))
+            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (
+                _('Behavioral data diffusion analysis'),
+                _('At least the reaction time and the error variables should be given.')))
         else:
             try:
                 text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names)
@@ -699,15 +700,17 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if len(factors) == 1:
             factors = []  # ignore single factor
         if len(var_names) < 2:
-            text_result = cs_util.reformat_output('%s %s' %
-                                                  (_('Compare variables.'), _('At least two variables should be set.')))
+            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
+                                                  (_('Compare repeated measures variables'),
+                                                   _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             try:
                 if '' in var_names:
-                    text_result = cs_util.reformat_output('%s %s' %
-                                                          (_('Compare variables.'),
-                                                           _('A variable should be assigned to each level of the factors.')))
+                    text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
+                                                          (_('Compare repeated measures variables'),
+                                                           _('A variable should be assigned to each level of the '
+                                                             'factors.')))
                     self.analysis_results[-1].add_output(text_result)
                 else:
                     result_list = self.active_data.compare_variables(var_names, factors, ylims)
@@ -743,7 +746,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if not var_names or not groups:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-            text_result = cs_util.reformat_output('%s %s' % (_('Compare groups.'),
+            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Compare groups'),
                                                              _('Both the dependent and the grouping variables should '
                                                                'be set.')))
             self.analysis_results[-1].add_output(text_result)
