@@ -6,26 +6,29 @@ Settings
 import os
 
 import configobj  # Would it be better to use the standard configparser module?
-from . import appdirs
+from . import appdirs  # The module handles the OS-specific user config dirs
 
 # Settings not handled in cogstat.ini
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui' any other
 # code will leave the output (e.g., for testing)
+# All other settings values are stored in the cogstat.ini file
 
-# Handle cogstat.ini file
+# Handle cogstat.ini file in user config dirs
 dirs = appdirs.AppDirs('cogstat')
 
+# If there is no cogstat-ini file for the user, create one with the default values
 if not os.path.isfile(dirs.user_config_dir + '/cogstat.ini'):
     import shutil
     if not os.path.exists(dirs.user_config_dir):
         os.makedirs(dirs.user_config_dir)
     shutil.copyfile(os.path.dirname(os.path.abspath(__file__)) + '/cogstat.ini', dirs.user_config_dir + '/cogstat.ini')
 
+# config is the user-specific file, default_config includes the default values
 config = configobj.ConfigObj(dirs.user_config_dir + '/cogstat.ini')
-# If new key was added to the default ini file, add it to the user ini file
 default_config = configobj.ConfigObj(os.path.dirname(os.path.abspath(__file__)) + '/cogstat.ini')
-old_config = dict(config)
+#old_config = dict(config)
 
+# If new key was added to the default ini file, add it to the user ini file
 for key in default_config.keys():
     # TODO if new section is added, this code cannot handle it
     if isinstance(default_config[key], str):
@@ -44,6 +47,8 @@ config.merge(default_config)
 if old_config != dict(config):
     config.write()
 """
+
+# Read the setting values from cogstat.ini
 
 # UI language
 language = config['language']
@@ -68,6 +73,16 @@ versions = {}  # To be modified from cogstat.py
 
 
 def save(keys, value):
+    """
+    Save the settings to cogstat.ini file. This should be called when Settings are changed in the Preferences.
+
+    Parameters
+    ==========
+    keys : list of str (1 or 2 items)
+        key of the settings
+    value : str
+        value for the key
+    """
     if len(keys) == 2:
         config[keys[0]][keys[1]] = value
     else:
