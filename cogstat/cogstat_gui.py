@@ -49,7 +49,7 @@ _ = t.gettext
 
 rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 
-broken_analysis = _('%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
+broken_analysis = _('<cs_h1>%s</cs_h1>Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'
 
@@ -503,7 +503,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_output(result)
             self._print_to_output_pane()
         except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outlier.')))
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outliers')))
             traceback.print_exc()
             self._print_to_output_pane()
         self._busy_signal(False)
@@ -559,7 +559,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.analysis_results[-1].add_output(result)
                 self._print_to_output_pane()
         except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable.')))
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable')))
             traceback.print_exc()
             self._print_to_output_pane()
         self._busy_signal(False)
@@ -603,7 +603,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             pass_diag = True
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                             _('Explore variable pair.')))
+                                                                             _('Explore relation of variable pair')))
                 traceback.print_exc()
                 self._print_to_output_pane()
         self._busy_signal(False)
@@ -637,7 +637,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             try:
                 text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
             except:
-                text_result = cs_util.reformat_output(broken_analysis % _('Pivot table.'))
+                text_result = cs_util.reformat_output(broken_analysis % _('Pivot table'))
                 traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
         self._print_to_output_pane()
@@ -671,7 +671,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             try:
                 text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names)
             except:
-                text_result = cs_util.reformat_output(broken_analysis % _('Diffusion analysis.'))
+                text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
                 traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
         self._print_to_output_pane()
@@ -718,7 +718,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
                         self.analysis_results[-1].add_output(result)
             except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare variables.')))
+                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
                 traceback.print_exc()
         self._print_to_output_pane()
         self._busy_signal(False)
@@ -762,7 +762,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self._print_to_output_pane()
                 except:
                     self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                                 _('Compare groups.')))
+                                                                                 _('Compare groups')))
                     traceback.print_exc()
                     self._print_to_output_pane()
         self._busy_signal(False)

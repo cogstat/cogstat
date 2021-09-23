@@ -480,7 +480,7 @@ class CogStatData:
         mode_names = {'2sd': _('2 SD'),  # Used in the output
                       '2.5mad': _('2.5 MAD')}
 
-        title = '<cs_h1>' + _('Filtering') + '</cs_h1>'
+        title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
