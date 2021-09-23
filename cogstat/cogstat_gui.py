@@ -587,6 +587,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable pair.'),
                                                              _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
+            self._print_to_output_pane()
         else:
             try:
                 for x in var_names:
