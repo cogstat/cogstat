@@ -165,15 +165,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  _('Ctrl+1'), 'self.explore_variable', True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
                                  _('Ctrl+2'), 'self.explore_variable_pair', True],
-                                ['separator'],
-                                ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
-                                ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
-                                 '...', 'Ctrl+Shift+D', 'self.diffusion', True],
-                                ['separator'],
                                 ['/icons8-combo-chart.svg', _('Compare repeated measures va&riables')+'...',
                                  'Ctrl+R', 'self.compare_variables', True],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
                                  'self.compare_groups', True],
+                                ['separator'],
+                                ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
+                                ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
+                                 '...', 'Ctrl+Shift+D', 'self.diffusion', True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
