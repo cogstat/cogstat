@@ -551,6 +551,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 return
         self._busy_signal(True)
+        if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
+            self.analysis_results.append(GuiResultPackage())
+            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable'),
+                                                                            _('At least one variable should be set.')))
+            self.analysis_results[-1].add_output(text_result)
+            self._print_to_output_pane()
         try:
             for var_name in var_names:
                 self.analysis_results.append(GuiResultPackage())
@@ -748,8 +754,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Compare groups'),
-                                                             _('Both the dependent and the grouping variables should '
-                                                               'be set.')))
+                                                             _('Both the dependent and at least one grouping variables '
+                                                               'should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             for var_name in var_names:
@@ -759,12 +765,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     result_list = self.active_data.compare_groups(var_name, groups, single_case_slope_SE,
                                                                   single_case_slope_trial_n, ylims)
                     self.analysis_results[-1].add_output(result_list)
-                    self._print_to_output_pane()
                 except:
                     self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                                  _('Compare groups')))
                     traceback.print_exc()
-                    self._print_to_output_pane()
+        self._print_to_output_pane()
         self._busy_signal(False)
 
     ### Result menu methods ###
