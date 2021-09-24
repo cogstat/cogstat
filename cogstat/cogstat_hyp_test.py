@@ -193,6 +193,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
                 'the present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
                            power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
                                                       alternative='two-sided')
+                # d: (mean divided by the standard deviation)
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value) + ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
@@ -360,6 +361,7 @@ def paired_t_test(pdf, var_names):
             'present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
                        power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
                                                   alternative='two-sided')
+        # d: (mean divided by the standard deviation of the differences)
 
     df = len(variables) - 1
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
@@ -724,6 +726,7 @@ def independent_t_test(pdf, var_name, grouping_name):
                          'size for the present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
                        power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
                                                   ratio=len(var2) / len(var1), alternative='two-sided')
+        # d: (difference between the two means divided by the standard deviation)
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.*f, %s\n' % \
                    (df, non_data_dim_precision, t, print_p(p))
@@ -827,12 +830,21 @@ def one_way_anova(pdf, var_name, grouping_name):
 
     # Sensitivity power analysis
     if run_power_analysis:
-        from statsmodels.stats.power import FTestAnovaPower
-        power_analysis = FTestAnovaPower()
+        # Calculate effect size in F
+        # statsmodels may fail sometime, see its doc Notes
+        try:
+            from statsmodels.stats.power import FTestAnovaPower
+            power_analysis = FTestAnovaPower()
+            additional_effect_size = _('Minimal effect size in %s') % _('f') + ': %0.2f.' % \
+                                     power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05,
+                                                                power=0.95, k_groups=len(set(data[grouping_name])))
+        except ValueError:
+            additional_effect_size = ''
+        # Calculate effect size in eta-square
         text_result += _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
-                         'size for the present hypothesis test (effect size is in %s):') % _('f') + \
-                       ' %0.2f\n' % power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
-                                                               k_groups=len(set(data[grouping_name])))
+                         'size for the present hypothesis test (effect size is in %s):') % _('eta-square') + \
+                       ' %0.2f. ' % pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
+                                                         k=len(set(data[grouping_name]))) + additional_effect_size + '\n'
 
     # FIXME https://github.com/cogstat/cogstat/issues/136
     anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (var_name, grouping_name)), data=data).fit()

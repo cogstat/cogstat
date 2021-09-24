@@ -6,6 +6,7 @@ Trivial changes when a new feature is added are not denoted.
 
 ## New features
 - :warning: For outlier filtering, median +- 2.5 * MAD is used instead of using mean +- 2 * SD
+- One-way ANOVA's sensitivity power analysis displays eta-square too
 
 ## Fixes
 - Various UI and output fixes

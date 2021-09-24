@@ -400,8 +400,10 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 0.495, 0.615 TODO https://github.com/cogstat/cogstat/issues/56
         self.assertTrue('<i>W</i> = 0.68, <i>p</i> = .517' in result[8])  # <i>W</i> = 0.675
         # Sensitivity power analysis
-            # G*Power 3.1.9.6: 0.7597473
-        self.assertTrue('(effect size is in f): 0.76' in result[8])
+            # TODO eta-square
+            # G*Power (f value) 3.1.9.6: 0.7597473
+        self.assertTrue('(effect size is in eta-square): 0.15' in result[8])
+        self.assertTrue('effect size in f: 0.76' in result[8])
             # jamovi 2.0.0.0 4.00, 0.030
         self.assertTrue('<i>F</i>(2, 27) = 4.00, <i>p</i> = .030' in result[8])
         # TODO post-hoc
