@@ -550,7 +550,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 return
         self._busy_signal(True)
-        if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
+        if len(var_names) < 1:  # TODO this check should go to the appropriate dialog
             self.analysis_results.append(GuiResultPackage())
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable'),
                                                                             _('At least one variable should be set.')))
