@@ -72,6 +72,29 @@ def print_p(p, style='apa'):
             return '<i>p</i> = ' + ('%0.3f' % p).lstrip('0')
 
 
+def print_sensitivity_effect_sizes(effect_sizes):
+    """
+    Print the effect sizes of the sensitivity power analysis results.
+
+    Parameters
+    ----------
+    effect_sizes: list of strings
+        Strings displaying the effect sizes.
+
+    Returns
+    -------
+    str
+        String to be added to the output
+    """
+    effect_sizes_string = ''.join(effect_sizes)
+    if effect_sizes_string:
+        text_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present '
+                         'sample size for the present hypothesis test.') + ' ' + effect_sizes_string + ('\n')
+    else:
+        text_result = _('Sensitivity power could not be calculated.') + ('\n')
+    return text_result
+
+
 ### Single variables ###
 
 
@@ -186,13 +209,17 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
 
         # Sensitivity power analysis
         if run_power_analysis:
-            from statsmodels.stats.power import TTestPower
-            power_analysis = TTestPower()
-            text_result += _(
-                'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for '
-                'the present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
-                           power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
-                                                      alternative='two-sided')
+            # statsmodels may fail, see its API documentation
+            try:
+                from statsmodels.stats.power import TTestPower
+                power_analysis = TTestPower()
+                d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
+                                power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
+                                                           alternative='two-sided')
+            except ValueError:
+                d_effect_size = ''
+            text_result += print_sensitivity_effect_sizes([d_effect_size])
+
                 # d: (mean divided by the standard deviation)
 
         text_result += _('One sample t-test against %g') % \
@@ -354,13 +381,16 @@ def paired_t_test(pdf, var_names):
 
     # Sensitivity power analysis
     if run_power_analysis:
-        from statsmodels.stats.power import TTestPower
-        power_analysis = TTestPower()
-        text_result += _(
-            'Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the '
-            'present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
-                       power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
-                                                  alternative='two-sided')
+        # statsmodels may fail, see its API documentation
+        try:
+            from statsmodels.stats.power import TTestPower
+            power_analysis = TTestPower()
+            d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
+                            power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
+                                                       alternative='two-sided')
+        except ValueError:
+            d_effect_size = ''
+        text_result += print_sensitivity_effect_sizes([d_effect_size])
         # d: (mean divided by the standard deviation of the differences)
 
     df = len(variables) - 1
@@ -720,12 +750,16 @@ def independent_t_test(pdf, var_name, grouping_name):
 
     # Sensitivity power analysis
     if run_power_analysis:
-        from statsmodels.stats.power import TTestIndPower
-        power_analysis = TTestIndPower()
-        text_result += _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
-                         'size for the present hypothesis test (effect size is in %s):') % _('d') + ' %0.2f\n' % \
-                       power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
-                                                  ratio=len(var2) / len(var1), alternative='two-sided')
+        try:
+            # statsmodels may fail, see its API documentation
+            from statsmodels.stats.power import TTestIndPower
+            power_analysis = TTestIndPower()
+            d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
+                            power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
+                                                       ratio=len(var2) / len(var1), alternative='two-sided')
+        except ValueError:
+            d_effect_size = ''
+        text_result += print_sensitivity_effect_sizes([d_effect_size])
         # d: (difference between the two means divided by the standard deviation)
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.*f, %s\n' % \
@@ -830,21 +864,28 @@ def one_way_anova(pdf, var_name, grouping_name):
 
     # Sensitivity power analysis
     if run_power_analysis:
-        # Calculate effect size in F
-        # statsmodels may fail sometime, see its doc Notes
+        # 1. Calculate effect size in F
+        # statsmodels may fail, see its API documentation
         try:
             from statsmodels.stats.power import FTestAnovaPower
             power_analysis = FTestAnovaPower()
-            additional_effect_size = _('Minimal effect size in %s') % _('f') + ': %0.2f.' % \
+            F_effect_size = _('Minimal effect size in %s') % _('f') + ': %0.2f. ' % \
                                      power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05,
                                                                 power=0.95, k_groups=len(set(data[grouping_name])))
         except ValueError:
-            additional_effect_size = ''
-        # Calculate effect size in eta-square
-        text_result += _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
-                         'size for the present hypothesis test (effect size is in %s):') % _('eta-square') + \
-                       ' %0.2f. ' % pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
-                                                         k=len(set(data[grouping_name]))) + additional_effect_size + '\n'
+            F_effect_size = ''
+
+        # 2. Calculate effect size in eta-square
+        # pingouin may fail in calculating the effect size, see its API documentation
+        eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
+                                          k=len(set(data[grouping_name])))
+        if np.isnan(eta_square):
+            eta_square_effect_size = ''
+        else:
+            eta_square_effect_size = _('Minimal effect size in %s') % _('eta-square') + ': %0.2f. ' % eta_square
+
+        # 3. Create output text
+        text_result += print_sensitivity_effect_sizes([F_effect_size, eta_square_effect_size])
 
     # FIXME https://github.com/cogstat/cogstat/issues/136
     anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (var_name, grouping_name)), data=data).fit()
@@ -986,12 +1027,16 @@ def chi_squared_test(pdf, var_name, grouping_name):
 
     # Sensitivity power analysis
     if run_power_analysis:
-        from statsmodels.stats.power import GofChisquarePower
-        power_analysis = GofChisquarePower()
-        chi_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample '
-                       'size for the present hypothesis test (effect size is in %s):') % _('w') + ' %0.2f\n' % \
-                     power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(), alpha=0.05,
-                                                power=0.95, n_bins=cont_table_data.size)
+        try:
+            # statsmodels may fail, see its API documentation
+            from statsmodels.stats.power import GofChisquarePower
+            power_analysis = GofChisquarePower()
+            w_effect_size = _('Minimal effect size in %s') % _('w') + ': %0.2f. ' % \
+                            power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(), alpha=0.05,
+                                                       power=0.95, n_bins=cont_table_data.size)
+        except ValueError:
+            w_effect_size = ''
+        chi_result += print_sensitivity_effect_sizes([w_effect_size])
 
     chi_result += _("Result of the Pearson's chi-squared test: ") + \
                   '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.*f, %s' % \

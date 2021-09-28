@@ -115,7 +115,7 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681
-        self.assertTrue('(effect size is in d): 0.68' in result[11])
+        self.assertTrue('effect size in d: 0.68' in result[11])
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 1.92, 0.065
         self.assertTrue('t</i>(29) = 1.92' in result[11])
@@ -194,7 +194,7 @@ class CogStatTestCase(unittest.TestCase):
             # G*Power 3.1.9.6, Goodness of fit test, df=4: Contingency tables: 0.7868005
             #  TODO GPower gives 0.8707028 with df of 8; Seems like statsmodels GofChisquarePower calculates power
             #  with df=8; should we use 4 or 8 df? https://github.com/cogstat/cogstat/issues/134
-        self.assertTrue('(effect size is in w): 0.87' in result[6])
+        self.assertTrue('effect size in w: 0.87' in result[6])
         # Chi-squared
             # jamovi v1.2.19.0: X2, df, p, N: 8.31, 4, 0.081, 30
         self.assertTrue('(4, <i>N</i> = 30) = 8.31' in result[6])  # (4, <i>N</i> = 30) = 8.312
@@ -243,7 +243,7 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681
-        self.assertTrue('(effect size is in d): 0.68' in result[7])
+        self.assertTrue('effect size in d: 0.68' in result[7])
         # Paired samples t-test
             # jamovi v1.2.19.0: t, df, p: 0.110, 29.0, 0.913
         self.assertTrue('<i>t</i>(29) = 0.11, <i>p</i> = .913' in result[7])
@@ -369,7 +369,7 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 1.3641059
             # jamovi v1.2.19.0, jpower 0.1.2: 1.36
-        self.assertTrue('(effect size is in d): 1.36' in result[8])
+        self.assertTrue('effect size in d: 1.36' in result[8])
         # independent samples t-test
             # jamovi v1.2.19.0: t, df, p: -1.93, 28.0, 0.064
         self.assertTrue('<i>t</i>(28) = -1.93, <i>p</i> = .064' in result[8])
@@ -402,7 +402,7 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # TODO eta-square
             # G*Power (f value) 3.1.9.6: 0.7597473
-        self.assertTrue('(effect size is in eta-square): 0.15' in result[8])
+        self.assertTrue('effect size in eta-square: 0.15' in result[8])
         self.assertTrue('effect size in f: 0.76' in result[8])
             # jamovi 2.0.0.0 4.00, 0.030
         self.assertTrue('<i>F</i>(2, 27) = 4.00, <i>p</i> = .030' in result[8])
