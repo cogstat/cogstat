@@ -553,12 +553,18 @@ class CogStatData:
 
     def _meas_lev_vars(self, variables):
         """
-        arguments:
-        variables: list of variable names
+        For the set of variables, find the lowest measurement level and if there is unknown variable.
 
-        returns:
-        meas_lev (string): the lowest measurement level among the listed variables
-        unknown_var (boolean):  whether list of variables includes at least one unknown variable
+        Parameters
+        ----------
+        variables : list of str
+            Variable names
+
+        Returns:
+        {'nom', 'ord', 'int'}
+            the lowest measurement level among the listed variables
+        bool
+            does the list of variables include at least one unknown variable?
         """
         all_levels = [self.data_measlevs[var_name] for var_name in variables]
 
@@ -572,11 +578,11 @@ class CogStatData:
             meas_lev = 'int'
 
         if 'unk' in all_levels:
-            unknown_var = True
+            unknown_meas_lev = True
         else:
-            unknown_var = False
+            unknown_meas_lev = False
 
-        return meas_lev, unknown_var
+        return meas_lev, unknown_meas_lev
 
     ### Compile statistics ###
 
@@ -745,7 +751,11 @@ class CogStatData:
         """
         plt.close('all')
         meas_lev, unknown_var = self._meas_lev_vars([x, y])
+
+        # Analysis output header
         title = '<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>'
+
+        # 0. Analyis information
         raw_result = _('Exploring variable pair: ') + x + ' (%s), ' % self.data_measlevs[x] + y + \
                      ' (%s)\n' % self.data_measlevs[y]
         raw_result += self._filtering_status()
@@ -765,14 +775,32 @@ class CogStatData:
         # Raw data chart
         raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, self.data_frame, raw_data=True,
                                                         xlims=xlims, ylims=ylims)
-                                                        # slope and intercept are set to 0, but they
+                                                        # slope and intercept parameters are set to 0, but they
                                                         # are not used with raw_data
 
-        # 2-3. Sample and population properties
+        # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(self.data_frame, [x], [y], count=True, percent=True,
                                                        margins=True)
+        elif meas_lev == 'int':
+            # lingress() is run twice in the analysis, otherwise the code would be a bit messed up
+            slope, intercept, r_value, p_value, std_err = stats.linregress(data[x], data[y])
+            # TODO output with the precision of the data
+            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (slope, intercept)
+        sample_result += '\n'
+
+        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
+
+        # Make graphs
+        # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
+        if meas_lev == 'int':
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, self.data_frame,
+                                                               xlims=xlims, ylims=ylims)
+        else:
+            sample_graph = None
+
+        # 3. Population properties
         estimation_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
                             '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
@@ -786,16 +814,15 @@ class CogStatData:
             population_result += '<decision>'+_('Interval variables.')+' >> ' + \
                                   _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
             df = len(data)-2
-            r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])  # TODO select variables by name instead of iloc
+            r, p = stats.pearsonr(data[x], data[y])
             population_result += _("Pearson's correlation") + \
                                  ': <i>r</i>(%d) = %0.*f, %s\n' % \
                                  (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
 
-            slope, intercept, r_value, p_value, std_err = stats.linregress(data.iloc[:, 0], data.iloc[:, 1])
+            slope, intercept, r_value, p_value, std_err = stats.linregress(data[x], data[y])
             # TODO output with the precision of the data
-            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (slope, intercept)
 
-            r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
+            r, p = stats.spearmanr(data[x], data[y])
             population_result += _("Spearman's rank-order correlation") + \
                                  ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
                                  (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
@@ -805,7 +832,7 @@ class CogStatData:
             population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
                                  '\n</decision>'
             df = len(data)-2
-            r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
+            r, p = stats.spearmanr(data[x], data[y])
             population_result += _("Spearman's rank-order correlation") + \
                                  ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
                                  (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
@@ -820,18 +847,9 @@ class CogStatData:
                                  '\n</decision>'
             chi_result = cs_hyp_test.chi_squared_test(self.data_frame, x, y)
             population_result += chi_result
-        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
         estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
-        sample_result += '\n'
         population_result += '\n'
 
-        # Make graph
-        # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
-        if meas_lev in ['int', 'unk']:
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, self.data_frame,
-                                                               xlims=xlims, ylims=ylims)
-        else:
-            sample_graph = None
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, standardized_effect_size_result,
                                        sample_graph, estimation_result, population_result])
 
