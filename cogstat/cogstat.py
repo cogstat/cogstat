@@ -755,7 +755,7 @@ class CogStatData:
         # Analysis output header
         title = '<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>'
 
-        # 0. Analyis information
+        # 0. Analysis information
         raw_result = _('Exploring variable pair: ') + x + ' (%s), ' % self.data_measlevs[x] + y + \
                      ' (%s)\n' % self.data_measlevs[y]
         raw_result += self._filtering_status()
@@ -803,52 +803,12 @@ class CogStatData:
         # 3. Population properties
         estimation_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
                             '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
-        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
-        population_result = '\n'
-
-        # Compute and print numeric results
-        slope, intercept = None, None
-        if meas_lev == 'int':
-            population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                                 _('Testing if correlation differs from 0.') + '</decision>\n'
-            population_result += '<decision>'+_('Interval variables.')+' >> ' + \
-                                  _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
-            df = len(data)-2
-            r, p = stats.pearsonr(data[x], data[y])
-            population_result += _("Pearson's correlation") + \
-                                 ': <i>r</i>(%d) = %0.*f, %s\n' % \
-                                 (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
-
-            slope, intercept, r_value, p_value, std_err = stats.linregress(data[x], data[y])
-            # TODO output with the precision of the data
-
-            r, p = stats.spearmanr(data[x], data[y])
-            population_result += _("Spearman's rank-order correlation") + \
-                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
-                                 (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
-        elif meas_lev == 'ord':
-            population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                                 _('Testing if correlation differs from 0.') + '</decision>\n'
-            population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
-                                 '\n</decision>'
-            df = len(data)-2
-            r, p = stats.spearmanr(data[x], data[y])
-            population_result += _("Spearman's rank-order correlation") + \
-                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
-                                 (df, cs_hyp_test.non_data_dim_precision, r, cs_hyp_test.print_p(p))
-        elif meas_lev == 'nom':
+        #pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        if meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(self.data_frame, [x], [y], ci=True)
-            population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                                 _('Testing if variables are independent.') + '</decision>\n'
-            if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
-                population_result += '<warning>' + _('Not all variables are nominal. Consider comparing groups.') + \
-                                     '</warning>\n'
-            population_result += '<decision>' + _('Nominal variables.') + ' >> ' + _('Running Cramér\'s V.') + \
-                                 '\n</decision>'
-            chi_result = cs_hyp_test.chi_squared_test(self.data_frame, x, y)
-            population_result += chi_result
         estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
-        population_result += '\n'
+
+        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev)+ '\n'
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, standardized_effect_size_result,
                                        sample_graph, estimation_result, population_result])

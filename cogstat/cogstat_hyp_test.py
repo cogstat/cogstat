@@ -260,6 +260,68 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     return text_result
 
 
+### Variable pair ###
+
+
+def variable_pair_hyp_test(data, x, y, meas_lev):
+    """
+    Run relevant hypothesis tests.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+        the dataframe that includes the relevant two variables
+    x : str
+        name of the x variable in data
+    y : str
+        name of the y variable in data
+    meas_lev : {'int', 'ord', 'nom'}
+        lowest measurement level of the data
+
+    Returns
+    -------
+    str
+        Hypothesis test results in html format
+    """
+    population_result = ''
+    if meas_lev == 'int':
+        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
+                             _('Testing if correlation differs from 0.') + '</decision>\n'
+        population_result += '<decision>'+_('Interval variables.')+' >> ' + \
+                             _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
+        df = len(data) - 2
+        r, p = stats.pearsonr(data[x], data[y])
+        population_result += _("Pearson's correlation") + \
+                             ': <i>r</i>(%d) = %0.*f, %s\n' % \
+                             (df, non_data_dim_precision, r, print_p(p))
+
+        r, p = stats.spearmanr(data[x], data[y])
+        population_result += _("Spearman's rank-order correlation") + \
+                             ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                             (df, non_data_dim_precision, r, print_p(p))
+    elif meas_lev == 'ord':
+        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
+                             _('Testing if correlation differs from 0.') + '</decision>\n'
+        population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
+                             '\n</decision>'
+        df = len(data) - 2
+        r, p = stats.spearmanr(data[x], data[y])
+        population_result += _("Spearman's rank-order correlation") + \
+                             ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                             (df, non_data_dim_precision, r, print_p(p))
+    elif meas_lev == 'nom':
+        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
+                             _('Testing if variables are independent.') + '</decision>\n'
+        # TODO enable the following warning
+        #if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
+        #    population_result += '<warning>' + _('Not all variables are nominal. Consider comparing groups.') + \
+        #                         '</warning>\n'
+        population_result += '<decision>' + _('Nominal variables.') + ' >> ' + _('Running Cramér\'s V.') + \
+                             '\n</decision>'
+        population_result += chi_squared_test(data, x, y)
+    return population_result
+
+
 ### Compare variables ###
 
 
