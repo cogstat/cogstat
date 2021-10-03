@@ -132,7 +132,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
     if group_name:
         data = temp_data[temp_data[group_name] == group_value][var_name].dropna()
     else:
-        data = temp_data[var_name].dropna()
+        data = temp_data[var_name].dropna()  # TODO remove dropna() after all callers ensure that nas are dropped
 
     if data_measlevs[var_name] in ['nom', 'ord']:
         return False, '<decision>' + _('Normality can be checked only for interval variables.') + '\n</decision>'
@@ -175,29 +175,32 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', 
 
 
 def one_t_test(pdf, data_measlevs, var_name, test_value=0):
-    """One sample t-test
+    """Calculate one sample t-test.
 
-    arguments:
-    var_name (str):
+    Parameters
+    ----------
+    pdf : pandas dataframe
+        It is sufficient to include only the relevant variable. It is assumed that nans are dropped.
+    var_name : str
         Name of the variable to test.
-    test_value (numeric):
+    test_value : numeric
         Test against this value.
 
-    return:
-    text_result (html str):
+    Returns
+    -------
+    str
         Result in APA format.
-    image (matplotlib):
+    matplotlib chart
         Bar chart with mean and confidence interval.
     """
     text_result = ''
-    data = pdf[var_name].dropna()
+    data = pdf[var_name]
     if data_measlevs[var_name] in ['int', 'unk']:
         if data_measlevs[var_name] == 'unk':
             text_result += warn_unknown_variable
         if len(set(data)) == 1:
             return _('One sample t-test cannot be run for constant variable.\n'), None
 
-        data = pdf[var_name].dropna()
         descr = DescrStatsW(data)
         t, p, df = descr.ttest_mean(float(test_value))
         # Or we could use confidence_interval_t
@@ -230,11 +233,18 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
 
 
 def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
-    """Wilcoxon signed-rank test
+    """Calculate Wilcoxon signed-rank test.
 
-    arguments:
-    var_name (str):
-    value (numeric):
+    Parameters
+    pdf : pandas dataframe
+
+    var_name : str
+
+    value : numeric
+
+    Returns
+    -------
+
     """
 
     text_result = ''
@@ -251,7 +261,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
             text_result += _('Result of Wilcoxon signed-rank test')+': <i>W</i> = %0.3g, %s\n' % (v, cs_util.print_p(p))
         '''
         T, p = stats.wilcoxon(np.array(pdf[var_name] - float(value)), correction=True)
-        # we need to convert the pandas dataframe to numpy arraym because pdf cannot be always handled
+        # we need to convert the pandas dataframe to numpy array because pdf cannot be always handled
         # correction=True in order to work like the R wilcox.test
         text_result += _('Result of Wilcoxon signed-rank test') + \
                        ': <i>T</i> = %0.*f, %s\n' % (non_data_dim_precision, T, print_p(p))

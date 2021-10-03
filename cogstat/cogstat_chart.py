@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 This module contains functions for creating charts.
+
+Functions get the data (as pandas dataframe or as pandas series), and variable name(s) and other relevant parameters,
+and they return one or several graphs.
 """
 
 import gettext
@@ -235,18 +238,27 @@ def _mosaic_labelizer(crosstab_data, l, separator='\n'):
 ####################################
 
 
-def create_variable_raw_chart(pdf, data_measlevs, var_name, data):
+def create_variable_raw_chart(pdf, data_measlevs, var_name):
     """
 
-    :param pdf:
-    :param data_measlevs:
-    :param var_name:
-    :param data:
-    :return:
+    Parameters
+    ----------
+    pdf : pandas dataframe
+        It is sufficient to include only the relevant variable. It is assumed that nans are dropped.
+    data_measlevs :
+
+    var_name : str
+        Name of the variable to display
+
+    Returns
+    -------
+    matplotlib chart
     """
     if data_measlevs[var_name] == 'ord':
-        data_value = pdf[var_name].dropna()
-        data = pd.Series(stats.rankdata(data_value))
+        data_orig_value = pdf[var_name].dropna()
+        data = pd.Series(stats.rankdata(data_orig_value))
+    else:
+        data = pdf[var_name].dropna()
 
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25))
@@ -268,14 +280,14 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name, data):
         elif data_measlevs[var_name] == 'ord':
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i)-1])
-                                if i-1 in range(len(data_value)) else '%i' % i for i in ax.get_xticks()])
+            ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_orig_value)[int(i)-1])
+                                if i-1 in range(len(data_orig_value)) else '%i' % i for i in ax.get_xticks()])
             _set_axis_measurement_level(ax, 'ord', 'nom')
     elif data_measlevs[var_name] in ['nom']:
         # For nominal variables the histogram is a frequency graph
         plt.figure()
-        values = list(set(pdf[var_name]))
-        freqs = [list(pdf[var_name]).count(i) for i in values]
+        values = list(set(data))
+        freqs = [list(data).count(i) for i in values]
         locs = np.arange(len(values))
         plt.title(_plt('Histogram'))
         plt.bar(locs, freqs, 0.9, color=theme_colors[0])
@@ -290,14 +302,24 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name, data):
 def create_histogram_chart(pdf, data_measlevs, var_name):
     """Histogram with individual data and boxplot
 
-    arguments:
-    var_name (str): name of the variable
+    Parameters
+    ----------
+    pdf : pandas dataframe
+        It is sufficient to include only the relevant variable. It is assumed that nans are dropped.
+    data_measlevs :
+
+    var_name : str
+        name of the variable
+
+    Returns
+    -------
+
     """
     chart_result = ''
     max_length = 10  # maximum printing length of an item # TODO print ... if it's exceeded
-    data = pdf[var_name].dropna()
+    data = pdf[var_name]
     if data_measlevs[var_name] == 'ord':
-        data_value = pdf[var_name].dropna()  # The original values of the data
+        data_value = data.copy(deep=True)  # The original values of the data
         data = pd.Series(stats.rankdata(data_value))  # The ranks of the data
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
         categories_n = len(set(data))
@@ -367,14 +389,21 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
     return plt.gcf()
 
 
-def create_normality_chart(data, var_name):
+def create_normality_chart(pdf, var_name):
     """
 
-    :param data:
-    :param var_name:
-    :return:
+    Parameters
+    ----------
+    pdf : pandas dataframe
+
+    var_name : str
+
+    Returns
+    -------
+
     """
 
+    data = pdf[var_name]
     # Prepare the frequencies for the plot
     val_count = data.value_counts()
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
@@ -428,6 +457,20 @@ def create_normality_chart(data, var_name):
 
 
 def create_variable_population_chart(data, var_name, ci):
+    """
+
+    Parameters
+    ----------
+    data :  pandas series
+        It is assumed that nans are dropped.
+    var_name : str
+
+    ci :
+
+    Returns
+    -------
+    matplotlib chart
+    """
     plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.35))
     plt.barh([1], [data.mean()], xerr=[ci], color=theme_colors[0], ecolor='black')
     plt.gca().axes.get_yaxis().set_visible(False)
@@ -439,6 +482,19 @@ def create_variable_population_chart(data, var_name, ci):
 
 
 def create_variable_population_chart_2(data, var_name):
+    """
+
+    Parameters
+    ----------
+    data : pandas series
+
+    var_name : str
+
+
+    Returns
+    -------
+
+    """
     # TODO merge with create_variable_popuplation_chart
     plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.35))
     plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar

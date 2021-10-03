@@ -145,7 +145,7 @@ def precision(data):
         Maximum number of decimals in data
         None if data was not numerical or empty series was given
     """
-    data = data.dropna()
+    data = data.dropna()  # TODO remove dropna() when all callers already drop it
     if len(data) == 0:
         return None
 

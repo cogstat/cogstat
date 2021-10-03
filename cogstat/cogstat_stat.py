@@ -302,31 +302,29 @@ def safe_var_names(names):  # TODO not used at the moment. maybe could be delete
 ### Single variables ###
 
 
-def display_variable_raw_data(pdf, var_name):
-    """Display n of valid cases
-    """
-    data = pdf[var_name].dropna()
-    text_result = _('N of valid cases: %g') % len(data) + '\n'
-    missing_cases = len(pdf[var_name])-len(data)
-    text_result += _('N of missing cases: %g') % missing_cases + '\n'
-    return text_result
-
-
 def frequencies(pdf, var_name, meas_level):
-    """Frequencies
-    
-    arguments:
-    var_name (str): name of the variable
-    meas_level: measurement level of the variable
+    """Display frequency distribution of a variable.
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_name : str
+        name of the variable
+    meas_level :
+        measurement level of the variable
+
+    Returns
+    -------
+
     """
 
     freq = pd.DataFrame()
     freq[_('Value')] = freq.index
-    freq[_('Freq')] = pdf[var_name].value_counts(dropna=False).sort_index()
+    freq[_('Freq')] = pdf[var_name].value_counts().sort_index()
     freq[_('Value')] = freq.index  # previous assignment gives nans for empty df
     if meas_level != 'nom':
         freq[_('Cum freq')] = freq[_('Freq')].cumsum()
-    freq[_('Rel freq')] = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index() * 100
+    freq[_('Rel freq')] = pdf[var_name].value_counts(normalize=True).sort_index() * 100
     if meas_level != 'nom':
         freq[_('Cum rel freq')] = freq[_('Rel freq')].cumsum()
     text_result = _format_html_table(freq.to_html(formatters={_('Rel freq'): lambda x: '%.1f%%' % x,
@@ -336,21 +334,29 @@ def frequencies(pdf, var_name, meas_level):
 
 
 def proportions_ci(pdf, var_name):
-    """Proportions confidence intervals
+    """Calculate proportions confidence intervals.
 
-    arguments:
-    var_name (str): name of the variable
+    Parameters
+    ----------
+    pdf : pandas dataframe
+        It is assumed that nans are dropped.
+    var_name : str
+        name of the variable
+
+    Returns
+    -------
+
     """
     from statsmodels.stats import proportion
 
-    proportions = pdf[var_name].value_counts(normalize=True, dropna=False).sort_index()
+    proportions = pdf[var_name].value_counts(normalize=True).sort_index()
     proportions_ci_np = proportion.multinomial_proportions_confint(proportions)
     proportions_ci_pd = pd.DataFrame(proportions_ci_np, index=proportions.index, columns=[_('low'), _('high')]) * 100
     text_result = '%s - %s\n%s' % (_('Relative frequencies'), _('95% confidence interval (multinomial proportions)'),
                                    _format_html_table(proportions_ci_pd.to_html(bold_rows=False,
                                                                                 float_format=lambda x: '%.1f%%' % x,
                                                                                 classes="table_cs_pd")))
-    if (pdf[var_name].value_counts(dropna=False) < 5).any():
+    if (pdf[var_name].value_counts() < 5).any():
         text_result += '<warning>' + _('Some of the cells do not include at least 5 cases, so the confidence '
                                        'intervals may be invalid.') + '</warning>\n'
     return text_result
@@ -360,14 +366,22 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     """
     Computes descriptive stats for variables and/or groups.
 
-    arguments:
-    var_names: list of variable names to use
-    groups: list of grouping variable names
-    meas_levs:
-    statistics: list of strings, they can be numpy functions, such as 'mean, 'median', and they should be included in
-                the stat_names list
+    Parameters
+    ----------
+    var_names : list of str
+        variable names to use
+    groups : list of str
+        grouping variable names
+    meas_levs :
+
+    statistics : list of str
+        they can be numpy functions, such as 'mean, 'median', and they should be included in the stat_names list
 
     Now it only handles a single dependent variable and a single grouping variable.
+
+    Returns
+    -------
+
     """
     stat_names = {'mean': _('Mean'),
                   'median': _('Median'),
@@ -402,7 +416,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     # Compute only variable statistics
     if not groups:
         # drop all data with NaN pair
-        data = pdf[var_names].dropna()
+        data = pdf[var_names].dropna()  # TODO dropna() should be unnecessary - nans have to be dropped before calling this function
         pdf_result = pd.DataFrame(columns=var_names)
         text_result += '<cs_h3>' + (_('Descriptives for the variables') if len(var_names) > 1 else
                                     _('Descriptives for the variable')) + '</cs_h3>'
@@ -449,10 +463,10 @@ def variable_estimation(data, statistics=[]):
 
     Parameters
     ----------
-    data :
+    data : pandas series
+         It is assumed that nans are dropped.
 
-    statistics : list of str
-        'mean', 'std', 'median'
+    statistics : list of {'mean', 'std', 'median'}
 
     Returns
     -------
@@ -464,19 +478,19 @@ def variable_estimation(data, statistics=[]):
     for statistic in statistics:
         if statistic == 'mean':
             population_param_text += _('Present confidence interval values for the mean suppose normality.') + '\n'
-            pdf_result.loc[_('Mean'), _('Point estimation')] = np.mean(data.dropna())
+            pdf_result.loc[_('Mean'), _('Point estimation')] = np.mean(data)
             pdf_result.loc[_('Mean'), _('95% confidence interval (low)')], \
             pdf_result.loc[_('Mean'), _('95% confidence interval (high)')] = DescrStatsW(data).tconfint_mean()
         if statistic == 'std':
             # Currently, sd calculation assumes that mean has already been calculated (and column names are alraedy given)
-            stddev = np.std(data.dropna(), ddof=1)
-            lower, upper = cs_stat_num.stddev_ci(stddev, len(data.dropna()), 0.95)
+            stddev = np.std(data, ddof=1)
+            lower, upper = cs_stat_num.stddev_ci(stddev, len(data), 0.95)
             pdf_result.loc[_('Standard deviation')] = [stddev, lower, upper]
         if statistic == 'median':
-            pdf_result.loc[_('Median'), _('Point estimation')] = np.median(data.dropna())
+            pdf_result.loc[_('Median'), _('Point estimation')] = np.median(data)
             pdf_result.loc[_('Median'), _('95% confidence interval (low)')], \
             pdf_result.loc[_('Median'), _('95% confidence interval (high)')] = \
-                cs_stat_num.quantile_ci(pd.DataFrame(data.dropna()))
+                cs_stat_num.quantile_ci(pd.DataFrame(data))
     pdf_result = pdf_result.fillna(_('Out of the data range'))
     prec = cs_util.precision(data) + 1
     population_param_text += _format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd",

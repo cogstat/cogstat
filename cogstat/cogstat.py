@@ -613,9 +613,15 @@ class CogStatData:
 
         # 1. Raw data
         text_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
-        text_result2 = cs_stat.display_variable_raw_data(self.data_frame, var_name)
-        image = cs_chart.create_variable_raw_chart(self.data_frame, self.data_measlevs, var_name,
-                                                   self.data_frame[var_name].dropna())
+
+        data = pd.DataFrame(self.data_frame[var_name].dropna())
+
+        text_result2 = _('N of valid cases: %g') % len(data) + '\n'
+        missing_cases = len(self.data_frame[var_name])-len(data)
+        text_result2 += _('N of missing cases: %g') % missing_cases + '\n'
+
+        image = cs_chart.create_variable_raw_chart(data, self.data_measlevs, var_name)
+
         result_list.append(text_result+text_result2)
         result_list.append(image)
 
@@ -625,26 +631,26 @@ class CogStatData:
         # Frequencies
         if frequencies:
             text_result += '<cs_h3>'+_('Frequencies')+'</cs_h3>'
-            text_result += cs_stat.frequencies(self.data_frame, var_name, meas_level) + '\n\n'
+            text_result += cs_stat.frequencies(data, var_name, meas_level) + '\n\n'
 
         # Descriptives
         if self.data_measlevs[var_name] in ['int', 'unk']:
-            text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
+            text_result += cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
                                                    statistics=['mean', 'std', 'skewness', 'kurtosis', 'range', 'max',
                                                                'upper quartile', 'median', 'lower quartile', 'min'])
         elif self.data_measlevs[var_name] == 'ord':
-            text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
+            text_result += cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
                                                    statistics=['max', 'upper quartile', 'median', 'lower quartile',
                                                                'min'])
             # TODO boxplot also
         elif self.data_measlevs[var_name] == 'nom':
-            text_result += cs_stat.print_var_stats(self.data_frame, [var_name], self.data_measlevs,
+            text_result += cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
                                                    statistics=['variation ratio'])
         result_list.append(text_result)
 
         # Distribution
         if self.data_measlevs[var_name] != 'nom':  # histogram for nominal variable has already been shown in raw data
-            image = cs_chart.create_histogram_chart(self.data_frame, self.data_measlevs, var_name)
+            image = cs_chart.create_histogram_chart(data, self.data_measlevs, var_name)
             result_list.append(image)
 
         # 3. Population properties
@@ -653,8 +659,8 @@ class CogStatData:
         # Normality
         if meas_level in ['int', 'unk']:
             text_result += '<cs_h3>'+_('Normality')+'</cs_h3>\n'
-            stat_result, text_result2 = cs_hyp_test.normality_test(self.data_frame, self.data_measlevs, var_name)
-            image, image2 = cs_chart.create_normality_chart(self.data_frame[var_name].dropna(), var_name)
+            stat_result, text_result2 = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
+            image, image2 = cs_chart.create_normality_chart(data, var_name)
                 # histogram with normality and qq plot
             text_result += text_result2
             result_list.append(text_result)
@@ -667,15 +673,15 @@ class CogStatData:
 
         # Population estimations
         if meas_level in ['int', 'ord', 'unk']:
-            prec = cs_util.precision(self.data_frame[var_name]) + 1
+            prec = cs_util.precision(data[var_name]) + 1
 
         population_param_text = '\n<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
         if meas_level in ['int', 'unk']:
-            population_param_text += cs_stat.variable_estimation(self.data_frame[var_name], ['mean', 'std'])
+            population_param_text += cs_stat.variable_estimation(data[var_name], ['mean', 'std'])
         elif meas_level == 'ord':
-            population_param_text += cs_stat.variable_estimation(self.data_frame[var_name], ['median'])
+            population_param_text += cs_stat.variable_estimation(data[var_name], ['median'])
         elif meas_level == 'nom':
-            population_param_text += cs_stat.proportions_ci(self.data_frame, var_name)
+            population_param_text += cs_stat.proportions_ci(data, var_name)
         text_result = '\n'
 
         # Hypothesis tests
@@ -694,30 +700,30 @@ class CogStatData:
                            _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
                            '</decision>\n'
             text_result += '<decision>' + _('Checking for normality.') + '\n</decision>'
-            norm, text_result_norm = cs_hyp_test.normality_test(self.data_frame, self.data_measlevs, var_name)
+            norm, text_result_norm = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
 
             text_result += text_result_norm
             if norm:
                 text_result += '<decision>' + _('Normality is not violated.') + ' >> ' + \
                                _('Running one-sample t-test.') + '</decision>\n'
-                text_result2, ci = cs_hyp_test.one_t_test(self.data_frame, self.data_measlevs, var_name,
+                text_result2, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name,
                                                           test_value=central_value)
-                graph = cs_chart.create_variable_population_chart(self.data_frame[var_name].dropna(), var_name, ci)
+                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, ci)
 
             else:
                 text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
                                _('Running Wilcoxon signed-rank test.') + '</decision>\n'
-                text_result += _('Median: %0.*f') % (prec, np.median(self.data_frame[var_name].dropna())) + '\n'
-                text_result2 = cs_hyp_test.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
+                text_result += _('Median: %0.*f') % (prec, np.median(data[var_name])) + '\n'
+                text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                             value=central_value)
-                graph = cs_chart.create_variable_population_chart_2(self.data_frame[var_name].dropna(), var_name)
+                graph = cs_chart.create_variable_population_chart_2(data[var_name], var_name)
 
         elif meas_level == 'ord':
             text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Wilcoxon signed-rank test.') + \
                            '</decision>\n'
-            text_result2 = cs_hyp_test.wilcox_sign_test(self.data_frame, self.data_measlevs, var_name,
+            text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                         value=central_value)
-            graph = cs_chart.create_variable_population_chart_2(self.data_frame[var_name].dropna(), var_name)
+            graph = cs_chart.create_variable_population_chart_2(data[var_name], var_name)
         else:
             text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '</decision>\n'
             graph = None
