@@ -1152,13 +1152,12 @@ class CogStatData:
             population_result += \
                 cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
-            population_result += '\n'
         if meas_level == 'nom':
-            population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True) + '\n'
+            population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True)
 
         # effect size
         standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
-                                                                             meas_level, sample=False)
+                                                                             meas_level, sample=False) +'\n'
 
         # Hypothesis testing
         if len(groups) == 1:
@@ -1170,7 +1169,7 @@ class CogStatData:
             result_ht = cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
-                                       standardized_effect_size_result, population_graph, result_ht])
+                                       population_graph, standardized_effect_size_result, result_ht])
 
 
 def display(results):
