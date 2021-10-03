@@ -779,7 +779,7 @@ class CogStatData:
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
-        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, self.data_frame, raw_data=True,
+        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, raw_data=True,
                                                         xlims=xlims, ylims=ylims)
                                                         # slope and intercept parameters are set to 0, but they
                                                         # are not used with raw_data
@@ -787,8 +787,7 @@ class CogStatData:
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         if meas_lev == 'nom':
-            sample_result += cs_stat.contingency_table(self.data_frame, [x], [y], count=True, percent=True,
-                                                       margins=True)
+            sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
             # lingress() is run twice in the analysis, otherwise the code would be a bit messed up
             slope, intercept, r_value, p_value, std_err = stats.linregress(data[x], data[y])
@@ -801,7 +800,7 @@ class CogStatData:
         # Make graphs
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev == 'int':
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, self.data_frame,
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y,
                                                                xlims=xlims, ylims=ylims)
         else:
             sample_graph = None
@@ -811,7 +810,7 @@ class CogStatData:
                             '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
         #pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         if meas_lev == 'nom':
-            estimation_result += cs_stat.contingency_table(self.data_frame, [x], [y], ci=True)
+            estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
         estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
 
         population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev)+ '\n'

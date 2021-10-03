@@ -511,21 +511,27 @@ def create_variable_population_chart_2(data, var_name):
 #########################################
 
 
-def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_frame, raw_data=False, xlims=[None, None],
+def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=False, xlims=[None, None],
                                ylims=[None, None]):
     """
 
-    :param data:
-    :param meas_lev:
-    :param slope:
-    :param intercept:
-    :param x:
-    :param y:
-    :param data_frame:
-    :param raw_data:
-    :param xlims: List of values that may overwrite the automatic xlim values for interval and ordinal variables
-    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
-    :return:
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev
+    slope
+    intercept
+    x
+    y
+    raw_data
+    xlims :
+        List of values that may overwrite the automatic xlim values for interval and ordinal variables
+    ylims :
+        List of values that may overwrite the automatic ylim values for interval and ordinal variables
+
+    Returns
+    -------
+
     """
     if meas_lev in ['int', 'ord']:
 
@@ -590,7 +596,7 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, data_fram
         ax.set_ylim(ylims)  # Default None values do not change the limit
         graph = plt.gcf()
     elif meas_lev in ['nom']:
-        cont_table_data = pd.crosstab(data_frame[y], data_frame[x])
+        cont_table_data = pd.crosstab(data[y], data[x])
         mosaic_data = cont_table_data.sort_index(ascending=False, level=1).unstack()
             # sort the index to have the same order on the chart as in the table
         fig, rects = mosaic(mosaic_data, label_rotation=[0.0, 90.0],

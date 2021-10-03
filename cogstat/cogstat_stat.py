@@ -571,17 +571,26 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True):
 
 
 def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
-    """ Create contingency tables. Use for nominal data.
+    """Create contingency tables. Use for nominal data.
     It works for any number of x and y variables.
-    :param data_frame:
-    :param x: list of variable names (for columns)
-    :param y: list of variable names (for rows)
-    :param count:
-    :param percent:
-    :param ci: multinomial, goodman method
-    :param margins:option for count and percent tables,  ci calculation ignores it
 
-    :return:
+    Parameters
+    ----------
+    data_frame : pandas dataframe
+    x : list of str
+        list of variable names (for columns)
+    y : list of str
+        list of variable names (for rows)
+    count : bool
+    percent : bool
+    ci : bool
+        multinomial, goodman method
+    margins : bool
+        option for count and percent tables,  ci calculation ignores it
+
+    Returns
+    -------
+
     """
     text_result = ''
     if count:
