@@ -14,9 +14,12 @@ Trivial changes when a new feature is added are not denoted.
 ## Fixes
 - Various UI and output fixes
 - Missing cases related fixes
-    - :warning: In Explore variable, Wilcoxon signed-rank test p value is fixed when there were missing cases
-    - :warning: In Compare repeated measures variables, Hedges'g CI is fixed when there were missing cases
-    - :warning: In Compare repeated measures variables, CIs are fixed when there were missing cases for more than two nominal variables
+    - :warning: In Explore variable, Wilcoxon signed-rank test p value is fixed when there are missing cases
+    - :warning: In Compare repeated measures variables, Hedges'g CI is fixed when there are missing cases
+    - :warning: In Compare repeated measures variables, CIs are fixed when there are missing cases for more than two nominal variables
+    - :warning: In Compare groups, the mosaic plots of nominal variables do not show value combinations where other variable value is missing
+    - :warning: In Compare groups, Cramér's V is fixed when there are missing cases 
+    - Some statistics were not calculated when there were missing cases 
 
 2.1.1 (10 September 2021)
 ================

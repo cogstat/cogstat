@@ -368,6 +368,8 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
 
     Parameters
     ----------
+    pdf : pandas dataframe
+        It is assumed that missing cases are dropped
     var_names : list of str
         variable names to use
     groups : list of str
@@ -429,8 +431,8 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
                                                               stat_functions[stat](data[var_name].dropna()))
     # There is at least one grouping variable
     else:
-        # missing groups and values will be dropped
-
+        # missing groups and values will be dropped (though this is not needed since it is assumed that they have been
+        # dropped)
         groups, grouped_data = _split_into_groups(pdf, var_names[0], groups)
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
@@ -741,12 +743,24 @@ def comp_group_graph_cum(data_frame, meas_level, var_names, groups, group_levels
     pass
 
 
-def comp_group_estimations(data_frame, meas_level, var_names, groups):
+def comp_group_estimations(pdf, meas_level, var_names, groups):
     """Draw means with CI for int vars, and medians for ord vars.
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+        it is assumed that missing cases are removed.
+    meas_level
+    var_names
+    groups
+
+    Returns
+    -------
+
     """
     group_estimations_pdf = pd.DataFrame()
     if meas_level in ['int', 'unk']:
-        pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
+        pdf = pdf[[var_names[0]] + groups]
         means = pdf.groupby(groups, sort=True).aggregate(np.mean)[var_names[0]]
         cis = pdf.groupby(groups, sort=True).aggregate(confidence_interval_t)[var_names[0]]
         group_estimations_pdf[_('Point estimation')] = means
@@ -754,7 +768,7 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
         #group_means_pdf[_('95% confidence interval')] = '['+ (means-cis).map(str) + ', ' + (means+cis).map(str) + ']'
         group_estimations_pdf[_('95% CI (low)')] = means - cis
         group_estimations_pdf[_('95% CI (high)')] = means + cis
-        if len(groups)==1 and len(set(data_frame[groups[0]]))==2:  # when we have two groups
+        if len(groups) == 1 and len(set(pdf[groups[0]])) == 2:  # when we have two groups
             # TODO same assumptions apply as for t-test?
             # CI http://onlinestatbook.com/2/estimation/difference_means.html
             # However, there are other computational methods:
@@ -774,7 +788,7 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
             hci = mean_diff + t_cl * s_m1m2
             group_estimations_pdf.loc[_('Difference between the two groups:')] = [mean_diff, lci, hci]
     elif meas_level == 'ord':
-        pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
+        pdf = pdf[[var_names[0]] + groups]
         group_estimations_pdf[_('Point estimation')] = pdf.groupby(groups, sort=True).aggregate(np.median)[var_names[0]]
         cis = pdf.groupby(groups, group_keys=False, sort=True).apply(lambda x: cs_stat_num.quantile_ci(x)[:, 0])
             # TODO this solution works, but a more reasonable code would be nicer
@@ -788,6 +802,21 @@ def comp_group_estimations(data_frame, meas_level, var_names, groups):
 
 
 def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, sample=True):
+    """
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+        It assumes that missing cases are dropped.
+    dependent_var_name
+    groups
+    meas_level
+    sample : bool
+
+    Returns
+    -------
+
+    """
 
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
 
@@ -795,7 +824,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
         pdf_result = pd.DataFrame()
         if meas_level in ['int', 'unk']:
             if len(groups) == 1:
-                group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]].dropna()[groups[0]]))
+                group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
                     pdf_result.loc[_("Cohen's d"), _('Value')] = \
@@ -810,7 +839,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
             if len(groups) == 1:
                 data = pdf[[dependent_var_name[0], groups[0]]]
                 try:
-                    cramersv = pingouin.chi2_independence(data, data.columns[0], data.columns[1])[2].loc[0, 'cramer']
+                    cramersv = pingouin.chi2_independence(data, dependent_var_name[0], groups[0])[2].loc[0, 'cramer']
                     # TODO this should be faster, when minimum scipy can be 1.7:
                     #cramersv = stats.contingency.association(data.iloc[:, 0:1], method='cramer')) # new in scipy 1.7
                     pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
@@ -827,7 +856,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')])
         if meas_level in ['int', 'unk']:
             if len(groups) == 1:
-                group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]].dropna()[groups[0]]))
+                group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
                     hedges = pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='hedges')
@@ -839,8 +868,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                     from statsmodels.formula.api import ols
                     from statsmodels.stats.anova import anova_lm
                     # FIXME https://github.com/cogstat/cogstat/issues/136
-                    data = pdf.dropna(subset=[dependent_var_name[0], groups[0]])
-                    anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (dependent_var_name[0], groups[0])), data=data).fit()
+                    anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (dependent_var_name[0], groups[0])), data=pdf).fit()
                     # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the
                     # same results
                     anova_result = anova_lm(anova_model)

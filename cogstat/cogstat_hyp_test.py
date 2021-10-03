@@ -782,6 +782,20 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
 
 
 def decision_several_grouping_variables(df, meas_level, var_names, groups):
+    """
+
+    Parameters
+    ----------
+    df : pandas dataframe
+        It is assumed that cases with NaNs are dropped.
+    meas_level
+    var_names
+    groups
+
+    Returns
+    -------
+
+    """
     result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
@@ -821,8 +835,6 @@ def levene_test(pdf, var_name, group_name):
     text_result = ''
 
     dummy_groups, var_s = cs_stat._split_into_groups(pdf, var_name, group_name)
-    for i, var in enumerate(var_s):
-        var_s[i] = var_s[i].dropna()
     w, p = stats.levene(*var_s)
     text_result += _('Levene test') + ': <i>W</i> = %0.*f, %s\n' % (non_data_dim_precision, w, print_p(p))
 
@@ -840,8 +852,6 @@ def independent_t_test(pdf, var_name, grouping_name):
     text_result = ''
 
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
-    var1 = var1.dropna()
-    var2 = var2.dropna()
     t, p, df = ttest_ind(var1, var2)
 
     # Sensitivity power analysis
@@ -880,10 +890,10 @@ def single_case_task_extremity(pdf, var_name, grouping_name, se_name=None, n_tri
         try:
             if len(var1) == 1:
                 ind_data = var1
-                group_data = var2.dropna()
+                group_data = var2
             else:
                 ind_data = var2
-                group_data = var1.dropna()
+                group_data = var1
             t, p, df = cs_stat_num.modified_t_test(ind_data, group_data)
             text_result += _('Result of the modified independent samples t-test:') + \
                            ' <i>t</i>(%0.3g) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
@@ -930,14 +940,16 @@ def welch_t_test(pdf, var_name, grouping_name):
 def mann_whitney_test(pdf, var_name, grouping_name):
     """Mann–Whitney test
 
-    arguments:
-    var_name (str):
-    grouping_name (str):
+    Parameters
+    ----------
+    pdf: pandas dataframe
+    var_name : str
+    grouping_name : str
     """
     # Not available in statsmodels
 
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
-    u, p = stats.mannwhitneyu(var1.dropna(), var2.dropna(), alternative='two-sided')
+    u, p = stats.mannwhitneyu(var1, var2, alternative='two-sided')
     text_result = _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.*f, %s\n' % \
                    (non_data_dim_precision, u, print_p(p))
 
@@ -956,7 +968,7 @@ def one_way_anova(pdf, var_name, grouping_name):
     # http://statsmodels.sourceforge.net/stable/examples/generated/example_interactions.html#one-way-anova
     from statsmodels.formula.api import ols
     from statsmodels.stats.anova import anova_lm
-    data = pdf.dropna(subset=[var_name, grouping_name])
+    data = pdf[[var_name] + [grouping_name]]
 
     # Sensitivity power analysis
     if run_power_analysis:
@@ -1015,19 +1027,23 @@ def one_way_anova(pdf, var_name, grouping_name):
 def multi_way_anova(pdf, var_name, grouping_names):
     """Two-way ANOVA
 
-    Arguments:
-    pdf (pd dataframe)
-    var_name (str):
-    grouping_names (list of str):
+    Parameters
+    pdf : pandas dataframe
+        It is assumed that missing cases are dropped.
+    var_name : str
+    grouping_names : list of str
+
+    Returns
+    -------
+
     """
     # http://statsmodels.sourceforge.net/stable/examples/generated/example_interactions.html#one-way-anova
     from statsmodels.formula.api import ols
     from statsmodels.stats.anova import anova_lm
-    data = pdf.dropna(subset=[var_name] + grouping_names)
 
     import patsy
     anova_model = ols(str('%s ~ %s' % (var_name, ' * '.join([f'patsy.builtins.C({group_name}, patsy.builtins.Sum)'
-                                                             for group_name in grouping_names]))), data=data).fit()
+                                                             for group_name in grouping_names]))), data=pdf).fit()
     anova_result = anova_lm(anova_model, typ=3)
     text_result = _('Result of multi-way ANOVA') + ':\n'
 
@@ -1086,7 +1102,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
     text_result = ''
 
     dummy_groups, variables = cs_stat._split_into_groups(pdf, var_name, grouping_name)
-    variables = [variable.dropna() for variable in variables]
+    variables = [variable for variable in variables]
     try:
         H, p = stats.kruskal(*variables)
         df = len(dummy_groups)-1
@@ -1097,8 +1113,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
             # Run the post hoc tests
             text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
             text_result += _("Results of Dunn's test (p values).") + '\n'
-            posthoc_result = scikit_posthocs.posthoc_dunn(pdf.dropna(subset=[grouping_name]),
-                                                          val_col=var_name, group_col=grouping_name)
+            posthoc_result = scikit_posthocs.posthoc_dunn(pdf, val_col=var_name, group_col=grouping_name)
             text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
                                                                              float_format=lambda x: '%.3f' % x))
 

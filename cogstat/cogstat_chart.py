@@ -751,15 +751,25 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
                                        ylims=[None, None]):
     """Display the boxplot of the groups with individual data or the mosaic plot
 
-    :param data_frame: The data frame
-    :param meas_level:
-    :param var_names:
-    :param groups: List of names of the grouping variables
-    :param group_levels: List of lists or tuples with group levels (1 grouping variable) or group level combinations
-    (more than 1 grouping variables)
-    :param raw_data_only: Only the raw data are displayed
-    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
-    :return:
+    Parameters
+    ----------
+    data_frame: pandas data frame
+        It is assumed that the missing cases are dropped.
+    meas_level
+    var_names
+    param groups
+        List of names of the grouping variables
+    param group_levels
+        List of lists or tuples with group levels (1 grouping variable) or group level combinations
+        (more than 1 grouping variables)
+    raw_data_only : bool
+        Only the raw data are displayed
+    ylims
+        List of values that may overwrite the automatic ylim values for interval and ordinal variables
+
+    Returns
+    -------
+
     """
     if meas_level in ['int', 'ord']:  # TODO 'unk'?
         # TODO is this OK for ordinal?
@@ -879,9 +889,23 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     return graph
 
 
-def create_compare_groups_population_chart(data_frame, meas_level, var_names, groups, group_levels, ylims=[None, None]):
+def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, group_levels, ylims=[None, None]):
     """Draw means with CI for int vars, and medians for ord vars.
-    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+        It is asssumed that missing cases are removed.
+    meas_level
+    var_names
+    groups
+    group_levels
+    ylims
+        List of values that may overwrite the automatic ylim values for interval and ordinal variables
+
+    Returns
+    -------
+
     """
     graph = None
     group_levels = [level[0] for level in group_levels] if len(group_levels[0]) == 1 else group_levels
@@ -890,7 +914,7 @@ def create_compare_groups_population_chart(data_frame, meas_level, var_names, gr
         fig = plt.figure()
         ax = fig.add_subplot(111)
 
-        pdf = data_frame.dropna(subset=[var_names[0]])[[var_names[0]] + groups]
+        pdf = pdf[[var_names[0]] + groups]
         if meas_level in ['int', 'unk']:
             plt.title(_plt('Means and 95% confidence intervals for the groups'))
             means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]

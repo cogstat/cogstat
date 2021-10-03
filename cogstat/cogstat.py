@@ -1060,6 +1060,8 @@ class CogStatData:
         standardized_effect_size_result = None
 
         data = self.data_frame[groups + [var_names[0]]].dropna()
+        if single_case_slope_SE:
+            data = self.data_frame[groups + [var_names[0], single_case_slope_SE]].dropna()
         # create a list of sets with the levels of all grouping variables
         levels = [list(set(data[group])) for group in groups]
         for i in range(len(levels)):
@@ -1095,48 +1097,48 @@ class CogStatData:
 
         # Plot individual data
 
-        raw_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
+        raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
-
-        # Plot the individual data with boxplots
-        # There's no need to repeat the mosaic plot for the nominal variables
-        if meas_level in ['int', 'unk', 'ord']:
-            sample_graph = cs_chart.create_compare_groups_sample_chart(self.data_frame, meas_level, var_names, groups,
-                                                                       level_combinations, ylims=ylims)
-        else:
-            sample_graph = None
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
         if meas_level in ['int', 'unk']:
-            sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+            sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
                                                      groups=groups,
                                                      statistics=['mean', 'std', 'max', 'upper quartile', 'median',
                                                                  'lower quartile', 'min'])
         elif meas_level == 'ord':
-            sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+            sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
                                                      groups=groups,
                                                      statistics=['max', 'upper quartile', 'median',
                                                                  'lower quartile', 'min'])
         elif meas_level == 'nom':
-            sample_result += cs_stat.print_var_stats(self.data_frame, [var_names[0]], self.data_measlevs,
+            sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
                                                      groups=groups,
                                                      statistics=['variation ratio'])
-            sample_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names,
+            sample_result += '\n' + cs_stat.contingency_table(data, groups, var_names,
                                                               count=True, percent=True, margins=True)
 
         # Effect size
-        sample_effect_size = cs_stat.compare_groups_effect_size(self.data_frame, var_names, groups, meas_level,
+        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level,
                                                                 sample=True)
         if sample_effect_size:
             sample_result += '\n\n' + sample_effect_size
 
+        # Plot the individual data with boxplots
+        # There's no need to repeat the mosaic plot for the nominal variables
+        if meas_level in ['int', 'unk', 'ord']:
+            sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
+                                                                       level_combinations, ylims=ylims)
+        else:
+            sample_graph = None
+
         # 3. Population properties
         # Plot population estimations
-        group_estimations = cs_stat.comp_group_estimations(self.data_frame, meas_level, var_names, groups)
-        population_graph = cs_chart.create_compare_groups_population_chart(self.data_frame, meas_level, var_names,
-                                                                           groups, level_combinations, ylims=ylims)
+        group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, groups)
+        population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names,groups,
+                                                                           level_combinations, ylims=ylims)
 
         # Population estimation
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
@@ -1146,26 +1148,26 @@ class CogStatData:
         elif meas_level == 'ord':
             population_result += _('Medians')
         if meas_level in ['int', 'unk', 'ord']:
-            prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+            prec = cs_util.precision(data[var_names[0]]) + 1
             population_result += \
                 cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
             population_result += '\n'
         if meas_level == 'nom':
-            population_result += '\n' + cs_stat.contingency_table(self.data_frame, groups, var_names, ci=True) + '\n'
+            population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True) + '\n'
 
         # effect size
-        standardized_effect_size_result = cs_stat.compare_groups_effect_size(self.data_frame, var_names, groups,
+        standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
                                                                              meas_level, sample=False)
 
         # Hypothesis testing
         if len(groups) == 1:
             group_levels = sorted(set(data[groups[0]]))
-            result_ht = cs_hyp_test.decision_one_grouping_variable(self.data_frame, meas_level, self.data_measlevs,
+            result_ht = cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
                                                                    var_names, groups, group_levels,
                                                                    single_case_slope_SE, single_case_slope_trial_n)
         else:
-            result_ht = cs_hyp_test.decision_several_grouping_variables(self.data_frame, meas_level, var_names, groups)
+            result_ht = cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                        standardized_effect_size_result, population_graph, result_ht])
