@@ -942,14 +942,13 @@ class CogStatData:
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
-        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame,
-                                                                   raw_data=True, ylims=ylims)
+        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=True,
+                                                                   ylims=ylims)
 
         # Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
-            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, self.data_frame,
-                                                                          ylims=ylims)
+            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
         else:
             sample_graph = None
 
@@ -957,25 +956,24 @@ class CogStatData:
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
         if meas_level in ['int', 'unk']:
-            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
+            sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs,
                                                      statistics=['mean', 'std', 'max', 'upper quartile',
                                                                  'median', 'lower quartile', 'min'])
         elif meas_level == 'ord':
-            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
+            sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs,
                                                      statistics=['max', 'upper quartile', 'median',
                                                                  'lower quartile', 'min'])
         elif meas_level == 'nom':
-            sample_result += cs_stat.print_var_stats(self.data_frame, var_names, self.data_measlevs,
+            sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs,
                                                      statistics=['variation ratio'])
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
-                sample_result += cs_stat.contingency_table(self.data_frame, [var_pair[1]], [var_pair[0]],
-                                                           count=True, percent=True, margins=True)
+                sample_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], count=True,
+                                                           percent=True, margins=True)
             sample_result += '\n'
 
         # 2b. Effect size
-        effect_size_result = cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors,
-                                                                   meas_level, sample=True)
+        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
         if effect_size_result:
             sample_result += '\n\n' + effect_size_result
 
@@ -987,34 +985,31 @@ class CogStatData:
         if meas_level in ['int', 'unk']:
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
-            prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+            prec = cs_util.precision(data[var_names[0]]) + 1
             population_result += \
                 cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
         elif meas_level == 'ord':
             population_result += _('Median')
             median_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
-            prec = cs_util.precision(self.data_frame[var_names[0]]) + 1
+            prec = cs_util.precision(data[var_names[0]]) + 1
             population_result += \
                 cs_stat._format_html_table(median_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                       float_format=lambda x: '%0.*f' % (prec, x)))
         elif meas_level == 'nom':
             for var_pair in itertools.combinations(var_names, 2):
-                population_result += cs_stat.contingency_table(self.data_frame, [var_pair[1]], [var_pair[0]], ci=True)
+                population_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], ci=True)
         population_result += '\n'
 
-        population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level,
-                                                                              self.data_frame, ylims=ylims)
+        population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
 
         # 3b. Effect size
-        effect_size_result = cs_stat.repeated_measures_effect_size(self.data_frame, var_names, factors, meas_level,
-                                                                   sample=False)
+        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
         if effect_size_result:
             population_result += '\n' + effect_size_result
 
         # 3c. Hypothesis tests
-        result_ht = cs_hyp_test.decision_repeated_measures(self.data_frame, meas_level, factors, var_names, data,
-                                                           self.data_measlevs)
+        result_ht = cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                        population_graph, result_ht])

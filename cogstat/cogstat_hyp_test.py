@@ -98,41 +98,37 @@ def print_sensitivity_effect_sizes(effect_sizes):
 ### Single variables ###
 
 
-def normality_test(pdf, data_measlevs, var_name, group_name='', group_value='', alt_data=None):
-    """Check normality
+def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
+    """Check normality.
 
-    arguments:
-    var_name (str):
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    data_measlevs
+    var_name : str
         Name of the variable to be checked.
-    group_name (str):
-        Name of the grouping variable if part of var_name should be
-        checked. Otherwise ''.
-    group_value (str):
+    group_name : str
+        Name of the grouping variable if part of var_name should be checked. Otherwise ''.
+    group_value : str
         Name of the group in group_name, if grouping is used.
-    alt_data (data frame):
-        if alt_data is specified, this one is used
-        instead of self.data_frame. This could be useful if some other data
-        should be dropped, e.g., in variable comparison, where cases are
-        dropped based on missing cases in other variables.
 
-    return:
-    norm (bool): is the variable normal (False if normality is violated)
-    text_result (html text): APA format
-    image (matplotlib): histogram with normal distribution
-    image2 (matplotlib): QQ plot
+    Returns
+    -------
+    bool
+        Is the variable normal (False if normality is violated)
+    str
+    html, APA format, text result
+    matplotlib image
+        histogram with normal distribution
+    matplotlib image
+        QQ plot
     """
     text_result = ''
-    if repr(alt_data) == 'None':
-        # bool(pd.data_frame) would stop on pandas 0.11
-        # that's why this weird alt_data check
-        temp_data = pdf
-    else:
-        temp_data = alt_data
 
     if group_name:
-        data = temp_data[temp_data[group_name] == group_value][var_name].dropna()
+        data = pdf[pdf[group_name] == group_value][var_name].dropna()
     else:
-        data = temp_data[var_name].dropna()  # TODO remove dropna() after all callers ensure that nas are dropped
+        data = pdf[var_name]
 
     if data_measlevs[var_name] in ['nom', 'ord']:
         return False, '<decision>' + _('Normality can be checked only for interval variables.') + '\n</decision>'
@@ -335,7 +331,21 @@ def variable_pair_hyp_test(data, x, y, meas_lev):
 ### Compare variables ###
 
 
-def decision_repeated_measures(df, meas_level, factors, var_names, data, data_measlevs):
+def decision_repeated_measures(data, meas_level, factors, var_names, data_measlevs):
+    """
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_level
+    factors
+    var_names
+    data_measlevs
+
+    Returns
+    -------
+
+    """
     result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
@@ -357,7 +367,7 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
                 non_normal_vars = []
                 temp_diff_var_name = 'Difference of %s and %s' % tuple(var_names)
                 data[temp_diff_var_name] = data[var_names[0]] - data[var_names[1]]
-                norm, text_result = normality_test(df, {temp_diff_var_name: 'int'}, temp_diff_var_name, alt_data=data)
+                norm, text_result = normality_test(data, {temp_diff_var_name: 'int'}, temp_diff_var_name)
                 result_ht += text_result
                 if not norm:
                     non_normal_vars.append(temp_diff_var_name)
@@ -365,21 +375,21 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
                 if not non_normal_vars:
                     result_ht += '<decision>' + _(
                         'Normality is not violated. >> Running paired t-test.') + '\n</decision>'
-                    result_ht += paired_t_test(df, var_names)
+                    result_ht += paired_t_test(data, var_names)
                 else:  # TODO should the descriptive be the mean or the median?
                     result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
                         join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.') + '\n</decision>'
-                    result_ht += paired_wilcox_test(df, var_names)
+                    result_ht += paired_wilcox_test(data, var_names)
             elif meas_level == 'ord':
                 result_ht += '<decision>' + _('Ordinal variables.') + ' >> ' + _(
                     'Running paired Wilcoxon test.') + '\n</decision>'
-                result_ht += paired_wilcox_test(df, var_names)
+                result_ht += paired_wilcox_test(data, var_names)
             else:  # nominal variables
                 if len(set(data.values.ravel())) == 2:
                     result_ht += '<decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
                         'Running McNemar test.') \
                                  + '\n</decision>'
-                    result_ht += mcnemar_test(df, var_names)
+                    result_ht += mcnemar_test(data, var_names)
                 else:
                     result_ht += '<decision>' + _('Nominal non dichotomous variables.') + ' >> ' + \
                                  _('Sorry, not implemented yet.') + '\n</decision>'
@@ -393,7 +403,7 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
                 result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
                 non_normal_vars = []
                 for var_name in var_names:
-                    norm, text_result = normality_test(df, data_measlevs, var_name, alt_data=data)
+                    norm, text_result = normality_test(data, data_measlevs, var_name)
                     result_ht += text_result
                     if not norm:
                         non_normal_vars.append(var_name)
@@ -401,21 +411,21 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
                 if not non_normal_vars:
                     result_ht += '<decision>' + _('Normality is not violated.') + ' >> ' + \
                                  _('Running repeated measures one-way ANOVA.') + '\n</decision>'
-                    result_ht += repeated_measures_anova(df, var_names)
+                    result_ht += repeated_measures_anova(data, var_names)
                 else:
                     result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
                         join(non_normal_vars) + ' >> ' + _('Running Friedman test.') + '\n</decision>'
-                    result_ht += friedman_test(df, var_names)
+                    result_ht += friedman_test(data, var_names)
             elif meas_level == 'ord':
                 result_ht += '<decision>' + _('Ordinal variables.') + ' >> ' + _(
                     'Running Friedman test.') + '\n</decision>'
-                result_ht += friedman_test(df, var_names)
+                result_ht += friedman_test(data, var_names)
             else:
                 if len(set(data.values.ravel())) == 2:
                     result_ht += '<decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
                         "Running Cochran's Q test.") + \
                                  '\n</decision>'
-                    result_ht += cochran_q_test(df, var_names)
+                    result_ht += cochran_q_test(data, var_names)
                 else:
                     result_ht += '<decision>' + _('Nominal non dichotomous variables.') + ' >> ' \
                                  + _('Sorry, not implemented yet.') + '\n</decision>'
@@ -424,7 +434,7 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
             result_ht += '<decision>' + _('Interval variables with several factors.') + ' >> ' + \
                          _('Choosing repeated measures ANOVA.') + \
                          '\n</decision>'
-            result_ht += repeated_measures_anova(df, var_names, factors)
+            result_ht += repeated_measures_anova(data, var_names, factors)
         elif meas_level == 'ord':
             result_ht += '<decision>' + _('Ordinal variables with several factors.') + ' >> ' \
                          + _('Sorry, not implemented yet.') + '\n</decision>'
@@ -435,20 +445,23 @@ def decision_repeated_measures(df, meas_level, factors, var_names, data, data_me
 
 
 def paired_t_test(pdf, var_names):
-    """Paired sample t-test
+    """Calculate paired sample t-test.
 
-    arguments:
-    pdf (pandas dataframe)
-    var_names (list of str): two variable names to compare
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_names : list of str
+        two variable names to compare
 
-    return:
-    text_result (string)
+    Returns
+    -------
+    str
     """
     # Not available in statsmodels
     if len(var_names) != 2:
         return _('Paired t-test requires two variables.')
 
-    variables = pdf[var_names].dropna()
+    variables = pdf[var_names]
     text_result = ''
 
     # Sensitivity power analysis
@@ -474,22 +487,24 @@ def paired_t_test(pdf, var_names):
 
 
 def paired_wilcox_test(pdf, var_names):
-    """Paired Wilcoxon Signed Rank test
+    """Calculate paired Wilcoxon Signed Rank test.
     http://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test
 
-    arguments:
-    pdf
-    var_names (list of str): two variable names to compare
+    Parameters
+    ---------
+    pdf : pandas dataframe
+    var_names: list of str
+        two variable names to compare
 
-    return:
+    Returns
+    -------
     """
     # Not available in statsmodels
     text_result = ''
     if len(var_names) != 2:
         return _('Paired Wilcoxon test requires two variables.')
 
-    variables = pdf[var_names].dropna()
-    T, p = stats.wilcoxon(variables.iloc[:, 0], variables.iloc[:, 1])
+    T, p = stats.wilcoxon(pdf[var_names[0]], pdf[var_names[1]])
     text_result += _('Result of Wilcoxon signed-rank test') + \
                    ': <i>T</i> = %0.*f, %s\n' % (non_data_dim_precision, T, print_p(p))
     # The test does not use df, despite some of the descriptions on the net.
@@ -513,21 +528,27 @@ def cochran_q_test(pdf, var_names):
 
 def repeated_measures_anova(pdf, var_names, factors=[]):
     """
-    TODO
-    :param pdf:
-    :param var_names:
-    :param factors:
-    :return:
+
+    Parameters
+    ---------
+    pdf : pandas dataframe
+        It is assumed that NaNs are dropped.
+    var_names
+    factors
+
+    Returns
+    -------
+
     """
 
     if not factors:  # one-way comparison
         # Mauchly's test for sphericity
-        spher, w, chisq, dof, wp = pingouin.sphericity(pdf[var_names].dropna())
+        spher, w, chisq, dof, wp = pingouin.sphericity(pdf[var_names])
         text_result = _("Result of Mauchly's test to check sphericity") + \
                       ': <i>W</i> = %0.*f, %s. ' % (non_data_dim_precision, w, print_p(wp))
 
         # ANOVA
-        aov = pingouin.rm_anova(pdf[var_names].dropna(), correction=True)
+        aov = pingouin.rm_anova(pdf[var_names], correction=True)
         if wp < 0.05:  # sphericity is violated
             p = aov.loc[0, 'p-GG-corr']
             text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
@@ -544,7 +565,7 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
 
         # Post-hoc tests
         if p < 0.05:
-            pht = cs_stat_num.pairwise_ttest(pdf[var_names].dropna(), var_names).sort_index()
+            pht = cs_stat_num.pairwise_ttest(pdf[var_names], var_names).sort_index()
             text_result += '\n' + _('Comparing variables pairwise with the Holm–Bonferroni correction:')
             #print pht
             pht['text'] = pht.apply(lambda x: '<i>t</i> = %0.*f, %s' %
@@ -571,7 +592,7 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
         temp_var_names = [temp_var_name[1:] for temp_var_name in temp_var_names]
         #print(temp_var_names)
 
-        pdf_temp = pdf[var_names].dropna()
+        pdf_temp = pdf[var_names]
         pdf_temp.columns = temp_var_names
         pdf_temp = pdf_temp.assign(ID=pdf_temp.index)
         pdf_long = pd.melt(pdf_temp, id_vars='ID', value_vars=temp_var_names)
@@ -604,15 +625,18 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
 def friedman_test(pdf, var_names):
     """Friedman t-test
 
-    arguments:
-    var_names (list of str):
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_names : list of str
+
     """
     # Not available in statsmodels
     text_result = ''
     if len(var_names) < 2:
         return _('Friedman test requires at least two variables.')
 
-    variables = pdf[var_names].dropna()
+    variables = pdf[var_names]
     chi2, p = stats.friedmanchisquare(*[np.array(var) for var in variables.T.values])
     df = len(var_names) - 1
     n = len(variables)

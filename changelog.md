@@ -8,12 +8,15 @@ Trivial changes when a new feature is added are not denoted.
 - :warning: For outlier filtering, median +- 2.5 * MAD is used instead of using mean +- 2 * SD
 - One-way ANOVA's sensitivity power analysis displays eta-square too
 - Missing values are excluded from all analyses
-    - :warning: In Explore variable, relative frequency is changed when there were missing cases
-    - :warning: In Explore variable, population parameter estimations of nominal variable values are changed when there were missing cases
-    - :warning: In Explore variable, Wilcoxon signed-rank test p value is changed when there were missing cases
+    - :warning: In Explore variable, relative frequency is calculated without missing cases
+    - :warning: In Explore variable, population parameter estimations of nominal variable values are calculated without missing cases
 
 ## Fixes
 - Various UI and output fixes
+- Missing cases related fixes
+    - :warning: In Explore variable, Wilcoxon signed-rank test p value is fixed when there were missing cases
+    - :warning: In Compare repeated measures variables, Hedges'g CI is fixed when there were missing cases
+    - :warning: In Compare repeated measures variables, CIs are fixed when there were missing cases for more than two nominal variables
 
 2.1.1 (10 September 2021)
 ================

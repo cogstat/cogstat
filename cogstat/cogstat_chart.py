@@ -616,15 +616,21 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=
 #########################################
 
 
-def create_repeated_measures_sample_chart(data, var_names, meas_level, data_frame, raw_data=False, ylims=[None, None]):
+def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=False, ylims=[None, None]):
     """
-    :param data:
-    :param var_names:
-    :param meas_level:
-    :param data_frame:
-    :param raw_data:
-    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
-    :return:
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    var_names
+    meas_level
+    raw_data
+    ylims :
+        List of values that may overwrite the automatic ylim values for interval and ordinal variables
+
+    Returns
+    -------
+
     """
     graph = None
     if meas_level in ['int', 'ord', 'unk']:
@@ -678,7 +684,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
         import itertools
         graph = []
         for var_pair in itertools.combinations(var_names, 2):
-            ct = pd.crosstab(data_frame[var_pair[0]], data_frame[var_pair[1]]).sort_index(axis='index',
+            ct = pd.crosstab(data[var_pair[0]], data[var_pair[1]]).sort_index(axis='index',
                                                                                           ascending=False) \
                 .unstack()  # sort the index to have the same order on the chart as in the table
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
@@ -693,9 +699,20 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, data_fram
     return graph
 
 
-def create_repeated_measures_population_chart(data, var_names, meas_level, data_frame, ylims=[None, None]):
+def create_repeated_measures_population_chart(data, var_names, meas_level, ylims=[None, None]):
     """Draw means with CI for int vars, and medians for ord vars.
-    :param ylims: List of values that may overwrite the automatic ylim values for interval and ordinal variables
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    var_names
+    meas_level
+    ylims
+        List of values that may overwrite the automatic ylim values for interval and ordinal variables
+
+    Returns
+    -------
+
     """
     graph = None
     if meas_level in ['int', 'unk']:

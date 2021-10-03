@@ -414,9 +414,9 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     text_result = ''
     prec = None
     # Compute only variable statistics
-    if not groups:
+    if not groups:  # for single variable or repeated measures variables
         # drop all data with NaN pair
-        data = pdf[var_names].dropna()  # TODO dropna() should be unnecessary - nans have to be dropped before calling this function
+        data = pdf[var_names]
         pdf_result = pd.DataFrame(columns=var_names)
         text_result += '<cs_h3>' + (_('Descriptives for the variables') if len(var_names) > 1 else
                                     _('Descriptives for the variable')) + '</cs_h3>'
@@ -577,6 +577,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
     Parameters
     ----------
     data_frame : pandas dataframe
+        It is assumed that missing cases are removed.
     x : list of str
         list of variable names (for columns)
     y : list of str
@@ -615,8 +616,8 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
                                                                                                               % x)))
     if ci:
         from statsmodels.stats import proportion
-        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]], [data_frame[ddd] for ddd in
-                                                                                    data_frame[x]])  # don't use margins
+        cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]],
+                                       [data_frame[ddd] for ddd in data_frame[x]])  # don't use margins
         cont_table_ci_np = proportion.multinomial_proportions_confint(cont_table_count.unstack())
         # add index and column names for the numpy results, and reformat (unstack) to the original arrangement
         cont_table_ci = pd.DataFrame(cont_table_ci_np, index=cont_table_count.unstack().index,
@@ -631,7 +632,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
         if (cont_table_count < 5).values.any(axis=None):  # df.any(axis=None) doesn't work for some reason,
                                                           # so we use the np version
             text_result += '<warning>' + _('Some of the cells do not include at least 5 cases, so the confidence '
-                                           'intervals may be invalid.') + '</warning>'
+                                           'intervals may be invalid.') + '</warning>\n'
 
     """
     # Binomial CI with continuity correction
@@ -676,6 +677,21 @@ def repeated_measures_estimations(data, meas_level):
 
 
 def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=True):
+    """
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_names
+    factors
+    meas_level
+    sample : bool
+        Should the effect size for sample or population be calculated?
+
+    Returns
+    -------
+
+    """
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
 
     if sample:  # Effects sizes for samples
