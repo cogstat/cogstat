@@ -699,13 +699,13 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                     if not norm:
                         non_normal_groups.append(group)
                 result_ht += '<decision>' + _('Checking for homogeneity of variance across groups.') + '\n</decision>'
-                hoemogeneity_vars = True
+                homogeneity_vars = True
                 p, text_result = levene_test(df, var_names[0], groups[0])
                 result_ht += text_result
                 if p < 0.05:
-                    hoemogeneity_vars = False
+                    homogeneity_vars = False
 
-                if not (non_normal_groups) and hoemogeneity_vars:
+                if not (non_normal_groups) and homogeneity_vars:
                     result_ht += '<decision>' + \
                                  _('Normality and homogeneity of variance are not violated. >> Running two sample '
                                    't-test.') + '\n</decision>'
@@ -715,7 +715,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                                  (var_names[0], ', '.join(map(str, non_normal_groups))) + ' >> ' + \
                                  _('Running Mann–Whitney test.') + '\n</decision>'
                     result_ht += mann_whitney_test(df, var_names[0], groups[0])
-                elif not hoemogeneity_vars:
+                elif not homogeneity_vars:
                     result_ht += '<decision>' + _('Homogeneity of variance violated in variable %s.') % \
                                  var_names[0] + ' >> ' + _("Running Welch's t-test.") + '\n</decision>'
                     result_ht += welch_t_test(df, var_names[0], groups[0])
@@ -747,13 +747,13 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 if not norm:
                     non_normal_groups.append(group)
             result_ht += '<decision>' + _('Checking for homogeneity of variance across groups.') + '\n</decision>'
-            hoemogeneity_vars = True
+            homogeneity_vars = True
             p, text_result = levene_test(df, var_names[0], groups[0])
             result_ht += text_result
             if p < 0.05:
-                hoemogeneity_vars = False
+                homogeneity_vars = False
 
-            if not (non_normal_groups) and hoemogeneity_vars:
+            if not (non_normal_groups) and homogeneity_vars:
                 result_ht += '<decision>' + \
                              _('Normality and homogeneity of variance are not violated. >> Running one-way ANOVA.') \
                              + '\n</decision>'
@@ -763,10 +763,10 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
             if non_normal_groups:
                 result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s. ') % \
                              (var_names[0], ', '.join(map(str, non_normal_groups))) + '</decision>'
-            if not hoemogeneity_vars:
+            if not homogeneity_vars:
                 result_ht += '<decision>' + _('Homogeneity of variance violated in variable %s.') % var_names[0] + \
                              '</decision>'
-            if non_normal_groups or (not hoemogeneity_vars):
+            if non_normal_groups or (not homogeneity_vars):
                 result_ht += '<decision>' + '>> ' + _('Running Kruskal–Wallis test.') + '\n</decision>'
                 result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
 
