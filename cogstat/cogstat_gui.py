@@ -49,7 +49,8 @@ _ = t.gettext
 
 rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 
-broken_analysis = _('<cs_h1>%s</cs_h1>Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
+broken_analysis = '<cs_h1>%s</cs_h1>' + \
+                  _('Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'
 
@@ -753,8 +754,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Compare groups'),
-                                                             _('Both the dependent and at least one grouping variables '
-                                                               'should be set.')))
+                                                             _('Both the dependent variable and at least one grouping '
+                                                               'variable should be set.')))
             self.analysis_results[-1].add_output(text_result)
         else:
             for var_name in var_names:
