@@ -88,7 +88,7 @@ def print_sensitivity_effect_sizes(effect_sizes):
     """
     effect_sizes_string = ''.join(effect_sizes)
     if effect_sizes_string:
-        text_result = _('Sensitivity power analysis. Minimal effect size to reach 95%% power with the present '
+        text_result = _('Sensitivity power analysis. Minimal effect size to reach 95% power with the present '
                          'sample size for the present hypothesis test.') + ' ' + effect_sizes_string + ('\n')
     else:
         text_result = _('Sensitivity power could not be calculated.') + ('\n')

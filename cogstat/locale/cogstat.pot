@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-11 12:43+0200\n"
+"POT-Creation-Date: 2021-10-17 14:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -403,9 +403,8 @@ msgid "Read more about this issue <a href = \"%s\">here</a>."
 msgstr ""
 
 #: .././cogstat_hyp_test.py:91
-#, python-format
 msgid ""
-"Sensitivity power analysis. Minimal effect size to reach 95%% power with the "
+"Sensitivity power analysis. Minimal effect size to reach 95% power with the "
 "present sample size for the present hypothesis test."
 msgstr ""
 
@@ -991,9 +990,9 @@ msgstr ""
 
 #: .././cogstat_stat.py:334 .././cogstat_stat.py:336 .././cogstat_stat.py:548
 #: .././cogstat_stat.py:550 .././cogstat_stat.py:553 .././cogstat_stat.py:560
-#: .././cogstat_stat.py:563 .././cogstat_stat.py:716 .././cogstat_stat.py:718
-#: .././cogstat_stat.py:842 .././cogstat_stat.py:844 .././cogstat_stat.py:857
-#: .././cogstat_stat.py:860 .././cogstat_stat.py:890 .././cogstat_chart.py:676
+#: .././cogstat_stat.py:563 .././cogstat_stat.py:718 .././cogstat_stat.py:720
+#: .././cogstat_stat.py:845 .././cogstat_stat.py:847 .././cogstat_stat.py:860
+#: .././cogstat_stat.py:863 .././cogstat_stat.py:893 .././cogstat_chart.py:676
 #: .././cogstat_chart.py:736
 msgid "Value"
 msgstr ""
@@ -1082,8 +1081,8 @@ msgid "Present confidence interval values for the mean suppose normality."
 msgstr ""
 
 #: .././cogstat_stat.py:495 .././cogstat_stat.py:504 .././cogstat_stat.py:566
-#: .././cogstat_stat.py:679 .././cogstat_stat.py:686 .././cogstat_stat.py:728
-#: .././cogstat_stat.py:778 .././cogstat_stat.py:804 .././cogstat_stat.py:868
+#: .././cogstat_stat.py:679 .././cogstat_stat.py:686 .././cogstat_stat.py:730
+#: .././cogstat_stat.py:780 .././cogstat_stat.py:806 .././cogstat_stat.py:871
 msgid "Point estimation"
 msgstr ""
 
@@ -1097,16 +1096,16 @@ msgstr ""
 msgid "95% confidence interval (high)"
 msgstr ""
 
-#: .././cogstat_stat.py:508 .././cogstat_stat.py:689 .././cogstat_stat.py:812
+#: .././cogstat_stat.py:508 .././cogstat_stat.py:689 .././cogstat_stat.py:814
 msgid "Out of the data range"
 msgstr ""
 
-#: .././cogstat_stat.py:545 .././cogstat_stat.py:709 .././cogstat_stat.py:833
+#: .././cogstat_stat.py:545 .././cogstat_stat.py:711 .././cogstat_stat.py:836
 msgid "Standardized effect size"
 msgstr ""
 
-#: .././cogstat_stat.py:560 .././cogstat_stat.py:563 .././cogstat_stat.py:857
-#: .././cogstat_stat.py:860
+#: .././cogstat_stat.py:560 .././cogstat_stat.py:563 .././cogstat_stat.py:860
+#: .././cogstat_stat.py:863
 msgid "Cramér's V measure of association"
 msgstr ""
 
@@ -1131,33 +1130,33 @@ msgstr ""
 msgid "Percentage"
 msgstr ""
 
-#: .././cogstat_stat.py:683 .././cogstat_stat.py:688 .././cogstat_stat.py:728
-#: .././cogstat_stat.py:781 .././cogstat_stat.py:809 .././cogstat_stat.py:868
+#: .././cogstat_stat.py:683 .././cogstat_stat.py:688 .././cogstat_stat.py:730
+#: .././cogstat_stat.py:783 .././cogstat_stat.py:811 .././cogstat_stat.py:871
 msgid "95% CI (low)"
 msgstr ""
 
-#: .././cogstat_stat.py:684 .././cogstat_stat.py:688 .././cogstat_stat.py:728
-#: .././cogstat_stat.py:782 .././cogstat_stat.py:810 .././cogstat_stat.py:868
+#: .././cogstat_stat.py:684 .././cogstat_stat.py:688 .././cogstat_stat.py:730
+#: .././cogstat_stat.py:784 .././cogstat_stat.py:812 .././cogstat_stat.py:871
 msgid "95% CI (high)"
 msgstr ""
 
-#: .././cogstat_stat.py:716 .././cogstat_stat.py:842
+#: .././cogstat_stat.py:718 .././cogstat_stat.py:845
 msgid "Cohen's d"
 msgstr ""
 
-#: .././cogstat_stat.py:718 .././cogstat_stat.py:844
+#: .././cogstat_stat.py:720 .././cogstat_stat.py:847
 msgid "Eta-squared"
 msgstr ""
 
-#: .././cogstat_stat.py:736 .././cogstat_stat.py:877
+#: .././cogstat_stat.py:738 .././cogstat_stat.py:880
 msgid "Hedges' g"
 msgstr ""
 
-#: .././cogstat_stat.py:801
+#: .././cogstat_stat.py:803
 msgid "Difference between the two groups:"
 msgstr ""
 
-#: .././cogstat_stat.py:890
+#: .././cogstat_stat.py:893
 msgid "Omega-squared"
 msgstr ""
 
