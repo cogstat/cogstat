@@ -108,9 +108,21 @@ def _format_html_table(html_table):
 
 
 def pivot(pdf, row_names, col_names, page_names, depend_name, function):
-    """
-    Build pivot table
-    all parameters are lists # TODO doc
+    """Build a pivot table.
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    row_names : list of str
+    col_names : list of str
+    page_names : list of str
+    depend_name : str
+    function : str
+        Localized version of N, Sum, Mean, Median, Lower quartile, Upper quartile, Standard deviation, Variance
+
+    Returns
+    -------
+
     """
             
     if pdf[depend_name].dtype == 'object':
