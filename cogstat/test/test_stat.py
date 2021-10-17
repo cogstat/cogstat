@@ -361,7 +361,7 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the latter (CI) method has changed in v0.3.5 https://pingouin-stats.org/changelog.html
             # Based on the formula, calculated in LO Calc 7.0: -0.685140250750879, -1.45474443187683, 0.084463930375068
         self.assertTrue('<td>Difference between the two groups:</td>      <td>-2.0443</td>      <td>-4.2157</td>      <td>0.1272</td>' in result[5])
-        self.assertTrue("<td>Hedges' g</td>      <td>-0.685</td>      <td>-1.455</td>      <td>0.084</td>" in result[6])
+        self.assertTrue("<td>Hedges' g</td>      <td>-0.685</td>      <td>-1.455</td>      <td>0.084</td>" in result[7])
             # TODO validate
         self.assertTrue('(m: 1.0): <i>W</i> = 0.96, <i>p</i> = .683' in result[8])  # <i>W</i> = 0.959
         self.assertTrue('(m: 2.0): <i>W</i> = 0.98, <i>p</i> = .991' in result[8])  # <i>W</i> = 0.984
@@ -395,7 +395,7 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 3.29, 5.04, 7.24
         self.assertTrue('<td>3.2869</td>      <td>5.0400</td>      <td>7.2412</td>' in result[3])
             # TODO validate
-        self.assertTrue('&omega;<sup>2</sup> = 0.167' in result[6])
+        self.assertTrue('&omega;<sup>2</sup> = 0.167' in result[7])
         # Levene's test for homogeneity
             # jamovi 2.0.0.0 0.495, 0.615 TODO https://github.com/cogstat/cogstat/issues/56
         self.assertTrue('<i>W</i> = 0.68, <i>p</i> = .517' in result[8])  # <i>W</i> = 0.675
