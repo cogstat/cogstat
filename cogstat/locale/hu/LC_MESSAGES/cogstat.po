@@ -15,60 +15,60 @@ msgstr "A változó tulajdonságai nincsenek beállítva. Állítsa be azokat a 
 msgid "Sorry, only one dependent variable can be used."
 msgstr "Elnézést, csak egy függő változó használható."
 
-#: .././cogstat_stat.py:117
+#: .././cogstat_stat.py:129
 msgid "Sorry, string variables cannot be used in Pivot table."
 msgstr "Elnézést, szöveges változók nem használhatóak a Kimutatás táblában."
 
-#: .././cogstat_stat.py:123
+#: .././cogstat_stat.py:135
 msgid "Independent variable(s) - Pages: "
 msgstr "Független változó(k) - Oldalak: "
 
-#: .././cogstat_stat.py:125
+#: .././cogstat_stat.py:137
 msgid "Independent variable(s) - Columns: "
 msgstr "Független változó(k) - Oszlopok: "
 
-#: .././cogstat_stat.py:127
+#: .././cogstat_stat.py:139
 msgid "Independent variable(s) - Rows: "
 msgstr "Független változó(k) - Sorok: "
 
-#: .././cogstat_stat.py:128
+#: .././cogstat_stat.py:140
 msgid "Function: "
 msgstr "Függvény: "
 
-#: .././cogstat_stat.py:324 .././cogstat_stat.py:326 .././cogstat_stat.py:520
-#: .././cogstat_stat.py:522 .././cogstat_stat.py:525 .././cogstat_stat.py:532
-#: .././cogstat_stat.py:535 .././cogstat_stat.py:663 .././cogstat_stat.py:665
-#: .././cogstat_stat.py:762 .././cogstat_stat.py:764 .././cogstat_stat.py:777
-#: .././cogstat_stat.py:780 .././cogstat_stat.py:811 .././cogstat_chart.py:608
-#: .././cogstat_chart.py:657
+#: .././cogstat_stat.py:334 .././cogstat_stat.py:336 .././cogstat_stat.py:548
+#: .././cogstat_stat.py:550 .././cogstat_stat.py:553 .././cogstat_stat.py:560
+#: .././cogstat_stat.py:563 .././cogstat_stat.py:716 .././cogstat_stat.py:718
+#: .././cogstat_stat.py:842 .././cogstat_stat.py:844 .././cogstat_stat.py:857
+#: .././cogstat_stat.py:860 .././cogstat_stat.py:890 .././cogstat_chart.py:676
+#: .././cogstat_chart.py:736
 msgid "Value"
 msgstr "Érték"
 
-#: .././cogstat_chart.py:316 .././cogstat_chart.py:383
+#: .././cogstat_chart.py:338 .././cogstat_chart.py:412
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "A legnagyobb beosztás az x tengelyen %d esetet mutat."
 
-#: .././cogstat_chart.py:333
+#: .././cogstat_chart.py:355
 msgid "Histogram with individual data and boxplot"
 msgstr "Hisztogram egyéni adatokkal és dobozdiagrammal"
 
-#: .././cogstat_chart.py:283 .././cogstat_chart.py:339
+#: .././cogstat_chart.py:295 .././cogstat_chart.py:361
 msgid "Frequency"
 msgstr "Gyakoriság"
 
-#: .././cogstat_chart.py:280
+#: .././cogstat_chart.py:292
 msgid "Histogram"
 msgstr "Hisztogram"
 
-#: .././cogstat_stat.py:309
+#: .././cogstat.py:619
 msgid "N of valid cases: %g"
 msgstr "Érvényes esetek száma: %g"
 
-#: .././cogstat.py:675
+#: .././cogstat.py:716
 msgid "Median: %0.*f"
 msgstr "Medián: %0.*f"
 
-#: .././cogstat_hyp_test.py:115
+#: .././cogstat_hyp_test.py:134
 msgid "Normality can be checked only for interval variables."
 msgstr "A normalitás csak intervallum változóknál ellenőrizhető."
 
@@ -76,104 +76,104 @@ msgstr "A normalitás csak intervallum változóknál ellenőrizhető."
 msgid "Shapiro-Wilk normality test in variable %s%s"
 msgstr "Shapiro-Wilk normalitás próba a(z) %s%s változóban"
 
-#: .././cogstat_chart.py:392
+#: .././cogstat_chart.py:421
 msgid "Histogram with individual data and normal distribution"
 msgstr "Hisztogram egyéni adatokkal és normál eloszlással"
 
-#: .././cogstat_chart.py:399
+#: .././cogstat_chart.py:428
 msgid "Normalized relative frequency"
 msgstr "Normalizált relatív gyakoriság"
 
-#: .././cogstat_chart.py:420
+#: .././cogstat_chart.py:449
 msgid "Quantile-quantile plot"
 msgstr "Kvantilis-kvantilis ábra"
 
-#: .././cogstat_hyp_test.py:175
+#: .././cogstat_hyp_test.py:198
 msgid "One sample t-test cannot be run for constant variable.\n"
 ""
 msgstr "Egymintás t-próba nem futtatható le konstans változóra.\n"
 ""
 
-#: .././cogstat_hyp_test.py:197
+#: .././cogstat_hyp_test.py:224
 msgid "One sample t-test against %g"
 msgstr "Egymintás t-próba a(z) %g értéket tesztelve"
 
-#: .././cogstat_chart.py:435
+#: .././cogstat_chart.py:478
 msgid "Mean value with 95% confidence interval"
 msgstr "Átlagos érték 95 konfidencia intervallummal"
 
-#: .././cogstat_hyp_test.py:200
+#: .././cogstat_hyp_test.py:227
 msgid "One sample t-test is computed only for interval variables."
 msgstr "Egy mintás t-próba csak intervallum változókhoz számolható ki."
 
-#: .././cogstat_chart.py:447
+#: .././cogstat_chart.py:503
 msgid "Median value"
 msgstr "Medián értékek"
 
-#: .././cogstat_hyp_test.py:231
+#: .././cogstat_hyp_test.py:265
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "A Wilcoxon előjel-rang próba csak intervallum vagy ordinális változókra számolható ki."
 
-#: .././cogstat_stat.py:118 .././cogstat_stat.py:372 .././cogstat_stat.py:467
-#: .././cogstat_stat.py:468 .././cogstat_stat.py:469 ../ui/pivot.py:170
+#: .././cogstat_stat.py:130 .././cogstat_stat.py:400 .././cogstat_stat.py:495
+#: .././cogstat_stat.py:496 .././cogstat_stat.py:497 ../ui/pivot.py:170
 msgid "Mean"
 msgstr "Átlag"
 
-#: .././cogstat_stat.py:118 .././cogstat_stat.py:373 .././cogstat_stat.py:476
-#: .././cogstat_stat.py:477 .././cogstat_stat.py:478 .././cogstat.py:983
+#: .././cogstat_stat.py:130 .././cogstat_stat.py:401 .././cogstat_stat.py:504
+#: .././cogstat_stat.py:505 .././cogstat_stat.py:506 .././cogstat.py:993
 #: ../ui/pivot.py:171
 msgid "Median"
 msgstr "Medián"
 
-#: .././cogstat_chart.py:652
+#: .././cogstat_chart.py:731
 msgid "Medians for the variables"
 msgstr "A változók mediánjai"
 
-#: .././cogstat_chart.py:825
+#: .././cogstat_chart.py:928
 msgid "Medians for the groups"
 msgstr "A csoportok mediánjai"
 
-#: .././cogstat_stat.py:439 .././cogstat_stat.py:441
+#: .././cogstat_stat.py:467 .././cogstat_stat.py:469
 msgid "No data"
 msgstr "Nincs adat"
 
-#: .././cogstat_chart.py:493
+#: .././cogstat_chart.py:555
 msgid "Largest sign on the graph displays %d cases."
 msgstr "A legnagyobb jel a diagramon %d esetet mutat."
 
-#: .././cogstat_chart.py:505
+#: .././cogstat_chart.py:567
 msgid "Scatterplot of the variables"
 msgstr "Változók pontfelhő diagramja"
 
-#: .././cogstat_chart.py:546 .././cogstat_chart.py:628
+#: .././cogstat_chart.py:608 .././cogstat_chart.py:696
 msgid "Mosaic plot of the variables"
 msgstr "A változók mozaik ábrája"
 
-#: .././cogstat_chart.py:594
+#: .././cogstat_chart.py:662
 msgid "Thickest line displays %d cases."
 msgstr "A legvastagabb vonal %d esetet mutat."
 
-#: .././cogstat_chart.py:645
+#: .././cogstat_chart.py:724
 msgid "Means and 95% confidence intervals for the variables"
 msgstr "A változók átlaga és 95% konfidencia intervalluma"
 
-#: .././cogstat_hyp_test.py:349
+#: .././cogstat_hyp_test.py:462
 msgid "Paired t-test requires two variables."
 msgstr "A páros t-próba két változót igényel."
 
-#: .././cogstat_hyp_test.py:366
+#: .././cogstat_hyp_test.py:483
 msgid "Result of paired samples t-test"
 msgstr "Páros t-próba eredménye"
 
-#: .././cogstat_hyp_test.py:385
+#: .././cogstat_hyp_test.py:505
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "A páros Wilcoxon-próba két változót igényel."
 
-#: .././cogstat_hyp_test.py:509
+#: .././cogstat_hyp_test.py:637
 msgid "Friedman test requires at least two variables."
 msgstr "A Friedman-próbához legalább két változó szükséges."
 
-#: .././cogstat_hyp_test.py:515
+#: .././cogstat_hyp_test.py:643
 msgid "Result of the Friedman test: "
 msgstr "Friedman próba eredménye: "
 
@@ -181,19 +181,19 @@ msgstr "Friedman próba eredménye: "
 msgid "Boxplot and individual data of the groups"
 msgstr "A csoportok dobozdiagramja és egyéni adatai"
 
-#: .././cogstat_chart.py:795
+#: .././cogstat_chart.py:884
 msgid "Mosaic plot of the groups"
 msgstr "A csoportok mozaik ábrája"
 
-#: .././cogstat_chart.py:816
+#: .././cogstat_chart.py:919
 msgid "Means and 95% confidence intervals for the groups"
 msgstr "A csoportok átlaga és 95% konfidencia intervalluma"
 
-#: .././cogstat_hyp_test.py:699
+#: .././cogstat_hyp_test.py:840
 msgid "Levene test"
 msgstr "Levene-próba"
 
-#: .././cogstat_stat.py:736
+#: .././cogstat_stat.py:801
 msgid "Difference between the two groups:"
 msgstr "Különbség a két csoport közt:"
 
@@ -201,15 +201,15 @@ msgstr "Különbség a két csoport közt:"
 msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr "95%% Konfidencia intervallum [%0.*f, %0.*f]"
 
-#: .././cogstat_hyp_test.py:728
+#: .././cogstat_hyp_test.py:872
 msgid "Result of independent samples t-test:"
 msgstr "Független mintás t-próba eredménye:"
 
-#: .././cogstat_hyp_test.py:758
+#: .././cogstat_hyp_test.py:902
 msgid "One of the groups should include only a single data."
 msgstr "Az egyik csoportnak csak egyetlen adatot kellene tartalmaznia."
 
-#: .././cogstat_hyp_test.py:755
+#: .././cogstat_hyp_test.py:899
 msgid "Result of the modified independent samples t-test:"
 msgstr "Módosított független mintás t-próba eredménye:"
 
@@ -218,7 +218,7 @@ msgstr "Módosított független mintás t-próba eredménye:"
 msgid "Result of independent samples Mann-Whitney rank test: "
 msgstr "Független mintás Mann-Whitney rang próba eredménye: "
 
-#: .././cogstat_hyp_test.py:841
+#: .././cogstat_hyp_test.py:1003
 msgid "Result of one-way ANOVA: "
 msgstr "Egyszempontos VA eredménye: "
 
@@ -226,7 +226,7 @@ msgstr "Egyszempontos VA eredménye: "
 msgid "Effect size: "
 msgstr "Hatásnagyság: "
 
-#: .././cogstat_hyp_test.py:849 .././cogstat_hyp_test.py:949
+#: .././cogstat_hyp_test.py:1011 .././cogstat_hyp_test.py:1115
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "Eltérő csoportok. Post-hoc próba az átlagra."
 
@@ -242,59 +242,60 @@ msgstr "Cramer V kapcsolati mérőszám: "
 msgid "Result of the Pearson's Chi-square test: "
 msgstr "Pearson Khi-négyzet próba eredménye: "
 
-#: .././cogstat_gui.py:148
+#: .././cogstat_gui.py:149
 msgid "&Data"
 msgstr "&Adat"
 
-#: .././cogstat_gui.py:149
+#: .././cogstat_gui.py:150
 msgid "&Open data file"
 msgstr "&Adatfájl megnyitása"
 
-#: .././cogstat_gui.py:149
+#: .././cogstat_gui.py:150
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: .././cogstat_gui.py:153
+#: .././cogstat_gui.py:154
 msgid "&Paste data"
 msgstr "Adat &beillesztése"
 
-#: .././cogstat_gui.py:153
+#: .././cogstat_gui.py:154
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: .././cogstat_gui.py:158 .././cogstat_gui.py:217
+#: .././cogstat_gui.py:159 .././cogstat_gui.py:217
 msgid "&Display data"
 msgstr "Adatok &megjelenítése"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:159
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
-#: .././cogstat_gui.py:159 .././cogstat_gui.py:218
+#: .././cogstat_gui.py:160 .././cogstat_gui.py:218
 msgid "Display data &briefly"
 msgstr "Adatok &rövid megjelenítése"
 
-#: .././cogstat_gui.py:163
+#: .././cogstat_gui.py:164
 msgid "&Analysis"
 msgstr "&Elemzés"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:166
 msgid "Ctrl+1"
 msgstr "Ctrl+1"
 
-#: .././cogstat_gui.py:167
+#: .././cogstat_gui.py:168
 msgid "Ctrl+2"
 msgstr "Ctrl+2"
 
-#: .././cogstat_gui.py:169 .././cogstat_gui.py:218
+#: .././cogstat_gui.py:174 .././cogstat_gui.py:218
 msgid "Pivot &table"
 msgstr "&Kimutatás"
 
-#: .././cogstat_gui.py:175 .././cogstat_gui.py:221
+#: .././cogstat_gui.py:171 .././cogstat_gui.py:221
 msgid "Compare &groups"
 msgstr "&Csoportok összehasonlítása"
 
-#: .././cogstat.py:1037 ../ui/compare_groups.py:108
+#: .././cogstat_gui.py:756 .././cogstat_gui.py:770 .././cogstat.py:1044
+#: ../ui/compare_groups.py:108
 msgid "Compare groups"
 msgstr "Csoportok összehasonlítása"
 
@@ -370,15 +371,16 @@ msgstr "Beolvasási hiba"
 msgid "Data could not be loaded."
 msgstr "Az adatot nem lehet betölteni."
 
-#: .././cogstat_gui.py:588 .././cogstat_gui.py:703
+#: .././cogstat_gui.py:594 .././cogstat_gui.py:712
 msgid "At least two variables should be set."
 msgstr "Legalább két változót kell megadni."
 
-#: .././cogstat.py:834 ../ui/pivot.py:161
+#: .././cogstat_gui.py:639 .././cogstat_gui.py:646 .././cogstat.py:846
+#: ../ui/pivot.py:161
 msgid "Pivot table"
 msgstr "Kimutatás"
 
-#: .././cogstat_gui.py:633
+#: .././cogstat_gui.py:640
 msgid "The dependent variable and at least one grouping variable should be given."
 msgstr "A függő változót és legalább egy csoportosító változót meg kell adni."
 
@@ -386,108 +388,109 @@ msgstr "A függő változót és legalább egy csoportosító változót meg kel
 msgid "Both the dependent and the grouping variables should be set."
 msgstr "A függő és a csoportosító változót is be kell állítani."
 
-#: .././cogstat_gui.py:768
+#: .././cogstat_gui.py:777
 msgid "Clear output"
 msgstr "Kimenet törlése"
 
-#: .././cogstat_gui.py:769
+#: .././cogstat_gui.py:778
 msgid "Are you sure you want to delete the output?"
 msgstr "Biztosan töröljük a kimenetet?"
 
-#: .././cogstat_gui.py:839
+#: .././cogstat_gui.py:848
 msgid "About CogStat "
 msgstr "A CogStatról"
 
-#: .././cogstat_gui.py:853
+#: .././cogstat_gui.py:862
 msgid "System components"
 msgstr "Rendszer összetevők"
 
-#: .././cogstat_gui.py:866
+#: .././cogstat_gui.py:875
 msgid "Save output"
 msgstr "Kimenet mentése"
 
-#: .././cogstat_gui.py:867
+#: .././cogstat_gui.py:876
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr "Nincs minden eredmény elmentve. Mentsük az eredményeket?"
 
-#: .././cogstat_gui.py:463 .././cogstat.py:433
+#: .././cogstat_gui.py:463 .././cogstat.py:434
 msgid "Data"
 msgstr "Adat"
 
-#: .././cogstat.py:434
+#: .././cogstat.py:435
 msgid "Source: "
 msgstr "Forrás: "
 
-#: .././cogstat.py:435
+#: .././cogstat.py:436
 msgid " variables and "
 msgstr " változó és "
 
-#: .././cogstat.py:436
+#: .././cogstat.py:437
 msgid " cases"
 msgstr " eset"
 
-#: .././cogstat.py:449
+#: .././cogstat.py:450
 msgid " further cases are not displayed..."
 msgstr " további eset nincs megjelenítve..."
 
-#: .././cogstat_hyp_test.py:562 .././cogstat_hyp_test.py:609
-#: .././cogstat_hyp_test.py:668 .././cogstat.py:658
+#: .././cogstat_hyp_test.py:690 .././cogstat_hyp_test.py:737
+#: .././cogstat_hyp_test.py:811 .././cogstat.py:699
 msgid "Interval variable."
 msgstr "Intervallum változó."
 
-#: .././cogstat_hyp_test.py:596 .././cogstat_hyp_test.py:645
-#: .././cogstat_hyp_test.py:673 .././cogstat.py:681
+#: .././cogstat_hyp_test.py:724 .././cogstat_hyp_test.py:774
+#: .././cogstat_hyp_test.py:816 .././cogstat.py:722
 msgid "Ordinal variable."
 msgstr "Ordinális változó."
 
-#: .././cogstat.py:574
+#: .././cogstat_gui.py:556 .././cogstat_gui.py:568 .././cogstat.py:609
 msgid "Explore variable"
 msgstr "Változó vizsgálata"
 
-#: .././cogstat.py:575
+#: .././cogstat.py:610
 msgid "Exploring variable: "
 msgstr "Változó vizsgálata: "
 
-#: .././cogstat.py:592
+#: .././cogstat.py:633
 msgid "Frequencies"
 msgstr "Gyakoriság"
 
-#: .././cogstat.py:620
+#: .././cogstat.py:661
 msgid "Normality"
 msgstr "Normalitás"
 
-#: .././cogstat.py:720
+#: .././cogstat.py:765
 msgid "Exploring variable pair: "
 msgstr "Változópár vizsgálata: "
 
-#: .././cogstat_hyp_test.py:253 .././cogstat_hyp_test.py:289
-#: .././cogstat.py:757
+#: .././cogstat_hyp_test.py:296 .././cogstat_hyp_test.py:363
+#: .././cogstat_hyp_test.py:399
 msgid "Interval variables."
 msgstr "Intervallum változók."
 
-#: .././cogstat.py:758
+#: .././cogstat_hyp_test.py:297
 msgid "Running Pearson's and Spearman's correlation."
 msgstr "Pearson és Spearman korreláció futtatása."
 
-#: .././cogstat_stat.py:520 .././cogstat_stat.py:543 .././cogstat.py:761
+#: .././cogstat_hyp_test.py:300 .././cogstat_stat.py:548
+#: .././cogstat_stat.py:571
 msgid "Pearson's correlation"
 msgstr "Pearson korreláció"
 
-#: .././cogstat.py:767
+#: .././cogstat.py:795
 msgid "Linear regression"
 msgstr "Lineáris regresszió"
 
-#: .././cogstat_stat.py:522 .././cogstat_stat.py:525 .././cogstat_stat.py:549
-#: .././cogstat.py:770 .././cogstat.py:780
+#: .././cogstat_hyp_test.py:305 .././cogstat_hyp_test.py:315
+#: .././cogstat_stat.py:550 .././cogstat_stat.py:553 .././cogstat_stat.py:577
 msgid "Spearman's rank-order correlation"
 msgstr "Spearman korreláció"
 
-#: .././cogstat_hyp_test.py:274 .././cogstat_hyp_test.py:310
-#: .././cogstat.py:776
+#: .././cogstat_hyp_test.py:311 .././cogstat_hyp_test.py:384
+#: .././cogstat_hyp_test.py:420
 msgid "Ordinal variables."
 msgstr "Ordinális változók."
 
-#: .././cogstat.py:776
+#: .././cogstat_hyp_test.py:311
 msgid "Running Spearman's correlation."
 msgstr "Spearman korreláció futtatása."
 
@@ -495,88 +498,88 @@ msgstr "Spearman korreláció futtatása."
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr "Nem mindegyik változó nominális. Érdemes lehet a csoportok összehasonlítását megfontolni."
 
-#: .././cogstat.py:790
+#: .././cogstat_hyp_test.py:325
 msgid "Nominal variables."
 msgstr "Nominális változók"
 
-#: .././cogstat.py:790
+#: .././cogstat_hyp_test.py:325
 msgid "Running Cramér's V."
 msgstr "Cramér's V futtatása."
 
-#: .././cogstat.py:893
+#: .././cogstat.py:905
 msgid "Variables to compare: "
 msgstr "Összehasonlítandó változók: "
 
-#: .././cogstat.py:914
+#: .././cogstat.py:926
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
 msgstr "Elnézést, nem lehet eltérő mérési szintű változókat összehasonlítani. A magasabb mérési szintű változót be lehet állítani alacsonyabb szintűre, hogy egyforma lehessen a mérési szintjük."
 
-#: .././cogstat_hyp_test.py:248
+#: .././cogstat_hyp_test.py:358
 msgid "At least two variables required."
 msgstr "Legalább kettőnél változó szükséges."
 
-#: .././cogstat_hyp_test.py:250
+#: .././cogstat_hyp_test.py:360
 msgid "Two variables. "
 msgstr "Két változó. "
 
-#: .././cogstat_hyp_test.py:256 .././cogstat_hyp_test.py:293
-#: .././cogstat_hyp_test.py:546 .././cogstat_hyp_test.py:565
-#: .././cogstat_hyp_test.py:613 .././cogstat.py:661
+#: .././cogstat_hyp_test.py:366 .././cogstat_hyp_test.py:403
+#: .././cogstat_hyp_test.py:674 .././cogstat_hyp_test.py:693
+#: .././cogstat_hyp_test.py:741 .././cogstat.py:702
 msgid "Checking for normality."
 msgstr "Normalitás ellenőrzése."
 
-#: .././cogstat_hyp_test.py:552
+#: .././cogstat_hyp_test.py:680
 msgid "Normality is violated in variable "
 msgstr "A normalitás sérült a változóban "
 
-#: .././cogstat_hyp_test.py:267
+#: .././cogstat_hyp_test.py:377
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "A normalitás nem sérült. >> Páros t-próba futtatása."
 
-#: .././cogstat_hyp_test.py:271 .././cogstat_hyp_test.py:275
+#: .././cogstat_hyp_test.py:381 .././cogstat_hyp_test.py:385
 msgid "Running paired Wilcoxon test."
 msgstr "Páros Wilcoxon próba futtatása."
 
-#: .././cogstat_hyp_test.py:285 .././cogstat_hyp_test.py:321
-#: .././cogstat_hyp_test.py:330 .././cogstat_hyp_test.py:333
-#: .././cogstat_hyp_test.py:674 .././cogstat_hyp_test.py:677
-#: .././cogstat.py:687
+#: .././cogstat_hyp_test.py:395 .././cogstat_hyp_test.py:431
+#: .././cogstat_hyp_test.py:440 .././cogstat_hyp_test.py:443
+#: .././cogstat_hyp_test.py:817 .././cogstat_hyp_test.py:820
+#: .././cogstat.py:728
 msgid "Sorry, not implemented yet."
 msgstr "Sajnos ez a funkció még nincsen kész."
 
-#: .././cogstat_hyp_test.py:287
+#: .././cogstat_hyp_test.py:397
 msgid "More than two variables. "
 msgstr "Kettőnél több változó. "
 
-#: .././cogstat_hyp_test.py:307 .././cogstat_hyp_test.py:311
+#: .././cogstat_hyp_test.py:417 .././cogstat_hyp_test.py:421
 msgid "Running Friedman test."
 msgstr "Friedman-próba futtatása."
 
-#: .././cogstat_stat.py:128 .././cogstat.py:1040
+#: .././cogstat_stat.py:140 .././cogstat.py:1047
 msgid "Dependent variable: "
 msgstr "Függő változó: "
 
-#: .././cogstat.py:1041
+#: .././cogstat.py:1048
 msgid "Group(s): "
 msgstr "Csoport(ok): "
 
-#: .././cogstat_hyp_test.py:534
+#: .././cogstat_hyp_test.py:662
 msgid "One grouping variable. "
 msgstr "Egy csoportosító változó. "
 
-#: .././cogstat_hyp_test.py:536
+#: .././cogstat_hyp_test.py:664
 msgid "There is only one group. At least two groups required."
 msgstr "Csak egy csoport van. Legalább két csoport szükséges."
 
-#: .././cogstat_hyp_test.py:540
+#: .././cogstat_hyp_test.py:668
 msgid "Two groups. "
 msgstr "Két csoport. "
 
-#: .././cogstat_hyp_test.py:544
+#: .././cogstat_hyp_test.py:672
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr "Az egyik csoport egyetlen esetet tartalmaz. >> Módosított t-próba választása."
 
-#: .././cogstat_hyp_test.py:553
+#: .././cogstat_hyp_test.py:681
 msgid "group "
 msgstr "csoport"
 
@@ -585,12 +588,12 @@ msgstr "csoport"
 msgid "Running Mann-Whitney test."
 msgstr "Mann-Whitney próba futtatása."
 
-#: .././cogstat_hyp_test.py:557
+#: .././cogstat_hyp_test.py:685
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "A normalitás feltétele nem sérült. >> Módosított t-próba futtatása."
 
-#: .././cogstat_hyp_test.py:600 .././cogstat_hyp_test.py:649
-#: .././cogstat_hyp_test.py:676
+#: .././cogstat_hyp_test.py:728 .././cogstat_hyp_test.py:778
+#: .././cogstat_hyp_test.py:819
 msgid "Nominal variable."
 msgstr "Nominális változó."
 
@@ -598,7 +601,7 @@ msgstr "Nominális változó."
 msgid "Running Chi-square test."
 msgstr "Khi-négyzet próba futtatása. "
 
-#: .././cogstat_hyp_test.py:607
+#: .././cogstat_hyp_test.py:735
 msgid "More than two groups."
 msgstr "Kettőnél több csoport."
 
@@ -618,27 +621,27 @@ msgstr "Adatfájl megnyitása"
 msgid "Save result file"
 msgstr "Eredmények mentése"
 
-#: .././cogstat_gui.py:164 .././cogstat_gui.py:219
+#: .././cogstat_gui.py:165 .././cogstat_gui.py:219
 msgid "&Explore variable"
 msgstr "&Változó vizsgálata"
 
-#: .././cogstat_gui.py:448 .././cogstat.py:401
+#: .././cogstat_gui.py:448 .././cogstat.py:402
 msgid "Import failed"
 msgstr "Sikertelen beolvasás"
 
-#: .././cogstat_stat.py:325 .././cogstat_stat.py:328
+#: .././cogstat_stat.py:335 .././cogstat_stat.py:338
 msgid "Freq"
 msgstr "Gyak"
 
-#: .././cogstat_stat.py:329 .././cogstat_stat.py:331 .././cogstat_stat.py:332
+#: .././cogstat_stat.py:339 .././cogstat_stat.py:341 .././cogstat_stat.py:342
 msgid "Rel freq"
 msgstr "Rel gyak"
 
-#: .././cogstat_stat.py:328
+#: .././cogstat_stat.py:338
 msgid "Cum freq"
 msgstr "Kum gyak"
 
-#: .././cogstat_stat.py:331 .././cogstat_stat.py:333
+#: .././cogstat_stat.py:341 .././cogstat_stat.py:343
 msgid "Cum rel freq"
 msgstr "Kum rel gyak"
 
@@ -650,7 +653,7 @@ msgstr "Cramér féle V asszociációs együtthatót nem lehet kiszámolni (null
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
 msgstr "A mérési szintek szám nem egyezik a változók számával. A mérési szint megadását figyelmen kívül hagyjuk."
 
-#: .././cogstat.py:277
+#: .././cogstat.py:278
 msgid "pandas dataframe"
 msgstr "pandas adat"
 
@@ -658,15 +661,15 @@ msgstr "pandas adat"
 msgid "text file - "
 msgstr "szövegfájl - "
 
-#: .././cogstat.py:397
+#: .././cogstat.py:398
 msgid "clipboard"
 msgstr "vágólap"
 
-#: .././cogstat.py:445
+#: .././cogstat.py:446
 msgid "Type"
 msgstr "Típus"
 
-#: .././cogstat.py:445
+#: .././cogstat.py:446
 msgid "Level"
 msgstr "Szint"
 
@@ -674,11 +677,11 @@ msgstr "Szint"
 msgid "Filtering"
 msgstr "Szűrés"
 
-#: .././cogstat.py:479
+#: .././cogstat.py:489
 msgid "Filtering is switched off."
 msgstr "A szűrés kikapcsolva."
 
-#: .././cogstat.py:495
+#: .././cogstat.py:522
 msgid "Filtering based on %s.\n"
 ""
 msgstr "Szűrés a(z) %s alapján."
@@ -687,20 +690,20 @@ msgstr "Szűrés a(z) %s alapján."
 msgid " (2 SD)"
 msgstr " (2 szórás)"
 
-#: .././cogstat.py:497
+#: .././cogstat.py:524
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
 msgstr "Az alábbi tartományon kívüli esetek ki lesznek zárva:  %0.*f  --  %0.*f"
 
-#: .././cogstat.py:504
+#: .././cogstat.py:532
 msgid "The following cases will be excluded: "
 msgstr "A következő esetek lesznek kizárva: "
 
-#: .././cogstat.py:508
+#: .././cogstat.py:536
 msgid "No cases were excluded."
 msgstr "Egyetlen eset sincs kizárva."
 
-#: .././cogstat_hyp_test.py:573 .././cogstat_hyp_test.py:621
+#: .././cogstat_hyp_test.py:701 .././cogstat_hyp_test.py:749
 msgid "Checking for homogeneity of variance across groups."
 msgstr "Csoportok közti szóráshomogenitás ellenőrzése."
 
@@ -728,29 +731,29 @@ msgstr "Változók összehasonlítása."
 msgid "Compare groups."
 msgstr "Csoportok összehasonlítása."
 
-#: .././cogstat_hyp_test.py:117
+#: .././cogstat_hyp_test.py:136
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
 msgstr "A normalitás nem ellenőrizhető a(z) %s%s konstans változóban."
 
-#: .././cogstat_hyp_test.py:140
+#: .././cogstat_hyp_test.py:159
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
 msgstr "Túl alacsony az elemszám, hogy a(z) %s%s változóban tesztelni lehessen a normalitást."
 
-#: .././cogstat_hyp_test.py:399
+#: .././cogstat_hyp_test.py:518
 msgid "Result of the McNemar test"
 msgstr "A McNemar próba eredménye"
 
-#: .././cogstat_hyp_test.py:406
+#: .././cogstat_hyp_test.py:525
 msgid "Result of Cochran's Q test"
 msgstr "A Cochran Q teszt eredménye"
 
-#: .././cogstat_hyp_test.py:422
+#: .././cogstat_hyp_test.py:547
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "A Mauchly próba eredménye a szfericitás ellenőrzésére"
 
-#: .././cogstat_hyp_test.py:429
+#: .././cogstat_hyp_test.py:554
 msgid "Sphericity is violated."
 msgstr "A szfericitás sérült."
 
@@ -758,11 +761,11 @@ msgstr "A szfericitás sérült."
 msgid "Using Greenhouse-Geisser correction."
 msgstr "Greenhouse-Geisser korrekció használata."
 
-#: .././cogstat_hyp_test.py:431 .././cogstat_hyp_test.py:437
+#: .././cogstat_hyp_test.py:556 .././cogstat_hyp_test.py:562
 msgid "Result of repeated measures ANOVA"
 msgstr "Az ismételt méréses VA eredménye"
 
-#: .././cogstat_hyp_test.py:436
+#: .././cogstat_hyp_test.py:561
 msgid "Sphericity is not violated. "
 msgstr "A szfericitás nem sérült. "
 
@@ -770,35 +773,35 @@ msgstr "A szfericitás nem sérült. "
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
 msgstr "Változók páronkénti összehasonlítása a Holm-Bonferroni korrekcióval:"
 
-#: .././cogstat_hyp_test.py:793
+#: .././cogstat_hyp_test.py:937
 msgid "Result of Welch's unequal variances t-test:"
 msgstr "A Welch-féle t-próba eredménye:"
 
-#: .././cogstat_hyp_test.py:254
+#: .././cogstat_hyp_test.py:364
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "Páros t-próba vagy páros Wilcoxon próba választása az előfeltételektől függően."
 
-#: .././cogstat_hyp_test.py:270 .././cogstat_hyp_test.py:306
+#: .././cogstat_hyp_test.py:380 .././cogstat_hyp_test.py:416
 msgid "Normality is violated in variable(s): %s."
 msgstr "A normalitás sérül a %s változó(k)ban."
 
-#: .././cogstat_hyp_test.py:279 .././cogstat_hyp_test.py:315
+#: .././cogstat_hyp_test.py:389 .././cogstat_hyp_test.py:425
 msgid "Nominal dichotomous variables."
 msgstr "Nominális dichotóm változós."
 
-#: .././cogstat_hyp_test.py:280
+#: .././cogstat_hyp_test.py:390
 msgid "Running McNemar test."
 msgstr "McNemar próba futtatása."
 
-#: .././cogstat_hyp_test.py:284 .././cogstat_hyp_test.py:320
+#: .././cogstat_hyp_test.py:394 .././cogstat_hyp_test.py:430
 msgid "Nominal non dichotomous variables."
 msgstr "Nominális nem dichotóm változók."
 
-#: .././cogstat_hyp_test.py:290
+#: .././cogstat_hyp_test.py:400
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "Ismételt méréses VA vagy Firedman próba választása az előfeltételektől függően."
 
-#: .././cogstat_hyp_test.py:316
+#: .././cogstat_hyp_test.py:426
 msgid "Running Cochran's Q test."
 msgstr "Cochran Q próba futtatása."
 
@@ -806,7 +809,7 @@ msgstr "Cochran Q próba futtatása."
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
 msgstr "Két mintás t-próba, Mann-Whitney próba vagy Welch t-próba választása az előfeltételektől függően."
 
-#: .././cogstat_hyp_test.py:586
+#: .././cogstat_hyp_test.py:714
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "A normalitás sérül a %s változóban, a %s csoport(ok)ban."
 
@@ -814,7 +817,7 @@ msgstr "A normalitás sérül a %s változóban, a %s csoport(ok)ban."
 msgid "Homeogeneity of variance violated in variable %s."
 msgstr "A szóráshomogenitás sérült a(z) %s változóban."
 
-#: .././cogstat_hyp_test.py:592
+#: .././cogstat_hyp_test.py:720
 msgid "Running Welch's t-test."
 msgstr "Welch t-próba futtatása."
 
@@ -822,7 +825,7 @@ msgstr "Welch t-próba futtatása."
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
 msgstr "Egyszempontos VA vagy Kruskal-Wallis próba választása az előfeltételektől függően."
 
-#: .././cogstat_hyp_test.py:636
+#: .././cogstat_hyp_test.py:764
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr "A normalitás sérült a(z) %s változóban, %s csoportban."
 
@@ -830,15 +833,15 @@ msgstr "A normalitás sérült a(z) %s változóban, %s csoportban."
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr "A szóráshomogenitás sérült a(z) %s változóban. "
 
-#: .././cogstat_hyp_test.py:302 .././cogstat.py:666
+#: .././cogstat_hyp_test.py:412 .././cogstat.py:707
 msgid "Normality is not violated."
 msgstr "A normalitás nem sérült."
 
-#: .././cogstat_hyp_test.py:303
+#: .././cogstat_hyp_test.py:413
 msgid "Running repeated measures one-way ANOVA."
 msgstr "Egyszempontos ismételt méréses VA futtatása"
 
-#: .././cogstat_gui.py:159
+#: .././cogstat_gui.py:160
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
@@ -846,27 +849,27 @@ msgstr "Ctrl+B"
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
 msgstr "Adatfájl megnyitása. Hopplá, valami nem sikerült, CogStat nem tudta megnyitni az adatot. A problémát be is jelentheted."
 
-#: .././cogstat_stat.py:311
+#: .././cogstat.py:621
 msgid "N of missing cases: %g"
 msgstr "Hiányzó esetek száma: %g"
 
-#: .././cogstat_chart.py:261 .././cogstat_chart.py:346
-#: .././cogstat_chart.py:529 .././cogstat_chart.py:530
-#: .././cogstat_chart.py:739
+#: .././cogstat_chart.py:273 .././cogstat_chart.py:368
+#: .././cogstat_chart.py:591 .././cogstat_chart.py:592
+#: .././cogstat_chart.py:828
 msgid "Rank of %s"
 msgstr "%s sorrendje"
 
-#: .././cogstat_hyp_test.py:228 .././cogstat_hyp_test.py:389
+#: .././cogstat_hyp_test.py:262 .././cogstat_hyp_test.py:508
 msgid "Result of Wilcoxon signed-rank test"
 msgstr "Wilcoxon előjel próba eredménye"
 
-#: .././cogstat.py:580 .././cogstat.py:727 .././cogstat.py:923
-#: .././cogstat.py:1051 .././cogstat_chart.py:263
+#: .././cogstat.py:615 .././cogstat.py:772 .././cogstat.py:935
+#: .././cogstat.py:1058 .././cogstat_chart.py:275
 msgid "Raw data"
 msgstr "Nyers adat"
 
-#: .././cogstat.py:588 .././cogstat.py:743 .././cogstat.py:945
-#: .././cogstat.py:1103
+#: .././cogstat.py:629 .././cogstat.py:788 .././cogstat.py:956
+#: .././cogstat.py:1104
 msgid "Sample properties"
 msgstr "Minta tulajdonságai"
 
@@ -879,40 +882,40 @@ msgstr "Populáció paraméter becslések és tesztek"
 msgid "Hypothesis test: "
 msgstr "Hipotézis teszt: "
 
-#: .././cogstat.py:649
+#: .././cogstat.py:690
 msgid "Testing if mean deviates from the value %s."
 msgstr "Teszt, hogy az átlag eltér-e a(z) %s értéktől."
 
-#: .././cogstat.py:652
+#: .././cogstat.py:693
 msgid "Testing if median deviates from the value %s."
 msgstr "Teszt, hogy a medián eltér-e a(z) %s értéktől."
 
-#: .././cogstat.py:659
+#: .././cogstat.py:700
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
 msgstr "Egy mintás t-próba vagy Wilcoxon előjel próba választása az előfeltételektől függően."
 
-#: .././cogstat.py:667
+#: .././cogstat.py:708
 msgid "Running one-sample t-test."
 msgstr "Egy mintás t-próba futtatása."
 
-#: .././cogstat.py:673
+#: .././cogstat.py:714
 msgid "Normality is violated."
 msgstr "A normalitás sérült."
 
-#: .././cogstat.py:674 .././cogstat.py:681
+#: .././cogstat.py:715 .././cogstat.py:722
 msgid "Running Wilcoxon signed-rank test."
 msgstr "Wilcoxon előjel próba futtatása."
 
-#: .././cogstat.py:616 .././cogstat.py:747 .././cogstat.py:971
-#: .././cogstat.py:1135
+#: .././cogstat.py:657 .././cogstat.py:809 .././cogstat.py:981
+#: .././cogstat.py:1144
 msgid "Population properties"
 msgstr "Populáció tulajdonságai"
 
-#: .././cogstat.py:756 .././cogstat.py:775
+#: .././cogstat_hyp_test.py:295 .././cogstat_hyp_test.py:310
 msgid "Testing if correlation differs from 0."
 msgstr "Teszt, hogy a korreláció eltér-e 0-tól."
 
-#: .././cogstat.py:786
+#: .././cogstat_hyp_test.py:320
 msgid "Testing if variables are independent."
 msgstr "Teszt, hogy a változók függetlenek-e."
 
@@ -920,34 +923,34 @@ msgstr "Teszt, hogy a változók függetlenek-e."
 msgid "Hypothesis testing: "
 msgstr "Hipotézis tesz: "
 
-#: .././cogstat_hyp_test.py:241 .././cogstat_hyp_test.py:528
-#: .././cogstat_hyp_test.py:659
+#: .././cogstat_hyp_test.py:351 .././cogstat_hyp_test.py:656
+#: .././cogstat_hyp_test.py:802
 msgid "Testing if the means are the same."
 msgstr "Teszt, hogy az átlagok megegyeznek-e."
 
-#: .././cogstat_hyp_test.py:243 .././cogstat_hyp_test.py:530
-#: .././cogstat_hyp_test.py:661
+#: .././cogstat_hyp_test.py:353 .././cogstat_hyp_test.py:658
+#: .././cogstat_hyp_test.py:804
 msgid "Testing if the medians are the same."
 msgstr "Teszt, hogy a mediánok megegyeznek-e."
 
-#: .././cogstat_hyp_test.py:245 .././cogstat_hyp_test.py:532
-#: .././cogstat_hyp_test.py:663
+#: .././cogstat_hyp_test.py:355 .././cogstat_hyp_test.py:660
+#: .././cogstat_hyp_test.py:806
 msgid "Testing if the distributions are the same."
 msgstr "Teszt, hogy az eloszlások megegyeznek-e."
 
-#: .././cogstat_hyp_test.py:582
+#: .././cogstat_hyp_test.py:710
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
 msgstr "A normalitás és a szóráshomogenitás nem sérült. >> Két mintás t-próba futtatása."
 
-#: .././cogstat_hyp_test.py:630
+#: .././cogstat_hyp_test.py:758
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
 msgstr "A normalitás és a szóráshomogenitás nem sérült. >> Egyszempontos VA futtatása."
 
-#: .././cogstat_gui.py:842
+#: .././cogstat_gui.py:851
 msgid "Simple automatic data analysis software"
 msgstr "Egyszerű automatikus adatelemző szoftver"
 
-#: .././cogstat_gui.py:843
+#: .././cogstat_gui.py:852
 msgid "Visit CogStat website"
 msgstr "Látogasd meg a CogStat honlapját"
 
@@ -963,23 +966,23 @@ msgstr "A CogStat segítségével a statisztikai elemzés egyszerűbb és haték
 msgid "To start working open a data file or paste your data from a spreadsheet."
 msgstr "A munka elkezdéséhez nyiss meg egy adatfájlt, vagy másold be az adataidat egy táblázatkezelőből."
 
-#: .././cogstat_chart.py:260
+#: .././cogstat_chart.py:272
 msgid "Rank of the raw data"
 msgstr "A nyers adatok sorrendje"
 
-#: .././cogstat_chart.py:331
+#: .././cogstat_chart.py:353
 msgid "Histogram of rank data with individual data and boxplot"
 msgstr "Sorrend adatok hisztogramja az egyedi adatokkal és dobozdiagram"
 
-#: .././cogstat_chart.py:528
+#: .././cogstat_chart.py:590
 msgid "Scatterplot of the rank of the variables"
 msgstr "A változók sorrendjének pontfelhő diagramja"
 
-#: .././cogstat_chart.py:575
+#: .././cogstat_chart.py:643
 msgid "Individual data of the variables"
 msgstr "A változók egyéni adatai"
 
-#: .././cogstat_chart.py:741
+#: .././cogstat_chart.py:830
 msgid "Individual data of the rank data of the groups"
 msgstr "A csoportok sorrendi adatainak egyedi adatai"
 
@@ -987,71 +990,70 @@ msgstr "A csoportok sorrendi adatainak egyedi adatai"
 msgid "Boxplot and individual data of the rank data of the groups"
 msgstr "A csoportok sorrendi adatainak dobozdiagramja és egyedi adatai"
 
-#: .././cogstat_chart.py:757
+#: .././cogstat_chart.py:846
 msgid "Individual data of the groups"
 msgstr "A csoportok egyéni adata"
 
-#: .././cogstat_stat.py:467 .././cogstat_stat.py:476 .././cogstat_stat.py:538
-#: .././cogstat_stat.py:641 .././cogstat_stat.py:648 .././cogstat_stat.py:675
-#: .././cogstat_stat.py:713 .././cogstat_stat.py:739 .././cogstat_stat.py:788
-#: .././cogstat.py:749
+#: .././cogstat_stat.py:495 .././cogstat_stat.py:504 .././cogstat_stat.py:566
+#: .././cogstat_stat.py:679 .././cogstat_stat.py:686 .././cogstat_stat.py:728
+#: .././cogstat_stat.py:778 .././cogstat_stat.py:804 .././cogstat_stat.py:868
 msgid "Point estimation"
 msgstr "Pontbecslés"
 
-#: .././cogstat_stat.py:538 .././cogstat.py:749
+#: .././cogstat_stat.py:566
 msgid "95% confidence interval"
 msgstr "95% konfidencia intervallum"
 
-#: .././cogstat_stat.py:120 .././cogstat_stat.py:374 .././cogstat_stat.py:474
+#: .././cogstat_stat.py:132 .././cogstat_stat.py:402 .././cogstat_stat.py:502
 #: ../ui/pivot.py:174
 msgid "Standard deviation"
 msgstr "Szórás"
 
-#: .././cogstat.py:929 .././cogstat.py:1068
+#: .././cogstat.py:941 .././cogstat.py:1077
 msgid "N of valid cases"
 msgstr "Érvényes esetek száma"
 
-#: .././cogstat_gui.py:125
+#: .././cogstat_gui.py:126
 msgid "Update available"
 msgstr "Frissítés elérhető"
 
-#: .././cogstat_gui.py:126
+#: .././cogstat_gui.py:127
 msgid "New version is available."
 msgstr "Új változat elérhető."
 
-#: .././cogstat_gui.py:127
+#: .././cogstat_gui.py:128
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
 msgstr "Az új változat letölthető <br>a <a href = \"%s\">CogStat letöltés oldalról</a>."
 
-#: .././cogstat_gui.py:166 .././cogstat_gui.py:220
+#: .././cogstat_gui.py:167 .././cogstat_gui.py:220
 msgid "Explore relation of variable &pair"
 msgstr "Változó &párok kapcsolatának vizsgálata"
 
-#: .././cogstat_gui.py:173 .././cogstat_gui.py:221
+#: .././cogstat_gui.py:169 .././cogstat_gui.py:221
 msgid "Compare repeated measures va&riables"
 msgstr "Ismételt méréses változók össze&hasonlítása"
 
-#: .././cogstat_stat.py:375
+#: .././cogstat_stat.py:403
 msgid "Minimum"
 msgstr "Minimum"
 
-#: .././cogstat_stat.py:376
+#: .././cogstat_stat.py:404
 msgid "Maximum"
 msgstr "Maximum"
 
-#: .././cogstat_stat.py:119 .././cogstat_stat.py:379 ../ui/pivot.py:173
+#: .././cogstat_stat.py:131 .././cogstat_stat.py:407 ../ui/pivot.py:173
 msgid "Upper quartile"
 msgstr "Felső kvartilis"
 
-#: .././cogstat_stat.py:407
+#: .././cogstat_stat.py:435
 msgid "Descriptives for the variables"
 msgstr "A változók leírói"
 
-#: .././cogstat_stat.py:424
+#: .././cogstat_stat.py:452
 msgid "Descriptives for the groups"
 msgstr "A csoportok leírói"
 
-#: .././cogstat_stat.py:577 .././cogstat_stat.py:588 .././cogstat_stat.py:602
+#: .././cogstat_stat.py:615 .././cogstat_stat.py:626 .././cogstat_stat.py:640
 msgid "Contingency table"
 msgstr "Kontingencia táblázat"
 
@@ -1060,7 +1062,7 @@ msgid "Result of two-way ANOVA:\n"
 ""
 msgstr "Kétszempontos VA eredménye:"
 
-#: .././cogstat_hyp_test.py:887
+#: .././cogstat_hyp_test.py:1053
 msgid "Main effect of %s: "
 msgstr "%s fő hatása: "
 
@@ -1072,15 +1074,16 @@ msgstr "%s és %s interakciója: "
 msgid "SPSS file - "
 msgstr "SPSS fájl - "
 
-#: .././cogstat.py:719
+#: .././cogstat_gui.py:593 .././cogstat_gui.py:612 .././cogstat.py:762
 msgid "Explore relation of variable pair"
 msgstr "Változó párok kapcsolatának vizsgálata"
 
-#: .././cogstat.py:891 ../ui/compare_vars.py:86
+#: .././cogstat_gui.py:711 .././cogstat_gui.py:718 .././cogstat_gui.py:727
+#: .././cogstat.py:903 ../ui/compare_vars.py:86
 msgid "Compare repeated measures variables"
 msgstr "Ismételt méréses változók összehasonlítása"
 
-#: .././cogstat.py:930 .././cogstat.py:1071
+#: .././cogstat.py:942 .././cogstat.py:1080
 msgid "N of missing cases"
 msgstr "Hiányzó esetek N"
 
@@ -1088,15 +1091,15 @@ msgstr "Hiányzó esetek N"
 msgid "Two grouping variables. "
 msgstr "Két csoportosító változó. "
 
-#: .././cogstat_hyp_test.py:669
+#: .././cogstat_hyp_test.py:812
 msgid "Choosing factorial ANOVA."
 msgstr "Faktoriális VA választása."
 
-#: .././cogstat.py:733
+#: .././cogstat.py:778
 msgid "N of valid pairs"
 msgstr "Érvényes párok száma"
 
-#: .././cogstat.py:734
+#: .././cogstat.py:779
 msgid "N of missing pairs"
 msgstr "Hiányzó párok száma"
 
@@ -1104,23 +1107,23 @@ msgstr "Hiányzó párok száma"
 msgid "N of missing group cases"
 msgstr "Hiányzó csoport esetek száma"
 
-#: .././cogstat.py:1087
+#: .././cogstat.py:1096
 msgid "N of missing grouping variable in %s"
 msgstr "Hiányzó csoport esetek száma %s-ban/ben"
 
-#: .././cogstat_stat.py:380
+#: .././cogstat_stat.py:408
 msgid "Skewness"
 msgstr "Ferdeség"
 
-#: .././cogstat_stat.py:381
+#: .././cogstat_stat.py:409
 msgid "Kurtosis"
 msgstr "Csúcsosság"
 
-#: .././cogstat_stat.py:377
+#: .././cogstat_stat.py:405
 msgid "Range"
 msgstr "Terjedelem"
 
-#: .././cogstat_stat.py:408
+#: .././cogstat_stat.py:436
 msgid "Descriptives for the variable"
 msgstr "Leírók a változóhoz"
 
@@ -1128,7 +1131,7 @@ msgstr "Leírók a változóhoz"
 msgid "The measurement levels of the variables are not set. Set them in your data source."
 msgstr "A változók mérési szintjei nincsenek beállítva. Állítsd be az adatforrásodban."
 
-#: .././cogstat_gui.py:53 .././cogstat_gui.py:466
+#: .././cogstat_gui.py:54 .././cogstat_gui.py:466
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
 msgstr "További információ a hibabejelentésről <a href = \"%s\">itt</a>."
 
@@ -1137,12 +1140,12 @@ msgid "Find more information about CogStat on its <a href = \"https://www.cogsta
 msgstr "További információ a CogStatról a <a href = \"https://www.cogstat.org\">honlapján</a> vagy a <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">rövid bevezetőben.</a>"
 
 #: .././cogstat_hyp_test.py:39 .././cogstat.py:42 .././cogstat.py:199
-#: .././cogstat.py:208 .././cogstat.py:258 .././cogstat.py:267
+#: .././cogstat.py:208 .././cogstat.py:258 .././cogstat.py:268
 msgid "Read more about this issue <a href = \"%s\">here</a>."
 msgstr "További információ erről a problémáról <a href = \"%s\">itt</a>."
 
 #. %s will include the specific test name, e.g., Result of slope test with Test d.1:
-#: .././cogstat_hyp_test.py:772
+#: .././cogstat_hyp_test.py:916
 msgid "Result of slope test with %s:"
 msgstr "A meredekség teszt eredménye a %s teszttel: "
 
@@ -1174,11 +1177,11 @@ msgstr "Némelyik változó név tartalmaz nem angol betűket is, ami problémá
 msgid "Standardized effect size:"
 msgstr "Standardizált naygsághatás:"
 
-#: .././cogstat_gui.py:151
+#: .././cogstat_gui.py:152
 msgid "Open d&emo data file"
 msgstr "D&emo adatfájl megnyitása"
 
-#: .././cogstat_gui.py:151
+#: .././cogstat_gui.py:152
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
@@ -1206,41 +1209,41 @@ msgstr "Eredmények &mentése"
 msgid "Save results &as"
 msgstr "Eredmények mentése m&ásként"
 
-#: .././cogstat_chart.py:577
+#: .././cogstat_chart.py:645
 msgid "Boxplots and individual data of the variables"
 msgstr "A változók dobozdiagramjai és egyedi adatai"
 
-#: .././cogstat_chart.py:730
+#: .././cogstat_chart.py:819
 msgid "Largest individual sign displays %d cases."
 msgstr "A legnagyobb egyedi jel %d esetet jelez."
 
-#: .././cogstat_chart.py:743
+#: .././cogstat_chart.py:832
 msgid "Boxplots and individual data of the rank data of the groups"
 msgstr "A csoportok rangsor adatainak dobozdiagramjai és egyedi adatai"
 
-#: .././cogstat_chart.py:759
+#: .././cogstat_chart.py:848
 msgid "Boxplots and individual data of the groups"
 msgstr "A csoportok dobozdiagramjai és egyedi adatai"
 
-#: .././cogstat_stat.py:645 .././cogstat_stat.py:650 .././cogstat_stat.py:675
-#: .././cogstat_stat.py:716 .././cogstat_stat.py:744 .././cogstat_stat.py:788
+#: .././cogstat_stat.py:683 .././cogstat_stat.py:688 .././cogstat_stat.py:728
+#: .././cogstat_stat.py:781 .././cogstat_stat.py:809 .././cogstat_stat.py:868
 msgid "95% CI (low)"
 msgstr "95% KI (alsó)"
 
-#: .././cogstat_stat.py:646 .././cogstat_stat.py:650 .././cogstat_stat.py:675
-#: .././cogstat_stat.py:717 .././cogstat_stat.py:745 .././cogstat_stat.py:788
+#: .././cogstat_stat.py:684 .././cogstat_stat.py:688 .././cogstat_stat.py:728
+#: .././cogstat_stat.py:782 .././cogstat_stat.py:810 .././cogstat_stat.py:868
 msgid "95% CI (high)"
 msgstr "95% KI (felső)"
 
-#: .././cogstat_hyp_test.py:950
+#: .././cogstat_hyp_test.py:1116
 msgid "Results of Dunn's test (p values)."
 msgstr "Dunn próba eredményei (p értékek)."
 
-#: .././cogstat.py:976 .././cogstat.py:1138
+#: .././cogstat.py:986 .././cogstat.py:1147
 msgid "Present confidence interval values suppose normality."
 msgstr "Az itteni konfidencia intervallumok normalitást feltételeznek."
 
-#: .././cogstat.py:976 .././cogstat.py:1138
+#: .././cogstat.py:986 .././cogstat.py:1147
 msgid "Means"
 msgstr "Átlagok"
 
@@ -1256,7 +1259,7 @@ msgstr "Ctrl+Shift+E"
 msgid "Ctrl+Shift+P"
 msgstr "Ctrl+Shift+P"
 
-#: .././cogstat.py:451
+#: .././cogstat.py:452
 msgid "The next %s cases will not be printed. You can check all cases in the original data source."
 msgstr "A következő %s esetet nem nyomtatjuk. Az összes eset ellenőrizhető az eredeti adatforrásban."
 
@@ -1267,19 +1270,19 @@ msgstr "A következő %s esetet nem nyomtatjuk. Az összes eset ellenőrizhető 
 msgid "Available variables"
 msgstr "Elérhető változók"
 
-#: .././cogstat_stat.py:118 ../ui/pivot.py:168
+#: .././cogstat_stat.py:130 ../ui/pivot.py:168
 msgid "N"
 msgstr "N"
 
-#: .././cogstat_stat.py:118 ../ui/pivot.py:169
+#: .././cogstat_stat.py:130 ../ui/pivot.py:169
 msgid "Sum"
 msgstr "Összeg"
 
-#: .././cogstat_stat.py:119 .././cogstat_stat.py:378 ../ui/pivot.py:172
+#: .././cogstat_stat.py:131 .././cogstat_stat.py:406 ../ui/pivot.py:172
 msgid "Lower quartile"
 msgstr "Alsó kvartilis"
 
-#: .././cogstat_stat.py:120 ../ui/pivot.py:175
+#: .././cogstat_stat.py:132 ../ui/pivot.py:175
 msgid "Variance"
 msgstr "Variancia"
 
@@ -1396,11 +1399,11 @@ msgstr "Választható változók"
 msgid "Variable properties"
 msgstr "Változó tulajdonságok"
 
-#: .././cogstat_gui.py:155 .././cogstat_gui.py:218
+#: .././cogstat_gui.py:156 .././cogstat_gui.py:218
 msgid "&Filter outliers"
-msgstr "&Kiugró adat szűrése"
+msgstr "&Kiugró adatok szűrése"
 
-#: .././cogstat_gui.py:155
+#: .././cogstat_gui.py:156
 msgid "Ctrl+L"
 msgstr "Ctrl+L"
 
@@ -1416,35 +1419,35 @@ msgstr "Ctrl+Shift+R"
 msgid "Filter outlier."
 msgstr "Kiugró adatok szűrése."
 
-#: .././cogstat_hyp_test.py:487
+#: .././cogstat_hyp_test.py:612
 msgid "Main effect of %s"
 msgstr "Fő hatás a %s változóban"
 
-#: .././cogstat_hyp_test.py:489
+#: .././cogstat_hyp_test.py:614
 msgid "Interaction of factors %s"
 msgstr "A %s faktorok interakciója"
 
-#: .././cogstat.py:486
+#: .././cogstat.py:496
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
 msgstr "Csak intervallum változók használhatóak a szűréshez. A %s változó figyelmen kívül hagyva."
 
-#: .././cogstat.py:896
+#: .././cogstat.py:908
 msgid "Factors (number of levels): "
 msgstr "Faktorok (szintek száma): "
 
-#: .././cogstat_hyp_test.py:324
+#: .././cogstat_hyp_test.py:434
 msgid "Interval variables with several factors."
 msgstr "Intervallum változós több faktorral."
 
-#: .././cogstat_hyp_test.py:325
+#: .././cogstat_hyp_test.py:435
 msgid "Choosing repeated measures ANOVA."
 msgstr "Ismételt méréses VA választása."
 
-#: .././cogstat_hyp_test.py:329
+#: .././cogstat_hyp_test.py:439
 msgid "Ordinal variables with several factors."
 msgstr "Ordinális változók több faktorral."
 
-#: .././cogstat_hyp_test.py:332
+#: .././cogstat_hyp_test.py:442
 msgid "Nominal variables with several factors."
 msgstr "Nominális változók több faktorral."
 
@@ -1504,7 +1507,7 @@ msgstr "Szintek száma"
 msgid "Only interval variables are available"
 msgstr "Csak az intervallum változók elérhetőek"
 
-#: .././cogstat_gui.py:170 .././cogstat_gui.py:219
+#: .././cogstat_gui.py:175 .././cogstat_gui.py:219
 msgid "Behavioral data &diffusion analysis"
 msgstr "Viselkedéses adat &diffúzió elemzése"
 
@@ -1524,78 +1527,78 @@ msgstr "Diffúzió elemzés."
 #: .././cogstat_hyp_test.py:723 .././cogstat_hyp_test.py:832
 #: .././cogstat_hyp_test.py:979
 msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
-msgstr "Érzékenység erőelemzés. Minimális hatásnagyság, hogy 95%%-os erőt érjünk el a jelenlegi mintanagysággal a jelenlegi hipotézis teszthez (hatás nagyság mértékegysége %s):"
+msgstr "Érzékenységi erőelemzés. Minimális hatásnagyság, hogy 95%%-os erőt érjünk el a jelenlegi mintanagysággal a jelenlegi hipotézis teszthez (hatás nagyság mértékegysége %s):"
 
-#: .././cogstat_hyp_test.py:193 .././cogstat_hyp_test.py:360
-#: .././cogstat_hyp_test.py:724
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:473
+#: .././cogstat_hyp_test.py:864
 msgid "d"
 msgstr "d"
 
-#: .././cogstat_hyp_test.py:833
+#: .././cogstat_hyp_test.py:981
 msgid "f"
 msgstr "f"
 
-#: .././cogstat_hyp_test.py:883
+#: .././cogstat_hyp_test.py:1049
 msgid "Result of multi-way ANOVA"
 msgstr "Többszempontos VA eredménye"
 
-#: .././cogstat_hyp_test.py:893
+#: .././cogstat_hyp_test.py:1059
 msgid "Interaction of %s: "
 msgstr "%s interakciója: "
 
-#: .././cogstat_hyp_test.py:980
+#: .././cogstat_hyp_test.py:1146
 msgid "w"
 msgstr "w"
 
-#: .././cogstat_chart.py:421
+#: .././cogstat_chart.py:450
 msgid "Normal theoretical quantiles"
 msgstr "Normál elméleti kvantilisek"
 
-#: .././cogstat_chart.py:422
+#: .././cogstat_chart.py:451
 msgid "Sample quantiles"
 msgstr "Minta kvantilisek"
 
-#: .././cogstat_stat.py:212
+#: .././cogstat_stat.py:224
 msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
 msgstr "Hibázás: %s, Reakció idő: %s, Résztvevő: %s, Feltétel(ek): %s"
 
-#: .././cogstat_stat.py:249
+#: .././cogstat_stat.py:261
 msgid "Mean percent correct with edge correction"
 msgstr "Helyes válaszok átlagos százaléka szél korrekcióval"
 
-#: .././cogstat_stat.py:251
+#: .././cogstat_stat.py:263
 msgid "Mean correct reaction time"
 msgstr "Helyes válaszok átlagos reakcióideje"
 
-#: .././cogstat_stat.py:253
+#: .././cogstat_stat.py:265
 msgid "Correct reaction time variance"
 msgstr "Helyes válaszok reakcióidejének varianciája"
 
-#: .././cogstat_stat.py:272
+#: .././cogstat_stat.py:284
 msgid "Drift rate"
 msgstr "Sodródási ráta"
 
-#: .././cogstat_stat.py:273
+#: .././cogstat_stat.py:285
 msgid "Threshold"
 msgstr "Küszöb"
 
-#: .././cogstat_stat.py:274
+#: .././cogstat_stat.py:286
 msgid "Nondecision time"
 msgstr "Döntésen kívüli idő"
 
-#: .././cogstat_stat.py:348 .././cogstat_stat.py:600
+#: .././cogstat_stat.py:366 .././cogstat_stat.py:638
 msgid "low"
 msgstr "alsó"
 
-#: .././cogstat_stat.py:348 .././cogstat_stat.py:600
+#: .././cogstat_stat.py:366 .././cogstat_stat.py:638
 msgid "high"
 msgstr "felső"
 
-#: .././cogstat_stat.py:349
+#: .././cogstat_stat.py:367
 msgid "Relative frequencies"
 msgstr "Relatív gyakoriságok"
 
-#: .././cogstat_stat.py:349 .././cogstat_stat.py:603
+#: .././cogstat_stat.py:367 .././cogstat_stat.py:641
 msgid "95% confidence interval (multinomial proportions)"
 msgstr "95% konfidencia intervallum (multinomiális arányok)"
 
@@ -1603,52 +1606,52 @@ msgstr "95% konfidencia intervallum (multinomiális arányok)"
 msgid "Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid."
 msgstr "Egyes cellák nem tartalmaznak legalább 5 esetet, emiatt a konfidencia intervallum érvénytelen lehet."
 
-#: .././cogstat_stat.py:382
+#: .././cogstat_stat.py:410
 msgid "Variation ratio"
 msgstr "Variációs arány"
 
-#: .././cogstat_stat.py:466
+#: .././cogstat_stat.py:494
 msgid "Present confidence interval values for the mean suppose normality."
 msgstr "A jelenlegi átlag konfidencia intervallum értékek normalitást feltételeznek."
 
-#: .././cogstat_stat.py:469 .././cogstat_stat.py:478
+#: .././cogstat_stat.py:497 .././cogstat_stat.py:506
 msgid "95% confidence interval (high)"
 msgstr "95% konfidencia intervallum (felső)"
 
-#: .././cogstat_stat.py:468 .././cogstat_stat.py:477
+#: .././cogstat_stat.py:496 .././cogstat_stat.py:505
 msgid "95% confidence interval (low)"
 msgstr "95% konfidencia intervallum (alsó)"
 
-#: .././cogstat_stat.py:480 .././cogstat_stat.py:651 .././cogstat_stat.py:747
+#: .././cogstat_stat.py:508 .././cogstat_stat.py:689 .././cogstat_stat.py:812
 msgid "Out of the data range"
 msgstr "Adattartományon kívül"
 
-#: .././cogstat_stat.py:532 .././cogstat_stat.py:535 .././cogstat_stat.py:777
-#: .././cogstat_stat.py:780
+#: .././cogstat_stat.py:560 .././cogstat_stat.py:563 .././cogstat_stat.py:857
+#: .././cogstat_stat.py:860
 msgid "Cramér's V measure of association"
 msgstr "Cramér-féle V asszociációs érték"
 
-#: .././cogstat_stat.py:576 .././cogstat_stat.py:585
+#: .././cogstat_stat.py:614 .././cogstat_stat.py:623
 msgid "Total"
 msgstr "Összes"
 
-#: .././cogstat_stat.py:577
+#: .././cogstat_stat.py:615
 msgid "Case count"
 msgstr "Esetek száma"
 
-#: .././cogstat_stat.py:588
+#: .././cogstat_stat.py:626
 msgid "Percentage"
 msgstr "Százalék"
 
-#: .././cogstat_stat.py:663 .././cogstat_stat.py:762
+#: .././cogstat_stat.py:716 .././cogstat_stat.py:842
 msgid "Cohen's d"
 msgstr "Cohen-féle d"
 
-#: .././cogstat_stat.py:665 .././cogstat_stat.py:764
+#: .././cogstat_stat.py:718 .././cogstat_stat.py:844
 msgid "Eta-squared"
 msgstr "Éta négyzet"
 
-#: .././cogstat_stat.py:683 .././cogstat_stat.py:797
+#: .././cogstat_stat.py:736 .././cogstat_stat.py:877
 msgid "Hedges' g"
 msgstr "Hedges-féle g"
 
@@ -1656,8 +1659,8 @@ msgstr "Hedges-féle g"
 msgid "Omega squared"
 msgstr "Omega négyzet"
 
-#: .././cogstat.py:637 .././cogstat.py:748 .././cogstat.py:974
-#: .././cogstat.py:1136
+#: .././cogstat.py:678 .././cogstat.py:810 .././cogstat.py:984
+#: .././cogstat.py:1145
 msgid "Population parameter estimations"
 msgstr "Populáció paraméterek becslései"
 
@@ -1682,11 +1685,12 @@ msgstr "Következő keresése"
 msgid "Find previous"
 msgstr "Előző keresése"
 
-#: .././cogstat.py:863 ../ui/diffusion.py:130
+#: .././cogstat_gui.py:674 .././cogstat_gui.py:680 .././cogstat.py:875
+#: ../ui/diffusion.py:130
 msgid "Behavioral data diffusion analysis"
 msgstr "Viselkedéses adat diffúziós elemzése"
 
-#: .././cogstat_stat.py:223 .././cogstat_stat.py:224 ../ui/diffusion.py:134
+#: .././cogstat_stat.py:235 .././cogstat_stat.py:236 ../ui/diffusion.py:134
 msgid "Participant"
 msgstr "Résztvevő"
 
@@ -1722,11 +1726,11 @@ msgstr "Az y tengely minimuma"
 msgid "Maximum of y axis"
 msgstr "y tengely maximuma"
 
-#: .././cogstat_gui.py:667
+#: .././cogstat_gui.py:675
 msgid "At least the reaction time and the error variables should be given."
 msgstr "Legalább a reakcióidőt és a hibázást meg kell adni."
 
-#: .././cogstat_hyp_test.py:665
+#: .././cogstat_hyp_test.py:808
 msgid "At least two grouping variables."
 msgstr "Legalább két csoportosító változó."
 
@@ -1734,17 +1738,18 @@ msgstr "Legalább két csoportosító változó."
 msgid "Specify all the required parameters (reaction time, error, participant and condition variables)."
 msgstr "Az összes szükséges paraméter megadandó (reakcióidő, hibázás, résztvevő és feltétel változók)."
 
-#: .././cogstat_hyp_test.py:239 .././cogstat_hyp_test.py:526
-#: .././cogstat_hyp_test.py:657 .././cogstat.py:647 .././cogstat.py:755
-#: .././cogstat.py:774 .././cogstat.py:785
+#: .././cogstat_hyp_test.py:294 .././cogstat_hyp_test.py:309
+#: .././cogstat_hyp_test.py:319 .././cogstat_hyp_test.py:349
+#: .././cogstat_hyp_test.py:654 .././cogstat_hyp_test.py:800
+#: .././cogstat.py:688
 msgid "Hypothesis tests"
 msgstr "Hipotézis tesztek"
 
-#: .././cogstat.py:1140
+#: .././cogstat.py:1149
 msgid "Medians"
 msgstr "Mediánok"
 
-#: .././cogstat_stat.py:517 .././cogstat_stat.py:656 .././cogstat_stat.py:753
+#: .././cogstat_stat.py:545 .././cogstat_stat.py:709 .././cogstat_stat.py:833
 msgid "Standardized effect size"
 msgstr "Standardizált hatás nagyság"
 
@@ -1784,11 +1789,11 @@ msgstr "STATA adatfájlok"
 msgid "R data files"
 msgstr "R adatfájlok"
 
-#: .././cogstat_stat.py:354 .././cogstat_stat.py:610
+#: .././cogstat_stat.py:372 .././cogstat_stat.py:648
 msgid "Some of the cells do not include at least 5 cases, so the confidence intervals may be invalid."
 msgstr "Egyes cellák nem tartalmaznak legalább 5 esetet, emiatt a konfidencia intervallum érvénytelen lehet."
 
-#: .././cogstat_stat.py:811
+#: .././cogstat_stat.py:890
 msgid "Omega-squared"
 msgstr "Omega-négyzet"
 
@@ -1812,36 +1817,36 @@ msgstr "Beolvasandó adat"
 msgid "Number of measurement levels do not match the number of variables. You may want to correct the number of measurement levels."
 msgstr "A mérési szintek szám nem egyezik a változók számával. Érdemes a mérési szintek számát javítani."
 
-#: .././cogstat_hyp_test.py:144
+#: .././cogstat_hyp_test.py:163
 msgid "Shapiro–Wilk normality test in variable %s%s"
 msgstr "Shapiro–Wilk normalitás próba a %s%s változóban"
 
-#: .././cogstat_hyp_test.py:430
+#: .././cogstat_hyp_test.py:555
 msgid "Using Greenhouse–Geisser correction."
 msgstr "Greenhouse–Geisser korrekció használata."
 
-#: .././cogstat_hyp_test.py:444
+#: .././cogstat_hyp_test.py:569
 msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
 msgstr "Változók páronkénti összehasonlítása Holm–Bonferroni korrekcióval:"
 
-#: .././cogstat_hyp_test.py:554 .././cogstat_hyp_test.py:588
-#: .././cogstat_hyp_test.py:597
+#: .././cogstat_hyp_test.py:682 .././cogstat_hyp_test.py:716
+#: .././cogstat_hyp_test.py:725
 msgid "Running Mann–Whitney test."
 msgstr "Mann–Whitney teszt futtatása."
 
-#: .././cogstat_hyp_test.py:563
+#: .././cogstat_hyp_test.py:691
 msgid "Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on assumptions."
 msgstr "Kétmintás t-próba, Mann–Whitney próba vagy Welch-féle t-próba választása az előfeltételektől függően."
 
-#: .././cogstat_hyp_test.py:591 .././cogstat_hyp_test.py:639
+#: .././cogstat_hyp_test.py:719 .././cogstat_hyp_test.py:767
 msgid "Homogeneity of variance violated in variable %s."
 msgstr "A szóráshomogenitás sérült a(z) %s változóban."
 
-#: .././cogstat_hyp_test.py:601 .././cogstat_hyp_test.py:649
+#: .././cogstat_hyp_test.py:729 .././cogstat_hyp_test.py:778
 msgid "Running chi-squared test."
 msgstr "Khí-négyzet próba futtatása."
 
-#: .././cogstat_hyp_test.py:610
+#: .././cogstat_hyp_test.py:738
 msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
 msgstr "Egyszempontos VA vagy Kruskal–Wallis próba választása az előfeltételektől függően."
 
@@ -1849,43 +1854,43 @@ msgstr "Egyszempontos VA vagy Kruskal–Wallis próba választása az előfelté
 msgid "Homogeneity of variance violated in variable %s. "
 msgstr "A szóráshomogenitás sérült a(z) %s változóban. "
 
-#: .././cogstat_hyp_test.py:641 .././cogstat_hyp_test.py:645
+#: .././cogstat_hyp_test.py:770 .././cogstat_hyp_test.py:774
 msgid "Running Kruskal–Wallis test."
 msgstr "Kruskal–Wallis próba futtatása."
 
-#: .././cogstat_hyp_test.py:808
+#: .././cogstat_hyp_test.py:954
 msgid "Result of independent samples Mann–Whitney rank test: "
 msgstr "Független mintás Mann–Whitney rang próba eredménye: "
 
-#: .././cogstat_hyp_test.py:945 .././cogstat_hyp_test.py:957
+#: .././cogstat_hyp_test.py:1111 .././cogstat_hyp_test.py:1122
 msgid "Result of the Kruskal–Wallis test: "
 msgstr "Kruskal–Wallis próba eredménye: "
 
-#: .././cogstat_hyp_test.py:984
+#: .././cogstat_hyp_test.py:1153
 msgid "Result of the Pearson's chi-squared test: "
 msgstr "Pearson Khí-négyzet próba eredménye: "
 
-#: .././cogstat.py:310
+#: .././cogstat.py:311
 msgid "Spreadsheet file"
 msgstr "Táblázatkezelő fájl"
 
-#: .././cogstat.py:352
+#: .././cogstat.py:353
 msgid "SPSS/SAS/STATA file"
 msgstr "SPSS/SAS/STATA fájl"
 
-#: .././cogstat.py:360
+#: .././cogstat.py:361
 msgid "R file"
 msgstr "R fájl"
 
-#: .././cogstat.py:367
+#: .././cogstat.py:368
 msgid "JASP file"
 msgstr "JASP fájl"
 
-#: .././cogstat.py:374
+#: .././cogstat.py:375
 msgid "jamovi file"
 msgstr "jamovi fájl"
 
-#: .././cogstat.py:298
+#: .././cogstat.py:299
 msgid "Text file"
 msgstr "Szöveges fájl"
 
@@ -1897,23 +1902,23 @@ msgstr "&Szöveg keresése..."
 msgid "All levels of the factors should be set."
 msgstr "A faktor minden szintjét be kell állítani."
 
-#: .././cogstat_stat.py:209
+#: .././cogstat_stat.py:221
 msgid "Specify the minimum required parameters (reaction time and error)."
 msgstr "A minimális szükséges paramétereket (reakcióidő és hibázás) be kell állítani."
 
-#: .././cogstat_stat.py:213 .././cogstat_stat.py:214
+#: .././cogstat_stat.py:225 .././cogstat_stat.py:226
 msgid "None"
 msgstr "Semmi"
 
-#: .././cogstat_stat.py:220 .././cogstat_stat.py:221
+#: .././cogstat_stat.py:232 .././cogstat_stat.py:233
 msgid "Condition"
 msgstr "Feltétel"
 
-#: .././cogstat_stat.py:220
+#: .././cogstat_stat.py:232
 msgid "single condition"
 msgstr "egyetlen feltétel"
 
-#: .././cogstat_stat.py:223
+#: .././cogstat_stat.py:235
 msgid "single participant"
 msgstr "egyetlen résztvevő"
 
@@ -1933,7 +1938,7 @@ msgstr "Ez a probléma megoldható a forrás adatokban."
 msgid "Recommended characters in variable names warning"
 msgstr "Ajánlott karakterek a változó nevekben figyelmeztetés"
 
-#: .././cogstat.py:257 .././cogstat.py:266
+#: .././cogstat.py:257 .././cogstat.py:267
 msgid "If some analyses cannot be run, fix this in your data source."
 msgstr "Ha valamelyik elemzés nem fut le, javítsd ki a forrás adatokban."
 
@@ -1981,4 +1986,54 @@ msgstr "Némelyik változó név tartalmaz az angol betűkön, számokon és al�
 #: .././cogstat.py:263
 msgid "Some string variable(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
 msgstr "Némelyik szöveges változó tartalmaz az angol betűkön, számokon és aláhúzáson túl más karaktert  is, ami problémát okozhat némelyik elemzésben: %s."
+
+#: .././cogstat_gui.py:53
+msgid "Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "Hoppá, ez nem sikerült. A CogStat nem tudta lefuttatni az elemzést. A hibát be is jelentheted."
+
+#: .././cogstat_gui.py:506 .././cogstat.py:484
+msgid "Filter outliers"
+msgstr "Kiugró adatok szűrése"
+
+#: .././cogstat_gui.py:557
+msgid "At least one variable should be set."
+msgstr "Legalább egy változót be kell állítani."
+
+#: .././cogstat_gui.py:719
+msgid "A variable should be assigned to each level of the factors."
+msgstr "A faktorok minden szintjéhez hozzá kell rendelni változót."
+
+#: .././cogstat_hyp_test.py:91
+msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test."
+msgstr "Érzékenységi erőelemzés. Minimális hatásnagyság, hogy 95%%-os erőt érjünk el a jelenlegi mintanagysággal a jelenlegi hipotézis teszthez."
+
+#: .././cogstat_hyp_test.py:94
+msgid "Sensitivity power could not be calculated."
+msgstr "Az érzékenységi erőt nem lehetett kiszámítani."
+
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:473
+#: .././cogstat_hyp_test.py:864 .././cogstat_hyp_test.py:981
+#: .././cogstat_hyp_test.py:994 .././cogstat_hyp_test.py:1146
+msgid "Minimal effect size in %s"
+msgstr "Minimális hatásnagyság %s egységben"
+
+#: .././cogstat_hyp_test.py:994
+msgid "eta-square"
+msgstr "éta négyzet"
+
+#: .././cogstat.py:481
+msgid "2 SD"
+msgstr "2 szórás"
+
+#: .././cogstat.py:482
+msgid "2.5 MAD"
+msgstr "2.5 MAE"
+
+#: .././cogstat_gui.py:757
+msgid "Both the dependent variable and at least one grouping variables should be set."
+msgstr "A függő változót és legalább egy csoportosító változót is be kell állítani."
+
+#: .././cogstat_gui.py:757
+msgid "Both the dependent variable and at least one grouping variable should be set."
+msgstr "A függő változót és legalább egy csoportosító változót is be kell állítani."
 
