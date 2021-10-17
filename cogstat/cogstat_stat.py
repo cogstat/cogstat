@@ -704,6 +704,8 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
 
     Returns
     -------
+    str or None
+        None if effect size is not calculated
 
     """
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
@@ -827,7 +829,8 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
 
     Returns
     -------
-
+    str or None
+        None if effect size is not calculated
     """
 
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'

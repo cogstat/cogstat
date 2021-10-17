@@ -1157,7 +1157,9 @@ class CogStatData:
 
         # effect size
         standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
-                                                                             meas_level, sample=False) +'\n'
+                                                                             meas_level, sample=False)
+        if standardized_effect_size_result is not None:
+            standardized_effect_size_result += '\n'
 
         # Hypothesis testing
         if len(groups) == 1:
