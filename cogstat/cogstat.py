@@ -381,7 +381,9 @@ class CogStatData:
             meas_row = next(f).replace('\n', '').replace('\r', '').split(delimiter)
             # \r was used in Mac after importing from Excel clipboard
             """
-            meas_row = list(pd.read_csv(clipboard_file, sep=None, engine='python').iloc[0])
+            # sep=None couldn't read data with a single column correctly,
+            # delim_whitespace=True seems to solve the problem
+            meas_row = list(pd.read_csv(clipboard_file, delim_whitespace=True, engine='python').iloc[0])
             meas_row = list(map(str, meas_row))
             if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', '', 'nan'} and set(meas_row) != {''}:
                 import_measurement_levels = meas_row
@@ -389,7 +391,7 @@ class CogStatData:
 
             # Read the clipboard
             clipboard_file = io.StringIO(data)
-            self.data_frame = pd.read_csv(clipboard_file, sep=None, engine='python',
+            self.data_frame = pd.read_csv(clipboard_file, delim_whitespace=True, engine='python',
                                           skiprows=skiprows, skip_blank_lines=False)
             self.import_source = _('clipboard')
 
