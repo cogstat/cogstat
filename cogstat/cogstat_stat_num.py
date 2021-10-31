@@ -512,7 +512,8 @@ def read_jamovi_file(path):
                      for meta_column in meta_dataset['fields']]
 
         # TODO
-        #missing_values = meta_column.get('missingValues', [])
+        #for meta_column in meta_dataset['fields']:
+        #   missing_values = meta_column.get('missingValues', [])
 
         # TODO labels
         """
@@ -589,7 +590,8 @@ def read_jamovi_file(path):
                     else:
                     """
                     for i, values in enumerate(struct.iter_unpack(elem_fmt, buff_view)):
-                        pdf.iloc[row_offset + i, column_i] = values[0]
+                        imported_value = values[0] if values[0] != -2147483648 else ''
+                        pdf.iloc[row_offset + i, column_i] = imported_value
 
             data_file.close()
             if string_table_present:
