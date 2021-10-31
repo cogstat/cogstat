@@ -147,13 +147,9 @@ class CogStatData:
             # By default, all variables have 'unknown' measurement levels
             self.data_measlevs = {name: 'unk' for name in self.data_frame.columns}
 
-            # 0. Measurement levels are not set
-            if not measurement_levels:
-                self.import_message += '\n' + warn_unknown_variable
-
             # 1. Set the levels (coming either from the import data information or from measurement_levels object
             # parameter)
-            elif measurement_levels:  # If levels were given, set them
+            if measurement_levels:  # If levels were given, set them
 
                 # Only levels are given - in the order of the variables
                 if type(measurement_levels) is list:
@@ -200,8 +196,8 @@ class CogStatData:
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
 
-            # Warn when not all measurement levels are set
-            if set(self.data_measlevs) in ['unk']:
+            # Warn when any measurement levels are not set
+            if 'unk' in set(self.data_measlevs.values()):
                 self.import_message += '\n<warning><b>' + _('Measurement level warning') + '</b> ' + \
                                        _('The measurement level was not set for all variables.') + ' '\
                                        + _('You can fix this issue in your data source.') \
