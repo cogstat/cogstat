@@ -474,8 +474,8 @@ class CogStatData:
             List of HTML strings showing the filtered cases.
             The method modifies the self.data_frame in place.
         """
-        mode_names = {'2sd': _('2 SD'),  # Used in the output
-                      '2.5mad': _('2.5 MAD')}
+        mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
+                      '2.5mad': _('Median ± 2.5 MAD')}
 
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
