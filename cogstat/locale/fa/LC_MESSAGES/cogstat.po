@@ -15,60 +15,60 @@ msgstr "خواص متغیرها تنظیم نشده است. در منبع داد
 msgid "Sorry, only one dependent variable can be used."
 msgstr "متاسفانه، فقط یک متغیر وابسته می‌توان استفاده کرد. "
 
-#: .././cogstat_stat.py:117
+#: .././cogstat_stat.py:129
 msgid "Sorry, string variables cannot be used in Pivot table."
 msgstr "متاسفانه، متغیرهای رشته‌ای را در جدول محوری نمی‌توان استفاده کرد."
 
-#: .././cogstat_stat.py:123
+#: .././cogstat_stat.py:135
 msgid "Independent variable(s) - Pages: "
 msgstr "متغیر(هایِ) مستقل-  صفحه ها: "
 
-#: .././cogstat_stat.py:125
+#: .././cogstat_stat.py:137
 msgid "Independent variable(s) - Columns: "
 msgstr "متغیر(هایِ) مستقل-  ستون ها:"
 
-#: .././cogstat_stat.py:127
+#: .././cogstat_stat.py:139
 msgid "Independent variable(s) - Rows: "
 msgstr "متغیر (هایِ) مستقل- ردیف ها: "
 
-#: .././cogstat_stat.py:128
+#: .././cogstat_stat.py:140
 msgid "Function: "
 msgstr "تابع:"
 
-#: .././cogstat_stat.py:324 .././cogstat_stat.py:326 .././cogstat_stat.py:520
-#: .././cogstat_stat.py:522 .././cogstat_stat.py:525 .././cogstat_stat.py:532
-#: .././cogstat_stat.py:535 .././cogstat_stat.py:663 .././cogstat_stat.py:665
-#: .././cogstat_stat.py:762 .././cogstat_stat.py:764 .././cogstat_stat.py:777
-#: .././cogstat_stat.py:780 .././cogstat_stat.py:811 .././cogstat_chart.py:608
-#: .././cogstat_chart.py:657
+#: .././cogstat_stat.py:334 .././cogstat_stat.py:336 .././cogstat_stat.py:548
+#: .././cogstat_stat.py:550 .././cogstat_stat.py:553 .././cogstat_stat.py:560
+#: .././cogstat_stat.py:563 .././cogstat_stat.py:718 .././cogstat_stat.py:720
+#: .././cogstat_stat.py:845 .././cogstat_stat.py:847 .././cogstat_stat.py:860
+#: .././cogstat_stat.py:863 .././cogstat_stat.py:893 .././cogstat_chart.py:676
+#: .././cogstat_chart.py:736
 msgid "Value"
 msgstr "مقدار:"
 
-#: .././cogstat_chart.py:316 .././cogstat_chart.py:383
+#: .././cogstat_chart.py:338 .././cogstat_chart.py:412
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "بزرگترین درجه بندی روی محور افقی نمایش دهنده  نمونه‌هایِ درصد دی (d%) هستند."
 
-#: .././cogstat_chart.py:333
+#: .././cogstat_chart.py:355
 msgid "Histogram with individual data and boxplot"
 msgstr " نموداربافت‌ نگار (هیستوگرام) با داده های فردی و نمودار جعبه ای,"
 
-#: .././cogstat_chart.py:283 .././cogstat_chart.py:339
+#: .././cogstat_chart.py:295 .././cogstat_chart.py:361
 msgid "Frequency"
 msgstr "فراوانی (فرکانس)"
 
-#: .././cogstat_chart.py:280
+#: .././cogstat_chart.py:292
 msgid "Histogram"
 msgstr "بافت‌نگار (هیستوگرام)"
 
-#: .././cogstat_stat.py:309
+#: .././cogstat.py:619
 msgid "N of valid cases: %g"
 msgstr "نمونه‌هایِ معتبرِ N: %g"
 
-#: .././cogstat.py:675
+#: .././cogstat.py:716
 msgid "Median: %0.*f"
 msgstr "میانه:  0%.*f"
 
-#: .././cogstat_hyp_test.py:115
+#: .././cogstat_hyp_test.py:134
 msgid "Normality can be checked only for interval variables."
 msgstr "نرمالیته را فقط برای متغیرهای بازه‌ای می‌توان بررسی کرد ."
 
@@ -76,107 +76,107 @@ msgstr "نرمالیته را فقط برای متغیرهای بازه‌ای �
 msgid "Shapiro-Wilk normality test in variable %s%s"
 msgstr "آزمون شاپیرو-ویلک برای نرمال بودن در متغیرs%s%"
 
-#: .././cogstat_chart.py:392
+#: .././cogstat_chart.py:421
 msgid "Histogram with individual data and normal distribution"
 msgstr " نموداربافت‌نگار (هیستوگرام) با داده های فردی و توزیع طبیعی"
 
-#: .././cogstat_chart.py:399
+#: .././cogstat_chart.py:428
 msgid "Normalized relative frequency"
 msgstr "فراوانی‌ نسبی‌ طبیعی "
 
-#: .././cogstat_chart.py:420
+#: .././cogstat_chart.py:449
 msgid "Quantile-quantile plot"
 msgstr "نمودار Q-Q "
 
-#: .././cogstat_hyp_test.py:175
+#: .././cogstat_hyp_test.py:198
 msgid "One sample t-test cannot be run for constant variable.\n"
 ""
 msgstr "آزمون ت تک نمونه‌ای برای متغیر ثابت اجرا نمی‌شود.\n"
 ""
 
-#: .././cogstat_hyp_test.py:197
+#: .././cogstat_hyp_test.py:224
 msgid "One sample t-test against %g"
 msgstr "آزمون ت تک نمونه‌ای در مقابل g%\n"
 ""
 
-#: .././cogstat_chart.py:435
+#: .././cogstat_chart.py:478
 msgid "Mean value with 95% confidence interval"
 msgstr "مقدار میانگین با بازده اطمینان %۹۵ "
 
-#: .././cogstat_hyp_test.py:200
+#: .././cogstat_hyp_test.py:227
 msgid "One sample t-test is computed only for interval variables."
 msgstr " آزمون ت تک نمونه‌ای فقط برای متغیرهای بازه‌ای محاسبه شده است."
 
-#: .././cogstat_chart.py:447
+#: .././cogstat_chart.py:503
 msgid "Median value"
 msgstr "مقدار میانه "
 
-#: .././cogstat_hyp_test.py:231
+#: .././cogstat_hyp_test.py:265
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "آزمون ویلکاکسون "
 
-#: .././cogstat_stat.py:118 .././cogstat_stat.py:372 .././cogstat_stat.py:467
-#: .././cogstat_stat.py:468 .././cogstat_stat.py:469 ../ui/pivot.py:170
+#: .././cogstat_stat.py:130 .././cogstat_stat.py:400 .././cogstat_stat.py:495
+#: .././cogstat_stat.py:496 .././cogstat_stat.py:497 ../ui/pivot.py:170
 msgid "Mean"
 msgstr "میانگین "
 
-#: .././cogstat_stat.py:118 .././cogstat_stat.py:373 .././cogstat_stat.py:476
-#: .././cogstat_stat.py:477 .././cogstat_stat.py:478 .././cogstat.py:983
+#: .././cogstat_stat.py:130 .././cogstat_stat.py:401 .././cogstat_stat.py:504
+#: .././cogstat_stat.py:505 .././cogstat_stat.py:506 .././cogstat.py:993
 #: ../ui/pivot.py:171
 msgid "Median"
 msgstr "میانه "
 
-#: .././cogstat_chart.py:652
+#: .././cogstat_chart.py:731
 msgid "Medians for the variables"
 msgstr "میانه‌ها برای متغیرها\n"
 ""
 
-#: .././cogstat_chart.py:825
+#: .././cogstat_chart.py:928
 msgid "Medians for the groups"
 msgstr "میانه‌ها برای گروه ها "
 
-#: .././cogstat_stat.py:439 .././cogstat_stat.py:441
+#: .././cogstat_stat.py:467 .././cogstat_stat.py:469
 msgid "No data"
 msgstr "هیچ داده‌ای وجود ندارد "
 
-#: .././cogstat_chart.py:493
+#: .././cogstat_chart.py:555
 msgid "Largest sign on the graph displays %d cases."
 msgstr "بزرگترین علامت روی نمودار, نمونه d% را نشان میدهد. "
 
-#: .././cogstat_chart.py:505
+#: .././cogstat_chart.py:567
 msgid "Scatterplot of the variables"
 msgstr "نمودارِ نقطه‌ ایِ متغیرها"
 
-#: .././cogstat_chart.py:546 .././cogstat_chart.py:628
+#: .././cogstat_chart.py:608 .././cogstat_chart.py:696
 msgid "Mosaic plot of the variables"
 msgstr "نمودارِموزاییکی  متغیرها"
 
-#: .././cogstat_chart.py:594
+#: .././cogstat_chart.py:662
 msgid "Thickest line displays %d cases."
 msgstr "ضخیم‌ترین خط،  نمونه‌های d% را نشان می‌‌دهد.\n"
 ""
 
-#: .././cogstat_chart.py:645
+#: .././cogstat_chart.py:724
 msgid "Means and 95% confidence intervals for the variables"
 msgstr "میانگین و بازه اطمینان %۹۵  برای متغیرها"
 
-#: .././cogstat_hyp_test.py:349
+#: .././cogstat_hyp_test.py:462
 msgid "Paired t-test requires two variables."
 msgstr "آزمون  تی وابسته یا آزمون تی با نمونه های جفتی به دو متغیر نیاز دارد."
 
-#: .././cogstat_hyp_test.py:366
+#: .././cogstat_hyp_test.py:483
 msgid "Result of paired samples t-test"
 msgstr "نتیجه آزمون تی  نمونه های زوجی (وابسته)"
 
-#: .././cogstat_hyp_test.py:385
+#: .././cogstat_hyp_test.py:505
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "آزمون ویلکاکسونِ زوجی به دو متغیر نیاز دارد."
 
-#: .././cogstat_hyp_test.py:509
+#: .././cogstat_hyp_test.py:637
 msgid "Friedman test requires at least two variables."
 msgstr "آزمون فریدمن حداقل  به دو متغیر نیاز دارد."
 
-#: .././cogstat_hyp_test.py:515
+#: .././cogstat_hyp_test.py:643
 msgid "Result of the Friedman test: "
 msgstr "نتیجه آزمون فریدمن: "
 
@@ -184,19 +184,19 @@ msgstr "نتیجه آزمون فریدمن: "
 msgid "Boxplot and individual data of the groups"
 msgstr "نمودار جعبه‌ای و داده‌های فردیِ گروه ها "
 
-#: .././cogstat_chart.py:795
+#: .././cogstat_chart.py:884
 msgid "Mosaic plot of the groups"
 msgstr "نمودارِ موزایکی گروه ها"
 
-#: .././cogstat_chart.py:816
+#: .././cogstat_chart.py:919
 msgid "Means and 95% confidence intervals for the groups"
 msgstr "میانگین و بازه اطمینان %۹۵ برای گروه ها"
 
-#: .././cogstat_hyp_test.py:699
+#: .././cogstat_hyp_test.py:840
 msgid "Levene test"
 msgstr "آزمون لون "
 
-#: .././cogstat_stat.py:736
+#: .././cogstat_stat.py:803
 msgid "Difference between the two groups:"
 msgstr "تفاوت بین گروه ها:"
 
@@ -204,15 +204,15 @@ msgstr "تفاوت بین گروه ها:"
 msgid "95%% confidence interval [%0.*f, %0.*f]"
 msgstr "بازه اطمینان٪۹۵ [0%.*f, %0.*f]  "
 
-#: .././cogstat_hyp_test.py:728
+#: .././cogstat_hyp_test.py:872
 msgid "Result of independent samples t-test:"
 msgstr "نتیجه آزمون تی مستقل: "
 
-#: .././cogstat_hyp_test.py:758
+#: .././cogstat_hyp_test.py:902
 msgid "One of the groups should include only a single data."
 msgstr "یکی از گروه ها باید شاملِ تنها یک داده واحد باشد. "
 
-#: .././cogstat_hyp_test.py:755
+#: .././cogstat_hyp_test.py:899
 msgid "Result of the modified independent samples t-test:"
 msgstr "نتیجه آزمون تی مستقل تغییر یافته:"
 
@@ -221,7 +221,7 @@ msgstr "نتیجه آزمون تی مستقل تغییر یافته:"
 msgid "Result of independent samples Mann-Whitney rank test: "
 msgstr "نتیجه یِ آزمون تی مستقلِ مان-ویتنی:  "
 
-#: .././cogstat_hyp_test.py:841
+#: .././cogstat_hyp_test.py:1003
 msgid "Result of one-way ANOVA: "
 msgstr "نتیجه یِ واریانس یک طرفه یا  واریانس یک راهه:"
 
@@ -230,7 +230,7 @@ msgid "Effect size: "
 msgstr "اندازه تأثیر:␣\n"
 ""
 
-#: .././cogstat_hyp_test.py:849 .././cogstat_hyp_test.py:949
+#: .././cogstat_hyp_test.py:1011 .././cogstat_hyp_test.py:1115
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "گروه‌ها متفاوت هستند.  آزمون تعقیبیِ میانگین."
 
@@ -246,59 +246,60 @@ msgstr "مقیاس همبستگی‌ ضریب  کرامر:"
 msgid "Result of the Pearson's Chi-square test: "
 msgstr "نتیجه یِ آزمون خی‌دوی پیرسون:"
 
-#: .././cogstat_gui.py:148
+#: .././cogstat_gui.py:149
 msgid "&Data"
 msgstr "و داده ها"
 
-#: .././cogstat_gui.py:149
+#: .././cogstat_gui.py:150
 msgid "&Open data file"
 msgstr "و فایل داده‌ها را باز کنید "
 
-#: .././cogstat_gui.py:149
+#: .././cogstat_gui.py:150
 msgid "Ctrl+O"
 msgstr "CTRL+O"
 
-#: .././cogstat_gui.py:153
+#: .././cogstat_gui.py:154
 msgid "&Paste data"
 msgstr "  و پیستِ داده ها"
 
-#: .././cogstat_gui.py:153
+#: .././cogstat_gui.py:154
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: .././cogstat_gui.py:158 .././cogstat_gui.py:217
+#: .././cogstat_gui.py:159 .././cogstat_gui.py:217
 msgid "&Display data"
 msgstr " و داده‌ها را نمایش داده"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:159
 msgid "Ctrl+D"
 msgstr "ctrl+D"
 
-#: .././cogstat_gui.py:159 .././cogstat_gui.py:218
+#: .././cogstat_gui.py:160 .././cogstat_gui.py:218
 msgid "Display data &briefly"
 msgstr "داده‌ها را نمایش داده و به طور خلاصه"
 
-#: .././cogstat_gui.py:163
+#: .././cogstat_gui.py:164
 msgid "&Analysis"
 msgstr "و تحلیل و بررسی (فراکافت یا آنالیز) "
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:166
 msgid "Ctrl+1"
 msgstr "Ctrl+۱"
 
-#: .././cogstat_gui.py:167
+#: .././cogstat_gui.py:168
 msgid "Ctrl+2"
 msgstr "Ctrl+۲ "
 
-#: .././cogstat_gui.py:169 .././cogstat_gui.py:218
+#: .././cogstat_gui.py:174 .././cogstat_gui.py:218
 msgid "Pivot &table"
 msgstr "محور و جدول "
 
-#: .././cogstat_gui.py:175 .././cogstat_gui.py:221
+#: .././cogstat_gui.py:171 .././cogstat_gui.py:221
 msgid "Compare &groups"
 msgstr "مقایسه و گروه ها "
 
-#: .././cogstat.py:1037 ../ui/compare_groups.py:108
+#: .././cogstat_gui.py:756 .././cogstat_gui.py:770 .././cogstat.py:1044
+#: ../ui/compare_groups.py:108
 msgid "Compare groups"
 msgstr "گروه‌ها را مقایسه کنید."
 
@@ -374,15 +375,16 @@ msgstr "خطا را وارد کنید"
 msgid "Data could not be loaded."
 msgstr "داده‌ها نمی توانند لود شوند."
 
-#: .././cogstat_gui.py:588 .././cogstat_gui.py:703
+#: .././cogstat_gui.py:594 .././cogstat_gui.py:712
 msgid "At least two variables should be set."
 msgstr "حداقل دو متغیر باید تنظیم شوند. "
 
-#: .././cogstat.py:834 ../ui/pivot.py:161
+#: .././cogstat_gui.py:639 .././cogstat_gui.py:646 .././cogstat.py:846
+#: ../ui/pivot.py:161
 msgid "Pivot table"
 msgstr "جدول محوری"
 
-#: .././cogstat_gui.py:633
+#: .././cogstat_gui.py:640
 msgid "The dependent variable and at least one grouping variable should be given."
 msgstr "متغیر وابسته و حداقل یک متغیر گروهی باید داده شوند. "
 
@@ -390,108 +392,109 @@ msgstr "متغیر وابسته و حداقل یک متغیر گروهی بای�
 msgid "Both the dependent and the grouping variables should be set."
 msgstr "متغیر وابسته و متغیر گروهی هر دو باید تنظیم شوند. "
 
-#: .././cogstat_gui.py:768
+#: .././cogstat_gui.py:777
 msgid "Clear output"
 msgstr "بازده را حذف کنید"
 
-#: .././cogstat_gui.py:769
+#: .././cogstat_gui.py:778
 msgid "Are you sure you want to delete the output?"
 msgstr "آیا اطمینان دارید که می‌خواهید بازده را حذف کنید؟"
 
-#: .././cogstat_gui.py:839
+#: .././cogstat_gui.py:848
 msgid "About CogStat "
 msgstr "در مورد CogStat "
 
-#: .././cogstat_gui.py:853
+#: .././cogstat_gui.py:862
 msgid "System components"
 msgstr "اجزا سیستم "
 
-#: .././cogstat_gui.py:866
+#: .././cogstat_gui.py:875
 msgid "Save output"
 msgstr "بازده را ذخیره کنید "
 
-#: .././cogstat_gui.py:867
+#: .././cogstat_gui.py:876
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr " نتیجه ی بازده ذخیره نشده است. مایلید ذخیره کنید؟ "
 
-#: .././cogstat_gui.py:463 .././cogstat.py:433
+#: .././cogstat_gui.py:463 .././cogstat.py:434
 msgid "Data"
 msgstr "داده ها"
 
-#: .././cogstat.py:434
+#: .././cogstat.py:435
 msgid "Source: "
 msgstr "منبع: "
 
-#: .././cogstat.py:435
+#: .././cogstat.py:436
 msgid " variables and "
 msgstr "␣متغیر‌ها و␣"
 
-#: .././cogstat.py:436
+#: .././cogstat.py:437
 msgid " cases"
 msgstr "نمونه‌ها "
 
-#: .././cogstat.py:449
+#: .././cogstat.py:450
 msgid " further cases are not displayed..."
 msgstr "␣نمونه‌هایِ بیشترنمایش داده نشده است..."
 
-#: .././cogstat_hyp_test.py:562 .././cogstat_hyp_test.py:609
-#: .././cogstat_hyp_test.py:668 .././cogstat.py:658
+#: .././cogstat_hyp_test.py:690 .././cogstat_hyp_test.py:737
+#: .././cogstat_hyp_test.py:811 .././cogstat.py:699
 msgid "Interval variable."
 msgstr "متغیر‌هایِ فاصله یی ( بازه‌ای)."
 
-#: .././cogstat_hyp_test.py:596 .././cogstat_hyp_test.py:645
-#: .././cogstat_hyp_test.py:673 .././cogstat.py:681
+#: .././cogstat_hyp_test.py:724 .././cogstat_hyp_test.py:774
+#: .././cogstat_hyp_test.py:816 .././cogstat.py:722
 msgid "Ordinal variable."
 msgstr "متغیر‌هایِ ترتیبی."
 
-#: .././cogstat.py:574
+#: .././cogstat_gui.py:556 .././cogstat_gui.py:568 .././cogstat.py:609
 msgid "Explore variable"
 msgstr "متغیر را جستجو کنید"
 
-#: .././cogstat.py:575
+#: .././cogstat.py:610
 msgid "Exploring variable: "
 msgstr "اکتشاف داده ها: "
 
-#: .././cogstat.py:592
+#: .././cogstat.py:633
 msgid "Frequencies"
 msgstr "فرکانس ها"
 
-#: .././cogstat.py:620
+#: .././cogstat.py:661
 msgid "Normality"
 msgstr "نرمالیته "
 
-#: .././cogstat.py:720
+#: .././cogstat.py:765
 msgid "Exploring variable pair: "
 msgstr "جفت های متغیر: "
 
-#: .././cogstat_hyp_test.py:253 .././cogstat_hyp_test.py:289
-#: .././cogstat.py:757
+#: .././cogstat_hyp_test.py:296 .././cogstat_hyp_test.py:363
+#: .././cogstat_hyp_test.py:399
 msgid "Interval variables."
 msgstr "متغیر‌هایِ فاصله یی ( بازه‌ای)."
 
-#: .././cogstat.py:758
+#: .././cogstat_hyp_test.py:297
 msgid "Running Pearson's and Spearman's correlation."
 msgstr "اجرایِ همبستگی پيرسون و همبستگی اسپیرمن "
 
-#: .././cogstat_stat.py:520 .././cogstat_stat.py:543 .././cogstat.py:761
+#: .././cogstat_hyp_test.py:300 .././cogstat_stat.py:548
+#: .././cogstat_stat.py:571
 msgid "Pearson's correlation"
 msgstr "همبستگی پيرسون  "
 
-#: .././cogstat.py:767
+#: .././cogstat.py:795
 msgid "Linear regression"
 msgstr "رگرسیون خطی"
 
-#: .././cogstat_stat.py:522 .././cogstat_stat.py:525 .././cogstat_stat.py:549
-#: .././cogstat.py:770 .././cogstat.py:780
+#: .././cogstat_hyp_test.py:305 .././cogstat_hyp_test.py:315
+#: .././cogstat_stat.py:550 .././cogstat_stat.py:553 .././cogstat_stat.py:577
 msgid "Spearman's rank-order correlation"
 msgstr " همبستگی رتبه‌ای اسپیرمن  "
 
-#: .././cogstat_hyp_test.py:274 .././cogstat_hyp_test.py:310
-#: .././cogstat.py:776
+#: .././cogstat_hyp_test.py:311 .././cogstat_hyp_test.py:384
+#: .././cogstat_hyp_test.py:420
 msgid "Ordinal variables."
 msgstr "متغیر‌هایِ ترتیبی. "
 
-#: .././cogstat.py:776
+#: .././cogstat_hyp_test.py:311
 msgid "Running Spearman's correlation."
 msgstr "اجرایِ همبستگی پيرسون."
 
@@ -499,89 +502,89 @@ msgstr "اجرایِ همبستگی پيرسون."
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr "همهٔ متغیر‌ها اسمی نیستند. مقایسه یِ گروه‌ها را در نظر داشته باشید."
 
-#: .././cogstat.py:790
+#: .././cogstat_hyp_test.py:325
 msgid "Nominal variables."
 msgstr "متغیرهایِ اسمی. "
 
-#: .././cogstat.py:790
+#: .././cogstat_hyp_test.py:325
 msgid "Running Cramér's V."
 msgstr "اجرایِ ضريب همبستگی‌ وي کرامر.  "
 
-#: .././cogstat.py:893
+#: .././cogstat.py:905
 msgid "Variables to compare: "
 msgstr "متغیر‌ها برایِ مقایسه:"
 
-#: .././cogstat.py:914
+#: .././cogstat.py:926
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
 msgstr " متاسفانه، شما نمی‌‌توانید متغیرها با سطحِ اندازه گیریِ مختلف را مقایسه کنید. شما می‌‌توانید سطوحِ اندازه‌گیریِ بالا را به پایین‌تر بکاهید که سطوحِ اندازه گیریِ یکسان داشته باشید."
 
-#: .././cogstat_hyp_test.py:248
+#: .././cogstat_hyp_test.py:358
 msgid "At least two variables required."
 msgstr "حداقل دو متغیر احتیاج است. "
 
-#: .././cogstat_hyp_test.py:250
+#: .././cogstat_hyp_test.py:360
 msgid "Two variables. "
 msgstr "دو متغیر."
 
-#: .././cogstat_hyp_test.py:256 .././cogstat_hyp_test.py:293
-#: .././cogstat_hyp_test.py:546 .././cogstat_hyp_test.py:565
-#: .././cogstat_hyp_test.py:613 .././cogstat.py:661
+#: .././cogstat_hyp_test.py:366 .././cogstat_hyp_test.py:403
+#: .././cogstat_hyp_test.py:674 .././cogstat_hyp_test.py:693
+#: .././cogstat_hyp_test.py:741 .././cogstat.py:702
 msgid "Checking for normality."
 msgstr "\n"
 "بررسی نرمالیته."
 
-#: .././cogstat_hyp_test.py:552
+#: .././cogstat_hyp_test.py:680
 msgid "Normality is violated in variable "
 msgstr "نرمالیته در متغیر نقض شده است. "
 
-#: .././cogstat_hyp_test.py:267
+#: .././cogstat_hyp_test.py:377
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "نرمالیته  نقض نشده است. >> اجرایِ آزمون تی وابسته (جفتی)."
 
-#: .././cogstat_hyp_test.py:271 .././cogstat_hyp_test.py:275
+#: .././cogstat_hyp_test.py:381 .././cogstat_hyp_test.py:385
 msgid "Running paired Wilcoxon test."
 msgstr "اجرایِ آزمون ویلکاکسونِ جفتی. "
 
-#: .././cogstat_hyp_test.py:285 .././cogstat_hyp_test.py:321
-#: .././cogstat_hyp_test.py:330 .././cogstat_hyp_test.py:333
-#: .././cogstat_hyp_test.py:674 .././cogstat_hyp_test.py:677
-#: .././cogstat.py:687
+#: .././cogstat_hyp_test.py:395 .././cogstat_hyp_test.py:431
+#: .././cogstat_hyp_test.py:440 .././cogstat_hyp_test.py:443
+#: .././cogstat_hyp_test.py:817 .././cogstat_hyp_test.py:820
+#: .././cogstat.py:728
 msgid "Sorry, not implemented yet."
 msgstr "متاسفانه، هنوز اجرا نشده است."
 
-#: .././cogstat_hyp_test.py:287
+#: .././cogstat_hyp_test.py:397
 msgid "More than two variables. "
 msgstr "بیشتر از دو متغیر. "
 
-#: .././cogstat_hyp_test.py:307 .././cogstat_hyp_test.py:311
+#: .././cogstat_hyp_test.py:417 .././cogstat_hyp_test.py:421
 msgid "Running Friedman test."
 msgstr "اجرایِ آزمون فریدمن. "
 
-#: .././cogstat_stat.py:128 .././cogstat.py:1040
+#: .././cogstat_stat.py:140 .././cogstat.py:1047
 msgid "Dependent variable: "
 msgstr "متغیرِ وابسته:"
 
-#: .././cogstat.py:1041
+#: .././cogstat.py:1048
 msgid "Group(s): "
 msgstr "گروه (ها): "
 
-#: .././cogstat_hyp_test.py:534
+#: .././cogstat_hyp_test.py:662
 msgid "One grouping variable. "
 msgstr "یک متغیر چند-گروهی."
 
-#: .././cogstat_hyp_test.py:536
+#: .././cogstat_hyp_test.py:664
 msgid "There is only one group. At least two groups required."
 msgstr "فقط یک گروه موجود است. حداقل دو گروه احتیاج است. "
 
-#: .././cogstat_hyp_test.py:540
+#: .././cogstat_hyp_test.py:668
 msgid "Two groups. "
 msgstr "دو گروه. "
 
-#: .././cogstat_hyp_test.py:544
+#: .././cogstat_hyp_test.py:672
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr "یک گروه حاویِ فقط یک نمونه است. >> انتخاب آزمون تی  تغییر یافته."
 
-#: .././cogstat_hyp_test.py:553
+#: .././cogstat_hyp_test.py:681
 msgid "group "
 msgstr "گروه."
 
@@ -590,12 +593,12 @@ msgstr "گروه."
 msgid "Running Mann-Whitney test."
 msgstr "اجرایِ آزمون مان-ویتنی."
 
-#: .././cogstat_hyp_test.py:557
+#: .././cogstat_hyp_test.py:685
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "نرمالیته نقض نشده است. >> اجرایِ آزمون تی تغییر یافته."
 
-#: .././cogstat_hyp_test.py:600 .././cogstat_hyp_test.py:649
-#: .././cogstat_hyp_test.py:676
+#: .././cogstat_hyp_test.py:728 .././cogstat_hyp_test.py:778
+#: .././cogstat_hyp_test.py:819
 msgid "Nominal variable."
 msgstr "متغیرِ اسمی. "
 
@@ -603,7 +606,7 @@ msgstr "متغیرِ اسمی. "
 msgid "Running Chi-square test."
 msgstr "اجرایِ آزمون خی‌دوی پیرسون."
 
-#: .././cogstat_hyp_test.py:607
+#: .././cogstat_hyp_test.py:735
 msgid "More than two groups."
 msgstr "بیشتر از دو گروه. "
 
@@ -623,27 +626,27 @@ msgstr "فایلِ اطلاعات را باز کنید "
 msgid "Save result file"
 msgstr " فایلِ نتیجه را ذخیره کنید"
 
-#: .././cogstat_gui.py:164 .././cogstat_gui.py:219
+#: .././cogstat_gui.py:165 .././cogstat_gui.py:219
 msgid "&Explore variable"
 msgstr "و متغیر راجستجو کنید."
 
-#: .././cogstat_gui.py:448 .././cogstat.py:401
+#: .././cogstat_gui.py:448 .././cogstat.py:402
 msgid "Import failed"
 msgstr "واردات نا موفق بود "
 
-#: .././cogstat_stat.py:325 .././cogstat_stat.py:328
+#: .././cogstat_stat.py:335 .././cogstat_stat.py:338
 msgid "Freq"
 msgstr "فرکانس"
 
-#: .././cogstat_stat.py:329 .././cogstat_stat.py:331 .././cogstat_stat.py:332
+#: .././cogstat_stat.py:339 .././cogstat_stat.py:341 .././cogstat_stat.py:342
 msgid "Rel freq"
 msgstr "فرکانس نسبی‌"
 
-#: .././cogstat_stat.py:328
+#: .././cogstat_stat.py:338
 msgid "Cum freq"
 msgstr "فراوانی تجمعی ( تراکم،  انباشتی) "
 
-#: .././cogstat_stat.py:331 .././cogstat_stat.py:333
+#: .././cogstat_stat.py:341 .././cogstat_stat.py:343
 msgid "Cum rel freq"
 msgstr "فراوانی نسبی تجمعی"
 
@@ -655,7 +658,7 @@ msgstr " ضريب همبستگی‌ وي کرامرنمی‌تواند محاس�
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
 msgstr "تعدادِ سطحِ اندازه‌گیریِ با تعدادِ متغیر‌ها مطابقت ندارد. مشخصات  سطحِ اندازه گیری نادیده گرفته شده است."
 
-#: .././cogstat.py:277
+#: .././cogstat.py:278
 msgid "pandas dataframe"
 msgstr " DataFrames در Pandas "
 
@@ -663,16 +666,16 @@ msgstr " DataFrames در Pandas "
 msgid "text file - "
 msgstr "فایل متنی -"
 
-#: .././cogstat.py:397
+#: .././cogstat.py:398
 msgid "clipboard"
 msgstr "کلیپ بورد\n"
 ""
 
-#: .././cogstat.py:445
+#: .././cogstat.py:446
 msgid "Type"
 msgstr "نوع"
 
-#: .././cogstat.py:445
+#: .././cogstat.py:446
 msgid "Level"
 msgstr "سطح (میزان)"
 
@@ -680,11 +683,11 @@ msgstr "سطح (میزان)"
 msgid "Filtering"
 msgstr "فیلتر"
 
-#: .././cogstat.py:479
+#: .././cogstat.py:489
 msgid "Filtering is switched off."
 msgstr "فیلتر خاموش شده است."
 
-#: .././cogstat.py:495
+#: .././cogstat.py:522
 msgid "Filtering based on %s.\n"
 ""
 msgstr "فیلتر مبنی برs% .\n"
@@ -694,20 +697,20 @@ msgstr "فیلتر مبنی برs% .\n"
 msgid " (2 SD)"
 msgstr "(SD ۲) "
 
-#: .././cogstat.py:497
+#: .././cogstat.py:524
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
 msgstr "نمونه‌هایِ خارج از برد کنار گذاشته خواهند شد:  0%.f.%0.  --   *f*"
 
-#: .././cogstat.py:504
+#: .././cogstat.py:532
 msgid "The following cases will be excluded: "
 msgstr "نمونه‌هایِ زیر کنار گذاشته خواهند شد:"
 
-#: .././cogstat.py:508
+#: .././cogstat.py:536
 msgid "No cases were excluded."
 msgstr "هیچ نمونه یی کنار گذاشته نخواهد شد. "
 
-#: .././cogstat_hyp_test.py:573 .././cogstat_hyp_test.py:621
+#: .././cogstat_hyp_test.py:701 .././cogstat_hyp_test.py:749
 msgid "Checking for homogeneity of variance across groups."
 msgstr "بررسیِ همگونیِ واریانس در میانِ گروه ها. "
 
@@ -736,29 +739,29 @@ msgid "Compare groups."
 msgstr "گروه‌ها را مقایسه کنید.\n"
 ""
 
-#: .././cogstat_hyp_test.py:117
+#: .././cogstat_hyp_test.py:136
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
 msgstr "نرمالیته را برای متغیر ثابت در s%s% نمی‌توان بررسی کرد.  "
 
-#: .././cogstat_hyp_test.py:140
+#: .././cogstat_hyp_test.py:159
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
 msgstr "نمونه خیلی‌ کوچک برای تست نرمالیته در متغیرِ s%s% ."
 
-#: .././cogstat_hyp_test.py:399
+#: .././cogstat_hyp_test.py:518
 msgid "Result of the McNemar test"
 msgstr "نتیجه یِ آزمون مک‌نمار. "
 
-#: .././cogstat_hyp_test.py:406
+#: .././cogstat_hyp_test.py:525
 msgid "Result of Cochran's Q test"
 msgstr "نتیجه یِ آزمون کوکران."
 
-#: .././cogstat_hyp_test.py:422
+#: .././cogstat_hyp_test.py:547
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "نتیجه یِ آزمون ماچلی برای بررسی کروی بودن  "
 
-#: .././cogstat_hyp_test.py:429
+#: .././cogstat_hyp_test.py:554
 msgid "Sphericity is violated."
 msgstr "کروی بودن نقض شده است. "
 
@@ -766,11 +769,11 @@ msgstr "کروی بودن نقض شده است. "
 msgid "Using Greenhouse-Geisser correction."
 msgstr "استفاده یِ اصلاح گلخانه ای-Geisser  (اصلاح گرین هاوس-گیسر) "
 
-#: .././cogstat_hyp_test.py:431 .././cogstat_hyp_test.py:437
+#: .././cogstat_hyp_test.py:556 .././cogstat_hyp_test.py:562
 msgid "Result of repeated measures ANOVA"
 msgstr "نتیجه یِ واریانس  با اندازه گیریهای مکرر.  "
 
-#: .././cogstat_hyp_test.py:436
+#: .././cogstat_hyp_test.py:561
 msgid "Sphericity is not violated. "
 msgstr "کروی بودن نقض نشده است.  "
 
@@ -778,35 +781,35 @@ msgstr "کروی بودن نقض نشده است.  "
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
 msgstr "مقایسه یِ دو به دوِ متغیر‌ها با تصحیح آزمون بونفرونی ."
 
-#: .././cogstat_hyp_test.py:793
+#: .././cogstat_hyp_test.py:937
 msgid "Result of Welch's unequal variances t-test:"
 msgstr "نتیجه یِ آزمونِ والشِ واریانسِ نامساوی."
 
-#: .././cogstat_hyp_test.py:254
+#: .././cogstat_hyp_test.py:364
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "انتخابِ آزمونِ تی‌ِ جفتی ( وابسته) یا آزمون ویلکاکسونِ جفتی بسته به فرضیات."
 
-#: .././cogstat_hyp_test.py:270 .././cogstat_hyp_test.py:306
+#: .././cogstat_hyp_test.py:380 .././cogstat_hyp_test.py:416
 msgid "Normality is violated in variable(s): %s."
 msgstr "نرمالیته نقض شده است در متغیر (ها):s%."
 
-#: .././cogstat_hyp_test.py:279 .././cogstat_hyp_test.py:315
+#: .././cogstat_hyp_test.py:389 .././cogstat_hyp_test.py:425
 msgid "Nominal dichotomous variables."
 msgstr "متغیردو بخشیِ  (دو ارزشی) اسمی. "
 
-#: .././cogstat_hyp_test.py:280
+#: .././cogstat_hyp_test.py:390
 msgid "Running McNemar test."
 msgstr "اجرا یِ آزمون مک‌نمار."
 
-#: .././cogstat_hyp_test.py:284 .././cogstat_hyp_test.py:320
+#: .././cogstat_hyp_test.py:394 .././cogstat_hyp_test.py:430
 msgid "Nominal non dichotomous variables."
 msgstr "متغیر اسمی غیرِ دو بخشیِ  (دو ارزشی).   "
 
-#: .././cogstat_hyp_test.py:290
+#: .././cogstat_hyp_test.py:400
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "انتخابِ واریانس  با اندازه گیریهای مکرر یا آزمون فریدمن بسته به فرضیات. "
 
-#: .././cogstat_hyp_test.py:316
+#: .././cogstat_hyp_test.py:426
 msgid "Running Cochran's Q test."
 msgstr "اجرا یِ آزمون کوکران. "
 
@@ -814,7 +817,7 @@ msgstr "اجرا یِ آزمون کوکران. "
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
 msgstr " آزمونِ  ت دو نمونه ای "
 
-#: .././cogstat_hyp_test.py:586
+#: .././cogstat_hyp_test.py:714
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "نرمالیته نقض شده است در متغیر s%,  گروه (ها) s%."
 
@@ -822,7 +825,7 @@ msgstr "نرمالیته نقض شده است در متغیر s%,  گروه (ه�
 msgid "Homeogeneity of variance violated in variable %s."
 msgstr "همگونیِ واریانس درمتغیرِs% نقض شده است."
 
-#: .././cogstat_hyp_test.py:592
+#: .././cogstat_hyp_test.py:720
 msgid "Running Welch's t-test."
 msgstr "اجرایِ آزمونِ والشِ"
 
@@ -830,7 +833,7 @@ msgstr "اجرایِ آزمونِ والشِ"
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
 msgstr "انتخابِ واریانس یک طرفه ( واریانس یک راهه ) یا آزمون کروسکال–والیس بسته به فرضیات."
 
-#: .././cogstat_hyp_test.py:636
+#: .././cogstat_hyp_test.py:764
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr "نرمالیته نقض شده است در متغیر s%,  گروه (ها) s%. "
 
@@ -838,15 +841,15 @@ msgstr "نرمالیته نقض شده است در متغیر s%,  گروه (ه�
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr "همگونیِ واریانس درمتغیرِs% نقض شده است. "
 
-#: .././cogstat_hyp_test.py:302 .././cogstat.py:666
+#: .././cogstat_hyp_test.py:412 .././cogstat.py:707
 msgid "Normality is not violated."
 msgstr "نرمالیته نقض نشده است ."
 
-#: .././cogstat_hyp_test.py:303
+#: .././cogstat_hyp_test.py:413
 msgid "Running repeated measures one-way ANOVA."
 msgstr "اجرایِ واریانس یک طرفه یا  واریانس یک راهه  با اندازه گیریهای مکرر.  "
 
-#: .././cogstat_gui.py:159
+#: .././cogstat_gui.py:160
 msgid "Ctrl+B"
 msgstr "ctrl+B"
 
@@ -856,27 +859,27 @@ msgstr "فایلِ اطلاعات را باز کنید. اوه، چیزی اشت
 "\n"
 " "
 
-#: .././cogstat_stat.py:311
+#: .././cogstat.py:621
 msgid "N of missing cases: %g"
 msgstr "N موارد گم شده:  g%"
 
-#: .././cogstat_chart.py:261 .././cogstat_chart.py:346
-#: .././cogstat_chart.py:529 .././cogstat_chart.py:530
-#: .././cogstat_chart.py:739
+#: .././cogstat_chart.py:273 .././cogstat_chart.py:368
+#: .././cogstat_chart.py:591 .././cogstat_chart.py:592
+#: .././cogstat_chart.py:828
 msgid "Rank of %s"
 msgstr "رتبه ی  s% "
 
-#: .././cogstat_hyp_test.py:228 .././cogstat_hyp_test.py:389
+#: .././cogstat_hyp_test.py:262 .././cogstat_hyp_test.py:508
 msgid "Result of Wilcoxon signed-rank test"
 msgstr "نتیجه ی آزمون ویلکاکسون␣ "
 
-#: .././cogstat.py:580 .././cogstat.py:727 .././cogstat.py:923
-#: .././cogstat.py:1051 .././cogstat_chart.py:263
+#: .././cogstat.py:615 .././cogstat.py:772 .././cogstat.py:935
+#: .././cogstat.py:1058 .././cogstat_chart.py:275
 msgid "Raw data"
 msgstr "داده های خام "
 
-#: .././cogstat.py:588 .././cogstat.py:743 .././cogstat.py:945
-#: .././cogstat.py:1103
+#: .././cogstat.py:629 .././cogstat.py:788 .././cogstat.py:956
+#: .././cogstat.py:1104
 msgid "Sample properties"
 msgstr "خصوصیات نمونه "
 
@@ -889,40 +892,40 @@ msgstr "تخمین پارامترهای جمعیت و آزمون"
 msgid "Hypothesis test: "
 msgstr "آزمون فرضیه:  "
 
-#: .././cogstat.py:649
+#: .././cogstat.py:690
 msgid "Testing if mean deviates from the value %s."
 msgstr "تست اگر میانگین از مقدار s% منحرف شده است."
 
-#: .././cogstat.py:652
+#: .././cogstat.py:693
 msgid "Testing if median deviates from the value %s."
 msgstr "تست اگر میانه  از مقدار s% منحرف شده است."
 
-#: .././cogstat.py:659
+#: .././cogstat.py:700
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
 msgstr "انتخاب آزمون ت تک نمونه‌ای آزمون یا ویلکاکسون بسته به فرض ."
 
-#: .././cogstat.py:667
+#: .././cogstat.py:708
 msgid "Running one-sample t-test."
 msgstr " اجرای  آزمون تک نمونه‌ای "
 
-#: .././cogstat.py:673
+#: .././cogstat.py:714
 msgid "Normality is violated."
 msgstr "نرمالیته  نقض شده است "
 
-#: .././cogstat.py:674 .././cogstat.py:681
+#: .././cogstat.py:715 .././cogstat.py:722
 msgid "Running Wilcoxon signed-rank test."
 msgstr "اجرای ِ آزمون ویلکاکسون ."
 
-#: .././cogstat.py:616 .././cogstat.py:747 .././cogstat.py:971
-#: .././cogstat.py:1135
+#: .././cogstat.py:657 .././cogstat.py:809 .././cogstat.py:981
+#: .././cogstat.py:1144
 msgid "Population properties"
 msgstr "ﺧﻮاص جمیعت"
 
-#: .././cogstat.py:756 .././cogstat.py:775
+#: .././cogstat_hyp_test.py:295 .././cogstat_hyp_test.py:310
 msgid "Testing if correlation differs from 0."
 msgstr "آزمون اینکه همبستگی با ۰ متفاوت باشد"
 
-#: .././cogstat.py:786
+#: .././cogstat_hyp_test.py:320
 msgid "Testing if variables are independent."
 msgstr "آزمون اینکه متغیر ها مستقل هستند "
 
@@ -931,34 +934,34 @@ msgid "Hypothesis testing: "
 msgstr "آزمایش فرضیه: \n"
 ""
 
-#: .././cogstat_hyp_test.py:241 .././cogstat_hyp_test.py:528
-#: .././cogstat_hyp_test.py:659
+#: .././cogstat_hyp_test.py:351 .././cogstat_hyp_test.py:656
+#: .././cogstat_hyp_test.py:802
 msgid "Testing if the means are the same."
 msgstr "آزمون اگر میانگین ها (حد وسط) یکسان باشند "
 
-#: .././cogstat_hyp_test.py:243 .././cogstat_hyp_test.py:530
-#: .././cogstat_hyp_test.py:661
+#: .././cogstat_hyp_test.py:353 .././cogstat_hyp_test.py:658
+#: .././cogstat_hyp_test.py:804
 msgid "Testing if the medians are the same."
 msgstr "آزمون اگر میانه ها  یکسان باشند "
 
-#: .././cogstat_hyp_test.py:245 .././cogstat_hyp_test.py:532
-#: .././cogstat_hyp_test.py:663
+#: .././cogstat_hyp_test.py:355 .././cogstat_hyp_test.py:660
+#: .././cogstat_hyp_test.py:806
 msgid "Testing if the distributions are the same."
 msgstr "آزمون اینکه  توزیع ها یکسان هستند.  "
 
-#: .././cogstat_hyp_test.py:582
+#: .././cogstat_hyp_test.py:710
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
 msgstr "نرمالیته  و همگنی واریانس نقض نشده اند >>   اجرای ِ آزمونِ  ت دو نمونه ای . "
 
-#: .././cogstat_hyp_test.py:630
+#: .././cogstat_hyp_test.py:758
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
 msgstr "نرمالیته  و همگنی واریانس نقض نشده اند >>   اجرای ِ تحلیل واریانس یک طرفه ANOVA."
 
-#: .././cogstat_gui.py:842
+#: .././cogstat_gui.py:851
 msgid "Simple automatic data analysis software"
 msgstr "نرم افزار ساده   تجزیه و تحلیل خودکار"
 
-#: .././cogstat_gui.py:843
+#: .././cogstat_gui.py:852
 msgid "Visit CogStat website"
 msgstr "به وب سایت CogStat مراجعه کنید."
 
@@ -974,23 +977,23 @@ msgstr "CogStat تحلیل آماری را ساده تر و کارآمد تر م
 msgid "To start working open a data file or paste your data from a spreadsheet."
 msgstr "برای شروع کار یک فایل داده را باز کرده یا داده های خود را از یک صفحه گسترده وارد کنید. "
 
-#: .././cogstat_chart.py:260
+#: .././cogstat_chart.py:272
 msgid "Rank of the raw data"
 msgstr "رتبه داده های خام "
 
-#: .././cogstat_chart.py:331
+#: .././cogstat_chart.py:353
 msgid "Histogram of rank data with individual data and boxplot"
 msgstr "هیستوگرام داده های رتبه بندی با داده های فردی و جعبه ای "
 
-#: .././cogstat_chart.py:528
+#: .././cogstat_chart.py:590
 msgid "Scatterplot of the rank of the variables"
 msgstr "نمودار پراکندگی ِ (نمودار نقطه‌ای) رتبه متغیرها "
 
-#: .././cogstat_chart.py:575
+#: .././cogstat_chart.py:643
 msgid "Individual data of the variables"
 msgstr "داده های فردی از متغیرها "
 
-#: .././cogstat_chart.py:741
+#: .././cogstat_chart.py:830
 msgid "Individual data of the rank data of the groups"
 msgstr "داده های فردی از اطلاعات رتبه بندی گروه ها "
 
@@ -998,72 +1001,71 @@ msgstr "داده های فردی از اطلاعات رتبه بندی گروه 
 msgid "Boxplot and individual data of the rank data of the groups"
 msgstr "نمودار جعبه‌ای و داده های فردی از اطلاعات رتبه بندی گروه ها "
 
-#: .././cogstat_chart.py:757
+#: .././cogstat_chart.py:846
 msgid "Individual data of the groups"
 msgstr "داده های فردی گروه ها "
 
-#: .././cogstat_stat.py:467 .././cogstat_stat.py:476 .././cogstat_stat.py:538
-#: .././cogstat_stat.py:641 .././cogstat_stat.py:648 .././cogstat_stat.py:675
-#: .././cogstat_stat.py:713 .././cogstat_stat.py:739 .././cogstat_stat.py:788
-#: .././cogstat.py:749
+#: .././cogstat_stat.py:495 .././cogstat_stat.py:504 .././cogstat_stat.py:566
+#: .././cogstat_stat.py:679 .././cogstat_stat.py:686 .././cogstat_stat.py:730
+#: .././cogstat_stat.py:780 .././cogstat_stat.py:806 .././cogstat_stat.py:871
 msgid "Point estimation"
 msgstr "برآورد نقطه ای "
 
-#: .././cogstat_stat.py:538 .././cogstat.py:749
+#: .././cogstat_stat.py:566
 msgid "95% confidence interval"
 msgstr " بازه اطمینان ۹۵% "
 
-#: .././cogstat_stat.py:120 .././cogstat_stat.py:374 .././cogstat_stat.py:474
+#: .././cogstat_stat.py:132 .././cogstat_stat.py:402 .././cogstat_stat.py:502
 #: ../ui/pivot.py:174
 msgid "Standard deviation"
 msgstr "انحراف معیار"
 
-#: .././cogstat.py:929 .././cogstat.py:1068
+#: .././cogstat.py:941 .././cogstat.py:1077
 msgid "N of valid cases"
 msgstr "N موارد معتبر "
 
-#: .././cogstat_gui.py:125
+#: .././cogstat_gui.py:126
 msgid "Update available"
 msgstr "به روزرسانی در دسترس است"
 
-#: .././cogstat_gui.py:126
+#: .././cogstat_gui.py:127
 msgid "New version is available."
 msgstr "نسخه جدید در دسترس است."
 
-#: .././cogstat_gui.py:127
+#: .././cogstat_gui.py:128
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
 msgstr "شما می توانید نسخه جدید را از <a href=\"%s\"> صفحه دانلود CogStat </a> دانلود کنید.\n"
 " "
 
-#: .././cogstat_gui.py:166 .././cogstat_gui.py:220
+#: .././cogstat_gui.py:167 .././cogstat_gui.py:220
 msgid "Explore relation of variable &pair"
 msgstr " رابطه متغیر و جفت را کاوش ( جست و جو ) کنید. "
 
-#: .././cogstat_gui.py:173 .././cogstat_gui.py:221
+#: .././cogstat_gui.py:169 .././cogstat_gui.py:221
 msgid "Compare repeated measures va&riables"
 msgstr "متغیرهای اندازه گیری مکرر (تکرار شده) ( اندازه های تکراری) را مقایسه کنید. "
 
-#: .././cogstat_stat.py:375
+#: .././cogstat_stat.py:403
 msgid "Minimum"
 msgstr "کمترین (حداقل)"
 
-#: .././cogstat_stat.py:376
+#: .././cogstat_stat.py:404
 msgid "Maximum"
 msgstr "بیشترین (حداکثر) "
 
-#: .././cogstat_stat.py:119 .././cogstat_stat.py:379 ../ui/pivot.py:173
+#: .././cogstat_stat.py:131 .././cogstat_stat.py:407 ../ui/pivot.py:173
 msgid "Upper quartile"
 msgstr " چارک بالائی"
 
-#: .././cogstat_stat.py:407
+#: .././cogstat_stat.py:435
 msgid "Descriptives for the variables"
 msgstr "توصیفی برای متغیرها  "
 
-#: .././cogstat_stat.py:424
+#: .././cogstat_stat.py:452
 msgid "Descriptives for the groups"
 msgstr "توصیفی برای گروه ها"
 
-#: .././cogstat_stat.py:577 .././cogstat_stat.py:588 .././cogstat_stat.py:602
+#: .././cogstat_stat.py:615 .././cogstat_stat.py:626 .././cogstat_stat.py:640
 msgid "Contingency table"
 msgstr "جدول همسانی( جدول همسایش، جدول توافق )"
 
@@ -1072,7 +1074,7 @@ msgid "Result of two-way ANOVA:\n"
 ""
 msgstr "نتیجه  واریانس دو راهه (دو طرفه) :"
 
-#: .././cogstat_hyp_test.py:887
+#: .././cogstat_hyp_test.py:1053
 msgid "Main effect of %s: "
 msgstr "تاثیر اصلی  s% "
 
@@ -1084,15 +1086,16 @@ msgstr " تعامل از s %  و  s %"
 msgid "SPSS file - "
 msgstr "فایل SPSS -"
 
-#: .././cogstat.py:719
+#: .././cogstat_gui.py:593 .././cogstat_gui.py:612 .././cogstat.py:762
 msgid "Explore relation of variable pair"
 msgstr " رابطه  جفت متغیر را کاوش ( جست و جو ) کنید. "
 
-#: .././cogstat.py:891 ../ui/compare_vars.py:86
+#: .././cogstat_gui.py:711 .././cogstat_gui.py:718 .././cogstat_gui.py:727
+#: .././cogstat.py:903 ../ui/compare_vars.py:86
 msgid "Compare repeated measures variables"
 msgstr "متغیرهای اندازه گیری مکرر (تکرار شده) ( اندازه های تکراری) را مقایسه کنید. "
 
-#: .././cogstat.py:930 .././cogstat.py:1071
+#: .././cogstat.py:942 .././cogstat.py:1080
 msgid "N of missing cases"
 msgstr "N از داده‌های گم‌شده "
 
@@ -1100,15 +1103,15 @@ msgstr "N از داده‌های گم‌شده "
 msgid "Two grouping variables. "
 msgstr "دو  متغیرهای گروهبندی "
 
-#: .././cogstat_hyp_test.py:669
+#: .././cogstat_hyp_test.py:812
 msgid "Choosing factorial ANOVA."
 msgstr "انتخاب  واریانس آزمایش فاکتوریل. "
 
-#: .././cogstat.py:733
+#: .././cogstat.py:778
 msgid "N of valid pairs"
 msgstr "N از جفت های معتبر "
 
-#: .././cogstat.py:734
+#: .././cogstat.py:779
 msgid "N of missing pairs"
 msgstr "N ازجفت های گم‌شده "
 
@@ -1116,23 +1119,23 @@ msgstr "N ازجفت های گم‌شده "
 msgid "N of missing group cases"
 msgstr "N از داده‌های گروهی گم‌شده "
 
-#: .././cogstat.py:1087
+#: .././cogstat.py:1096
 msgid "N of missing grouping variable in %s"
 msgstr " N از متغیرهای گروهبندی  گم‌شده  در s%"
 
-#: .././cogstat_stat.py:380
+#: .././cogstat_stat.py:408
 msgid "Skewness"
 msgstr "چولگی "
 
-#: .././cogstat_stat.py:381
+#: .././cogstat_stat.py:409
 msgid "Kurtosis"
 msgstr "کشیدگی"
 
-#: .././cogstat_stat.py:377
+#: .././cogstat_stat.py:405
 msgid "Range"
 msgstr "دامنه"
 
-#: .././cogstat_stat.py:408
+#: .././cogstat_stat.py:436
 msgid "Descriptives for the variable"
 msgstr "توصیفی برای متغیرها  \n"
 ""
@@ -1141,7 +1144,7 @@ msgstr "توصیفی برای متغیرها  \n"
 msgid "The measurement levels of the variables are not set. Set them in your data source."
 msgstr "سطح (مقیاس) اندازه گیری متغیرها تنظیم نشده است. آنها را در منبع داده خود قرار دهید.  "
 
-#: .././cogstat_gui.py:53 .././cogstat_gui.py:466
+#: .././cogstat_gui.py:54 .././cogstat_gui.py:466
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
 msgstr "درباره نحوه گزارش دادن  یک موضوع (مساله)، بیشتر بخوانید  <a href = \"%s\">here</a>."
 
@@ -1151,12 +1154,12 @@ msgstr " اطلاعات بیشتر در مورد CogStat را در <a href = \"h
 " <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
 
 #: .././cogstat_hyp_test.py:39 .././cogstat.py:42 .././cogstat.py:199
-#: .././cogstat.py:208 .././cogstat.py:258 .././cogstat.py:267
+#: .././cogstat.py:208 .././cogstat.py:258 .././cogstat.py:268
 msgid "Read more about this issue <a href = \"%s\">here</a>."
 msgstr "درباره این موضوع (مساله) بیشتر بخوانید <a href = \"%s\">here</a>. \n"
 ""
 
-#: .././cogstat_hyp_test.py:772
+#: .././cogstat_hyp_test.py:916
 msgid "Result of slope test with %s:"
 msgstr "نتیجه آزمون شیب با s%:"
 
@@ -1186,12 +1189,12 @@ msgstr "بعضی از متغیرها شامل حروف (مشخصه ها ,نوی�
 msgid "Standardized effect size:"
 msgstr "استاندارد شده ی اندازه تأثیر( اثر)"
 
-#: .././cogstat_gui.py:151
+#: .././cogstat_gui.py:152
 msgid "Open d&emo data file"
 msgstr "فایل داده ها ی d و emo را باز کنید \n"
 ""
 
-#: .././cogstat_gui.py:151
+#: .././cogstat_gui.py:152
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
@@ -1219,43 +1222,43 @@ msgstr "و نتایج را ذخیره کنید "
 msgid "Save results &as"
 msgstr " ذخیره نتایج و as"
 
-#: .././cogstat_chart.py:577
+#: .././cogstat_chart.py:645
 msgid "Boxplots and individual data of the variables"
 msgstr "توطئه های جعبه (Boxplots) و داده های فردی از متغیرها"
 
-#: .././cogstat_chart.py:730
+#: .././cogstat_chart.py:819
 msgid "Largest individual sign displays %d cases."
 msgstr "بزرگترین علامت فردي (شخصي), موارد ٪ d را  نشان می دهد. "
 
-#: .././cogstat_chart.py:743
+#: .././cogstat_chart.py:832
 msgid "Boxplots and individual data of the rank data of the groups"
 msgstr "Boxplots ( توطئه های جعبه) و داده های فردی از اطلاعات رتبه بندی گروه ها "
 
-#: .././cogstat_chart.py:759
+#: .././cogstat_chart.py:848
 msgid "Boxplots and individual data of the groups"
 msgstr "Boxplots (توطئه های جعبه) و داده های فردی گروه ها "
 
-#: .././cogstat_stat.py:645 .././cogstat_stat.py:650 .././cogstat_stat.py:675
-#: .././cogstat_stat.py:716 .././cogstat_stat.py:744 .././cogstat_stat.py:788
+#: .././cogstat_stat.py:683 .././cogstat_stat.py:688 .././cogstat_stat.py:730
+#: .././cogstat_stat.py:783 .././cogstat_stat.py:811 .././cogstat_stat.py:871
 msgid "95% CI (low)"
 msgstr "۹۵%  Cl (پایین, کم)"
 
-#: .././cogstat_stat.py:646 .././cogstat_stat.py:650 .././cogstat_stat.py:675
-#: .././cogstat_stat.py:717 .././cogstat_stat.py:745 .././cogstat_stat.py:788
+#: .././cogstat_stat.py:684 .././cogstat_stat.py:688 .././cogstat_stat.py:730
+#: .././cogstat_stat.py:784 .././cogstat_stat.py:812 .././cogstat_stat.py:871
 msgid "95% CI (high)"
 msgstr "۹۵%  Cl (بالا, زیاد)"
 
-#: .././cogstat_hyp_test.py:950
+#: .././cogstat_hyp_test.py:1116
 msgid "Results of Dunn's test (p values)."
 msgstr "نتایج آزمون دان (Dunn's test) (مقادیر p). "
 
-#: .././cogstat.py:976 .././cogstat.py:1138
+#: .././cogstat.py:986 .././cogstat.py:1147
 msgid "Present confidence interval values suppose normality."
 msgstr "مقادیر فاصله (بازه) اطمینان, نرمالیته را فرض می کند. \n"
 "\n"
 ""
 
-#: .././cogstat.py:976 .././cogstat.py:1138
+#: .././cogstat.py:986 .././cogstat.py:1147
 msgid "Means"
 msgstr "میانگین "
 
@@ -1271,7 +1274,7 @@ msgstr "Ctrl+Shift+E"
 msgid "Ctrl+Shift+P"
 msgstr "Ctrl+Shift+P"
 
-#: .././cogstat.py:451
+#: .././cogstat.py:452
 msgid "The next %s cases will not be printed. You can check all cases in the original data source."
 msgstr "موارد s٪ بعدی چاپ نمی شوند. می توانید همه موارد را در منبع داده اصلی بررسی کنید."
 
@@ -1282,19 +1285,19 @@ msgstr "موارد s٪ بعدی چاپ نمی شوند. می توانید همه
 msgid "Available variables"
 msgstr "متغیرهای موجود"
 
-#: .././cogstat_stat.py:118 ../ui/pivot.py:168
+#: .././cogstat_stat.py:130 ../ui/pivot.py:168
 msgid "N"
 msgstr "N"
 
-#: .././cogstat_stat.py:118 ../ui/pivot.py:169
+#: .././cogstat_stat.py:130 ../ui/pivot.py:169
 msgid "Sum"
 msgstr "جمع"
 
-#: .././cogstat_stat.py:119 .././cogstat_stat.py:378 ../ui/pivot.py:172
+#: .././cogstat_stat.py:131 .././cogstat_stat.py:406 ../ui/pivot.py:172
 msgid "Lower quartile"
 msgstr "کوارتیل پایین"
 
-#: .././cogstat_stat.py:120 ../ui/pivot.py:175
+#: .././cogstat_stat.py:132 ../ui/pivot.py:175
 msgid "Variance"
 msgstr "واریانس"
 
@@ -1411,11 +1414,11 @@ msgstr "متغیرها  برای برگزیدن"
 msgid "Variable properties"
 msgstr "خواص متغیر"
 
-#: .././cogstat_gui.py:155 .././cogstat_gui.py:218
+#: .././cogstat_gui.py:156 .././cogstat_gui.py:218
 msgid "&Filter outliers"
 msgstr "داده های پرت را فیلتر کنید"
 
-#: .././cogstat_gui.py:155
+#: .././cogstat_gui.py:156
 msgid "Ctrl+L"
 msgstr "Ctrl+L"
 
@@ -1431,35 +1434,35 @@ msgstr "Ctrl+Shift+R"
 msgid "Filter outlier."
 msgstr "داده ی پرت را فیلتر کنید."
 
-#: .././cogstat_hyp_test.py:487
+#: .././cogstat_hyp_test.py:612
 msgid "Main effect of %s"
 msgstr "تاثیر اصلی  s%  "
 
-#: .././cogstat_hyp_test.py:489
+#: .././cogstat_hyp_test.py:614
 msgid "Interaction of factors %s"
 msgstr "تعامل عوامل  s% "
 
-#: .././cogstat.py:486
+#: .././cogstat.py:496
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
 msgstr "فقط متغیرهای فاصله را می توان برای فیلتر استفاده کرد . نادیده گرفتن متغیر s% "
 
-#: .././cogstat.py:896
+#: .././cogstat.py:908
 msgid "Factors (number of levels): "
 msgstr "عوامل (تعداد سطوح)"
 
-#: .././cogstat_hyp_test.py:324
+#: .././cogstat_hyp_test.py:434
 msgid "Interval variables with several factors."
 msgstr "متغیرهای بازه ای ( فاصله یی)  با چند عامل. "
 
-#: .././cogstat_hyp_test.py:325
+#: .././cogstat_hyp_test.py:435
 msgid "Choosing repeated measures ANOVA."
 msgstr "انتخابِ واریانس  با اندازه گیری های مکرر  "
 
-#: .././cogstat_hyp_test.py:329
+#: .././cogstat_hyp_test.py:439
 msgid "Ordinal variables with several factors."
 msgstr "متغیر‌هایِ ترتیبی با چندین عامل "
 
-#: .././cogstat_hyp_test.py:332
+#: .././cogstat_hyp_test.py:442
 msgid "Nominal variables with several factors."
 msgstr "متغیرهایِ اسمی چندین عامل."
 
@@ -1519,7 +1522,7 @@ msgstr "تعداد سطوح"
 msgid "Only interval variables are available"
 msgstr "فقط متغیرهای بازه در دسترس هستند "
 
-#: .././cogstat_gui.py:170 .././cogstat_gui.py:219
+#: .././cogstat_gui.py:175 .././cogstat_gui.py:219
 msgid "Behavioral data &diffusion analysis"
 msgstr "داده های رفتاری و تجزیه و تحلیل انتشار"
 
@@ -1541,76 +1544,76 @@ msgstr " تجزیه و تحلیل انتشار"
 msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test (effect size is in %s):"
 msgstr "تجزیه و تحلیل قدرت حساسیت. حداقل اندازه تأثیر برای رسیدن به توان 95٪ با اندازه نمونه حاضر برای آزمون فرضیه حاضر (اندازه تأثی در٪ s است):"
 
-#: .././cogstat_hyp_test.py:193 .././cogstat_hyp_test.py:360
-#: .././cogstat_hyp_test.py:724
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:473
+#: .././cogstat_hyp_test.py:864
 msgid "d"
 msgstr "d"
 
-#: .././cogstat_hyp_test.py:833
+#: .././cogstat_hyp_test.py:981
 msgid "f"
 msgstr "f"
 
-#: .././cogstat_hyp_test.py:883
+#: .././cogstat_hyp_test.py:1049
 msgid "Result of multi-way ANOVA"
 msgstr "نتیجه تحلیل واریانس چند عامله"
 
-#: .././cogstat_hyp_test.py:893
+#: .././cogstat_hyp_test.py:1059
 msgid "Interaction of %s: "
 msgstr "تعامل s٪ :"
 
-#: .././cogstat_hyp_test.py:980
+#: .././cogstat_hyp_test.py:1146
 msgid "w"
 msgstr "w"
 
-#: .././cogstat_chart.py:421
+#: .././cogstat_chart.py:450
 msgid "Normal theoretical quantiles"
 msgstr "مقادیر نظری عادی"
 
-#: .././cogstat_chart.py:422
+#: .././cogstat_chart.py:451
 msgid "Sample quantiles"
 msgstr "نمونه چندکی"
 
-#: .././cogstat_stat.py:212
+#: .././cogstat_stat.py:224
 msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
 msgstr "خطا ٪ s, زمان واکنش: ٪ s, شرکت کننده :٪ s,  شرایط (ها): ٪ s"
 
-#: .././cogstat_stat.py:249
+#: .././cogstat_stat.py:261
 msgid "Mean percent correct with edge correction"
 msgstr "میانگین درصد با تصحیح (اصلاح) لبه صحیح است"
 
-#: .././cogstat_stat.py:251
+#: .././cogstat_stat.py:263
 msgid "Mean correct reaction time"
 msgstr "میانگین زمان واکنش صحیح"
 
-#: .././cogstat_stat.py:253
+#: .././cogstat_stat.py:265
 msgid "Correct reaction time variance"
 msgstr "واریانس زمان واکنش صحیح"
 
-#: .././cogstat_stat.py:272
+#: .././cogstat_stat.py:284
 msgid "Drift rate"
 msgstr "سرعت (میزان) رانش"
 
-#: .././cogstat_stat.py:273
+#: .././cogstat_stat.py:285
 msgid "Threshold"
 msgstr "آستانه"
 
-#: .././cogstat_stat.py:274
+#: .././cogstat_stat.py:286
 msgid "Nondecision time"
 msgstr "زمان عدم تصمیم گیری"
 
-#: .././cogstat_stat.py:348 .././cogstat_stat.py:600
+#: .././cogstat_stat.py:366 .././cogstat_stat.py:638
 msgid "low"
 msgstr "پایین (کم)"
 
-#: .././cogstat_stat.py:348 .././cogstat_stat.py:600
+#: .././cogstat_stat.py:366 .././cogstat_stat.py:638
 msgid "high"
 msgstr "زیاد (بالا)"
 
-#: .././cogstat_stat.py:349
+#: .././cogstat_stat.py:367
 msgid "Relative frequencies"
 msgstr "فرکانس های نسبی"
 
-#: .././cogstat_stat.py:349 .././cogstat_stat.py:603
+#: .././cogstat_stat.py:367 .././cogstat_stat.py:641
 msgid "95% confidence interval (multinomial proportions)"
 msgstr " فاصله اطمینان 95٪ (نسبت های چند جمله ای)"
 
@@ -1618,52 +1621,52 @@ msgstr " فاصله اطمینان 95٪ (نسبت های چند جمله ای)"
 msgid "Some of the cells does not include at least 5 cases, so the confidence intervals may be invalid."
 msgstr "برخی از سلولها حداقل ۵ مورد را شامل نمی شود، بنابراین فواصل اطمینان ممکن است نامعتبر باشد."
 
-#: .././cogstat_stat.py:382
+#: .././cogstat_stat.py:410
 msgid "Variation ratio"
 msgstr "نسبت تغییرات"
 
-#: .././cogstat_stat.py:466
+#: .././cogstat_stat.py:494
 msgid "Present confidence interval values for the mean suppose normality."
 msgstr "مقادیر فاصله اطمینان فعلی برای میانگین، نرمال (طبیعی) بودن را فرض می کند. "
 
-#: .././cogstat_stat.py:469 .././cogstat_stat.py:478
+#: .././cogstat_stat.py:497 .././cogstat_stat.py:506
 msgid "95% confidence interval (high)"
 msgstr "فاصله اطمینان ۹۵٪ (زیاد)"
 
-#: .././cogstat_stat.py:468 .././cogstat_stat.py:477
+#: .././cogstat_stat.py:496 .././cogstat_stat.py:505
 msgid "95% confidence interval (low)"
 msgstr "فاصله اطمینان ۹۵٪ (کم)"
 
-#: .././cogstat_stat.py:480 .././cogstat_stat.py:651 .././cogstat_stat.py:747
+#: .././cogstat_stat.py:508 .././cogstat_stat.py:689 .././cogstat_stat.py:814
 msgid "Out of the data range"
 msgstr "از محدوده داده خارج است "
 
-#: .././cogstat_stat.py:532 .././cogstat_stat.py:535 .././cogstat_stat.py:777
-#: .././cogstat_stat.py:780
+#: .././cogstat_stat.py:560 .././cogstat_stat.py:563 .././cogstat_stat.py:860
+#: .././cogstat_stat.py:863
 msgid "Cramér's V measure of association"
 msgstr "مقیاس همبستگی‌ ضریب  کرامر: "
 
-#: .././cogstat_stat.py:576 .././cogstat_stat.py:585
+#: .././cogstat_stat.py:614 .././cogstat_stat.py:623
 msgid "Total"
 msgstr "مجموع (کل)"
 
-#: .././cogstat_stat.py:577
+#: .././cogstat_stat.py:615
 msgid "Case count"
 msgstr "شمارش (تعداد) موارد "
 
-#: .././cogstat_stat.py:588
+#: .././cogstat_stat.py:626
 msgid "Percentage"
 msgstr "درصد"
 
-#: .././cogstat_stat.py:663 .././cogstat_stat.py:762
+#: .././cogstat_stat.py:718 .././cogstat_stat.py:845
 msgid "Cohen's d"
 msgstr "کوهن d"
 
-#: .././cogstat_stat.py:665 .././cogstat_stat.py:764
+#: .././cogstat_stat.py:720 .././cogstat_stat.py:847
 msgid "Eta-squared"
 msgstr "مربع اتا (Eta-Squared)"
 
-#: .././cogstat_stat.py:683 .././cogstat_stat.py:797
+#: .././cogstat_stat.py:738 .././cogstat_stat.py:880
 msgid "Hedges' g"
 msgstr "اندازه اثر هجز ‪ (hedges' g)  "
 
@@ -1671,8 +1674,8 @@ msgstr "اندازه اثر هجز ‪ (hedges' g)  "
 msgid "Omega squared"
 msgstr "مربع امگا"
 
-#: .././cogstat.py:637 .././cogstat.py:748 .././cogstat.py:974
-#: .././cogstat.py:1136
+#: .././cogstat.py:678 .././cogstat.py:810 .././cogstat.py:984
+#: .././cogstat.py:1145
 msgid "Population parameter estimations"
 msgstr "برآورد پارامتر جمعیت"
 
@@ -1697,11 +1700,12 @@ msgstr "بعدی را پیدا کنید "
 msgid "Find previous"
 msgstr "قبلی را پیدا کنید"
 
-#: .././cogstat.py:863 ../ui/diffusion.py:130
+#: .././cogstat_gui.py:674 .././cogstat_gui.py:680 .././cogstat.py:875
+#: ../ui/diffusion.py:130
 msgid "Behavioral data diffusion analysis"
 msgstr "تجزیه و تحلیل انتشار داده های رفتاری"
 
-#: .././cogstat_stat.py:223 .././cogstat_stat.py:224 ../ui/diffusion.py:134
+#: .././cogstat_stat.py:235 .././cogstat_stat.py:236 ../ui/diffusion.py:134
 msgid "Participant"
 msgstr "شرکت کننده"
 
@@ -1737,11 +1741,11 @@ msgstr "حداقل محور y "
 msgid "Maximum of y axis"
 msgstr "حداکثر محورy  "
 
-#: .././cogstat_gui.py:667
+#: .././cogstat_gui.py:675
 msgid "At least the reaction time and the error variables should be given."
 msgstr "حداقل باید زمان واکنش و متغیرهای خطا داده شود. "
 
-#: .././cogstat_hyp_test.py:665
+#: .././cogstat_hyp_test.py:808
 msgid "At least two grouping variables."
 msgstr "حداقل دو متغیر گروه بندی. "
 
@@ -1749,17 +1753,18 @@ msgstr "حداقل دو متغیر گروه بندی. "
 msgid "Specify all the required parameters (reaction time, error, participant and condition variables)."
 msgstr " تمام پارامترهای مورد نیاز (زمان واکنش ، خطا ، متغیرهای شرکت کننده و شرایط) را مشخص کنید."
 
-#: .././cogstat_hyp_test.py:239 .././cogstat_hyp_test.py:526
-#: .././cogstat_hyp_test.py:657 .././cogstat.py:647 .././cogstat.py:755
-#: .././cogstat.py:774 .././cogstat.py:785
+#: .././cogstat_hyp_test.py:294 .././cogstat_hyp_test.py:309
+#: .././cogstat_hyp_test.py:319 .././cogstat_hyp_test.py:349
+#: .././cogstat_hyp_test.py:654 .././cogstat_hyp_test.py:800
+#: .././cogstat.py:688
 msgid "Hypothesis tests"
 msgstr "آزمون فرضیه"
 
-#: .././cogstat.py:1140
+#: .././cogstat.py:1149
 msgid "Medians"
 msgstr "میانه"
 
-#: .././cogstat_stat.py:517 .././cogstat_stat.py:656 .././cogstat_stat.py:753
+#: .././cogstat_stat.py:545 .././cogstat_stat.py:711 .././cogstat_stat.py:836
 msgid "Standardized effect size"
 msgstr "اندازه اثر استاندارد"
 
@@ -1799,11 +1804,11 @@ msgstr " پرونده (فایل)  داده ها در STATA"
 msgid "R data files"
 msgstr " پرونده (فایل)  داده ها در R"
 
-#: .././cogstat_stat.py:354 .././cogstat_stat.py:610
+#: .././cogstat_stat.py:372 .././cogstat_stat.py:648
 msgid "Some of the cells do not include at least 5 cases, so the confidence intervals may be invalid."
 msgstr "برخی از سلول ها  (فضا ها ) حداقل شامل ۵ مورد نیستند ، بنابراین ممکن است فواصل اطمینان نامعتبر باشد."
 
-#: .././cogstat_stat.py:811
+#: .././cogstat_stat.py:893
 msgid "Omega-squared"
 msgstr "مربع امگا"
 
@@ -1827,36 +1832,36 @@ msgstr "داده هایی که باید وارد شوند"
 msgid "Number of measurement levels do not match the number of variables. You may want to correct the number of measurement levels."
 msgstr "تعداد سطوح اندازه گیری با تعداد متغیرها مطابقت ندارد. ممکن است بخواهید تعداد سطوح اندازه گیری را اصلاح کنید."
 
-#: .././cogstat_hyp_test.py:144
+#: .././cogstat_hyp_test.py:163
 msgid "Shapiro–Wilk normality test in variable %s%s"
 msgstr "آزمون نرمال بودن شاپیرو-ویلک در متغیر٪ s٪ s "
 
-#: .././cogstat_hyp_test.py:430
+#: .././cogstat_hyp_test.py:555
 msgid "Using Greenhouse–Geisser correction."
 msgstr "استفاده از تصحیح گرین‌هاوس- گیسر"
 
-#: .././cogstat_hyp_test.py:444
+#: .././cogstat_hyp_test.py:569
 msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
 msgstr " مقایسه متغیرها به صورت جفت با تصحیح هولم-بونفرونی"
 
-#: .././cogstat_hyp_test.py:554 .././cogstat_hyp_test.py:588
-#: .././cogstat_hyp_test.py:597
+#: .././cogstat_hyp_test.py:682 .././cogstat_hyp_test.py:716
+#: .././cogstat_hyp_test.py:725
 msgid "Running Mann–Whitney test."
 msgstr "اجرای آزمون من ویتنی"
 
-#: .././cogstat_hyp_test.py:563
+#: .././cogstat_hyp_test.py:691
 msgid "Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on assumptions."
 msgstr "بسته به پیش فرض ها ، انتخاب دو نمونه آزمون t ، آزمون من ویتنی  یا آزمون آزمون t ولچ "
 
-#: .././cogstat_hyp_test.py:591 .././cogstat_hyp_test.py:639
+#: .././cogstat_hyp_test.py:719 .././cogstat_hyp_test.py:767
 msgid "Homogeneity of variance violated in variable %s."
 msgstr "همگنی واریانس در متغیر٪ s نقض شده است"
 
-#: .././cogstat_hyp_test.py:601 .././cogstat_hyp_test.py:649
+#: .././cogstat_hyp_test.py:729 .././cogstat_hyp_test.py:778
 msgid "Running chi-squared test."
 msgstr "اجرای آزمون مجذور کای ( آزمون مربع کای یا  خی دو یا آزمون کای اسکوئر)"
 
-#: .././cogstat_hyp_test.py:610
+#: .././cogstat_hyp_test.py:738
 msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
 msgstr " انتخاب آزمون آنالیز واریانس یک طرفه  یا آزمون کروسکال–والیس، بسته به پیش فرض ها."
 
@@ -1864,43 +1869,43 @@ msgstr " انتخاب آزمون آنالیز واریانس یک طرفه  یا
 msgid "Homogeneity of variance violated in variable %s. "
 msgstr " همگنی واریانس در متغیر٪ s نقض شده است"
 
-#: .././cogstat_hyp_test.py:641 .././cogstat_hyp_test.py:645
+#: .././cogstat_hyp_test.py:770 .././cogstat_hyp_test.py:774
 msgid "Running Kruskal–Wallis test."
 msgstr "اجرای آزمون کروسکال–والیس"
 
-#: .././cogstat_hyp_test.py:808
+#: .././cogstat_hyp_test.py:954
 msgid "Result of independent samples Mann–Whitney rank test: "
 msgstr " نتیجه نمونه های مستقل آزمون رتبه من و ویتنی:"
 
-#: .././cogstat_hyp_test.py:945 .././cogstat_hyp_test.py:957
+#: .././cogstat_hyp_test.py:1111 .././cogstat_hyp_test.py:1122
 msgid "Result of the Kruskal–Wallis test: "
 msgstr "نتیجه ی  آزمون کروسکال–والیس"
 
-#: .././cogstat_hyp_test.py:984
+#: .././cogstat_hyp_test.py:1153
 msgid "Result of the Pearson's chi-squared test: "
 msgstr "نتیجه ی آزمون مجذور کای پیرسون "
 
-#: .././cogstat.py:310
+#: .././cogstat.py:311
 msgid "Spreadsheet file"
 msgstr "پرونده  ( فایل) صفحه گسترده "
 
-#: .././cogstat.py:352
+#: .././cogstat.py:353
 msgid "SPSS/SAS/STATA file"
 msgstr "پرونده های ( فایل های) SPSS/SAS/STATA "
 
-#: .././cogstat.py:360
+#: .././cogstat.py:361
 msgid "R file"
 msgstr "پرونده ( فایل) R"
 
-#: .././cogstat.py:367
+#: .././cogstat.py:368
 msgid "JASP file"
 msgstr "پرونده ( فایل) JASP"
 
-#: .././cogstat.py:374
+#: .././cogstat.py:375
 msgid "jamovi file"
 msgstr "پرونده ( فایل) jamovi"
 
-#: .././cogstat.py:298
+#: .././cogstat.py:299
 msgid "Text file"
 msgstr "پروندهٔ نوشتاری ( فایل متنی)"
 
@@ -1913,24 +1918,24 @@ msgid "All levels of the factors should be set."
 msgstr "همه ی سطوح عوامل باید تنظیم شود. \n"
 ""
 
-#: .././cogstat_stat.py:209
+#: .././cogstat_stat.py:221
 msgid "Specify the minimum required parameters (reaction time and error)."
 msgstr "حداقل پارامترهای مورد نیاز (زمان واکنش و خطا) را مشخص کنید. "
 
-#: .././cogstat_stat.py:213 .././cogstat_stat.py:214
+#: .././cogstat_stat.py:225 .././cogstat_stat.py:226
 msgid "None"
 msgstr "\n"
 "هیچکدام "
 
-#: .././cogstat_stat.py:220 .././cogstat_stat.py:221
+#: .././cogstat_stat.py:232 .././cogstat_stat.py:233
 msgid "Condition"
 msgstr "شرایط"
 
-#: .././cogstat_stat.py:220
+#: .././cogstat_stat.py:232
 msgid "single condition"
 msgstr "شرایط تکی (واحد)"
 
-#: .././cogstat_stat.py:223
+#: .././cogstat_stat.py:235
 msgid "single participant"
 msgstr "شرکت کننده  تکی (واحد)"
 
@@ -1951,7 +1956,7 @@ msgstr "می توانید این مشکل را در منبع داده خود ب�
 msgid "Recommended characters in variable names warning"
 msgstr "هشدار نام متغیرها ی کاراکترها ی (حروف) توصیه شده "
 
-#: .././cogstat.py:257 .././cogstat.py:266
+#: .././cogstat.py:257 .././cogstat.py:267
 msgid "If some analyses cannot be run, fix this in your data source."
 msgstr "اگر برخی از تجزیه و تحلیل ها قابل اجرا نیستند ، این مورد را در منبع داده خود برطرف کنید."
 
@@ -2001,4 +2006,59 @@ msgstr "برخی از اسم (های) متغیر شامل حروف غیر از �
 #: .././cogstat.py:263
 msgid "Some string variable(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
 msgstr "برخی از متغیر(های) رشته‌ای  شامل حروف غیر از حروف انگلیسی ، اعداد یا زیرخط هستند که می تواند در برخی تحلیل ها مشکل ایجاد کند: ٪ s."
+
+#: .././cogstat_gui.py:53
+msgid "Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "اوه، مشکلی پیش آمد، CogStat نتوانست تجزیه و تحلیل را اجرا کند. ممکن است بخواهید آن را گزارش دهید."
+
+#: .././cogstat_gui.py:506 .././cogstat.py:484
+msgid "Filter outliers"
+msgstr "داده های پرت را فیلتر کنید"
+
+#: .././cogstat_gui.py:557
+msgid "At least one variable should be set."
+msgstr "حداقل یک متغیر باید تنظیم شوند. "
+
+#: .././cogstat_gui.py:719
+msgid "A variable should be assigned to each level of the factors."
+msgstr "به هر سطح ازعامل ها باید یک متغیر اختصاص داد "
+
+#: .././cogstat_hyp_test.py:91
+msgid "Sensitivity power analysis. Minimal effect size to reach 95%% power with the present sample size for the present hypothesis test."
+msgstr "تجزیه و تحلیل قدرت حساسیت.حداقل اندازه تأثیر برای رسیدن به توان 95٪ با اندازه نمونه حاضر برای آزمون فرضیه حاضر "
+
+#: .././cogstat_hyp_test.py:94
+msgid "Sensitivity power could not be calculated."
+msgstr "قدرت حساسیت قابل محاسبه نیست."
+
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:473
+#: .././cogstat_hyp_test.py:864 .././cogstat_hyp_test.py:981
+#: .././cogstat_hyp_test.py:994 .././cogstat_hyp_test.py:1146
+msgid "Minimal effect size in %s"
+msgstr "حداقل اندازه تأثیر %s "
+
+#: .././cogstat_hyp_test.py:994
+msgid "eta-square"
+msgstr "مربع اتا"
+
+#: .././cogstat.py:481
+msgid "2 SD"
+msgstr "SD ۲\n"
+""
+
+#: .././cogstat.py:482
+msgid "2.5 MAD"
+msgstr "۲.۵ MAD"
+
+#: .././cogstat_gui.py:757
+msgid "Both the dependent variable and at least one grouping variables should be set."
+msgstr " متغیر وابسته و حداقل یکی از متغیرهای گروهی هر دو باید تنظیم شوند"
+
+#: .././cogstat_gui.py:757
+msgid "Both the dependent variable and at least one grouping variable should be set."
+msgstr " متغیر وابسته و حداقل یک متغیر گروهی هر دو باید تنظیم شوند "
+
+#: .././cogstat_hyp_test.py:91
+msgid "Sensitivity power analysis. Minimal effect size to reach 95% power with the present sample size for the present hypothesis test."
+msgstr "تجزیه و تحلیل قدرت حساسیت.حداقل اندازه تأثیر برای رسیدن به توان 95٪ با اندازه نمونه حاضر برای آزمون فرضیه حاضر "
 
