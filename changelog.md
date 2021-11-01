@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted. 
 
-2.2 Upcoming release
+2.2.0 (1 November 2021)
 ================
 
 ## New features
