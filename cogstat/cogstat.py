@@ -269,6 +269,14 @@ class CogStatData:
         def _special_values_to_nan():
             self.data_frame.replace('', np.nan, inplace=True)
 
+
+        def _all_object_data_to_strings():
+            """Some object dtype data may include both strings and numbers. This may cause issues in later analyses.
+            So we convert all items to string in an object dtype variable."""
+            self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
+                self.data_frame.select_dtypes(include=['object']).astype('str').astype('object')  # Finally, we
+                            # convert back to object because string type may cause issues e.g., for patsy
+
         import_measurement_levels = None
 
         # 1. Import from pandas DataFrame
@@ -409,6 +417,7 @@ class CogStatData:
                                # measurement_levels overwrites import_measurement_levels
         _check_valid_chars()
         _special_values_to_nan()
+        _all_object_data_to_strings()
         self.orig_data_frame = self.data_frame.copy()
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
