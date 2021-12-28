@@ -182,7 +182,7 @@ class CogStatData:
             # String variables cannot be interval or nominal variables in CogStat, so change them to nominal
             invalid_var_names = [var_name for var_name in self.data_frame.columns if
                                  (self.data_measlevs[var_name] in ['int', 'ord', 'unk'] and
-                                  self.data_frame[var_name].dtype == 'object')]
+                                  str(self.data_frame[var_name].dtype) in ['object', 'string'])]
                 # 'object' dtype means string variable
             if invalid_var_names:  # these str variables were set to int or ord
                 for var_name in invalid_var_names:
