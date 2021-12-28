@@ -920,7 +920,7 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
             plt.title(_plt('Means and 95% confidence intervals for the groups'))
             means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]
             cis = pdf.groupby(groups, sort=False).aggregate(cs_stat.confidence_interval_t)[var_names[0]]
-            ax.bar(list(range(len(means.values))), means.reindex(group_levels), 0.5,
+            ax.bar(list(range(len(group_levels))), means.reindex(group_levels), 0.5,
                    yerr=np.array(cis.reindex(group_levels)),
                    align='center', color=theme_colors[0], ecolor='0')
             # pandas series is converted to np.array to be able to handle numeric indexes (group levels)
@@ -928,7 +928,7 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
         elif meas_level in ['ord']:
             plt.title(_plt('Medians for the groups'))
             medians = pdf.groupby(groups[0], sort=False).aggregate(np.median)[var_names[0]]
-            ax.bar(list(range(len(medians.values))), medians.reindex(group_levels), 0.5, align='center',
+            ax.bar(list(range(len(group_levels))), medians.reindex(group_levels), 0.5, align='center',
                    color=theme_colors[0], ecolor='0')
         if len(groups) == 1:
             group_levels = [[group_level] for group_level in group_levels]
