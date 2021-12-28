@@ -276,8 +276,10 @@ class CogStatData:
             """Some object dtype data may include both strings and numbers. This may cause issues in later analyses.
             So we convert all items to string in an object dtype variable."""
             self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
-                self.data_frame.select_dtypes(include=['object']).astype('str').astype('object')  # Finally, we
-                            # convert back to object because string type may cause issues e.g., for patsy
+                self.data_frame.select_dtypes(include=['object']).astype('str', skipna=True).astype('object')
+                # Finally, we convert back to object because string type may cause issues e.g., for patsy.
+                # skipna parameter may not work in some pandas version:
+                    # https://github.com/pandas-dev/pandas/issues/25353
 
         import_measurement_levels = None
 
