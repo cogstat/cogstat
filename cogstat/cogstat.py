@@ -411,12 +411,13 @@ class CogStatData:
 
         # Set additional details for all import sources
         _percent2float()
+        _special_values_to_nan()  # seemingly, pdf.replace() also runs pdf.convert_dtypes(), so we must call this
+                                  # before _convert_dtypes()
         _convert_dtypes()
         _set_measurement_level(measurement_levels=(measurement_levels if measurement_levels else
                                                   import_measurement_levels))
                                # measurement_levels overwrites import_measurement_levels
         _check_valid_chars()
-        _special_values_to_nan()
         _all_object_data_to_strings()
         self.orig_data_frame = self.data_frame.copy()
 
