@@ -1133,7 +1133,7 @@ class CogStatData:
         # 3. Population properties
         # Plot population estimations
         group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, groups)
-        population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names,groups,
+        population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, groups,
                                                                            level_combinations, ylims=ylims)
 
         # Population estimation

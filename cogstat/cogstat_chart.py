@@ -804,7 +804,8 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             ax.set_xlim(0.5, len(group_levels) + 0.5)
         # Display individual data
         # Find the value among all groups with the largest frequency
-        max_freq = max([max(variables[var_i].value_counts()) for var_i in range(len(variables))])
+        max_freq = max([max(variables[var_i].value_counts(), default=0) for var_i in range(len(variables))])
+            # default=0 parameter is needed when a group level combination does not include any cases
         for var_i in range(len(variables)):
             val_count = variables[var_i].value_counts()
             # If max_freq is larger than 10,then make the largest item size 10
