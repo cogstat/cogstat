@@ -266,6 +266,9 @@ class CogStatData:
                                        + '</warning>'
 
 
+        def _special_values_to_nan():
+            self.data_frame.replace('', np.nan, inplace=True)
+
         import_measurement_levels = None
 
         # 1. Import from pandas DataFrame
@@ -405,6 +408,7 @@ class CogStatData:
                                                   import_measurement_levels))
                                # measurement_levels overwrites import_measurement_levels
         _check_valid_chars()
+        _special_values_to_nan()
         self.orig_data_frame = self.data_frame.copy()
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
