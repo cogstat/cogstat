@@ -121,12 +121,53 @@ class CogStatData:
                 # the dtype is object)
                 if selected_cells.any():
                     # use  selected_cells == True  to overcome the Nan indexes
-                    self.data_frame[column][selected_cells == True] = \
+                    self.data_frame[column][selected_cells] = \
                         self.data_frame[column][selected_cells == True].str.replace('%', '').astype('float') / 100.0
                     try:
                         self.data_frame[column] = self.data_frame[column].astype('float')
                     except ValueError:  # there may be other non xx% strings in the variable
                         pass
+
+        def _special_values_to_nan():
+            """Some additional values are converted to NaNs."""
+            self.data_frame.replace('', np.nan, inplace=True)
+            self.data_frame.replace(r'^#.*!$', np.nan, regex=True, inplace=True)
+                # spreadsheet errors, such as #DIV/0!, #VALUE!
+            # spreadsheet errors make the variable object dtype, although they may be numeric variables
+            try:
+                self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
+                    self.data_frame.select_dtypes(include=['object']).astype(float)
+            except (ValueError, TypeError):
+                pass
+
+        def _convert_dtypes():
+            # Convert dtypes
+            # CogStat does not know boolean variables, it is converted to string
+            #   Although this solution changes upper and lower cases: independent of the text,
+            #   it will be 'True' and 'False'
+            # Some analyses do not handle Int types, but int types
+            # Some analyses do not handle category types
+            convert_dtypes = [['bool', 'object'],  # although 'string' type is recommended, patsy cannot handle it
+                              ['Int32', 'int32'],
+                              ['Int64', 'int64'], ['Int64', 'float64'],
+                              ['category', 'object']]
+            for old_dtype, new_dtype in convert_dtypes:
+                try:
+                    self.data_frame[self.data_frame.select_dtypes(include=[old_dtype]).columns] = \
+                        self.data_frame.select_dtypes(include=[old_dtype]).astype(new_dtype)
+                except ValueError:
+                    pass
+                    # next convert_dtype pair will be used in a next loop if convert_dtypes includes alternatives
+
+        def _all_object_data_to_strings():
+            """Some object dtype data may include both strings and numbers. This may cause issues in later analyses.
+            So we convert all items to string in an object dtype variable."""
+            self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
+                self.data_frame.select_dtypes(include=['object']).astype('str').astype('object')
+                # Finally, we convert back to object because string type may cause issues e.g., for patsy.
+            self.data_frame.replace('nan', np.nan, inplace=True)
+                # string conversion turns np.nan to 'nan', so we turn it back;
+                # a former solution was the skipna=True parameter in the astype() method
 
         def _set_measurement_level(measurement_levels=None):
             """ Create self.data_measlevs.
@@ -206,25 +247,6 @@ class CogStatData:
                                        + '</warning>'
         # end of set_measurement_level()
 
-        def _convert_dtypes():
-            # Convert dtypes
-            # CogStat does not know boolean variables, it is converted to string
-            #   Although this solution changes upper and lower cases: independent of the text,
-            #   it will be 'True' and 'False'
-            # Some analyses do not handle Int types, but int types
-            # Some analyses do not handle category types
-            convert_dtypes = [['bool', 'object'],  # although 'string' type is recommended, patsy cannot handle it
-                              ['Int32', 'int32'],
-                              ['Int64', 'int64'], ['Int64', 'float64'],
-                              ['category', 'object']]
-            for old_dtype, new_dtype in convert_dtypes:
-                try:
-                    self.data_frame[self.data_frame.select_dtypes(include=[old_dtype]).columns] = \
-                        self.data_frame.select_dtypes(include=[old_dtype]).astype(new_dtype)
-                except ValueError:
-                    pass
-                    # next convert_dtype pair will be used in a next loop if convert_dtypes includes alternatives
-
         def _check_valid_chars():
             # Check if only valid chars are used in the data, and warn the user if invalid chars are used
             # TODO this might be removed with Python3 and with unicode encoding
@@ -243,9 +265,10 @@ class CogStatData:
                             # and if not boolean, etc. (int and float can occur in object dtype)
                             if not all(char in valid_chars for char in ind_data):
                                 non_ascii_vars.append(variable_name)
-                                break  # after finding the first non-ascii data, we can skip the rest of the variable data
+                                break  #a fter finding the first non-ascii data, we can skip the rest variable data
             if non_ascii_var_names:
-                self.import_message += '\n<warning><b>' + _('Recommended characters in variable names warning') + '</b> ' + \
+                self.import_message += '\n<warning><b>' + _('Recommended characters in variable names warning') + \
+                                       '</b> ' + \
                                        _('Some variable name(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
                                        % ('<b>' + ', '.join(
@@ -255,7 +278,8 @@ class CogStatData:
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
             if non_ascii_vars:
-                self.import_message += '\n<warning><b>' + _('Recommended characters in data values warning') + '</b> ' + \
+                self.import_message += '\n<warning><b>' + _('Recommended characters in data values warning') + \
+                                       '</b> ' + \
                                        _('Some string variable(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
                                        % ('<b>' + ', '.join('%s' % non_ascii_var for non_ascii_var in non_ascii_vars) +
@@ -265,23 +289,9 @@ class CogStatData:
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
 
-
-        def _special_values_to_nan():
-            #self.data_frame.replace('', np.nan, inplace=True)
-            self.data_frame.replace(r'^#.*!$', np.nan, regex=True, inplace=True)
-                # spreadsheet errors, such as #DIV/0!, #VALUE!
-
-
-        def _all_object_data_to_strings():
-            """Some object dtype data may include both strings and numbers. This may cause issues in later analyses.
-            So we convert all items to string in an object dtype variable."""
-            self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
-                self.data_frame.select_dtypes(include=['object']).astype('str', skipna=True).astype('object')
-                # Finally, we convert back to object because string type may cause issues e.g., for patsy.
-                # skipna parameter may not work in some pandas version:
-                    # https://github.com/pandas-dev/pandas/issues/25353
-
         import_measurement_levels = None
+
+        # I. Import the DataFrame/file/clipboard
 
         # 1. Import from pandas DataFrame
         if isinstance(data, pd.DataFrame):
@@ -413,16 +423,20 @@ class CogStatData:
             self.import_source = _('Import failed')
             return
 
-        # Set additional details for all import sources
+        # II. Set additional details for all import sources
+
+        # Convert some values and data types
         _percent2float()
-        _special_values_to_nan()  # seemingly, pdf.replace() also runs pdf.convert_dtypes(), so we must call this
-                                  # before _convert_dtypes()
+        _special_values_to_nan()
         _convert_dtypes()
+        _all_object_data_to_strings()
+
+        # Set and check data properties
         _set_measurement_level(measurement_levels=(measurement_levels if measurement_levels else
                                                   import_measurement_levels))
                                # measurement_levels overwrites import_measurement_levels
         _check_valid_chars()
-        #_all_object_data_to_strings()
+
         self.orig_data_frame = self.data_frame.copy()
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
