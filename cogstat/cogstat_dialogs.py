@@ -67,32 +67,57 @@ def save_output():
 
 ### Various functions ###
 
-# TODO functions should be private
+# TODO these functions should be private
 
 
 def init_source_vars(list_widget, names, already_in_use):
+    """Add the names (of variables) to the list_widget, unless they are used in other relevant listWidgets.
+
+    Parameters
+    ----------
+    list_widget : listWidget
+        source variables
+    names : list of strings
+        names of the variables
+    already_in_use : list of listWidgets
+        list of listWidgets that may contain variables already in use
+
+    Returns
+    -------
+    Nothing
     """
-    :param list_widget: source variables
-    :param names: names of the variables
-    :param already_in_use: list of listWidgets that may contain variables already in use
-    :return:
-    """
+    # Collect variable names that are already in use in the already_in_use widgets
     already_in_use_vars = []
     for in_use_list_widget in already_in_use:
-        already_in_use_vars.extend([in_use_list_widget.item(i).text() for i in range(in_use_list_widget.count())])
-    list_widget.clear()  # clear source list in case new data is loaded
+        already_in_use_vars.extend([in_use_list_widget.item(i).text().split(' :: ')[-1]
+                                    for i in range(in_use_list_widget.count())])
+        # split(' :: ')[-1] returns the variable name if only a variable name is included, otherwise, the variable after
+        # the factor is returned
+    # Clear the list_widget...
+    list_widget.clear()
+    # ...then add the names to them unless they are already in use in other relevant listWidgets
     for var_name in names:
         if not(var_name in already_in_use_vars):
             list_widget.addItem(QString(var_name))
 
 
 def remove_ceased_vars(list_widget, names):
-    """
-    If list_widget includes items that are not in the names list,
-    then remove those items.
+    """If the current dataset has changed, then some former items (variable names) may not present in the new data.
+    Therefore, we remove any items from the listWidget (list_widget) that are not present in the current dataset (names).
+
+    Parameters
+    ----------
+    list_widget : listWidget
+    names : list of strings
+
+    Returns
+    -------
+    Nothing
     """
     for item_i in range(list_widget.count()-1, -1, -1):
-        if not str(list_widget.item(item_i).text()) in names:
+        if not str(list_widget.item(item_i).text().split(' :: ')[-1]) in names:
+            # split(' :: ')[-1] returns the variable name if only a variable name is included, otherwise, the variable
+            # after the factor is returned
             list_widget.takeItem(item_i)
 
 
@@ -514,10 +539,8 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
     def init_vars(self, names):
         self.names = names
-        init_source_vars(self.source_listWidget, names, [])
-        if len(self.factors) < 2:
-            remove_ceased_vars(self.selected_listWidget, names)
-            init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
+        remove_ceased_vars(self.selected_listWidget, names)
+        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
         if len(self.factors) < 2:
