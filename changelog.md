@@ -4,7 +4,7 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release (2022)
 ===============
 
-## Fiixes
+## Fixes
 - Various data import fixes
 
 2.2.0 (1 November 2021)
