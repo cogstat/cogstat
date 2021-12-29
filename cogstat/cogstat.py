@@ -549,8 +549,8 @@ class CogStatData:
                 # Display filtering information
                 text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
                 prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
-                text_output += _('Cases outside of the range will be excluded: %0.*f  --  %0.*f\n') % \
-                               (prec, lower_limit, prec, upper_limit)
+                text_output += _('Cases outside of the range will be excluded:') + \
+                               ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
                 # Display the excluded cases
                 excluded_cases = \
                     self.orig_data_frame.drop(remaining_cases_indexes[-1])
