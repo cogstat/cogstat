@@ -233,6 +233,47 @@ def _mosaic_labelizer(crosstab_data, l, separator='\n'):
         return separator.join(l) if crosstab_data[ll] != 0 else ""
 
 
+############################
+### Charts for filtering ###
+############################
+
+def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_limit, upper_limit):
+    """Displays the filtered and kept cases for a variable.
+
+    Parameters
+    ----------
+    included_cases
+    excluded_cases
+    var_name : str
+    lower_limit : float
+    upper_limit : float
+
+    Returns
+    -------
+    matplotlib chart
+    """
+
+    # Follow the structure of create_variable_raw_chart structure for interval variables.
+
+    fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25))
+    ax = plt.gca()
+
+    # Add individual data
+    # Excluded cases and limit lines are denoted with the second color in the theme.
+    plt.scatter(included_cases, np.random.random(size=len(included_cases)), color=theme_colors[0], marker='o')
+    plt.scatter(excluded_cases, np.random.random(size=len(excluded_cases)), color=theme_colors[1], marker='o')
+    plt.vlines([lower_limit, upper_limit], ymin=-1, ymax=2, colors=theme_colors[1])
+    ax.axes.set_ylim([-1.5, 2.5])
+    fig.subplots_adjust(top=0.85, bottom=0.4)
+
+    # Add labels
+    plt.title(_plt('Included and excluded cases with exclusion criteria'))
+    plt.xlabel(var_name)
+    ax.axes.get_yaxis().set_visible(False)
+    _set_axis_measurement_level(ax, 'int', 'nom')
+
+    return plt.gcf()
+
 ####################################
 ### Charts for Explore variables ###
 ####################################
