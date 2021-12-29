@@ -505,11 +505,15 @@ class CogStatData:
         list of str
             List of HTML strings showing the filtered cases.
             The method modifies the self.data_frame in place.
+        list of charts
+            If cases were filtered, then filtered and remaining cases are shown.
         """
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD')}
 
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
+
+        chart_results = []
 
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
@@ -560,8 +564,13 @@ class CogStatData:
                     text_output += _('The following cases will be excluded: ')
                     text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
                                                                                      classes="table_cs_pd"))
+                    chart_results.append(cs_chart.create_filtered_cases_chart(self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
+                                                                        excluded_cases[var_name], var_name,
+                                                                        lower_limit, upper_limit))
                 else:
-                    text_output += _('No cases were excluded.') + '\n'
+                    text_output += _('No cases were excluded.')
+                if var_name != var_names[-1]:
+                    text_output += '\n\n'
 
             # Do the filtering (remove outliers), modify self.data_frame in place
             self.data_frame = self.orig_data_frame.copy()
@@ -569,7 +578,7 @@ class CogStatData:
                 self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
             self.filtering_status = ', '.join(var_names) + ' (%s)' % mode_names[mode]
 
-        return cs_util.convert_output([title, text_output])
+        return cs_util.convert_output([title, text_output, chart_results])
 
     def _filtering_status(self):
         if self.filtering_status:
