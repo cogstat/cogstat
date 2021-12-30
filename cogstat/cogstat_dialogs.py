@@ -68,13 +68,16 @@ def save_output():
 ### Various functions ###
 
 def _prepare_list_widgets(source_list_widget, names, selected_list_widgets):
-    """Prepare the source and selected list widgets after opening the dialog.
+    """Prepare the source and selected list widgets when opening the dialog.
 
-    First, if the current dataset has changed, then some former items (variable names) may not present in the new data.
-    Therefore, we remove any items from the selected_list_widgets that are not present in the current dataset
+    Dialog list widgets keep the variable list of the previous use. However, the data set may have been changed, and
+    the variables should be updated.
+
+    First, if the current dataset has changed, then some former items (variable names) may not be present in the new
+    data. Therefore, we remove any items from the selected_list_widgets that are not present in the current dataset
     (names).
 
-    Second, add the names (of variables) to the list_widget (a source list widget), unless they are used in other
+    Second, we add the names (of variables) to the list_widget (a source list widget), unless they are used in other
     selected_list_widgets.
 
     Parameters
