@@ -493,7 +493,7 @@ def create_normality_chart(pdf, var_name):
     return normality_qq
 
 
-def create_variable_population_chart(data, var_name, ci):
+def create_variable_population_chart(data, var_name, stat, ci=None):
     """
 
     Parameters
@@ -502,6 +502,8 @@ def create_variable_population_chart(data, var_name, ci):
         It is assumed that nans are dropped.
     var_name : str
 
+    stat : {'mean', 'median'}
+
     ci :
 
     Returns
@@ -509,37 +511,16 @@ def create_variable_population_chart(data, var_name, ci):
     matplotlib chart
     """
     plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.35))
-    plt.barh([1], [data.mean()], xerr=[ci], color=theme_colors[0], ecolor='black')
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
-    plt.title(_plt('Mean value with 95% confidence interval'))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'int', 'int')
-    return plt.gcf()
-
-
-def create_variable_population_chart_2(data, var_name):
-    """
-
-    Parameters
-    ----------
-    data : pandas series
-
-    var_name : str
-
-
-    Returns
-    -------
-
-    """
-    # TODO merge with create_variable_popuplation_chart
-    plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.35))
-    plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar
-    plt.gca().axes.get_yaxis().set_visible(False)
-    plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
-    plt.title(_plt('Median value'))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'ord', 'nom')
+    if stat == 'mean':
+        plt.barh([1], [data.mean()], xerr=[ci], color=theme_colors[0], ecolor='black')
+        plt.title(_plt('Mean value with 95% confidence interval'))
+        _set_axis_measurement_level(plt.gca(), 'int', 'int')
+    elif stat == 'median':
+        plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar
+        plt.title(_plt('Median value'))
+        _set_axis_measurement_level(plt.gca(), 'ord', 'nom')
     return plt.gcf()
 
 
