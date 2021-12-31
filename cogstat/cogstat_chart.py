@@ -454,19 +454,21 @@ def create_normality_chart(pdf, var_name):
                      x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     val_count = (val_count * (max(n) / max(val_count))) / 20.0
 
-    # Graph
-    plt.figure()
-    n, bins, patches = plt.hist(data.values, density=True, color=theme_colors[0])
-    plt.plot(bins, stats.norm.pdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
+    # Graphs
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+
+    # 1. Histogram
+    n, bins, patches = ax1.hist(data.values, density=True, color=theme_colors[0])
+    ax1.plot(bins, stats.norm.pdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
              linewidth=3)
-    plt.title(_plt('Histogram with individual data and normal distribution'))
-    plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
+    ax1.set_title(_plt('Histogram with individual data and normal distribution'))
+    ax1.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
                  yerr=[np.zeros(val_count.shape), val_count.values],
                  fmt='k|', capsize=0, linewidth=2)
     #    plt.plot(data, np.zeros(data.shape), 'k+', ms=10, mew=1.5)
     # individual data
-    plt.xlabel(var_name)
-    plt.ylabel(_('Normalized relative frequency'))
+    ax1.set_xlabel(var_name)
+    ax1.set_ylabel(_('Normalized relative frequency'))
 
     # percent on y axes http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
     def to_percent(y, position):
@@ -474,27 +476,21 @@ def create_normality_chart(pdf, var_name):
         return s + r'$\%$' if matplotlib.rcParams['text.usetex'] is True else s + '%'
 
     from matplotlib.ticker import FuncFormatter
-    plt.gca().yaxis.set_major_formatter(FuncFormatter(to_percent))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'int', 'int')
+    ax1.yaxis.set_major_formatter(FuncFormatter(to_percent))
+    _set_axis_measurement_level(ax1, 'int', 'int')
 
-    normality_histogram = plt.gcf()
-
-    # QQ plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    sm.graphics.qqplot(data, line='s', ax=ax, color=theme_colors[0])
+    # 2. QQ plot
+    sm.graphics.qqplot(data, line='s', ax=ax2, color=theme_colors[0])
     # Change the red line color (otherwise we should separately call the sm.qqline() function)
     lines = fig.findobj(lambda x: hasattr(x, 'get_color') and x.get_color() == 'r')
     [d.set_color(theme_colors[1]) for d in lines]
-    plt.title(_plt('Quantile-quantile plot'))
-    plt.xlabel(_plt('Normal theoretical quantiles'))
-    plt.ylabel(_plt('Sample quantiles'))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'int', 'int')
-    qq_plot = plt.gcf()
+    ax2.set_title(_plt('Quantile-quantile plot'))
+    ax2.set_xlabel(_plt('Normal theoretical quantiles'))
+    ax2.set_ylabel(_plt('Sample quantiles'))
+    _set_axis_measurement_level(ax2, 'int', 'int')
+    normality_qq = plt.gcf()
 
-    return normality_histogram, qq_plot
+    return normality_qq
 
 
 def create_variable_population_chart(data, var_name, ci):
