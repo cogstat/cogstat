@@ -504,11 +504,14 @@ def paired_wilcox_test(pdf, var_names):
     if len(var_names) != 2:
         return _('Paired Wilcoxon test requires two variables.')
 
-    T, p = stats.wilcoxon(pdf[var_names[0]], pdf[var_names[1]])
-    text_result += _('Result of Wilcoxon signed-rank test') + \
-                   ': <i>T</i> = %0.*f, %s\n' % (non_data_dim_precision, T, print_p(p))
-    # The test does not use df, despite some of the descriptions on the net.
-    # So there's no need to display df.
+    try:
+        T, p = stats.wilcoxon(pdf[var_names[0]], pdf[var_names[1]])
+        text_result += _('Result of Wilcoxon signed-rank test') + \
+                       ': <i>T</i> = %0.*f, %s\n' % (non_data_dim_precision, T, print_p(p))
+        # The test does not use df, despite some of the descriptions on the net.
+        # So there's no need to display df.
+    except ValueError:
+        text_result += 'Wilcoxon signed-rank test do not work if the difference of the two variables is 0 in all cases.'
 
     return text_result
 
