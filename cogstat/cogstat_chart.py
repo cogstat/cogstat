@@ -634,21 +634,25 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=
 #########################################
 
 
-def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=False, ylims=[None, None]):
+def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=False, ylims=[None, None]):
     """
 
     Parameters
     ----------
     data : pandas dataframe
-    var_names
-    meas_level
-    raw_data
-    ylims :
+        It is assumed that the missing cases are dropped.
+    var_names : list of str
+
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    raw_data_only : bool
+        Only the raw data should be displayed? Or the box plots too?
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
     -------
-
+    matplotlib chart
     """
     graph = None
     if meas_level in ['int', 'ord', 'unk']:
@@ -657,7 +661,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        if raw_data:
+        if raw_data_only:
             plt.title(_plt('Individual data of the variables'))
         else:
             plt.title(_plt('Boxplots and individual data of the variables'))
@@ -680,7 +684,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=
             plt.suptitle(_plt('Thickest line displays %d cases.') % max_freq, x=0.9, y=0.025,
                          horizontalalignment='right', fontsize=10)
         # Display boxplots
-        if not raw_data:
+        if not raw_data_only:
             box1 = ax.boxplot(variables, whis=[0, 100])
             # ['medians', 'fliers', 'whiskers', 'boxes', 'caps']
             plt.setp(box1['boxes'], color=theme_colors[0])
@@ -723,9 +727,10 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
     Parameters
     ----------
     data : pandas dataframe
-    var_names
-    meas_level
-    ylims
+    var_names : list of str
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
@@ -773,21 +778,22 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     ----------
     data_frame: pandas data frame
         It is assumed that the missing cases are dropped.
-    meas_level
-    var_names
-    param groups
-        List of names of the grouping variables
-    param group_levels
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    var_names : list of str
+    groups : list of str
+        Grouping variables
+    group_levels
         List of lists or tuples with group levels (1 grouping variable) or group level combinations
         (more than 1 grouping variables)
     raw_data_only : bool
         Only the raw data are displayed
-    ylims
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
     -------
-
+    matplotlib chart
     """
     if meas_level in ['int', 'ord']:  # TODO 'unk'?
         # TODO is this OK for ordinal?
@@ -915,11 +921,12 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
     ----------
     pdf : pandas dataframe
         It is asssumed that missing cases are removed.
-    meas_level
-    var_names
-    groups
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    var_names : list of str
+    groups : list of str
     group_levels
-    ylims
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
