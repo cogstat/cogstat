@@ -231,8 +231,8 @@ class CogStatData:
                 self.import_message += '\n<warning><b>' + _('String variable conversion warning') + '</b> ' + \
                                        _('String variables cannot be interval or ordinal variables in CogStat. '
                                          'Those variables are automatically set to nominal: ')\
-                                       + '<b>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
-                                       '</b>. ' + _('You can fix this issue in your data source.') \
+                                       + '<i>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
+                                       '</i>. ' + _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
@@ -271,8 +271,8 @@ class CogStatData:
                                        '</b> ' + \
                                        _('Some variable name(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
-                                       % ('<b>' + ', '.join(
-                    '%s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '</b>')\
+                                       % ('<i>' + ', '.join(
+                    '%s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '</i>')\
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
@@ -282,8 +282,8 @@ class CogStatData:
                                        '</b> ' + \
                                        _('Some string variable(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
-                                       % ('<b>' + ', '.join('%s' % non_ascii_var for non_ascii_var in non_ascii_vars) +
-                                          '</b>')\
+                                       % ('<i>' + ', '.join('%s' % non_ascii_var for non_ascii_var in non_ascii_vars) +
+                                          '</i>')\
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
