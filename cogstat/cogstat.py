@@ -977,7 +977,7 @@ class CogStatData:
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
-        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=True,
+        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=True,
                                                                    ylims=ylims)
 
         # Plot the individual data with box plot
