@@ -645,6 +645,13 @@ def friedman_test(pdf, var_names):
     n = len(variables)
     text_result += _('Result of the Friedman test: ') + '&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.*f, %s\n' % \
                    (df, n, non_data_dim_precision, chi2, print_p(p))  # χ2(1, N=90)=0.89, p=.35
+    if p < 0.05:
+        # Run the post hoc tests
+        text_result += '\n' + _('Variables differ. Running post-hoc pairwise comparison.') + '\n'
+        text_result += _("Results of Durbin-Conover test (p values).") + '\n'
+        posthoc_result = scikit_posthocs.posthoc_durbin(variables)
+        text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
+                                                                         float_format=lambda x: '%.3f' % x))
 
     return text_result
 

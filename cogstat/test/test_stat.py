@@ -297,6 +297,10 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('f: <i>W</i> = 0.82, <i>p</i> &lt; .001' in result[7])  # <i>W</i> = 0.818
             # jamovi 2.0.0.0 df 2, khi2 6.47, p 0.039
         self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 6.47, <i>p</i> = .039' in result[7])
+            # post-hoc Durbin-Conover
+            # jamovi 2.2.5 p-values: a-e 0.504, a-f 0.065, e-f: 0.013
+        self.assertTrue('<th>a</th>      <td>1.000</td>      <td>0.504</td>      <td>0.065</td>' in result[7])
+        self.assertTrue('<th>e</th>      <td>0.504</td>      <td>1.000</td>      <td>0.013</td>' in result[7])
 
         # 2 × 2 Int variables
         result = data.compare_variables(['a', 'b', 'e', 'f'], factors=[['first', 2], ['second', 2]])
@@ -413,6 +417,7 @@ class CogStatTestCase(unittest.TestCase):
         # Kruskal-Wallis
             # jamovi 2.0.0.0 8.37, 0.015
         self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 8.37, <i>p</i> = .015' in result[8])
+        # TODO post-hoc Dunn's test
 
         # 2 Ord groups
         data.data_measlevs['o'] = 'ord'
@@ -491,7 +496,7 @@ Control	0.538	0.107''')
         # data of Lays et al. 2013
         # as in Lays et al. 2013: median is 7, MAD is 5.1891
         # median +- 2.5*MAD is −5.97275 and 19.97275
-        self.assertTrue('will be excluded: -6.0  --  20.0' in result[1])
+        self.assertTrue('will be excluded: -6.0  –  20.0' in result[1])
 
 if __name__ == '__main__':
     unittest.main()
