@@ -5,6 +5,7 @@ Upcoming release (2022)
 ===============
 
 ## New features
+- Post hoc Durbin-Conover test after significant Friedman test
 - Display the filtered cases in the filtering function
 
 ## Fixes
