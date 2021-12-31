@@ -8,7 +8,7 @@ Upcoming release (2022)
 - Display the filtered cases in the filtering function
 
 ## Fixes
-- Various GUI, data import, and output fixes
+- Various GUI, data import, analysis, and output fixes
 
 2.2.0 (1 November 2021)
 ================
