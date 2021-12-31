@@ -829,7 +829,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     ### Cogstat menu  methods ###
     def _open_help_webpage(self):
-        webbrowser.open('https://github.com/cogstat/cogstat/wiki')
+        webbrowser.open('https://github.com/cogstat/cogstat/wiki/Documentation-for-users')
         
     def _show_preferences(self):
         try:
