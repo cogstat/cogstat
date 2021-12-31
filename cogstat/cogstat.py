@@ -743,7 +743,7 @@ class CogStatData:
                                _('Running one-sample t-test.') + '</decision>\n'
                 text_result2, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name,
                                                           test_value=central_value)
-                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, ci)
+                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'mean', ci)
 
             else:
                 text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
@@ -751,14 +751,14 @@ class CogStatData:
                 text_result += _('Median: %0.*f') % (prec, np.median(data[var_name])) + '\n'
                 text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                             value=central_value)
-                graph = cs_chart.create_variable_population_chart_2(data[var_name], var_name)
+                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
 
         elif meas_level == 'ord':
             text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Wilcoxon signed-rank test.') + \
                            '</decision>\n'
             text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                         value=central_value)
-            graph = cs_chart.create_variable_population_chart_2(data[var_name], var_name)
+            graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
         else:
             text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '</decision>\n'
             graph = None
