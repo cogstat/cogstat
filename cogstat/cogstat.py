@@ -697,14 +697,12 @@ class CogStatData:
         if meas_level in ['int', 'unk']:
             text_result += '<cs_h3>'+_('Normality')+'</cs_h3>\n'
             stat_result, text_result2 = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
-            image, image2 = cs_chart.create_normality_chart(data, var_name)
+            image = cs_chart.create_normality_chart(data, var_name)
                 # histogram with normality and qq plot
             text_result += text_result2
             result_list.append(text_result)
             if image:
                 result_list.append(image)
-            if image2:
-                result_list.append(image2)
         else:
             result_list.append(text_result)
 
