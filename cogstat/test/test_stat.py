@@ -120,6 +120,10 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 1.92, 0.065
         self.assertTrue('t</i>(29) = 1.92' in result[10])
         self.assertTrue('p</i> = .065' in result[10])
+        # Bayesian one sample t-test
+            # Note that the test value is 2 here.
+            # JASP 0.16 BF10: 0.969, BF01: 1.032
+        self.assertTrue('BF<sub>10</sub> = 0.97, BF<sub>01</sub> = 1.03' in result[10])
 
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 20.0)
@@ -165,6 +169,9 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 p 0.456
         self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.14, <i>p</i> = .456" in result[7])  # <i>r</i>(28) = -0.141
             # jamovi 2.0.0.0 A -21.8 Intercept 300.5
+        # Bayes Factor for Pearson
+            # JASP 0.16 BF10: 0.296, BF01: 3.379
+        self.assertTrue('BF<sub>10</sub> = 0.30, BF<sub>01</sub> = 3.38' in result[7])
         self.assertTrue('y = -21.811x + 300.505' in result[3])
             # jamovi 2.0.0.0 -0.363
         self.assertTrue('-0.363' in result[4])
@@ -247,6 +254,9 @@ class CogStatTestCase(unittest.TestCase):
         # Paired samples t-test
             # jamovi v1.2.19.0: t, df, p: 0.110, 29.0, 0.913
         self.assertTrue('<i>t</i>(29) = 0.11, <i>p</i> = .913' in result[7])
+        # Bayesian paired samples t-test
+        # JASP 0.16 BF10: 0.196, BF01: 5.115
+        self.assertTrue('BF<sub>10</sub> = 0.20, BF<sub>01</sub> = 5.11' in result[7])
 
         # 2 Int variables - non-normal
         result = data.compare_variables(['e', 'f'])
@@ -377,6 +387,9 @@ class CogStatTestCase(unittest.TestCase):
         # independent samples t-test
             # jamovi v1.2.19.0: t, df, p: -1.93, 28.0, 0.064
         self.assertTrue('<i>t</i>(28) = -1.93, <i>p</i> = .064' in result[8])
+        # Bayesian independent samples t-test
+            # JASP 0.16 BF10: 1.348, BF01: 0.742
+        self.assertTrue('BF<sub>10</sub> = 1.35, BF<sub>01</sub> = 0.74' in result[8])
 
         # Non-normal group
         result = data.compare_groups('o', ['m'])
