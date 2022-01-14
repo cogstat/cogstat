@@ -7,7 +7,7 @@ Arguments are the pandas data frame (pdf), and parameters (among others they
 are usually variable names).
 Output is text (html and some custom notations).
 
-Mostly scipy.stats and statsmodels are used to generate the results.
+Mostly scipy.stats, statsmodels, and pingouin are used to generate the results.
 """
 
 import gettext
@@ -223,6 +223,11 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value) + ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
+        # Bayesian t-test
+        bf10 = pingouin.bayesfactor_ttest(t, len(data), paired=True)
+        text_result += _('Result of the Bayesian one sample t-test') + \
+                       ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                       (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
     return text_result, ci
@@ -300,6 +305,12 @@ def variable_pair_hyp_test(data, x, y, meas_lev):
         population_result += _("Pearson's correlation") + \
                              ': <i>r</i>(%d) = %0.*f, %s\n' % \
                              (df, non_data_dim_precision, r, print_p(p))
+        # Bayesian test
+        bf10 = pingouin.bayesfactor_pearson(r, len(data))
+        population_result += _('Bayes Factor for Pearson correlation') + \
+                       ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                       (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
+
 
         r, p = stats.spearmanr(data[x], data[y])
         population_result += _("Spearman's rank-order correlation") + \
@@ -482,6 +493,11 @@ def paired_t_test(pdf, var_names):
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
     text_result += _('Result of paired samples t-test') + \
                    ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
+    # Bayesian t-test
+    bf10 = pingouin.bayesfactor_ttest(t, len(variables), paired=True)
+    text_result += _('Result of the Bayesian paired two-samples t-test') + \
+                   ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                   (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
 
     return text_result
 
@@ -881,6 +897,12 @@ def independent_t_test(pdf, var_name, grouping_name):
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.*f, %s\n' % \
                    (df, non_data_dim_precision, t, print_p(p))
+    # Bayesian t-test
+    bf10 = pingouin.bayesfactor_ttest(t, len(var1), len(var2))
+    text_result += _('Result of the Bayesian independent two-samples t-test') + \
+                   ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                   (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
+
     return text_result
 
 

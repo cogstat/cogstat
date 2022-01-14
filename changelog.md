@@ -5,6 +5,11 @@ Upcoming release (2022)
 ===============
 
 ## New features
+- Initial support for Bayesian hypothesis tests
+  - One sample t-test
+  - Pearson correlation
+  - Paired two-samples t-test
+  - Independent two-samples t-test
 - Post hoc Durbin-Conover test after significant Friedman test
 - Display the filtered cases when filtering outliers
 
