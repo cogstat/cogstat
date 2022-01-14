@@ -106,27 +106,27 @@ class CogStatTestCase(unittest.TestCase):
             # https://www.statskingdom.com/confidence-interval-calculator.html To use the t-value based solution, do not
             # use the population SD
             # Mean confidence interval: [1.922672 , 4.364861]
-        self.assertTrue('<td>Mean</td>      <td>3.1438</td>      <td>1.9227</td>      <td>4.3649</td>' in result[9])
+        self.assertTrue('<td>Mean</td>      <td>3.1438</td>      <td>1.9227</td>      <td>4.3649</td>' in result[8])
             # jamovi 2.0.0.0 3.27 - SD estimates population SD
             # https: // www.statskingdom.com / confidence - interval - calculator.html To use the t-value based solution, do not
             # use the population SD
             # Standard deviation confidence interval: [2.604372 , 4.396115]
-        self.assertTrue('<td>Standard deviation</td>      <td>3.2702</td>      <td>2.6044</td>      <td>4.3961</td>' in result[9])
+        self.assertTrue('<td>Standard deviation</td>      <td>3.2702</td>      <td>2.6044</td>      <td>4.3961</td>' in result[8])
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681
-        self.assertTrue('effect size in d: 0.68' in result[11])
+        self.assertTrue('effect size in d: 0.68' in result[10])
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 1.92, 0.065
-        self.assertTrue('t</i>(29) = 1.92' in result[11])
-        self.assertTrue('p</i> = .065' in result[11])
+        self.assertTrue('t</i>(29) = 1.92' in result[10])
+        self.assertTrue('p</i> = .065' in result[10])
 
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 20.0)
             # jamovi 2.0.0.0 W(!) 262, p 0.556
             # TODO not sure yet why the difference, see https://github.com/cogstat/cogstat/issues/31
-        self.assertTrue('T</i> = 203' in result[11])
-        self.assertTrue('p</i> = .551' in result[11])
+        self.assertTrue('T</i> = 203' in result[10])
+        self.assertTrue('p</i> = .551' in result[10])
 
         # Ord variable
         data.data_measlevs['a'] = 'ord'
