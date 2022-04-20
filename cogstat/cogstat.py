@@ -17,6 +17,7 @@ import string
 
 __version__ = '2.2'
 
+import statsmodels.tools
 import matplotlib
 matplotlib.use("qt5agg")
 #print matplotlib.get_backend()
@@ -824,10 +825,17 @@ class CogStatData:
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
-            # lingress() is run twice in the analysis, otherwise the code would be a bit messed up
-            slope, intercept, r_value, p_value, std_err = stats.linregress(data[x], data[y])
+
+            # Calculate regression with statsmodels
+            data_sorted = data.sort_values(by=x)
+            X = data_sorted.iloc[:, 0]
+            X = statsmodels.tools.add_constant(X)
+            Y = data_sorted.iloc[:, 1]
+            model = statsmodels.regression.linear_model.OLS(Y, X)
+            result = model.fit()
+
             # TODO output with the precision of the data
-            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (slope, intercept)
+            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
         sample_result += '\n'
 
         standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
@@ -835,7 +843,7 @@ class CogStatData:
         # Make graphs
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev == 'int':
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y,
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, result.params[1], result.params[0], x, y,
                                                                xlims=xlims, ylims=ylims)
         else:
             sample_graph = None
