@@ -12,7 +12,6 @@ Upcoming release (2022)
   - Independent two-samples t-test
 - Post hoc Durbin-Conover test after significant Friedman test
 - Display the filtered cases when filtering outliers
-- Regression is now done using the statsmodels package instead of the numpy package
 
 ## Fixes
 - Various GUI, data import, analysis, and output fixes
