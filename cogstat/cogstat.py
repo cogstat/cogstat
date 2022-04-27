@@ -826,6 +826,7 @@ class CogStatData:
         elif meas_lev == 'int':
             # Calculate regression with statsmodels
             import statsmodels.regression
+            import statsmodels.tools
             data_sorted = data.sort_values(by=x) # Sorting needed for subsequent plots to work
             X = data_sorted.iloc[:, 0]
             X = statsmodels.tools.add_constant(X)
