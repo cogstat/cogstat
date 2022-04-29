@@ -163,7 +163,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of valid pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
             # jamovi 2.0.0.0 -0.141
-        self.assertTrue('<i>r</i> = -0.141' in result[4])
+        self.assertTrue('<i>r</i> = -0.141' in result[5])
             # jamovi 2.0.0.0 [-0.477, 0.231]
         self.assertTrue('[-0.477, 0.231]' in result[8])
             # jamovi 2.0.0.0 p 0.456
@@ -174,7 +174,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('BF<sub>10</sub> = 0.30, BF<sub>01</sub> = 3.38' in result[9])
         self.assertTrue('y = -21.811x + 300.505' in result[3])
             # jamovi 2.0.0.0 -0.363
-        self.assertTrue('-0.363' in result[4])
+        self.assertTrue('-0.363' in result[5])
             # TODO validate
         self.assertTrue('[-0.640, -0.003]' in result[8])
             # jamovi 2.0.0.0 p 0.049 (0.04919 with more precision) TODO

@@ -843,6 +843,7 @@ class CogStatData:
         sample_result += '\n'
 
         standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
+        standardized_effect_size_result += '\n'
 
         # Make graphs
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
@@ -868,9 +869,9 @@ class CogStatData:
 
         population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev)+ '\n'
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, standardized_effect_size_result,
-                                       sample_graph, residual_title, residual_graph,  estimation_result,
-                                       population_result])
+        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
+                                       standardized_effect_size_result, residual_title, residual_graph,
+                                       estimation_result, population_result])
 
     #correlations(x,y)  # test
 
