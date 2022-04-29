@@ -528,6 +528,51 @@ def create_variable_population_chart(data, var_name, stat, ci=None):
 ### Charts for Explore variable pairs ###
 #########################################
 
+def create_residual_chart(data, meas_lev, x, residuals=None):
+
+    """
+    :params data: The dataframe.
+    :params meas_lev: The measurement level of the variabels.
+    :params x: Variable X.
+    :params residuals: Residuals to plot from the regression analysis.
+    :return: A residual plot and a histogram of residuals.
+
+    """
+
+    if meas_lev == 'int':
+        val_count = data.value_counts()
+        if max(val_count) > 1:
+            plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
+                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
+
+        # Using GridSpec
+        fig = plt.figure()
+        gs = plt.GridSpec(1,3, figure=fig)
+        ax_res_plot = fig.add_subplot(gs[0,:-1])
+        ax_hist = fig.add_subplot(gs[0,2], sharey=ax_res_plot)
+
+        ax_res_plot.plot(data[x], residuals, '.')
+        ax_res_plot.axhline(y=0)
+        ax_res_plot.set_title("Residual plot")
+        ax_res_plot.set_xlabel(x)
+        ax_res_plot.set_ylabel("Residuals")
+
+        n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
+        normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
+        ax_hist.plot(normal_distribution, bins, "--")
+        ax_hist.set_title("Histogram of residuals")
+        # ax_hist.set_xlabel("Frequency")
+
+        plt.setp(ax_hist.get_yticklabels(), visible=False)
+        plt.setp(ax_hist.get_yticklabels(minor=True), visible=False)
+        plt.setp(ax_hist.get_xticklabels(), visible=False)
+        plt.setp(ax_hist.get_xticklabels(minor=True), visible=False)
+        fig.tight_layout()
+        fig.subplots_adjust(wspace=0.05)
+
+    graph = plt.gcf()
+    return graph
+
 
 def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=False, xlims=[None, None],
                                ylims=[None, None]):

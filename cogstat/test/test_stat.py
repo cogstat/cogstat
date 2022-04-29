@@ -165,20 +165,20 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 -0.141
         self.assertTrue('<i>r</i> = -0.141' in result[4])
             # jamovi 2.0.0.0 [-0.477, 0.231]
-        self.assertTrue('[-0.477, 0.231]' in result[6])
+        self.assertTrue('[-0.477, 0.231]' in result[8])
             # jamovi 2.0.0.0 p 0.456
-        self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.14, <i>p</i> = .456" in result[7])  # <i>r</i>(28) = -0.141
+        self.assertTrue("Pearson's correlation: <i>r</i>(28) = -0.14, <i>p</i> = .456" in result[9])  # <i>r</i>(28) = -0.141
             # jamovi 2.0.0.0 A -21.8 Intercept 300.5
         # Bayes Factor for Pearson
             # JASP 0.16 BF10: 0.296, BF01: 3.379
-        self.assertTrue('BF<sub>10</sub> = 0.30, BF<sub>01</sub> = 3.38' in result[7])
+        self.assertTrue('BF<sub>10</sub> = 0.30, BF<sub>01</sub> = 3.38' in result[9])
         self.assertTrue('y = -21.811x + 300.505' in result[3])
             # jamovi 2.0.0.0 -0.363
         self.assertTrue('-0.363' in result[4])
             # TODO validate
-        self.assertTrue('[-0.640, -0.003]' in result[6])
+        self.assertTrue('[-0.640, -0.003]' in result[8])
             # jamovi 2.0.0.0 p 0.049 (0.04919 with more precision) TODO
-        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.36, <i>p</i> = .048" in result[7])  # <i>r<sub>s</sub></i>(28) = -0.363
+        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.36, <i>p</i> = .048" in result[9])  # <i>r<sub>s</sub></i>(28) = -0.363
 
         # Ord variables
         data.data_measlevs['a'] = 'ord'
