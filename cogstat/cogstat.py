@@ -828,10 +828,10 @@ class CogStatData:
             import statsmodels.regression
             import statsmodels.tools
             data_sorted = data.sort_values(by=x) # Sorting needed for subsequent plots to work
-            X = data_sorted.iloc[:, 0]
-            X = statsmodels.tools.add_constant(X)
-            Y = data_sorted.iloc[:, 1]
-            model = statsmodels.regression.linear_model.OLS(Y, X)
+            x_var = data_sorted.iloc[:, 0]
+            x_var = statsmodels.tools.add_constant(x_var)
+            y_var = data_sorted.iloc[:, 1]
+            model = statsmodels.regression.linear_model.OLS(y_var, x_var)
             result = model.fit()
 
             # TODO output with the precision of the data
