@@ -561,14 +561,14 @@ def create_residual_chart(data, meas_lev, x, residuals=None):
 
         ax_res_plot.plot(data[x], residuals, '.')
         ax_res_plot.axhline(y=0)
-        ax_res_plot.set_title("Residual plot")
+        ax_res_plot.set_title(_plt("Residual plot"))
         ax_res_plot.set_xlabel(x)
-        ax_res_plot.set_ylabel("Residuals")
+        ax_res_plot.set_ylabel(_plt("Residuals"))
 
         n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
         normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
         ax_hist.plot(normal_distribution, bins, "--")
-        ax_hist.set_title("Histogram of residuals")
+        ax_hist.set_title(_plt("Histogram of residuals"))
         # ax_hist.set_xlabel("Frequency")
 
         plt.setp(ax_hist.get_yticklabels(), visible=False)
