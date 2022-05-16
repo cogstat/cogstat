@@ -531,12 +531,20 @@ def create_variable_population_chart(data, var_name, stat, ci=None):
 def create_residual_chart(data, meas_lev, x, residuals=None):
 
     """
-    :params data: The dataframe.
-    :params meas_lev: The measurement level of the variabels.
-    :params x: Variable X.
-    :params residuals: Residuals to plot from the regression analysis.
-    :return: A residual plot and a histogram of residuals.
 
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev : {'int', 'ord', 'nom', 'unk'}
+        Measurement level of the variables
+    x : str
+        Name of the x variable.
+    residuals : pandas Series
+        Residuals to plot from the regression analysis.
+
+    Returns
+    -------
+    matplotlib chart
     """
 
     if meas_lev == 'int':
