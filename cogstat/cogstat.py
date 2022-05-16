@@ -829,10 +829,10 @@ class CogStatData:
             # Calculate regression with statsmodels
             import statsmodels.regression
             import statsmodels.tools
-            data_sorted = data.sort_values(by=x) # Sorting needed for subsequent plots to work
-            x_var = data_sorted.iloc[:, 0]
+
+            x_var = data.iloc[:, 0]
             x_var = statsmodels.tools.add_constant(x_var)
-            y_var = data_sorted.iloc[:, 1]
+            y_var = data.iloc[:, 1]
             model = statsmodels.regression.linear_model.OLS(y_var, x_var)
             result = model.fit()
             residuals = result.resid
