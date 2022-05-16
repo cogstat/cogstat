@@ -31,7 +31,6 @@ from . import cogstat_stat as cs_stat
 from . import cogstat_hyp_test as cs_hyp_test
 from . import cogstat_util as cs_util
 from . import cogstat_chart as cs_chart
-from .cogstat_chart import create_residual_chart
 cs_util.get_versions()
 
 logging.root.setLevel(logging.INFO)
@@ -851,7 +850,7 @@ class CogStatData:
 
             # Residual analysis
             residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
-            residual_graph = create_residual_chart(data, meas_lev, x, residuals=residuals)
+            residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, residuals=residuals)
 
             # Sample scatterplot with regression line
             sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, result.params[1], result.params[0], x, y,
