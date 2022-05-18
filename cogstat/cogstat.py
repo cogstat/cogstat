@@ -821,28 +821,38 @@ class CogStatData:
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        residual_title = None
+        residual_graph = None
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
             # Calculate regression with statsmodels
             import statsmodels.regression
             import statsmodels.tools
-            data_sorted = data.sort_values(by=x) # Sorting needed for subsequent plots to work
-            X = data_sorted.iloc[:, 0]
-            X = statsmodels.tools.add_constant(X)
-            Y = data_sorted.iloc[:, 1]
-            model = statsmodels.regression.linear_model.OLS(Y, X)
+
+            x_var = data.iloc[:, 0]
+            x_var = statsmodels.tools.add_constant(x_var)
+            y_var = data.iloc[:, 1]
+            model = statsmodels.regression.linear_model.OLS(y_var, x_var)
             result = model.fit()
+            residuals = result.resid
 
             # TODO output with the precision of the data
             sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
         sample_result += '\n'
 
         standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
+        standardized_effect_size_result += '\n'
 
         # Make graphs
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev == 'int':
+
+            # Residual analysis
+            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
+            residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, residuals=residuals)
+
+            # Sample scatterplot with regression line
             sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, result.params[1], result.params[0], x, y,
                                                                xlims=xlims, ylims=ylims)
         else:
@@ -858,8 +868,9 @@ class CogStatData:
 
         population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev)+ '\n'
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, standardized_effect_size_result,
-                                       sample_graph, estimation_result, population_result])
+        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
+                                       standardized_effect_size_result, residual_title, residual_graph,
+                                       estimation_result, population_result])
 
     #correlations(x,y)  # test
 

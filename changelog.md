@@ -12,6 +12,8 @@ Upcoming release (2022)
   - Independent two-samples t-test
 - Post hoc Durbin-Conover test after significant Friedman test
 - Display the filtered cases when filtering outliers
+- Extended regression analyses (Tamás Szűcs)
+  - Residual plot added
 
 ## Fixes
 - Various GUI, data import, analysis, and output fixes
