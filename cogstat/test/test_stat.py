@@ -15,18 +15,35 @@ print(cs.__version__)
 print(os.path.abspath(cs.__file__))
 
 """
-- All statistical value should be tested at least once.
-- All leafs of the decision tree should be tested once.
-- Tests shouldn't give p<0.001 results, because exact values cannot be tested. 
-- No need to test the details of the statistical methods imported from other modules, 
-because that is the job of that specific module.
-- All data variables should be used with 3 digits decimal precision, to ensure that copying 
+Test the statistical calculations in CogStat.  
+- All calculated statistical value should be tested at least once.
+- All leafs of the decision tree should be tested only once, i.e., no need to test the same leaf in various analyses. 
+- Choose data for hypothesis tests so that the tests shouldn't give p<0.001 results because exact p-values cannot be 
+tested this way. 
+- No need to test the details of the statistical methods imported from other modules (e.g., results that are not 
+displayed in CogStat, correct data handling) because that is the job of that specific module.
+- All numerical data values should be used with 3 digits decimal precision, to ensure that copying 
 the data for validation no additional rounding happens.
-- Validated results should be added as a comment here: validating software, version, optionally information about how thw analysis can be run, result, any comments
+
+Validate the calculations of CogStat with other software packages.
+- Prefer popular software packages that are applied most often by users, such as SPSS, jamovi, JASP
+- Get the data of the calculation tests and run the same analyses in the validation software 
+- Validated results should be added as a comment here:
+    validating software, version, optionally information about how the analysis can be run, result, any comments
+- A single calculation result can be validated in multiple software packages 
+- If a statistic is not available in a popular software, a note can be added that it is not available
+- When other software and CogStat return different results, then (if the difference is caused by various valid versions 
+of the calculation then) either add the cause of the difference to the user documentation or (if CogStat  calculated 
+the result incorrectly) fix the bug. After a calculation bug is fixed, always add a warning to the release note.
+- Software specific notes
+    - In JASP, decimals cannot be used as ordinal numbers. To validate related calculations, you may multiply the values 
+    by 1000 so that they'll be round numbers but the order information is kept.
+
 """
 
 #cs.output_type = 'do not format'
 
+# Generate the dataset on which the tests will be performed
 np.random.seed(555)
 # https://docs.scipy.org/doc/numpy/reference/routines.random.html
 # Make sure to use round function to have the same precision of the data when copied to other software
@@ -60,6 +77,7 @@ data_pd = pd.DataFrame(data_np.T, columns=
 data = cs.CogStatData(data=data_pd, measurement_levels=['int', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int', 'nom',
                                                        'nom', 'nom', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int'])
 
+# display the data so that it can be copied to validating software packages
 #pd.set_option('display.expand_frame_repr', False)
 #print (data_pd)
 
@@ -137,14 +155,21 @@ class CogStatTestCase(unittest.TestCase):
         result = data.explore_variable('a', 1, 2.0)
         self.assertTrue('N of valid cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
+             # JASP 0.15.0.0 9.981
         self.assertTrue('<td>Maximum</td>      <td>9.9810</td>' in result[4])
+            # JASP 0.15.0.0 4.388
         self.assertTrue('<td>Upper quartile</td>      <td>4.3875</td>' in result[4])
+            # JASP 0.15.0.0 2.854
         self.assertTrue('<td>Median</td>      <td>2.8545</td>' in result[4])
+            # JASP 0.15.0.0 1.419
         self.assertTrue('<td>Lower quartile</td>      <td>1.4190</td>' in result[4])
+            # JASP 0.15.0.0 -2.803
         self.assertTrue('<td>Minimum</td>      <td>-2.8030</td>' in result[4])
         # TODO median CI
         # Wilcoxon signed-rank test
+            # Note that the test value is 2 here.
             # jamovi 2.0.0.0 W(!) 320, p 0.073
+            # JASP 0.15.0.0 W(!) 320, p 0.073
             # TODO https://github.com/cogstat/cogstat/issues/31
         self.assertTrue('T</i> = 145' in result[9])
         self.assertTrue('p</i> = .074' in result[9])
@@ -153,6 +178,7 @@ class CogStatTestCase(unittest.TestCase):
         # Nominal variable
         #result = data.explore_variable('c')
         # TODO variation ratio
+            # not available in JASP 0.16.1
         # TODO multinomial proportion CI
 
     def test_explore_variable_pairs(self):
@@ -175,17 +201,21 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('y = -21.811x + 300.505' in result[3])
             # jamovi 2.0.0.0 -0.363
         self.assertTrue('-0.363' in result[5])
-            # TODO validate
+            # JASP 0.15.0.0 [-0.640, -0.003] Spearman's confidence interval
         self.assertTrue('[-0.640, -0.003]' in result[8])
             # jamovi 2.0.0.0 p 0.049 (0.04919 with more precision) TODO
+            # JASP 0.15.0.0 -0.363 p 0.049 TODO
         self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.36, <i>p</i> = .048" in result[9])  # <i>r<sub>s</sub></i>(28) = -0.363
 
         # Ord variables
         data.data_measlevs['a'] = 'ord'
         data.data_measlevs['b'] = 'ord'
         result = data.explore_variable_pair('a', 'b')
+            # JASP 0.15.0.0 -0.363
         self.assertTrue('-0.363' in result[4])
+            # JASP 0.15.0.0 [-0.640, -0.003]
         self.assertTrue('[-0.640, -0.003]' in result[5])
+            # JASP 0.15.0.0 -0.363 p 0.049 TODO
         self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.36, <i>p</i> = .048" in result[6])  # <i>r<sub>s</sub></i>(28) = -0.363
         data.data_measlevs['a'] = 'int'
         data.data_measlevs['b'] = 'int'
@@ -271,9 +301,12 @@ class CogStatTestCase(unittest.TestCase):
         result = data.compare_variables(['a', 'e', 'g'])
             # jamovi 2.0.0.0 3.14, 3.05, 5.73
         self.assertTrue('<td>3.1438</td>      <td>3.0502</td>      <td>5.7295</td>' in result[3])
-            # TODO validate
+            # Shapiro–Wilk
+            # JASP 0.15.0.0 0.959 TODO p
         self.assertTrue('a: <i>W</i> = 0.96, <i>p</i> = .287' in result[7])  # <i>W</i> = 0.959
+            # JASP 0.15.0.0 0.966 TODO p
         self.assertTrue('e: <i>W</i> = 0.97, <i>p</i> = .435' in result[7])  # <i>W</i> = 0.966
+            # JASP 0.15.0.0 0.946 TODO p
         self.assertTrue('g: <i>W</i> = 0.95, <i>p</i> = .133' in result[7])  # <i>W</i> = 0.946
             # jamovi 2.0.0.0 0.975 0.703
         self.assertTrue('sphericity: <i>W</i> = 0.98, <i>p</i> = .703' in result[7])  # <i>W</i> = 0.975
@@ -289,6 +322,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<td>3.1438</td>      <td>3.0502</td>      <td>6.5786</td>' in result[3])
         self.assertTrue('a: <i>W</i> = 0.96, <i>p</i> = .287' in result[7])  # <i>W</i> = 0.959
         self.assertTrue('e: <i>W</i> = 0.97, <i>p</i> = .435' in result[7])  # <i>W</i> = 0.966
+            # JASP 0.15.0.0 0.980 TODO p
         self.assertTrue('h: <i>W</i> = 0.98, <i>p</i> = .824' in result[7])
             # jamovi 2.0.0.0  0.793, 0.039
         self.assertTrue('sphericity: <i>W</i> = 0.79, <i>p</i> = .039' in result[7])  # <i>W</i> = 0.793
@@ -324,6 +358,7 @@ class CogStatTestCase(unittest.TestCase):
         data.data_measlevs['e'] = 'ord'
         data.data_measlevs['f'] = 'ord'
         result = data.compare_variables(['e', 'f'])
+            # JASP 0.15.0.0 2.3895, 4.2275
         self.assertTrue('<td>2.3895</td>      <td>4.2275</td>' in result[3])
         # Wilcoxon signed-rank test
             # jamovi 2.0.0.0 110, 0.011 TODO
@@ -331,6 +366,7 @@ class CogStatTestCase(unittest.TestCase):
 
         # 3 Ord variables
         result = data.compare_variables(['a', 'e', 'f'])
+            # JASP 0.15.0.0 2.8545, 2.3895, 4.2275
         self.assertTrue('<td>2.8545</td>      <td>2.3895</td>      <td>4.2275</td>' in result[3])
             # jamovi 2.0.0.0 6.47, 0.039
         self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 6.47, <i>p</i> = .039' in result[6])
@@ -341,6 +377,8 @@ class CogStatTestCase(unittest.TestCase):
         # 2 Nom variables
         result = data.compare_variables(['i', 'j'])
         # TODO on Linux the row labels are 0.0 and 1.0 instead of 0 and 1
+             # JASP 0.15.0.0 0, 4, 9, 13
+             # JASP 0.15.0.0 1, 9, 8, 17
         self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>      <td>13</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])
         # McNemar
             # jamovi 2.0.0.0 0.00, 1.000 TODO https://github.com/cogstat/cogstat/issues/55
@@ -350,6 +388,7 @@ class CogStatTestCase(unittest.TestCase):
         result = data.compare_variables(['i', 'j', 'k'])
         # Cochran's Q
             # TODO validate
+            # not available in JASP and jamovi?
         self.assertTrue('<i>Q</i>(2, <i>N</i> = 30) = 0.78, <i>p</i> = .676' in result[7])  # <i>Q</i>(2, <i>N</i> = 30) = 0.783
 
     def test_compare_groups(self):
@@ -465,12 +504,22 @@ class CogStatTestCase(unittest.TestCase):
 
         # 3 × 3 Int groups
         result = data.compare_groups('a', ['c', 'd'])
+        # JASP does not handle groups with a single participant. Jamovi does.
+            # jamovi 2.2.5 1.070, 1.844, 2.369
         self.assertTrue('<td>Mean</td>      <td>1.0695</td>      <td>1.8439</td>      <td>2.3693</td>' in result[3])
+            # jamovi 2.2.5 3.12, 2.23, 4.92 - jamovi calculates the population estimation
+            # LibreOffice 7.3.3.2 pivot table with StDevP (and not StDev) 2.70051934819953, 2.08907368452503, 4.26098869835394
+
         self.assertTrue('<td>Standard deviation</td>      <td>2.7005</td>      <td>2.0891</td>      <td>4.2610</td>' in result[3])
+            # jamovi 2.2.5 4.413, 4.789, 9.160
         self.assertTrue('<td>Maximum</td>      <td>4.4130</td>      <td>4.7890</td>      <td>9.1600</td>' in result[3])
+            # jamovi 2.2.5 3.000, 3.021, 4.403
         self.assertTrue('<td>Upper quartile</td>      <td>3.0000</td>      <td>3.0213</td>      <td>4.4028</td>' in result[3])
+            # jamovi 2.2.5 1.334, 2.459, 0.902
         self.assertTrue('<td>Median</td>      <td>1.3340</td>      <td>2.4590</td>      <td>0.9015</td>' in result[3])
+            # jamovi 2.2.5 -0.597, 0.887, -1.132
         self.assertTrue('<td>Lower quartile</td>      <td>-0.5965</td>      <td>0.8870</td>      <td>-1.1320</td>' in result[3])
+            # jamovi 2.2.5 -2.803, -2.289, -1.486
         self.assertTrue('<td>Minimum</td>      <td>-2.8030</td>      <td>-2.2890</td>      <td>-1.4860</td>' in result[3])
             # jamovi 2.0.0.0 0.962, 0.398; 0.536, 0.593; 1.145, 0.363
         self.assertTrue('<i>F</i>(2, 21) = 0.96, <i>p</i> = .398' in result[7])
@@ -480,6 +529,7 @@ class CogStatTestCase(unittest.TestCase):
     def test_single_case(self):
 
         # TODO validate
+        # not available in JASP or in jamovi
         # Test for the slope stat
         data = cs.CogStatData(data='''group	slope	slope_SE
 Patient	0.247	0.069
