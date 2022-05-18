@@ -2,8 +2,9 @@
 """
 This module contains functions for creating charts.
 
-Functions get the data (as pandas dataframe or as pandas series), and variable name(s) and other relevant parameters,
-and they return one or several graphs.
+Functions get the raw data (as pandas dataframe or as pandas series), and the variable name(s). Optionally, use further
+necessary parameters, but try to solve everything inside the chart to minimze the number of needed additional
+parameters. The functions return one or several graphs.
 """
 
 import gettext
@@ -57,7 +58,6 @@ matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
 if csc.language == 'th':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
 if csc.language == 'ko':
-    print('kjgjhgjhg')
     matplotlib.rcParams['font.sans-serif'][0:0] = ['NanumGothic', 'NanumMyeongjo']
 #print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
 matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
@@ -109,7 +109,7 @@ def _wrap_labels(labels):
 
 def _set_axis_measurement_level(ax, x_measurement_level, y_measurement_level):
     """
-    Set the axes types of the graph acording to the measurement levels of the variables.
+    Set the axes types of the graph according to the measurement levels of the variables.
     :param ax: ax object
     :param x_measurement_type: str 'nom', 'ord' or 'int'
     :param y_measurement_type: str 'nom', 'ord' or 'int'
@@ -528,9 +528,8 @@ def create_variable_population_chart(data, var_name, stat, ci=None):
 ### Charts for Explore variable pairs ###
 #########################################
 
-def create_residual_chart(data, meas_lev, x, residuals=None):
-
-    """
+def create_residual_chart(data, meas_lev, x, y):
+    """Draw a chart with residual plot and histogram of residuals
 
     Parameters
     ----------
@@ -539,12 +538,13 @@ def create_residual_chart(data, meas_lev, x, residuals=None):
         Measurement level of the variables
     x : str
         Name of the x variable.
-    residuals : pandas Series
-        Residuals to plot from the regression analysis.
+    y : str
+        Name of the x variable.
 
     Returns
     -------
     matplotlib chart
+        A residual plot and a histogram of residuals.
     """
 
     if meas_lev == 'int':
@@ -553,18 +553,25 @@ def create_residual_chart(data, meas_lev, x, residuals=None):
             plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
                          x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
-        # Using GridSpec
-        fig = plt.figure()
-        gs = plt.GridSpec(1,3, figure=fig)
-        ax_res_plot = fig.add_subplot(gs[0,:-1])
-        ax_hist = fig.add_subplot(gs[0,2], sharey=ax_res_plot)
+        import statsmodels.regression
+        import statsmodels.tools
+        residuals = statsmodels.regression.linear_model.OLS(data[y],statsmodels.tools.add_constant(data[x]))\
+            .fit().resid
 
+        # Two third on left for residual plot, one third on right for histogram of residuals
+        fig = plt.figure()
+        gs = plt.GridSpec(1, 3, figure=fig)
+        ax_res_plot = fig.add_subplot(gs[0, :2])
+        ax_hist = fig.add_subplot(gs[0, 2], sharey=ax_res_plot)
+
+        # Residual plot (scatter of x vs. residuals)
         ax_res_plot.plot(data[x], residuals, '.')
         ax_res_plot.axhline(y=0)
         ax_res_plot.set_title(_plt("Residual plot"))
         ax_res_plot.set_xlabel(x)
         ax_res_plot.set_ylabel(_plt("Residuals"))
 
+        # Histogram of residuals
         n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
         normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
         ax_hist.plot(normal_distribution, bins, "--")
@@ -577,8 +584,10 @@ def create_residual_chart(data, meas_lev, x, residuals=None):
         plt.setp(ax_hist.get_xticklabels(minor=True), visible=False)
         fig.tight_layout()
         fig.subplots_adjust(wspace=0.05)
+        graph = plt.gcf()
+    else:
+        graph = None
 
-    graph = plt.gcf()
     return graph
 
 

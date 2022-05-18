@@ -830,9 +830,9 @@ class CogStatData:
             import statsmodels.regression
             import statsmodels.tools
 
-            x_var = data.iloc[:, 0]
-            x_var = statsmodels.tools.add_constant(x_var)
-            y_var = data.iloc[:, 1]
+            # TODO check if this is needed
+            x_var = statsmodels.tools.add_constant(data[x])
+            y_var = data[y]
             model = statsmodels.regression.linear_model.OLS(y_var, x_var)
             result = model.fit()
             residuals = result.resid
@@ -850,7 +850,7 @@ class CogStatData:
 
             # Residual analysis
             residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
-            residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, residuals=residuals)
+            residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
 
             # Sample scatterplot with regression line
             sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, result.params[1], result.params[0], x, y,
