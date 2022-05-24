@@ -13,7 +13,9 @@ Upcoming release (2022)
 - Post hoc Durbin-Conover test after significant Friedman test
 - Display the filtered cases when filtering outliers
 - Extended regression analyses (Tamás Szűcs)
-  - Residual plot added
+  - Residual plot added 
+  - Confidence intervals added for regression parameters
+  - Population plot added with confidence band of regression line
 
 ## Fixes
 - Various GUI, data import, analysis, and output fixes

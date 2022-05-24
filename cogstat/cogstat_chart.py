@@ -591,28 +591,39 @@ def create_residual_chart(data, meas_lev, x, y):
     return graph
 
 
-def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=False, xlims=[None, None],
-                               ylims=[None, None]):
-    """
+def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False, regression=True, CI=False,
+                               xlims=[None, None], ylims=[None, None]):
+
+    """Draw a chart relating two variables with optional model fit and raw data
 
     Parameters
     ----------
     data : pandas dataframe
-    meas_lev
-    slope
-    intercept
-    x
-    y
-    raw_data
-    xlims :
-        List of values that may overwrite the automatic xlim values for interval and ordinal variables
-    ylims :
+    meas_lev : {'int', 'ord', 'nom', 'unk'}
+        Measurement level of the variables
+    x : str
+        Name of the x variable.
+    y : str
+        Name of the x variable.
+    result : statsmodels regression result object
+        Result of the regression analysis.
+    raw_data : Boolean
+        Displays raw data when True.
+    regression : Boolean
+        Displays the regression line when True.
+    CI : Boolean
+        Displays the CI band of the regression line if True.
+    xlims : list of two floats
+        List of values that may overwrite the automatic ylim values for interval and ordinal variables
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
     -------
-
+    matplotlib chart
+        A plot of the two variables optionally containing the raw data, regression line and its CI band.
     """
+
     if meas_lev in ['int', 'ord']:
 
         # Prepare the frequencies for the plot
@@ -637,17 +648,38 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=
 
         if meas_lev == 'int':
             # Display the data
-            ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
+            if raw_data:
+                ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
+                # ax.scatter(data[x], data[y], color=theme_colors[0], marker='o')
+                plt.title(_plt('Scatterplot of the variables'))
             # Display the linear fit for the plot
-            if not raw_data:
-                fit_x = [min(data.iloc[:, 0]), max(data.iloc[:, 0])]
-                fit_y = [slope*i+intercept for i in fit_x]
-                ax.plot(fit_x, fit_y, color=theme_colors[0])
+            if regression:
+                from statsmodels.stats.outliers_influence import summary_table
+                data_sorted = data.sort_values(by=x)
+                st, summary, ss2 = summary_table(result, alpha=0.05)
+
+                # Plotting regression line from statsmodels fitted values
+                fittedvalues = summary[:, 2]
+                ax.plot(data_sorted[x], fittedvalues, 'r-', label='OLS')
+
+                if CI:
+                    plt.title(_plt('Linear model and 95% CI'))
+                    # Calculate CIs
+                    predict_mean_ci_low, predict_mean_ci_upp = summary[:, 4:6].T
+
+                    # Plot CI band
+                    ax.plot(data_sorted[x], data_sorted[y], 'o', alpha=0)
+                    ax.plot(data_sorted[x], predict_mean_ci_low, '--', color=theme_colors[0])
+                    ax.plot(data_sorted[x], predict_mean_ci_upp, '--', color=theme_colors[0])
+                    ax.fill_between(data_sorted[x], predict_mean_ci_low, predict_mean_ci_upp, color=theme_colors[0], alpha=0.2)
+                else:
+                    plt.title(_plt('Linear model'))
+
             # Set the labels
-            plt.title(_plt('Scatterplot of the variables'))
             ax.set_xlabel(x)
             ax.set_ylabel(y)
             _set_axis_measurement_level(ax, 'int', 'int')
+
         elif meas_lev == 'ord':
             # Display the data
             ax.scatter(stats.rankdata(xvalues), stats.rankdata(yvalues),

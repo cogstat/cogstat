@@ -531,6 +531,51 @@ def confidence_interval_t(data, ci_only=True):
 
 ### Variable pairs ###
 
+def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n):
+    """
+    Calculate point and interval estimates of regression parameters in a regression analysis.
+
+    Parameters
+    ----------
+    slope : Slope of the regression line
+    intercept : Y-intercept of the regression line
+    std_err: Standard error of the slope
+    intercept_stderr: Standard error of the intercept
+    meas_lev: Measurement level of variables
+    n: Number of data points
+
+    Returns
+    -------
+    str
+        Table of the point and interval estimations
+    """
+    if meas_lev == "int":
+        regression_coefficients = '<cs_h3>' + _('Regression coefficients') + '</cs_h3>'
+        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+
+        # Calculate 95% CIs for slope and intercept
+        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
+        from scipy.stats import t
+        tinv = lambda p, df: abs(t.ppf(p / 2, df))
+        ts = tinv(0.05, n - 2)
+        slope_ci_low = slope - ts * std_err
+        slope_ci_high = slope + ts * std_err
+        intercept_ci_low = intercept - ts * intercept_stderr
+        intercept_ci_high = intercept + ts * intercept_stderr
+
+        pdf_result.loc[_("Slope")] = \
+            ['%0.3f' % (slope), '[%0.3f, %0.3f]' % (slope_ci_low, slope_ci_high)]
+
+        pdf_result.loc[_("Intercept")] = \
+            ['%0.3f' % (intercept), '[%0.3f, %0.3f]' % (intercept_ci_low, intercept_ci_high)]
+
+    else:
+        regression_coefficients = None
+    if regression_coefficients:
+        regression_coefficients += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
+                                                                         classes="table_cs_pd"))
+
+    return regression_coefficients
 
 def variable_pair_standard_effect_size(data, meas_lev, sample=True):
     """
