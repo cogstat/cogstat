@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains functions for statistical analysis.
-The functions will calculate the text and graphical results that are
-compiled in cogstat methods.
+This module contains functions for statistical analysis. The functions 
+calculate the text results that are compiled in the cogstat module.
 
 Arguments are the pandas data frame (pdf), and parameters (among others they
 are usually variable names).
-Output is text (html and some custom notations), images (matplotlib)
-and list of images.
+Output is text (html and some custom notations).
 
-Mostly scipy.stats, statsmodels and matplotlib is used to generate the results.
+Mostly scipy.stats and statsmodels are used to generate the results.
 """
 
 import gettext
@@ -22,10 +20,6 @@ import numpy as np
 import pandas as pd
 import pingouin
 from scipy import stats
-try:
-    from statsmodels.graphics.mosaicplot import mosaic
-except:
-    pass
 from statsmodels.stats.weightstats import DescrStatsW
 
 from . import cogstat_config as csc
