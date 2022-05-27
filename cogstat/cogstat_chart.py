@@ -660,7 +660,7 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
 
                 # Plotting regression line from statsmodels fitted values
                 fittedvalues = summary[:, 2]
-                ax.plot(data_sorted[x], fittedvalues, label='OLS', color=theme_colors[0])
+                ax.plot(data_sorted[x], fittedvalues, color=theme_colors[0])
 
                 if CI:
                     plt.title(_plt('Linear model and 95% CI'))

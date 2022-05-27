@@ -531,12 +531,18 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
 
     Parameters
     ----------
-    slope : Slope of the regression line
-    intercept : Y-intercept of the regression line
-    std_err: Standard error of the slope
-    intercept_stderr: Standard error of the intercept
-    meas_lev: Measurement level of variables
-    n: Number of data points
+    slope : float
+        Slope of the regression line
+    intercept : float
+        Y-intercept of the regression line
+    std_err: float
+        Standard error of the slope
+    intercept_stderr: float
+        Standard error of the intercept
+    meas_lev: str
+        Measurement level of variables
+    n: int
+        Number of data points
 
     Returns
     -------
