@@ -673,7 +673,9 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
                     ax.plot(data_sorted[x], predict_mean_ci_upp, '--', color=theme_colors[0])
                     ax.fill_between(data_sorted[x], predict_mean_ci_low, predict_mean_ci_upp, color=theme_colors[0], alpha=0.2)
                 else:
-                    plt.title(_plt('Linear model'))
+                    # This will overwrite plot title that was set when raw data are displayed
+                    # It assumes that regression and raw data are displayed
+                    plt.title(_plt('Scatter plot with linear regression line'))
 
             # Set the labels
             ax.set_xlabel(x)
