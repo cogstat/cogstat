@@ -204,7 +204,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('[-0.204, 0.498]' in result[11])
             # Pearson hypothesis test: jamovi 2.2.5.0 r 0.168 p 0.374
         self.assertTrue("Pearson's correlation: <i>r</i>(28) = 0.17, <i>p</i> = .374" in result[12])
-            # Spearman hypothesis test: jamovi 2.2.5.0 r_s 0.103 p 0.585
+            # Spearman hypothesis test: jamovi 2.2.5.0 r_s 0.103 p 0.585 TODO
         self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = 0.10, <i>p</i> = .586" in result[12])
             # Bayes Factor for Pearson JASP 0.16 BF10: 0.331, BF01: 3.023
         self.assertTrue('BF<sub>10</sub> = 0.33, BF<sub>01</sub> = 3.02' in result[12])
