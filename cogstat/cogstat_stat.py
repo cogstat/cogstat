@@ -564,10 +564,10 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         intercept_ci_high = intercept + ts * intercept_stderr
 
         pdf_result.loc[_("Slope")] = \
-            ['%0.3f' % (slope), '[%0.3f, %0.3f]' % (slope_ci_low, slope_ci_high)]
+            ['%0.3f' % slope, '[%0.3f, %0.3f]' % (slope_ci_low, slope_ci_high)]
 
         pdf_result.loc[_("Intercept")] = \
-            ['%0.3f' % (intercept), '[%0.3f, %0.3f]' % (intercept_ci_low, intercept_ci_high)]
+            ['%0.3f' % intercept, '[%0.3f, %0.3f]' % (intercept_ci_low, intercept_ci_high)]
 
     else:
         regression_coefficients = None
