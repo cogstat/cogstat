@@ -815,7 +815,7 @@ class CogStatData:
 
         # Raw data chart
         raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
-                                                        regression=False, xlims=[None, None], ylims=[None, None])
+                                                        regression=False, CI=False, xlims=xlims, ylims=ylims)
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
