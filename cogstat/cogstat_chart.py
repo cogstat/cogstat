@@ -604,15 +604,15 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
     x : str
         Name of the x variable.
     y : str
-        Name of the x variable.
+        Name of the y variable.
     result : statsmodels regression result object
         Result of the regression analysis.
-    raw_data : Boolean
+    raw_data : bool
         Displays raw data when True.
-    regression : Boolean
+    regression : bool
         Displays the regression line when True.
-    CI : Boolean
-        Displays the CI band of the regression line if True.
+    CI : bool
+        Displays the CI band of the regression line if True. This has an effect only if the regression parameter is set to True.
     xlims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
     ylims : list of two floats
@@ -650,6 +650,7 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
             # Display the data
             if raw_data:
                 ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
+                # this version in the comment would not make number pairs with multiple cases larger
                 # ax.scatter(data[x], data[y], color=theme_colors[0], marker='o')
                 plt.title(_plt('Scatterplot of the variables'))
             # Display the linear fit for the plot
@@ -663,7 +664,9 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
                 ax.plot(data_sorted[x], fittedvalues, color=theme_colors[0])
 
                 if CI:
-                    plt.title(_plt('Linear model and 95% CI'))
+                    # this will overwrite plot title that was set when raw data are displayed
+                     # It assumes that regression line and CI are displayed
+                    plt.title(_plt('Linear regression line with 95% CI'))
                     # Calculate CIs
                     predict_mean_ci_low, predict_mean_ci_upp = summary[:, 4:6].T
 
