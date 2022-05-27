@@ -851,7 +851,7 @@ class CogStatData:
             residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
 
             # Sample scatterplot with regression line
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True, regression=True, CI=False, 
                                                                xlims=xlims, ylims=ylims)
 
         else:
