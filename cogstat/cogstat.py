@@ -814,10 +814,8 @@ class CogStatData:
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
-        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, raw_data=True,
-                                                        xlims=xlims, ylims=ylims)
-                                                        # slope and intercept parameters are set to 0, but they
-                                                        # are not used with raw_data
+        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
+                                                        regression=False, CI=False, xlims=xlims, ylims=ylims)
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -830,9 +828,9 @@ class CogStatData:
             import statsmodels.regression
             import statsmodels.tools
 
-            # TODO check if this is needed
-            x_var = statsmodels.tools.add_constant(data[x])
-            y_var = data[y]
+            data_sorted = data.sort_values(by=x) # Sorting required for subsequent plots to work
+            x_var = statsmodels.tools.add_constant(data_sorted[x])
+            y_var = data_sorted[y]
             model = statsmodels.regression.linear_model.OLS(y_var, x_var)
             result = model.fit()
             residuals = result.resid
@@ -853,8 +851,9 @@ class CogStatData:
             residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
 
             # Sample scatterplot with regression line
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, result.params[1], result.params[0], x, y,
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True, regression=True, CI=False, 
                                                                xlims=xlims, ylims=ylims)
+
         else:
             sample_graph = None
 
@@ -862,15 +861,23 @@ class CogStatData:
         estimation_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
                             '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
         #pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        estimation_parameters, estimation_effect_size, population_graph = None, None, None
         if meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
-        estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
+        if meas_lev =='int':
+            estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
+                                                                                      result.bse[1],result.bse[0],
+                                                                                      meas_lev, len(data[x]))
+            population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=False, regression=True, CI=True,
+                               xlims=[None, None], ylims=[None, None])
+        estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
 
         population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev)+ '\n'
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
                                        standardized_effect_size_result, residual_title, residual_graph,
-                                       estimation_result, population_result])
+                                       estimation_result, estimation_parameters, population_graph,
+                                       estimation_effect_size, population_result])
 
     #correlations(x,y)  # test
 

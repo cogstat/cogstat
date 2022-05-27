@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains functions for statistical analysis.
-The functions will calculate the text and graphical results that are
-compiled in cogstat methods.
+This module contains functions for statistical analysis. The functions 
+calculate the text results that are compiled in the cogstat module.
 
 Arguments are the pandas data frame (pdf), and parameters (among others they
 are usually variable names).
-Output is text (html and some custom notations), images (matplotlib)
-and list of images.
+Output is text (html and some custom notations).
 
-Mostly scipy.stats, statsmodels and matplotlib is used to generate the results.
+Mostly scipy.stats and statsmodels are used to generate the results.
 """
 
 import gettext
@@ -22,10 +20,6 @@ import numpy as np
 import pandas as pd
 import pingouin
 from scipy import stats
-try:
-    from statsmodels.graphics.mosaicplot import mosaic
-except:
-    pass
 from statsmodels.stats.weightstats import DescrStatsW
 
 from . import cogstat_config as csc
@@ -531,6 +525,57 @@ def confidence_interval_t(data, ci_only=True):
 
 ### Variable pairs ###
 
+def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n):
+    """
+    Calculate point and interval estimates of regression parameters (slope, and intercept) in a regression analysis.
+
+    Parameters
+    ----------
+    slope : float
+        Slope of the regression line
+    intercept : float
+        Y-intercept of the regression line
+    std_err: float
+        Standard error of the slope
+    intercept_stderr: float
+        Standard error of the intercept
+    meas_lev: str
+        Measurement level of variables
+    n: int
+        Number of data points
+
+    Returns
+    -------
+    str
+        Table of the point and interval estimations
+    """
+    if meas_lev == "int":
+        regression_coefficients = '<cs_h3>' + _('Regression coefficients') + '</cs_h3>'
+        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+
+        # Calculate 95% CIs for slope and intercept
+        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
+        from scipy.stats import t
+        tinv = lambda p, df: abs(t.ppf(p / 2, df))
+        ts = tinv(0.05, n - 2)
+        slope_ci_low = slope - ts * std_err
+        slope_ci_high = slope + ts * std_err
+        intercept_ci_low = intercept - ts * intercept_stderr
+        intercept_ci_high = intercept + ts * intercept_stderr
+
+        pdf_result.loc[_("Slope")] = \
+            ['%0.3f' % (slope), '[%0.3f, %0.3f]' % (slope_ci_low, slope_ci_high)]
+
+        pdf_result.loc[_("Intercept")] = \
+            ['%0.3f' % (intercept), '[%0.3f, %0.3f]' % (intercept_ci_low, intercept_ci_high)]
+
+    else:
+        regression_coefficients = None
+    if regression_coefficients:
+        regression_coefficients += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
+                                                                         classes="table_cs_pd"))
+
+    return regression_coefficients
 
 def variable_pair_standard_effect_size(data, meas_lev, sample=True):
     """
