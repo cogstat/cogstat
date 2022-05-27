@@ -852,7 +852,7 @@ class CogStatData:
 
             # Sample scatterplot with regression line
             sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
-                                                               xlims=[None, None], ylims=[None, None])
+                                                               xlims=xlims, ylims=ylims)
 
         else:
             sample_graph = None
