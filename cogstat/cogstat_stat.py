@@ -527,7 +527,7 @@ def confidence_interval_t(data, ci_only=True):
 
 def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n):
     """
-    Calculate point and interval estimates of regression parameters in a regression analysis.
+    Calculate point and interval estimates of regression parameters (slope, and intercept) in a regression analysis.
 
     Parameters
     ----------
