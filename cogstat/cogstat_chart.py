@@ -3,7 +3,7 @@
 This module contains functions for creating charts.
 
 Functions get the raw data (as pandas dataframe or as pandas series), and the variable name(s). Optionally, use further
-necessary parameters, but try to solve everything inside the chart to minimze the number of needed additional
+necessary parameters, but try to solve everything inside the chart to minimize the number of needed additional
 parameters. The functions return one or several graphs.
 """
 
@@ -612,7 +612,8 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
     regression : bool
         Displays the regression line when True.
     CI : bool
-        Displays the CI band of the regression line if True. This has an effect only if the regression parameter is set to True.
+        Displays the CI band of the regression line if True. This has an effect only if the regression parameter is set
+        to True.
     xlims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
     ylims : list of two floats
@@ -665,7 +666,7 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
 
                 if CI:
                     # this will overwrite plot title that was set when raw data are displayed
-                     # It assumes that regression line and CI are displayed
+                    # It assumes that regression line and CI are displayed
                     plt.title(_plt('Linear regression line with 95% CI'))
                     # Calculate CIs
                     predict_mean_ci_low, predict_mean_ci_upp = summary[:, 4:6].T
@@ -674,7 +675,8 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
                     ax.plot(data_sorted[x], data_sorted[y], 'o', alpha=0)
                     ax.plot(data_sorted[x], predict_mean_ci_low, '--', color=theme_colors[0])
                     ax.plot(data_sorted[x], predict_mean_ci_upp, '--', color=theme_colors[0])
-                    ax.fill_between(data_sorted[x], predict_mean_ci_low, predict_mean_ci_upp, color=theme_colors[0], alpha=0.2)
+                    ax.fill_between(data_sorted[x], predict_mean_ci_low, predict_mean_ci_upp, color=theme_colors[0],
+                                    alpha=0.2)
                 else:
                     # This will overwrite plot title that was set when raw data are displayed
                     # It assumes that regression and raw data are displayed
