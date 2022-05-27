@@ -828,7 +828,6 @@ class CogStatData:
             import statsmodels.regression
             import statsmodels.tools
 
-            # TODO check if this is needed
             data_sorted = data.sort_values(by=x) # Sorting required for subsequent plots to work
             x_var = statsmodels.tools.add_constant(data_sorted[x])
             y_var = data_sorted[y]
