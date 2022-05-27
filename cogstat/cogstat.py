@@ -868,7 +868,7 @@ class CogStatData:
             estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
                                                                                       result.bse[1],result.bse[0],
                                                                                       meas_lev, len(data[x]))
-            population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, CI=True,
+            population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw=False, regression=True, CI=True,
                                xlims=[None, None], ylims=[None, None])
         estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
 
