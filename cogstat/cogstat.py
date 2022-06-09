@@ -265,7 +265,7 @@ class CogStatData:
                             # and if not boolean, etc. (int and float can occur in object dtype)
                             if not all(char in valid_chars for char in ind_data):
                                 non_ascii_vars.append(variable_name)
-                                break  #a fter finding the first non-ascii data, we can skip the rest variable data
+                                break  #after finding the first non-ascii data, we can skip the rest variable data
             if non_ascii_var_names:
                 self.import_message += '\n<warning><b>' + _('Recommended characters in variable names warning') + \
                                        '</b> ' + \
@@ -426,6 +426,7 @@ class CogStatData:
         # II. Set additional details for all import sources
 
         # Convert some values and data types
+        self.data_frame.columns = self.data_frame.columns.astype('str')  # variable names can only be strings
         _percent2float()
         _special_values_to_nan()
         _convert_dtypes()
