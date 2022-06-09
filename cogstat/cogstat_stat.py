@@ -525,7 +525,7 @@ def confidence_interval_t(data, ci_only=True):
 
 ### Variable pairs ###
 
-def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n):
+def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n, normality):
     """
     Calculate point and interval estimates of regression parameters (slope, and intercept) in a regression analysis.
 
@@ -543,6 +543,8 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         Measurement level of variables
     n: int
         Number of data points
+    normality: bool
+        True if variables follow a multivariate normal distribution.
 
     Returns
     -------
@@ -552,6 +554,13 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
     if meas_lev == "int":
         regression_coefficients = '<cs_h3>' + _('Regression coefficients') + '</cs_h3>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+
+        if not normality:
+            regression_coefficients += '\n' + '<decision>' + _(
+                'Assumption of normality violated for CI calculations. CIs may be biased.') + '</decision>'
+        else:
+            regression_coefficients += '\n' + '<decision>' + _('Assumption of normality for CI calculations met.') \
+                                       + '</decision>'
 
         # Calculate 95% CIs for slope and intercept
         # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
@@ -577,14 +586,23 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
 
     return regression_coefficients
 
-def variable_pair_standard_effect_size(data, meas_lev, sample=True):
-    """
+def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=None):
+    """Calculate standardized effect size measures.
     (Some stats are also calculated elsewhere, making the analysis slower, but separation is a priority.)
 
-    :param data:
-    :param meas_lev:
-    :param sample: True for sample descriptives, False for population estimations
-    :return:
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev : str
+        Measurement level of variables.
+    sample : bool
+        True for sample descriptives, False for population estimations.
+    normality: bool
+        True if the variables follow a multivariate normal distribution.
+
+    Returns
+    -------
+    html text
     """
     pdf_result = pd.DataFrame()
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
@@ -615,6 +633,15 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True):
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = \
                 ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+
+            if not normality:
+                standardized_effect_size_result += '\n' + '<decision>' \
+                                                   + _('Assumption of normality violated for CI calculations. '
+                                                       'CIs may be biased.') + '</decision>'
+            else:
+                standardized_effect_size_result += '\n' + '<decision>'+ _('Assumption of normality for CI '
+                                                                          'calculations met.') + '</decision>'
+
         if meas_lev in ['int', 'unk', 'ord']:
             df = len(data) - 2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])

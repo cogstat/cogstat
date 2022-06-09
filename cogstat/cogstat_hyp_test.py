@@ -237,6 +237,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     """Calculate Wilcoxon signed-rank test.
 
     Parameters
+    ---------
     pdf : pandas dataframe
 
     var_name : str
@@ -273,8 +274,63 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
+def multivariate_normality(pdf, var_names, group_name='', group_value='', alt_data=None):
+    """Henze-Zirkler test of multivariate normality.
 
-def variable_pair_hyp_test(data, x, y, meas_lev):
+        Parameters
+        ----------
+        pdf : pandas dataframe
+            It is sufficient to include only the relevant variables. It is assumed that nans are dropped.
+        var_names : str
+            Name of the variables to test.
+        group_name : str
+            Name of grouping variable if part of var_name should be checked. Otherwise ''.
+        group_value : str
+            Name of the group in group_name, if grouping is used.
+        alt_data : dataframe
+            If alt_data is specified, this one is used instead of self.data_frame.
+            This could be useful if some other data should be dropped, e.g., in variable comparison,
+            where cases are dropped based on missing cases in other variables.
+
+        Returns
+        -------
+        bool
+            True if normality is true.
+        html text
+            Output in APA format.
+
+        """
+
+    text_result = ''
+    if repr(alt_data) == 'None':
+        # bool(pd.data_frame) would stop on pandas 0.11
+        # that's why this weird alt_data check
+        temp_data = pdf
+    else:
+        temp_data = alt_data
+
+    if group_name:
+        data = temp_data[temp_data[group_name] == group_value][var_names].dropna()
+    else:
+        data = temp_data[var_names].dropna()
+    if len(set(data)) == 1:
+        return False, _('Normality cannot be checked for constant variable in %s%s.\n' %
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+    if len(data) < 3:
+        return False, _('Too small sample to test normality in variable %s%s.\n' %
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+    else:
+        import pingouin as pg
+        hz, p, sig = pg.multivariate_normality(data, alpha=.05)
+        var_names_str = ', '.join(var_names)
+        text_result += _('Henze-Zirkler test of multivariate normality in variables %s%s') % \
+                       (var_names_str, ' (%s: %s)' % (group_name, group_value) if group_name else '') + \
+                       ': <i>W</i> = %0.*f, %s\n' % (non_data_dim_precision, hz, print_p(p))
+
+    return sig, text_result
+
+
+def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
     """
     Run relevant hypothesis tests.
 
@@ -288,6 +344,8 @@ def variable_pair_hyp_test(data, x, y, meas_lev):
         name of the y variable in data
     meas_lev : {'int', 'ord', 'nom'}
         lowest measurement level of the data
+    normality: bool
+        true when variables follow a multivariate normal distribution.
 
     Returns
     -------
@@ -298,24 +356,37 @@ def variable_pair_hyp_test(data, x, y, meas_lev):
     if meas_lev == 'int':
         population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
                              _('Testing if correlation differs from 0.') + '</decision>\n'
-        population_result += '<decision>'+_('Interval variables.')+' >> ' + \
-                             _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
         df = len(data) - 2
-        r, p = stats.pearsonr(data[x], data[y])
-        population_result += _("Pearson's correlation") + \
-                             ': <i>r</i>(%d) = %0.*f, %s\n' % \
-                             (df, non_data_dim_precision, r, print_p(p))
-        # Bayesian test
-        bf10 = pingouin.bayesfactor_pearson(r, len(data))
-        population_result += _('Bayes Factor for Pearson correlation') + \
-                       ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
-                       (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
+
+        if normality:
+            population_result += '<decision>'+_('Interval variables.') + _('Normality not violated.') + ' >> ' + \
+                                 _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
+
+            r, p = stats.pearsonr(data[x], data[y])
+            population_result += _("Pearson's correlation") + \
+                                 ': <i>r</i>(%d) = %0.*f, %s\n' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+            # Bayesian test
+            bf10 = pingouin.bayesfactor_pearson(r, len(data))
+            population_result += _('Bayes Factor for Pearson correlation') + \
+                           ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                           (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
 
 
-        r, p = stats.spearmanr(data[x], data[y])
-        population_result += _("Spearman's rank-order correlation") + \
-                             ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
-                             (df, non_data_dim_precision, r, print_p(p))
+            r, p = stats.spearmanr(data[x], data[y])
+            population_result += _("Spearman's rank-order correlation") + \
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+
+        else:
+            population_result += '<decision>'+_('Interval variables.') + _('Normality violated.') + ' >> ' + \
+                                 _("Only running Spearman's correlation because of the violation of normality.") + '\n</decision>'
+
+            r, p = stats.spearmanr(data[x], data[y])
+            population_result += _("Spearman's rank-order correlation") + \
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+
     elif meas_lev == 'ord':
         population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
                              _('Testing if correlation differs from 0.') + '</decision>\n'
