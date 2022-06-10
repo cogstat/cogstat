@@ -822,7 +822,7 @@ class CogStatData:
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         residual_title = None
         residual_graph = None
-        normality = None
+        normality = None  # Are the two variables multivariate normal distributions?
         assumptions_result = None
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
