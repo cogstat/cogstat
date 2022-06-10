@@ -317,8 +317,8 @@ def multivariate_normality(pdf, var_names, group_name='', group_value='', alt_da
         return False, _('Normality cannot be checked for constant variable in %s%s.\n') %
                         (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
     if len(data) < 3:
-        return False, _('Too small sample to test normality in variable %s%s.\n' %
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+        return False, _('Too small sample to test normality in variable %s%s.\n') %
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
     else:
         import pingouin as pg
         hz, p, sig = pg.multivariate_normality(data, alpha=.05)
