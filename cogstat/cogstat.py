@@ -831,7 +831,7 @@ class CogStatData:
             # Test of multivariate normality
             assumptions_result = '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>\n'
             assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
-            normality, norm_text = cs_hyp_test.multivariate_normality(self.data_frame[[x, y]], [x, y])
+            normality, norm_text = cs_hyp_test.multivariate_normality(data, [x, y])
             assumptions_result += norm_text
 
             # Calculate regression with statsmodels
