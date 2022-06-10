@@ -6,7 +6,7 @@ Settings
 import os
 
 import configobj  # Would it be better to use the standard configparser module?
-from . import appdirs  # The module handles the OS-specific user config dirs
+import appdirs  # The module handles the OS-specific user config dirs
 
 # Settings not handled in cogstat.ini
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui' any other
