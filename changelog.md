@@ -14,7 +14,7 @@ Upcoming release (2022)
     - Residual plot added
     - Confidence intervals added for regression parameters
     - Population plot added with confidence band of regression line
-    - Henze-Zirkler test for assumption of multivariate normality
+    - :warning: Henze-Zirkler test for assumption of multivariate normality
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
 
