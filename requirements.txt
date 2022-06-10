@@ -10,6 +10,7 @@ odfpy
 xlrd
 openpyxl
 pyreadr
+appdirs
 configobj
 python-bidi
 IPython
