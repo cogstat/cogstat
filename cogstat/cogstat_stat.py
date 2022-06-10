@@ -558,6 +558,9 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         if not normality:
             regression_coefficients += '\n' + '<decision>' + _(
                 'Assumption of normality violated for CI calculations. CIs may be biased.') + '</decision>'
+        elif normality is None:
+            regression_coefficients += '\n' + '<decision>' + _(
+                'Normality could not be calculated. CIs may be biased.') + '</decision>'
         else:
             regression_coefficients += '\n' + '<decision>' + _('Assumption of normality for CI calculations met.') \
                                        + '</decision>'
@@ -638,6 +641,10 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                 standardized_effect_size_result += '\n' + '<decision>' \
                                                    + _('Assumption of normality violated for CI calculations. '
                                                        'CIs may be biased.') + '</decision>'
+            elif normality is None:
+                standardized_effect_size_result += '\n' + '<decision>' + _(
+                    'Normality could not be calculated. CIs may be biased.') + '</decision>'
+
             else:
                 standardized_effect_size_result += '\n' + '<decision>'+ _('Assumption of normality for CI '
                                                                           'calculations met.') + '</decision>'

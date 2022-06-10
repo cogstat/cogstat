@@ -194,6 +194,8 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>r</i> = 0.168' in result[5])
             # Spearman's correlation: jamovi 2.2.5.0 0.103
         self.assertTrue('<i>r<sub>s</sub></i> = 0.103' in result[5])
+            # Henze-Zirkler test: MVN 5.9 using R 4.1.3 statistic 0.3620904 p 0.6555329
+        self.assertTrue('<i>W</i> = 0.36, <i>p</i> = .655' in result[9])
             # Slope CI: jamovi 2.2.5.0 [-0.440, 1.13]
         self.assertTrue('[-0.440, 1.133]' in result[11])
             # Intercept CI: jamovi 2.2.5.0 [-0.517, 9.70]

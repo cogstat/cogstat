@@ -274,7 +274,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
-def multivariate_normality(pdf, var_names, group_name='', group_value='', alt_data=None):
+def multivariate_normality(pdf, var_names, group_name='', group_value=''):
     """Henze-Zirkler test of multivariate normality.
 
         Parameters
@@ -287,10 +287,6 @@ def multivariate_normality(pdf, var_names, group_name='', group_value='', alt_da
             Name of grouping variable if part of var_name should be checked. Otherwise ''.
         group_value : str
             Name of the group in group_name, if grouping is used.
-        alt_data : dataframe
-            If alt_data is specified, this one is used instead of self.data_frame.
-            This could be useful if some other data should be dropped, e.g., in variable comparison,
-            where cases are dropped based on missing cases in other variables.
 
         Returns
         -------
@@ -302,26 +298,19 @@ def multivariate_normality(pdf, var_names, group_name='', group_value='', alt_da
         """
 
     text_result = ''
-    if repr(alt_data) == 'None':
-        # bool(pd.data_frame) would stop on pandas 0.11
-        # that's why this weird alt_data check
-        temp_data = pdf
-    else:
-        temp_data = alt_data
 
     if group_name:
-        data = temp_data[temp_data[group_name] == group_value][var_names].dropna()
+        data = pdf[pdf[group_name] == group_value][var_names]
     else:
-        data = temp_data[var_names].dropna()
+        data = pdf[var_names]
     if len(set(data)) == 1:
-        return False, _('Normality cannot be checked for constant variable in %s%s.\n') %
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
+        return False, _('Normality cannot be checked for constant variable in %s%s.\n' %
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
     if len(data) < 3:
-        return False, _('Too small sample to test normality in variable %s%s.\n') %
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
+        return False, _('Too small sample to test normality in variable %s%s.\n' %
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
     else:
-        import pingouin as pg
-        hz, p, sig = pg.multivariate_normality(data, alpha=.05)
+        hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
         var_names_str = ', '.join(var_names)
         text_result += _('Henze-Zirkler test of multivariate normality in variables %s%s') % \
                        (var_names_str, ' (%s: %s)' % (group_name, group_value) if group_name else '') + \
