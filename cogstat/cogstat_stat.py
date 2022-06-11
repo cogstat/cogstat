@@ -555,15 +555,16 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         regression_coefficients = '<cs_h3>' + _('Regression coefficients') + '</cs_h3>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
-        if not normality:
+        if normality is None:
             regression_coefficients += '\n' + '<decision>' + _(
-                'Assumption of normality violated for CI calculations. CIs may be biased.') + '</decision>'
-        elif normality is None:
-            regression_coefficients += '\n' + '<decision>' + _(
-                'Normality could not be calculated. CIs may be biased.') + '</decision>'
+                'Normality could not be calculated.') + '</decision>'
+        elif not normality:
+            regression_coefficients += '\n' + '<decision>' \
+                                       + _('Assumption of normality violated for CI calculations. '
+                                           'CIs may be biased.') + '</decision>'
         else:
-            regression_coefficients += '\n' + '<decision>' + _('Assumption of normality for CI calculations met.') \
-                                       + '</decision>'
+            regression_coefficients += '\n' + '<decision>' + _('Assumption of normality for CI '
+                                                               'calculations met.') + '</decision>'
 
         # Calculate 95% CIs for slope and intercept
         # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
@@ -636,18 +637,17 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = \
                 ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
-
-            if not normality:
+            print(normality)
+            if normality is None:
+                standardized_effect_size_result += '\n' + '<decision>' + _(
+                    'Normality could not be calculated.') + '</decision>'
+            elif not normality:
                 standardized_effect_size_result += '\n' + '<decision>' \
                                                    + _('Assumption of normality violated for CI calculations. '
                                                        'CIs may be biased.') + '</decision>'
-            elif normality is None:
-                standardized_effect_size_result += '\n' + '<decision>' + _(
-                    'Normality could not be calculated. CIs may be biased.') + '</decision>'
-
             else:
-                standardized_effect_size_result += '\n' + '<decision>'+ _('Assumption of normality for CI '
-                                                                          'calculations met.') + '</decision>'
+                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of normality for CI '
+                                                                           'calculations met.') + '</decision>'
 
         if meas_lev in ['int', 'unk', 'ord']:
             df = len(data) - 2
