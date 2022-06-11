@@ -304,11 +304,12 @@ def multivariate_normality(pdf, var_names, group_name='', group_value=''):
     else:
         data = pdf[var_names]
     if len(set(data)) == 1:
-        return False, _('Normality cannot be checked for constant variable in %s%s.\n' %
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+        return None, _('Normality cannot be checked for constant variable in {0}{1}.\n').format(
+            var_names, ' ({0}: {1})'.format(group_name, group_value) if group_name else '')
     if len(data) < 3:
-        return False, _('Too small sample to test normality in variable %s%s.\n' %
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+        return None, _('Too small sample to test normality in variable {0}{1}.\n').format(
+            var_names, ' ({0}: {1})'.format(group_name, group_value) if group_name else '')
+
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
         var_names_str = ', '.join(var_names)
