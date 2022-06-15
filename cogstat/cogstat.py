@@ -822,9 +822,18 @@ class CogStatData:
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         residual_title = None
         residual_graph = None
+        normality = None  # Do the two variables follow a multivariate normal distribution?
+        assumptions_result = None
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
+
+            # Test of multivariate normality
+            assumptions_result = '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>\n'
+            assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
+            normality, norm_text = cs_hyp_test.multivariate_normality(data, [x, y])
+            assumptions_result += norm_text
+
             # Calculate regression with statsmodels
             import statsmodels.regression
             import statsmodels.tools
@@ -840,7 +849,8 @@ class CogStatData:
             sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
         sample_result += '\n'
 
-        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
+        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True,
+                                                                                     normality=normality)
         standardized_effect_size_result += '\n'
 
         # Make graphs
@@ -859,27 +869,29 @@ class CogStatData:
             sample_graph = None
 
         # 3. Population properties
-        estimation_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
-                            '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
-        #pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        population_properties_title = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
         estimation_parameters, estimation_effect_size, population_graph = None, None, None
+
         if meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
         if meas_lev =='int':
             estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
                                                                                   result.bse[1],result.bse[0],
-                                                                                  meas_lev, len(data[x]))
+                                                                                  meas_lev, len(data[x]), normality)
             population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=False,
                                                                    regression=True, CI=True,
                                                                    xlims=[None, None], ylims=[None, None])
-        estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
+        estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
+                                                                            normality=normality)
 
-        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev)+ '\n'
+        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality)+ '\n'
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
                                        standardized_effect_size_result, residual_title, residual_graph,
-                                       estimation_result, estimation_parameters, population_graph,
-                                       estimation_effect_size, population_result])
+                                       population_properties_title, assumptions_result, estimation_result,
+                                       estimation_parameters, population_graph, estimation_effect_size,
+                                       population_result])
 
     #correlations(x,y)  # test
 
