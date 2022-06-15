@@ -335,7 +335,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
     meas_lev : {'int', 'ord', 'nom'}
         lowest measurement level of the data
     normality: bool
-        true when variables follow a multivariate normal distribution.
+        True when variables follow a multivariate normal distribution.
 
     Returns
     -------
