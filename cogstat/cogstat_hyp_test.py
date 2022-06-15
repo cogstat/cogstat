@@ -290,8 +290,8 @@ def multivariate_normality(pdf, var_names, group_name='', group_value=''):
 
         Returns
         -------
-        bool
-            True if normality is true.
+        bool or None
+            True if normality is true. None if normality cannot be calculated.
         html text
             Output in APA format.
 
@@ -304,11 +304,11 @@ def multivariate_normality(pdf, var_names, group_name='', group_value=''):
     else:
         data = pdf[var_names]
     if len(set(data)) == 1:
-        return None, _('Normality cannot be checked for constant variable in {0}{1}.\n').format(
-            var_names, ' ({0}: {1})'.format(group_name, group_value) if group_name else '')
+        return None, _('Normality cannot be checked for constant variable in %s%s.\n') % \
+               (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
     if len(data) < 3:
-        return None, _('Too small sample to test normality in variable {0}{1}.\n').format(
-            var_names, ' ({0}: {1})'.format(group_name, group_value) if group_name else '')
+        return None, _('Too small sample to test normality in variable %s%s.\n') % \
+                       (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
 
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
@@ -334,8 +334,9 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
         name of the y variable in data
     meas_lev : {'int', 'ord', 'nom'}
         lowest measurement level of the data
-    normality: bool
-        True when variables follow a multivariate normal distribution.
+    normality: bool or None
+        True when variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
 
     Returns
     -------
@@ -368,7 +369,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
                                  ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
                                  (df, non_data_dim_precision, r, print_p(p))
 
-        else:
+        else:  # TODO or normality couldn't be calculated
             population_result += '<decision>'+_('Interval variables.') + _('Normality violated.') + ' >> ' + \
                                  _("Running Spearman's correlation.") + '\n</decision>'
 
