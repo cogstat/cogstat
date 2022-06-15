@@ -194,21 +194,23 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>r</i> = 0.168' in result[5])
             # Spearman's correlation: jamovi 2.2.5.0 0.103
         self.assertTrue('<i>r<sub>s</sub></i> = 0.103' in result[5])
+            # Henze-Zirkler test: MVN 5.9 using R 4.1.3 statistic 0.3620904 p 0.6555329
+        self.assertTrue('<i>W</i> = 0.36, <i>p</i> = .655' in result[9])
             # Slope CI: jamovi 2.2.5.0 [-0.440, 1.13]
-        self.assertTrue('[-0.440, 1.133]' in result[9])
+        self.assertTrue('[-0.440, 1.133]' in result[11])
             # Intercept CI: jamovi 2.2.5.0 [-0.517, 9.70]
-        self.assertTrue('[-0.517, 9.703]' in result[9])
+        self.assertTrue('[-0.517, 9.703]' in result[11])
             # Spearman CI: TODO validate
             # Currently validated with JASP, which uses bootstrapping while CogStat uses Fisher transform
-        self.assertTrue('[-0.267, 0.447]' in result[11])
+        self.assertTrue('[-0.267, 0.447]' in result[13])
             # Pearson CI: jamovi 2.2.5.0 [-0.204, 0.498]
-        self.assertTrue('[-0.204, 0.498]' in result[11])
+        self.assertTrue('[-0.204, 0.498]' in result[13])
             # Pearson hypothesis test: jamovi 2.2.5.0 r 0.168 p 0.374
-        self.assertTrue("Pearson's correlation: <i>r</i>(28) = 0.17, <i>p</i> = .374" in result[12])
+        self.assertTrue("Pearson's correlation: <i>r</i>(28) = 0.17, <i>p</i> = .374" in result[14])
             # Spearman hypothesis test: jamovi 2.2.5.0 r_s 0.103 p 0.585 TODO
-        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = 0.10, <i>p</i> = .586" in result[12])
+        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = 0.10, <i>p</i> = .586" in result[14])
             # Bayes Factor for Pearson: JASP 0.16 BF10: 0.331, BF01: 3.023
-        self.assertTrue('BF<sub>10</sub> = 0.33, BF<sub>01</sub> = 3.02' in result[12])
+        self.assertTrue('BF<sub>10</sub> = 0.33, BF<sub>01</sub> = 3.02' in result[14])
 
         # Ord variables
         data.data_measlevs['a'] = 'ord'
@@ -217,9 +219,9 @@ class CogStatTestCase(unittest.TestCase):
             # JASP 0.15.0.0 -0.363
         self.assertTrue('-0.363' in result[4])
             # JASP 0.15.0.0 [-0.640, -0.003]
-        self.assertTrue('[-0.640, -0.003]' in result[6])
+        self.assertTrue('[-0.640, -0.003]' in result[7])
             # JASP 0.15.0.0 -0.363 p 0.049 TODO
-        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.36, <i>p</i> = .048" in result[7])  # <i>r<sub>s</sub></i>(28) = -0.363
+        self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = -0.36, <i>p</i> = .048" in result[8])  # <i>r<sub>s</sub></i>(28) = -0.363
         data.data_measlevs['a'] = 'int'
         data.data_measlevs['b'] = 'int'
 
@@ -234,11 +236,11 @@ class CogStatTestCase(unittest.TestCase):
             # G*Power 3.1.9.6, Goodness of fit test, df=4: Contingency tables: 0.7868005
             #  TODO GPower gives 0.8707028 with df of 8; Seems like statsmodels GofChisquarePower calculates power
             #  with df=8; should we use 4 or 8 df? https://github.com/cogstat/cogstat/issues/134
-        self.assertTrue('effect size in w: 0.87' in result[7])
+        self.assertTrue('effect size in w: 0.87' in result[8])
         # Chi-squared
             # jamovi v1.2.19.0: X2, df, p, N: 8.31, 4, 0.081, 30
-        self.assertTrue('(4, <i>N</i> = 30) = 8.31' in result[7])  # (4, <i>N</i> = 30) = 8.312
-        self.assertTrue('<i>p</i> = .081' in result[7])
+        self.assertTrue('(4, <i>N</i> = 30) = 8.31' in result[8])  # (4, <i>N</i> = 30) = 8.312
+        self.assertTrue('<i>p</i> = .081' in result[8])
 
     def test_diffusion(self):
         """Test diffusion analysis"""
