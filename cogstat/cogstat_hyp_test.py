@@ -370,7 +370,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
 
         else:
             population_result += '<decision>'+_('Interval variables.') + _('Normality violated.') + ' >> ' + \
-                                 _("Only running Spearman's correlation because of the violation of normality.") + '\n</decision>'
+                                 _("Running Spearman's correlation.") + '\n</decision>'
 
             r, p = stats.spearmanr(data[x], data[y])
             population_result += _("Spearman's rank-order correlation") + \
