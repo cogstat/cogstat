@@ -196,6 +196,10 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>r<sub>s</sub></i> = 0.103' in result[5])
             # Henze-Zirkler test: MVN 5.9 using R 4.1.3 statistic 0.3620904 p 0.6555329
         self.assertTrue('<i>W</i> = 0.36, <i>p</i> = .655' in result[9])
+            # Henze-Zirkler test: MVN 5.9 using R 4.1.3 statistic 0.3620904 p 0.6555329
+        self.assertTrue('<i>W</i> = 0.36, <i>p</i> = .655' in result[9])
+            # Koenker's test: bptest(h~g, data=data, studentize=True) in lmtest 0.9-40 using R 4.1.3, BP 0.11333, df=1, p-value 0.7364
+        self.assertTrue('<i>LM</i> = 0.11, <i>p</i> = .737' in result[9])
             # Slope CI: jamovi 2.2.5.0 [-0.440, 1.13]
         self.assertTrue('[-0.440, 1.133]' in result[11])
             # Intercept CI: jamovi 2.2.5.0 [-0.517, 9.70]

@@ -526,7 +526,8 @@ def confidence_interval_t(data, ci_only=True):
 ### Variable pairs ###
 
 
-def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n, normality):
+def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n, normality,
+                                          homoscedasticity=None):
     """
     Calculate point and interval estimates of regression parameters (slope, and intercept) in a regression analysis.
 
@@ -536,30 +537,34 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         Slope of the regression line
     intercept : float
         Y-intercept of the regression line
-    std_err: float
+    std_err : float
         Standard error of the slope
-    intercept_stderr: float
+    intercept_stderr : float
         Standard error of the intercept
-    meas_lev: str
+    meas_lev : str
         Measurement level of variables
-    n: int
+    n : int
         Number of data points
-    normality: bool
+    normality : bool
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
+    homoscedasticity : bool
+        True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
+        if the parameter was not specified.
 
     Returns
     -------
     str
         Table of the point and interval estimations
     """
+    print(homoscedasticity)
     if meas_lev == "int":
         regression_coefficients = '<cs_h3>' + _('Regression coefficients') + '</cs_h3>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
+        # Warinings based on the results of the assumption tests
         if normality is None:
-            regression_coefficients += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' + \
-                                       _('CIs may be biased.') + '</decision>'
+            regression_coefficients += '\n' + '<decision>' + _('Normality could not be calculated!') + '</decision>'
         elif not normality:
             regression_coefficients += '\n' + '<decision>' \
                                        + _('Assumption of normality violated for CI calculations.') + ' ' + \
@@ -567,6 +572,18 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         else:
             regression_coefficients += '\n' + '<decision>' + _('Assumption of normality for CI calculations met.') + \
                                        '</decision>'
+
+        if homoscedasticity is None:
+            regression_coefficients += '\n' + '<decision>' + _('Homoscedasticity could not be calculated!') \
+                                       + '</decision>'
+        elif not homoscedasticity:
+            regression_coefficients += '\n' + '<decision>' \
+                                       + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                       _('CIs may be biased.') + '</decision>'
+        else:
+            regression_coefficients += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
+                                                               'calculations met.') + '</decision>'
+
 
         # Calculate 95% CIs for slope and intercept
         # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
@@ -593,7 +610,7 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
     return regression_coefficients
 
 
-def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=None):
+def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=None, homoscedasticity=None):
     """Calculate standardized effect size measures.
     (Some stats are also calculated elsewhere, making the analysis slower, but separation is a priority.)
 
@@ -607,11 +624,15 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     normality: bool or None
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
+    homoscedasticity : bool
+        True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
+        if the parameter was not specified.
 
     Returns
     -------
     html text
     """
+    print(homoscedasticity)
     pdf_result = pd.DataFrame()
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
     if sample:
@@ -641,9 +662,11 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = \
                 ['%0.3f' % r, '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+
+            # Warnings based on the results of the assumption tests
             if normality is None:
-                standardized_effect_size_result += '\n' + '<decision>' + _('Normality could not be calculated.') + \
-                                                   ' ' + _('CIs may be biased.') + '</decision>'
+                standardized_effect_size_result += '\n' + '<decision>' + _('Normality could not be calculated!') \
+                                                   + '</decision>'
             elif not normality:
                 standardized_effect_size_result += '\n' + '<decision>' + \
                                                    _('Assumption of normality violated for CI calculations.') + ' ' + \
@@ -651,6 +674,17 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             else:
                 standardized_effect_size_result += '\n' + '<decision>' + \
                                                    _('Assumption of normality for CI calculations met.') + '</decision>'
+
+            if homoscedasticity is None:
+                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated!')\
+                                                   + '</decision>'
+            elif not homoscedasticity:
+                standardized_effect_size_result += '\n' + '<decision>' \
+                                           + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+            else:
+                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
+                                                                           'calculations met.') + '</decision>'
 
         if meas_lev in ['int', 'unk', 'ord']:
             df = len(data) - 2

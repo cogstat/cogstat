@@ -274,6 +274,79 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
+def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
+    """Check homoscedasticity
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_names : str
+        Name of the variables to be checked.
+    residual : array
+        Residuals from the regression analysis.
+    group_name : str
+        Name of the grouping variable if part of var_name should be
+        checked. Otherwise ''.
+    group_value : str
+        Name of the group in group_name, if grouping is used.
+
+    Returns
+    -------
+    bool or None
+        False if data is heteroscedastic, None if heteroscedasticity cannot be caluclated.
+    html text
+        Output in APA format.
+    """
+
+    text_result = ''
+
+    if group_name:
+        data = pdf[pdf[group_name] == group_value][var_names]
+    else:
+        data = pdf[var_names]
+
+    if len(set(data)) == 1:
+        return None, _('Heteroscdasticity cannot be checked for constant variable in %s%s.\n' %
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+
+    if len(data) < 3:
+        return None, _('Too small sample to test heteroscedasticity in variable %s%s.\n' %
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+    else:
+        X = pdf[var_names[0]]
+        X = sm.add_constant(X)
+        Y = pdf[var_names[1]]
+
+        # The resid variable is ordered according to X, which leads to White's test producing a result that
+        # is different than the R function white_lm(). Accordingly we fit the model again, without ordering, and use
+        # these residuals for White's test
+        model = sm.regression.linear_model.OLS(Y,X)
+        result = model.fit()
+        residual_unsorted = result.resid
+
+        koenker = sm.stats.diagnostic.het_breuschpagan(sorted(residual), X, robust=True) # Need sorted() to have same result as R
+        lm_koenker = koenker[0]
+        p_koenker = koenker[1]
+
+        white = sm.stats.diagnostic.het_white(residual_unsorted, X)
+        lm_white = white[0]
+        p_white = white[1]
+
+        if p_koenker<0.05:
+            sig=False
+        elif p_white<0.05:
+            sig=False
+        else:
+            sig=True
+
+        text_result += _("Koenker's studentized score test") \
+                       + ": <i>LM</i> = %0.*f, %s\n" % (non_data_dim_precision, lm_koenker, print_p(p_koenker)) \
+                       + _("White's test") \
+                       + ': <i>LM</i> = %0.*f, %s\n' % (non_data_dim_precision, lm_white, print_p(p_white))
+
+        return sig, text_result
+
+
 def multivariate_normality(pdf, var_names, group_name='', group_value=''):
     """Henze-Zirkler test of multivariate normality.
 
