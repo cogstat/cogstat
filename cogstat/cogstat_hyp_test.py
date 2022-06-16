@@ -350,7 +350,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
         df = len(data) - 2
 
         if normality:
-            population_result += '<decision>'+_('Interval variables.') + _('Normality not violated.') + ' >> ' + \
+            population_result += '<decision>'+_('Interval variables.') + ' ' + _('Normality not violated.') + ' >> ' + \
                                  _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
 
             r, p = stats.pearsonr(data[x], data[y])
@@ -370,7 +370,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
                                  (df, non_data_dim_precision, r, print_p(p))
 
         else:  # TODO or normality couldn't be calculated
-            population_result += '<decision>'+_('Interval variables.') + _('Normality violated.') + ' >> ' + \
+            population_result += '<decision>'+_('Interval variables.') + ' ' + _('Normality violated.') + ' >> ' + \
                                  _("Running Spearman's correlation.") + '\n</decision>'
 
             r, p = stats.spearmanr(data[x], data[y])
