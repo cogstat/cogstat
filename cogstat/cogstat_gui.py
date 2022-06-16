@@ -399,7 +399,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
-                        
+        self.output_pane.moveCursor(QtGui.QTextCursor.End)
+
     ### Data menu methods ###
     def open_file(self, path=''):
         """Open data file.

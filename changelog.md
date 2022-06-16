@@ -22,6 +22,7 @@ Upcoming release (2022)
 - Various GUI, data import, analysis, and output fixes
 - Extended calculation validations (thanks to Dóra Hatvani)
 - Run from source more simply (thanks to Oliver Lindemann)
+- Various usability fixes (thanks to Ádám Szimilkó) 
 
 2.2.0 (1 November 2021)
 ================
