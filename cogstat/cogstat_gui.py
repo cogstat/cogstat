@@ -6,6 +6,7 @@ GUI for CogStat.
 # Splash screen
 import os
 import sys
+import random
 
 import importlib
 from PyQt5 import QtGui, QtWidgets
@@ -384,6 +385,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
         #print(self.output_pane.toHtml())
+
+        anchor = str(random.random())
+        self.output_pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
+
         for output in self.analysis_results[index].output:
             if isinstance(output, str):
                 self.output_pane.append(output)  # insertHtml() messes up the html doc,
@@ -395,11 +400,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 html = '<img src="data:image/png;base64,{0}">'.format(str(data.toBase64())[2:-1])
                 self.output_pane.append(html)
             elif output is None:
-                pass  # We simply don't do anything with None-s
+                pass  # We don't do anything with None-s
             else:
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
-        self.output_pane.moveCursor(QtGui.QTextCursor.End)
+        self.output_pane.scrollToAnchor(anchor)
+        #self.output_pane.moveCursor(QtGui.QTextCursor.End)
 
     ### Data menu methods ###
     def open_file(self, path=''):
