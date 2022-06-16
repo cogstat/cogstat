@@ -11,9 +11,9 @@ Upcoming release (2022)
     - Paired two-samples t-test
     - Independent two-samples t-test
 - Extended regression analyses (Tamás Szűcs)
-    - Residual plot added
-    - Confidence intervals added for regression parameters
-    - Population plot added with confidence band of regression line
+    - Residual plot
+    - Confidence intervals for regression parameters
+    - Population plot with confidence band of regression line
     - :warning: Henze-Zirkler test for assumption of multivariate normality
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
