@@ -548,7 +548,7 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
     normality : bool
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
-    homoscedasticity : bool
+    homoscedasticity : bool or None
         True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
         if the parameter was not specified.
 
