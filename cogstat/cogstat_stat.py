@@ -573,8 +573,8 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
                                        '</decision>'
 
         if homoscedasticity is None:
-            regression_coefficients += '\n' + '<decision>' + _('Homoscedasticity could not be calculated!') \
-                                       + '</decision>'
+            regression_coefficients += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' + \
+                                       _('CIs may be biased.') + '</decision>'
         elif not homoscedasticity:
             regression_coefficients += '\n' + '<decision>' \
                                        + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
