@@ -315,7 +315,7 @@ def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
     else:
         X = data[var_names[0]]
         X = sm.add_constant(X)
-        Y = pdf[var_names[1]]
+        Y = data[var_names[1]]
 
         # The resid variable is ordered according to X, which leads to White's test producing a result that
         # is different than the R function white_lm(). Accordingly we fit the model again, without ordering, and use
