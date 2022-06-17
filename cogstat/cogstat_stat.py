@@ -557,7 +557,6 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
     str
         Table of the point and interval estimations
     """
-    print(homoscedasticity)
     if meas_lev == "int":
         regression_coefficients = '<cs_h3>' + _('Regression coefficients') + '</cs_h3>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
