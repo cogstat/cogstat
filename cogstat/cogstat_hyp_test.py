@@ -280,7 +280,7 @@ def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
     Parameters
     ----------
     pdf : pandas dataframe
-    var_names : str
+    var_names : list of str
         Name of the variables to be checked.
     residual : array
         Residuals from the regression analysis.
@@ -332,19 +332,14 @@ def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
         lm_white = white[0]
         p_white = white[1]
 
-        if p_koenker<0.05:
-            sig=False
-        elif p_white<0.05:
-            sig=False
-        else:
-            sig=True
+        homoscedasticity = False if p_koenker<0.05 or p_white<0.05 else True
 
         text_result += _("Koenker's studentized score test") \
                        + ": <i>LM</i> = %0.*f, %s\n" % (non_data_dim_precision, lm_koenker, print_p(p_koenker)) \
                        + _("White's test") \
                        + ': <i>LM</i> = %0.*f, %s\n' % (non_data_dim_precision, lm_white, print_p(p_white))
 
-        return sig, text_result
+        return homoscedasticity, text_result
 
 
 def multivariate_normality(pdf, var_names, group_name='', group_value=''):
