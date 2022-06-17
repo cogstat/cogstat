@@ -632,7 +632,6 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     -------
     html text
     """
-    print(homoscedasticity)
     pdf_result = pd.DataFrame()
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
     if sample:
