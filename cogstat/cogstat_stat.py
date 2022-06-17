@@ -624,7 +624,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     normality: bool or None
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
-    homoscedasticity : bool
+    homoscedasticity : bool or None
         True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
         if the parameter was not specified.
 
