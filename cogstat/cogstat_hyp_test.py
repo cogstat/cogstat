@@ -306,8 +306,8 @@ def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
         data = pdf[var_names]
 
     if len(set(data)) == 1:
-        return None, _('Heteroscdasticity cannot be checked for constant variable in %s%s.\n' %
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+        return None, _('Heteroscedasticity cannot be checked for constant variable in %s%s.') %  \
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') +'\n'
 
     if len(data) < 3:
         return None, _('Too small sample to test heteroscedasticity in variable %s%s.\n' %
