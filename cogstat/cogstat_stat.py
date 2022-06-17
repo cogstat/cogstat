@@ -674,8 +674,8 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                                                    _('Assumption of normality for CI calculations met.') + '</decision>'
 
             if homoscedasticity is None:
-                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated!')\
-                                                   + '</decision>'
+                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' +\
+                                                   _('CIs may be biased.') + '</decision>'
             elif not homoscedasticity:
                 standardized_effect_size_result += '\n' + '<decision>' \
                                            + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
