@@ -310,8 +310,8 @@ def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
                         (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') +'\n'
 
     if len(data) < 3:
-        return None, _('Too small sample to test heteroscedasticity in variable %s%s.\n' %
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+        return None, _('Too small sample to test heteroscedasticity in variable %s%s.\n') % \
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
     else:
         X = pdf[var_names[0]]
         X = sm.add_constant(X)
