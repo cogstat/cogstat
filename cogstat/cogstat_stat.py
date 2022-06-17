@@ -545,7 +545,7 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         Measurement level of variables
     n : int
         Number of data points
-    normality : bool
+    normality : bool or None
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
     homoscedasticity : bool or None
