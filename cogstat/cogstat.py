@@ -823,6 +823,7 @@ class CogStatData:
         residual_title = None
         residual_graph = None
         normality = None  # Do the two variables follow a multivariate normal distribution?
+        homoscedasticity = None
         assumptions_result = None
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
@@ -845,12 +846,19 @@ class CogStatData:
             result = model.fit()
             residuals = result.resid
 
+            # Test of homoscedasticity
+            assumptions_result += '<decision>' + _('Testing homoscedasticity') + '</decision>\n'
+            homoscedasticity, het_text = cs_hyp_test.heteroscedasticity(data, [x, y],
+                                                                      residual=residuals)
+            assumptions_result += het_text
+
             # TODO output with the precision of the data
             sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
         sample_result += '\n'
 
         standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True,
-                                                                                     normality=normality)
+                                                                                     normality=normality,
+                                                                                     homoscedasticity=homoscedasticity)
         standardized_effect_size_result += '\n'
 
         # Make graphs
@@ -878,12 +886,15 @@ class CogStatData:
         if meas_lev =='int':
             estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
                                                                                   result.bse[1],result.bse[0],
-                                                                                  meas_lev, len(data[x]), normality)
+                                                                                  meas_lev, len(data[x]),
+                                                                                  normality=normality,
+                                                                                  homoscedasticity=homoscedasticity)
             population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=False,
                                                                    regression=True, CI=True,
                                                                    xlims=[None, None], ylims=[None, None])
         estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
-                                                                            normality=normality)
+                                                                            normality=normality,
+                                                                            homoscedasticity=homoscedasticity)
 
         population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality)+ '\n'
 
