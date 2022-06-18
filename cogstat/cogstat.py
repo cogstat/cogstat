@@ -848,7 +848,7 @@ class CogStatData:
 
             # Test of homoscedasticity
             assumptions_result += '<decision>' + _('Testing homoscedasticity') + '</decision>\n'
-            homoscedasticity, het_text = cs_hyp_test.heteroscedasticity(data, [x, y],
+            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, [x, y],
                                                                       residual=residuals)
             assumptions_result += het_text
 

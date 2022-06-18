@@ -274,7 +274,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
-def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
+def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
     """Check homoscedasticity
 
     Parameters
@@ -293,7 +293,7 @@ def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
     Returns
     -------
     bool or None
-        False if data is heteroscedastic, None if heteroscedasticity cannot be caluclated.
+        False if data is heteroscedastic, None if homoscedasticity cannot be caluclated.
     html text
         Output in APA format.
     """
@@ -306,11 +306,11 @@ def heteroscedasticity(pdf, var_names, residual, group_name='', group_value=''):
         data = pdf[var_names]
 
     if len(set(data)) == 1:
-        return None, _('Heteroscedasticity cannot be checked for constant variable in %s%s.') %  \
+        return None, _('Homoscedasticity cannot be checked for constant variable in %s%s.') %  \
                         (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') +'\n'
 
     if len(data) < 3:
-        return None, _('Too small sample to test heteroscedasticity in variable %s%s.\n') % \
+        return None, _('Too small sample to test homoscedasticity in variable %s%s.\n') % \
                         (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
     else:
         X = data[var_names[0]]
