@@ -15,6 +15,7 @@ Upcoming release (2022)
     - Confidence intervals for regression parameters
     - Population plot with confidence band of regression line
     - :warning: Henze-Zirkler test for assumption of multivariate normality
+    - White's test and Koenker's test for assumption of homoscedasticity
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
 
