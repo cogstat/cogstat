@@ -211,19 +211,48 @@ def convert_output(outputs):
         return outputs
 
 
+cs_headings = {'<cs_h1>': '<h2>',
+               '</cs_h1>': '</h2>',
+               '<cs_h2>': '<h3>',
+               '</cs_h2>': '</h3>',
+               '<cs_h3>': '<h4>',
+               '</cs_h3>': '</h4>',
+               '<cs_h4>': '<h5>',
+               '</cs_h4>': '</h5>'}
+
+
 def reformat_output(output):
     """Reformat the output to display
-    :param output: str - text to reformat
-    :return: reformatted str
+    1. Change CogStat-specific tags to html tags.
+    2. Change various non-html compatible pieces to html pieces.
+
+    Parameters
+    ----------
+    output : str
+        text to reformat
+
+    Returns
+    -------
+    str
+        reformatted output
     """
-    if isinstance(output, str):  # TODO in Python3 not needed anymore?
+    if isinstance(output, str):  # TODO Do we still need this in Python3?
         output = str(output)
+
+    # Change Python '\n' to html <br>
     output = output.replace('\n', '<br>')
+
+    # Change custom cogstat tags to html tags as defined in the .ini file
     for style_element in list(csc.styles.keys()):
         output = output.replace(style_element, csc.styles[style_element])
         output = output.replace(str(style_element),
-                                str(csc.styles[style_element]))
+                                str(csc.styles[style_element]))  # TODO Do we still need this?
+
+    # Change cogstat headings to html headings
+    for cs_heading_key in cs_headings.keys():
+        output = output.replace(cs_heading_key, cs_headings[cs_heading_key])
+
     # In the R output the '< ' (which is non breaking space here (\xa0) )
-    # would be handled as html tag
+    # would be handled as html tag in cogstat, so we change it to '&lt; '
     output = output.replace('<\xa0', '&lt; ')
     return output

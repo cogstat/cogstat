@@ -40,12 +40,8 @@ theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]
 #print theme_colors
 # this is a workaround, as 'C0' notation does not seem to work
 
-# store matplotlib theme colors for html heading styles
-from matplotlib.colors import hsv_to_rgb, rgb_to_hsv, to_hex
-csc.mpl_theme_color = to_hex(theme_colors[0])
-hsv_color = rgb_to_hsv(list(int(csc.mpl_theme_color[i:i + 2], 16) / 256 for i in (1, 3, 5)))
-hsv_color[2] = hsv_color[2] / 1.2  # make a darker version
-csc.mpl_theme_color_dark = to_hex(hsv_to_rgb(hsv_color))
+# store the first matplotlib theme color in cogstat config for the GUI-specific html heading styles
+csc.mpl_theme_color = matplotlib.colors.to_hex(theme_colors[0])
 
 # Overwrite style parameters when needed
 # https://matplotlib.org/tutorials/introductory/customizing.html

@@ -558,7 +558,7 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
         Table of the point and interval estimations
     """
     if meas_lev == "int":
-        regression_coefficients = '<cs_h3>' + _('Regression coefficients') + '</cs_h3>'
+        regression_coefficients = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
         # Warinings based on the results of the assumption tests
@@ -633,8 +633,8 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     html text
     """
     pdf_result = pd.DataFrame()
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
     if sample:
+        standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
         if meas_lev in ['int', 'unk']:
             pdf_result.loc[_("Pearson's correlation"), _('Value')] = \
                 '<i>r</i> = %0.3f' % stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])[0]
@@ -654,6 +654,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                 pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                     'cannot be computed (division by zero)'
     else:  # population estimations
+        standardized_effect_size_result = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         if meas_lev in ['int', 'unk']:
             df = len(data) - 2
@@ -731,7 +732,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
                                             _format_html_table(cont_table_count.to_html(bold_rows=False,
                                                                                         classes="table_cs_pd")))
     if percent:
-        # for the pd.crosstab() function normalize=True parameter does not work with mutliple column variables
+        # for the pd.crosstab() function normalize=True parameter does not work with multiple column variables
         # (neither pandas version 0.22 nor 1.0.3 works, though with different error messages), so make a workaround
         cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]],
                                        [data_frame[ddd] for ddd in data_frame[x]], margins=margins,
@@ -823,7 +824,7 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
         None if effect size is not calculated
 
     """
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
 
     if sample:  # Effects sizes for samples
         pdf_result = pd.DataFrame()
@@ -948,7 +949,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
         None if effect size is not calculated
     """
 
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
 
     if sample:
         pdf_result = pd.DataFrame()
