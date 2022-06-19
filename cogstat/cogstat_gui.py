@@ -260,11 +260,37 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._show_data_menus(on=False)
 
         # Prepare Output pane
+        def _change_color_lightness(color, lightness=1.0):
+            """Modify the lightness of a color.
+
+            Parameters
+            ----------
+            color : str in hex color '#rrggbb'
+                color to change
+            lightness : float
+                multiply original value of hsv with this number
+
+            Returns
+            -------
+            str in hex color '#rrggbb'
+                modified color
+            """
+            from matplotlib.colors import hsv_to_rgb, rgb_to_hsv, to_hex
+            hsv_color = rgb_to_hsv(list(int(color[i:i + 2], 16) / 256 for i in (1, 3, 5)))
+            hsv_color[2] = min(1, hsv_color[2] * lightness)  # change the lightness, which cannot be larger than 1
+            return to_hex(hsv_to_rgb(hsv_color))
+
         self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        self.output_pane.document().setDefaultStyleSheet('body {color:black;} h2 {color:%s;} h3 {color:%s} '
-                                                         '.table_cs_pd th {font-weight:normal; white-space:nowrap}'
+        # some html styles are modified for for the GUI version (but not for the Jupyter Notebook version)
+        self.output_pane.document().setDefaultStyleSheet('body {color:black;} '
+                                                         'h2 {color:%s;} h3 {color:%s} '
+                                                         'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
+                                                         '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
                                                          'td {white-space:nowrap}' %
-                                                         (csc.mpl_theme_color_dark, csc.mpl_theme_color))
+                                                         (_change_color_lightness(csc.mpl_theme_color, 1.1),
+                                                          _change_color_lightness(csc.mpl_theme_color, 1.0),
+                                                          _change_color_lightness(csc.mpl_theme_color, 0.8),
+                                                          _change_color_lightness(csc.mpl_theme_color, 0.4)))
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
                           ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
