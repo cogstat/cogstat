@@ -14,5 +14,6 @@ setup(name='cogstat',
                         'pyreadstat', 'odfpy', 'xlrd', 'openpyxl', 'pyreadr',
                         'appdirs', 'configobj', 'python-bidi', 'IPython', 'Jupyter'],
       python_requires='>=3.6',
+      entry_points={'console_scripts': ['cogstat=cogstat.cogstat_gui:main']},
       extras_requires={'GUI': ['PyQt5']}
 )
