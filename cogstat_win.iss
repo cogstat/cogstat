@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "CogStat"
-#define MyAppVersion "2.2"
+#define MyAppVersion "2.3beta"
 #define MyAppPublisher "Attila Krajcsi"
 #define MyAppURL "https://www.cogstat.org"
 #define MySource "C:\Users\Attila\CogStat\cogstat_source\"
