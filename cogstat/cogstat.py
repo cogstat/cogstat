@@ -896,7 +896,8 @@ class CogStatData:
                                                                             normality=normality,
                                                                             homoscedasticity=homoscedasticity)
 
-        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality)+ '\n'
+        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality,
+                                                                      homoscedasticity) + '\n'
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
                                        standardized_effect_size_result, residual_title, residual_graph,

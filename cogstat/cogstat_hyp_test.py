@@ -388,7 +388,7 @@ def multivariate_normality(pdf, var_names, group_name='', group_value=''):
     return sig, text_result
 
 
-def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
+def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticity=None):
     """
     Run relevant hypothesis tests.
 
@@ -405,6 +405,9 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
     normality: bool or None
         True when variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
+    homoscedasticity: bool or None
+        True when homoscedasticity is true, False otherwise. None if homoscedasticity could not be calculated or if
+        the parameter was not specified.
 
     Returns
     -------
@@ -417,8 +420,9 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
                              _('Testing if correlation differs from 0.') + '</decision>\n'
         df = len(data) - 2
 
-        if normality:
-            population_result += '<decision>'+_('Interval variables.') + ' ' + _('Normality not violated.') + ' >> ' + \
+        if normality and homoscedasticity:
+            population_result += '<decision>'+_('Interval variables.') + ' ' + _('Normality not violated.') + \
+                                 ' ' + _('Homoscedasticity not violated.') + ' >> ' + \
                                  _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
 
             r, p = stats.pearsonr(data[x], data[y])
@@ -431,14 +435,26 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None):
                            ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
                            (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
 
-
             r, p = stats.spearmanr(data[x], data[y])
             population_result += _("Spearman's rank-order correlation") + \
                                  ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
                                  (df, non_data_dim_precision, r, print_p(p))
 
-        else:  # TODO or normality couldn't be calculated
-            population_result += '<decision>'+_('Interval variables.') + ' ' + _('Normality violated.') + ' >> ' + \
+        elif normality is None or homoscedasticity is None:
+            # TODO warning instead of omitting hypothesis tests?
+            population_result += '<decision>'+_('Interval variables.') + ' ' \
+                                 + _('Assumptions of hypothesis tests could not be tested.') + ' >> ' \
+                                 + _("Hypothesis tests not run.") + '\n</decision>'
+
+        else:
+            violations = ""
+
+            if not normality:
+                violations += 'Normality violated. '
+            if not homoscedasticity:
+                violations += 'Homoscedasticity violated. '
+
+            population_result += '<decision>'+_('Interval variables.') + ' ' + _(violations) + ' >> ' + \
                                  _("Running Spearman's correlation.") + '\n</decision>'
 
             r, p = stats.spearmanr(data[x], data[y])
