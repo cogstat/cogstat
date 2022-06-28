@@ -200,6 +200,8 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>W</i> = 0.36, <i>p</i> = .655' in result[9])
             # Koenker's test: bptest(h~g, data=data, studentize=True) in lmtest 0.9-40 using R 4.1.3, BP 0.11333, df=1, p-value 0.7364
         self.assertTrue('<i>LM</i> = 0.11, <i>p</i> = .737' in result[9])
+            # White's test: white_lm(model, interactions=FALSE, statonly = FALSE) in lmtest 0.9-40 using R 4.1.3, statistic 0.219 p-value 0.896
+        self.assertTrue('<i>LM</i> = 0.22, <i>p</i> = .896' in result[9])
             # Slope CI: jamovi 2.2.5.0 [-0.440, 1.13]
         self.assertTrue('[-0.440, 1.133]' in result[11])
             # Intercept CI: jamovi 2.2.5.0 [-0.517, 9.70]
