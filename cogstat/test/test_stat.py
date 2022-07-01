@@ -41,6 +41,8 @@ the result incorrectly) fix the bug. After a calculation bug is fixed, always ad
 
 """
 
+# TODO Check the documentation to see if all calculations to be tested are tested and validated
+
 #cs.output_type = 'do not format'
 
 # Generate the dataset on which the tests will be performed
@@ -413,7 +415,7 @@ class CogStatTestCase(unittest.TestCase):
         # eta-squared
             # CS formula: https://pingouin-stats.org/generated/pingouin.convert_effsize.html
             # Based on the formula, calculated in LO Calc 6.4: 0.110292204104377
-            # jamovi v1.2.19.0: 0.117 # TODO why the difference?
+            # jamovi v1.2.19.0: 0.117 # TODO why the difference? Maybe https://github.com/raphaelvallat/pingouin/releases/tag/v0.5.2
         self.assertTrue('<td>Eta-squared</td>      <td>0.110</td>' in result[3])
         # Hedges'g (with CI)
             # CS formula: https://pingouin-stats.org/generated/pingouin.compute_effsize.html
