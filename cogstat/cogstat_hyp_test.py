@@ -447,7 +447,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  + _("Hypothesis tests not run.") + '\n</decision>'
 
         else:
-            violations = ""
+            violations = ''
 
             if not normality:
                 violations += 'Normality violated. '
