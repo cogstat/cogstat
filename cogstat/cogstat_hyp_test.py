@@ -441,7 +441,6 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  (df, non_data_dim_precision, r, print_p(p))
 
         elif normality is None or homoscedasticity is None:
-            # TODO warning instead of omitting hypothesis tests?
             population_result += '<decision>'+_('Interval variables.') + ' ' \
                                  + _('Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
                                  + _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
