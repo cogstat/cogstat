@@ -443,8 +443,23 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
         elif normality is None or homoscedasticity is None:
             # TODO warning instead of omitting hypothesis tests?
             population_result += '<decision>'+_('Interval variables.') + ' ' \
-                                 + _('Assumptions of hypothesis tests could not be tested.') + ' >> ' \
-                                 + _("Hypothesis tests not run.") + '\n</decision>'
+                                 + _('Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
+                                 + _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
+
+            r, p = stats.pearsonr(data[x], data[y])
+            population_result += _("Pearson's correlation") + \
+                                 ': <i>r</i>(%d) = %0.*f, %s\n' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+            # Bayesian test
+            bf10 = pingouin.bayesfactor_pearson(r, len(data))
+            population_result += _('Bayes Factor for Pearson correlation') + \
+                           ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                           (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
+
+            r, p = stats.spearmanr(data[x], data[y])
+            population_result += _("Spearman's rank-order correlation") + \
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
 
         else:
             violations = ""
