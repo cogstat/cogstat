@@ -462,7 +462,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  (df, non_data_dim_precision, r, print_p(p))
 
         else:
-            violations = ""
+            violations = ''
 
             if not normality:
                 violations += 'Normality violated. '
