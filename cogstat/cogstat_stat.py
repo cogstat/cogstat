@@ -250,8 +250,8 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
             var_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
             mean_percent_correct_table.sort_index(inplace=True, key=lambda x: x.str.lower())
 
-    previous_precision = pd.get_option('precision')
-    pd.set_option('precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
+    previous_precision = pd.get_option('display.precision')
+    pd.set_option('display.precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
     result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.
                                                                                            to_html(bold_rows=False))
     result += '\n\n' + _('Mean correct reaction time') + _format_html_table(mean_correct_RT_table.
@@ -278,7 +278,7 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     result += '\n\n' + _('Drift rate') + _format_html_table(drift_rate_table.to_html(bold_rows=False))
     result += '\n\n' + _('Threshold') + _format_html_table(threshold_table.to_html(bold_rows=False))
     result += '\n\n' + _('Nondecision time') + _format_html_table(nondecision_time_table.to_html(bold_rows=False))
-    pd.set_option('precision', previous_precision)
+    pd.set_option('display.precision', previous_precision)
 
     return result
 
