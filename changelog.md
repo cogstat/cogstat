@@ -1,11 +1,33 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
-Trivial changes when a new feature is added are not denoted. 
+Trivial changes when a new feature is added are not denoted.
 
 Upcoming release (2022)
 ===============
 
-## Fiixes
-- Various data import fixes
+## New features
+- Initial support for Bayesian hypothesis tests
+    - One sample t-test
+    - Pearson correlation
+    - Paired two-samples t-test
+    - Independent two-samples t-test
+- Extended regression analyses (Tamás Szűcs)
+    - Residual plot
+    - Confidence intervals for regression parameters
+    - Population plot with confidence band of regression line
+    - :warning: Henze-Zirkler test for assumption of multivariate normality
+    - :warning: White's test and Koenker's test for assumption of homoscedasticity
+- Display the filtered cases when filtering outliers
+- Post hoc Durbin-Conover test after significant Friedman test
+- New localization
+    - Trukish (Belma Feride Bumin)
+
+
+## Fixes
+- Various GUI, data import, analysis, and output fixes
+- Extended calculation validations (thanks to Dóra Hatvani)
+- Run from source more simply (thanks to Oliver Lindemann)
+- Various usability fixes (thanks to Ádám Szimilkó)
+- Mac-specific fixes (Róbert Fodor)
 
 2.2.0 (1 November 2021)
 ================
@@ -24,8 +46,8 @@ Upcoming release (2022)
     - :warning: In Compare repeated measures variables, Hedges'g CI is fixed when there are missing cases
     - :warning: In Compare repeated measures variables, CIs are fixed when there are missing cases for more than two nominal variables
     - :warning: In Compare groups, the mosaic plots of nominal variables do not show value combinations where other variable value is missing
-    - :warning: In Compare groups, Cramér's V is fixed when there are missing cases 
-    - Some statistics were not calculated when there were missing cases 
+    - :warning: In Compare groups, Cramér's V is fixed when there are missing cases
+    - Some statistics were not calculated when there were missing cases
 
 2.1.1 (10 September 2021)
 ================
@@ -46,7 +68,7 @@ Upcoming release (2022)
     - OpenDocument Spreadsheet .ods files
     - SPSS .zsav and .por files
     - JASP .jasp files
-    - jamovi .omv files 
+    - jamovi .omv files
     - R .rdata, .rds, and .rda files
     - SAS .sas7bdat and .xpt files
     - STATA .dta files
@@ -74,7 +96,7 @@ Upcoming release (2022)
     - :warning: In pivot tables, rows are now ordered to be case-insensitive
 - Various data import fixes
 - Performance improvements
-- On Windows, much smaller installer and much less required space 
+- On Windows, much smaller installer and much less required space
 
 2.0.0 (13 July 2020)
 ================
@@ -94,12 +116,12 @@ Upcoming release (2022)
         - Display margins
         - Display percentage
         - Confidence interval for multinomial proportions (see confidence interval improvements above)
-    - Variation ratio for nominal variables in Explore variable, Compare repeated measures variables and Compare groups 
+    - Variation ratio for nominal variables in Explore variable, Compare repeated measures variables and Compare groups
     - Various output refinements
 - Data analysis
     - Behavioral data diffusion analysis
 - Charts
-    - Set minimum and maximum axes values for interval and ordinal variables in variable pair, compare repeated measures and compare groups analyses   
+    - Set minimum and maximum axes values for interval and ordinal variables in variable pair, compare repeated measures and compare groups analyses
     - Various chart refinements
 - GUI
     - Find text in results
@@ -146,7 +168,7 @@ Upcoming release (2022)
     - Dunn's post hoc test after significant Kruskal–Wallis test
     - Single case test for slope index
 - Numerical results
-    - Display mean estimations numerically in group comparison and in repeated measures comparison 
+    - Display mean estimations numerically in group comparison and in repeated measures comparison
     - Display standardized effect sizes separately
     - Various smaller refinements
 - Output improvements
@@ -204,14 +226,14 @@ Upcoming release (2022)
 ===============
 ## New features
 - In an analysis, raw data are diplayed first without any graphical addition
-- Display results in groups of (1) raw data, (2) sample properties and (3) population properties 
+- Display results in groups of (1) raw data, (2) sample properties and (3) population properties
 - Rank information is displayed for ordinal variables (in single variable, in variable pairs (in scatterplot) and in group comparison)
 - Aim of the hypothesis tests are displayed.
 - Use Wilcoxon signed-rank test when normality is violated in an interval variable
 
 ## Fixes
 - Spearman rank correlation is denoted as rs (s is subscript) instead of r.
-- When quitting CogStat, no confirmation is asked 
+- When quitting CogStat, no confirmation is asked
 - Various smaller fixes
 
 1.4.2 (3 June 2017)
@@ -236,7 +258,7 @@ Upcoming release (2022)
 1.4.1 (17 April 2016)
 ===============
 ## Fixes
-- Bugfix: repeated measures ANOVA does not run on Windows 
+- Bugfix: repeated measures ANOVA does not run on Windows
 
 1.4.0 (16 April 2016)
 ===============
@@ -245,7 +267,7 @@ Upcoming release (2022)
     - Repeated measures one-way ANOVA
     - Mauchly's test for sphericity
     - Greenhouse–Geisser correction
-    - Post-hoc pairwise comparison with Holm–Bonferroni correction 
+    - Post-hoc pairwise comparison with Holm–Bonferroni correction
 - Confidence interval for correlation coefficients
 - McNemar test
 - Cochran's Q test
@@ -315,12 +337,12 @@ Upcoming release (2022)
 - Use modified t-test when comparing a single case and a group (available in group comparison) (thanks to Judit Kárpáti)
 - New functions for pivot tables: lower quartile and upper quartile
 - Localizations of CogStat
-	- All menus and texts (except the dialogs) are localized
-	- Initial support for new languages:
-		- Hungarian (Attila Krajcsi)
-		- Italian (Eszter Temesvári)
-		- Romanian (Orsolya Kiss)
-	- New command: CogStat > Preferences to set the language
+    - All menus and texts (except the dialogs) are localized
+    - Initial support for new languages:
+        - Hungarian (Attila Krajcsi)
+        - Italian (Eszter Temesvári)
+        - Romanian (Orsolya Kiss)
+    - New command: CogStat > Preferences to set the language
 
 ## Fixes
 - Correct median in pivot tables for variables including missing data
@@ -344,25 +366,25 @@ Upcoming release (2022)
 
 ### Analysis
 - Explore variable
-	- Frequency
-	- Distribution (histogram, raw data points, box plot)
-	- Descriptives (N, mean, standard deviation, skewness, kurtosis, median, range)
-	- Test normality (Anderson–Darling test, histogram with normality test, Q-Q plot)
-	- Test central tendency (one sample t-test, confidence interval of the mean, Wilcoxon sign test)
+    - Frequency
+    - Distribution (histogram, raw data points, box plot)
+    - Descriptives (N, mean, standard deviation, skewness, kurtosis, median, range)
+    - Test normality (Anderson–Darling test, histogram with normality test, Q-Q plot)
+    - Test central tendency (one sample t-test, confidence interval of the mean, Wilcoxon sign test)
 - Explore variable pairs
-	- Pearson and Spearman coefficients
-	- Linear regression parameters
-	- Scatter plot or mosaic plot
+    - Pearson and Spearman coefficients
+    - Linear regression parameters
+    - Scatter plot or mosaic plot
 - Pivot
-	- Functions: N, sum, mean, median, standard deviation, variance
+    - Functions: N, sum, mean, median, standard deviation, variance
 - Compare variables
-	- Descriptives: means, medians or contingency table
-	- Diagrams: boxplot with individual data or mosaic plot
-	- Hypothesis tests: paired t-test, paired Wilcoxon test, Friedman test
+    - Descriptives: means, medians or contingency table
+    - Diagrams: boxplot with individual data or mosaic plot
+    - Hypothesis tests: paired t-test, paired Wilcoxon test, Friedman test
 - Compare groups
-	- Descriptives: means, medians or contingency tables
-	- Diagrams: boxplot with individual data or contingency table
-	- Hypothesis tests: independent samples t-test, Mann–Whitney test, chi-squared test, one sample ANOVA, Kruskal–Wallis test
+    - Descriptives: means, medians or contingency tables
+    - Diagrams: boxplot with individual data or contingency table
+    - Hypothesis tests: independent samples t-test, Mann–Whitney test, chi-squared test, one sample ANOVA, Kruskal–Wallis test
 
 ### Results
 - Clear window

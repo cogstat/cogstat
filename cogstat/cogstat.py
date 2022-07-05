@@ -15,7 +15,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.2'
+__version__ = '2.3beta'
 
 import matplotlib
 matplotlib.use("qt5agg")
@@ -231,8 +231,8 @@ class CogStatData:
                 self.import_message += '\n<warning><b>' + _('String variable conversion warning') + '</b> ' + \
                                        _('String variables cannot be interval or ordinal variables in CogStat. '
                                          'Those variables are automatically set to nominal: ')\
-                                       + '<b>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
-                                       '</b>. ' + _('You can fix this issue in your data source.') \
+                                       + '<i>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
+                                       '</i>. ' + _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
@@ -265,14 +265,14 @@ class CogStatData:
                             # and if not boolean, etc. (int and float can occur in object dtype)
                             if not all(char in valid_chars for char in ind_data):
                                 non_ascii_vars.append(variable_name)
-                                break  #a fter finding the first non-ascii data, we can skip the rest variable data
+                                break  #after finding the first non-ascii data, we can skip the rest variable data
             if non_ascii_var_names:
                 self.import_message += '\n<warning><b>' + _('Recommended characters in variable names warning') + \
                                        '</b> ' + \
                                        _('Some variable name(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
-                                       % ('<b>' + ', '.join(
-                    '%s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '</b>')\
+                                       % ('<i>' + ', '.join(
+                    '%s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '</i>')\
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
@@ -282,8 +282,8 @@ class CogStatData:
                                        '</b> ' + \
                                        _('Some string variable(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
-                                       % ('<b>' + ', '.join('%s' % non_ascii_var for non_ascii_var in non_ascii_vars) +
-                                          '</b>')\
+                                       % ('<i>' + ', '.join('%s' % non_ascii_var for non_ascii_var in non_ascii_vars) +
+                                          '</i>')\
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
@@ -426,6 +426,7 @@ class CogStatData:
         # II. Set additional details for all import sources
 
         # Convert some values and data types
+        self.data_frame.columns = self.data_frame.columns.astype('str')  # variable names can only be strings
         _percent2float()
         _special_values_to_nan()
         _convert_dtypes()
@@ -505,11 +506,15 @@ class CogStatData:
         list of str
             List of HTML strings showing the filtered cases.
             The method modifies the self.data_frame in place.
+        list of charts
+            If cases were filtered, then filtered and remaining cases are shown.
         """
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD')}
 
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
+
+        chart_results = []
 
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
@@ -549,8 +554,8 @@ class CogStatData:
                 # Display filtering information
                 text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
                 prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
-                text_output += _('Cases outside of the range will be excluded: %0.*f  --  %0.*f\n') % \
-                               (prec, lower_limit, prec, upper_limit)
+                text_output += _('Cases outside of the range will be excluded:') + \
+                               ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
                 # Display the excluded cases
                 excluded_cases = \
                     self.orig_data_frame.drop(remaining_cases_indexes[-1])
@@ -560,8 +565,13 @@ class CogStatData:
                     text_output += _('The following cases will be excluded: ')
                     text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
                                                                                      classes="table_cs_pd"))
+                    chart_results.append(cs_chart.create_filtered_cases_chart(self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
+                                                                        excluded_cases[var_name], var_name,
+                                                                        lower_limit, upper_limit))
                 else:
-                    text_output += _('No cases were excluded.') + '\n'
+                    text_output += _('No cases were excluded.')
+                if var_name != var_names[-1]:
+                    text_output += '\n\n'
 
             # Do the filtering (remove outliers), modify self.data_frame in place
             self.data_frame = self.orig_data_frame.copy()
@@ -569,7 +579,7 @@ class CogStatData:
                 self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
             self.filtering_status = ', '.join(var_names) + ' (%s)' % mode_names[mode]
 
-        return cs_util.convert_output([title, text_output])
+        return cs_util.convert_output([title, text_output, chart_results])
 
     def _filtering_status(self):
         if self.filtering_status:
@@ -688,14 +698,12 @@ class CogStatData:
         if meas_level in ['int', 'unk']:
             text_result += '<cs_h3>'+_('Normality')+'</cs_h3>\n'
             stat_result, text_result2 = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
-            image, image2 = cs_chart.create_normality_chart(data, var_name)
+            image = cs_chart.create_normality_chart(data, var_name)
                 # histogram with normality and qq plot
             text_result += text_result2
             result_list.append(text_result)
             if image:
                 result_list.append(image)
-            if image2:
-                result_list.append(image2)
         else:
             result_list.append(text_result)
 
@@ -736,7 +744,7 @@ class CogStatData:
                                _('Running one-sample t-test.') + '</decision>\n'
                 text_result2, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name,
                                                           test_value=central_value)
-                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, ci)
+                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'mean', ci)
 
             else:
                 text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
@@ -744,14 +752,14 @@ class CogStatData:
                 text_result += _('Median: %0.*f') % (prec, np.median(data[var_name])) + '\n'
                 text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                             value=central_value)
-                graph = cs_chart.create_variable_population_chart_2(data[var_name], var_name)
+                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
 
         elif meas_level == 'ord':
             text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Wilcoxon signed-rank test.') + \
                            '</decision>\n'
             text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                         value=central_value)
-            graph = cs_chart.create_variable_population_chart_2(data[var_name], var_name)
+            graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
         else:
             text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '</decision>\n'
             graph = None
@@ -807,44 +815,95 @@ class CogStatData:
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
-        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, 0, 0, x, y, raw_data=True,
-                                                        xlims=xlims, ylims=ylims)
-                                                        # slope and intercept parameters are set to 0, but they
-                                                        # are not used with raw_data
+        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
+                                                        regression=False, CI=False, xlims=xlims, ylims=ylims)
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        residual_title = None
+        residual_graph = None
+        normality = None  # Do the two variables follow a multivariate normal distribution?
+        homoscedasticity = None
+        assumptions_result = None
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
-            # lingress() is run twice in the analysis, otherwise the code would be a bit messed up
-            slope, intercept, r_value, p_value, std_err = stats.linregress(data[x], data[y])
+
+            # Test of multivariate normality
+            assumptions_result = '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>\n'
+            assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
+            normality, norm_text = cs_hyp_test.multivariate_normality(data, [x, y])
+            assumptions_result += norm_text
+
+            # Calculate regression with statsmodels
+            import statsmodels.regression
+            import statsmodels.tools
+
+            data_sorted = data.sort_values(by=x)  # Sorting required for subsequent plots to work
+            x_var = statsmodels.tools.add_constant(data_sorted[x])
+            y_var = data_sorted[y]
+            model = statsmodels.regression.linear_model.OLS(y_var, x_var)
+            result = model.fit()
+            residuals = result.resid
+
+            # Test of homoscedasticity
+            assumptions_result += '<decision>' + _('Testing homoscedasticity') + '</decision>\n'
+            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, [x, y],
+                                                                      residual=residuals)
+            assumptions_result += het_text
+
             # TODO output with the precision of the data
-            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (slope, intercept)
+            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
         sample_result += '\n'
 
-        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
+        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True,
+                                                                                     normality=normality,
+                                                                                     homoscedasticity=homoscedasticity)
+        standardized_effect_size_result += '\n'
 
         # Make graphs
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev == 'int':
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, slope, intercept, x, y,
-                                                               xlims=xlims, ylims=ylims)
+
+            # Residual analysis
+            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
+            residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
+
+            # Sample scatter plot with regression line
+            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
+                                                               regression=True, CI=False, xlims=xlims, ylims=ylims)
+
         else:
             sample_graph = None
 
         # 3. Population properties
-        estimation_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
-                            '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
-        #pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        population_properties_title = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
+        estimation_parameters, estimation_effect_size, population_graph = None, None, None
+
         if meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
-        estimation_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False)
+        if meas_lev =='int':
+            estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
+                                                                                  result.bse[1],result.bse[0],
+                                                                                  meas_lev, len(data[x]),
+                                                                                  normality=normality,
+                                                                                  homoscedasticity=homoscedasticity)
+            population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=False,
+                                                                   regression=True, CI=True,
+                                                                   xlims=[None, None], ylims=[None, None])
+        estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
+                                                                            normality=normality,
+                                                                            homoscedasticity=homoscedasticity)
 
-        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev)+ '\n'
+        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality,
+                                                                      homoscedasticity) + '\n'
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, standardized_effect_size_result,
-                                       sample_graph, estimation_result, population_result])
+        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
+                                       standardized_effect_size_result, residual_title, residual_graph,
+                                       population_properties_title, assumptions_result, estimation_result,
+                                       estimation_parameters, population_graph, estimation_effect_size,
+                                       population_result])
 
     #correlations(x,y)  # test
 
@@ -970,7 +1029,7 @@ class CogStatData:
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
-        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=True,
+        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=True,
                                                                    ylims=ylims)
 
         # Plot the individual data with box plot

@@ -67,36 +67,58 @@ def save_output():
 
 ### Various functions ###
 
-# TODO functions should be private
+def _prepare_list_widgets(source_list_widget, names, selected_list_widgets):
+    """Prepare the source and selected list widgets when opening the dialog.
 
+    Dialog list widgets keep the variable list of the previous use. However, the data set may have been changed, and
+    the variables should be updated.
 
-def init_source_vars(list_widget, names, already_in_use):
+    First, if the current dataset has changed, then some former items (variable names) may not be present in the new
+    data. Therefore, we remove any items from the selected_list_widgets that are not present in the current dataset
+    (names).
+
+    Second, we add the names (of variables) to the list_widget (a source list widget), unless they are used in other
+    selected_list_widgets.
+
+    Parameters
+    ----------
+    source_list_widget : listWidget
+        source variables
+    names : list of strings
+        names of the variables
+    selected_list_widgets : list of listWidgets
+        list of listWidgets that may contain variables already in use
+
+    Returns
+    -------
+    Nothing
     """
-    :param list_widget: source variables
-    :param names: names of the variables
-    :param already_in_use: list of listWidgets that may contain variables already in use
-    :return:
-    """
+
+    # 1. Remove non-existing variables from selected_list_widgets
+    for selected_list_widget in selected_list_widgets:
+        for item_i in range(selected_list_widget.count()-1, -1, -1):
+            if not str(selected_list_widget.item(item_i).text().split(' :: ')[-1]) in list(list(names) + ['']):
+                # split(' :: ')[-1] returns the variable name if only a variable name is included, otherwise, the variable
+                # after the factor is returned; if there is no variable after ' :: ', then it returns '';
+                selected_list_widget.takeItem(item_i)
+
+    # 2. Add variables that are not used already in selected_list_widgets to source_list_widget
+    # Collect variable names that are already in use in the already_in_use widgets
     already_in_use_vars = []
-    for in_use_list_widget in already_in_use:
-        already_in_use_vars.extend([in_use_list_widget.item(i).text() for i in range(in_use_list_widget.count())])
-    list_widget.clear()  # clear source list in case new data is loaded
+    for selected_list_widget in selected_list_widgets:
+        already_in_use_vars.extend([selected_list_widget.item(i).text().split(' :: ')[-1]
+                                    for i in range(selected_list_widget.count())])
+        # split(' :: ')[-1] returns the variable name if only a variable name is included, otherwise, the variable after
+        # the factor is returned
+    # Clear the list_widget...
+    source_list_widget.clear()
+    # ...then add the names to them unless they are already in use in other relevant listWidgets
     for var_name in names:
         if not(var_name in already_in_use_vars):
-            list_widget.addItem(QString(var_name))
+            source_list_widget.addItem(QString(var_name))
 
 
-def remove_ceased_vars(list_widget, names):
-    """
-    If list_widget includes items that are not in the names list,
-    then remove those items.
-    """
-    for item_i in range(list_widget.count()-1, -1, -1):
-        if not str(list_widget.item(item_i).text()) in names:
-            list_widget.takeItem(item_i)
-
-
-def add_to_list_widget(source_list_widget, target_list_widget):
+def _add_to_list_widget(source_list_widget, target_list_widget):
     """
     Add the selected item(s) of the source_list_widget to the target_list_widget, and remove the item(s) from the
     source_list_widget.
@@ -107,16 +129,16 @@ def add_to_list_widget(source_list_widget, target_list_widget):
         source_list_widget.takeItem(source_list_widget.row(item))
 
 
-def remove_item_from_list_widget(source_list_widget, target_list_widget, names):
+def _remove_item_from_list_widget(source_list_widget, target_list_widget, names):
     """
     Remove selected item(s) from target_list_widget, and add it to the source_list_widget.
     """
     for item in target_list_widget.selectedItems():
         target_list_widget.takeItem(target_list_widget.row(item))
-        source_list_widget.insertItem(find_previous_item_position(source_list_widget, names, item.text()), item.text())
+        source_list_widget.insertItem(_find_previous_item_position(source_list_widget, names, item.text()), item.text())
 
 
-def find_previous_item_position(list_widget, names, text_item):
+def _find_previous_item_position(list_widget, names, text_item):
     """
     TODO
     """
@@ -132,7 +154,7 @@ def find_previous_item_position(list_widget, names, text_item):
               # insert the item at the beginning of the list_widget
 
 
-def add_to_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
+def _add_to_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
     """
     Add the selected items of the source_list_widget to the target_list_widget,
     """
@@ -151,14 +173,14 @@ def add_to_list_widget_with_factors(source_list_widget, target_list_widget, name
                 break
 
 
-def remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
+def _remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
     """
     Remove selected items from target_list_widget.
     """
     for item in target_list_widget.selectedItems():
         if item.text().split(' :: ')[1]:
-            source_list_widget.insertItem(find_previous_item_position(source_list_widget, names, item.text().
-                                                                      split(' :: ')[1]), item.text().split(' :: ')[1])
+            source_list_widget.insertItem(_find_previous_item_position(source_list_widget, names, item.text().
+                                                                       split(' :: ')[1]), item.text().split(' :: ')[1])
             item.setText(item.text().split(' :: ')[0]+' :: ')
 
 
@@ -178,48 +200,54 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.sourceListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.sourceListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addRows.clicked.connect(self.add_rows)
         self.removeRows.clicked.connect(self.remove_rows)
         self.rowsListWidget.doubleClicked.connect(self.remove_rows)
+        self.rowsListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.rowsListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addColumns.clicked.connect(self.add_columns)
         self.removeColumns.clicked.connect(self.remove_columns)
         self.columnsListWidget.doubleClicked.connect(self.remove_columns)
+        self.columnsListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.columnsListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addPages.clicked.connect(self.add_pages)
         self.removePages.clicked.connect(self.remove_pages)
         self.pagesListWidget.doubleClicked.connect(self.remove_pages)
+        self.pagesListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.pagesListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addDependent.clicked.connect(self.add_dependent)
         self.removeDependent.clicked.connect(self.remove_dependent)
         self.dependentListWidget.doubleClicked.connect(self.remove_dependent)
+        self.dependentListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.dependentListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
 
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
         self.names = names
-        remove_ceased_vars(self.pagesListWidget, names)
-        remove_ceased_vars(self.columnsListWidget, names)
-        remove_ceased_vars(self.rowsListWidget, names)
-        remove_ceased_vars(self.dependentListWidget, names)
-        init_source_vars(self.sourceListWidget, names, [self.pagesListWidget, self.columnsListWidget,
-                                                        self.rowsListWidget, self.dependentListWidget])
+        _prepare_list_widgets(self.sourceListWidget, names, [self.pagesListWidget, self.columnsListWidget,
+                                                             self.rowsListWidget, self.dependentListWidget])
 
     def add_rows(self):
-        add_to_list_widget(self.sourceListWidget, self.rowsListWidget)
+        _add_to_list_widget(self.sourceListWidget, self.rowsListWidget)
     def remove_rows(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.rowsListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.rowsListWidget, self.names)
     def add_columns(self):
-        add_to_list_widget(self.sourceListWidget, self.columnsListWidget)
+        _add_to_list_widget(self.sourceListWidget, self.columnsListWidget)
     def remove_columns(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.columnsListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.columnsListWidget, self.names)
     def add_pages(self):
-        add_to_list_widget(self.sourceListWidget, self.pagesListWidget)
+        _add_to_list_widget(self.sourceListWidget, self.pagesListWidget)
     def remove_pages(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.pagesListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.pagesListWidget, self.names)
     def add_dependent(self):
         if self.dependentListWidget.count() == 0:  # do this only if the list is empty
-            add_to_list_widget(self.sourceListWidget, self.dependentListWidget)
+            _add_to_list_widget(self.sourceListWidget, self.dependentListWidget)
     def remove_dependent(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.dependentListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.dependentListWidget, self.names)
     
     def read_parameters(self):
         return ([str(self.rowsListWidget.item(i).text()) for i in range(self.rowsListWidget.count())],
@@ -240,58 +268,64 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.sourceListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.sourceListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addRT.clicked.connect(self.add_RT)
         self.removeRT.clicked.connect(self.remove_RT)
         self.RTListWidget.doubleClicked.connect(self.remove_RT)
+        self.RTListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.RTListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addError.clicked.connect(self.add_error)
         self.removeError.clicked.connect(self.remove_error)
         self.errorListWidget.doubleClicked.connect(self.remove_error)
+        self.errorListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.errorListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addParticipant.clicked.connect(self.add_participant)
         self.removeParticipant.clicked.connect(self.remove_participant)
         self.participantListWidget.doubleClicked.connect(self.remove_participant)
+        self.participantListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.participantListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addCondition.clicked.connect(self.add_condition)
         self.removeCondition.clicked.connect(self.remove_condition)
         self.conditionListWidget.doubleClicked.connect(self.remove_condition)
+        self.conditionListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.conditionListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
 
         self.init_vars(names)
         self.show()
 
     def init_vars(self, names):
         self.names = names
-        remove_ceased_vars(self.RTListWidget, names)
-        remove_ceased_vars(self.errorListWidget, names)
-        remove_ceased_vars(self.participantListWidget, names)
-        remove_ceased_vars(self.conditionListWidget, names)
-        init_source_vars(self.sourceListWidget, names,
-                         [self.RTListWidget, self.errorListWidget, self.participantListWidget,
-                          self.conditionListWidget])
+        _prepare_list_widgets(self.sourceListWidget, names,
+                              [self.RTListWidget, self.errorListWidget, self.participantListWidget,
+                              self.conditionListWidget])
 
     def add_RT(self):
         if self.RTListWidget.count() == 0:  # do this only if the list is empty
-            add_to_list_widget(self.sourceListWidget, self.RTListWidget)
+            _add_to_list_widget(self.sourceListWidget, self.RTListWidget)
 
     def remove_RT(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.RTListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.RTListWidget, self.names)
 
     def add_error(self):
         if self.errorListWidget.count() == 0:  # do this only if the list is empty
-            add_to_list_widget(self.sourceListWidget, self.errorListWidget)
+            _add_to_list_widget(self.sourceListWidget, self.errorListWidget)
 
     def remove_error(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.errorListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.errorListWidget, self.names)
 
     def add_participant(self):
         if self.participantListWidget.count() == 0:  # do this only if the list is empty
-            add_to_list_widget(self.sourceListWidget, self.participantListWidget)
+            _add_to_list_widget(self.sourceListWidget, self.participantListWidget)
 
     def remove_participant(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.participantListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.participantListWidget, self.names)
 
     def add_condition(self):
-        add_to_list_widget(self.sourceListWidget, self.conditionListWidget)
+        _add_to_list_widget(self.sourceListWidget, self.conditionListWidget)
 
     def remove_condition(self):
-        remove_item_from_list_widget(self.sourceListWidget, self.conditionListWidget, self.names)
+        _remove_item_from_list_widget(self.sourceListWidget, self.conditionListWidget, self.names)
 
     def read_parameters(self):
         return ([str(self.errorListWidget.item(i).text()) for i in range(self.errorListWidget.count())],
@@ -309,7 +343,11 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -318,14 +356,13 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
 
     def init_vars(self, names):
         self.names = names
-        remove_ceased_vars(self.selected_listWidget, names)
-        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
-        add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+        _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
     def remove_var(self):
-        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+        _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
         return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
@@ -340,7 +377,11 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -349,12 +390,11 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
 
     def init_vars(self, names):
         self.names = names
-        remove_ceased_vars(self.selected_listWidget, names)
-        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
     def add_var(self):
-        add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+        _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
-        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+        _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
     
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
@@ -383,7 +423,11 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.optionsButton_clicked)
@@ -397,12 +441,11 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         
     def init_vars(self, names):
         self.names = names
-        remove_ceased_vars(self.selected_listWidget, names)
-        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
     def add_var(self):
-        add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+        _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
-        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+        _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def optionsButton_clicked(self):
         if self.xylims_dialog.exec_():
@@ -498,7 +541,11 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.factorsButton_clicked)
@@ -514,22 +561,19 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
     def init_vars(self, names):
         self.names = names
-        init_source_vars(self.source_listWidget, names, [])
-        if len(self.factors) < 2:
-            remove_ceased_vars(self.selected_listWidget, names)
-            init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
         if len(self.factors) < 2:
-            add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
         else:
-            add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+            _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
 
     def remove_var(self):
         if len(self.factors) < 2:
-            remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
         else:
-            remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+            _remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
 
     def show_factors(self):
         # remove all items first
@@ -538,12 +582,12 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             if ' :: ' in item.text():
                 if not item.text().endswith(' :: '):
                     self.source_listWidget.insertItem(
-                        find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                        _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
                         item.text().split(' :: ')[1])
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
             else:
                 self.source_listWidget.insertItem(
-                    find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                    _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                     item.text())
 
         # add new empty factor levels
@@ -571,13 +615,13 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                     if ' :: ' in item.text():
                         if not item.text().endswith(' :: '):  # if there is a factor name and a variable
                             self.source_listWidget.insertItem(
-                                find_previous_item_position(self.source_listWidget, self.names,
-                                                            item.text().split(' :: ')[1]),
+                                _find_previous_item_position(self.source_listWidget, self.names,
+                                                             item.text().split(' :: ')[1]),
                                 item.text().split(' :: ')[1])
                             item.setText(item.text().split(' :: ')[0] + ' :: ')
                     else:
                         self.source_listWidget.insertItem(
-                            find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                            _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                             item.text())
 
     def optionsButton_clicked(self):
@@ -604,7 +648,11 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -613,15 +661,14 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
 
     def init_vars(self, names):
         self.names = names
-        remove_ceased_vars(self.selected_listWidget, names)
-        init_source_vars(self.source_listWidget, names, [self.selected_listWidget])
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
         if self.selected_listWidget.count() == 0:  # allow only if the list is empty
-            add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
     def remove_var(self):
-        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+        _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())][0] if
@@ -637,8 +684,14 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.group_listWidget.doubleClicked.connect(self.remove_group)
+        self.group_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.group_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.add_group_button.clicked.connect(self.add_group)
@@ -656,21 +709,19 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
 
     def init_vars(self, names):
         self.names = names
-        remove_ceased_vars(self.selected_listWidget, names)
-        remove_ceased_vars(self.group_listWidget, names)
-        init_source_vars(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
 
     def add_var(self):
-        add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+        _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
-        remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+        _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def add_group(self):
         if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
-            add_to_list_widget(self.source_listWidget, self.group_listWidget)
+            _add_to_list_widget(self.source_listWidget, self.group_listWidget)
     def remove_group(self):
-        remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
+        _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
     def on_slopeButton_clicked(self):
         if self.slope_dialog.exec_():
@@ -747,7 +798,7 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
                       'hr': 'Hrvatski (Croatian)', 'hu': 'Magyar (Hungarian)', 'it': 'Italiano (Italian)',
                       'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'nb': 'Norsk Bokmål (Norvegian Bokmål)',
                       'ro': 'Română (Romanian)', 'ru': 'Русский (Russian)', 'sk': 'Slovenčina (Slovak)',
-                      'th': 'ไทย (Thai)'}
+                      'th': 'ไทย (Thai)', 'tr': 'Türkçe (Turkish)'}
         lang_names_sorted = sorted([lang_names[lang] for lang in langs])
         self.lang_codes = {lang_name:lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
 

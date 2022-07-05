@@ -2,8 +2,9 @@
 """
 This module contains functions for creating charts.
 
-Functions get the data (as pandas dataframe or as pandas series), and variable name(s) and other relevant parameters,
-and they return one or several graphs.
+Functions get the raw data (as pandas dataframe or as pandas series), and the variable name(s). Optionally, use further
+necessary parameters, but try to solve everything inside the chart to minimize the number of needed additional
+parameters. The functions return one or several graphs.
 """
 
 import gettext
@@ -39,12 +40,8 @@ theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]
 #print theme_colors
 # this is a workaround, as 'C0' notation does not seem to work
 
-# store matplotlib theme colors for html heading styles
-from matplotlib.colors import hsv_to_rgb, rgb_to_hsv, to_hex
-csc.mpl_theme_color = to_hex(theme_colors[0])
-hsv_color = rgb_to_hsv(list(int(csc.mpl_theme_color[i:i + 2], 16) / 256 for i in (1, 3, 5)))
-hsv_color[2] = hsv_color[2] / 1.2  # make a darker version
-csc.mpl_theme_color_dark = to_hex(hsv_to_rgb(hsv_color))
+# store the first matplotlib theme color in cogstat config for the GUI-specific html heading styles
+csc.mpl_theme_color = matplotlib.colors.to_hex(theme_colors[0])
 
 # Overwrite style parameters when needed
 # https://matplotlib.org/tutorials/introductory/customizing.html
@@ -57,7 +54,6 @@ matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
 if csc.language == 'th':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
 if csc.language == 'ko':
-    print('kjgjhgjhg')
     matplotlib.rcParams['font.sans-serif'][0:0] = ['NanumGothic', 'NanumMyeongjo']
 #print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
 matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
@@ -109,7 +105,7 @@ def _wrap_labels(labels):
 
 def _set_axis_measurement_level(ax, x_measurement_level, y_measurement_level):
     """
-    Set the axes types of the graph acording to the measurement levels of the variables.
+    Set the axes types of the graph according to the measurement levels of the variables.
     :param ax: ax object
     :param x_measurement_type: str 'nom', 'ord' or 'int'
     :param y_measurement_type: str 'nom', 'ord' or 'int'
@@ -232,6 +228,47 @@ def _mosaic_labelizer(crosstab_data, l, separator='\n'):
         ll = tuple([int(float(l_x)) if isfloat(l_x) else l_x for l_x in l])
         return separator.join(l) if crosstab_data[ll] != 0 else ""
 
+
+############################
+### Charts for filtering ###
+############################
+
+def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_limit, upper_limit):
+    """Displays the filtered and kept cases for a variable.
+
+    Parameters
+    ----------
+    included_cases
+    excluded_cases
+    var_name : str
+    lower_limit : float
+    upper_limit : float
+
+    Returns
+    -------
+    matplotlib chart
+    """
+
+    # Follow the structure of create_variable_raw_chart structure for interval variables.
+
+    fig = plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.25))
+    ax = plt.gca()
+
+    # Add individual data
+    # Excluded cases and limit lines are denoted with the second color in the theme.
+    plt.scatter(included_cases, np.random.random(size=len(included_cases)), color=theme_colors[0], marker='o')
+    plt.scatter(excluded_cases, np.random.random(size=len(excluded_cases)), color=theme_colors[1], marker='o')
+    plt.vlines([lower_limit, upper_limit], ymin=-1, ymax=2, colors=theme_colors[1])
+    ax.axes.set_ylim([-1.5, 2.5])
+    fig.subplots_adjust(top=0.85, bottom=0.4)
+
+    # Add labels
+    plt.title(_plt('Included and excluded cases with exclusion criteria'))
+    plt.xlabel(var_name)
+    ax.axes.get_yaxis().set_visible(False)
+    _set_axis_measurement_level(ax, 'int', 'nom')
+
+    return plt.gcf()
 
 ####################################
 ### Charts for Explore variables ###
@@ -413,19 +450,21 @@ def create_normality_chart(pdf, var_name):
                      x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     val_count = (val_count * (max(n) / max(val_count))) / 20.0
 
-    # Graph
-    plt.figure()
-    n, bins, patches = plt.hist(data.values, density=True, color=theme_colors[0])
-    plt.plot(bins, stats.norm.pdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
+    # Graphs
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+
+    # 1. Histogram
+    n, bins, patches = ax1.hist(data.values, density=True, color=theme_colors[0])
+    ax1.plot(bins, stats.norm.pdf(bins, np.mean(data), np.std(data)), color=theme_colors[1], linestyle='--',
              linewidth=3)
-    plt.title(_plt('Histogram with individual data and normal distribution'))
-    plt.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
+    ax1.set_title(_plt('Histogram with individual data and normal distribution'))
+    ax1.errorbar(np.array(val_count.index), np.zeros(val_count.shape),
                  yerr=[np.zeros(val_count.shape), val_count.values],
                  fmt='k|', capsize=0, linewidth=2)
     #    plt.plot(data, np.zeros(data.shape), 'k+', ms=10, mew=1.5)
     # individual data
-    plt.xlabel(var_name)
-    plt.ylabel(_('Normalized relative frequency'))
+    ax1.set_xlabel(var_name)
+    ax1.set_ylabel(_('Normalized relative frequency'))
 
     # percent on y axes http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
     def to_percent(y, position):
@@ -433,30 +472,24 @@ def create_normality_chart(pdf, var_name):
         return s + r'$\%$' if matplotlib.rcParams['text.usetex'] is True else s + '%'
 
     from matplotlib.ticker import FuncFormatter
-    plt.gca().yaxis.set_major_formatter(FuncFormatter(to_percent))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'int', 'int')
+    ax1.yaxis.set_major_formatter(FuncFormatter(to_percent))
+    _set_axis_measurement_level(ax1, 'int', 'int')
 
-    normality_histogram = plt.gcf()
-
-    # QQ plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    sm.graphics.qqplot(data, line='s', ax=ax, color=theme_colors[0])
+    # 2. QQ plot
+    sm.graphics.qqplot(data, line='s', ax=ax2, color=theme_colors[0])
     # Change the red line color (otherwise we should separately call the sm.qqline() function)
     lines = fig.findobj(lambda x: hasattr(x, 'get_color') and x.get_color() == 'r')
     [d.set_color(theme_colors[1]) for d in lines]
-    plt.title(_plt('Quantile-quantile plot'))
-    plt.xlabel(_plt('Normal theoretical quantiles'))
-    plt.ylabel(_plt('Sample quantiles'))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'int', 'int')
-    qq_plot = plt.gcf()
+    ax2.set_title(_plt('Quantile-quantile plot'))
+    ax2.set_xlabel(_plt('Normal theoretical quantiles'))
+    ax2.set_ylabel(_plt('Sample quantiles'))
+    _set_axis_measurement_level(ax2, 'int', 'int')
+    normality_qq = plt.gcf()
 
-    return normality_histogram, qq_plot
+    return normality_qq
 
 
-def create_variable_population_chart(data, var_name, ci):
+def create_variable_population_chart(data, var_name, stat, ci=None):
     """
 
     Parameters
@@ -465,6 +498,8 @@ def create_variable_population_chart(data, var_name, ci):
         It is assumed that nans are dropped.
     var_name : str
 
+    stat : {'mean', 'median'}
+
     ci :
 
     Returns
@@ -472,37 +507,16 @@ def create_variable_population_chart(data, var_name, ci):
     matplotlib chart
     """
     plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.35))
-    plt.barh([1], [data.mean()], xerr=[ci], color=theme_colors[0], ecolor='black')
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
-    plt.title(_plt('Mean value with 95% confidence interval'))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'int', 'int')
-    return plt.gcf()
-
-
-def create_variable_population_chart_2(data, var_name):
-    """
-
-    Parameters
-    ----------
-    data : pandas series
-
-    var_name : str
-
-
-    Returns
-    -------
-
-    """
-    # TODO merge with create_variable_popuplation_chart
-    plt.figure(figsize=(csc.fig_size_x, csc.fig_size_y * 0.35))
-    plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar
-    plt.gca().axes.get_yaxis().set_visible(False)
-    plt.xlabel(var_name)  # TODO not visible yet, maybe matplotlib bug, cannot handle figsize consistently
-    plt.title(_plt('Median value'))
-    ax = plt.gca()
-    _set_axis_measurement_level(ax, 'ord', 'nom')
+    if stat == 'mean':
+        plt.barh([1], [data.mean()], xerr=[ci], color=theme_colors[0], ecolor='black')
+        plt.title(_plt('Mean value with 95% confidence interval'))
+        _set_axis_measurement_level(plt.gca(), 'int', 'int')
+    elif stat == 'median':
+        plt.barh([1], [np.median(data)], color=theme_colors[0], ecolor='black')  # TODO error bar
+        plt.title(_plt('Median value'))
+        _set_axis_measurement_level(plt.gca(), 'ord', 'nom')
     return plt.gcf()
 
 
@@ -510,29 +524,103 @@ def create_variable_population_chart_2(data, var_name):
 ### Charts for Explore variable pairs ###
 #########################################
 
-
-def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=False, xlims=[None, None],
-                               ylims=[None, None]):
-    """
+def create_residual_chart(data, meas_lev, x, y):
+    """Draw a chart with residual plot and histogram of residuals
 
     Parameters
     ----------
     data : pandas dataframe
-    meas_lev
-    slope
-    intercept
-    x
-    y
-    raw_data
-    xlims :
-        List of values that may overwrite the automatic xlim values for interval and ordinal variables
-    ylims :
+    meas_lev : {'int', 'ord', 'nom', 'unk'}
+        Measurement level of the variables
+    x : str
+        Name of the x variable.
+    y : str
+        Name of the x variable.
+
+    Returns
+    -------
+    matplotlib chart
+        A residual plot and a histogram of residuals.
+    """
+
+    if meas_lev == 'int':
+        val_count = data.value_counts()
+        if max(val_count) > 1:
+            plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
+                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
+
+        import statsmodels.regression
+        import statsmodels.tools
+        residuals = statsmodels.regression.linear_model.OLS(data[y],statsmodels.tools.add_constant(data[x]))\
+            .fit().resid
+
+        # Two third on left for residual plot, one third on right for histogram of residuals
+        fig = plt.figure()
+        gs = plt.GridSpec(1, 3, figure=fig)
+        ax_res_plot = fig.add_subplot(gs[0, :2])
+        ax_hist = fig.add_subplot(gs[0, 2], sharey=ax_res_plot)
+
+        # Residual plot (scatter of x vs. residuals)
+        ax_res_plot.plot(data[x], residuals, '.')
+        ax_res_plot.axhline(y=0)
+        ax_res_plot.set_title(_plt("Residual plot"))
+        ax_res_plot.set_xlabel(x)
+        ax_res_plot.set_ylabel(_plt("Residuals"))
+
+        # Histogram of residuals
+        n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
+        normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
+        ax_hist.plot(normal_distribution, bins, "--")
+        ax_hist.set_title(_plt("Histogram of residuals"))
+        # ax_hist.set_xlabel("Frequency")
+
+        plt.setp(ax_hist.get_yticklabels(), visible=False)
+        plt.setp(ax_hist.get_yticklabels(minor=True), visible=False)
+        plt.setp(ax_hist.get_xticklabels(), visible=False)
+        plt.setp(ax_hist.get_xticklabels(minor=True), visible=False)
+        fig.tight_layout()
+        fig.subplots_adjust(wspace=0.05)
+        graph = plt.gcf()
+    else:
+        graph = None
+
+    return graph
+
+
+def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False, regression=True, CI=False,
+                               xlims=[None, None], ylims=[None, None]):
+
+    """Draw a chart relating two variables with optional model fit and raw data
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev : {'int', 'ord', 'nom', 'unk'}
+        Measurement level of the variables
+    x : str
+        Name of the x variable.
+    y : str
+        Name of the y variable.
+    result : statsmodels regression result object
+        Result of the regression analysis.
+    raw_data : bool
+        Displays raw data when True.
+    regression : bool
+        Displays the regression line when True.
+    CI : bool
+        Displays the CI band of the regression line if True. This has an effect only if the regression parameter is set
+        to True.
+    xlims : list of two floats
+        List of values that may overwrite the automatic ylim values for interval and ordinal variables
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
     -------
-
+    matplotlib chart
+        A plot of the two variables optionally containing the raw data, regression line and its CI band.
     """
+
     if meas_lev in ['int', 'ord']:
 
         # Prepare the frequencies for the plot
@@ -557,17 +645,44 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=
 
         if meas_lev == 'int':
             # Display the data
-            ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
+            if raw_data:
+                ax.scatter(xvalues, yvalues, xy_freq, color=theme_colors[0], marker='o')
+                # this version in the comment would not make number pairs with multiple cases larger
+                # ax.scatter(data[x], data[y], color=theme_colors[0], marker='o')
+                plt.title(_plt('Scatterplot of the variables'))
             # Display the linear fit for the plot
-            if not raw_data:
-                fit_x = [min(data.iloc[:, 0]), max(data.iloc[:, 0])]
-                fit_y = [slope*i+intercept for i in fit_x]
-                ax.plot(fit_x, fit_y, color=theme_colors[0])
+            if regression:
+                from statsmodels.stats.outliers_influence import summary_table
+                data_sorted = data.sort_values(by=x)
+                st, summary, ss2 = summary_table(result, alpha=0.05)
+
+                # Plotting regression line from statsmodels fitted values
+                fittedvalues = summary[:, 2]
+                ax.plot(data_sorted[x], fittedvalues, color=theme_colors[0])
+
+                if CI:
+                    # this will overwrite plot title that was set when raw data are displayed
+                    # It assumes that regression line and CI are displayed
+                    plt.title(_plt('Linear regression line with 95% CI'))
+                    # Calculate CIs
+                    predict_mean_ci_low, predict_mean_ci_upp = summary[:, 4:6].T
+
+                    # Plot CI band
+                    ax.plot(data_sorted[x], data_sorted[y], 'o', alpha=0)
+                    ax.plot(data_sorted[x], predict_mean_ci_low, '--', color=theme_colors[0])
+                    ax.plot(data_sorted[x], predict_mean_ci_upp, '--', color=theme_colors[0])
+                    ax.fill_between(data_sorted[x], predict_mean_ci_low, predict_mean_ci_upp, color=theme_colors[0],
+                                    alpha=0.2)
+                else:
+                    # This will overwrite plot title that was set when raw data are displayed
+                    # It assumes that regression and raw data are displayed
+                    plt.title(_plt('Scatter plot with linear regression line'))
+
             # Set the labels
-            plt.title(_plt('Scatterplot of the variables'))
             ax.set_xlabel(x)
             ax.set_ylabel(y)
             _set_axis_measurement_level(ax, 'int', 'int')
+
         elif meas_lev == 'ord':
             # Display the data
             ax.scatter(stats.rankdata(xvalues), stats.rankdata(yvalues),
@@ -616,21 +731,25 @@ def create_variable_pair_chart(data, meas_lev, slope, intercept, x, y, raw_data=
 #########################################
 
 
-def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=False, ylims=[None, None]):
+def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=False, ylims=[None, None]):
     """
 
     Parameters
     ----------
     data : pandas dataframe
-    var_names
-    meas_level
-    raw_data
-    ylims :
+        It is assumed that the missing cases are dropped.
+    var_names : list of str
+
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    raw_data_only : bool
+        Only the raw data should be displayed? Or the box plots too?
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
     -------
-
+    matplotlib chart
     """
     graph = None
     if meas_level in ['int', 'ord', 'unk']:
@@ -639,7 +758,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        if raw_data:
+        if raw_data_only:
             plt.title(_plt('Individual data of the variables'))
         else:
             plt.title(_plt('Boxplots and individual data of the variables'))
@@ -662,7 +781,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data=
             plt.suptitle(_plt('Thickest line displays %d cases.') % max_freq, x=0.9, y=0.025,
                          horizontalalignment='right', fontsize=10)
         # Display boxplots
-        if not raw_data:
+        if not raw_data_only:
             box1 = ax.boxplot(variables, whis=[0, 100])
             # ['medians', 'fliers', 'whiskers', 'boxes', 'caps']
             plt.setp(box1['boxes'], color=theme_colors[0])
@@ -705,9 +824,10 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
     Parameters
     ----------
     data : pandas dataframe
-    var_names
-    meas_level
-    ylims
+    var_names : list of str
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
@@ -755,21 +875,22 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     ----------
     data_frame: pandas data frame
         It is assumed that the missing cases are dropped.
-    meas_level
-    var_names
-    param groups
-        List of names of the grouping variables
-    param group_levels
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    var_names : list of str
+    groups : list of str
+        Grouping variables
+    group_levels
         List of lists or tuples with group levels (1 grouping variable) or group level combinations
         (more than 1 grouping variables)
     raw_data_only : bool
         Only the raw data are displayed
-    ylims
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns
     -------
-
+    matplotlib chart
     """
     if meas_level in ['int', 'ord']:  # TODO 'unk'?
         # TODO is this OK for ordinal?
@@ -897,11 +1018,12 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
     ----------
     pdf : pandas dataframe
         It is asssumed that missing cases are removed.
-    meas_level
-    var_names
-    groups
+    meas_level : {'int', 'ord', 'nom', 'unk'}
+        Measurment level of the variables
+    var_names : list of str
+    groups : list of str
     group_levels
-    ylims
+    ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
     Returns

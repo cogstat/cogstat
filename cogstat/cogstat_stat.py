@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains functions for statistical analysis.
-The functions will calculate the text and graphical results that are
-compiled in cogstat methods.
+This module contains functions for statistical analysis. The functions 
+calculate the text results that are compiled in the cogstat module.
 
 Arguments are the pandas data frame (pdf), and parameters (among others they
 are usually variable names).
-Output is text (html and some custom notations), images (matplotlib)
-and list of images.
+Output is text (html and some custom notations).
 
-Mostly scipy.stats, statsmodels and matplotlib is used to generate the results.
+Mostly scipy.stats and statsmodels are used to generate the results.
 """
 
 import gettext
@@ -22,10 +20,6 @@ import numpy as np
 import pandas as pd
 import pingouin
 from scipy import stats
-try:
-    from statsmodels.graphics.mosaicplot import mosaic
-except:
-    pass
 from statsmodels.stats.weightstats import DescrStatsW
 
 from . import cogstat_config as csc
@@ -532,18 +526,115 @@ def confidence_interval_t(data, ci_only=True):
 ### Variable pairs ###
 
 
-def variable_pair_standard_effect_size(data, meas_lev, sample=True):
+def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n, normality=None,
+                                          homoscedasticity=None):
     """
+    Calculate point and interval estimates of regression parameters (slope, and intercept) in a regression analysis.
+
+    Parameters
+    ----------
+    slope : float
+        Slope of the regression line
+    intercept : float
+        Y-intercept of the regression line
+    std_err : float
+        Standard error of the slope
+    intercept_stderr : float
+        Standard error of the intercept
+    meas_lev : str
+        Measurement level of variables
+    n : int
+        Number of data points
+    normality : bool or None
+        True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
+    homoscedasticity : bool or None
+        True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
+        if the parameter was not specified.
+
+    Returns
+    -------
+    str
+        Table of the point and interval estimations
+    """
+    if meas_lev == "int":
+        regression_coefficients = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
+        pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+
+        # Warinings based on the results of the assumption tests
+        if normality is None:
+            regression_coefficients += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' +\
+                                                   _('CIs may be biased.')  + '</decision>'
+        elif not normality:
+            regression_coefficients += '\n' + '<decision>' \
+                                       + _('Assumption of normality violated for CI calculations.') + ' ' + \
+                                       _('CIs may be biased.') + '</decision>'
+        else:
+            regression_coefficients += '\n' + '<decision>' + _('Assumption of normality for CI calculations met.') + \
+                                       '</decision>'
+
+        if homoscedasticity is None:
+            regression_coefficients += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' + \
+                                       _('CIs may be biased.') + '</decision>'
+        elif not homoscedasticity:
+            regression_coefficients += '\n' + '<decision>' \
+                                       + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                       _('CIs may be biased.') + '</decision>'
+        else:
+            regression_coefficients += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
+                                                               'calculations met.') + '</decision>'
+
+
+        # Calculate 95% CIs for slope and intercept
+        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
+        from scipy.stats import t
+        tinv = lambda p, df: abs(t.ppf(p / 2, df))
+        ts = tinv(0.05, n - 2)
+        slope_ci_low = slope - ts * std_err
+        slope_ci_high = slope + ts * std_err
+        intercept_ci_low = intercept - ts * intercept_stderr
+        intercept_ci_high = intercept + ts * intercept_stderr
+
+        pdf_result.loc[_("Slope")] = \
+            ['%0.3f' % slope, '[%0.3f, %0.3f]' % (slope_ci_low, slope_ci_high)]
+
+        pdf_result.loc[_("Intercept")] = \
+            ['%0.3f' % intercept, '[%0.3f, %0.3f]' % (intercept_ci_low, intercept_ci_high)]
+
+    else:
+        regression_coefficients = None
+    if regression_coefficients:
+        regression_coefficients += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
+                                                                         classes="table_cs_pd"))
+
+    return regression_coefficients
+
+
+def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=None, homoscedasticity=None):
+    """Calculate standardized effect size measures.
     (Some stats are also calculated elsewhere, making the analysis slower, but separation is a priority.)
 
-    :param data:
-    :param meas_lev:
-    :param sample: True for sample descriptives, False for population estimations
-    :return:
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev : str
+        Measurement level of variables.
+    sample : bool
+        True for sample descriptives, False for population estimations.
+    normality: bool or None
+        True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
+    homoscedasticity : bool or None
+        True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
+        if the parameter was not specified.
+
+    Returns
+    -------
+    html text
     """
     pdf_result = pd.DataFrame()
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
     if sample:
+        standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
         if meas_lev in ['int', 'unk']:
             pdf_result.loc[_("Pearson's correlation"), _('Value')] = \
                 '<i>r</i> = %0.3f' % stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])[0]
@@ -563,13 +654,38 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True):
                 pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                     'cannot be computed (division by zero)'
     else:  # population estimations
+        standardized_effect_size_result = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         if meas_lev in ['int', 'unk']:
             df = len(data) - 2
             r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             pdf_result.loc[_("Pearson's correlation") + ', <i>r</i>'] = \
-                ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+                ['%0.3f' % r, '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+
+            # Warnings based on the results of the assumption tests
+            if normality is None:
+                standardized_effect_size_result += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' +\
+                                                   _('CIs may be biased.') + '</decision>'
+            elif not normality:
+                standardized_effect_size_result += '\n' + '<decision>' + \
+                                                   _('Assumption of normality violated for CI calculations.') + ' ' + \
+                                                   _('CIs may be biased.') + '</decision>'
+            else:
+                standardized_effect_size_result += '\n' + '<decision>' + \
+                                                   _('Assumption of normality for CI calculations met.') + '</decision>'
+
+            if homoscedasticity is None:
+                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' +\
+                                                   _('CIs may be biased.') + '</decision>'
+            elif not homoscedasticity:
+                standardized_effect_size_result += '\n' + '<decision>' \
+                                           + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+            else:
+                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
+                                                                           'calculations met.') + '</decision>'
+
         if meas_lev in ['int', 'unk', 'ord']:
             df = len(data) - 2
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
@@ -616,7 +732,7 @@ def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, ma
                                             _format_html_table(cont_table_count.to_html(bold_rows=False,
                                                                                         classes="table_cs_pd")))
     if percent:
-        # for the pd.crosstab() function normalize=True parameter does not work with mutliple column variables
+        # for the pd.crosstab() function normalize=True parameter does not work with multiple column variables
         # (neither pandas version 0.22 nor 1.0.3 works, though with different error messages), so make a workaround
         cont_table_count = pd.crosstab([data_frame[ddd] for ddd in data_frame[y]],
                                        [data_frame[ddd] for ddd in data_frame[x]], margins=margins,
@@ -708,7 +824,7 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
         None if effect size is not calculated
 
     """
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
 
     if sample:  # Effects sizes for samples
         pdf_result = pd.DataFrame()
@@ -833,7 +949,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
         None if effect size is not calculated
     """
 
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>'
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
 
     if sample:
         pdf_result = pd.DataFrame()

@@ -7,7 +7,7 @@ Arguments are the pandas data frame (pdf), and parameters (among others they
 are usually variable names).
 Output is text (html and some custom notations).
 
-Mostly scipy.stats and statsmodels are used to generate the results.
+Mostly scipy.stats, statsmodels, and pingouin are used to generate the results.
 """
 
 import gettext
@@ -223,6 +223,11 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value) + ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
+        # Bayesian t-test
+        bf10 = pingouin.bayesfactor_ttest(t, len(data), paired=True)
+        text_result += _('Result of the Bayesian one sample t-test') + \
+                       ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                       (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
     else:
         text_result += _('One sample t-test is computed only for interval variables.')
     return text_result, ci
@@ -232,6 +237,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     """Calculate Wilcoxon signed-rank test.
 
     Parameters
+    ---------
     pdf : pandas dataframe
 
     var_name : str
@@ -268,8 +274,121 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
+def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
+    """Check homoscedasticity
 
-def variable_pair_hyp_test(data, x, y, meas_lev):
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_names : list of str
+        Name of the variables to be checked.
+    residual : array
+        Residuals from the regression analysis.
+    group_name : str
+        Name of the grouping variable if part of var_name should be
+        checked. Otherwise ''.
+    group_value : str
+        Name of the group in group_name, if grouping is used.
+
+    Returns
+    -------
+    bool or None
+        False if data is heteroscedastic, None if homoscedasticity cannot be caluclated.
+    html text
+        Output in APA format.
+    """
+
+    text_result = ''
+
+    if group_name:
+        data = pdf[pdf[group_name] == group_value][var_names]
+    else:
+        data = pdf[var_names]
+
+    if len(set(data)) == 1:
+        return None, _('Homoscedasticity cannot be checked for constant variable in %s%s.') %  \
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') +'\n'
+
+    if len(data) < 3:
+        return None, _('Too small sample to test homoscedasticity in variable %s%s.\n') % \
+                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
+    else:
+        X = data[var_names[0]]
+        X = sm.add_constant(X)
+        Y = data[var_names[1]]
+
+        # The resid variable is ordered according to X, which leads to White's test producing a result that
+        # is different than the R function white_lm(). Accordingly we fit the model again, without ordering, and use
+        # these residuals for White's test
+        model = sm.regression.linear_model.OLS(Y,X)
+        result = model.fit()
+        residual_unsorted = result.resid
+
+        koenker = sm.stats.diagnostic.het_breuschpagan(sorted(residual), X, robust=True) # Need sorted() to have same result as R
+        lm_koenker = koenker[0]
+        p_koenker = koenker[1]
+
+        white = sm.stats.diagnostic.het_white(residual_unsorted, X)
+        lm_white = white[0]
+        p_white = white[1]
+
+        homoscedasticity = False if p_koenker<0.05 or p_white<0.05 else True
+
+        text_result += _("Koenker's studentized score test") \
+                       + ": <i>LM</i> = %0.*f, %s\n" % (non_data_dim_precision, lm_koenker, print_p(p_koenker)) \
+                       + _("White's test") \
+                       + ': <i>LM</i> = %0.*f, %s\n' % (non_data_dim_precision, lm_white, print_p(p_white))
+
+        return homoscedasticity, text_result
+
+
+def multivariate_normality(pdf, var_names, group_name='', group_value=''):
+    """Henze-Zirkler test of multivariate normality.
+
+        Parameters
+        ----------
+        pdf : pandas dataframe
+            It is sufficient to include only the relevant variables. It is assumed that nans are dropped.
+        var_names : str
+            Name of the variables to test.
+        group_name : str
+            Name of grouping variable if part of var_name should be checked. Otherwise ''.
+        group_value : str
+            Name of the group in group_name, if grouping is used.
+
+        Returns
+        -------
+        bool or None
+            True if normality is true. None if normality cannot be calculated.
+        html text
+            Output in APA format.
+
+        """
+
+    text_result = ''
+
+    if group_name:
+        data = pdf[pdf[group_name] == group_value][var_names]
+    else:
+        data = pdf[var_names]
+    if len(set(data)) == 1:
+        return None, _('Normality cannot be checked for constant variable in %s%s.\n') % \
+               (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
+    if len(data) < 3:
+        return None, _('Too small sample to test normality in variable %s%s.\n') % \
+                       (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
+
+    else:
+        hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
+        var_names_str = ', '.join(var_names)
+        text_result += _('Henze-Zirkler test of multivariate normality in variables %s%s') % \
+                       (var_names_str, ' (%s: %s)' % (group_name, group_value) if group_name else '') + \
+                       ': <i>W</i> = %0.*f, %s\n' % (non_data_dim_precision, hz, print_p(p))
+
+    return sig, text_result
+
+
+def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticity=None):
     """
     Run relevant hypothesis tests.
 
@@ -283,6 +402,12 @@ def variable_pair_hyp_test(data, x, y, meas_lev):
         name of the y variable in data
     meas_lev : {'int', 'ord', 'nom'}
         lowest measurement level of the data
+    normality: bool or None
+        True when variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
+    homoscedasticity: bool or None
+        True when homoscedasticity is true, False otherwise. None if homoscedasticity could not be calculated or if
+        the parameter was not specified.
 
     Returns
     -------
@@ -293,18 +418,64 @@ def variable_pair_hyp_test(data, x, y, meas_lev):
     if meas_lev == 'int':
         population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
                              _('Testing if correlation differs from 0.') + '</decision>\n'
-        population_result += '<decision>'+_('Interval variables.')+' >> ' + \
-                             _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
         df = len(data) - 2
-        r, p = stats.pearsonr(data[x], data[y])
-        population_result += _("Pearson's correlation") + \
-                             ': <i>r</i>(%d) = %0.*f, %s\n' % \
-                             (df, non_data_dim_precision, r, print_p(p))
 
-        r, p = stats.spearmanr(data[x], data[y])
-        population_result += _("Spearman's rank-order correlation") + \
-                             ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
-                             (df, non_data_dim_precision, r, print_p(p))
+        if normality and homoscedasticity:
+            population_result += '<decision>'+_('Interval variables.') + ' ' + _('Normality not violated.') + \
+                                 ' ' + _('Homoscedasticity not violated.') + ' >> ' + \
+                                 _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
+
+            r, p = stats.pearsonr(data[x], data[y])
+            population_result += _("Pearson's correlation") + \
+                                 ': <i>r</i>(%d) = %0.*f, %s\n' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+            # Bayesian test
+            bf10 = pingouin.bayesfactor_pearson(r, len(data))
+            population_result += _('Bayes Factor for Pearson correlation') + \
+                           ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                           (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
+
+            r, p = stats.spearmanr(data[x], data[y])
+            population_result += _("Spearman's rank-order correlation") + \
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+
+        elif normality is None or homoscedasticity is None:
+            population_result += '<decision>'+_('Interval variables.') + ' ' \
+                                 + _('Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
+                                 + _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
+
+            r, p = stats.pearsonr(data[x], data[y])
+            population_result += _("Pearson's correlation") + \
+                                 ': <i>r</i>(%d) = %0.*f, %s\n' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+            # Bayesian test
+            bf10 = pingouin.bayesfactor_pearson(r, len(data))
+            population_result += _('Bayes Factor for Pearson correlation') + \
+                           ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                           (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
+
+            r, p = stats.spearmanr(data[x], data[y])
+            population_result += _("Spearman's rank-order correlation") + \
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+
+        else:
+            violations = ''
+
+            if not normality:
+                violations += 'Normality violated. '
+            if not homoscedasticity:
+                violations += 'Homoscedasticity violated. '
+
+            population_result += '<decision>'+_('Interval variables.') + ' ' + _(violations) + ' >> ' + \
+                                 _("Running Spearman's correlation.") + '\n</decision>'
+
+            r, p = stats.spearmanr(data[x], data[y])
+            population_result += _("Spearman's rank-order correlation") + \
+                                 ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
+                                 (df, non_data_dim_precision, r, print_p(p))
+
     elif meas_lev == 'ord':
         population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
                              _('Testing if correlation differs from 0.') + '</decision>\n'
@@ -482,6 +653,11 @@ def paired_t_test(pdf, var_names):
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
     text_result += _('Result of paired samples t-test') + \
                    ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
+    # Bayesian t-test
+    bf10 = pingouin.bayesfactor_ttest(t, len(variables), paired=True)
+    text_result += _('Result of the Bayesian paired two-samples t-test') + \
+                   ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                   (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
 
     return text_result
 
@@ -504,11 +680,14 @@ def paired_wilcox_test(pdf, var_names):
     if len(var_names) != 2:
         return _('Paired Wilcoxon test requires two variables.')
 
-    T, p = stats.wilcoxon(pdf[var_names[0]], pdf[var_names[1]])
-    text_result += _('Result of Wilcoxon signed-rank test') + \
-                   ': <i>T</i> = %0.*f, %s\n' % (non_data_dim_precision, T, print_p(p))
-    # The test does not use df, despite some of the descriptions on the net.
-    # So there's no need to display df.
+    try:
+        T, p = stats.wilcoxon(pdf[var_names[0]], pdf[var_names[1]])
+        text_result += _('Result of Wilcoxon signed-rank test') + \
+                       ': <i>T</i> = %0.*f, %s\n' % (non_data_dim_precision, T, print_p(p))
+        # The test does not use df, despite some of the descriptions on the net.
+        # So there's no need to display df.
+    except ValueError:
+        text_result += 'Wilcoxon signed-rank test do not work if the difference of the two variables is 0 in all cases.'
 
     return text_result
 
@@ -642,6 +821,13 @@ def friedman_test(pdf, var_names):
     n = len(variables)
     text_result += _('Result of the Friedman test: ') + '&chi;<sup>2</sup>(%d, <i>N</i> = %d) = %0.*f, %s\n' % \
                    (df, n, non_data_dim_precision, chi2, print_p(p))  # χ2(1, N=90)=0.89, p=.35
+    if p < 0.05:
+        # Run the post hoc tests
+        text_result += '\n' + _('Variables differ. Running post-hoc pairwise comparison.') + '\n'
+        text_result += _("Results of Durbin-Conover test (p values).") + '\n'
+        posthoc_result = scikit_posthocs.posthoc_durbin(variables)
+        text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
+                                                                         float_format=lambda x: '%.3f' % x))
 
     return text_result
 
@@ -871,6 +1057,12 @@ def independent_t_test(pdf, var_name, grouping_name):
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.*f, %s\n' % \
                    (df, non_data_dim_precision, t, print_p(p))
+    # Bayesian t-test
+    bf10 = pingouin.bayesfactor_ttest(t, len(var1), len(var2))
+    text_result += _('Result of the Bayesian independent two-samples t-test') + \
+                   ': BF<sub>10</sub> = %0.*f, BF<sub>01</sub> = %0.*f\n' % \
+                   (non_data_dim_precision, bf10, non_data_dim_precision, 1/bf10)
+
     return text_result
 
 
