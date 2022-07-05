@@ -18,6 +18,9 @@ Upcoming release (2022)
     - :warning: White's test and Koenker's test for assumption of homoscedasticity
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
+- New localization
+    - Trukish (Belma Feride Bumin)
+
 
 ## Fixes
 - Various GUI, data import, analysis, and output fixes
