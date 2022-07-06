@@ -19,7 +19,7 @@ Trivial changes when a new feature is added are not denoted.
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
 - New localization
-    - Trukish (Belma Feride Bumin)
+    - Turkish (Belma Feride Bumin)
 
 
 ## Fixes
