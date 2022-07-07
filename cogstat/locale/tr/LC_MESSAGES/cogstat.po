@@ -43,7 +43,7 @@ msgstr "Değer"
 #: .././cogstat_chart.py:375 .././cogstat_chart.py:449
 #: .././cogstat_chart.py:549
 msgid "Largest tick on the x axes displays %d cases."
-msgstr "X eksenindeki en büyük çizgi deneklerin %d'ini gösterir."
+msgstr "x eksenindeki en büyük çizgi olayların %d'ini gösterir."
 
 #: .././cogstat_chart.py:392
 msgid "Histogram with individual data and boxplot"
@@ -59,7 +59,7 @@ msgstr "Histogram"
 
 #: .././cogstat.py:657
 msgid "N of valid cases: %g"
-msgstr "Geçerli deneklerin yüzdesi: %g"
+msgstr "Geçerli olayların sayısı: %g"
 
 #: .././cogstat.py:752
 msgid "Median: %0.*f"
@@ -84,7 +84,7 @@ msgstr "Kantil-kantil grafiği"
 #: .././cogstat_hyp_test.py:198
 msgid "One sample t-test cannot be run for constant variable.\n"
 ""
-msgstr "Tek örneklem t-testi sabit değişken için kullanılamaz."
+msgstr "Tek örneklem t-testi sabit değişken için uygulanamaz."
 
 #: .././cogstat_hyp_test.py:224
 msgid "One sample t-test against %g"
@@ -96,7 +96,7 @@ msgstr "%95 güven aralığı ile ortalama"
 
 #: .././cogstat_hyp_test.py:232
 msgid "One sample t-test is computed only for interval variables."
-msgstr "Sadece aralık değişkenleri için tek örneklem t-testi"
+msgstr "Tek örneklem t-testi sadece aralık değişkenleri için hesaplandı."
 
 #: .././cogstat_chart.py:518
 msgid "Median value"
@@ -104,7 +104,7 @@ msgstr "Medyan değeri"
 
 #: .././cogstat_hyp_test.py:271
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
-msgstr "Wilcoxon işaretli sıralar testi sadece aralık ya da sıraları değişkenler için hesaplanır."
+msgstr "Wilcoxon işaretli sıralar testi sadece aralık ya da sıralı değişkenler için hesaplandı."
 
 #: .././cogstat_stat.py:124 .././cogstat_stat.py:394 .././cogstat_stat.py:489
 #: .././cogstat_stat.py:490 .././cogstat_stat.py:491 ../ui/pivot.py:170
@@ -131,7 +131,7 @@ msgstr "Veri yok"
 
 #: .././cogstat_chart.py:643
 msgid "Largest sign on the graph displays %d cases."
-msgstr "Grafikteki en büyük işaret deneklerin %d'ını gösterir. "
+msgstr "Grafikteki en büyük işaret olayların %d'ını gösterir. "
 
 #: .././cogstat_chart.py:652
 msgid "Scatterplot of the variables"
@@ -143,7 +143,7 @@ msgstr "Değişkenlerin mozaik grafiği"
 
 #: .././cogstat_chart.py:781
 msgid "Thickest line displays %d cases."
-msgstr "En kalın çizgi deneklerin %d'ını gösterir."
+msgstr "En kalın çizgi olayların %d'ını gösterir."
 
 #: .././cogstat_chart.py:844
 msgid "Means and 95% confidence intervals for the variables"
@@ -151,19 +151,19 @@ msgstr "Değişkenler için ortalamalar ve %95 güven aralıkları"
 
 #: .././cogstat_hyp_test.py:603
 msgid "Paired t-test requires two variables."
-msgstr "Bağımlı örneklem t-testi için iki değişken gerekli."
+msgstr "Bağımlı örneklem t-testi için iki değişken gerekiyor."
 
 #: .././cogstat_hyp_test.py:624
 msgid "Result of paired samples t-test"
-msgstr "Bağımlı örneklem t-testi sonucu"
+msgstr "Bağımlı örneklemler t-testi sonucu"
 
 #: .././cogstat_hyp_test.py:651
 msgid "Paired Wilcoxon test requires two variables."
-msgstr "Bağımlı Wilcoxon testi için iki değişken gerekli."
+msgstr "Bağımlı Wilcoxon testi için iki değişken gerekiyor."
 
 #: .././cogstat_hyp_test.py:786
 msgid "Friedman test requires at least two variables."
-msgstr "Friedman testi için en az iki değişken gerekli."
+msgstr "Friedman testi için en az iki değişken gerekiyor."
 
 #: .././cogstat_hyp_test.py:792
 msgid "Result of the Friedman test: "
@@ -195,7 +195,7 @@ msgstr "%95 güven aralığı [%0.*f, %0.*f]"
 
 #: .././cogstat_hyp_test.py:1028
 msgid "Result of independent samples t-test:"
-msgstr "Bağımsız örneklem t-testi sonucu:"
+msgstr "Bağımsız örneklemler t-testi sonucu:"
 
 #: .././cogstat_hyp_test.py:1064
 msgid "One of the groups should include only a single data."
@@ -203,7 +203,7 @@ msgstr "Gruplardan biri sadece tek veri içermelidir."
 
 #: .././cogstat_hyp_test.py:1061
 msgid "Result of the modified independent samples t-test:"
-msgstr "Değiştirilmiş bağımsız örneklem t-testi sonucu:"
+msgstr "Modifiye edilmiş bağımsız örneklemler t-testi sonucu:"
 
 #: .././cogstat_hyp_test.py:1165
 msgid "Result of one-way ANOVA: "
@@ -219,7 +219,7 @@ msgstr "&Veri"
 
 #: .././cogstat_gui.py:153
 msgid "&Open data file"
-msgstr "&Veri dosyası aç"
+msgstr "&Veri dosyasını aç"
 
 #: .././cogstat_gui.py:153
 msgid "Ctrl+O"
@@ -231,7 +231,7 @@ msgstr "&Veriyi yapıştır"
 
 #: .././cogstat_gui.py:157
 msgid "Ctrl+V"
-msgstr ""
+msgstr "Ctrl+V"
 
 #: .././cogstat_gui.py:162 .././cogstat_gui.py:220
 msgid "&Display data"
@@ -239,7 +239,7 @@ msgstr "&Veriyi görüntüle"
 
 #: .././cogstat_gui.py:162
 msgid "Ctrl+D"
-msgstr ""
+msgstr "Ctrl+D"
 
 #: .././cogstat_gui.py:163 .././cogstat_gui.py:221
 msgid "Display data &briefly"
@@ -251,15 +251,15 @@ msgstr "&Analiz"
 
 #: .././cogstat_gui.py:169
 msgid "Ctrl+1"
-msgstr ""
+msgstr "Ctrl+1"
 
 #: .././cogstat_gui.py:171
 msgid "Ctrl+2"
-msgstr ""
+msgstr "Ctrl+2"
 
 #: .././cogstat_gui.py:177 .././cogstat_gui.py:221
 msgid "Pivot &table"
-msgstr "Özet tablosu"
+msgstr "Özet &tablosu"
 
 #: .././cogstat_gui.py:174 .././cogstat_gui.py:224
 msgid "Compare &groups"
@@ -280,7 +280,7 @@ msgstr "&Sonuçları temizle"
 
 #: .././cogstat_gui.py:194
 msgid "Ctrl+P"
-msgstr ""
+msgstr "Ctrl+P"
 
 #: .././cogstat_gui.py:199
 msgid "&CogStat"
@@ -320,7 +320,7 @@ msgstr "&Çıkış"
 
 #: .././cogstat_gui.py:216
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: .././cogstat_gui.py:220
 msgid "&Save data"
@@ -381,7 +381,7 @@ msgstr "Çıktıyı kaydet"
 
 #: .././cogstat_gui.py:911
 msgid "Output has unsaved results. Do you want to save it?"
-msgstr "Çıktıda kaydedilmemiş sonuçlar var. Kaydetmek ister misiniz?"
+msgstr "Çıktıda kaydedilmemiş sonuçlar mevcut. Kaydetmek ister misiniz?"
 
 #: .././cogstat_gui.py:498 .././cogstat.py:463
 msgid "Data"
@@ -397,7 +397,7 @@ msgstr "değişkenler ve"
 
 #: .././cogstat.py:466
 msgid " cases"
-msgstr "denekler"
+msgstr "olaylar"
 
 #: .././cogstat.py:479
 msgid " further cases are not displayed..."
@@ -445,7 +445,7 @@ msgstr "Pearson ve Spearman korelasyonu uygulanıyor."
 #: .././cogstat_hyp_test.py:425 .././cogstat_stat.py:639
 #: .././cogstat_stat.py:663
 msgid "Pearson's correlation"
-msgstr "Pearson korelasyon"
+msgstr "Pearson korelasyonu"
 
 #: .././cogstat.py:856
 msgid "Linear regression"
@@ -455,7 +455,7 @@ msgstr "Doğrusal regresyon"
 #: .././cogstat_hyp_test.py:456 .././cogstat_stat.py:641
 #: .././cogstat_stat.py:644 .././cogstat_stat.py:693
 msgid "Spearman's rank-order correlation"
-msgstr "Spearman'ın sıralama korelasyonu"
+msgstr "Spearman sıralama korelasyonu"
 
 #: .././cogstat_hyp_test.py:452 .././cogstat_hyp_test.py:525
 #: .././cogstat_hyp_test.py:561
@@ -517,11 +517,11 @@ msgstr "Bağımlı Wilcoxon testi uygulanıyor."
 #: .././cogstat_hyp_test.py:973 .././cogstat_hyp_test.py:976
 #: .././cogstat.py:764
 msgid "Sorry, not implemented yet."
-msgstr "Üzgünüz, henüz uygulanmadı."
+msgstr "Üzgünüz, henüz uyarlanmadı."
 
 #: .././cogstat_hyp_test.py:538
 msgid "More than two variables. "
-msgstr "İkiden daha fazla değişken."
+msgstr "İkiden fazla değişken."
 
 #: .././cogstat_hyp_test.py:558 .././cogstat_hyp_test.py:562
 msgid "Running Friedman test."
@@ -549,7 +549,7 @@ msgstr "İki grup"
 
 #: .././cogstat_hyp_test.py:828
 msgid "One group contains only one case. >> Choosing modified t-test."
-msgstr "Bir grupta sadece bir denek var. >>"
+msgstr "Bir grupta sadece bir olay var. >> Modifiye edilmiş t-testi seçiliyor."
 
 #: .././cogstat_hyp_test.py:837
 msgid "group "
@@ -557,7 +557,7 @@ msgstr "grup"
 
 #: .././cogstat_hyp_test.py:841
 msgid "Normality is not violated. >> Running modified t-test."
-msgstr "Normallik ihlal edilmedi. >> Değiştirilmiş t-testi uygulanıyor."
+msgstr "Normallik ihlal edilmedi. >> Modifiye edilmiş t-testi uygulanıyor."
 
 #: .././cogstat_hyp_test.py:884 .././cogstat_hyp_test.py:934
 #: .././cogstat_hyp_test.py:975
@@ -566,7 +566,7 @@ msgstr "Nominal değişken"
 
 #: .././cogstat_hyp_test.py:891
 msgid "More than two groups."
-msgstr "İki gruptan daha fazla"
+msgstr "İki gruptan fazla"
 
 #: .././cogstat.py:1207
 msgid "Several grouping variables."
@@ -606,11 +606,11 @@ msgstr "Küm gör frek"
 
 #: .././cogstat_stat.py:1023
 msgid "Cramér's V measure of association cannot be computed (division by zero)."
-msgstr ""
+msgstr "Cramer'in V bağımlılık ölçüsü hesaplanamadı (sıfıra bölüm)."
 
 #: .././cogstat.py:123 .././cogstat.py:131
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
-msgstr ""
+msgstr "Ölçüm düzeyi sayısı değişken sayısıyla eşleşmiyor. Ölçüm seviyesi belirtimi yok sayıldı."
 
 #: .././cogstat.py:299
 msgid "pandas dataframe"
@@ -622,7 +622,7 @@ msgstr "pano"
 
 #: .././cogstat.py:475
 msgid "Type"
-msgstr ""
+msgstr "Tür"
 
 #: .././cogstat.py:475
 msgid "Level"
@@ -640,33 +640,33 @@ msgstr "%s'ye göre filtreleme."
 #: .././cogstat.py:524
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
-msgstr "Aralığın dışındaki denekler dahil edilmeyecek: %0.*f  --  %0.*f"
+msgstr "Aralığın dışındaki olaylar dahil edilmeyecek: %0.*f  --  %0.*f"
 
 #: .././cogstat.py:565
 msgid "The following cases will be excluded: "
-msgstr "Belirtilen denekler dahil edilmeyecek:"
+msgstr "Belirtilen olaylar dahil edilmeyecek:"
 
 #: .././cogstat.py:572
 msgid "No cases were excluded."
-msgstr "Hiçbir deney dışarıda bırakılmadı. "
+msgstr "Hiçbir olay hariç tutulmadı. "
 
 #: .././cogstat_hyp_test.py:857 .././cogstat_hyp_test.py:905
 msgid "Checking for homogeneity of variance across groups."
-msgstr ""
+msgstr "Gruplar arası varyansın homojenliği kontrol ediliyor."
 
 #: .././cogstat_gui.py:52
 msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
-msgstr "%s Ups, bir şeyler ters gitti, CogStat analizi uygulayamadı. Bunu rapor etmek isteyebilirsiniz."
+msgstr "%s Ups, bir şeyler ters gitti, CogStat analizi uygulayamadı. Bunu bildirmek isteyebilirsiniz."
 
 #: .././cogstat_hyp_test.py:136 .././cogstat_hyp_test.py:375
 msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
-msgstr "Normallik %s%s'deki sabit değişkenler için kontrol edilemez."
+msgstr "Normallik %s%s'deki sabit değişken için kontrol edilemez."
 
 #: .././cogstat_hyp_test.py:159 .././cogstat_hyp_test.py:378
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
-msgstr "%s%s değişkeninde normalliği test etmek için çok küçük örneklem."
+msgstr "Örnekle %s%s değişkeninde normalliği test etmek için çok küçük."
 
 #: .././cogstat_hyp_test.py:667
 msgid "Result of the McNemar test"
@@ -678,7 +678,7 @@ msgstr "Cochran'ın Q testi sonucu"
 
 #: .././cogstat_hyp_test.py:696
 msgid "Result of Mauchly's test to check sphericity"
-msgstr ""
+msgstr "Mauchly'nin küreselliği kontrol etme testi sonucu"
 
 #: .././cogstat_hyp_test.py:703
 msgid "Sphericity is violated."
@@ -686,7 +686,7 @@ msgstr "Küresellik ihlal edildi."
 
 #: .././cogstat_hyp_test.py:705 .././cogstat_hyp_test.py:711
 msgid "Result of repeated measures ANOVA"
-msgstr "Tekrarlı Ölçümler ANOVA sonucu"
+msgstr "Tekrarlı ölçümler ANOVA sonucu"
 
 #: .././cogstat_hyp_test.py:710
 msgid "Sphericity is not violated. "
@@ -694,11 +694,11 @@ msgstr "Küresellik ihlal edilmedi."
 
 #: .././cogstat_hyp_test.py:395
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
-msgstr ""
+msgstr "Değişkenleri Holm-Bonferroni düzeltmesi ile ikili karşılaştırma:"
 
 #: .././cogstat_hyp_test.py:1099
 msgid "Result of Welch's unequal variances t-test:"
-msgstr ""
+msgstr "Welch'in eşit olmayan varyanslar t-testi sonucu:"
 
 #: .././cogstat_hyp_test.py:505
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
@@ -706,11 +706,11 @@ msgstr "Varsayımlara bağlı olarak bağımlı t-testi ya da bağımlı Wilcoxo
 
 #: .././cogstat_hyp_test.py:521 .././cogstat_hyp_test.py:557
 msgid "Normality is violated in variable(s): %s."
-msgstr "Değişken(ler)de normallik ihlal edilmedi. %s"
+msgstr "Değişken(ler)de normallik ihlal edildi: %s"
 
 #: .././cogstat_hyp_test.py:530 .././cogstat_hyp_test.py:566
 msgid "Nominal dichotomous variables."
-msgstr "Nominal ikili değişken"
+msgstr "Nominal ikili değişkenler."
 
 #: .././cogstat_hyp_test.py:531
 msgid "Running McNemar test."
@@ -718,7 +718,7 @@ msgstr "McNemar testi uygulanıyor."
 
 #: .././cogstat_hyp_test.py:535 .././cogstat_hyp_test.py:571
 msgid "Nominal non dichotomous variables."
-msgstr "Nominal ikili olmayan değişken"
+msgstr "Nominal ikili olmayan değişkenler."
 
 #: .././cogstat_hyp_test.py:541
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
@@ -730,11 +730,11 @@ msgstr "Cochran'ın Q testi uygulanıyor."
 
 #: .././cogstat_hyp_test.py:514
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
-msgstr "Varsayımlara bağlı olarak iki örneklem t-testi, Mann-Whitney testi ya da Welch'in testi seçiliyor."
+msgstr "Varsayımlara bağlı olarak iki örneklem t-testi, Mann-Whitney testi ya da Welch'in t-testi seçiliyor."
 
 #: .././cogstat_hyp_test.py:870
 msgid "Normality is violated in variable %s, group(s) %s."
-msgstr ""
+msgstr "%s değişkeninde, %s grup(lar)ında normallik ihlal edildi."
 
 #: .././cogstat_hyp_test.py:876
 msgid "Running Welch's t-test."
@@ -746,11 +746,11 @@ msgstr "Varsayımlara bağlı olarak tek yönlü ANOVA ya da Kruskal-Wallis test
 
 #: .././cogstat_hyp_test.py:920
 msgid "Normality is violated in variable %s, group(s) %s. "
-msgstr ""
+msgstr "%s değişkeninde, %s grup(lar)ında normallik ihlal edildi."
 
 #: .././cogstat_hyp_test.py:591
 msgid "Homeogeneity of variance violated in variable %s. "
-msgstr ""
+msgstr "%s değişkeninde varyansın homojenliği ihlal edildi."
 
 #: .././cogstat_hyp_test.py:553 .././cogstat.py:743
 msgid "Normality is not violated."
@@ -758,19 +758,19 @@ msgstr "Normallik ihlal edilmedi."
 
 #: .././cogstat_hyp_test.py:554
 msgid "Running repeated measures one-way ANOVA."
-msgstr ""
+msgstr "Tekrarlanan ölçümler tek yönlü ANOVA uygulanıyor."
 
 #: .././cogstat_gui.py:163
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: .././cogstat_gui.py:413
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
-msgstr ""
+msgstr "Veriyi aç. Ups, bir şeyler ters gitti, CogStat verileri açamadı. Sorunu bildirmek isteyebilirsiniz."
 
 #: .././cogstat.py:659
 msgid "N of missing cases: %g"
-msgstr "Eksik deneklerin sayısı: %g"
+msgstr "Eksik olayların sayısı: %g"
 
 #: .././cogstat_chart.py:310 .././cogstat_chart.py:405
 #: .././cogstat_chart.py:706 .././cogstat_chart.py:707
@@ -780,12 +780,12 @@ msgstr "%s'ın sıralaması"
 
 #: .././cogstat_hyp_test.py:268 .././cogstat_hyp_test.py:655
 msgid "Result of Wilcoxon signed-rank test"
-msgstr "Wilcoxon işaretli sıralar testi sonucu"
+msgstr "Wilcoxon işaretli sıralar test sonucu"
 
 #: .././cogstat.py:653 .././cogstat.py:808 .././cogstat.py:1021
 #: .././cogstat.py:1144 .././cogstat_chart.py:312
 msgid "Raw data"
-msgstr "İşlenmemiş veri"
+msgstr "Ham veri"
 
 #: .././cogstat.py:667 .././cogstat.py:822 .././cogstat.py:1042
 #: .././cogstat.py:1190
@@ -794,19 +794,19 @@ msgstr "Örneklem özellikleri"
 
 #: .././cogstat.py:530
 msgid "Population parameter estimations and tests"
-msgstr ""
+msgstr "Popülasyon parametre tahminleri ve testleri"
 
 #: .././cogstat.py:726
 msgid "Testing if mean deviates from the value %s."
-msgstr ""
+msgstr "Ortalamanın %s değerinden farklı olup olmadığı test ediliyor."
 
 #: .././cogstat.py:729
 msgid "Testing if median deviates from the value %s."
-msgstr ""
+msgstr "Medyanın %s değerinden farklı olup olmadığı test ediliyor."
 
 #: .././cogstat.py:736
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
-msgstr "Wilcoxon işaretli sıralar testi "
+msgstr "Varsayımlara bağlı olarak tek örneklem t-testi ya da Wilcoxon işaretli sıralar testi seçiliyor. "
 
 #: .././cogstat.py:744
 msgid "Running one-sample t-test."
@@ -827,26 +827,26 @@ msgstr "Popülasyon özellikleri"
 
 #: .././cogstat_hyp_test.py:417 .././cogstat_hyp_test.py:451
 msgid "Testing if correlation differs from 0."
-msgstr "Korelasyon 0'dan farklıysa test ediliyor."
+msgstr "Korelasyonun 0'dan farklı olup olmadığı test ediliyor."
 
 #: .././cogstat_hyp_test.py:461
 msgid "Testing if variables are independent."
-msgstr "Değişkenler bağımsızsa test ediliyor."
+msgstr "Değişkenlerin bağımsız olup olmadığı test ediliyor."
 
 #: .././cogstat_hyp_test.py:492 .././cogstat_hyp_test.py:812
 #: .././cogstat_hyp_test.py:958
 msgid "Testing if the means are the same."
-msgstr "Ortalamalar aynıysa test ediliyor."
+msgstr "Ortalamaların aynı olup olmadığı test ediliyor."
 
 #: .././cogstat_hyp_test.py:494 .././cogstat_hyp_test.py:814
 #: .././cogstat_hyp_test.py:960
 msgid "Testing if the medians are the same."
-msgstr "Medyanlar aynıysa test ediliyor."
+msgstr "Medyanların aynı olup olmadığı test ediliyor."
 
 #: .././cogstat_hyp_test.py:496 .././cogstat_hyp_test.py:816
 #: .././cogstat_hyp_test.py:962
 msgid "Testing if the distributions are the same."
-msgstr "Dağılımlar aynıysa test ediliyor. "
+msgstr "Dağılımların aynı olup olmadığı test ediliyor. "
 
 #: .././cogstat_hyp_test.py:866
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
@@ -858,11 +858,11 @@ msgstr "Normallik ve varyans homojenliği ihlal edilmedi. >> Tek yönlü ANOVA u
 
 #: .././cogstat_gui.py:886
 msgid "Simple automatic data analysis software"
-msgstr "Basit otomatik veri analiz yazılımı"
+msgstr "Basit otomatik veri analizi yazılımı"
 
 #: .././cogstat_gui.py:887
 msgid "Visit CogStat website"
-msgstr "CogStat web sitesini ziyaret edin"
+msgstr "CogStat internet sitesini ziyaret edin"
 
 #: .././cogstat_gui.py:298
 msgid "Welcome to CogStat!"
@@ -870,19 +870,19 @@ msgstr "CogStat'a hoş geldiniz!"
 
 #: .././cogstat_gui.py:299
 msgid "CogStat makes statistical analysis more simple and efficient."
-msgstr "CogStat istatiksel analizi daha kolay ve verimli hale getirir."
+msgstr "CogStat istatiksel analizi kolay ve verimli hale getirir."
 
 #: .././cogstat_gui.py:300
 msgid "To start working open a data file or paste your data from a spreadsheet."
-msgstr "Çalışmaya başlamak için veri dosyası açın ya da verilerinizi bir elektronik tablodan yapıştırın."
+msgstr "Çalışmaya başlamak için bir veri dosyası açın ya da verilerinizi elektronik tablodan yapıştırın."
 
 #: .././cogstat_chart.py:309
 msgid "Rank of the raw data"
-msgstr ""
+msgstr "Ham verinin sıralaması"
 
 #: .././cogstat_chart.py:390
 msgid "Histogram of rank data with individual data and boxplot"
-msgstr "Sıralı verilerin bireysel veri ve kutu grafiği ile histogramı"
+msgstr "Sıralama verilerinin bireysel veri ve kutu grafiği ile histogramı"
 
 #: .././cogstat_chart.py:705
 msgid "Scatterplot of the rank of the variables"
@@ -922,7 +922,7 @@ msgstr "Standart sapma"
 
 #: .././cogstat.py:1027 .././cogstat.py:1163
 msgid "N of valid cases"
-msgstr "Geçerli deneklerin sayısı"
+msgstr "Geçerli olayların sayısı"
 
 #: .././cogstat_gui.py:127
 msgid "Update available"
@@ -934,7 +934,7 @@ msgstr "Yeni sürüm mevcut."
 
 #: .././cogstat_gui.py:129
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
-msgstr "Yeni sürümü <br> buradan indirebilirsiniz <a href = \"%s\">CogStat download page</a>."
+msgstr "Yeni sürümü <br> buradan <a href = \"%s\">CogStat download page</a> indirebilirsiniz ."
 
 #: .././cogstat_gui.py:170 .././cogstat_gui.py:223
 msgid "Explore relation of variable &pair"
@@ -958,16 +958,15 @@ msgstr "Üst çeyrek"
 
 #: .././cogstat_stat.py:429
 msgid "Descriptives for the variables"
-msgstr ""
+msgstr "Değişkenler için tanımlayıcılar"
 
 #: .././cogstat_stat.py:446
 msgid "Descriptives for the groups"
-msgstr ""
+msgstr "Gruplar için tanımlayıcılar"
 
 #: .././cogstat_stat.py:731 .././cogstat_stat.py:742 .././cogstat_stat.py:756
 msgid "Contingency table"
-msgstr "\n"
-"Olasılık tablosu"
+msgstr "Olasılık tablosu"
 
 #: .././cogstat_hyp_test.py:1215
 msgid "Main effect of %s: "
@@ -984,7 +983,7 @@ msgstr "Tekrarlanan ölçüm değişkenlerini karşılaştır"
 
 #: .././cogstat.py:1028 .././cogstat.py:1166
 msgid "N of missing cases"
-msgstr "Eksik deneklerin sayısı"
+msgstr "Eksik olayların sayısı"
 
 #: .././cogstat_hyp_test.py:968
 msgid "Choosing factorial ANOVA."
@@ -1000,7 +999,7 @@ msgstr "Eksik çiftlerin sayısı"
 
 #: .././cogstat.py:937
 msgid "N of missing group cases"
-msgstr "Eksik grup deneklerinin sayısı"
+msgstr "Eksik grup olaylarının sayısı"
 
 #: .././cogstat.py:1182
 msgid "N of missing grouping variable in %s"
@@ -1020,68 +1019,68 @@ msgstr "Aralık"
 
 #: .././cogstat_stat.py:430
 msgid "Descriptives for the variable"
-msgstr ""
+msgstr "Değişken için tanımlayıcılar"
 
 #: .././cogstat.py:41
 msgid "The measurement levels of the variables are not set. Set them in your data source."
-msgstr ""
+msgstr "Değişkenlerin ölçüm seviyeleri belirlenmedi. Bunları veri kaynağınızda ayarlayın."
 
 #: .././cogstat_gui.py:55 .././cogstat_gui.py:501
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
-msgstr ""
+msgstr "Bir sorunu<a href = \"%s\"> nasıl bildireceğiniz hakkında buradan</a> daha fazla bilgi edinin. "
 
 #: .././cogstat_gui.py:301
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
-msgstr ""
+msgstr "CogStat hakkında daha fazla bilgiyi internet sitesinde <a href = \"https://www.cogstat.org\">  bulun ya da hızlı başlangıç öğreticisini buradan <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\"> okuyun."
 
 #: .././cogstat_hyp_test.py:39 .././cogstat.py:42 .././cogstat.py:236
 #: .././cogstat.py:245 .././cogstat.py:277 .././cogstat.py:288
 msgid "Read more about this issue <a href = \"%s\">here</a>."
-msgstr ""
+msgstr "Bu konu hakkında daha fazla okuyun <a href = \"%s\">here</a>."
 
 #: .././cogstat_hyp_test.py:1078
 msgid "Result of slope test with %s:"
-msgstr ""
+msgstr "%s ile eğim testi sonucu:"
 
 #: .././cogstat.py:232
 msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
-msgstr ""
+msgstr "CogStat'ta dize değişkenleri, aralık veya sıra değişkenleri olamaz. Bu değişkenler otomatik olarak nominal olarak ayarlanır:"
 
 #: .././cogstat.py:243
 msgid "The measurement level was not set for all variables."
-msgstr ""
+msgstr "Tüm değişkenler için ölçüm düzeyi tanımlanmadı."
 
 #: .././cogstat.py:242
 msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "Bazı değişken ad(lar)ı, analizlerde sorunlara neden olabilecek İngilizce olmayan karakterler içermektedir: %s."
 
 #: .././cogstat.py:252
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
+msgstr "Bazı değişken(ler), analizlerde sorunlara neden olabilecek İngilizce olmayan karakterler içermektedir: %s."
 
 #: .././cogstat_gui.py:155
 msgid "Open d&emo data file"
-msgstr ""
+msgstr "Demo dosyasını aç"
 
 #: .././cogstat_gui.py:155
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: .././cogstat_gui.py:186
 msgid "&Increase text size"
-msgstr "Metin boyutunu &büyüt"
+msgstr "&Metin boyutunu büyüt"
 
 #: .././cogstat_gui.py:186
 msgid "Ctrl++"
-msgstr ""
+msgstr "Ctrl++"
 
 #: .././cogstat_gui.py:187
 msgid "&Decrease text size"
-msgstr "Metin boyutunu &küçült"
+msgstr "&Metin boyutunu küçült"
 
 #: .././cogstat_gui.py:187
 msgid "Ctrl+-"
-msgstr ""
+msgstr "Ctrl+-"
 
 #: .././cogstat_gui.py:194
 msgid "&Save results"
@@ -1093,19 +1092,19 @@ msgstr "Sonuçları &olarak kaydet"
 
 #: .././cogstat_chart.py:764
 msgid "Boxplots and individual data of the variables"
-msgstr ""
+msgstr "Değişkenlerin kutu grafikleri ve bireysel verileri"
 
 #: .././cogstat_chart.py:941
 msgid "Largest individual sign displays %d cases."
-msgstr "En büyük bireysel işaret deneklerin %d'sini gösterir."
+msgstr "En büyük bireysel işaret olayların %d'sini gösterir."
 
 #: .././cogstat_chart.py:954
 msgid "Boxplots and individual data of the rank data of the groups"
-msgstr ""
+msgstr "Grupların sıralama verilerinin kutu grafikleri ve bireysel verileri "
 
 #: .././cogstat_chart.py:970
 msgid "Boxplots and individual data of the groups"
-msgstr ""
+msgstr "Grupların kutu grafikleri ve bireysel verileri "
 
 #: .././cogstat_stat.py:799 .././cogstat_stat.py:804 .././cogstat_stat.py:846
 #: .././cogstat_stat.py:899 .././cogstat_stat.py:927 .././cogstat_stat.py:987
@@ -1119,11 +1118,11 @@ msgstr "%95 GA (üst)"
 
 #: .././cogstat_hyp_test.py:1278
 msgid "Results of Dunn's test (p values)."
-msgstr "Dunn'ın testi (p değerleri)"
+msgstr "Dunn'ın testi sonuçları (p değerleri)."
 
 #: .././cogstat.py:1072 .././cogstat.py:1233
 msgid "Present confidence interval values suppose normality."
-msgstr ""
+msgstr "Mevcut güven aralığı değerleri normalliği varsayıyor."
 
 #: .././cogstat.py:1072 .././cogstat.py:1233
 msgid "Means"
@@ -1131,19 +1130,19 @@ msgstr "Ortalamalar"
 
 #: .././cogstat_gui.py:183
 msgid "Ctrl+Del"
-msgstr ""
+msgstr "Ctrl+Del"
 
 #: .././cogstat_gui.py:191
 msgid "Ctrl+Shift+E"
-msgstr ""
+msgstr "Ctrl+Shift+E"
 
 #: .././cogstat_gui.py:195
 msgid "Ctrl+Shift+P"
-msgstr ""
+msgstr "Ctrl+Shift+P"
 
 #: .././cogstat.py:481
 msgid "The next %s cases will not be printed. You can check all cases in the original data source."
-msgstr "Deneklerin sonraki %s'i yansıtılmayacak. Bütün denekleri asıl veri kaynağında görebilirsiniz."
+msgstr "Sonraki %s olaylar yansıtılmayacak. Bütün olayları asıl veri kaynağında görebilirsiniz."
 
 #: ../ui/pivot.py:162 ../ui/compare_vars.py:87 ../ui/compare_groups.py:109
 #: ../ui/diffusion.py:131 ../ui/explore_var_pairs.py:84
@@ -1218,11 +1217,11 @@ msgstr "Yeni temayı kullanmak için CogStat'ı yeniden başlatmalısınız."
 
 #: ../ui/compare_groups_single_case_slope.py:83
 msgid "Compare groups - Single case slope"
-msgstr "Grupları karşılaştır - Tek denek eğimi"
+msgstr "Grupları karşılaştır - Tek olay eğimi"
 
 #: ../ui/compare_groups_single_case_slope.py:85
 msgid "Slope SE variable"
-msgstr ""
+msgstr "Eğim standart hata değişkeni"
 
 #: ../ui/compare_groups_single_case_slope.py:86
 msgid "Number of trials"
@@ -1235,7 +1234,7 @@ msgstr "Değişkenleri incele"
 #: ../ui/compare_vars.py:88 ../ui/explore_var_pairs.py:85
 #: ../ui/var_properties.py:104 ../ui/filter_outlier.py:82
 msgid "Selected variables"
-msgstr "Seçilen değişkenler"
+msgstr "Seçili değişkenler"
 
 #: ../ui/var_properties.py:107
 msgid "Statistics"
@@ -1255,7 +1254,7 @@ msgstr "&Aykırı değerleri filtrele"
 
 #: .././cogstat_gui.py:159
 msgid "Ctrl+L"
-msgstr ""
+msgstr "Ctrl+L"
 
 #: .././cogstat_gui.py:191
 msgid "Text is &editable"
@@ -1263,15 +1262,15 @@ msgstr "Metin &düzenlenebilir"
 
 #: .././cogstat_gui.py:201
 msgid "Ctrl+Shift+R"
-msgstr ""
+msgstr "Ctrl+Shift+R"
 
 #: .././cogstat_hyp_test.py:761
 msgid "Main effect of %s"
-msgstr "%s'nin ana etkisi"
+msgstr "%s'nin asıl etkisi"
 
 #: .././cogstat_hyp_test.py:763
 msgid "Interaction of factors %s"
-msgstr "faktörlerin etkileşimi"
+msgstr "%s faktörlerin etkileşimi"
 
 #: .././cogstat.py:529
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
@@ -1287,7 +1286,7 @@ msgstr "Çeşitli faktörlerle aralık değişkenleri."
 
 #: .././cogstat_hyp_test.py:576
 msgid "Choosing repeated measures ANOVA."
-msgstr "Tekrarlı Ölçümler ANOVA seçiliyor."
+msgstr "Tekrarlı ölçümler ANOVA seçiliyor."
 
 #: .././cogstat_hyp_test.py:580
 msgid "Ordinal variables with several factors."
@@ -1319,7 +1318,7 @@ msgstr ""
 
 #: ../ui/compare_vars.py:90
 msgid "Alt+F"
-msgstr "Faktör belirle"
+msgstr ""
 
 #: ../ui/factor.py:53
 msgid "Set factor"
@@ -1331,7 +1330,7 @@ msgstr "Faktör adı"
 
 #: ../ui/factor.py:55
 msgid "Number of levels"
-msgstr "Seviye numarası"
+msgstr "Seviye sayısı"
 
 #: ../ui/filter_outlier.py:83
 msgid "Only interval variables are available"
@@ -1339,11 +1338,11 @@ msgstr "Sadece aralık değişkenleri mevcut"
 
 #: .././cogstat_gui.py:178 .././cogstat_gui.py:222
 msgid "Behavioral data &diffusion analysis"
-msgstr "Davranışsal veri&Difüzyon analizi"
+msgstr "Davranışsal veriler&Difüzyon analizi"
 
 #: .././cogstat_gui.py:184
 msgid "Ctrl+F"
-msgstr ""
+msgstr "Ctrl+F"
 
 #: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:614
 #: .././cogstat_hyp_test.py:1020
@@ -1372,7 +1371,7 @@ msgstr "Normal teorik dağılımlar"
 
 #: .././cogstat_chart.py:485
 msgid "Sample quantiles"
-msgstr "Örneklem dağılımı"
+msgstr "Örneklem dağılımları"
 
 #: .././cogstat_stat.py:218
 msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
@@ -1380,7 +1379,7 @@ msgstr "Hata: %s, Tepki süresi: %s, Katılımcı: %s, Koşul(lar): %s"
 
 #: .././cogstat_stat.py:255
 msgid "Mean percent correct with edge correction"
-msgstr ""
+msgstr "Kenar düzeltme ile ortalama yüzde doğru"
 
 #: .././cogstat_stat.py:257
 msgid "Mean correct reaction time"
@@ -1424,7 +1423,7 @@ msgstr "Varyasyon oranı"
 
 #: .././cogstat_stat.py:488
 msgid "Present confidence interval values for the mean suppose normality."
-msgstr "Ortalamanın güvenlik aralığı değerleri normalliği varsaymaktadır."
+msgstr "Ortalama için güncel güvenlik aralığı değerleri normalliği varsaymaktadır."
 
 #: .././cogstat_stat.py:491 .././cogstat_stat.py:500
 msgid "95% confidence interval (high)"
@@ -1441,7 +1440,7 @@ msgstr "Veri aralığı dışında"
 #: .././cogstat_stat.py:651 .././cogstat_stat.py:654 .././cogstat_stat.py:976
 #: .././cogstat_stat.py:979
 msgid "Cramér's V measure of association"
-msgstr "Cramer's V bağımlılık ölçüsü"
+msgstr "Cramer'in V bağımlılık ölçüsü"
 
 #: .././cogstat_stat.py:730 .././cogstat_stat.py:739
 msgid "Total"
@@ -1449,7 +1448,7 @@ msgstr "Toplam"
 
 #: .././cogstat_stat.py:731
 msgid "Case count"
-msgstr "Denek sayısı"
+msgstr "Olay sayısı"
 
 #: .././cogstat_stat.py:742
 msgid "Percentage"
@@ -1465,8 +1464,7 @@ msgstr "Eta-kare"
 
 #: .././cogstat_stat.py:854 .././cogstat_stat.py:996
 msgid "Hedges' g"
-msgstr "Hedges g\n"
-""
+msgstr "Hedges g"
 
 #: .././cogstat.py:714 .././cogstat.py:881 .././cogstat.py:1070
 #: .././cogstat.py:1231
@@ -1508,7 +1506,7 @@ msgstr "Tepki süresi (sn)"
 
 #: ../ui/diffusion.py:135
 msgid "Condition(s)"
-msgstr "Koşul(ler)"
+msgstr "Koşul(lar)"
 
 #: ../ui/xylims.py:69 ../ui/ylims.py:50
 msgid "Options"
@@ -1587,7 +1585,7 @@ msgstr "R veri dosyaları"
 
 #: .././cogstat_stat.py:366 .././cogstat_stat.py:764
 msgid "Some of the cells do not include at least 5 cases, so the confidence intervals may be invalid."
-msgstr "Hücrelerden bazıları en azıdan 5 deneği içermemektedir. Bu yüzden güvenlik aralıkları geçersiz olabilir. "
+msgstr "Hücrelerden bazıları en azıdan 5 olayı içermemektedir. Bu yüzden güvenlik aralıkları geçersiz olabilir. "
 
 #: .././cogstat_stat.py:1009
 msgid "Omega-squared"
@@ -1615,7 +1613,7 @@ msgstr "Ölçüm seviyelerinin sayısı değişkenlerin sayısıyla eşleşmiyor
 
 #: .././cogstat_hyp_test.py:163
 msgid "Shapiro–Wilk normality test in variable %s%s"
-msgstr ""
+msgstr "%s%s değişkeninde Shapiro–Wilk normallik testi"
 
 #: .././cogstat_hyp_test.py:704
 msgid "Using Greenhouse–Geisser correction."
@@ -1623,7 +1621,7 @@ msgstr " Greenhouse-Geisser düzeltmesi kullanılıyor."
 
 #: .././cogstat_hyp_test.py:718
 msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
-msgstr ""
+msgstr "Değişkenleri Holm-Bonferroni düzeltmesiyle ikili karşılaştırma:"
 
 #: .././cogstat_hyp_test.py:838 .././cogstat_hyp_test.py:872
 #: .././cogstat_hyp_test.py:881
@@ -1632,15 +1630,15 @@ msgstr "Mann–Whitney testi uygulanıyor."
 
 #: .././cogstat_hyp_test.py:847
 msgid "Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on assumptions."
-msgstr ""
+msgstr "Varsayımlara bağlı olarak iki örneklem t-testi, Mann–Whitney testi ya da Welch'in t-testi seçiliyor."
 
 #: .././cogstat_hyp_test.py:875 .././cogstat_hyp_test.py:923
 msgid "Homogeneity of variance violated in variable %s."
-msgstr ""
+msgstr "%s değişkeninde varyansın homojenliği ihlal edildi."
 
 #: .././cogstat_hyp_test.py:885 .././cogstat_hyp_test.py:934
 msgid "Running chi-squared test."
-msgstr "Ki-kare testi uygulanıyor"
+msgstr "Ki-kare testi uygulanıyor."
 
 #: .././cogstat_hyp_test.py:894
 msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
@@ -1652,7 +1650,7 @@ msgstr "Kruskal–Wallis testi uygulanıyor."
 
 #: .././cogstat_hyp_test.py:1116
 msgid "Result of independent samples Mann–Whitney rank test: "
-msgstr "Bağımsız örneklemler Mann–Whitney sıralama testi sonucu:"
+msgstr "Bağımsız örneklemler Mann–Whitney sıralama test sonucu:"
 
 #: .././cogstat_hyp_test.py:1273 .././cogstat_hyp_test.py:1284
 msgid "Result of the Kruskal–Wallis test: "
@@ -1664,304 +1662,304 @@ msgstr "Pearson ki-kare testi sonucu"
 
 #: .././cogstat.py:332
 msgid "Spreadsheet file"
-msgstr "E-tablo  dosyası"
+msgstr "E-tablo dosyası"
 
 #: .././cogstat.py:374
 msgid "SPSS/SAS/STATA file"
-msgstr ""
+msgstr "SPSS/SAS/STATA dosyası"
 
 #: .././cogstat.py:382
 msgid "R file"
-msgstr ""
+msgstr "R dosyası"
 
 #: .././cogstat.py:389
 msgid "JASP file"
-msgstr ""
+msgstr "JASP dosyası"
 
 #: .././cogstat.py:396
 msgid "jamovi file"
-msgstr ""
+msgstr "jamovi dosyası"
 
 #: .././cogstat.py:320
 msgid "Text file"
-msgstr ""
+msgstr "metin dosyası"
 
 #: .././cogstat_gui.py:184
 msgid "&Find text..."
-msgstr ""
+msgstr "&Metni bul"
 
 #: .././cogstat_stat.py:215
 msgid "Specify the minimum required parameters (reaction time and error)."
-msgstr ""
+msgstr "Minimum gerekli parametreleri belirtin (tepki süresi ve hata)."
 
 #: .././cogstat_stat.py:219 .././cogstat_stat.py:220
 msgid "None"
-msgstr ""
+msgstr "Yok"
 
 #: .././cogstat_stat.py:226 .././cogstat_stat.py:227
 msgid "Condition"
-msgstr ""
+msgstr "Koşul"
 
 #: .././cogstat_stat.py:226
 msgid "single condition"
-msgstr ""
+msgstr "Tek koşul"
 
 #: .././cogstat_stat.py:229
 msgid "single participant"
-msgstr ""
+msgstr "Tek katılımcı"
 
 #: .././cogstat.py:40 .././cogstat.py:242
 msgid "Measurement level warning"
-msgstr ""
+msgstr "Ölçüm seviyesi uyarısı"
 
 #: .././cogstat.py:231
 msgid "String variable conversion warning"
-msgstr ""
+msgstr "Dize değişken dönüştürme uyarısı"
 
 #: .././cogstat.py:235 .././cogstat.py:244
 msgid "You can fix this issue in your data source."
-msgstr ""
+msgstr "Bu sorunu veri kaynağınızda düzeltebilirsiniz."
 
 #: .././cogstat.py:270
 msgid "Recommended characters in variable names warning"
-msgstr ""
+msgstr "Değişken adlarında önerilen karakterler uyarısı"
 
 #: .././cogstat.py:276 .././cogstat.py:287
 msgid "If some analyses cannot be run, fix this in your data source."
-msgstr ""
+msgstr "Eğer bazı analizler uygulanamıyorsa, bunu veri kaynağınızda düzeltin."
 
 #: .././cogstat.py:281
 msgid "Recommended characters in data values warning"
-msgstr ""
+msgstr "Veri değerleri uyarısında önerilen karakterler"
 
 #: ../ui/factors.py:50
 msgid "&Add factor"
-msgstr ""
+msgstr "&Faktör ekle"
 
 #: ../ui/factors.py:52
 msgid "&Modify factor"
-msgstr ""
+msgstr "&Faktörü değiştir"
 
 #: ../ui/factors.py:54
 msgid "&Remove factor"
-msgstr ""
+msgstr "&Faktörü sil"
 
 #: ../ui/compare_vars.py:89
 msgid "&Factors..."
-msgstr ""
+msgstr "&Faktörler"
 
 #: ../ui/compare_vars.py:91 ../ui/compare_groups.py:112
 #: ../ui/explore_var_pairs.py:86
 msgid "O&ptions..."
-msgstr ""
+msgstr "Seçenekler"
 
 #: ../ui/compare_groups.py:113
 msgid "Single case &slope..."
-msgstr ""
+msgstr "Tek olay&eğim..."
 
 #: ../ui/var_properties.py:105
 msgid "&Frequencies"
-msgstr ""
+msgstr "&Frekanslar"
 
 #: ../ui/var_properties.py:106
 msgid "Central tendency &test value"
-msgstr ""
+msgstr "Merkezi Eğilim &test değeri"
 
 #: .././cogstat.py:272
 msgid "Some variable name(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
-msgstr ""
+msgstr "Bazı değişken adları, bazı analizlerde sorunlara neden olabilecek  karakterler içermektedir e.g. İngilizce olmayan harfler, sayılar veya alt çizgi."
 
 #: .././cogstat.py:283
 msgid "Some string variable(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
-msgstr ""
+msgstr "Bazı dize değişkenleri, bazı analizlerde sorunlara neden olabilecek karakterler içermektedir e.g. İngilizce olmayan harfler, sayılar veya alt çizgi."
 
 #: .././cogstat_gui.py:54
 msgid "Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
-msgstr ""
+msgstr "%s Ups, bir şeyler ters gitti, CogStat analizi uygulayamadı. Bunu rapor etmek isteyebilirsiniz."
 
 #: .././cogstat_gui.py:541 .././cogstat.py:515
 msgid "Filter outliers"
-msgstr ""
+msgstr "Aykırı değerleri filtrele"
 
 #: .././cogstat_gui.py:592
 msgid "At least one variable should be set."
-msgstr ""
+msgstr "En az bir değişken atanmalı."
 
 #: .././cogstat_gui.py:754
 msgid "A variable should be assigned to each level of the factors."
-msgstr ""
+msgstr "Faktörlerin her düzeyi için bir değişken atanmalıdır."
 
 #: .././cogstat_hyp_test.py:94
 msgid "Sensitivity power could not be calculated."
-msgstr ""
+msgstr "Duyarlılık gücü hesaplanamadı."
 
 #: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:614
 #: .././cogstat_hyp_test.py:1020 .././cogstat_hyp_test.py:1143
 #: .././cogstat_hyp_test.py:1156 .././cogstat_hyp_test.py:1308
 msgid "Minimal effect size in %s"
-msgstr ""
+msgstr "%s'de minimum etki büyüklüğü"
 
 #: .././cogstat_hyp_test.py:1156
 msgid "eta-square"
-msgstr ""
+msgstr "Eta-kare"
 
 #: .././cogstat_gui.py:792
 msgid "Both the dependent variable and at least one grouping variable should be set."
-msgstr ""
+msgstr "Hem bağımlı değişken hemde en az bir gruplama değişkeni atanmalıdır."
 
 #: .././cogstat_hyp_test.py:91
 msgid "Sensitivity power analysis. Minimal effect size to reach 95% power with the present sample size for the present hypothesis test."
-msgstr ""
+msgstr "Duyarlılık gücü analizi. Mevcut örneklem büyüklüğüyle mevcut hipotez testinde %95 güce ulaşmak için gereken minimum etki büyüklüğü."
 
 #: .././cogstat_hyp_test.py:228
 msgid "Result of the Bayesian one sample t-test"
-msgstr ""
+msgstr "Bayes tek örneklem t-testi sonucu"
 
 #: .././cogstat_hyp_test.py:309
 msgid "Homoscedasticity cannot be checked for constant variable in %s%s."
-msgstr ""
+msgstr "%s%s'deki sabit değişken için homoskedastisite kontrol edilemez."
 
 #: .././cogstat_hyp_test.py:313
 msgid "Too small sample to test homoscedasticity in variable %s%s.\n"
 ""
-msgstr ""
+msgstr "Örneklem %s%s değişkeninde homoskedastisiteyi test etmek için çok küçük."
 
 #: .././cogstat_hyp_test.py:337
 msgid "Koenker's studentized score test"
-msgstr ""
+msgstr "Koenker'in studentized puan testi"
 
 #: .././cogstat_hyp_test.py:339
 msgid "White's test"
-msgstr ""
+msgstr "White testi"
 
 #: .././cogstat_hyp_test.py:384
 msgid "Henze-Zirkler test of multivariate normality in variables %s%s"
-msgstr ""
+msgstr "%s%s değişkenlerinde çok değişkenli normalliğin Henze-Zirkler testi"
 
 #: .././cogstat_hyp_test.py:421
 msgid "Normality not violated."
-msgstr ""
+msgstr "Normallik ihlal edilmedi."
 
 #: .././cogstat_hyp_test.py:430
 msgid "Bayes Factor for Pearson correlation"
-msgstr ""
+msgstr "Pearson korelasyonu için Bayes faktörü"
 
 #: .././cogstat_hyp_test.py:441
 msgid "Normality violated."
-msgstr ""
+msgstr "Normallik ihlal edildi."
 
 #: .././cogstat_hyp_test.py:628
 msgid "Result of the Bayesian paired two-samples t-test"
-msgstr ""
+msgstr "Bayes bağımlı iki örneklem t-testi sonucu"
 
 #: .././cogstat_hyp_test.py:796
 msgid "Variables differ. Running post-hoc pairwise comparison."
-msgstr ""
+msgstr "Değişkenler farklı. Post-hoc ikili karşılaştırma uygulanıyor."
 
 #: .././cogstat_hyp_test.py:797
 msgid "Results of Durbin-Conover test (p values)."
-msgstr ""
+msgstr "Durbin-Conover testi sonucu (p değerleri)."
 
 #: .././cogstat_hyp_test.py:1032
 msgid "Result of the Bayesian independent two-samples t-test"
-msgstr ""
+msgstr "Bayes bağımsız iki örneklem t-testi sonucu"
 
 #: .././cogstat_stat.py:561
 msgid "Regression coefficients"
-msgstr ""
+msgstr "Regresyon katsayıları"
 
 #: .././cogstat_stat.py:566 .././cogstat_stat.py:668
 msgid "Normality could not be calculated."
-msgstr ""
+msgstr "Normallik hesaplanamadı."
 
 #: .././cogstat_stat.py:567 .././cogstat_stat.py:571 .././cogstat_stat.py:578
 #: .././cogstat_stat.py:582 .././cogstat_stat.py:669 .././cogstat_stat.py:673
 #: .././cogstat_stat.py:680 .././cogstat_stat.py:684
 msgid "CIs may be biased."
-msgstr ""
+msgstr "Güvenlik aralıkları yanlı olabilir."
 
 #: .././cogstat_stat.py:570 .././cogstat_stat.py:672
 msgid "Assumption of normality violated for CI calculations."
-msgstr ""
+msgstr "Güven aralığı hesaplamaları için normallik varsayımı ihlal edildi."
 
 #: .././cogstat_stat.py:573 .././cogstat_stat.py:676
 msgid "Assumption of normality for CI calculations met."
-msgstr ""
+msgstr "Güven aralığı hesaplamaları için normallik varsayımı karşılandı."
 
 #: .././cogstat_stat.py:577 .././cogstat_stat.py:679
 msgid "Homoscedasticity could not be calculated."
-msgstr ""
+msgstr "Homoskedastisite hesaplanamadı."
 
 #: .././cogstat_stat.py:581 .././cogstat_stat.py:683
 msgid "Assumption of homoscedasticity violated for CI calculations."
-msgstr ""
+msgstr "Güven aralığı hesaplamaları için homoskedastisite varsayımı ihlal edildi."
 
 #: .././cogstat_stat.py:584 .././cogstat_stat.py:686
 msgid "Assumption of homoscedasticity for CI calculations met."
-msgstr ""
+msgstr "Güven aralığı hesaplamaları için homoskedastisite varsayımı karşılandı."
 
 #: .././cogstat_stat.py:598
 msgid "Slope"
-msgstr ""
+msgstr "Eğim"
 
 #: .././cogstat_stat.py:601
 msgid "Intercept"
-msgstr ""
+msgstr "Sabit"
 
 #: .././cogstat_stat.py:637 .././cogstat_stat.py:657 .././cogstat_stat.py:827
 #: .././cogstat_stat.py:952
 msgid "Standardized effect sizes"
-msgstr ""
+msgstr "Standart etki büyüklükleri"
 
 #: .././cogstat.py:512
 msgid "Mean ± 2 SD"
-msgstr ""
+msgstr "Ortalama ± 2 SS"
 
 #: .././cogstat.py:513
 msgid "Median ± 2.5 MAD"
-msgstr ""
+msgstr "Medyan ± 2.5 MMS"
 
 #: .././cogstat.py:557
 msgid "Cases outside of the range will be excluded:"
-msgstr ""
+msgstr "Aralığın dışındaki olaylar dahil edilmeyecek."
 
 #: .././cogstat.py:833
 msgid "Checking assumptions of inferential methods"
-msgstr ""
+msgstr "Çıkarımsal yöntemlerin varsayımları kontrol ediliyor."
 
 #: .././cogstat.py:834
 msgid "Testing multivariate normality of variables"
-msgstr ""
+msgstr "Değişkenlerin çok değişkenli normalliği test ediliyor"
 
 #: .././cogstat.py:850
 msgid "Testing homoscedasticity"
-msgstr ""
+msgstr "Homoskedastisite test ediliyor"
 
 #: .././cogstat.py:869
 msgid "Residual analysis"
-msgstr ""
+msgstr "Artık analizi"
 
 #: .././cogstat_chart.py:266
 msgid "Included and excluded cases with exclusion criteria"
-msgstr ""
+msgstr "Hariç tutma kriterleriyle dahil edilen ve hariç tutulan olaylar"
 
 #: .././cogstat_chart.py:566
 msgid "Residual plot"
-msgstr ""
+msgstr "Artık grafiği"
 
 #: .././cogstat_chart.py:568
 msgid "Residuals"
-msgstr ""
+msgstr "Artıklar"
 
 #: .././cogstat_chart.py:574
 msgid "Histogram of residuals"
-msgstr ""
+msgstr "Artıkların histogramı"
 
 #: .././cogstat_chart.py:666
 msgid "Linear regression line with 95% CI"
-msgstr ""
+msgstr "%95 GA ile doğrusal regresyon çizgisi"
 
 #: .././cogstat_chart.py:679
 msgid "Scatter plot with linear regression line"
-msgstr ""
+msgstr "Doğrusal regresyon çizgisi ile dağılım grafiği"
 
