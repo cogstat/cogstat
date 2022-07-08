@@ -503,9 +503,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             self.active_data = cogstat.CogStatData(data=data)
             if self.active_data.import_source[0] == _('Import failed'):
-                # TODO we don't need a box, but a plain html output
-                QtWidgets.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'),
-                                              QtWidgets.QMessageBox.Ok)
                 self._show_data_menus(False)
             else:
                 self._show_data_menus()
@@ -518,10 +515,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.menu_commands[_('Re&load actual data file')].setEnabled(False)
                     self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
 
-                self.analysis_results.append(GuiResultPackage())
-                self.analysis_results[-1].add_command('self._open_data()')  # TODO
-                self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
-                self._print_to_output_pane()
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command('self._open_data()')  # TODO
+            self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
+            self._print_to_output_pane()
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO

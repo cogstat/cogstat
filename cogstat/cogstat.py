@@ -341,6 +341,7 @@ class CogStatData:
         elif isinstance(data, str) and not ('\n' in data):  # Single line text, i.e., filename
             # Check if the file exists # TODO
             # self.import_source[0] = _('Import failed')
+            # self.import_message += '<cs_h1>' + _('Data') + '</cs_h1>' + _('Import failed. File does not exist.')
             # return
             filetype = data[data.rfind('.'):]
 
@@ -437,6 +438,8 @@ class CogStatData:
             # File type is not supported
             else:
                 self.import_source[0] = _('Import failed')
+                self.import_message += '<cs_h1>' + _('Data') + '</cs_h1>' + \
+                                       _('Import failed. File type is not supported.')
                 return
 
         # 3. Import from clipboard
@@ -465,6 +468,7 @@ class CogStatData:
         # 4. Invalid data source
         else:
             self.import_source[0] = _('Import failed')
+            self.import_message += '<cs_h1>' + _('Data') + '</cs_h1>' + _('Import failed. Invalid data source.')
             return
 
         # II. Set additional details for all import sources
