@@ -15,7 +15,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.3rc'
+__version__ = '2.4dev'
 
 import matplotlib
 matplotlib.use("qt5agg")
