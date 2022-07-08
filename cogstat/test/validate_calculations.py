@@ -15,11 +15,11 @@ print(cs.__version__)
 print(os.path.abspath(cs.__file__))
 
 """
-Test the statistical calculations in CogStat.  
+Validate the statistical calculations in CogStat.  
 - All calculated statistical value should be tested at least once.
 - All leafs of the decision tree should be tested only once, i.e., no need to test the same leaf in various analyses. 
 - Choose data for hypothesis tests so that the tests shouldn't give p<0.001 results because exact p-values cannot be 
-tested this way. 
+tested this way.
 - No need to test the details of the statistical methods imported from other modules (e.g., results that are not 
 displayed in CogStat, correct data handling) because that is the job of that specific module.
 - All numerical data values should be used with 3 digits decimal precision, to ensure that copying 
@@ -33,7 +33,7 @@ Validate the calculations of CogStat with other software packages.
 - A single calculation result can be validated in multiple software packages 
 - If a statistic is not available in a popular software, a note can be added that it is not available
 - When other software and CogStat return different results, then (if the difference is caused by various valid versions 
-of the calculation then) either add the cause of the difference to the user documentation or (if CogStat  calculated 
+of the calculation) either add the cause of the difference to the user documentation or (if CogStat  calculated 
 the result incorrectly) fix the bug. After a calculation bug is fixed, always add a warning to the release note.
 - Software specific notes
     - In JASP, decimals cannot be used as ordinal numbers. To validate related calculations, you may multiply the values 
