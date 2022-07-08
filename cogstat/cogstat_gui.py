@@ -483,7 +483,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self._print_to_output_pane()
 
             # TODO comment on this
-            if self.active_data.import_file:
+            if self.active_data.import_source[1]:
                 self.menu_commands[_('Reload actual data file')].setEnabled(True)
                 self.toolbar_actions[_('Reload actual data file')].setEnabled(True)
             else:
@@ -507,7 +507,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         try:
             self.active_data = cogstat.CogStatData(data=data)
-            if self.active_data.import_source == _('Import failed'):
+            if self.active_data.import_source[0] == _('Import failed'):
                 QtWidgets.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'),
                                               QtWidgets.QMessageBox.Ok)
                 self._show_data_menus(False)

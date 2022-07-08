@@ -94,8 +94,9 @@ class CogStatData:
         self.orig_data_frame # TODO
         self.filtering_status # TODO
 
-        self.import_source - text info about the import source
-        self.import_file - path to the actual file, if data are imported from a file, otherwise None  
+        self.import_source - list of 2 strings:
+                             [0]: import data type
+                             [1]: path to the data file or '' if the data source is not a file
         self.import_message - text output of the imported process
                               can't return anything to caller, since we're in an __init__ method, so store the message
                               here
@@ -109,8 +110,7 @@ class CogStatData:
         self.orig_data_frame = None
         self.data_frame = None
         self.data_measlevs = None
-        self.import_source = ''
-        self.import_file = None
+        self.import_source = ['', '']
         self.import_message = ''
         self.filtering_status = None
 
@@ -333,15 +333,14 @@ class CogStatData:
         # 1. Import from pandas DataFrame
         if isinstance(data, pd.DataFrame):
             self.data_frame = data
-            self.import_source = _('pandas dataframe')
+            self.import_source[0] = _('Pandas dataframe')
 
         # 2. Import from file
         elif isinstance(data, str) and not ('\n' in data):  # Single line text, i.e., filename
             # Check if the file exists # TODO
-            # self.import_source = _('Import failed')
+            # self.import_source[0] = _('Import failed')
             # return
             filetype = data[data.rfind('.'):]
-            self.import_file = data  # self.import_file includes the path, unless file type is not supported (see below)
 
             # Import csv file
             if filetype in ['.txt', '.csv', '.log', '.dat', '.tsv']:
@@ -355,7 +354,7 @@ class CogStatData:
                 # Read the file
                 self.data_frame = pd.read_csv(data, sep=None, engine='python', skiprows=skiprows,
                                               skip_blank_lines=False)
-                self.import_source = _('Text file') + ' - ' + data  # filename
+                self.import_source = [_('Text file'), data]  # filename
 
             # Import from spreadsheet files
             elif filetype in ['.ods', '.xls', '.xlsx']:
@@ -367,7 +366,7 @@ class CogStatData:
                 if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', '', 'nan'} and set(meas_row) != {''}:
                     import_measurement_levels = meas_row
                     self.data_frame = pd.read_excel(data, engine=engine[filetype], skiprows=[1])
-                self.import_source = _('Spreadsheet file') + ' - ' + data  # filename
+                self.import_source = [_('Spreadsheet file'), data]  # filename
 
             # Import SPSS, SAS and STATA files
             elif filetype in ['.sav', '.zsav', '.por', '.sas7bdat', '.xpt', '.dta']:
@@ -409,7 +408,7 @@ class CogStatData:
                 import_measurement_levels = [import_to_cs_meas_lev[import_metadata.variable_measure[var_name]]
                                              for var_name in import_metadata.column_names]
 
-                self.import_source = _('SPSS/SAS/STATA file') + ' - ' + data  # filename
+                self.import_source = [_('SPSS/SAS/STATA file'), data]  # filename
 
             # Import from R files
             elif filetype.lower() in ['.rdata', '.rds', '.rda']:
@@ -417,26 +416,25 @@ class CogStatData:
                 import_data = pyreadr.read_r(data)
                 self.data_frame = import_data[list(import_data.keys())[0]]
                 self.data_frame= self.data_frame.convert_dtypes()
-                self.import_source = _('R file') + ' - ' + data  # filename
+                self.import_source = [_('R file'), data]  # filename
 
             # Import JASP files
             elif filetype == '.jasp':
                 from . import cogstat_stat_num as cs_stat_num
                 import_pdf, import_measurement_levels = cs_stat_num.read_jasp_file(data)
                 self.data_frame = import_pdf.convert_dtypes()
-                self.import_source = _('JASP file') + ' - ' + data  # filename
+                self.import_source = [_('JASP file'), data]  # filename
 
             # Import jamovi files
             elif filetype == '.omv':
                 from . import cogstat_stat_num as cs_stat_num
                 import_pdf, import_measurement_levels = cs_stat_num.read_jamovi_file(data)
                 self.data_frame = import_pdf.convert_dtypes()
-                self.import_source = _('jamovi file') + ' - ' + data  # filename
+                self.import_source = [_('jamovi file'), data]  # filename
 
             # File type is not supported
             else:
-                self.import_source = _('Import failed')
-                self.import_file = None
+                self.import_source[0] = _('Import failed')
                 return
 
         # 3. Import from clipboard
@@ -460,11 +458,11 @@ class CogStatData:
             clipboard_file = io.StringIO(data)
             self.data_frame = pd.read_csv(clipboard_file, sep=None, engine='python',
                                           skiprows=skiprows, skip_blank_lines=False)
-            self.import_source = _('clipboard')
+            self.import_source[0] = _('Clipboard')
 
         # 4. Invalid data source
         else:
-            self.import_source = _('Import failed')
+            self.import_source[0] = _('Import failed')
             return
 
         # II. Set additional details for all import sources
@@ -504,8 +502,8 @@ class CogStatData:
 
         output = '<cs_h1>' + _('Reload actual data file') + '</cs_h1>'
 
-        if self.import_file:  # if the actual dataset was imported from a file, then reload it
-            self._import_data(data=self.import_file)  # measurement level should be reimported too
+        if self.import_source[1]:  # if the actual dataset was imported from a file, then reload it
+            self._import_data(data=self.import_source[1])  # measurement level should be reimported too
             output += _('The file was reloaded.') + '\n'
             output += self.print_data(show_heading=False, brief=True)[0]  # Display the dataset again
         else:
@@ -533,7 +531,8 @@ class CogStatData:
         output = ''
         if show_heading:
             output += '<cs_h1>' + _('Data') + '</cs_h1>'
-        output += _('Source: ') + self.import_source + '\n'
+        output += _('Source: ') + self.import_source[0] + (self.import_source[1] if self.import_source[1] else '')\
+                  + '\n'
         output += str(len(self.data_frame.columns)) + _(' variables and ') + \
                   str(len(self.data_frame.index)) + _(' cases') + '\n'
         output += self._filtering_status()
