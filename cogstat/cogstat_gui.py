@@ -147,90 +147,86 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Menus and commands
         # The list will be used to construct the menus
-        # Items include the icon name, the menu name, the shortcuts and the function to call, add it to the toolbar
+        # Items include the icon name, the menu name, the shortcuts, the function to call, whether to add it to the
+        # toolbar, whether it is active only when data is loaded
         icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'icons')
         menu_commands = [
                             [_('&Data'),
                                 ['/icons8-folder.svg', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file',
-                                 True],
+                                 True, False],
                                 ['/icons8-folder-eye.svg', _('Open d&emo data file')+'...', _('Ctrl+E'),
-                                 'self.open_demo_file',True],
+                                 'self.open_demo_file', True, False],
                                 ['/icons8-folder-reload.svg', _('Re&load actual data file'), _('Ctrl+Shift+L'),
-                                 'self.reload_file', True],
-                                ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True],
+                                 'self.reload_file', True, True],
+                                ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True,
+                                 False],
                                 ['separator'],
-                                ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'),
-                                 'self.filter_outlier', True],
+                                ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier',
+                                 True, True],
                                 ['separator'],
-                                ['/icons8-data-sheet.svg', _('&Display data'), _('Ctrl+D'), 'self.print_data', False],
+                                ['/icons8-data-sheet.svg', _('&Display data'), _('Ctrl+D'), 'self.print_data', False,
+                                 True],
                                 ['/icons8-data-sheet-check.svg', _('Display data &briefly'), _('Ctrl+B'),
-                                 'self._print_data_brief', True],
+                                 'self._print_data_brief', True, True],
                                 ['toolbar separator']
                             ],
                             [_('&Analysis'),
                                 ['/icons8-normal-distribution-histogram.svg', _('&Explore variable')+'...',
-                                 _('Ctrl+1'), 'self.explore_variable', True],
+                                 _('Ctrl+1'), 'self.explore_variable', True, True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
-                                 _('Ctrl+2'), 'self.explore_variable_pair', False],
+                                 _('Ctrl+2'), 'self.explore_variable_pair', False, True],
                                 ['/icons8-scatter-plot.svg', _('Explore &relation of variable pairs')+'...',
-                                 _('Ctrl+R'), 'self.regression', True],
+                                 _('Ctrl+R'), 'self.regression', True, True],
                                 ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
-                                 'Ctrl+M', 'self.compare_variables', True],
+                                 'Ctrl+M', 'self.compare_variables', True, True],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
-                                 'self.compare_groups', True],
+                                 'self.compare_groups', True, True],
                                 ['separator'],
-                                ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True],
+                                ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True,
+                                 True],
                                 ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
-                                 '...', 'Ctrl+Shift+D', 'self.diffusion', True],
+                                 '...', 'Ctrl+Shift+D', 'self.diffusion', True, True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
-                                ['/icons8-file.svg', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output', True],
-                                ['/icons8-search.svg', _('&Find text...'), _('Ctrl+F'), 'self.find_text', True],
+                                ['/icons8-file.svg', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output', True,
+                                 False],
+                                ['/icons8-search.svg', _('&Find text...'), _('Ctrl+F'), 'self.find_text', True, False],
                                 ['separator'],
-                                ['/icons8-zoom-in.svg', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True],
+                                ['/icons8-zoom-in.svg', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True,
+                                 False],
                                 ['/icons8-zoom-out.svg', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out',
-                                 True],
+                                 True, False],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
                                 ['/icons8-edit-file.svg', _('Text is &editable'), _('Ctrl+Shift+E'),
-                                 'self.text_editable', False],
+                                 'self.text_editable', False, False],
                                 ['separator'],
-                                ['/icons8-pdf.svg', _('&Save results'), _('Ctrl+P'), 'self.save_result', False],
+                                ['/icons8-pdf.svg', _('&Save results'), _('Ctrl+P'), 'self.save_result', False, False],
                                 ['/icons8-pdf-edit.svg', _('Save results &as')+'...', _('Ctrl+Shift+P'),
-                                 'self.save_result_as', False],
+                                 'self.save_result_as', False, False],
                                 ['toolbar separator']
                             ],
                             [_('&CogStat'),
-                                ['/icons8-help.svg', _('&Help'), _('F1'), 'self._open_help_webpage', True],
+                                ['/icons8-help.svg', _('&Help'), _('F1'), 'self._open_help_webpage', True, False],
                                 ['/icons8-settings.svg', _('&Preferences')+'...', _('Ctrl+Shift+R'),
-                                 'self._show_preferences', True],
+                                 'self._show_preferences', True, False],
                                 ['/icons8-file-add.svg', _('Request a &feature'), '', 'self._open_reqfeat_webpage',
-                                 False],
+                                 False, False],
                                 ['separator'],
                                 #['/icons8-toolbar.svg', _('Show the &toolbar'), '',
                                 # 'self.toolbar.toggleViewAction().trigger', False],
                                 #['separator'],
                                 ['/icons8-bug.svg', _('&Report a problem'), '', 'self._open_reportbug_webpage',
-                                 False],
+                                 False, False],
                                 ['/icons8-system-report.svg', _('&Diagnosis information'), '', 'self.print_versions',
-                                 False],
+                                 False, False],
                                 ['separator'],
-                                ['/icons8-info.svg', _('&About'), '', 'self._show_about', False],
+                                ['/icons8-info.svg', _('&About'), '', 'self._show_about', False, False],
                                 ['separator'],
-                                ['/icons8-exit.svg', _('&Exit'), _('Ctrl+Q'), 'self.close', False]
+                                ['/icons8-exit.svg', _('&Exit'), _('Ctrl+Q'), 'self.close', False, False]
                             ]
                         ]
-        # Enable these commands only when active_data is available
-        self.analysis_commands = [_('&Save data'), _('Save data &as') + '...', _('&Display data'),
-                                  _('Re&load actual data file'),
-                                  _('Display data &briefly'), _('&Filter outliers') + '...', _('Pivot &table') + '...',
-                                  _('&Explore variable') + '...', _('Behavioral data &diffusion analysis') + '...',
-                                  _('Explore relation of variable &pair') + '...',
-                                  _('Explore &relation of variable pairs') + '...',
-                                  _('Compare repeated &measures variables') + '...', _('Compare &groups') + '...',
-                                  _('&Compare groups and variables') + '...']
-        # TODO move this list to a boolean value of menu_commands
 
         # Create menus and commands, create toolbar
         self.menubar = self.menuBar()
@@ -238,6 +234,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.menu_commands = {}
         self.toolbar_actions = {}
         self.toolbar = self.addToolBar('General')
+        self.active_menu_with_data = []  # Enable these commands only when active_data is available
         for menu in menu_commands:
             self.menus.append(self.menubar.addMenu(menu[0]))
             for menu_item in menu:
@@ -259,6 +256,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                                                self)
                         self.toolbar_actions[menu_item[1]].triggered.connect(eval(menu_item[3]))
                         self.toolbar.addAction(self.toolbar_actions[menu_item[1]])
+                    if menu_item[5]:  # the menu should be enabled only when data are loaded
+                        self.active_menu_with_data.append(menu_item[1])
 
         self.menus[2].actions()[5].setCheckable(True)  # _('&Text is editable') menu is a checkbox
                                                        # # see also text_editable()
@@ -330,15 +329,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.show()
 
     def _show_data_menus(self, on=True):
-        """
-        Enable or disable data handling menus depending on whether data is loaded.
-        
-        parameters:
-        on: True to enable menus
+        """Enable or disable data handling menus depending on whether data is loaded.
+
+        Parameters
+        ----------
+        on : bool
+            True to enable menus
             False to disable
-            default is True
+        Returns
+        -------
+
         """
-        for menu in self.analysis_commands:
+        for menu in self.active_menu_with_data:
             try:
                 self.menu_commands[menu].setEnabled(on)
                 self.toolbar_actions[menu].setEnabled(on)
