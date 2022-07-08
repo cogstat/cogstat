@@ -13,6 +13,7 @@ from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 app = QtWidgets.QApplication(sys.argv)
+app.setAttribute(Qt.AA_UseHighDpiPixmaps)
 pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources',
                                     'CogStat splash screen.png'), 'PNG')
 splash_screen = QtWidgets.QSplashScreen(pixmap)

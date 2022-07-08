@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-Upcoming release (2022)
+2.3.0rc (6 July 2022)
 ===============
 
 ## New features
@@ -19,7 +19,7 @@ Upcoming release (2022)
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
 - New localization
-    - Trukish (Belma Feride Bumin)
+    - Turkish (Belma Feride Bumin)
 
 
 ## Fixes

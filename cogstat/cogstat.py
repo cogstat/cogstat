@@ -15,7 +15,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.3beta'
+__version__ = '2.3rc'
 
 import matplotlib
 matplotlib.use("qt5agg")
@@ -583,7 +583,7 @@ class CogStatData:
 
     def _filtering_status(self):
         if self.filtering_status:
-            return '<b>Filtering is on: %s</b>\n' % self.filtering_status
+            return '<b>' + _('Filtering is on:') + ' %s</b>\n' % self.filtering_status
         else:
             return ''
 
