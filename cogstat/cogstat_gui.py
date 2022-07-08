@@ -155,7 +155,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  True],
                                 ['/icons8-folder-eye.svg', _('Open d&emo data file')+'...', _('Ctrl+E'),
                                  'self.open_demo_file',True],
-                                ['/icons8-folder-reload.svg', _('Reload actual data file'), _('Ctrl+Shift+L'),
+                                ['/icons8-folder-reload.svg', _('Re&load actual data file'), _('Ctrl+Shift+L'),
                                  'self.reload_file', True],
                                 ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True],
                                 ['separator'],
@@ -484,14 +484,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
             result = self.active_data.reload_data()
             self.analysis_results[-1].add_output(result)
             self._print_to_output_pane()
-
-            # TODO comment on this
-            if self.active_data.import_source[1]:
-                self.menu_commands[_('Reload actual data file')].setEnabled(True)
-                self.toolbar_actions[_('Reload actual data file')].setEnabled(True)
-            else:
-                self.menu_commands[_('Reload actual data file')].setEnabled(False)
-                self.toolbar_actions[_('Reload actual data file')].setEnabled(False)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Reload data')))
             traceback.print_exc()
@@ -511,11 +503,20 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             self.active_data = cogstat.CogStatData(data=data)
             if self.active_data.import_source[0] == _('Import failed'):
+                # TODO we don't need a box, but a plain html output
                 QtWidgets.QMessageBox.warning(self, _('Import error'), _('Data could not be loaded.'),
                                               QtWidgets.QMessageBox.Ok)
                 self._show_data_menus(False)
             else:
                 self._show_data_menus()
+
+                # Make Reload menu available, if the imported data is coming from a file
+                if self.active_data.import_source[1]:
+                    self.menu_commands[_('Re&load actual data file')].setEnabled(True)
+                    self.toolbar_actions[_('Re&load actual data file')].setEnabled(True)
+                else:
+                    self.menu_commands[_('Re&load actual data file')].setEnabled(False)
+                    self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
 
                 self.analysis_results.append(GuiResultPackage())
                 self.analysis_results[-1].add_command('self._open_data()')  # TODO
