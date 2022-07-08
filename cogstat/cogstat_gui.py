@@ -171,9 +171,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-normal-distribution-histogram.svg', _('&Explore variable')+'...',
                                  _('Ctrl+1'), 'self.explore_variable', True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
-                                 _('Ctrl+2'), 'self.explore_variable_pair', True],
-                                ['/icons8-combo-chart.svg', _('Compare repeated measures va&riables')+'...',
-                                 'Ctrl+R', 'self.compare_variables', True],
+                                 _('Ctrl+2'), 'self.explore_variable_pair', False],
+                                ['/icons8-scatter-plot.svg', _('Explore &relation of variable pairs')+'...',
+                                 _('Ctrl+R'), 'self.regression', True],
+                                ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
+                                 'Ctrl+M', 'self.compare_variables', True],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
                                  'self.compare_groups', True],
                                 ['separator'],
@@ -225,7 +227,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                   _('Display data &briefly'), _('&Filter outliers') + '...', _('Pivot &table') + '...',
                                   _('&Explore variable') + '...', _('Behavioral data &diffusion analysis') + '...',
                                   _('Explore relation of variable &pair') + '...',
-                                  _('Compare repeated measures va&riables') + '...', _('Compare &groups') + '...',
+                                  _('Explore &relation of variable pairs') + '...',
+                                  _('Compare repeated &measures variables') + '...', _('Compare &groups') + '...',
                                   _('&Compare groups and variables') + '...']
         # TODO move this list to a boolean value of menu_commands
 
@@ -641,9 +644,19 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
-        
-        Arguments:
-        var_names (list): variable names
+
+        Parameters
+        ----------
+        var_names : list of str
+            Names of the variables
+        xlims : list of floats
+            Minimum and maximum value of the x axis
+        ylims : list of floats
+            Minimum and maximum value of the y axis
+
+        Returns
+        -------
+
         """
         if not var_names:
             try:
@@ -683,6 +696,50 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self._print_to_output_pane()
         self._busy_signal(False)
             
+    def regression(self, predicted=None, predictors=[], xlims=[None, None], ylims=[None, None]):
+        """Regression analysis.
+
+        Parameters
+        ----------
+        predicted : str
+            Name of the outcome variable
+        predictors : list of str
+            Name of the regressors
+        xlims : list of floats
+            Minimum and maximum value of the x axis
+        ylims : list of floats
+            Minimum and maximum value of the y axis
+        Returns
+        -------
+
+        """
+        if not predicted:
+            try:
+                self.dial_regression
+            except:
+                self.dial_regression = cogstat_dialogs.regression_dialog(names=self.active_data.data_frame.columns)
+            else:
+                self.dial_regression.init_vars(names=self.active_data.data_frame.columns)
+            if self.dial_regression.exec_():
+                predicted, predictors, xlims, ylims = self.dial_regression.read_parameters()
+                predicted = predicted[0]  # currently, GUI predicted is a list, but it should be a string
+            else:
+                return
+        self._busy_signal(True)
+        try:
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command('self.regression')  # TODO
+            result_list = self.active_data.explore_variable_pair(predictors[0], predicted, xlims, ylims)
+            self.analysis_results[-1].add_output(result_list)
+            self._print_to_output_pane()
+        except:
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
+                                                                         _('Explore relation of variable pairs')))
+            traceback.print_exc()
+            self._print_to_output_pane()
+        self._busy_signal(False)
+
+
     def pivot(self, depend_names=None, row_names=[], col_names=[], page_names=[], function='Mean'):
         """Build a pivot table.
         

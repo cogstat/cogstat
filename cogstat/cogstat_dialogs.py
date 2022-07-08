@@ -460,6 +460,63 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
                self.xlims, self.ylims
 
 
+from .ui import regression
+class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
+    def __init__(self, parent=None, names=[]):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.predicted_listWidget.doubleClicked.connect(self.remove_predicted)
+        self.predicted_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.predicted_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.addPredicted.clicked.connect(self.add_predicted)
+        self.removePredicted.clicked.connect(self.remove_predicted)
+        self.predictor_listWidget.doubleClicked.connect(self.remove_predictor)
+        self.predictor_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.predictor_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.addPredictor.clicked.connect(self.add_predictor)
+        self.removePredictor.clicked.connect(self.remove_predictor)
+        self.pushButton.clicked.connect(self.optionsButton_clicked)
+
+        self.xylims_dialog = xylims_dialog(self)
+        self.xlims = [None, None]
+        self.ylims = [None, None]
+
+        self.init_vars(names)
+        self.show()
+
+    def init_vars(self, names):
+        self.names = names
+        _prepare_list_widgets(self.source_listWidget, names, [self.predicted_listWidget,
+                                                              self.predictor_listWidget])
+    # TODO allow only 1 predicted variable
+    def add_predicted(self):
+        _add_to_list_widget(self.source_listWidget, self.predicted_listWidget)
+    def remove_predicted(self):
+        _remove_item_from_list_widget(self.source_listWidget, self.predicted_listWidget, self.names)
+    def add_predictor(self):
+        _add_to_list_widget(self.source_listWidget, self.predictor_listWidget)
+    def remove_predictor(self):
+        _remove_item_from_list_widget(self.source_listWidget, self.predictor_listWidget, self.names)
+
+    def optionsButton_clicked(self):
+        if self.xylims_dialog.exec_():
+            self.xlims, self.ylims = self.xylims_dialog.read_parameters()
+            self.xlims[0] = _float_or_none(self.xlims[0])
+            self.xlims[1] = _float_or_none(self.xlims[1])
+            self.ylims[0] = _float_or_none(self.ylims[0])
+            self.ylims[1] = _float_or_none(self.ylims[1])
+
+    def read_parameters(self):
+        return [str(self.predicted_listWidget.item(i).text()) for i in range(self.predicted_listWidget.count())], \
+               [str(self.predictor_listWidget.item(i).text()) for i in range(self.predictor_listWidget.count())], \
+               self.xlims, self.ylims
+
+
 from .ui import factor
 class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
     def __init__(self, parent=None):
