@@ -513,7 +513,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self._show_data_menus(False)
             else:
                 self._show_data_menus()
-                self.print_data(brief=True, display_import_message=True)
+
+                self.analysis_results.append(GuiResultPackage())
+                self.analysis_results[-1].add_command('self._open_data()')  # TODO
+                self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
+                self._print_to_output_pane()
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
@@ -570,17 +574,20 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self._print_to_output_pane()
         self._busy_signal(False)
 
-    def print_data(self, brief=False, display_import_message=False):
+    def print_data(self, brief=False):
         """Print the current data to the output.
-        
-        :param brief (bool): print only the first 10 rows
-        :param display_import_message (bool):
+
+        Parameters
+        ----------
+        brief : bool
+            print only the first 10 rows
+        Returns
+        -------
+
         """
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.print_data')  # TODO commands will be used to rerun the analysis
         self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
-        if self.active_data.import_message and display_import_message:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
         self._print_to_output_pane()
 
     def _print_data_brief(self):

@@ -96,7 +96,9 @@ class CogStatData:
 
         self.import_source - text info about the import source
         self.import_file - path to the actual file, if data are imported from a file, otherwise None  
-        self.import_message - any text warning about the imported data
+        self.import_message - text output of the imported process
+                              can't return anything to caller, since we're in an __init__ method, so store the message
+                              here
 
         Parameters
         ----------
@@ -104,14 +106,12 @@ class CogStatData:
 
         """
 
-        # TODO should we move these to _import data()?
         self.orig_data_frame = None
         self.data_frame = None
         self.data_measlevs = None
         self.import_source = ''
         self.import_file = None
-        self.import_message = ''  # can't return anything to caller,
-                                  # since we're in an __init__ method, so store the message here
+        self.import_message = ''
         self.filtering_status = None
 
         self._import_data(data=data, measurement_levels=measurement_levels)
@@ -215,6 +215,8 @@ class CogStatData:
             It creates self.data_measlevs in place.
             """
 
+            nonlocal warning_text
+
             # By default, all variables have 'unknown' measurement levels
             self.data_measlevs = {name: 'unk' for name in self.data_frame.columns}
 
@@ -245,9 +247,9 @@ class CogStatData:
                     self.data_measlevs = {name: measurement_levels[name] for name in measurement_levels.keys()}
 
                 if len(self.data_frame.columns) != len(measurement_levels):
-                    self.import_message += '\n<warning>' + \
-                                           _('Number of measurement levels do not match the number of variables. '
-                                             'You may want to correct the number of measurement levels.')
+                    warning_text += '\n<warning>' + \
+                                    _('Number of measurement levels do not match the number of variables. '
+                                    'You may want to correct the number of measurement levels.')
 
             # 2. Apply constraints to measurement levels.
             # String variables cannot be interval or nominal variables in CogStat, so change them to nominal
@@ -258,18 +260,18 @@ class CogStatData:
             if invalid_var_names:  # these str variables were set to int or ord
                 for var_name in invalid_var_names:
                     self.data_measlevs[var_name] = 'nom'
-                self.import_message += '\n<warning><b>' + _('String variable conversion warning') + '</b> ' + \
-                                       _('String variables cannot be interval or ordinal variables in CogStat. '
-                                         'Those variables are automatically set to nominal: ')\
-                                       + '<i>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
-                                       '</i>. ' + _('You can fix this issue in your data source.') \
-                                       + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                       + '</warning>'
+                warning_text += '\n<warning><b>' + _('String variable conversion warning') + '</b> ' + \
+                                _('String variables cannot be interval or ordinal variables in CogStat. '
+                                'Those variables are automatically set to nominal: ')\
+                                + '<i>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
+                                '</i>. ' + _('You can fix this issue in your data source.') \
+                                + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
+                                % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                + '</warning>'
 
             # Warn when any measurement levels are not set
             if 'unk' in set(self.data_measlevs.values()):
-                self.import_message += '\n<warning><b>' + _('Measurement level warning') + '</b> ' + \
+                warning_text += '\n<warning><b>' + _('Measurement level warning') + '</b> ' + \
                                        _('The measurement level was not set for all variables.') + ' '\
                                        + _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
@@ -280,6 +282,9 @@ class CogStatData:
         def _check_valid_chars():
             # Check if only valid chars are used in the data, and warn the user if invalid chars are used
             # TODO this might be removed with Python3 and with unicode encoding
+
+            nonlocal warning_text
+
             non_ascii_var_names = []
             non_ascii_vars = []
             valid_chars = string.ascii_letters + string.digits + '_'
@@ -297,7 +302,7 @@ class CogStatData:
                                 non_ascii_vars.append(variable_name)
                                 break  #after finding the first non-ascii data, we can skip the rest variable data
             if non_ascii_var_names:
-                self.import_message += '\n<warning><b>' + _('Recommended characters in variable names warning') + \
+                warning_text += '\n<warning><b>' + _('Recommended characters in variable names warning') + \
                                        '</b> ' + \
                                        _('Some variable name(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
@@ -308,7 +313,7 @@ class CogStatData:
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
             if non_ascii_vars:
-                self.import_message += '\n<warning><b>' + _('Recommended characters in data values warning') + \
+                warning_text += '\n<warning><b>' + _('Recommended characters in data values warning') + \
                                        '</b> ' + \
                                        _('Some string variable(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
@@ -320,6 +325,8 @@ class CogStatData:
                                        + '</warning>'
 
         import_measurement_levels = None
+
+        warning_text = ''
 
         # I. Import the DataFrame/file/clipboard
 
@@ -482,6 +489,9 @@ class CogStatData:
         from PyQt5 import QtCore
         for var_name in self.data_frame.columns:
             self.data_measlevs[QString(var_name)] = self.data_measlevs[var_name]
+
+        self.import_message += self.print_data(show_heading=True, brief=True)[0]
+        self.import_message += cs_util.convert_output([warning_text])[0]
 
     def reload_data(self):
         """Reload actual data from the path it has been read previously.
