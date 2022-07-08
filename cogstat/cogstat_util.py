@@ -179,17 +179,25 @@ def convert_output(outputs):
 
     def _figure_to_qimage(figure):
         """Convert matplotlib figure to pyqt qImage.
+
+        Parameters
+        ----------
+        figure : matplotlib figure
+
+        Returns
+        -------
+        qImage
         """
         figure.canvas.draw()
-        size_x, size_y = figure.get_size_inches()*rcParams['figure.dpi']
-        # TODO is it better to use figure.canvas.width(), figure.canvas.height()
+        size_x, size_y = figure.get_size_inches() * rcParams['figure.dpi'] / app_devicePixelRatio
+        # TODO is it better to use figure.canvas.width(), figure.canvas.height() instead of figure.get_size_inches()?
         string_buffer = figure.canvas.buffer_rgba()
-        qimage = QtGui.QImage(string_buffer, size_x*app_devicePixelRatio,
-                              size_y*app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
+        # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding.
+        # This should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI.
+        qimage = QtGui.QImage(string_buffer, size_x * app_devicePixelRatio,
+                              size_y * app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
         QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
         return qimage
-            # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding
-            # this should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI
 
     if csc.output_type in ['ipnb', 'gui']:
         # convert custom notation to html

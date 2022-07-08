@@ -133,8 +133,8 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     if data_measlevs[var_name] in ['nom', 'ord']:
         return False, '<decision>' + _('Normality can be checked only for interval variables.') + '\n</decision>'
     if len(set(data)) == 1:
-        return False, _('Normality cannot be checked for constant variable in %s%s.\n' %
-                        (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
+        return False, _('Normality cannot be checked for constant variable in %s%s.') % \
+               (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
     # TODO do we need this?
     #        if len(data)<7:
     #            return False, _(u'Sample size must be greater than 7 for normality test.\n'), None, None
@@ -464,9 +464,9 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
             violations = ''
 
             if not normality:
-                violations += 'Normality violated. '
+                violations += _('Normality violated.') + ' '
             if not homoscedasticity:
-                violations += 'Homoscedasticity violated. '
+                violations += _('Homoscedasticity violated.') +' '
 
             population_result += '<decision>'+_('Interval variables.') + ' ' + _(violations) + ' >> ' + \
                                  _("Running Spearman's correlation.") + '\n</decision>'
@@ -536,6 +536,7 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
 
                 result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
                 non_normal_vars = []
+                # TODO is this variable name localizable? If not, any other solution to localize it?
                 temp_diff_var_name = 'Difference of %s and %s' % tuple(var_names)
                 data[temp_diff_var_name] = data[var_names[0]] - data[var_names[1]]
                 norm, text_result = normality_test(data, {temp_diff_var_name: 'int'}, temp_diff_var_name)
