@@ -155,6 +155,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  True],
                                 ['/icons8-folder-eye.svg', _('Open d&emo data file')+'...', _('Ctrl+E'),
                                  'self.open_demo_file',True],
+                                ['/icons8-folder-reload.svg', _('Reload actual data file'), _('Ctrl+Shift+L'),
+                                 'self.reload_file', True],
                                 ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True],
                                 ['separator'],
                                 ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'),
@@ -219,11 +221,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         ]
         # Enable these commands only when active_data is available
         self.analysis_commands = [_('&Save data'), _('Save data &as') + '...', _('&Display data'),
+                                  _('Re&load actual data file'),
                                   _('Display data &briefly'), _('&Filter outliers') + '...', _('Pivot &table') + '...',
                                   _('&Explore variable') + '...', _('Behavioral data &diffusion analysis') + '...',
                                   _('Explore relation of variable &pair') + '...',
                                   _('Compare repeated measures va&riables') + '...', _('Compare &groups') + '...',
                                   _('&Compare groups and variables') + '...']
+        # TODO move this list to a boolean value of menu_commands
 
         # Create menus and commands, create toolbar
         self.menubar = self.menuBar()
@@ -451,7 +455,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.last_file_dir = os.path.dirname(path)
             self._open_data(path)
 
-    ### Data menu methods ###
     def open_demo_file(self, path=''):
         """Open demo data file.
 
@@ -468,6 +471,29 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if path:
             self.last_demo_file_dir = os.path.normpath(os.path.dirname(path))
             self._open_data(path)
+
+    def reload_file(self):
+        """Reload data file."""
+        self._busy_signal(True)
+        try:
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
+            result = self.active_data.reload_data()
+            self.analysis_results[-1].add_output(result)
+            self._print_to_output_pane()
+
+            # TODO comment on this
+            if self.active_data.import_file:
+                self.menu_commands[_('Reload actual data file')].setEnabled(True)
+                self.toolbar_actions[_('Reload actual data file')].setEnabled(True)
+            else:
+                self.menu_commands[_('Reload actual data file')].setEnabled(False)
+                self.toolbar_actions[_('Reload actual data file')].setEnabled(False)
+        except:
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Reload data')))
+            traceback.print_exc()
+            self._print_to_output_pane()
+        self._busy_signal(False)
 
     def open_clipboard(self):
         """Open data copied to clipboard."""

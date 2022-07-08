@@ -78,29 +78,38 @@ class CogStatData:
     """
 
     def __init__(self, data, measurement_levels=None):
-        pass
-        """In the input data:
+        """Initialize the cogstat data object.
+
+        In the input data:
         - First line should be the variable name
         --- If there are missing names, Unnamed:0, Unnamed:1, etc. names are given
         --- If there are repeating var names, new available numbers are added, e.g. a.1, a.2, etc.
         - Second line could be the measuring level
 
-        Data structure:
+        Data structure that is created:
         self.data_frame - pandas DataFrame
         self.data_measlevs - dictionary storing level of measurement of the variables (name:level):
-                'nom', 'ord' or 'int'(ratio is included in 'int')
+                'nom', 'ord', or 'int' (ratio is included in 'int')
                 'unk' - unknown: if no other level is given
         self.orig_data_frame # TODO
         self.filtering_status # TODO
 
         self.import_source - text info about the import source
+        self.import_file - path to the actual file, if data are imported from a file, otherwise None  
         self.import_message - any text warning about the imported data
+
+        Parameters
+        ----------
+        See the class docstring.
+
         """
 
+        # TODO should we move these to _import data()?
         self.orig_data_frame = None
         self.data_frame = None
         self.data_measlevs = None
         self.import_source = ''
+        self.import_file = None
         self.import_message = ''  # can't return anything to caller,
                                   # since we're in an __init__ method, so store the message here
         self.filtering_status = None
@@ -110,6 +119,18 @@ class CogStatData:
     ### Import and handle the data ###
 
     def _import_data(self, data='', measurement_levels=None):
+        """Import the data to initialize the object.
+
+        See __init__ for more information
+
+        Parameters
+        ----------
+        See the class docstring
+
+        Returns
+        -------
+        It creates the data related properties in place. See __init__ for more information.
+        """
 
         def _percent2float():
             """ Convert x.x% str format to float in self.data_frame (pandas cannot handle this).
@@ -141,12 +162,17 @@ class CogStatData:
                 pass
 
         def _convert_dtypes():
-            # Convert dtypes
-            # CogStat does not know boolean variables, it is converted to string
-            #   Although this solution changes upper and lower cases: independent of the text,
-            #   it will be 'True' and 'False'
-            # Some analyses do not handle Int types, but int types
-            # Some analyses do not handle category types
+            """Convert dtypes.
+
+            1. CogStat does not know boolean variables, so they are converted to strings.
+              This solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
+            2. Some analyses do not handle Int types, but int types
+            3. Some analyses do not handle category types
+
+            Returns
+            -------
+            Changes self.data_frame
+            """
             convert_dtypes = [['bool', 'object'],  # although 'string' type is recommended, patsy cannot handle it
                               ['Int32', 'int32'],
                               ['Int64', 'int64'], ['Int64', 'float64'],
@@ -183,6 +209,10 @@ class CogStatData:
             '' and 'nan' is converted to 'unk'
             List and dict will overwrite the import data information. Additional constraints (e.g., string variables
             can be nominal variables) will overwrite this.
+
+            Returns
+            -------
+            It creates self.data_measlevs in place.
             """
 
             # By default, all variables have 'unknown' measurement levels
@@ -304,6 +334,7 @@ class CogStatData:
             # self.import_source = _('Import failed')
             # return
             filetype = data[data.rfind('.'):]
+            self.import_file = data  # self.import_file includes the path, unless file type is not supported (see below)
 
             # Import csv file
             if filetype in ['.txt', '.csv', '.log', '.dat', '.tsv']:
@@ -395,6 +426,12 @@ class CogStatData:
                 self.data_frame = import_pdf.convert_dtypes()
                 self.import_source = _('jamovi file') + ' - ' + data  # filename
 
+            # File type is not supported
+            else:
+                self.import_source = _('Import failed')
+                self.import_file = None
+                return
+
         # 3. Import from clipboard
         elif isinstance(data, str) and ('\n' in data):  # Multi line text, i.e., clipboard data
             # Check if there is variable type line
@@ -446,12 +483,35 @@ class CogStatData:
         for var_name in self.data_frame.columns:
             self.data_measlevs[QString(var_name)] = self.data_measlevs[var_name]
 
-    def print_data(self, brief=False):
+    def reload_data(self):
+        """Reload actual data from the path it has been read previously.
+
+        Returns
+        -------
+        list of a single str
+            Report in HTML format
+        """
+
+        output = '<cs_h1>' + _('Reload actual data file') + '</cs_h1>'
+
+        if self.import_file:  # if the actual dataset was imported from a file, then reload it
+            self._import_data(data=self.import_file)  # measurement level should be reimported too
+            output += _('The file was reloaded.') + '\n'
+            output += self.print_data(show_heading=False, brief=True)[0]  # Display the dataset again
+        else:
+            output += _('The data was not imported from a file. It cannot be reloaded.') + '\n'
+            # or do we assume that this method is not called when the actual file was not imported from a file?
+
+        return cs_util.convert_output([output])
+
+    def print_data(self, show_heading=True, brief=False):
         """
         Display the data.
 
         Parameters
         ----------
+        show_heading : bool
+            Add heading to the output string?
         brief : bool
             Should only the first few cases or the whole data frame be displayed?
 
@@ -460,7 +520,9 @@ class CogStatData:
         str
             HTML string showing the data.
         """
-        output = '<cs_h1>' + _('Data') + '</cs_h1>'
+        output = ''
+        if show_heading:
+            output += '<cs_h1>' + _('Data') + '</cs_h1>'
         output += _('Source: ') + self.import_source + '\n'
         output += str(len(self.data_frame.columns)) + _(' variables and ') + \
                   str(len(self.data_frame.index)) + _(' cases') + '\n'

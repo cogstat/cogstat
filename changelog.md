@@ -4,6 +4,7 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release (2022)
 =======================
 ## New features
+- Reload actual data file
 
 ## Fixes
 
