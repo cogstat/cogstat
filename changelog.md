@@ -4,10 +4,11 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release (2022)
 =======================
 ## New features
+- Regression analysis
 - Reload actual data file
 
 ## Fixes
-
+- Various output fixes
 
 2.3.0rc (6 July 2022)
 ===============

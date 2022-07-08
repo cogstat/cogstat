@@ -682,7 +682,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         if pass_diag:
                             self.analysis_results.append(GuiResultPackage())
                             self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
-                            result_list = self.active_data.explore_variable_pair(x, y, xlims, ylims)
+                            result_list = self.active_data.regression([x], y, xlims, ylims)
                             self.analysis_results[-1].add_output(result_list)
                             self._print_to_output_pane()
                         if x == y:
@@ -727,7 +727,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.regression')  # TODO
-            result_list = self.active_data.explore_variable_pair(predictors[0], predicted, xlims, ylims)
+            result_list = self.active_data.regression(predictors, predicted, xlims, ylims)
             self.analysis_results[-1].add_output(result_list)
             self._print_to_output_pane()
         except:

@@ -187,7 +187,7 @@ class CogStatTestCase(unittest.TestCase):
         """Test explore variable pairs"""
 
         # Int variables
-        result = data.explore_variable_pair('g', 'h')
+        result = data.regression(['g'], 'h')
         self.assertTrue('N of valid pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
             # Regression model: jamovi 2.2.5.0 g 0.347 Intercept 4.593
@@ -221,7 +221,7 @@ class CogStatTestCase(unittest.TestCase):
         # Ord variables
         data.data_measlevs['a'] = 'ord'
         data.data_measlevs['b'] = 'ord'
-        result = data.explore_variable_pair('a', 'b')
+        result = data.regression(['a'], 'b')
             # JASP 0.15.0.0 -0.363
         self.assertTrue('-0.363' in result[4])
             # JASP 0.15.0.0 [-0.640, -0.003]
@@ -232,7 +232,7 @@ class CogStatTestCase(unittest.TestCase):
         data.data_measlevs['b'] = 'int'
 
         # Nom variables
-        result = data.explore_variable_pair('c', 'd')
+        result = data.regression(['c'], 'd')
         self.assertTrue('N of valid pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
         # Cramer's V

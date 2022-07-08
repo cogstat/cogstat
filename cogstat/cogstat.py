@@ -848,16 +848,16 @@ class CogStatData:
         result_list.append(text_result)
         return cs_util.convert_output(result_list)
 
-    def explore_variable_pair(self, x, y, xlims=[None, None], ylims=[None, None]):
+    def regression(self, predictors, predicted, xlims=[None, None], ylims=[None, None]):
         """
         Explore a variable pair.
 
         Parameters
         ----------
-        x : str
-            Name of the x variable.
-        y : str
-            Name of the y variable.
+        predictors : list of str
+            Name of the predictor variables.
+        predicted : str
+            Name of the predicted variable.
         xlims : list of {int or float}
             Limit of the x axis for interval and ordinal variables instead of using automatic values.
         ylims : list of {int or float}
@@ -869,120 +869,128 @@ class CogStatData:
             Analysis results in HTML format
         """
         plt.close('all')
-        meas_lev, unknown_var = self._meas_lev_vars([x, y])
 
-        # Analysis output header
-        title = '<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>'
+        # TODO rebuild this whole method to handle various scenarios with a compact code
+        if len(predictors) == 1:
+            x = predictors[0]
+            y = predicted
 
-        # 0. Analysis information
-        raw_result = _('Exploring variable pair: ') + x + ' (%s), ' % self.data_measlevs[x] + y + \
-                     ' (%s)\n' % self.data_measlevs[y]
-        raw_result += self._filtering_status()
-        if unknown_var:
-            raw_result += '<decision>' + warn_unknown_variable + '\n</decision>'
+            meas_lev, unknown_var = self._meas_lev_vars([x, y])
 
-        # 1. Raw data
-        raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
-        # Prepare data, drop missing data
-        # TODO are NaNs interesting in nominal variables?
-        data = self.data_frame[[x, y]].dropna()
-        valid_n = len(data)
-        missing_n = len(self.data_frame[[x, y]]) - valid_n
-        raw_result += _('N of valid pairs') + ': %g' % valid_n + '\n'
-        raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
+            # Analysis output header
+            title = '<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>'
 
-        # Raw data chart
-        raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
-                                                        regression=False, CI=False, xlims=xlims, ylims=ylims)
+            # 0. Analysis information
+            raw_result = _('Exploring variable pair: ') + x + ' (%s), ' % self.data_measlevs[x] + y + \
+                         ' (%s)\n' % self.data_measlevs[y]
+            raw_result += self._filtering_status()
+            if unknown_var:
+                raw_result += '<decision>' + warn_unknown_variable + '\n</decision>'
 
-        # 2. Sample properties
-        sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
-        residual_title = None
-        residual_graph = None
-        normality = None  # Do the two variables follow a multivariate normal distribution?
-        homoscedasticity = None
-        assumptions_result = None
-        if meas_lev == 'nom':
-            sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
-        elif meas_lev == 'int':
+            # 1. Raw data
+            raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
+            # Prepare data, drop missing data
+            # TODO are NaNs interesting in nominal variables?
+            data = self.data_frame[[x, y]].dropna()
+            valid_n = len(data)
+            missing_n = len(self.data_frame[[x, y]]) - valid_n
+            raw_result += _('N of valid pairs') + ': %g' % valid_n + '\n'
+            raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
-            # Test of multivariate normality
-            assumptions_result = '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>\n'
-            assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
-            normality, norm_text = cs_hyp_test.multivariate_normality(data, [x, y])
-            assumptions_result += norm_text
+            # Raw data chart
+            raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
+                                                            regression=False, CI=False, xlims=xlims, ylims=ylims)
 
-            # Calculate regression with statsmodels
-            import statsmodels.regression
-            import statsmodels.tools
+            # 2. Sample properties
+            sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+            residual_title = None
+            residual_graph = None
+            normality = None  # Do the two variables follow a multivariate normal distribution?
+            homoscedasticity = None
+            assumptions_result = None
+            if meas_lev == 'nom':
+                sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
+            elif meas_lev == 'int':
 
-            data_sorted = data.sort_values(by=x)  # Sorting required for subsequent plots to work
-            x_var = statsmodels.tools.add_constant(data_sorted[x])
-            y_var = data_sorted[y]
-            model = statsmodels.regression.linear_model.OLS(y_var, x_var)
-            result = model.fit()
-            residuals = result.resid
+                # Test of multivariate normality
+                assumptions_result = '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>\n'
+                assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
+                normality, norm_text = cs_hyp_test.multivariate_normality(data, [x, y])
+                assumptions_result += norm_text
 
-            # Test of homoscedasticity
-            assumptions_result += '<decision>' + _('Testing homoscedasticity') + '</decision>\n'
-            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, [x, y],
-                                                                      residual=residuals)
-            assumptions_result += het_text
+                # Calculate regression with statsmodels
+                import statsmodels.regression
+                import statsmodels.tools
 
-            # TODO output with the precision of the data
-            sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
-        sample_result += '\n'
+                data_sorted = data.sort_values(by=x)  # Sorting required for subsequent plots to work
+                x_var = statsmodels.tools.add_constant(data_sorted[x])
+                y_var = data_sorted[y]
+                model = statsmodels.regression.linear_model.OLS(y_var, x_var)
+                result = model.fit()
+                residuals = result.resid
 
-        standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True,
-                                                                                     normality=normality,
-                                                                                     homoscedasticity=homoscedasticity)
-        standardized_effect_size_result += '\n'
+                # Test of homoscedasticity
+                assumptions_result += '<decision>' + _('Testing homoscedasticity') + '</decision>\n'
+                homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, [x, y],
+                                                                          residual=residuals)
+                assumptions_result += het_text
 
-        # Make graphs
-        # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
-        if meas_lev == 'int':
+                # TODO output with the precision of the data
+                sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
+            sample_result += '\n'
 
-            # Residual analysis
-            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
-            residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
+            standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True,
+                                                                                         normality=normality,
+                                                                                         homoscedasticity=homoscedasticity)
+            standardized_effect_size_result += '\n'
 
-            # Sample scatter plot with regression line
-            sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
-                                                               regression=True, CI=False, xlims=xlims, ylims=ylims)
+            # Make graphs
+            # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
+            if meas_lev == 'int':
 
-        else:
-            sample_graph = None
+                # Residual analysis
+                residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
+                residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
 
-        # 3. Population properties
-        population_properties_title = '<cs_h2>' + _('Population properties') + '</cs_h2>'
-        estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
-        estimation_parameters, estimation_effect_size, population_graph = None, None, None
+                # Sample scatter plot with regression line
+                sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
+                                                                   regression=True, CI=False, xlims=xlims, ylims=ylims)
 
-        if meas_lev == 'nom':
-            estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
-        if meas_lev =='int':
-            estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
-                                                                                  result.bse[1],result.bse[0],
-                                                                                  meas_lev, len(data[x]),
-                                                                                  normality=normality,
-                                                                                  homoscedasticity=homoscedasticity)
-            population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=False,
-                                                                   regression=True, CI=True,
-                                                                   xlims=[None, None], ylims=[None, None])
-        estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
-                                                                            normality=normality,
-                                                                            homoscedasticity=homoscedasticity)
+            else:
+                sample_graph = None
 
-        population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality,
-                                                                      homoscedasticity) + '\n'
+            # 3. Population properties
+            population_properties_title = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+            estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
+            estimation_parameters, estimation_effect_size, population_graph = None, None, None
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
-                                       standardized_effect_size_result, residual_title, residual_graph,
-                                       population_properties_title, assumptions_result, estimation_result,
-                                       estimation_parameters, population_graph, estimation_effect_size,
-                                       population_result])
+            if meas_lev == 'nom':
+                estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
+            if meas_lev =='int':
+                estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
+                                                                                      result.bse[1],result.bse[0],
+                                                                                      meas_lev, len(data[x]),
+                                                                                      normality=normality,
+                                                                                      homoscedasticity=homoscedasticity)
+                population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=False,
+                                                                       regression=True, CI=True,
+                                                                       xlims=[None, None], ylims=[None, None])
+            estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
+                                                                                normality=normality,
+                                                                                homoscedasticity=homoscedasticity)
 
-    #correlations(x,y)  # test
+            population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality,
+                                                                          homoscedasticity) + '\n'
+
+            return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph,
+                                           standardized_effect_size_result, residual_title, residual_graph,
+                                           population_properties_title, assumptions_result, estimation_result,
+                                           estimation_parameters, population_graph, estimation_effect_size,
+                                           population_result])
+        else:  # several predictors
+            return cs_util.convert_output(['<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>\n' +
+                                          _('Sorry, not implemented yet.')])
+
 
     def pivot(self, depend_name='', row_names=[], col_names=[], page_names=[], function='Mean'):
         """
