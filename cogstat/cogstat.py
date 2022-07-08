@@ -118,7 +118,7 @@ class CogStatData:
 
     ### Import and handle the data ###
 
-    def _import_data(self, data='', measurement_levels=None):
+    def _import_data(self, data='', measurement_levels=None, show_heading=True):
         """Import the data to initialize the object.
 
         See __init__ for more information
@@ -126,6 +126,8 @@ class CogStatData:
         Parameters
         ----------
         See the class docstring
+        show_heading : bool
+            Should we show a heading?
 
         Returns
         -------
@@ -324,8 +326,8 @@ class CogStatData:
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
                                        + '</warning>'
 
+        self.import_message = ''
         import_measurement_levels = None
-
         warning_text = ''
 
         # I. Import the DataFrame/file/clipboard
@@ -488,7 +490,7 @@ class CogStatData:
         for var_name in self.data_frame.columns:
             self.data_measlevs[QString(var_name)] = self.data_measlevs[var_name]
 
-        self.import_message += self.print_data(show_heading=True, brief=True)[0]
+        self.import_message += self.print_data(show_heading=show_heading, brief=True)[0]
         self.import_message += cs_util.convert_output([warning_text])[0]
 
     def reload_data(self):
@@ -503,9 +505,9 @@ class CogStatData:
         output = '<cs_h1>' + _('Reload actual data file') + '</cs_h1>'
 
         if self.import_source[1]:  # if the actual dataset was imported from a file, then reload it
-            self._import_data(data=self.import_source[1])  # measurement level should be reimported too
-            output += _('The file was reloaded.') + '\n'
-            output += self.print_data(show_heading=False, brief=True)[0]  # Display the dataset again
+            self._import_data(data=self.import_source[1], show_heading=False)  # measurement level should be reimported too
+            output += _('The file was successfully reloaded.') + '\n'
+            output += cs_util.reformat_output(self.import_message)
         else:
             output += _('The data was not imported from a file. It cannot be reloaded.') + '\n'
             # or do we assume that this method is not called when the actual file was not imported from a file?
