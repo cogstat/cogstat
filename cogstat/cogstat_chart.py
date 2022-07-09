@@ -741,7 +741,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
     var_names : list of str
 
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     raw_data_only : bool
         Only the raw data should be displayed? Or the box plots too?
     ylims : list of two floats
@@ -826,7 +826,7 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
     data : pandas dataframe
     var_names : list of str
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
@@ -876,7 +876,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     data_frame: pandas data frame
         It is assumed that the missing cases are dropped.
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     var_names : list of str
     groups : list of str
         Grouping variables
@@ -1019,7 +1019,7 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
     pdf : pandas dataframe
         It is asssumed that missing cases are removed.
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     var_names : list of str
     groups : list of str
     group_levels

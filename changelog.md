@@ -8,7 +8,7 @@ Upcoming release (2022)
 - Reload actual data file
 
 ## Fixes
-- Various output fixes
+- Various GUI, and output fixes
 
 2.3.0rc (6 July 2022)
 ===============
