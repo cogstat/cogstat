@@ -6,6 +6,7 @@ Upcoming release (2022)
 ## New features
 - Regression analysis
 - Reload actual data file
+- Multivariate outlier filtering
 
 ## Fixes
 - Various output fixes
