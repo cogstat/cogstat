@@ -5,6 +5,7 @@ Upcoming release (2022)
 =======================
 ## New features
 - Regression analysis
+  - Hypothesis tests for multiple linear regression
 - Reload actual data file
 
 ## Fixes
