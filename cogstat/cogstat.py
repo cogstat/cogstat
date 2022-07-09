@@ -870,17 +870,19 @@ class CogStatData:
         """
         plt.close('all')
 
+        meas_lev, unknown_var = self._meas_lev_vars(predictors + [predicted])
+
         # TODO rebuild this whole method to handle various scenarios with a compact code
         if len(predictors) == 1:
             x = predictors[0]
             y = predicted
 
-            meas_lev, unknown_var = self._meas_lev_vars([x, y])
-
             # Analysis output header
+            # TODO regression - new title
             title = '<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>'
 
             # 0. Analysis information
+            # TODO regression - new information
             raw_result = _('Exploring variable pair: ') + x + ' (%s), ' % self.data_measlevs[x] + y + \
                          ' (%s)\n' % self.data_measlevs[y]
             raw_result += self._filtering_status()
@@ -891,6 +893,7 @@ class CogStatData:
             raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
             # Prepare data, drop missing data
             # TODO are NaNs interesting in nominal variables?
+            # TODO regression - N of valid cases?
             data = self.data_frame[[x, y]].dropna()
             valid_n = len(data)
             missing_n = len(self.data_frame[[x, y]]) - valid_n
@@ -898,6 +901,7 @@ class CogStatData:
             raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
             # Raw data chart
+            # TODO regression - extend the function to handle multiple regressors
             raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
                                                             regression=False, CI=False, xlims=xlims, ylims=ylims)
 
@@ -913,12 +917,14 @@ class CogStatData:
             elif meas_lev == 'int':
 
                 # Test of multivariate normality
+                # TODO regression - several variables
                 assumptions_result = '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>\n'
                 assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
                 normality, norm_text = cs_hyp_test.multivariate_normality(data, [x, y])
                 assumptions_result += norm_text
 
                 # Calculate regression with statsmodels
+                # TODO regression - several regressors
                 import statsmodels.regression
                 import statsmodels.tools
 
@@ -930,6 +936,7 @@ class CogStatData:
                 residuals = result.resid
 
                 # Test of homoscedasticity
+                # TODO regression
                 assumptions_result += '<decision>' + _('Testing homoscedasticity') + '</decision>\n'
                 homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, [x, y],
                                                                           residual=residuals)
@@ -939,6 +946,7 @@ class CogStatData:
                 sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
             sample_result += '\n'
 
+            # TODO regression
             standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True,
                                                                                          normality=normality,
                                                                                          homoscedasticity=homoscedasticity)
@@ -949,10 +957,12 @@ class CogStatData:
             if meas_lev == 'int':
 
                 # Residual analysis
+                # TODO regression
                 residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
                 residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
 
                 # Sample scatter plot with regression line
+                # TODO regression
                 sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
                                                                    regression=True, CI=False, xlims=xlims, ylims=ylims)
 
@@ -964,6 +974,7 @@ class CogStatData:
             estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
             estimation_parameters, estimation_effect_size, population_graph = None, None, None
 
+            # TODO regression
             if meas_lev == 'nom':
                 estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
             if meas_lev =='int':
