@@ -525,36 +525,28 @@ def confidence_interval_t(data, ci_only=True):
 
 ### Variable pairs ###
 
-
-def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n, normality=None,
-                                          homoscedasticity=None):
+def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasticity=None, multicollinearity=None):
     """
-    Calculate point and interval estimates of regression parameters (slope, and intercept) in a regression analysis.
+    Calculate point and interval estimates of regression parameters (slopes, and intercept) in a regression analysis.
 
     Parameters
     ----------
-    slope : float
-        Slope of the regression line
-    intercept : float
-        Y-intercept of the regression line
-    std_err : float
-        Standard error of the slope
-    intercept_stderr : float
-        Standard error of the intercept
+    x : list of str
+        List of explanatory variable names.
     meas_lev : str
         Measurement level of variables
-    n : int
-        Number of data points
     normality : bool or None
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
     homoscedasticity : bool or None
         True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
         if the parameter was not specified.
+    multicollinearity : bool or None
+        True if multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
 
     Returns
     -------
-    str
+    html text
         Table of the point and interval estimations
     """
     if meas_lev == "int":
@@ -584,22 +576,26 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
             regression_coefficients += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
                                                                'calculations met.') + '</decision>'
 
+        if len(x) > 1:
+            if multicollinearity is None:
+                regression_coefficients += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + ' ' +\
+                                                       _('Point estimates and CIs may be inaccurate.')  + '</decision>'
+            elif multicollinearity:
+                regression_coefficients += '\n' + '<decision>' \
+                                           + _('Multicollinearity suspected.') + ' ' + \
+                                           _('Point estimates and CIs may be inaccurate.') + '</decision>'
+            else:
+                regression_coefficients += '\n' + '<decision>' + _('Assumption of multicollinearity for'
+                                                                   ' CI calculations met.') + '</decision>'
 
-        # Calculate 95% CIs for slope and intercept
-        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
-        from scipy.stats import t
-        tinv = lambda p, df: abs(t.ppf(p / 2, df))
-        ts = tinv(0.05, n - 2)
-        slope_ci_low = slope - ts * std_err
-        slope_ci_high = slope + ts * std_err
-        intercept_ci_low = intercept - ts * intercept_stderr
-        intercept_ci_high = intercept + ts * intercept_stderr
+        # Gather point estimates and CIs into table
+        cis = results.conf_int(alpha=0.05)
 
-        pdf_result.loc[_("Slope")] = \
-            ['%0.3f' % slope, '[%0.3f, %0.3f]' % (slope_ci_low, slope_ci_high)]
+        for i in x:
+            pdf_result.loc[_("Slope "+i)] = ['%0.3f' % (results.params[i]), '[%0.3f, %0.3f]' % (cis.loc[i,0], cis.loc[i,1])]
 
         pdf_result.loc[_("Intercept")] = \
-            ['%0.3f' % intercept, '[%0.3f, %0.3f]' % (intercept_ci_low, intercept_ci_high)]
+            ['%0.3f' % (results.params[0]), '[%0.3f, %0.3f]' % (cis.loc["const",0], cis.loc["const",1])]
 
     else:
         regression_coefficients = None
