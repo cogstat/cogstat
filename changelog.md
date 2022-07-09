@@ -5,6 +5,7 @@ Upcoming release (2022)
 =======================
 ## New features
 - Regression analysis
+  - Analysis of multicollinearity in multiple regression
 - Reload actual data file
 
 ## Fixes

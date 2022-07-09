@@ -699,6 +699,61 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                                                                                  classes="table_cs_pd"))
     return standardized_effect_size_result
 
+def correlation_matrix(data, x):
+    """Create Pearson's correlation correlation matrix for assessment of multicollinearity.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    x : list of str
+        list of explanatory variable names
+
+    Returns
+    -------
+    html text
+    """
+
+    corr_table = data[x].corr()
+    table = _("Pearson correlation matrix of explanatory variables:")
+    table += _format_html_table(corr_table.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
+    return table
+
+def vif_table(data, x):
+    """Calculate and display Variance Inflation Factors. Raises warning and displays corresponding
+    auxiliary regression weights in case of suspected multicollineearity (VIF>10).
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    x : list of str
+        list of explanatory variable names
+
+    Returns
+    -------
+    html text, bool
+    """
+
+    from statsmodels.stats.outliers_influence import variance_inflation_factor
+    X = statsmodels.api.add_constant(data[x])
+    table = _("Variance inflation factors of explanatory variables and constant")
+    vifs = pd.DataFrame([variance_inflation_factor(X.values, i) \
+                         for i in range(X.shape[1])], index=X.columns, columns=["VIF"])
+    table += _format_html_table(vifs.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
+
+    multicollinearity = False
+    for x_i in x:
+        if vifs.loc[x_i][0] > 10:
+            multicollinearity = True
+            table += "\n" + "<decision>" + _("VIF > 10 in variable ") + x_i + "\n" + _("Possible multicollinearity.")\
+                        + "</decision>"
+            x_other = x.copy()
+            x_other.remove(x_i)
+            slopes = pd.DataFrame(statsmodels.api.OLS(data[x_i], statsmodels.api.add_constant(data[x_other]))\
+                                  .fit().params, columns=[_("Slope on ") + x_i])
+            table += _format_html_table(slopes.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) \
+                     + "\n"
+    return table, multicollinearity
+
 
 def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
     """Create contingency tables. Use for nominal data.
