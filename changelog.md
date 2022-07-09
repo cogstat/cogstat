@@ -5,6 +5,10 @@ Upcoming release (2022)
 =======================
 ## New features
 - Regression analysis
+  - Model fit metrics in multiple regression
+  - Partial correlation in mutliple regression
+  - Partial regression plots in multiple regression
+  - Scatterplot matrix of raw data in multiple regression
 - Reload actual data file
 
 ## Fixes

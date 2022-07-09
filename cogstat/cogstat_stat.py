@@ -699,6 +699,136 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                                                                                  classes="table_cs_pd"))
     return standardized_effect_size_result
 
+def calc_se_r2(r2, k, n):
+    # Calculate standard error of the r-squared estimate
+    # Based on: Cohen, J., Cohen, P., West, S.G., and Aiken, L.S. (2003). Applied Multiple Regression/Correlation
+    # Analysis for the Behavioral Sciences (3rd edition). Mahwah, NJ: Lawrence Earlbaum Associates. pp. 88
+    # See also: https://stats.stackexchange.com/questions/175026/formula-for-95-confidence-interval-for-r2
+
+    numerator = 4*r2*((1-r2)**2)*((n-k-1)**2)
+    denominator = ((n**2) - 1)*(3+n)
+    se_r2 = (numerator/denominator)**0.5
+    return se_r2
+
+def calc_r2_ci(r2, alpha, n, k):
+    # Calculate confidence interval of r-squared
+    # Based on: Olkin, I. and Finn, J.D. (1995). Correlations Redux. Psychological Bulletin, 118(1), pp. 155-164.
+    # See also: https://www.danielsoper.com/statcalc/formulas.aspx?id=28
+    # Validated against: https://www.danielsoper.com/statcalc/calculator.aspx?id=28 on 02/06/2022 06:03
+
+    se_r2 = calc_se_r2(r2,k,n)
+    t = stats.t.ppf((1-alpha)/2, n-k-1)
+    up = r2 + t*se_r2
+    down = r2 - t*se_r2
+    return [up, down]
+
+def multiple_variables_standard_effect_size(data, x, y, normality, homoscedasticity, multicollinearity, sample=True,\
+                                            result=None):
+    """Calculate standardized effect size measures for multiple regression.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    x : list of str
+        Name of the explanatory variables.
+    y : list of str
+        Name of the dependent variable.
+    normality: bool or None
+        True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
+    homoscedasticity : bool or None
+        True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
+        if the parameter was not specified.
+    multicollinearity:
+        True if possible multicollinearity was detected (VIF>10). None if the parameter was not specified.
+    sample : bool
+        True for sample descriptives, False for population estimations.
+    result : statsmodels regression result object
+        The result of the multiple regression analyses.
+
+    Returns
+    -------
+    html text
+    """
+    # TODO validate
+    import pingouin as pg
+
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>' + "\n"
+
+    # Warnings based on the results of the assumption tests
+    if normality is None:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    elif not normality:
+        standardized_effect_size_result += '\n' + '<decision>' + \
+                                           _('Assumption of normality violated for CI calculations.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    else:
+        standardized_effect_size_result += '\n' + '<decision>' + \
+                                           _('Assumption of normality for CI calculations met.') + '</decision>'
+
+    if homoscedasticity is None:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    elif not homoscedasticity:
+        standardized_effect_size_result += '\n' + '<decision>' \
+                                           + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    else:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
+                                                                   'calculations met.') + '</decision>'
+
+    if multicollinearity is None:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    elif not multicollinearity:
+        standardized_effect_size_result += '\n' + '<decision>' \
+                                           + _('Assumption of multicollinearity violated for CI calculations.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    else:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of multicollinearity for parameter '\
+                                                                   'and CI calculations met.') + '</decision>'
+
+    # Calculate effect sizes for sample or population
+    if sample:
+        pdf_result_corr = pd.DataFrame()
+        if result:
+            standardized_effect_size_result += "\n" + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + "\n"
+    else:
+        pdf_result_model = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        pdf_result_corr = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+
+        if result:
+            ci = calc_r2_ci(result.rsquared_adj, 0.95, len(data), len(x))
+            pdf_result_model.loc[_('Adjusted <i>R<sup>2</sup></i>')] = \
+                ['%0.3f' % (result.rsquared_adj), '[%0.3f, %0.3f]' % (ci[0], ci[1])]
+
+        pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % (result.llf), '']
+        pdf_result_model.loc[_('AIC')] = ['%0.3f' % (result.aic), '']
+        pdf_result_model.loc[_('BIC')] = ['%0.3f' % (result.bic), '']
+        standardized_effect_size_result += _format_html_table(pdf_result_model.to_html(bold_rows=False, escape=False,
+                                     classes="table_cs_pd")) + "\n"
+
+    standardized_effect_size_result += "\n" + '<cs_h3>' + _("Pearson's partial correlations") + '</cs_h3>'
+
+    for x_i in x:
+        x_other = x.copy()
+        x_other.remove(x_i)
+
+        if sample:
+            pdf_result_corr.loc[_(x_i), _('Value')] = \
+                '<i>pr</i> = %0.3f' % pg.partial_corr(data, x_i, y, x_other)["r"]
+        else:
+            partial_result = pg.partial_corr(data, x_i, y, x_other)
+            pdf_result_corr.loc[_(x_i) + ', <i>pr</i>'] = \
+                ['%0.3f' % (partial_result["r"]), '[%0.3f, %0.3f]' % (partial_result["CI95%"][0][0],
+                                                                      partial_result["CI95%"][0][1])]
+
+    standardized_effect_size_result += _format_html_table(pdf_result_corr.to_html(bold_rows=False, escape=False,
+                                                                             classes="table_cs_pd"))
+
+    return standardized_effect_size_result
+
 
 def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
     """Create contingency tables. Use for nominal data.
