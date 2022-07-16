@@ -175,7 +175,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  _('Ctrl+1'), 'self.explore_variable', True, True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
                                  _('Ctrl+2'), 'self.explore_variable_pair', False, True],
-                                ['/icons8-scatter-plot.svg', _('Explore &relation of variable pairs')+'...',
+                                ['/icons8-scatter-plot.svg', _('Explore &relation of variables')+'...',
                                  _('Ctrl+R'), 'self.regression', True, True],
                                 ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
                                  'Ctrl+M', 'self.compare_variables', True, True],

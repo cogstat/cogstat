@@ -119,9 +119,9 @@ Upcoming release (2022)
         - Hedges' g (with 95% CI)
     - Sensitivity power analysis for one-sample t-test, two-sample t-test, paired samples t-test, chi-squared test, one-way ANOVA
     - Confidence intervals
-        - Confidence interval for multinomial proportions (in Explore variable, Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
+        - Confidence interval for multinomial proportions (in Explore variable, Explore relation of variable pair, Compare repeated measures variables, Compare groups)
         - Confidence interval for medians (in Explore variable, Compare repeated measures variables and Compare groups)
-    - Contingency table improvements (in Explore relation of variable pairs, Compare repeated measures variables, Compare groups)
+    - Contingency table improvements (in Explore relation of variable pair, Compare repeated measures variables, Compare groups)
         - Display margins
         - Display percentage
         - Confidence interval for multinomial proportions (see confidence interval improvements above)
@@ -236,7 +236,7 @@ Upcoming release (2022)
 ## New features
 - In an analysis, raw data are diplayed first without any graphical addition
 - Display results in groups of (1) raw data, (2) sample properties and (3) population properties
-- Rank information is displayed for ordinal variables (in single variable, in variable pairs (in scatterplot) and in group comparison)
+- Rank information is displayed for ordinal variables (in single variable, in variable pair (in scatterplot) and in group comparison)
 - Aim of the hypothesis tests are displayed.
 - Use Wilcoxon signed-rank test when normality is violated in an interval variable
 
@@ -380,7 +380,7 @@ Upcoming release (2022)
     - Descriptives (N, mean, standard deviation, skewness, kurtosis, median, range)
     - Test normality (Anderson–Darling test, histogram with normality test, Q-Q plot)
     - Test central tendency (one sample t-test, confidence interval of the mean, Wilcoxon sign test)
-- Explore variable pairs
+- Explore variable pair
     - Pearson and Spearman coefficients
     - Linear regression parameters
     - Scatter plot or mosaic plot
