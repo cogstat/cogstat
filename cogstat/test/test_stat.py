@@ -239,10 +239,8 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 0.372
         self.assertTrue('<sub>c</sub></i> = 0.372' in result[4])
         # Sensitivity power analysis
-            # G*Power 3.1.9.6, Goodness of fit test, df=4: Contingency tables: 0.7868005
-            #  TODO GPower gives 0.8707028 with df of 8; Seems like statsmodels GofChisquarePower calculates power
-            #  with df=8; should we use 4 or 8 df? https://github.com/cogstat/cogstat/issues/134
-        self.assertTrue('effect size in w: 0.87' in result[8])
+            # G*Power 3.1.9.6, "Goodness of fit test: Contingency tables", df=4: 0.7868005
+        self.assertTrue('effect size in w: 0.79' in result[8])
         # Chi-squared
             # jamovi v1.2.19.0: X2, df, p, N: 8.31, 4, 0.081, 30
         self.assertTrue('(4, <i>N</i> = 30) = 8.31' in result[8])  # (4, <i>N</i> = 30) = 8.312

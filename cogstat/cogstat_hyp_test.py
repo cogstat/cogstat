@@ -1318,32 +1318,53 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
 
 
 def chi_squared_test(pdf, var_name, grouping_name):
-    """Chi-squared test
+    """Run Chi-squared hypothesis test and related power analysis.
+
     Cramer's V: http://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V
 
-    Arguments:
-    var_name (str):
-    grouping_name (str):
+    Parameters
+    ----------
+    pdf : pandas DataFrame
+    var_name : str
+        name one of the nominal variables
+    grouping_name : str
+        name of the other nominal variable
+
+    Returns
+    -------
+    str
+        html with the hypothesis tests and power analysis results
     """
     text_result = ''
     cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])
-    chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
-    chi_result = ''
 
     # Sensitivity power analysis
     if run_power_analysis:
+        # statsmodels may fail, see its API documentation # TODO after changing to pingouin, do we still need "try:"?
         try:
-            # statsmodels may fail, see its API documentation
+            # For a test of independence, df = (Rows − 1)×(Cols − 1)
+            # https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test#Definition
+            w_effect_size = _('Minimal effect size in %s') % _('w') + ': %0.2f. ' % \
+                            pingouin.power_chi2(dof=(cont_table_data.shape[0] - 1) * (cont_table_data.shape[1] - 1),
+                                                w=None, n=cont_table_data.values.sum(), power=0.95, alpha=0.05)
+
+            """An alternative method is to use statsmodels' solution, but its result is not consistent with the G*Power
+            result (and with pingouin's solution. See https://github.com/cogstat/cogstat/issues/207. 
+            
             from statsmodels.stats.power import GofChisquarePower
             power_analysis = GofChisquarePower()
-            w_effect_size = _('Minimal effect size in %s') % _('w') + ': %0.2f. ' % \
-                            power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(), alpha=0.05,
-                                                       power=0.95, n_bins=cont_table_data.size)
+            print(power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
+                                                       alpha=0.05, power=0.95,
+                                                       n_bins=(cont_table_data.shape[0] - 1) *
+                                                              (cont_table_data.shape[1] - 1)))"""
         except ValueError:
             w_effect_size = ''
-        chi_result += print_sensitivity_effect_sizes([w_effect_size])
+        text_result += print_sensitivity_effect_sizes([w_effect_size])
 
-    chi_result += _("Result of the Pearson's chi-squared test: ") + \
+    # Hypothesis test
+    chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
+    text_result += _("Result of the Pearson's chi-squared test: ") + \
                   '</i>&chi;<sup>2</sup></i>(%g, <i>N</i> = %d) = %.*f, %s' % \
                   (dof, cont_table_data.values.sum(), non_data_dim_precision, chi2, print_p(p))
-    return chi_result
+
+    return text_result

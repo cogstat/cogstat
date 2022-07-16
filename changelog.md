@@ -23,6 +23,7 @@ Trivial changes when a new feature is added are not denoted.
 
 
 ## Fixes
+- :warning: Sensitivity power analysis for Chi-squared test now uses the correct df and makes sure to use w as effect size
 - Various GUI, data import, analysis, and output fixes
 - Extended calculation validations (thanks to Dóra Hatvani)
 - Run from source more simply (thanks to Oliver Lindemann)
