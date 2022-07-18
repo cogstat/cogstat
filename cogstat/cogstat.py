@@ -666,10 +666,10 @@ class CogStatData:
                     text_output += _('The following cases will be excluded: ')
                     text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
                                                                                      classes="table_cs_pd"))
-                    # TODO convert Mahalanobis distance cut-off to variable scale
-                    chart_results.append(cs_chart.create_filtered_cases_chart(self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
-                                                                        excluded_cases[var_name], var_name,
-                                                                        lower_limit, upper_limit))
+                    if mode != 'mahalanobis':
+                        chart_results.append(cs_chart.create_filtered_cases_chart(self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
+                                                                                  excluded_cases[var_name], var_name,
+                                                                                  lower_limit, upper_limit))
                 else:
                     text_output += _('No cases were excluded.')
                 if var_name != var_names[-1]:
