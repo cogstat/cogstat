@@ -1349,14 +1349,14 @@ def chi_squared_test(pdf, var_name, grouping_name):
                                                 w=None, n=cont_table_data.values.sum(), power=0.95, alpha=0.05)
 
             """An alternative method is to use statsmodels' solution, but its result is not consistent with the G*Power
-            result (and with pingouin's solution. See https://github.com/cogstat/cogstat/issues/207. 
+            result and with pingouin's solution. See https://github.com/cogstat/cogstat/issues/207. 
             
             from statsmodels.stats.power import GofChisquarePower
             power_analysis = GofChisquarePower()
             print(power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
                                                        alpha=0.05, power=0.95,
                                                        n_bins=(cont_table_data.shape[0] - 1) *
-                                                              (cont_table_data.shape[1] - 1)))"""
+                                                              (cont_table_data.shape[1] - 1) + 1))"""
         except ValueError:
             w_effect_size = ''
         text_result += print_sensitivity_effect_sizes([w_effect_size])
