@@ -531,7 +531,7 @@ def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasti
 
     Parameters
     ----------
-    x : list of str
+    variables : list of str
         List of explanatory variable names.
     meas_lev : str
         Measurement level of variables
@@ -546,8 +546,8 @@ def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasti
 
     Returns
     -------
-    html text
-        Table of the point and interval estimations
+    str
+        Table of the point and interval estimations as html text
     """
     if meas_lev == "int":
         regression_coefficients = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
@@ -576,7 +576,7 @@ def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasti
             regression_coefficients += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
                                                                'calculations met.') + '</decision>'
 
-        if len(x) > 1:
+        if len(variables) > 1:
             if multicollinearity is None:
                 regression_coefficients += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + ' ' +\
                                                        _('Point estimates and CIs may be inaccurate.')  + '</decision>'
@@ -591,7 +591,7 @@ def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasti
         # Gather point estimates and CIs into table
         cis = results.conf_int(alpha=0.05)
 
-        for i in x:
+        for i in variables:
             pdf_result.loc[_("Slope "+i)] = ['%0.3f' % (results.params[i]), '[%0.3f, %0.3f]' % (cis.loc[i,0], cis.loc[i,1])]
 
         pdf_result.loc[_("Intercept")] = \
