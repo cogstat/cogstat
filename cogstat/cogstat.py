@@ -560,26 +560,25 @@ class CogStatData:
 
         return cs_util.convert_output([output])
 
-    def filter_outlier(self, var_names=None, mode='2.5mad', alpha=0.05):
+    def filter_outlier(self, var_names=None, mode='2.5mad'):
         """
         Filter self.data_frame based on outliers.
 
         All variables are investigated independently and cases are excluded if any variables shows they are outliers.
-        If mode is 'mutliple', then variables are jointly investigated for multivariate outliers.
+        If mode is 'mahalanobis', then variables are jointly investigated for multivariate outliers.
         If var_names is None, then all cases are used (i.e., filtering is switched off).
 
         Parameters
         ----------
         var_names : None or list of str
             Names of the variables the exclusion is based on or None to include all cases.
-        mode : {'2.5mad', '2sd'}
+        mode : {'2.5mad', '2sd', 'mahalanobis'}
             Mode of the exclusion:
                 2.5mad: median +- 2.5 * MAD
                 2sd: mean +- 2 * SD
-            CogStat uses only a single method (MAD), but for possible future code change, the previous (2sd) version is
-            also included.
-        alpha : float
-            The desired alpha level for the chi squared distribution cut-off in multivariate analysis.
+                mahalanobis: MCCD Mahalanobis distance with .05 chi squared cut-off
+            CogStat uses only a single method (MAD), but for possible future code change, the previous (2sd) and
+            multivariate (mahalanobis) version is also included.
 
         Returns
         -------
@@ -587,11 +586,12 @@ class CogStatData:
             List of HTML strings showing the filtered cases.
             The method modifies the self.data_frame in place.
         list of charts
-            If cases were filtered, then filtered and remaining cases are shown.
+            If cases were filtered, then filtered and remaining cases are shown. In case of multivariate filtering,
+            no charts are shown.
         """
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
-                      'multiple': _('MCCD Mahalanobis distance with .05 chi squared')}
+                      'mahalanobis': _('MCCD Mahalanobis distance with .05 chi squared cut-off')}
 
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
@@ -625,7 +625,7 @@ class CogStatData:
                     mad_value = mad_function(self.orig_data_frame[var_name].dropna())
                     lower_limit = median - 2.5 * mad_value
                     upper_limit = median + 2.5 * mad_value
-                elif mode == 'multiple':
+                elif mode == 'mahalanobis':
                     # Based on the robust mahalanobis distance in Leys et al, 2017 and Rousseeuw, 1999
 
                     # Calculating the robust mahalanobis distances
@@ -634,27 +634,27 @@ class CogStatData:
 
                     # Custom filtering criteria based on Leys et al. (2017)
                     limit = np.sqrt(
-                        stats.chi2.ppf(1 - alpha, len(self.data_frame.columns)))  # Appropriate cut-off point based on chi2
+                        stats.chi2.ppf(0.95, len(self.data_frame.columns)))  # Appropriate cut-off point based on chi2
                     distances = cov.mahalanobis(self.data_frame)  # Get robust mahalanobis distances from model object
                     self.orig_data_frame['mahalanobis'] = distances
                 else:
                     raise ValueError('Invalid mode parameter was given')
                 # Find the cases to be kept
-                if mode != "multiple":
+                if mode != 'mahalanobis':
                     remaining_cases_indexes.append(self.orig_data_frame[
                                                      (self.orig_data_frame[var_name] > lower_limit) &
                                                      (self.orig_data_frame[var_name] < upper_limit)].index)
-                elif mode == 'multiple':
+                elif mode == 'mahalanobis':
                     remaining_cases_indexes.append(self.orig_data_frame[
                                                      (self.orig_data_frame['mahalanobis'] > limit)].index)
 
                 # Display filtering information
                 text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
                 prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
-                if mode != 'multiple':
+                if mode != 'mahalanobis':
                     text_output += _('Cases outside of the range will be excluded:') + \
                                    ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
-                elif mode == 'multiple':
+                elif mode == 'mahalanobis':
                     text_output += _('Cases above the cutoff distance will be excluded:') + \
                                    ' %0.*f\n' % (prec, limit)
                 # Display the excluded cases
