@@ -16,3 +16,4 @@ python-bidi
 IPython
 Jupyter
 PyQt5
+sklearn
