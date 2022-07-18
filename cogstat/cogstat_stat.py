@@ -525,7 +525,8 @@ def confidence_interval_t(data, ci_only=True):
 
 ### Variable pairs ###
 
-def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasticity=None, multicollinearity=None):
+def variable_pair_regression_coefficients(variables, meas_lev, normality=None, homoscedasticity=None, multicollinearity=None,
+                                          result=None):
     """
     Calculate point and interval estimates of regression parameters (slopes, and intercept) in a regression analysis.
 
@@ -543,6 +544,8 @@ def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasti
         if the parameter was not specified.
     multicollinearity : bool or None
         True if multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
+    result: statsmodels regression result object
+        The result of the multiple regression analysis.
 
     Returns
     -------
@@ -589,13 +592,13 @@ def variable_pair_regression_coefficients(meas_lev, normality=None, homoscedasti
                                                                    ' CI calculations met.') + '</decision>'
 
         # Gather point estimates and CIs into table
-        cis = results.conf_int(alpha=0.05)
+        cis = result.conf_int(alpha=0.05)
 
         for i in variables:
-            pdf_result.loc[_("Slope "+i)] = ['%0.3f' % (results.params[i]), '[%0.3f, %0.3f]' % (cis.loc[i,0], cis.loc[i,1])]
+            pdf_result.loc[_("Slope "+i)] = ['%0.3f' % (result.params[i]), '[%0.3f, %0.3f]' % (cis.loc[i,0], cis.loc[i,1])]
 
         pdf_result.loc[_("Intercept")] = \
-            ['%0.3f' % (results.params[0]), '[%0.3f, %0.3f]' % (cis.loc["const",0], cis.loc["const",1])]
+            ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc["const",0], cis.loc["const",1])]
 
     else:
         regression_coefficients = None
