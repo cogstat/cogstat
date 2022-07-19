@@ -258,7 +258,8 @@ def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_
     # Excluded cases and limit lines are denoted with the second color in the theme.
     plt.scatter(included_cases, np.random.random(size=len(included_cases)), color=theme_colors[0], marker='o')
     plt.scatter(excluded_cases, np.random.random(size=len(excluded_cases)), color=theme_colors[1], marker='o')
-    plt.vlines([lower_limit, upper_limit], ymin=-1, ymax=2, colors=theme_colors[1])
+    if (lower_limit != None) and (upper_limit != None):
+        plt.vlines([lower_limit, upper_limit], ymin=-1, ymax=2, colors=theme_colors[1])
     ax.axes.set_ylim([-1.5, 2.5])
     fig.subplots_adjust(top=0.85, bottom=0.4)
 
