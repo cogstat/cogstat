@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains functions for statistical analysis. The functions 
-calculate the text results that are compiled in the cogstat module.
+This module contains functions for statistical analyses. The functions
+calculate the text output that are compiled in the cogstat module.
 
-Arguments are the pandas data frame (pdf), and parameters (among others they
-are usually variable names).
-Output is text (html and some custom notations).
+The arguments usually include the pandas data frame (pdf), the names of the
+relevant variables, and properties of the calculations and the output.
 
-Mostly scipy.stats and statsmodels are used to generate the results.
+The output is usually a string (html with some custom notations).
+
+Mostly scipy.stats, statsmodels, and pingouin are used to generate the results.
 """
 
 import gettext
@@ -36,7 +37,7 @@ except:
     pass
 '''
 
-run_power_analysis = False  # should this analysis included?
+run_power_analysis = False  # should this analysis be included?
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -340,7 +341,7 @@ def frequencies(pdf, var_name, meas_level):
 
 
 def proportions_ci(pdf, var_name):
-    """Calculate proportions confidence intervals.
+    """Calculate the confidence intervals of proportions.
 
     Parameters
     ----------
@@ -351,7 +352,7 @@ def proportions_ci(pdf, var_name):
 
     Returns
     -------
-
+    str
     """
     from statsmodels.stats import proportion
 
@@ -506,22 +507,30 @@ def variable_estimation(data, statistics=[]):
     return population_param_text
 
 
-def confidence_interval_t(data, ci_only=True):
-    """95%, two-sided CI based on t-distribution
+def confidence_interval_t(data):
+    """Calculate the confidence interval of the mean.
+
+    95%, two-sided CI based on t-distribution
     http://statsmodels.sourceforge.net/stable/_modules/statsmodels/stats/weightstats.html#DescrStatsW.tconfint_mean
+
+    Parameters
+    ----------
+    data : pandas dataframe or pandas series
+         include all the variables the CI is needed for
+
+    Returns
+    -------
+    int
+        the difference from the mean
     """
-    # FIXME is this solution slow? Should we write our own CI function?
-    descr = DescrStatsW(data)
-    cil, cih = descr.tconfint_mean()
+    # TODO is this solution slow? Should we write our own CI function?
+    cil, cih = DescrStatsW(data).tconfint_mean()
     ci = (cih-cil)/2
-    if ci_only:
-        if isinstance(data, pd.Series):
-            return ci  # FIXME this one is for series? The other is for dataframes?
-        elif isinstance(data, pd.DataFrame):
-            return pd.Series(ci, index=data.columns)
-            # without var names the call from comp_group_graph_cum fails
-    else:
-        return ci, cil, cih
+    if isinstance(data, pd.Series):  # TODO do we still need this? do the callers always use a pdf argument?
+        return ci  # FIXME this one is for series? The other is for dataframes?
+    elif isinstance(data, pd.DataFrame):
+        return pd.Series(ci, index=data.columns)
+        # without var names the call from comp_group_graph_cum fails
 
 ### Variable pairs ###
 
@@ -795,7 +804,7 @@ def repeated_measures_estimations(data, meas_level):
         condition_estimations_pdf[_('Point estimation')] = data.mean()
         # APA format, but cannot be used the numbers if copied to spreadsheet
         #group_means_pdf[_('95% confidence interval')] = '['+ cils.map(str) + ', ' + cihs.map(str) + ']'
-        cis, cils, cihs = confidence_interval_t(data, ci_only=False)
+        cils, cihs = DescrStatsW(data).tconfint_mean()
         condition_estimations_pdf[_('95% CI (low)')] = cils
         condition_estimations_pdf[_('95% CI (high)')] = cihs
     if meas_level == 'ord':
@@ -892,6 +901,7 @@ def comp_group_estimations(pdf, meas_level, var_names, groups):
     if meas_level in ['int', 'unk']:
         pdf = pdf[[var_names[0]] + groups]
         means = pdf.groupby(groups, sort=True).aggregate(np.mean)[var_names[0]]
+        # TODO can we use directly DescrStatsW instead of confidence_interval_t? (later we only use cil and cih)
         cis = pdf.groupby(groups, sort=True).aggregate(confidence_interval_t)[var_names[0]]
         group_estimations_pdf[_('Point estimation')] = means
         # APA format, but cannot be used the numbers if copied to spreadsheet

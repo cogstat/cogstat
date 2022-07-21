@@ -843,7 +843,7 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
         if meas_level in ['int', 'unk']:
             plt.title(_plt('Means and 95% confidence intervals for the variables'))
             means = np.mean(data)
-            cis, cils, cihs = cs_stat.confidence_interval_t(data, ci_only=False)
+            cis = cs_stat.confidence_interval_t(data)
             ax.bar(list(range(len(data.columns))), means, 0.5, yerr=cis, align='center',
                    color=theme_colors[0], ecolor='0')
 
