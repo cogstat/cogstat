@@ -122,9 +122,9 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>p</i> = .287' in result[6])
 
         # Population estimation and one sample t-test
-            # jamovi 2.0.0.0 CI 1.97, 4.31 - based on Z-value
-            # https://www.statskingdom.com/confidence-interval-calculator.html To use the t-value based solution, do not
-            # use the population SD
+            # jamovi 2.3.13.0: 3.14, 1.92, 4.36 based on t-distribution
+            # https://www.statskingdom.com/confidence-interval-calculator.html
+                # To use the t-value based solution, do not use the population SD (i.e., rely on t-distribution)
             # Mean confidence interval: [1.922672 , 4.364861]
         self.assertTrue('<td>Mean</td>      <td>3.1438</td>      <td>1.9227</td>      <td>4.3649</td>' in result[8])
             # jamovi 2.0.0.0 3.27 - SD estimates population SD
