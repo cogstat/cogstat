@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-2.3.0rc (6 July 2022)
+2.3.0 (23 July 2022)
 ===============
 
 ## New features
@@ -15,7 +15,7 @@ Trivial changes when a new feature is added are not denoted.
     - Confidence intervals for regression parameters
     - Population plot with confidence band of regression line
     - :warning: Henze-Zirkler test for assumption of multivariate normality
-    - :warning: White's test and Koenker's test for assumption of homoscedasticity
+    - White's test and Koenker's test for assumption of homoscedasticity
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
 - New localization
