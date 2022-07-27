@@ -9,7 +9,7 @@ OPTIONS = {
     'optimize': 2,
     'semi_standalone': 'False',
     'argv_emulation': 'False',
-    'site_packages': 'True',
+    'site_packages': 'False',
     'qt_plugins': ['sqldrivers'],
     'plist': {
         'CFBundleName': APP_NAME,
@@ -23,14 +23,13 @@ OPTIONS = {
         'NSRequiresAquaSystemAppearance': 'YES',
         "LSApplicationCategoryType": 'public.app-category.education',
         "NSPrincipalClass": 'NSApplication',
-        "NSHighResolutionCapable": 'True',
-    }
-    , 'packages': ['numpy', 'scipy', 'matplotlib',
-                        'pandas', 'pandas_flavor', 'statsmodels',
-                        'pyreadstat',  'xlrd', 'openpyxl', 'pyreadr',
-                        'configobj',  'IPython', 'Jupyter',
-                        'pingouin', 'python-bidi', 'odfpy', 'scikit-posthocs',
-                        ]
+        "NSHighResolutionCapable": True,
+        'NSAppleScriptEnabled': False,
+    },
+    'packages': ['pyreadstat', 'pandas_flavor', 
+                'appdirs', 'xlrd', 'pyreadr', 
+                'configobj', 'ipython_genutils', 
+                'odf', 'bidi', 'seaborn'],
 }
 
 setup(
@@ -38,7 +37,7 @@ setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    version='2.3',
+    version='2.3rc',
     description='Simple statistics for researchers.',
     url='https://www.cogstat.org',
     author='Attila Krajcsi',
