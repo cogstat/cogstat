@@ -658,7 +658,7 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
 
                 # Plotting regression line from statsmodels fitted values
                 fittedvalues = summary[:, 2]
-                ax.plot(data_sorted[x], fittedvalues, color=theme_colors[0])
+                ax.plot(data_sorted[x], fittedvalues, color=theme_colors[1])
 
                 if CI:
                     # this will overwrite plot title that was set when raw data are displayed
