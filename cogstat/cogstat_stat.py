@@ -669,22 +669,22 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                                                    _('CIs may be biased.') + '</decision>'
             elif not normality:
                 standardized_effect_size_result += '\n' + '<decision>' + \
-                                                   _('Assumption of normality violated for CI calculations.') + ' ' + \
+                                                   _('Assumption of normality violated.') + ' ' + \
                                                    _('CIs may be biased.') + '</decision>'
             else:
                 standardized_effect_size_result += '\n' + '<decision>' + \
-                                                   _('Assumption of normality for CI calculations met.') + '</decision>'
+                                                   _('Assumption of normality met.') + '</decision>'
 
             if homoscedasticity is None:
-                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' +\
-                                                   _('CIs may be biased.') + '</decision>'
+                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') \
+                                                   + ' ' + _('CIs may be biased.') + '</decision>'
             elif not homoscedasticity:
                 standardized_effect_size_result += '\n' + '<decision>' \
-                                           + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                           + _('Assumption of homoscedasticity violated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
             else:
-                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
-                                                                           'calculations met.') + '</decision>'
+                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for met.') \
+                                                   + '</decision>'
 
         if meas_lev in ['int', 'unk', 'ord']:
             df = len(data) - 2
@@ -698,61 +698,6 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
         standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
                                                                                  classes="table_cs_pd"))
     return standardized_effect_size_result
-
-def calc_se_r2(r2, k, n):
-    """Calculate standard error of R-squared estimate.
-
-    Parameters
-    ----------
-    r2 : float
-        R-squared or adjusted R-squared point estimate.
-    k : int or float
-        Number of regressors in the model.
-    n : int or float
-        Number of observations.
-
-    Based on: Cohen, J., Cohen, P., West, S.G., and Aiken, L.S. (2003). Applied Multiple Regression/Correlation
-    Analysis for the Behavioral Sciences (3rd edition). Mahwah, NJ: Lawrence Earlbaum Associates. pp. 88
-    See also: https://stats.stackexchange.com/questions/175026/formula-for-95-confidence-interval-for-r2
-
-    Returns
-    -------
-    float
-    """
-
-    numerator = 4*r2*((1-r2)**2)*((n-k-1)**2)
-    denominator = ((n**2) - 1)*(3+n)
-    se_r2 = (numerator/denominator)**0.5
-    return se_r2
-
-def calc_r2_ci(r2, alpha, n, k):
-    """Calculate confidence interval of R-squared estimate.
-
-    Parameters
-    ----------
-    r2 : float
-        R-squared or adjusted R-squared point estimate.
-    alpha: float
-        Desired level of type-I error.
-    k : int or float
-        Number of regressors in the model.
-    n : int or float
-        Number of observations.
-
-    Based on: Olkin, I. and Finn, J.D. (1995). Correlations Redux. Psychological Bulletin, 118(1), pp. 155-164.
-    See also: https://www.danielsoper.com/statcalc/formulas.aspx?id=28
-    Validated against: https://www.danielsoper.com/statcalc/calculator.aspx?id=28 on 02/06/2022 06:03
-
-    Returns
-    -------
-    list
-    """
-
-    se_r2 = calc_se_r2(r2,k,n)
-    t = stats.t.ppf((1-alpha)/2, n-k-1)
-    up = r2 + t*se_r2
-    down = r2 - t*se_r2
-    return [up, down]
 
 def multiple_variables_standard_effect_size(data, x, y, normality, homoscedasticity, multicollinearity, sample=True,\
                                             result=None):
@@ -783,7 +728,6 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
     html text
     """
     # TODO validate
-    import pingouin as pg
 
     standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>' + "\n"
 
@@ -793,53 +737,49 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
                                            _('CIs may be biased.') + '</decision>'
     elif not normality:
         standardized_effect_size_result += '\n' + '<decision>' + \
-                                           _('Assumption of normality violated for CI calculations.') + ' ' + \
+                                           _('Assumption of normality violated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
     else:
         standardized_effect_size_result += '\n' + '<decision>' + \
-                                           _('Assumption of normality for CI calculations met.') + '</decision>'
+                                           _('Assumption of normality met.') + '</decision>'
 
     if homoscedasticity is None:
         standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
     elif not homoscedasticity:
         standardized_effect_size_result += '\n' + '<decision>' \
-                                           + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                           + _('Assumption of homoscedasticity violated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
     else:
-        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
-                                                                   'calculations met.') + '</decision>'
+        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity met.') + '</decision>'
 
     if multicollinearity is None:
         standardized_effect_size_result += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
     elif not multicollinearity:
         standardized_effect_size_result += '\n' + '<decision>' \
-                                           + _('Assumption of multicollinearity violated for CI calculations.') + ' ' + \
+                                           + _('Assumption of multicollinearity violated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
     else:
-        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of multicollinearity for parameter '\
-                                                                   'and CI calculations met.') + '</decision>'
+        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of multicollinearity met.') + '</decision>'
 
     # Calculate effect sizes for sample or population
     if sample:
         pdf_result_corr = pd.DataFrame()
-        if result:
-            standardized_effect_size_result += "\n" + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + "\n"
+        standardized_effect_size_result += "\n" + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + "\n"
     else:  # population
         pdf_result_model = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         pdf_result_corr = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
-        if result:
-            ci = calc_r2_ci(result.rsquared_adj, 0.95, len(data), len(x))
-            pdf_result_model.loc[_('Adjusted <i>R<sup>2</sup></i>')] = \
-                ['%0.3f' % (result.rsquared_adj), '[%0.3f, %0.3f]' % (ci[0], ci[1])]
+        ci = cs_stat_num.calc_r2_ci(result.rsquared_adj, len(x), len(data))
+        pdf_result_model.loc[_('Adjusted <i>R<sup>2</sup></i>')] = \
+            ['%0.3f' % (result.rsquared_adj), '[%0.3f, %0.3f]' % (ci[0], ci[1])]
 
         pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % (result.llf), '']
         pdf_result_model.loc[_('AIC')] = ['%0.3f' % (result.aic), '']
         pdf_result_model.loc[_('BIC')] = ['%0.3f' % (result.bic), '']
         standardized_effect_size_result += _format_html_table(pdf_result_model.to_html(bold_rows=False, escape=False,
-                                     classes="table_cs_pd")) + "\n"
+                                                                                       classes="table_cs_pd")) + "\n"
 
     standardized_effect_size_result += "\n" + '<cs_h3>' + _("Pearson's partial correlations") + '</cs_h3>'
 
@@ -849,9 +789,9 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
 
         if sample:
             pdf_result_corr.loc[_(x_i), _('Value')] = \
-                '<i>pr</i> = %0.3f' % pg.partial_corr(data, x_i, y, x_other)["r"]
+                '<i>pr</i> = %0.3f' % pingouin.partial_corr(data, x_i, y, x_other)["r"]
         else:
-            partial_result = pg.partial_corr(data, x_i, y, x_other)
+            partial_result = pingouin.partial_corr(data, x_i, y, x_other)
             pdf_result_corr.loc[_(x_i) + ', <i>pr</i>'] = \
                 ['%0.3f' % (partial_result["r"]), '[%0.3f, %0.3f]' % (partial_result["CI95%"][0][0],
                                                                       partial_result["CI95%"][0][1])]

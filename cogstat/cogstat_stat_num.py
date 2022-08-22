@@ -103,6 +103,63 @@ def stddev_ci(stddev, n, confidence=0.95):
     return lower, upper
 
 
+def calc_se_r2(r2, k, n):
+    """Calculate standard error of R-squared estimate.
+
+    Parameters
+    ----------
+    r2 : float
+        R-squared or adjusted R-squared point estimate.
+    k : int or float
+        Number of regressors in the model.
+    n : int or float
+        Number of observations.
+
+    Based on: Cohen, J., Cohen, P., West, S.G., and Aiken, L.S. (2003). Applied Multiple Regression/Correlation
+    Analysis for the Behavioral Sciences (3rd edition). Mahwah, NJ: Lawrence Earlbaum Associates. pp. 88
+    See also: https://stats.stackexchange.com/questions/175026/formula-for-95-confidence-interval-for-r2
+
+    Returns
+    -------
+    float
+    """
+
+    numerator = 4 * r2 * ((1 - r2) ** 2) * ((n - k - 1) **2 )
+    denominator = ((n ** 2) - 1) * (3 + n)
+    se_r2 = (numerator/denominator) ** 0.5
+    return se_r2
+
+
+def calc_r2_ci(r2, k, n, alpha=0.95):
+    """Calculate confidence interval of R-squared estimate.
+
+    Parameters
+    ----------
+    r2 : float
+        R-squared or adjusted R-squared point estimate.
+    n : int or float
+        Number of observations.
+    k : int or float
+        Number of regressors in the model.
+    alpha: float
+        Desired level of type-I error.
+
+    Based on: Olkin, I. and Finn, J.D. (1995). Correlations Redux. Psychological Bulletin, 118(1), pp. 155-164.
+    See also: https://www.danielsoper.com/statcalc/formulas.aspx?id=28
+    Validated against: https://www.danielsoper.com/statcalc/calculator.aspx?id=28 on 02/06/2022 06:03
+
+    Returns
+    -------
+    list
+    """
+
+    se_r2 = calc_se_r2(r2,k,n)
+    t = stats.t.ppf((1 - alpha) / 2, n - k - 1)
+    up = r2 + t * se_r2
+    down = r2 - t * se_r2
+    return [up, down]
+
+
 def modified_t_test(ind_data, group_data):
     """
     Compare a single case to a group.
