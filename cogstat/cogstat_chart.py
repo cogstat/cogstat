@@ -747,7 +747,7 @@ def create_multiple_variable_chart(data, meas_lev, x, type="raw"):
     if meas_lev == "int":
         if type == "collinearity":
             data = data[x]
-        if type in "raw":
+        if type == "raw":
             fig, ax = plt.subplots(len(data.columns), len(data.columns), tight_layout=True)
             fig.suptitle(_plt("Scatterplot matrix of variables"))
             for i in range(0, len(data.columns)):
