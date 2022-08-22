@@ -498,16 +498,16 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
         population_result += chi_squared_test(data, x, y)
     return population_result
 
-def multiple_regression_hyp_tests(result, x, data, normality, homoscedasticity, multicollinearity):
+def multiple_regression_hyp_tests(data, result, var_names, normality, homoscedasticity, multicollinearity):
     """Hypothesis tests for model and regressor slopes in multiple linear regression.
 
     Parameters
     ----------
+    data : pandas dataframe
     result : statsmodels regression result object
         The result of the multiple regression analysis.
-    x : list of str
+    var_names : list of str
         List of explanatory variable names.
-    data : pandas dataframe
     normality : bool or None
         True when variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
@@ -556,8 +556,8 @@ def multiple_regression_hyp_tests(result, x, data, normality, homoscedasticity, 
                          (result.df_model, result.df_resid, non_data_dim_precision, result.fvalue,
                           print_p(result.f_pvalue)) + "\n"
     output += _("Regressor slopes:") + "\n"
-    for x_i in x:
-        output += _(x_i + ": ") + '<i>t</i>(%d) = %0.*f, %s' % (len(data)-len(x)-1, non_data_dim_precision, \
+    for x_i in var_names:
+        output += _(x_i + ": ") + '<i>t</i>(%d) = %0.*f, %s' % (len(data)-len(var_names)-1, non_data_dim_precision, \
                                                                 result.tvalues[x_i], print_p(result.pvalues[x_i])) \
                   + "\n"
 
