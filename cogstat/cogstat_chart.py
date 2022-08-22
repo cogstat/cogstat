@@ -758,7 +758,7 @@ def create_multiple_variable_chart(data, meas_lev, x, type="raw"):
                         ax[i, j].hist(data.iloc[:, i])
                     else:
                         ax[i, j].scatter(data.iloc[:, i], data.iloc[:, j])
-        elif type is "collinearity":
+        elif type == "collinearity":
             if len(x) == 2:
                 ncols = 1
             elif len(x) >= 2:
