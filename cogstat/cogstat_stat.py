@@ -595,10 +595,10 @@ def variable_pair_regression_coefficients(variables, meas_lev, normality=None, h
         cis = result.conf_int(alpha=0.05)
 
         for i in variables:
-            pdf_result.loc[_("Slope "+i)] = ['%0.3f' % (result.params[i]), '[%0.3f, %0.3f]' % (cis.loc[i,0], cis.loc[i,1])]
+            pdf_result.loc[_('Slope %s') %i] = ['%0.3f' % (result.params[i]), '[%0.3f, %0.3f]' % (cis.loc[i,0], cis.loc[i,1])]
 
-        pdf_result.loc[_("Intercept")] = \
-            ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc["const",0], cis.loc["const",1])]
+        pdf_result.loc[_('Intercept')] = \
+            ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc['const',0], cis.loc['const',1])]
 
     else:
         regression_coefficients = None
