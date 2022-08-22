@@ -826,7 +826,7 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
         pdf_result_corr = pd.DataFrame()
         if result:
             standardized_effect_size_result += "\n" + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + "\n"
-    else:
+    else:  # population
         pdf_result_model = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         pdf_result_corr = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
