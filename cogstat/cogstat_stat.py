@@ -771,7 +771,7 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
     homoscedasticity : bool or None
         True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
         if the parameter was not specified.
-    multicollinearity:
+    multicollinearity : bool or None
         True if possible multicollinearity was detected (VIF>10). None if the parameter was not specified.
     sample : bool
         True for sample descriptives, False for population estimations.
