@@ -519,7 +519,8 @@ def multiple_regression_hyp_tests(result, x, data, normality, homoscedasticity, 
 
     Returns
     -------
-    html text
+    str
+        html text
     """
 
     if normality and homoscedasticity and not multicollinearity:
