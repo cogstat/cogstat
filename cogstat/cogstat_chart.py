@@ -264,7 +264,10 @@ def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_
     fig.subplots_adjust(top=0.85, bottom=0.4)
 
     # Add labels
-    plt.title(_plt('Included and excluded cases with exclusion criteria'))
+    if (lower_limit == None) and (upper_limit == None):
+        plt.title(_plt('Included and excluded cases'))
+    else:
+        plt.title(_plt('Included and excluded cases with exclusion criteria'))
     plt.xlabel(var_name)
     ax.axes.get_yaxis().set_visible(False)
     _set_axis_measurement_level(ax, 'int', 'nom')
