@@ -718,40 +718,43 @@ def correlation_matrix(data, x):
     table += _format_html_table(corr_table.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
     return table
 
-def vif_table(data, x):
+def vif_table(data, var_names):
     """Calculate and display Variance Inflation Factors. Raises warning and displays corresponding
     auxiliary regression weights in case of suspected multicollineearity (VIF>10).
 
     Parameters
     ----------
     data : pandas dataframe
-    x : list of str
+    var_names : list of str
         list of explanatory variable names
 
     Returns
     -------
     html text, bool
+        Html text with variance inflation factors (VIFs) and beta weights from auxiliary regression in case of VIF > 10.
+        Boolean is True when any VIF is greater than 10. False otherwise.
     """
 
     from statsmodels.stats.outliers_influence import variance_inflation_factor
-    X = statsmodels.api.add_constant(data[x])
+    from statsmodels import api
+    regressors = api.add_constant(data[var_names])
     table = _("Variance inflation factors of explanatory variables and constant")
-    vifs = pd.DataFrame([variance_inflation_factor(X.values, i) \
-                         for i in range(X.shape[1])], index=X.columns, columns=["VIF"])
+    vifs = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
+                         for i in range(regressors.shape[1])], index=regressors.columns, columns=["VIF"])
     table += _format_html_table(vifs.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
 
     multicollinearity = False
-    for x_i in x:
+    for regressor in var_names:
         if vifs.loc[x_i][0] > 10:
             multicollinearity = True
-            table += "\n" + "<decision>" + _("VIF > 10 in variable %s ") % x_i + "\n" + _("Possible multicollinearity.")\
-                        + "</decision>"
-            x_other = x.copy()
-            x_other.remove(x_i)
-            slopes = pd.DataFrame(statsmodels.api.OLS(data[x_i], statsmodels.api.add_constant(data[x_other]))\
-                                  .fit().params, columns=[_("Slope on ") + x_i])
-            table += _format_html_table(slopes.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) \
-                     + "\n"
+            table += "\n" + "<decision>" + _("VIF > 10 in variable %s ") % regressor + "\n" + \
+                     _("Possible multicollinearity.") + "</decision>"
+            regressors_other = var_names.copy()
+            regressors_other.remove(regressor)
+            table += _("Beta weights when regressing %s on all other regressors." % regressor)
+            slopes = pd.DataFrame(api.OLS(data[regressor], api.add_constant(data[regressors_other]))\
+                                  .fit().params, columns=[_("Slope on %s") % regressor])
+            table += _format_html_table(slopes.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
     return table, multicollinearity
 
 
