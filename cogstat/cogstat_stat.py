@@ -714,7 +714,7 @@ def correlation_matrix(data, x):
     """
 
     corr_table = data[x].corr()
-    table = _("Pearson correlation matrix of explanatory variables:")
+    table = _("Pearson correlation matrix of explanatory variables")
     table += _format_html_table(corr_table.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
     return table
 
