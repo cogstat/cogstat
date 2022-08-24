@@ -744,7 +744,7 @@ def vif_table(data, x):
     for x_i in x:
         if vifs.loc[x_i][0] > 10:
             multicollinearity = True
-            table += "\n" + "<decision>" + _("VIF > 10 in variable ") + x_i + "\n" + _("Possible multicollinearity.")\
+            table += "\n" + "<decision>" + _("VIF > 10 in variable %s ") % x_i + "\n" + _("Possible multicollinearity.")\
                         + "</decision>"
             x_other = x.copy()
             x_other.remove(x_i)
