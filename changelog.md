@@ -4,7 +4,7 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release (2022)
 =======================
 ## New features
-- Regression analysis
+- Regression analysis (Tamás Szűcs)
   - Analysis of multicollinearity in multiple regression
 - Reload actual data file
 
