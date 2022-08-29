@@ -568,7 +568,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
-            result = self.active_data.filter_outlier(var_names)
+            if len(var_names) > 1:  # TODO should we add a switch to the GUI to decide if single or multivariate
+                                    # filtering is needed?
+                result = self.active_data.filter_outlier(var_names, mode='mahalanobis')
+            else:
+                result = self.active_data.filter_outlier(var_names)
             self.analysis_results[-1].add_output(result)
             self._print_to_output_pane()
         except:
