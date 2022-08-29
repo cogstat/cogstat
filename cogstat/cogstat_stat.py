@@ -705,16 +705,17 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             standardized_effect_size_result = ''
     if standardized_effect_size_result:
         standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
-                                                                                 classes="table_cs_pd"))
+                                                                                 classes='table_cs_pd'))
     return standardized_effect_size_result
 
-def correlation_matrix(data, x):
-    """Create Pearson's correlation correlation matrix for assessment of multicollinearity.
+
+def correlation_matrix(data, regressors):
+    """Create Pearson's correlation matrix for assessment of multicollinearity.
 
     Parameters
     ----------
     data : pandas dataframe
-    x : list of str
+    regressors : list of str
         list of explanatory variable names
 
     Returns
@@ -722,10 +723,11 @@ def correlation_matrix(data, x):
     html text
     """
 
-    corr_table = data[x].corr()
-    table = _("Pearson correlation matrix of explanatory variables")
-    table += _format_html_table(corr_table.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
+    corr_table = data[regressors].corr()
+    table = _('Pearson correlation matrix of explanatory variables')
+    table += _format_html_table(corr_table.to_html(bold_rows=False, escape=False, classes='table_cs_pd')) + '\n'
     return table
+
 
 def vif_table(data, var_names):
     """Calculate and display Variance Inflation Factors. Raises warning and displays corresponding
@@ -745,25 +747,27 @@ def vif_table(data, var_names):
     """
 
     from statsmodels.stats.outliers_influence import variance_inflation_factor
-    from statsmodels import api
-    regressors = api.add_constant(data[var_names])
-    table = _("Variance inflation factors of explanatory variables and constant")
+    from statsmodels.api import add_constant
+    from statsmodels.api import OLS
+
+    regressors = add_constant(data[var_names])
+    table = _('Variance inflation factors of explanatory variables and constant')
     vifs = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
-                         for i in range(regressors.shape[1])], index=regressors.columns, columns=["VIF"])
-    table += _format_html_table(vifs.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
+                         for i in range(regressors.shape[1])], index=regressors.columns, columns=[_('VIF')])
+    table += _format_html_table(vifs.to_html(bold_rows=False, escape=False, classes='table_cs_pd')) + '\n'
 
     multicollinearity = False
     for regressor in var_names:
-        if vifs.loc[x_i][0] > 10:
+        if vifs.loc[regressor, _('VIF')] > 10:
             multicollinearity = True
-            table += "\n" + "<decision>" + _("VIF > 10 in variable %s ") % regressor + "\n" + \
-                     _("Possible multicollinearity.") + "</decision>"
+            table += '\n' + '<decision>' + _('VIF > 10 in variable %s ') % regressor + '\n' + \
+                     _('Possible multicollinearity.') + '\n</decision>'
             regressors_other = var_names.copy()
             regressors_other.remove(regressor)
-            table += _("Beta weights when regressing %s on all other regressors." % regressor)
-            slopes = pd.DataFrame(api.OLS(data[regressor], api.add_constant(data[regressors_other]))\
-                                  .fit().params, columns=[_("Slope on %s") % regressor])
-            table += _format_html_table(slopes.to_html(bold_rows=False, escape=False, classes="table_cs_pd")) + "\n"
+            table += _('Beta weights when regressing %s on all other regressors.' % regressor)
+            slopes = pd.DataFrame(OLS(data[regressor], add_constant(data[regressors_other])).fit().params,
+                                  columns=[_('Slope on %s') % regressor])
+            table += _format_html_table(slopes.to_html(bold_rows=False, escape=False, classes='table_cs_pd')) + '\n'
     return table, multicollinearity
 
 
