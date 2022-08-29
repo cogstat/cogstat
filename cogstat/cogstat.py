@@ -576,7 +576,7 @@ class CogStatData:
             Mode of the exclusion:
                 2.5mad: median +- 2.5 * MAD
                 2sd: mean +- 2 * SD
-                mahalanobis: MCCD Mahalanobis distance with .05 chi squared cut-off
+                mahalanobis: MMCD Mahalanobis distance with .05 chi squared cut-off
             CogStat uses only a single method (MAD), but for possible future code change, the previous (2sd) and
             multivariate (mahalanobis) version is also included.
 
@@ -586,12 +586,11 @@ class CogStatData:
             List of HTML strings showing the filtered cases.
             The method modifies the self.data_frame in place.
         list of charts
-            If cases were filtered, then filtered and remaining cases are shown. In case of multivariate filtering,
-            no charts are shown.
+            If cases were filtered, then filtered and remaining cases are shown.
         """
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
-                      'mahalanobis': _('MCCD Mahalanobis distance with .05 chi squared cut-off')}
+                      'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
 
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
@@ -605,81 +604,116 @@ class CogStatData:
             remaining_cases_indexes = []
             text_output = ''
             self.filtering_status = ''
-            for var_name in var_names:
-                if self.data_measlevs[var_name] in ['ord', 'nom']:
-                    text_output += _('Only interval variables can be used for filtering. Ignoring variable %s.') % \
-                                   var_name + '\n'
-                    continue
-                # Find the lower and upper limit
-                if mode == '2sd':
-                    mean = np.mean(self.orig_data_frame[var_name].dropna())
-                    sd = np.std(self.orig_data_frame[var_name].dropna(), ddof=1)
-                    lower_limit = mean - 2 * sd
-                    upper_limit = mean + 2 * sd
-                elif mode == '2.5mad':
-                    # Python implementations:
-                    # https://www.statsmodels.org/stable/generated/statsmodels.robust.scale.mad.html
-                    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.median_absolute_deviation.html
-                    from statsmodels.robust.scale import mad as mad_function
-                    median = np.median(self.orig_data_frame[var_name].dropna())
-                    mad_value = mad_function(self.orig_data_frame[var_name].dropna())
-                    lower_limit = median - 2.5 * mad_value
-                    upper_limit = median + 2.5 * mad_value
-                elif mode == 'mahalanobis':
-                    # Based on the robust mahalanobis distance in Leys et al, 2017 and Rousseeuw, 1999
+            if mode == 'mahalanobis':
+                # Based on the robust mahalanobis distance in Leys et al, 2017 and Rousseeuw, 1999
+                # Removing non-interval variables
+                ignored_variables = []
+                for var_name in var_names:
+                    if self.data_measlevs[var_name] in ['ord', 'nom']:
+                        var_names.remove(var_name)
+                        ignored_variables.append(var_name)
+                var_names = [var_name for var_name in var_names if var_name not in ignored_variables]
+                text_output += _('Only interval variables can be used for filtering. Ignoring variable(s) %s.') % \
+                               ignored_variables + '\n'
 
-                    # Calculating the robust mahalanobis distances
-                    from sklearn import covariance
-                    cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.data_frame)
+                # Calculating the robust mahalanobis distances
+                from sklearn import covariance
+                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.data_frame[var_names])
 
-                    # Custom filtering criteria based on Leys et al. (2017)
-                    limit = np.sqrt(
-                        stats.chi2.ppf(0.95, len(self.data_frame.columns)))  # Appropriate cut-off point based on chi2
-                    distances = cov.mahalanobis(self.data_frame)  # Get robust mahalanobis distances from model object
-                    self.orig_data_frame['mahalanobis'] = distances
-                else:
-                    raise ValueError('Invalid mode parameter was given')
+                # Custom filtering criteria based on Leys et al. (2017)
+                # Appropriate cut-off point based on chi2
+                limit = stats.chi2.ppf(0.95, len(self.data_frame[var_names].columns))
+                # Get robust mahalanobis distances from model object
+                distances = cov.mahalanobis(self.data_frame[var_names])
+                filtering_data_frame = self.orig_data_frame.copy()
+                filtering_data_frame['mahalanobis'] = distances
+
                 # Find the cases to be kept
-                if mode != 'mahalanobis':
-                    remaining_cases_indexes.append(self.orig_data_frame[
-                                                     (self.orig_data_frame[var_name] > lower_limit) &
-                                                     (self.orig_data_frame[var_name] < upper_limit)].index)
-                elif mode == 'mahalanobis':
-                    remaining_cases_indexes.append(self.orig_data_frame[
-                                                     (self.orig_data_frame['mahalanobis'] > limit)].index)
+                remaining_cases_indexes.append(filtering_data_frame[
+                                                   (filtering_data_frame['mahalanobis'] < limit)].index)
 
                 # Display filtering information
-                text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
-                prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
-                if mode != 'mahalanobis':
-                    text_output += _('Cases outside of the range will be excluded:') + \
-                                   ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
-                elif mode == 'mahalanobis':
-                    text_output += _('Cases above the cutoff distance will be excluded:') + \
-                                   ' %0.*f\n' % (prec, limit)
+                text_output += _('Filtering based on the variables: %s.\n') % (var_names)
+                prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1
+                text_output += _('Cases above the cutoff mahalanobis distance will be excluded:') + \
+                               ' %0.*f\n' % (prec, limit)
+
                 # Display the excluded cases
                 excluded_cases = \
                     self.orig_data_frame.drop(remaining_cases_indexes[-1])
-                #excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
+                # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
-                    text_output += _('The following cases will be excluded: ')
+                    text_output += _('The following cases will be excluded (%s cases): ') % (len(excluded_cases))
                     text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
-                                                                                     classes="table_cs_pd"))
-                    if mode != 'mahalanobis':
+                                                                                     classes="table_cs_pd")) + "\n"
+                    for var_name in var_names:
+                        chart_results.append(cs_chart.create_filtered_cases_chart(
+                            self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
+                            excluded_cases[var_name], var_name,
+                            lower_limit=None, upper_limit=None))
+
+                else:
+                    text_output += _('No cases were excluded.')
+
+
+            else:
+                for var_name in var_names:
+                    if self.data_measlevs[var_name] in ['ord', 'nom']:
+                        text_output += _('Only interval variables can be used for filtering. Ignoring variable %s.') % \
+                                       var_name + '\n'
+                        continue
+                    # Find the lower and upper limit
+                    if mode == '2sd':
+                        mean = np.mean(self.orig_data_frame[var_name].dropna())
+                        sd = np.std(self.orig_data_frame[var_name].dropna(), ddof=1)
+                        lower_limit = mean - 2 * sd
+                        upper_limit = mean + 2 * sd
+                    elif mode == '2.5mad':
+                        # Python implementations:
+                        # https://www.statsmodels.org/stable/generated/statsmodels.robust.scale.mad.html
+                        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.median_absolute_deviation.html
+                        from statsmodels.robust.scale import mad as mad_function
+                        median = np.median(self.orig_data_frame[var_name].dropna())
+                        mad_value = mad_function(self.orig_data_frame[var_name].dropna())
+                        lower_limit = median - 2.5 * mad_value
+                        upper_limit = median + 2.5 * mad_value
+                    else:
+                        raise ValueError('Invalid mode parameter was given')
+
+                    # Display filtering information
+                    text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
+                    prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
+                    text_output += _('Cases outside of the range will be excluded:') + \
+                                   ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
+                    # Find the cases to be kept
+                    remaining_cases_indexes.append(self.orig_data_frame[
+                                                     (self.orig_data_frame[var_name] > lower_limit) &
+                                                     (self.orig_data_frame[var_name] < upper_limit)].index)
+
+                    # Display the excluded cases
+                    excluded_cases = \
+                        self.orig_data_frame.drop(remaining_cases_indexes[-1])
+                    #excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
+                    # TODO uncomment the above line after using pivot indexes in CS data
+                    if len(excluded_cases):
+                        text_output += _('The following cases will be excluded: ')
+                        text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
+                                                                                         classes="table_cs_pd"))
                         chart_results.append(cs_chart.create_filtered_cases_chart(self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
                                                                                   excluded_cases[var_name], var_name,
                                                                                   lower_limit, upper_limit))
-                else:
-                    text_output += _('No cases were excluded.')
-                if var_name != var_names[-1]:
-                    text_output += '\n\n'
 
-            # Do the filtering (remove outliers), modify self.data_frame in place
-            self.data_frame = self.orig_data_frame.copy()
-            for remaining_cases_index in remaining_cases_indexes:
-                self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
-            self.filtering_status = ', '.join(var_names) + ' (%s)' % mode_names[mode]
+                    else:
+                        text_output += _('No cases were excluded.')
+                    if var_name != var_names[-1]:
+                        text_output += '\n\n'
+
+        # Do the filtering (remove outliers), modify self.data_frame in place
+        self.data_frame = self.orig_data_frame.copy()
+        for remaining_cases_index in remaining_cases_indexes:
+            self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
+        self.filtering_status = ', '.join(var_names) + ' (%s)' % mode_names[mode]
 
         return cs_util.convert_output([title, text_output, chart_results])
 
