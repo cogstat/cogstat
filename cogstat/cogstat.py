@@ -1055,8 +1055,13 @@ class CogStatData:
                                            estimation_parameters, population_graph, estimation_effect_size,
                                            population_result])
         else:  # several predictors
+            code_test_regressor_correlation = cs_stat.correlation_matrix(self.data_frame, predictors)
+            code_test_vif, vif = cs_stat.vif_table(self.data_frame, predictors)
+
             return cs_util.convert_output(['<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>\n' +
-                                          _('Sorry, not implemented yet.')])
+                                          _('Sorry, not implemented yet.') +
+                                           '\n\nBut here are some output for testing purposes:\n\n',
+                                           code_test_regressor_correlation, code_test_vif])
 
 
     def pivot(self, depend_name='', row_names=[], col_names=[], page_names=[], function='Mean'):
