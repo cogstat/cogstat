@@ -77,8 +77,8 @@ def _prepare_list_widgets(source_list_widget, names, selected_list_widgets):
     data. Therefore, we remove any items from the selected_list_widgets that are not present in the current dataset
     (names).
 
-    Second, we add the names (of variables) to the list_widget (a source list widget), unless they are used in other
-    selected_list_widgets.
+    Second, we clear the source_list_widget and add the names (of the actual variables) to the source_list_widget (a
+    source list widget), unless they are used in any selected_list_widgets.
 
     Parameters
     ----------
@@ -344,6 +344,12 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         _prepare_list_widgets(self.sourceListWidget, names,
                               [self.RTListWidget, self.errorListWidget, self.participantListWidget,
                               self.conditionListWidget])
+        if self.RTListWidget.count() == 0:
+            _enable_adding_var(self.addRT, self.RTListWidget, True)
+        if self.errorListWidget.count() == 0:
+            _enable_adding_var(self.addError, self.errorListWidget, True)
+        if self.participantListWidget.count() == 0:
+            _enable_adding_var(self.addParticipant, self.participantListWidget, True)
 
     # TODO enable and disable relevant elements after drag and drop too
 
@@ -550,6 +556,8 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.predicted_listWidget,
                                                               self.predictor_listWidget])
+        if self.predicted_listWidget.count() == 0:
+            _enable_adding_var(self.addPredicted, self.predicted_listWidget, True)
 
     # TODO enable and disable relevant elements after drag and drop too
 
