@@ -4,9 +4,13 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release (2022)
 =======================
 ## New features
-- Regression analysis (Tamás Szűcs)
-  - Analysis of multicollinearity in multiple regression
-  - Hypothesis tests for multiple linear regression
+- Multiple linear regression analysis (Tamás Szűcs)
+  - Model fit metrics
+  - Partial correlation
+  - Partial regression plots
+  - Scatterplot matrix of raw data
+  - Analysis of multicollinearity
+  - Hypothesis tests
 - Reload actual data file
 - Multivariate outlier filtering
 

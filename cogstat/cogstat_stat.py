@@ -676,22 +676,22 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                                                    _('CIs may be biased.') + '</decision>'
             elif not normality:
                 standardized_effect_size_result += '\n' + '<decision>' + \
-                                                   _('Assumption of normality violated for CI calculations.') + ' ' + \
+                                                   _('Assumption of normality violated.') + ' ' + \
                                                    _('CIs may be biased.') + '</decision>'
             else:
                 standardized_effect_size_result += '\n' + '<decision>' + \
-                                                   _('Assumption of normality for CI calculations met.') + '</decision>'
+                                                   _('Assumption of normality met.') + '</decision>'
 
             if homoscedasticity is None:
-                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' +\
-                                                   _('CIs may be biased.') + '</decision>'
+                standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') \
+                                                   + ' ' + _('CIs may be biased.') + '</decision>'
             elif not homoscedasticity:
                 standardized_effect_size_result += '\n' + '<decision>' \
-                                           + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                           + _('Assumption of homoscedasticity violated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
             else:
-                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
-                                                                           'calculations met.') + '</decision>'
+                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for met.') \
+                                                   + '</decision>'
 
         if meas_lev in ['int', 'unk', 'ord']:
             df = len(data) - 2
@@ -704,6 +704,108 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     if standardized_effect_size_result:
         standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
                                                                                  classes='table_cs_pd'))
+    return standardized_effect_size_result
+
+def multiple_variables_standard_effect_size(data, x, y, normality, homoscedasticity, multicollinearity, sample=True,\
+                                            result=None):
+    """Calculate standardized effect size measures for multiple regression.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    x : list of str
+        Name of the explanatory variables.
+    y : list of str
+        Name of the dependent variable.
+    normality: bool or None
+        True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
+    homoscedasticity : bool or None
+        True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
+        if the parameter was not specified.
+    multicollinearity : bool or None
+        True if possible multicollinearity was detected (VIF>10). None if the parameter was not specified.
+    sample : bool
+        True for sample descriptives, False for population estimations.
+    result : statsmodels regression result object
+        The result of the multiple regression analyses.
+
+    Returns
+    -------
+    html text
+    """
+    # TODO validate
+
+    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>' + "\n"
+
+    # Warnings based on the results of the assumption tests
+    if normality is None:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    elif not normality:
+        standardized_effect_size_result += '\n' + '<decision>' + \
+                                           _('Assumption of normality violated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    else:
+        standardized_effect_size_result += '\n' + '<decision>' + \
+                                           _('Assumption of normality met.') + '</decision>'
+
+    if homoscedasticity is None:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    elif not homoscedasticity:
+        standardized_effect_size_result += '\n' + '<decision>' \
+                                           + _('Assumption of homoscedasticity violated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    else:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity met.') + '</decision>'
+
+    if multicollinearity is None:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    elif not multicollinearity:
+        standardized_effect_size_result += '\n' + '<decision>' \
+                                           + _('Assumption of multicollinearity violated.') + ' ' + \
+                                           _('CIs may be biased.') + '</decision>'
+    else:
+        standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of multicollinearity met.') + '</decision>'
+
+    # Calculate effect sizes for sample or population
+    if sample:
+        pdf_result_corr = pd.DataFrame()
+        standardized_effect_size_result += "\n" + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + "\n"
+    else:  # population
+        pdf_result_model = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        pdf_result_corr = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+
+        ci = cs_stat_num.calc_r2_ci(result.rsquared_adj, len(x), len(data))
+        pdf_result_model.loc[_('Adjusted <i>R<sup>2</sup></i>')] = \
+            ['%0.3f' % (result.rsquared_adj), '[%0.3f, %0.3f]' % (ci[0], ci[1])]
+
+        pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % (result.llf), '']
+        pdf_result_model.loc[_('AIC')] = ['%0.3f' % (result.aic), '']
+        pdf_result_model.loc[_('BIC')] = ['%0.3f' % (result.bic), '']
+        standardized_effect_size_result += _format_html_table(pdf_result_model.to_html(bold_rows=False, escape=False,
+                                                                                       classes="table_cs_pd")) + "\n"
+
+    standardized_effect_size_result += "\n" + '<cs_h3>' + _("Pearson's partial correlations") + '</cs_h3>'
+
+    for x_i in x:
+        x_other = x.copy()
+        x_other.remove(x_i)
+
+        if sample:
+            pdf_result_corr.loc[_(x_i), _('Value')] = \
+                '<i>pr</i> = %0.3f' % pingouin.partial_corr(data, x_i, y, x_other)["r"]
+        else:
+            partial_result = pingouin.partial_corr(data, x_i, y, x_other)
+            pdf_result_corr.loc[_(x_i) + ', <i>pr</i>'] = \
+                ['%0.3f' % (partial_result["r"]), '[%0.3f, %0.3f]' % (partial_result["CI95%"][0][0],
+                                                                      partial_result["CI95%"][0][1])]
+
+    standardized_effect_size_result += _format_html_table(pdf_result_corr.to_html(bold_rows=False, escape=False,
+                                                                             classes="table_cs_pd"))
+
     return standardized_effect_size_result
 
 

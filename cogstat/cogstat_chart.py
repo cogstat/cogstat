@@ -729,6 +729,131 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
         graph = plt.gcf()
     return graph
 
+def create_multiple_variable_chart(data, meas_lev):
+    """Draw a chart relating more than two variables displaying raw data
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev : {'int', 'ord', 'nom', 'unk'}
+        Measurement level of the variables
+    var_names : list of str
+        Names of the explanatory variables.
+
+    Returns
+    -------
+    matplotlib chart
+        A matrix plot of the variables optionally containing the raw data.
+    """
+
+    if meas_lev == "int":
+        fig, ax = plt.subplots(len(data.columns), len(data.columns), tight_layout=True)
+        fig.suptitle(_plt("Scatterplot matrix of variables"))
+        for i in range(0, len(data.columns)):
+            ax[i, 0].set_ylabel(data.columns[i])
+            ax[len(data.columns) - 1, i].set_xlabel(data.columns[i])
+            for j in range(0, len(data.columns)):
+                if i == j:
+                    ax[i, j].hist(data.iloc[:, i])
+                else:
+                    ax[i, j].scatter(data.iloc[:, i], data.iloc[:, j])
+
+        graph = plt.gcf()
+        return graph
+    else:
+        return None
+
+def create_multicollinearity_chart(data, meas_lev, var_names):
+    """Draw a chart relating the explanatory variables in a multiple regression displaying raw data
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev : {'int', 'ord', 'nom', 'unk'}
+        Measurement level of the variables
+    var_names : list of str
+        Names of the explanatory variables.
+
+    Returns
+    -------
+    matplotlib chart
+        A matrix plot of the variables optionally containing the raw data.
+    """
+    if meas_lev == "int":
+        data = data[var_names]
+        if len(var_names) == 2:
+            ncols = 1
+        elif len(x) >= 2:
+            ncols = 2
+        import math
+        nrows = math.ceil(len(x)/2)
+        fig = plt.figure(tight_layout=True)
+        fig.suptitle(_plt("Scatterplot matrix of explanatory variables"))
+        x_done = []
+        ind = 1
+        for index_1, x_i in enumerate(x):
+            for index_2, x_j in enumerate(x):
+                if x_i != x_j and [x_i, x_j] not in x_done and [x_j, x_i] not in x_done:
+                    ax = plt.subplot(nrows, ncols, ind)
+                    ax.scatter(data[x_i], data[x_j])
+                    ax.set_xlabel(x_i)
+                    ax.set_ylabel(x_j)
+                    x_done.append([x_i, x_j])
+                    ind += 1
+
+        graph = plt.gcf()
+        return graph
+    else:
+        return None
+
+def part_regress_plots(data, dependent, var_names):
+    """Draw a matrix of partial regression plots.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+        The dataframe analysed.
+    var_names : list of str
+        Names of the explanatory variables.
+    dependent : str
+        Name of the dependent variable.
+
+    Returns
+    -------
+    matplotlib chart
+        For all explanatory variables, the function plots the residuals from the regression of the dependent variable
+        and the other explanatory variables against the residuals from the regression of the chosen explanatory variable
+        and all other explanatory variables. Plots for all explanatory variables shown in a matrix.
+        This allows the visualization of the bivariate relationship while factoring out all other explanatory variables.
+    """
+
+    if len(var_names) == 2:
+        ncols = 1
+    elif len(var_names) >= 3:
+        ncols = 2
+    import math
+    nrows = math.ceil(len(x) / 2)
+
+    fig = plt.figure(tight_layout=True)
+    fig.suptitle("Partial regression plots")
+    for index, x_i in enumerate(var_names):
+        x_other = var_names.copy()
+        x_other.remove(x_i) # Remove the chosen explanatory variable from the list of explanatory variables
+
+        # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
+        resid_dependent = sm.OLS(data[dependent], sm.add_constant(data[x_other])).fit().resid
+        # Calculating the residuals from regressing the chosen explanatory variable on the remaining
+        # explanatory variables
+        resid_x_i = sm.OLS(data[x_i], sm.add_constant(data[x_other])).fit().resid
+
+        ax = plt.subplot(nrows, ncols, index+1)
+        ax.scatter(resid_x_i, resid_dependent)
+        ax.set_xlabel(x_i + " | other X")
+        ax.set_ylabel(dependent + " | other X")
+
+    graph = plt.gcf()
+
+    return graph
 
 #########################################
 ### Charts for Repeated measures vars ###
