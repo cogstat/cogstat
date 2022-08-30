@@ -498,7 +498,8 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
         population_result += chi_squared_test(data, x, y)
     return population_result
 
-def multiple_regression_hyp_tests(data, result, var_names, normality, homoscedasticity, multicollinearity):
+
+def multiple_regression_hyp_tests(data, result, predictors, normality, homoscedasticity, multicollinearity):
     """Hypothesis tests for model and regressor slopes in multiple linear regression.
 
     Parameters
@@ -506,7 +507,7 @@ def multiple_regression_hyp_tests(data, result, var_names, normality, homoscedas
     data : pandas dataframe
     result : statsmodels regression result object
         The result of the multiple regression analysis.
-    var_names : list of str
+    predictors : list of str
         List of explanatory variable names.
     normality : bool or None
         True when variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
@@ -530,7 +531,7 @@ def multiple_regression_hyp_tests(data, result, var_names, normality, homoscedas
                  + '\n</decision>'
 
     elif normality is None or homoscedasticity is None or multicollinearity is None:
-        output += '<decision>' + _('Interval variables. More than two variables.') + ' ' \
+        output = '<decision>' + _('Interval variables. More than two variables.') + ' ' \
                              + _(
             'Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
                              + _('Running model F-test and tests for regressor slopes.') \
@@ -546,20 +547,19 @@ def multiple_regression_hyp_tests(data, result, var_names, normality, homoscedas
         if multicollinearity:
             violations += _('Multicollinearity suspected.') + ' '
 
-        output += '<decision>' + _('Interval variables.') + ' ' + _(violations) + ' >> ' + \
-                  _('Hypothesis tests may be inaccurate.') + \
-                  _('Running model F-test and tests for regressor slopes.') \
-                  + '\n</decision>'
+        output = '<decision>' + _('Interval variables.') + ' ' + violations + ' >> ' + \
+                 _('Hypothesis tests may be inaccurate.') + \
+                 _('Running model F-test and tests for regressor slopes.') + '\n</decision>'
 
-    output += _("Model F-test") + \
+    output += _('Model F-test') + \
                          ': <i>F</i>(%d,%d) = %0.*f, %s' % \
                          (result.df_model, result.df_resid, non_data_dim_precision, result.fvalue,
-                          print_p(result.f_pvalue)) + "\n"
-    output += _("Regressor slopes:") + "\n"
-    for x_i in var_names:
-        output += _(x_i + ": ") + '<i>t</i>(%d) = %0.*f, %s' % (len(data)-len(var_names)-1, non_data_dim_precision, \
-                                                                result.tvalues[x_i], print_p(result.pvalues[x_i])) \
-                  + "\n"
+                          print_p(result.f_pvalue)) + '\n'
+    output += _('Regressor slopes:') + '\n'
+    for predictor in predictors:
+        output += predictor + ': <i>t</i>(%d) = %0.*f, %s' % (len(data) - len(predictors) - 1, non_data_dim_precision,
+                                                              result.tvalues[predictor],
+                                                              print_p(result.pvalues[predictor])) + '\n'
 
     # TODO hypothesis tests for partial correlation coefficients.
     #  Pingouin doesn't use t-tests and doesn't give test statistics.

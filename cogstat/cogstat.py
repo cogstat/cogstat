@@ -1054,6 +1054,8 @@ class CogStatData:
                                            estimation_parameters, population_graph, estimation_effect_size,
                                            population_result])
         else:  # several predictors
+            # TODO this code assumes no missing variables
+
             code_test_regressor_correlation = cs_stat.correlation_matrix(self.data_frame, predictors)
             code_test_vif, multicollinearity = cs_stat.vif_table(self.data_frame, predictors)
 
@@ -1076,11 +1078,17 @@ class CogStatData:
                                                                                               multicollinearity=multicollinearity,
                                                                                               result=result)
 
+            code_test_hyp_test = cs_hyp_test.multiple_regression_hyp_tests(data=self.data_frame, result=result,
+                                                                           predictors=predictors,
+                                                                           normality=normality,
+                                                                           homoscedasticity=homoscedasticity,
+                                                                           multicollinearity=multicollinearity)
+
             return cs_util.convert_output(['<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>\n' +
                                           _('Sorry, not implemented yet.') +
                                            '\n\nBut here are some output for testing purposes:\n\n',
                                            code_test_regressor_correlation, code_test_vif,
-                                           code_test_regression_coefficients])
+                                           code_test_regression_coefficients, code_test_hyp_test])
 
     def pivot(self, depend_name='', row_names=[], col_names=[], page_names=[], function='Mean'):
         """
