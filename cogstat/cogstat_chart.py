@@ -729,26 +729,27 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
         graph = plt.gcf()
     return graph
 
-def create_multiple_variable_chart(data, meas_lev):
+def create_scatter_matrix(data, meas_lev):
     """Draw a chart relating more than two variables displaying raw data
+
+    # TODO should we use the pandas or seaborn solution?
 
     Parameters
     ----------
     data : pandas dataframe
+        Include only the variables that are involved in the analyses, not the whole dataset
+        # TODO this is inconsistent with the rest of the interfaces
     meas_lev : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the variables
-    var_names : list of str
-        Names of the explanatory variables.
 
     Returns
     -------
     matplotlib chart
         A matrix plot of the variables optionally containing the raw data.
     """
-
-    if meas_lev == "int":
+    if meas_lev == 'int':
         fig, ax = plt.subplots(len(data.columns), len(data.columns), tight_layout=True)
-        fig.suptitle(_plt("Scatterplot matrix of variables"))
+        fig.suptitle(_plt('Scatterplot matrix of variables'))
         for i in range(0, len(data.columns)):
             ax[i, 0].set_ylabel(data.columns[i])
             ax[len(data.columns) - 1, i].set_xlabel(data.columns[i])
@@ -757,13 +758,12 @@ def create_multiple_variable_chart(data, meas_lev):
                     ax[i, j].hist(data.iloc[:, i])
                 else:
                     ax[i, j].scatter(data.iloc[:, i], data.iloc[:, j])
-
         graph = plt.gcf()
         return graph
     else:
         return None
 
-def create_multicollinearity_chart(data, meas_lev, var_names):
+def create_multicollinearity_chart(data, meas_lev, predictors):
     """Draw a chart relating the explanatory variables in a multiple regression displaying raw data
 
     Parameters
@@ -771,7 +771,7 @@ def create_multicollinearity_chart(data, meas_lev, var_names):
     data : pandas dataframe
     meas_lev : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the variables
-    var_names : list of str
+    predictors : list of str
         Names of the explanatory variables.
 
     Returns
@@ -779,20 +779,20 @@ def create_multicollinearity_chart(data, meas_lev, var_names):
     matplotlib chart
         A matrix plot of the variables optionally containing the raw data.
     """
-    if meas_lev == "int":
-        data = data[var_names]
-        if len(var_names) == 2:
+    if meas_lev == 'int':
+        data = data[predictors]
+        if len(predictors) == 2:
             ncols = 1
-        elif len(x) >= 2:
+        elif len(predictors) >= 2:
             ncols = 2
         import math
-        nrows = math.ceil(len(x)/2)
+        nrows = math.ceil(len(predictors)/2)
         fig = plt.figure(tight_layout=True)
-        fig.suptitle(_plt("Scatterplot matrix of explanatory variables"))
+        fig.suptitle(_plt('Scatterplot matrix of explanatory variables'))
         x_done = []
         ind = 1
-        for index_1, x_i in enumerate(x):
-            for index_2, x_j in enumerate(x):
+        for index_1, x_i in enumerate(predictors):
+            for index_2, x_j in enumerate(predictors):
                 if x_i != x_j and [x_i, x_j] not in x_done and [x_j, x_i] not in x_done:
                     ax = plt.subplot(nrows, ncols, ind)
                     ax.scatter(data[x_i], data[x_j])
@@ -806,17 +806,18 @@ def create_multicollinearity_chart(data, meas_lev, var_names):
     else:
         return None
 
-def part_regress_plots(data, dependent, var_names):
+
+def part_regress_plots(data, predicted, predictors):
     """Draw a matrix of partial regression plots.
 
     Parameters
     ----------
     data : pandas dataframe
         The dataframe analysed.
-    var_names : list of str
-        Names of the explanatory variables.
-    dependent : str
+    predicted : str
         Name of the dependent variable.
+    predictors : list of str
+        Names of the explanatory variables.
 
     Returns
     -------
@@ -827,29 +828,29 @@ def part_regress_plots(data, dependent, var_names):
         This allows the visualization of the bivariate relationship while factoring out all other explanatory variables.
     """
 
-    if len(var_names) == 2:
+    if len(predictors) == 2:
         ncols = 1
-    elif len(var_names) >= 3:
+    elif len(predictors) >= 3:
         ncols = 2
     import math
-    nrows = math.ceil(len(x) / 2)
+    nrows = math.ceil(len(predictors) / 2)
 
     fig = plt.figure(tight_layout=True)
-    fig.suptitle("Partial regression plots")
-    for index, x_i in enumerate(var_names):
-        x_other = var_names.copy()
-        x_other.remove(x_i) # Remove the chosen explanatory variable from the list of explanatory variables
+    fig.suptitle(_plt('Partial regression plots'))
+    for index, predictor in enumerate(predictors):
+        predictors_other = predictors.copy()
+        predictors_other.remove(predictor) # Remove the chosen explanatory variable from the list of explanatory variables
 
         # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
-        resid_dependent = sm.OLS(data[dependent], sm.add_constant(data[x_other])).fit().resid
+        resid_dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
         # Calculating the residuals from regressing the chosen explanatory variable on the remaining
         # explanatory variables
-        resid_x_i = sm.OLS(data[x_i], sm.add_constant(data[x_other])).fit().resid
+        resid_x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
 
         ax = plt.subplot(nrows, ncols, index+1)
         ax.scatter(resid_x_i, resid_dependent)
-        ax.set_xlabel(x_i + " | other X")
-        ax.set_ylabel(dependent + " | other X")
+        ax.set_xlabel(predictor + _plt(' | other X'))
+        ax.set_ylabel(predicted + _plt(' | other X'))
 
     graph = plt.gcf()
 

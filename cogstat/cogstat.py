@@ -1056,6 +1056,10 @@ class CogStatData:
         else:  # several predictors
             # TODO this code assumes no missing variables
 
+            code_test_scatter_matrix = cs_chart.create_scatter_matrix(self.data_frame[[predicted] + predictors], meas_lev)
+            code_test_multicollinearity_chart = cs_chart.create_multicollinearity_chart(self.data_frame, meas_lev, predictors)
+            code_test_regression_plot = cs_chart.part_regress_plots(self.data_frame, predicted, predictors)
+
             code_test_regressor_correlation = cs_stat.correlation_matrix(self.data_frame, predictors)
             code_test_vif, multicollinearity = cs_stat.vif_table(self.data_frame, predictors)
 
@@ -1087,6 +1091,8 @@ class CogStatData:
             return cs_util.convert_output(['<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>\n' +
                                           _('Sorry, not implemented yet.') +
                                            '\n\nBut here are some output for testing purposes:\n\n',
+                                           code_test_scatter_matrix, code_test_multicollinearity_chart,
+                                           code_test_regression_plot,
                                            code_test_regressor_correlation, code_test_vif,
                                            code_test_regression_coefficients, code_test_hyp_test])
 
