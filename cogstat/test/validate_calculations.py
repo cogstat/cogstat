@@ -469,7 +469,7 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 0.495, 0.615 TODO https://github.com/cogstat/cogstat/issues/56
         self.assertTrue('<i>W</i> = 0.68, <i>p</i> = .517' in result[8])  # <i>W</i> = 0.675
         # Sensitivity power analysis
-            # TODO eta-square
+            # TODO eta-square; see also https://github.com/raphaelvallat/pingouin/releases/tag/v0.5.2
             # G*Power (f value) 3.1.9.6: 0.7597473
         self.assertTrue('effect size in eta-square: 0.15' in result[8])
         self.assertTrue('effect size in f: 0.76' in result[8])
