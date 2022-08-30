@@ -77,8 +77,8 @@ def _prepare_list_widgets(source_list_widget, names, selected_list_widgets):
     data. Therefore, we remove any items from the selected_list_widgets that are not present in the current dataset
     (names).
 
-    Second, we add the names (of variables) to the list_widget (a source list widget), unless they are used in other
-    selected_list_widgets.
+    Second, we clear the source_list_widget and add the names (of the actual variables) to the source_list_widget (a
+    source list widget), unless they are used in any selected_list_widgets.
 
     Parameters
     ----------
@@ -119,23 +119,47 @@ def _prepare_list_widgets(source_list_widget, names, selected_list_widgets):
 
 
 def _add_to_list_widget(source_list_widget, target_list_widget):
-    """
-    Add the selected item(s) of the source_list_widget to the target_list_widget, and remove the item(s) from the
+    """Add the selected item(s) of the source_list_widget to the target_list_widget, and remove the item(s) from the
     source_list_widget.
+
+    Parameters
+    ----------
+    source_list_widget : qt listWidget
+    target_list_widget : qt listWidget
+
+    Returns
+    -------
+    int
+        number of items added
+
     """
     # TODO add a maximum parameter, for the maximum number of items that can be added
+    number_of_items = len(source_list_widget.selectedItems())
     for item in source_list_widget.selectedItems():
         target_list_widget.addItem(QString(item.text()))
         source_list_widget.takeItem(source_list_widget.row(item))
+    return number_of_items
 
 
 def _remove_item_from_list_widget(source_list_widget, target_list_widget, names):
+    """Remove selected item(s) from target_list_widget, and add it to the source_list_widget.
+
+    Parameters
+    ----------
+    source_list_widget : qt listWidget
+    target_list_widget : qt listWidget
+    names : TODO
+
+    Returns
+    -------
+    int
+        number of items removed
     """
-    Remove selected item(s) from target_list_widget, and add it to the source_list_widget.
-    """
+    nummber_of_items = len(target_list_widget.selectedItems())
     for item in target_list_widget.selectedItems():
         target_list_widget.takeItem(target_list_widget.row(item))
         source_list_widget.insertItem(_find_previous_item_position(source_list_widget, names, item.text()), item.text())
+    return nummber_of_items
 
 
 def _find_previous_item_position(list_widget, names, text_item):
@@ -182,6 +206,27 @@ def _remove_from_list_widget_with_factors(source_list_widget, target_list_widget
             source_list_widget.insertItem(_find_previous_item_position(source_list_widget, names, item.text().
                                                                        split(' :: ')[1]), item.text().split(' :: ')[1])
             item.setText(item.text().split(' :: ')[0]+' :: ')
+
+
+def _enable_adding_var(button, list_widget, enable):
+    """Enable or disable adding variable to a list.
+
+    Parameters
+    ----------
+    button : qt button
+    list_widget : qt listWidget
+    enable : bool
+        enable or disable
+
+    Returns
+    -------
+
+    """
+    button.setEnabled(enable)
+    if enable:
+        list_widget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+    else:
+        list_widget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragOnly)
 
 
 def _float_or_none(x):
@@ -299,27 +344,45 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         _prepare_list_widgets(self.sourceListWidget, names,
                               [self.RTListWidget, self.errorListWidget, self.participantListWidget,
                               self.conditionListWidget])
+        if self.RTListWidget.count() == 0:
+            _enable_adding_var(self.addRT, self.RTListWidget, True)
+        if self.errorListWidget.count() == 0:
+            _enable_adding_var(self.addError, self.errorListWidget, True)
+        if self.participantListWidget.count() == 0:
+            _enable_adding_var(self.addParticipant, self.participantListWidget, True)
+
+    # TODO enable and disable relevant elements after drag and drop too
 
     def add_RT(self):
-        if self.RTListWidget.count() == 0:  # do this only if the list is empty
-            _add_to_list_widget(self.sourceListWidget, self.RTListWidget)
+        if _add_to_list_widget(self.sourceListWidget, self.RTListWidget):
+            # only a single variable can be added
+            _enable_adding_var(self.addRT, self.RTListWidget, False)
+
 
     def remove_RT(self):
-        _remove_item_from_list_widget(self.sourceListWidget, self.RTListWidget, self.names)
+        if _remove_item_from_list_widget(self.sourceListWidget, self.RTListWidget, self.names):
+            # list is empty, you can add new variable
+            _enable_adding_var(self.addRT, self.RTListWidget, True)
 
     def add_error(self):
-        if self.errorListWidget.count() == 0:  # do this only if the list is empty
-            _add_to_list_widget(self.sourceListWidget, self.errorListWidget)
+        if _add_to_list_widget(self.sourceListWidget, self.errorListWidget):
+            # only a single variable can be added
+            _enable_adding_var(self.addError, self.errorListWidget, False)
 
     def remove_error(self):
-        _remove_item_from_list_widget(self.sourceListWidget, self.errorListWidget, self.names)
+        if _remove_item_from_list_widget(self.sourceListWidget, self.errorListWidget, self.names):
+            # list is empty, you can add new variable
+            _enable_adding_var(self.addError, self.errorListWidget, True)
 
     def add_participant(self):
-        if self.participantListWidget.count() == 0:  # do this only if the list is empty
-            _add_to_list_widget(self.sourceListWidget, self.participantListWidget)
+        if _add_to_list_widget(self.sourceListWidget, self.participantListWidget):
+            # only a single variable can be added
+            _enable_adding_var(self.addParticipant, self.participantListWidget, False)
 
     def remove_participant(self):
-        _remove_item_from_list_widget(self.sourceListWidget, self.participantListWidget, self.names)
+        if _remove_item_from_list_widget(self.sourceListWidget, self.participantListWidget, self.names):
+            # list is empty, you can add new variable
+            _enable_adding_var(self.addParticipant, self.participantListWidget, True)
 
     def add_condition(self):
         _add_to_list_widget(self.sourceListWidget, self.conditionListWidget)
@@ -493,11 +556,19 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.predicted_listWidget,
                                                               self.predictor_listWidget])
-    # TODO allow only 1 predicted variable
+        if self.predicted_listWidget.count() == 0:
+            _enable_adding_var(self.addPredicted, self.predicted_listWidget, True)
+
+    # TODO enable and disable relevant elements after drag and drop too
+
     def add_predicted(self):
-        _add_to_list_widget(self.source_listWidget, self.predicted_listWidget)
+        if _add_to_list_widget(self.source_listWidget, self.predicted_listWidget):
+            # only a single variable can be added
+            _enable_adding_var(self.addPredicted, self.predicted_listWidget, False)
     def remove_predicted(self):
-        _remove_item_from_list_widget(self.source_listWidget, self.predicted_listWidget, self.names)
+        if _remove_item_from_list_widget(self.source_listWidget, self.predicted_listWidget, self.names):
+            # list is empty, you can add new variable
+            _enable_adding_var(self.addPredicted, self.predicted_listWidget, True)
     def add_predictor(self):
         _add_to_list_widget(self.source_listWidget, self.predictor_listWidget)
     def remove_predictor(self):

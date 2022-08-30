@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains functions for statistical analysis. The functions 
-calculate the text results that are compiled in the cogstat module.
+This module contains functions for statistical analyses. The functions
+calculate the text output that are compiled in the cogstat module.
 
-Arguments are the pandas data frame (pdf), and parameters (among others they
-are usually variable names).
-Output is text (html and some custom notations).
+The arguments usually include the pandas data frame (pdf), the names of the
+relevant variables, and properties of the calculations and the output.
 
-Mostly scipy.stats and statsmodels are used to generate the results.
+The output is usually a string (html with some custom notations).
+
+Mostly scipy.stats, statsmodels, and pingouin are used to generate the results.
 """
 
 import gettext
@@ -36,7 +37,7 @@ except:
     pass
 '''
 
-run_power_analysis = False  # should this analysis included?
+run_power_analysis = False  # should this analysis be included?
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -340,7 +341,7 @@ def frequencies(pdf, var_name, meas_level):
 
 
 def proportions_ci(pdf, var_name):
-    """Calculate proportions confidence intervals.
+    """Calculate the confidence intervals of proportions.
 
     Parameters
     ----------
@@ -351,7 +352,7 @@ def proportions_ci(pdf, var_name):
 
     Returns
     -------
-
+    str
     """
     from statsmodels.stats import proportion
 
@@ -506,65 +507,68 @@ def variable_estimation(data, statistics=[]):
     return population_param_text
 
 
-def confidence_interval_t(data, ci_only=True):
-    """95%, two-sided CI based on t-distribution
+def confidence_interval_t(data):
+    """Calculate the confidence interval of the mean.
+
+    95%, two-sided CI based on t-distribution
     http://statsmodels.sourceforge.net/stable/_modules/statsmodels/stats/weightstats.html#DescrStatsW.tconfint_mean
-    """
-    # FIXME is this solution slow? Should we write our own CI function?
-    descr = DescrStatsW(data)
-    cil, cih = descr.tconfint_mean()
-    ci = (cih-cil)/2
-    if ci_only:
-        if isinstance(data, pd.Series):
-            return ci  # FIXME this one is for series? The other is for dataframes?
-        elif isinstance(data, pd.DataFrame):
-            return pd.Series(ci, index=data.columns)
-            # without var names the call from comp_group_graph_cum fails
-    else:
-        return ci, cil, cih
-
-### Variable pairs ###
-
-
-def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_stderr, meas_lev, n, normality=None,
-                                          homoscedasticity=None):
-    """
-    Calculate point and interval estimates of regression parameters (slope, and intercept) in a regression analysis.
 
     Parameters
     ----------
-    slope : float
-        Slope of the regression line
-    intercept : float
-        Y-intercept of the regression line
-    std_err : float
-        Standard error of the slope
-    intercept_stderr : float
-        Standard error of the intercept
+    data : pandas dataframe or pandas series
+         include all the variables the CI is needed for
+
+    Returns
+    -------
+    int
+        the difference from the mean
+    """
+    # TODO is this solution slow? Should we write our own CI function?
+    cil, cih = DescrStatsW(data).tconfint_mean()
+    ci = (cih-cil)/2
+    if isinstance(data, pd.Series):  # TODO do we still need this? do the callers always use a pdf argument?
+        return ci  # FIXME this one is for series? The other is for dataframes?
+    elif isinstance(data, pd.DataFrame):
+        return pd.Series(ci, index=data.columns)
+        # without var names the call from comp_group_graph_cum fails
+
+### Variable pairs ###
+
+def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, homoscedasticity=None,
+                                          multicollinearity=None, result=None):
+    """
+    Calculate point and interval estimates of regression parameters (slopes, and intercept) in a regression analysis.
+
+    Parameters
+    ----------
+    predictors : list of str
+        List of explanatory variable names.
     meas_lev : str
-        Measurement level of variables
-    n : int
-        Number of data points
+        Measurement level of the regressors
     normality : bool or None
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
     homoscedasticity : bool or None
         True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
         if the parameter was not specified.
+    multicollinearity : bool or None
+        True if multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
+    result: statsmodels regression result object
+        The result of the multiple regression analysis.
 
     Returns
     -------
     str
-        Table of the point and interval estimations
+        Table of the point and interval estimations as html text
     """
     if meas_lev == "int":
         regression_coefficients = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
-        # Warinings based on the results of the assumption tests
+        # Warnings based on the results of the assumption tests
         if normality is None:
             regression_coefficients += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' +\
-                                                   _('CIs may be biased.')  + '</decision>'
+                                                   _('CIs may be biased.') + '</decision>'
         elif not normality:
             regression_coefficients += '\n' + '<decision>' \
                                        + _('Assumption of normality violated for CI calculations.') + ' ' + \
@@ -584,28 +588,31 @@ def variable_pair_regression_coefficients(slope, intercept, std_err, intercept_s
             regression_coefficients += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
                                                                'calculations met.') + '</decision>'
 
+        if len(predictors) > 1:
+            if multicollinearity is None:
+                regression_coefficients += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + \
+                                           ' ' + _('Point estimates and CIs may be inaccurate.') + '</decision>'
+            elif multicollinearity:
+                regression_coefficients += '\n' + '<decision>' \
+                                           + _('Multicollinearity suspected.') + ' ' + \
+                                           _('Point estimates and CIs may be inaccurate.') + '</decision>'
+            else:
+                regression_coefficients += '\n' + '<decision>' + _('Assumption of multicollinearity for'
+                                                                   ' CI calculations met.') + '</decision>'
 
-        # Calculate 95% CIs for slope and intercept
-        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
-        from scipy.stats import t
-        tinv = lambda p, df: abs(t.ppf(p / 2, df))
-        ts = tinv(0.05, n - 2)
-        slope_ci_low = slope - ts * std_err
-        slope_ci_high = slope + ts * std_err
-        intercept_ci_low = intercept - ts * intercept_stderr
-        intercept_ci_high = intercept + ts * intercept_stderr
-
-        pdf_result.loc[_("Slope")] = \
-            ['%0.3f' % slope, '[%0.3f, %0.3f]' % (slope_ci_low, slope_ci_high)]
-
-        pdf_result.loc[_("Intercept")] = \
-            ['%0.3f' % intercept, '[%0.3f, %0.3f]' % (intercept_ci_low, intercept_ci_high)]
-
+        # Gather point estimates and CIs into table
+        cis = result.conf_int(alpha=0.05)
+        pdf_result.loc[_('Intercept')] = \
+            ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc['const', 0], cis.loc['const', 1])]
+        for predictor in predictors:
+            pdf_result.loc['%s' % predictor] = ['%0.3f' % (result.params[predictor]), '[%0.3f, %0.3f]' %
+                                                (cis.loc[predictor, 0], cis.loc[predictor, 1])]
     else:
         regression_coefficients = None
+
     if regression_coefficients:
         regression_coefficients += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
-                                                                         classes="table_cs_pd"))
+                                                                         classes='table_cs_pd'))
 
     return regression_coefficients
 
@@ -696,7 +703,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             standardized_effect_size_result = ''
     if standardized_effect_size_result:
         standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
-                                                                                 classes="table_cs_pd"))
+                                                                                 classes='table_cs_pd'))
     return standardized_effect_size_result
 
 def multiple_variables_standard_effect_size(data, x, y, normality, homoscedasticity, multicollinearity, sample=True,\
@@ -802,6 +809,68 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
     return standardized_effect_size_result
 
 
+def correlation_matrix(data, regressors):
+    """Create Pearson's correlation matrix for assessment of multicollinearity.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    regressors : list of str
+        list of explanatory variable names
+
+    Returns
+    -------
+    html text
+    """
+
+    corr_table = data[regressors].corr()
+    table = _('Pearson correlation matrix of explanatory variables')
+    table += _format_html_table(corr_table.to_html(bold_rows=False, escape=False, classes='table_cs_pd')) + '\n'
+    return table
+
+
+def vif_table(data, var_names):
+    """Calculate and display Variance Inflation Factors. Raises warning and displays corresponding
+    auxiliary regression weights in case of suspected multicollineearity (VIF>10).
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    var_names : list of str
+        list of explanatory variable names
+
+    Returns
+    -------
+    html text, bool
+        Html text with variance inflation factors (VIFs) and beta weights from auxiliary regression in case of VIF > 10.
+        Boolean is True when any VIF is greater than 10. False otherwise.
+    """
+
+    from statsmodels.stats.outliers_influence import variance_inflation_factor
+    from statsmodels.api import add_constant
+    from statsmodels.api import OLS
+
+    regressors = add_constant(data[var_names])
+    table = _('Variance inflation factors of explanatory variables and constant')
+    vifs = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
+                         for i in range(regressors.shape[1])], index=regressors.columns, columns=[_('VIF')])
+    table += _format_html_table(vifs.to_html(bold_rows=False, escape=False, classes='table_cs_pd')) + '\n'
+
+    multicollinearity = False
+    for regressor in var_names:
+        if vifs.loc[regressor, _('VIF')] > 10:
+            multicollinearity = True
+            table += '\n' + '<decision>' + _('VIF > 10 in variable %s ') % regressor + '\n' + \
+                     _('Possible multicollinearity.') + '\n</decision>'
+            regressors_other = var_names.copy()
+            regressors_other.remove(regressor)
+            table += _('Beta weights when regressing %s on all other regressors.' % regressor)
+            slopes = pd.DataFrame(OLS(data[regressor], add_constant(data[regressors_other])).fit().params,
+                                  columns=[_('Slope on %s') % regressor])
+            table += _format_html_table(slopes.to_html(bold_rows=False, escape=False, classes='table_cs_pd')) + '\n'
+    return table, multicollinearity
+
+
 def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
     """Create contingency tables. Use for nominal data.
     It works for any number of x and y variables.
@@ -897,7 +966,7 @@ def repeated_measures_estimations(data, meas_level):
         condition_estimations_pdf[_('Point estimation')] = data.mean()
         # APA format, but cannot be used the numbers if copied to spreadsheet
         #group_means_pdf[_('95% confidence interval')] = '['+ cils.map(str) + ', ' + cihs.map(str) + ']'
-        cis, cils, cihs = confidence_interval_t(data, ci_only=False)
+        cils, cihs = DescrStatsW(data).tconfint_mean()
         condition_estimations_pdf[_('95% CI (low)')] = cils
         condition_estimations_pdf[_('95% CI (high)')] = cihs
     if meas_level == 'ord':
@@ -994,6 +1063,7 @@ def comp_group_estimations(pdf, meas_level, var_names, groups):
     if meas_level in ['int', 'unk']:
         pdf = pdf[[var_names[0]] + groups]
         means = pdf.groupby(groups, sort=True).aggregate(np.mean)[var_names[0]]
+        # TODO can we use directly DescrStatsW instead of confidence_interval_t? (later we only use cil and cih)
         cis = pdf.groupby(groups, sort=True).aggregate(confidence_interval_t)[var_names[0]]
         group_estimations_pdf[_('Point estimation')] = means
         # APA format, but cannot be used the numbers if copied to spreadsheet

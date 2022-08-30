@@ -258,12 +258,16 @@ def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_
     # Excluded cases and limit lines are denoted with the second color in the theme.
     plt.scatter(included_cases, np.random.random(size=len(included_cases)), color=theme_colors[0], marker='o')
     plt.scatter(excluded_cases, np.random.random(size=len(excluded_cases)), color=theme_colors[1], marker='o')
-    plt.vlines([lower_limit, upper_limit], ymin=-1, ymax=2, colors=theme_colors[1])
+    if (lower_limit != None) and (upper_limit != None):
+        plt.vlines([lower_limit, upper_limit], ymin=-1, ymax=2, colors=theme_colors[1])
     ax.axes.set_ylim([-1.5, 2.5])
     fig.subplots_adjust(top=0.85, bottom=0.4)
 
     # Add labels
-    plt.title(_plt('Included and excluded cases with exclusion criteria'))
+    if (lower_limit == None) and (upper_limit == None):
+        plt.title(_plt('Included and excluded cases'))
+    else:
+        plt.title(_plt('Included and excluded cases with exclusion criteria'))
     plt.xlabel(var_name)
     ax.axes.get_yaxis().set_visible(False)
     _set_axis_measurement_level(ax, 'int', 'nom')
@@ -866,7 +870,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
     var_names : list of str
 
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     raw_data_only : bool
         Only the raw data should be displayed? Or the box plots too?
     ylims : list of two floats
@@ -951,7 +955,7 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
     data : pandas dataframe
     var_names : list of str
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
@@ -968,7 +972,7 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
         if meas_level in ['int', 'unk']:
             plt.title(_plt('Means and 95% confidence intervals for the variables'))
             means = np.mean(data)
-            cis, cils, cihs = cs_stat.confidence_interval_t(data, ci_only=False)
+            cis = cs_stat.confidence_interval_t(data)
             ax.bar(list(range(len(data.columns))), means, 0.5, yerr=cis, align='center',
                    color=theme_colors[0], ecolor='0')
 
@@ -1001,7 +1005,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
     data_frame: pandas data frame
         It is assumed that the missing cases are dropped.
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     var_names : list of str
     groups : list of str
         Grouping variables
@@ -1144,7 +1148,7 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
     pdf : pandas dataframe
         It is asssumed that missing cases are removed.
     meas_level : {'int', 'ord', 'nom', 'unk'}
-        Measurment level of the variables
+        Measurement level of the variables
     var_names : list of str
     groups : list of str
     group_levels

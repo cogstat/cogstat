@@ -499,6 +499,74 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
     return population_result
 
 
+def multiple_regression_hyp_tests(data, result, predictors, normality, homoscedasticity, multicollinearity):
+    """Hypothesis tests for model and regressor slopes in multiple linear regression.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    result : statsmodels regression result object
+        The result of the multiple regression analysis.
+    predictors : list of str
+        List of explanatory variable names.
+    normality : bool or None
+        True when variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
+    homoscedasticity : bool or None
+        True when homoscedasticity is true, False otherwise. None if homoscedasticity could not be calculated or if
+        the parameter was not specified.
+    multicollinearity : bool or None
+        True when multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
+
+    Returns
+    -------
+    str
+        html text
+    """
+
+    if normality and homoscedasticity and not multicollinearity:
+        output = '<decision>' + _('Interval variables. More than two variables.') + ' ' + \
+                 _('Normality met. Homoscedasticity met. No multicollinearity.') + ' >> ' + '\n' + \
+                 _('Running model F-test and tests for regressor slopes.') \
+                 + '\n</decision>'
+
+    elif normality is None or homoscedasticity is None or multicollinearity is None:
+        output = '<decision>' + _('Interval variables. More than two variables.') + ' ' \
+                             + _(
+            'Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
+                             + _('Running model F-test and tests for regressor slopes.') \
+                             + '\n</decision>'
+
+    else:
+        violations = ''
+
+        if not normality:
+            violations += _('Normality violated.') + ' '
+        if not homoscedasticity:
+            violations += _('Homoscedasticity violated.') + ' '
+        if multicollinearity:
+            violations += _('Multicollinearity suspected.') + ' '
+
+        output = '<decision>' + _('Interval variables.') + ' ' + violations + ' >> ' + \
+                 _('Hypothesis tests may be inaccurate.') + \
+                 _('Running model F-test and tests for regressor slopes.') + '\n</decision>'
+
+    output += _('Model F-test') + \
+                         ': <i>F</i>(%d,%d) = %0.*f, %s' % \
+                         (result.df_model, result.df_resid, non_data_dim_precision, result.fvalue,
+                          print_p(result.f_pvalue)) + '\n'
+    output += _('Regressor slopes:') + '\n'
+    for predictor in predictors:
+        output += predictor + ': <i>t</i>(%d) = %0.*f, %s' % (len(data) - len(predictors) - 1, non_data_dim_precision,
+                                                              result.tvalues[predictor],
+                                                              print_p(result.pvalues[predictor])) + '\n'
+
+    # TODO hypothesis tests for partial correlation coefficients.
+    #  Pingouin doesn't use t-tests and doesn't give test statistics.
+
+    return output
+
+
 ### Compare variables ###
 
 
@@ -1179,8 +1247,12 @@ def one_way_anova(pdf, var_name, grouping_name):
 
         # 2. Calculate effect size in eta-square
         # pingouin may fail in calculating the effect size, see its API documentation
-        eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
-                                          k=len(set(data[grouping_name])))
+        try:
+            eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
+                                              k=len(set(data[grouping_name])))
+        except TypeError:  # in pingouin 0.5.2 eta was renamed to eta_squared
+            eta_square = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.95,
+                                              k=len(set(data[grouping_name])))
         if np.isnan(eta_square):
             eta_square_effect_size = ''
         else:

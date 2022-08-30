@@ -122,9 +122,9 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>p</i> = .287' in result[6])
 
         # Population estimation and one sample t-test
-            # jamovi 2.0.0.0 CI 1.97, 4.31 - based on Z-value
-            # https://www.statskingdom.com/confidence-interval-calculator.html To use the t-value based solution, do not
-            # use the population SD
+            # jamovi 2.3.13.0: 3.14, 1.92, 4.36 based on t-distribution
+            # https://www.statskingdom.com/confidence-interval-calculator.html
+                # To use the t-value based solution, do not use the population SD (i.e., rely on t-distribution)
             # Mean confidence interval: [1.922672 , 4.364861]
         self.assertTrue('<td>Mean</td>      <td>3.1438</td>      <td>1.9227</td>      <td>4.3649</td>' in result[8])
             # jamovi 2.0.0.0 3.27 - SD estimates population SD
@@ -148,9 +148,9 @@ class CogStatTestCase(unittest.TestCase):
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 20.0)
             # jamovi 2.0.0.0 W(!) 262, p 0.556
-            # TODO not sure yet why the difference, see https://github.com/cogstat/cogstat/issues/31
+            # before scipy 1.9, the p value was 0.551; with scipy 1.9 the p has the same value as in jamovi
         self.assertTrue('T</i> = 203' in result[10])
-        self.assertTrue('p</i> = .551' in result[10])
+        self.assertTrue('p</i> = .556' in result[10])
 
         # Ord variable
         data.data_measlevs['a'] = 'ord'
@@ -172,9 +172,9 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 W(!) 320, p 0.073
             # JASP 0.15.0.0 W(!) 320, p 0.073
-            # TODO https://github.com/cogstat/cogstat/issues/31
+            # before scipy 1.9, the p value was 0.074; with scipy 1.9 the p has the same value as in jamovi
         self.assertTrue('T</i> = 145' in result[9])
-        self.assertTrue('p</i> = .074' in result[9])
+        self.assertTrue('p</i> = .073' in result[9])
         data.data_measlevs['a'] = 'int'
 
         # Nominal variable
@@ -304,9 +304,10 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 0.915, 0.019
         self.assertTrue('<i>W</i> = 0.91, <i>p</i> = .019' in result[7])  # <i>W</i> = 0.915
         # Wilcoxon signed-rank test
-            # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision) TODO https://github.com/cogstat/cogstat/issues/31
+            # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision)
+            # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
         #print(result[7])
-        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .012' in result[7])
+        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result[7])
 
         # 3 Int variables
         result = data.compare_variables(['a', 'e', 'g'])
@@ -372,8 +373,9 @@ class CogStatTestCase(unittest.TestCase):
             # JASP 0.15.0.0 2.3895, 4.2275
         self.assertTrue('<td>2.3895</td>      <td>4.2275</td>' in result[3])
         # Wilcoxon signed-rank test
-            # jamovi 2.0.0.0 110, 0.011 TODO
-        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .012' in result[6])
+            # jamovi 2.0.0.0 110, 0.011
+            # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
+        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result[6])
 
         # 3 Ord variables
         result = data.compare_variables(['a', 'e', 'f'])
@@ -467,7 +469,7 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 0.495, 0.615 TODO https://github.com/cogstat/cogstat/issues/56
         self.assertTrue('<i>W</i> = 0.68, <i>p</i> = .517' in result[8])  # <i>W</i> = 0.675
         # Sensitivity power analysis
-            # TODO eta-square
+            # TODO eta-square; see also https://github.com/raphaelvallat/pingouin/releases/tag/v0.5.2
             # G*Power (f value) 3.1.9.6: 0.7597473
         self.assertTrue('effect size in eta-square: 0.15' in result[8])
         self.assertTrue('effect size in f: 0.76' in result[8])
