@@ -148,9 +148,9 @@ class CogStatTestCase(unittest.TestCase):
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 20.0)
             # jamovi 2.0.0.0 W(!) 262, p 0.556
-            # TODO not sure yet why the difference, see https://github.com/cogstat/cogstat/issues/31
+            # before scipy 1.9, the p value was 0.551; with scipy 1.9 the p has the same value as in jamovi
         self.assertTrue('T</i> = 203' in result[10])
-        self.assertTrue('p</i> = .551' in result[10])
+        self.assertTrue('p</i> = .556' in result[10])
 
         # Ord variable
         data.data_measlevs['a'] = 'ord'
@@ -172,9 +172,9 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 W(!) 320, p 0.073
             # JASP 0.15.0.0 W(!) 320, p 0.073
-            # TODO https://github.com/cogstat/cogstat/issues/31
+            # before scipy 1.9, the p value was 0.074; with scipy 1.9 the p has the same value as in jamovi
         self.assertTrue('T</i> = 145' in result[9])
-        self.assertTrue('p</i> = .074' in result[9])
+        self.assertTrue('p</i> = .073' in result[9])
         data.data_measlevs['a'] = 'int'
 
         # Nominal variable
@@ -304,9 +304,10 @@ class CogStatTestCase(unittest.TestCase):
             # jamovi 2.0.0.0 0.915, 0.019
         self.assertTrue('<i>W</i> = 0.91, <i>p</i> = .019' in result[7])  # <i>W</i> = 0.915
         # Wilcoxon signed-rank test
-            # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision) TODO https://github.com/cogstat/cogstat/issues/31
+            # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision)
+            # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
         #print(result[7])
-        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .012' in result[7])
+        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result[7])
 
         # 3 Int variables
         result = data.compare_variables(['a', 'e', 'g'])
@@ -372,8 +373,9 @@ class CogStatTestCase(unittest.TestCase):
             # JASP 0.15.0.0 2.3895, 4.2275
         self.assertTrue('<td>2.3895</td>      <td>4.2275</td>' in result[3])
         # Wilcoxon signed-rank test
-            # jamovi 2.0.0.0 110, 0.011 TODO
-        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .012' in result[6])
+            # jamovi 2.0.0.0 110, 0.011
+            # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
+        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result[6])
 
         # 3 Ord variables
         result = data.compare_variables(['a', 'e', 'f'])

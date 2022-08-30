@@ -10,6 +10,7 @@ Upcoming release (2022)
 - Multivariate outlier filtering
 
 ## Fixes
+- :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 
 - Various GUI, and output fixes
 
 2.3.0rc (6 July 2022)
