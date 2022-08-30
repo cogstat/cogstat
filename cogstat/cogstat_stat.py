@@ -706,17 +706,20 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                                                                                  classes='table_cs_pd'))
     return standardized_effect_size_result
 
-def multiple_variables_standard_effect_size(data, x, y, normality, homoscedasticity, multicollinearity, sample=True,\
-                                            result=None):
+
+def multiple_variables_standard_effect_size(data, predictors, y, result, normality=None, homoscedasticity=None,
+                                            multicollinearity=None, sample=True):
     """Calculate standardized effect size measures for multiple regression.
 
     Parameters
     ----------
     data : pandas dataframe
-    x : list of str
+    predictors : list of str
         Name of the explanatory variables.
-    y : list of str
+    y : list of str  # TODO is there a reason why this is a list? it is inconsistent with other interfaces
         Name of the dependent variable.
+    result : statsmodels regression result object
+        The result of the multiple regression analyses.
     normality: bool or None
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
@@ -727,8 +730,6 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
         True if possible multicollinearity was detected (VIF>10). None if the parameter was not specified.
     sample : bool
         True for sample descriptives, False for population estimations.
-    result : statsmodels regression result object
-        The result of the multiple regression analyses.
 
     Returns
     -------
@@ -751,8 +752,8 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
                                            _('Assumption of normality met.') + '</decision>'
 
     if homoscedasticity is None:
-        standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + ' ' + \
-                                           _('CIs may be biased.') + '</decision>'
+        standardized_effect_size_result += '\n' + '<decision>' + _('Homoscedasticity could not be calculated.') + \
+                                           ' ' + _('CIs may be biased.') + '</decision>'
     elif not homoscedasticity:
         standardized_effect_size_result += '\n' + '<decision>' \
                                            + _('Assumption of homoscedasticity violated.') + ' ' + \
@@ -761,8 +762,8 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
         standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity met.') + '</decision>'
 
     if multicollinearity is None:
-        standardized_effect_size_result += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + ' ' + \
-                                           _('CIs may be biased.') + '</decision>'
+        standardized_effect_size_result += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + \
+                                           ' ' + _('CIs may be biased.') + '</decision>'
     elif not multicollinearity:
         standardized_effect_size_result += '\n' + '<decision>' \
                                            + _('Assumption of multicollinearity violated.') + ' ' + \
@@ -773,38 +774,38 @@ def multiple_variables_standard_effect_size(data, x, y, normality, homoscedastic
     # Calculate effect sizes for sample or population
     if sample:
         pdf_result_corr = pd.DataFrame()
-        standardized_effect_size_result += "\n" + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + "\n"
+        standardized_effect_size_result += "\n" + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + '\n'
     else:  # population
         pdf_result_model = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         pdf_result_corr = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
-        ci = cs_stat_num.calc_r2_ci(result.rsquared_adj, len(x), len(data))
+        ci = cs_stat_num.calc_r2_ci(result.rsquared_adj, len(predictors), len(data))
         pdf_result_model.loc[_('Adjusted <i>R<sup>2</sup></i>')] = \
-            ['%0.3f' % (result.rsquared_adj), '[%0.3f, %0.3f]' % (ci[0], ci[1])]
+            ['%0.3f' % result.rsquared_adj, '[%0.3f, %0.3f]' % (ci[0], ci[1])]
 
-        pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % (result.llf), '']
-        pdf_result_model.loc[_('AIC')] = ['%0.3f' % (result.aic), '']
-        pdf_result_model.loc[_('BIC')] = ['%0.3f' % (result.bic), '']
+        pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % result.llf, '']
+        pdf_result_model.loc[_('AIC')] = ['%0.3f' % result.aic, '']
+        pdf_result_model.loc[_('BIC')] = ['%0.3f' % result.bic, '']
         standardized_effect_size_result += _format_html_table(pdf_result_model.to_html(bold_rows=False, escape=False,
-                                                                                       classes="table_cs_pd")) + "\n"
+                                                                                       classes='table_cs_pd')) + '\n'
 
-    standardized_effect_size_result += "\n" + '<cs_h3>' + _("Pearson's partial correlations") + '</cs_h3>'
+    standardized_effect_size_result += '\n' + '<cs_h3>' + _("Pearson's partial correlations") + '</cs_h3>'
 
-    for x_i in x:
-        x_other = x.copy()
-        x_other.remove(x_i)
+    for predictor in predictors:
+        predictors_other = predictors.copy()
+        predictors_other.remove(predictor)
 
         if sample:
-            pdf_result_corr.loc[_(x_i), _('Value')] = \
-                '<i>pr</i> = %0.3f' % pingouin.partial_corr(data, x_i, y, x_other)["r"]
+            pdf_result_corr.loc[_(predictor), _('Value')] = \
+                '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, y, predictors_other)['r']
         else:
-            partial_result = pingouin.partial_corr(data, x_i, y, x_other)
-            pdf_result_corr.loc[_(x_i) + ', <i>pr</i>'] = \
-                ['%0.3f' % (partial_result["r"]), '[%0.3f, %0.3f]' % (partial_result["CI95%"][0][0],
-                                                                      partial_result["CI95%"][0][1])]
+            partial_result = pingouin.partial_corr(data, predictor, y, predictors_other)
+            pdf_result_corr.loc[_(predictor) + ', <i>r</i>'] = \
+                ['%0.3f' % (partial_result['r']), '[%0.3f, %0.3f]' % (partial_result['CI95%'][0][0],
+                                                                      partial_result['CI95%'][0][1])]
 
     standardized_effect_size_result += _format_html_table(pdf_result_corr.to_html(bold_rows=False, escape=False,
-                                                                             classes="table_cs_pd"))
+                                                                                  classes='table_cs_pd'))
 
     return standardized_effect_size_result
 

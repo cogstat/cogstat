@@ -1082,6 +1082,13 @@ class CogStatData:
                                                                                               multicollinearity=multicollinearity,
                                                                                               result=result)
 
+            code_test_effect_size_sample = cs_stat.multiple_variables_standard_effect_size(self.data_frame, [predicted],
+                                           predictors, result, normality, homoscedasticity, multicollinearity,
+                                           sample=True)
+            code_test_effect_size_population = cs_stat.multiple_variables_standard_effect_size(self.data_frame, [predicted],
+                                           predictors, result, normality, homoscedasticity, multicollinearity,
+                                           sample=False)
+
             code_test_hyp_test = cs_hyp_test.multiple_regression_hyp_tests(data=self.data_frame, result=result,
                                                                            predictors=predictors,
                                                                            normality=normality,
@@ -1093,6 +1100,7 @@ class CogStatData:
                                            '\n\nBut here are some output for testing purposes:\n\n',
                                            code_test_scatter_matrix, code_test_multicollinearity_chart,
                                            code_test_regression_plot,
+                                           code_test_effect_size_sample, code_test_effect_size_population,
                                            code_test_regressor_correlation, code_test_vif,
                                            code_test_regression_coefficients, code_test_hyp_test])
 
