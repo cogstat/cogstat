@@ -101,6 +101,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.explore_variable(['X'])
 #        self.explore_variable(['a'], freq=False)
 #        self.explore_variable_pair(['X', 'Y'])
+#        self.regression('a', ['e', 'f', 'g'])
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
 #        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'],
 #                       condition_names=['Num1', 'Num2'])

@@ -534,17 +534,17 @@ def confidence_interval_t(data):
 
 ### Variable pairs ###
 
-def variable_pair_regression_coefficients(variables, meas_lev, normality=None, homoscedasticity=None, multicollinearity=None,
-                                          result=None):
+def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, homoscedasticity=None,
+                                          multicollinearity=None, result=None):
     """
     Calculate point and interval estimates of regression parameters (slopes, and intercept) in a regression analysis.
 
     Parameters
     ----------
-    variables : list of str
+    predictors : list of str
         List of explanatory variable names.
     meas_lev : str
-        Measurement level of variables
+        Measurement level of the regressors
     normality : bool or None
         True if variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
         calculated or if the parameter was not specified.
@@ -565,10 +565,10 @@ def variable_pair_regression_coefficients(variables, meas_lev, normality=None, h
         regression_coefficients = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
-        # Warinings based on the results of the assumption tests
+        # Warnings based on the results of the assumption tests
         if normality is None:
             regression_coefficients += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' +\
-                                                   _('CIs may be biased.')  + '</decision>'
+                                                   _('CIs may be biased.') + '</decision>'
         elif not normality:
             regression_coefficients += '\n' + '<decision>' \
                                        + _('Assumption of normality violated for CI calculations.') + ' ' + \
@@ -588,10 +588,10 @@ def variable_pair_regression_coefficients(variables, meas_lev, normality=None, h
             regression_coefficients += '\n' + '<decision>' + _('Assumption of homoscedasticity for CI '
                                                                'calculations met.') + '</decision>'
 
-        if len(variables) > 1:
+        if len(predictors) > 1:
             if multicollinearity is None:
-                regression_coefficients += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + ' ' +\
-                                                       _('Point estimates and CIs may be inaccurate.')  + '</decision>'
+                regression_coefficients += '\n' + '<decision>' + _('Multicollinearity could not be calculated.') + \
+                                           ' ' + _('Point estimates and CIs may be inaccurate.') + '</decision>'
             elif multicollinearity:
                 regression_coefficients += '\n' + '<decision>' \
                                            + _('Multicollinearity suspected.') + ' ' + \
@@ -602,18 +602,17 @@ def variable_pair_regression_coefficients(variables, meas_lev, normality=None, h
 
         # Gather point estimates and CIs into table
         cis = result.conf_int(alpha=0.05)
-
-        for i in variables:
-            pdf_result.loc[_('Slope %s') %i] = ['%0.3f' % (result.params[i]), '[%0.3f, %0.3f]' % (cis.loc[i,0], cis.loc[i,1])]
-
         pdf_result.loc[_('Intercept')] = \
-            ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc['const',0], cis.loc['const',1])]
-
+            ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc['const', 0], cis.loc['const', 1])]
+        for predictor in predictors:
+            pdf_result.loc['%s' % predictor] = ['%0.3f' % (result.params[predictor]), '[%0.3f, %0.3f]' %
+                                                (cis.loc[predictor, 0], cis.loc[predictor, 1])]
     else:
         regression_coefficients = None
+
     if regression_coefficients:
         regression_coefficients += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
-                                                                         classes="table_cs_pd"))
+                                                                         classes='table_cs_pd'))
 
     return regression_coefficients
 

@@ -1033,14 +1033,13 @@ class CogStatData:
             # TODO regression
             if meas_lev == 'nom':
                 estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
-            if meas_lev =='int':
-                estimation_parameters = cs_stat.variable_pair_regression_coefficients(result.params[1], result.params[0],
-                                                                                      result.bse[1],result.bse[0],
-                                                                                      meas_lev, len(data[x]),
+            if meas_lev == 'int':
+                estimation_parameters = cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
                                                                                       normality=normality,
-                                                                                      homoscedasticity=homoscedasticity)
-                population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=False,
-                                                                       regression=True, CI=True,
+                                                                                      homoscedasticity=homoscedasticity,
+                                                                                      result=result)
+                population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result,
+                                                                       raw_data=False, regression=True, CI=True,
                                                                        xlims=[None, None], ylims=[None, None])
             estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
                                                                                 normality=normality,
@@ -1056,13 +1055,32 @@ class CogStatData:
                                            population_result])
         else:  # several predictors
             code_test_regressor_correlation = cs_stat.correlation_matrix(self.data_frame, predictors)
-            code_test_vif, vif = cs_stat.vif_table(self.data_frame, predictors)
+            code_test_vif, multicollinearity = cs_stat.vif_table(self.data_frame, predictors)
+
+            import statsmodels.regression
+            import statsmodels.tools
+            from statsmodels.api import add_constant
+
+            model = statsmodels.regression.linear_model.OLS(self.data_frame[predicted],
+                                                            add_constant(self.data_frame[predictors]))
+            result = model.fit()
+            residuals = result.resid
+
+            normality, norm_text = cs_hyp_test.multivariate_normality(self.data_frame, [predicted] + predictors)
+            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(self.data_frame, [predicted] + predictors,
+                                                                      residual=residuals)
+
+            code_test_regression_coefficients = cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
+                                                                                              normality=normality,
+                                                                                              homoscedasticity=homoscedasticity,
+                                                                                              multicollinearity=multicollinearity,
+                                                                                              result=result)
 
             return cs_util.convert_output(['<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>\n' +
                                           _('Sorry, not implemented yet.') +
                                            '\n\nBut here are some output for testing purposes:\n\n',
-                                           code_test_regressor_correlation, code_test_vif])
-
+                                           code_test_regressor_correlation, code_test_vif,
+                                           code_test_regression_coefficients])
 
     def pivot(self, depend_name='', row_names=[], col_names=[], page_names=[], function='Mean'):
         """
