@@ -194,8 +194,8 @@ def convert_output(outputs):
         string_buffer = figure.canvas.buffer_rgba()
         # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding.
         # This should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI.
-        qimage = QtGui.QImage(string_buffer, size_x * app_devicePixelRatio,
-                              size_y * app_devicePixelRatio, QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
+        qimage = QtGui.QImage(string_buffer, int(size_x * app_devicePixelRatio), int(size_y * app_devicePixelRatio),
+                              QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
         QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
         return qimage
 

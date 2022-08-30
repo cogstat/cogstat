@@ -101,6 +101,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.explore_variable(['X'])
 #        self.explore_variable(['a'], freq=False)
 #        self.explore_variable_pair(['X', 'Y'])
+#        self.regression('a', ['e', 'f', 'g'])
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
 #        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'],
 #                       condition_names=['Num1', 'Num2'])
@@ -175,7 +176,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  _('Ctrl+1'), 'self.explore_variable', True, True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
                                  _('Ctrl+2'), 'self.explore_variable_pair', False, True],
-                                ['/icons8-scatter-plot.svg', _('Explore &relation of variable pairs')+'...',
+                                ['/icons8-scatter-plot.svg', _('Explore &relation of variables')+'...',
                                  _('Ctrl+R'), 'self.regression', True, True],
                                 ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
                                  'Ctrl+M', 'self.compare_variables', True, True],
@@ -568,7 +569,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
-            result = self.active_data.filter_outlier(var_names)
+            if len(var_names) > 1:  # TODO should we add a switch to the GUI to decide if single or multivariate
+                                    # filtering is needed?
+                result = self.active_data.filter_outlier(var_names, mode='mahalanobis')
+            else:
+                result = self.active_data.filter_outlier(var_names)
             self.analysis_results[-1].add_output(result)
             self._print_to_output_pane()
         except:
