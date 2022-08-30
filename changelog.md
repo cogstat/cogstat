@@ -6,6 +6,7 @@ Upcoming release (2022)
 ## New features
 - Regression analysis (Tamás Szűcs)
   - Analysis of multicollinearity in multiple regression
+  - Hypothesis tests for multiple linear regression
 - Reload actual data file
 - Multivariate outlier filtering
 
