@@ -565,7 +565,7 @@ def create_residual_chart(data, meas_lev, x, y):
         ax_hist = fig.add_subplot(gs[0, 2], sharey=ax_res_plot)
 
         # Residual plot (scatter of x vs. residuals)
-        ax_res_plot.plot(data[x], residuals, '.')
+        ax_res_plot.scatter(data[x], residuals, s=20)  # TODO size should be proportional to frequency
         ax_res_plot.axhline(y=0)
         ax_res_plot.set_title(_plt("Residual plot"))
         ax_res_plot.set_xlabel(x)
@@ -757,7 +757,7 @@ def create_scatter_matrix(data, meas_lev):
                 if i == j:
                     ax[i, j].hist(data.iloc[:, i])
                 else:
-                    ax[i, j].scatter(data.iloc[:, i], data.iloc[:, j])
+                    ax[i, j].scatter(data.iloc[:, i], data.iloc[:, j], s=20)  # TODO size should be proportional to frequency
         graph = plt.gcf()
         return graph
     else:
@@ -795,7 +795,7 @@ def create_multicollinearity_chart(data, meas_lev, predictors):
             for index_2, x_j in enumerate(predictors):
                 if x_i != x_j and [x_i, x_j] not in x_done and [x_j, x_i] not in x_done:
                     ax = plt.subplot(nrows, ncols, ind)
-                    ax.scatter(data[x_i], data[x_j])
+                    ax.scatter(data[x_i], data[x_j], s=20)  # TODO size should be proportional to frequency
                     ax.set_xlabel(x_i)
                     ax.set_ylabel(x_j)
                     x_done.append([x_i, x_j])
@@ -848,7 +848,7 @@ def part_regress_plots(data, predicted, predictors):
         resid_x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
 
         ax = plt.subplot(nrows, ncols, index+1)
-        ax.scatter(resid_x_i, resid_dependent)
+        ax.scatter(resid_x_i, resid_dependent, s=20)  # TODO size should be proportional to frequency
         ax.set_xlabel(predictor + _plt(' | other X'))
         ax.set_ylabel(predicted + _plt(' | other X'))
 

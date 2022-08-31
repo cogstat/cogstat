@@ -605,8 +605,8 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
         pdf_result.loc[_('Intercept')] = \
             ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc['const', 0], cis.loc['const', 1])]
         for predictor in predictors:
-            pdf_result.loc['%s' % predictor] = ['%0.3f' % (result.params[predictor]), '[%0.3f, %0.3f]' %
-                                                (cis.loc[predictor, 0], cis.loc[predictor, 1])]
+            pdf_result.loc['Slope for %s' % predictor] = ['%0.3f' % (result.params[predictor]), '[%0.3f, %0.3f]' %
+                                                          (cis.loc[predictor, 0], cis.loc[predictor, 1])]
     else:
         regression_coefficients = None
 
@@ -690,7 +690,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                                            + _('Assumption of homoscedasticity violated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
             else:
-                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity for met.') \
+                standardized_effect_size_result += '\n' + '<decision>' + _('Assumption of homoscedasticity met.') \
                                                    + '</decision>'
 
         if meas_lev in ['int', 'unk', 'ord']:
@@ -737,9 +737,12 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
     """
     # TODO validate
 
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect size') + '</cs_h3>' + "\n"
-
+    if sample:
+        standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + '\n'
+    else:
+        standardized_effect_size_result = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>' + '\n'
     # Warnings based on the results of the assumption tests
+    # TODO warnings should be printed only with population properties?
     if normality is None:
         standardized_effect_size_result += '\n' + '<decision>' + _('Normality could not be calculated.') + ' ' + \
                                            _('CIs may be biased.') + '</decision>'
@@ -789,18 +792,18 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
         standardized_effect_size_result += _format_html_table(pdf_result_model.to_html(bold_rows=False, escape=False,
                                                                                        classes='table_cs_pd')) + '\n'
 
-    standardized_effect_size_result += '\n' + '<cs_h3>' + _("Pearson's partial correlations") + '</cs_h3>'
+    standardized_effect_size_result += '\n' + _("Pearson's partial correlations")
 
     for predictor in predictors:
         predictors_other = predictors.copy()
         predictors_other.remove(predictor)
 
         if sample:
-            pdf_result_corr.loc[_(predictor), _('Value')] = \
+            pdf_result_corr.loc[predictor, _('Value')] = \
                 '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, y, predictors_other)['r']
         else:
             partial_result = pingouin.partial_corr(data, predictor, y, predictors_other)
-            pdf_result_corr.loc[_(predictor) + ', <i>r</i>'] = \
+            pdf_result_corr.loc[predictor + ', <i>r</i>'] = \
                 ['%0.3f' % (partial_result['r']), '[%0.3f, %0.3f]' % (partial_result['CI95%'][0][0],
                                                                       partial_result['CI95%'][0][1])]
 
