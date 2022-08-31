@@ -414,10 +414,8 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
     str
         Hypothesis test results in html format
     """
-    population_result = ''
     if meas_lev == 'int':
-        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                             _('Testing if correlation differs from 0.') + '</decision>\n'
+        population_result = '<decision>' + _('Testing if correlation differs from 0.') + '</decision>\n'
         df = len(data) - 2
 
         if normality and homoscedasticity:
@@ -477,8 +475,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  (df, non_data_dim_precision, r, print_p(p))
 
     elif meas_lev == 'ord':
-        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                             _('Testing if correlation differs from 0.') + '</decision>\n'
+        population_result = '<decision>' + _('Testing if correlation differs from 0.') + '</decision>\n'
         population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
                              '\n</decision>'
         df = len(data) - 2
@@ -487,8 +484,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                              ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
                              (df, non_data_dim_precision, r, print_p(p))
     elif meas_lev == 'nom':
-        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                             _('Testing if variables are independent.') + '</decision>\n'
+        population_result = '<decision>' + _('Testing if variables are independent.') + '</decision>\n'
         # TODO enable the following warning
         #if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
         #    population_result += '<warning>' + _('Not all variables are nominal. Consider comparing groups.') + \
@@ -585,7 +581,7 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
     -------
 
     """
-    result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
+    result_ht = '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
     elif meas_level == 'ord':
@@ -906,7 +902,7 @@ def friedman_test(pdf, var_names):
 
 def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels,
                                    single_case_slope_SE, single_case_slope_trial_n):
-    result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
+    result_ht = '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
     elif meas_level == 'ord':
@@ -1052,7 +1048,7 @@ def decision_several_grouping_variables(df, meas_level, var_names, groups):
     -------
 
     """
-    result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
+    result_ht = '<decision>'
     if meas_level in ['int', 'unk']:
         result_ht += _('Testing if the means are the same.') + '</decision>\n'
     elif meas_level == 'ord':

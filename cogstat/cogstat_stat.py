@@ -427,8 +427,6 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         # drop all data with NaN pair
         data = pdf[var_names]
         pdf_result = pd.DataFrame(columns=var_names)
-        text_result += '<cs_h3>' + (_('Descriptives for the variables') if len(var_names) > 1 else
-                                    _('Descriptives for the variable')) + '</cs_h3>'
         for var_name in var_names:
             if meas_levs[var_name] != 'nom':
                 prec = cs_util.precision(data[var_name])+1
@@ -444,7 +442,6 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
 
-        text_result += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
         # Not sure if the precision can be controlled per cell with this method;
         # Instead we make a pandas frame with str cells
 #        pdf_result = pd.DataFrame([np.mean(group_data.dropna()) for group_data in grouped_data], columns=[_('Mean')],
@@ -562,7 +559,7 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
         Table of the point and interval estimations as html text
     """
     if meas_lev == "int":
-        regression_coefficients = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
+        regression_coefficients = ''
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
 
         # Warnings based on the results of the assumption tests
@@ -640,8 +637,8 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     html text
     """
     pdf_result = pd.DataFrame()
+    standardized_effect_size_result = ''
     if sample:
-        standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
         if meas_lev in ['int', 'unk']:
             pdf_result.loc[_("Pearson's correlation"), _('Value')] = \
                 '<i>r</i> = %0.3f' % stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])[0]
@@ -661,7 +658,6 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
                 pdf_result.loc[_("Cramér's V measure of association"), _('Value')] = \
                     'cannot be computed (division by zero)'
     else:  # population estimations
-        standardized_effect_size_result = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
         pdf_result = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         if meas_lev in ['int', 'unk']:
             df = len(data) - 2
@@ -737,10 +733,7 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
     """
     # TODO validate
 
-    if sample:
-        standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + '\n'
-    else:
-        standardized_effect_size_result = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>' + '\n'
+    standardized_effect_size_result = ''
     # Warnings based on the results of the assumption tests
     # TODO warnings should be printed only with population properties?
     if normality is None:
@@ -999,7 +992,7 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
         None if effect size is not calculated
 
     """
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+    standardized_effect_size_result = ''
 
     if sample:  # Effects sizes for samples
         pdf_result = pd.DataFrame()
@@ -1125,7 +1118,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
         None if effect size is not calculated
     """
 
-    standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+    standardized_effect_size_result = ''
 
     if sample:
         pdf_result = pd.DataFrame()

@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
-"""This module is the main engine for CogStat. It includes the class for the CogStat data; initialization handles data
-import; methods implement some data handling and they compile the appropriate statistics for the main analysis commands.
+"""This module is the main engine for CogStat.
+
+It includes the class for the CogStat data; initialization handles data import; methods implement some data handling
+and they compile the appropriate statistics for the main analysis pipelines.
+
+For the analyses, headings (<cs_hx>) are included in this module.
 """
 
 # if CS is used with GUI, start the splash screen
@@ -805,6 +809,7 @@ class CogStatData:
             text_result += cs_stat.frequencies(data, var_name, meas_level) + '\n\n'
 
         # Descriptives
+        text_result += '<cs_h3>' + _('Descriptives for the variable') + '</cs_h3>'
         if self.data_measlevs[var_name] in ['int', 'unk']:
             text_result += cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
                                                    statistics=['mean', 'std', 'skewness', 'kurtosis', 'range', 'max',
@@ -1027,13 +1032,15 @@ class CogStatData:
             multicollinearity_chart = cs_chart.create_multicollinearity_chart(self.data_frame, meas_lev, predictors)  # TODO redundant chart?
 
         if len(predictors) == 1:
-            standardized_effect_size_result = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
+            standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+            standardized_effect_size_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
             standardized_effect_size_result += '\n'
         else:
             if meas_lev in ['int', 'unk']:
-                standardized_effect_size_result = cs_stat.multiple_variables_standard_effect_size(data, predictors,
-                                               [predicted], result, normality, homoscedasticity, multicollinearity,
-                                               sample=True)
+                standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + '\n'
+                standardized_effect_size_result += cs_stat.multiple_variables_standard_effect_size(data, predictors,
+                                                   [predicted], result, normality, homoscedasticity, multicollinearity,
+                                                   sample=True)
                 standardized_effect_size_result += '\n'
             else:
                 standardized_effect_size_result = None
@@ -1078,11 +1085,12 @@ class CogStatData:
         if meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
         elif meas_lev == 'int':
-            estimation_parameters = cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
-                                                                                  normality=normality,
-                                                                                  homoscedasticity=homoscedasticity,
-                                                                                  multicollinearity=multicollinearity if len(predictors) > 1 else None,
-                                                                                  result=result)
+            estimation_parameters = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
+            estimation_parameters += cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
+                                                                                   normality=normality,
+                                                                                   homoscedasticity=homoscedasticity,
+                                                                                   multicollinearity=multicollinearity if len(predictors) > 1 else None,
+                                                                                   result=result)
 
             if len(predictors) == 1:
                 population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result,
@@ -1092,27 +1100,28 @@ class CogStatData:
                 # TODO multivariate population graph
                 pass
         if len(predictors) == 1:
-            estimation_effect_size = cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
-                                                                                normality=normality,
-                                                                                homoscedasticity=homoscedasticity)
+            estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
+            estimation_effect_size += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
+                                                                                 normality=normality,
+                                                                                 homoscedasticity=homoscedasticity)
         else:
             if meas_lev in ['int', 'unk']:
-                estimation_effect_size = cs_stat.multiple_variables_standard_effect_size(self.data_frame, predictors,
-                                                                                         [predicted], result, normality,
-                                                                                         homoscedasticity, multicollinearity,
-                                                                                         sample=False)
+                estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>' + '\n'
+                estimation_effect_size += cs_stat.multiple_variables_standard_effect_size(self.data_frame, predictors,
+                                                                                          [predicted], result, normality,
+                                                                                          homoscedasticity, multicollinearity,
+                                                                                          sample=False)
 
         # TODO headings should be handled only in this module but not in other modules
+        population_result = '\n' + '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n'
         if len(predictors) == 1:
-            population_result = '\n' + cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality,
-                                                                          homoscedasticity) + '\n'
+            population_result += cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality, homoscedasticity) \
+                                 + '\n'
         else:
-            population_result = '\n' + '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
-                                cs_hyp_test.multiple_regression_hyp_tests(data=self.data_frame, result=result,
-                                                                                 predictors=predictors,
-                                                                                 normality=normality,
-                                                                                 homoscedasticity=homoscedasticity,
-                                                                                 multicollinearity=multicollinearity)
+            population_result += cs_hyp_test.multiple_regression_hyp_tests(data=self.data_frame, result=result,
+                                                                           predictors=predictors, normality=normality,
+                                                                           homoscedasticity=homoscedasticity,
+                                                                           multicollinearity=multicollinearity)
 
         # TODO should we set all optional returned item to None at the beginning of the method? And in all methods
         return cs_util.convert_output([title, raw_result, raw_graph,
@@ -1260,6 +1269,7 @@ class CogStatData:
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
+        sample_result += '<cs_h3>' + _('Descriptives for the variables') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
             sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs,
                                                      statistics=['mean', 'std', 'max', 'upper quartile',
@@ -1278,7 +1288,8 @@ class CogStatData:
             sample_result += '\n'
 
         # 2b. Effect size
-        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
+        effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+        effect_size_result += cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
         if effect_size_result:
             sample_result += '\n\n' + effect_size_result
 
@@ -1309,12 +1320,14 @@ class CogStatData:
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
 
         # 3b. Effect size
-        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
+        effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+        effect_size_result += cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
         if effect_size_result:
             population_result += '\n' + effect_size_result
 
         # 3c. Hypothesis tests
-        result_ht = cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
+        result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
+                    cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                        population_graph, result_ht])
@@ -1408,6 +1421,7 @@ class CogStatData:
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
+        sample_result += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
             sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
                                                      groups=groups,
@@ -1426,8 +1440,9 @@ class CogStatData:
                                                               count=True, percent=True, margins=True)
 
         # Effect size
-        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level,
-                                                                sample=True)
+        sample_effect_size = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+        sample_effect_size += cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level,
+                                                                 sample=True)
         if sample_effect_size:
             sample_result += '\n\n' + sample_effect_size
 
@@ -1461,7 +1476,8 @@ class CogStatData:
             population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True)
 
         # effect size
-        standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
+        standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+        standardized_effect_size_result += cs_stat.compare_groups_effect_size(data, var_names, groups,
                                                                              meas_level, sample=False)
         if standardized_effect_size_result is not None:
             standardized_effect_size_result += '\n'
@@ -1469,11 +1485,13 @@ class CogStatData:
         # Hypothesis testing
         if len(groups) == 1:
             group_levels = sorted(set(data[groups[0]]))
-            result_ht = cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
+            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
+                        cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
                                                                    var_names, groups, group_levels,
                                                                    single_case_slope_SE, single_case_slope_trial_n)
         else:
-            result_ht = cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
+            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
+                        cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
 
         return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
                                        population_graph, standardized_effect_size_result, result_ht])

@@ -292,7 +292,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             return to_hex(hsv_to_rgb(hsv_color))
 
         self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        # some html styles are modified for for the GUI version (but not for the Jupyter Notebook version)
+        # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
         self.output_pane.document().setDefaultStyleSheet('body {color:black;} '
                                                          'h2 {color:%s;} h3 {color:%s} '
                                                          'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
