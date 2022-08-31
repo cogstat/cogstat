@@ -1112,7 +1112,6 @@ class CogStatData:
                                                                                           homoscedasticity, multicollinearity,
                                                                                           sample=False)
 
-        # TODO headings should be handled only in this module but not in other modules
         population_result = '\n' + '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n'
         if len(predictors) == 1:
             population_result += cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality, homoscedasticity) \
