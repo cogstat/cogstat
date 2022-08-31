@@ -1287,10 +1287,9 @@ class CogStatData:
             sample_result += '\n'
 
         # 2b. Effect size
-        effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-        effect_size_result += cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
+        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
         if effect_size_result:
-            sample_result += '\n\n' + effect_size_result
+            sample_result += '\n\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
 
         # 3. Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
@@ -1319,10 +1318,9 @@ class CogStatData:
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
 
         # 3b. Effect size
-        effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-        effect_size_result += cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
+        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
         if effect_size_result:
-            population_result += '\n' + effect_size_result
+            population_result += '\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
 
         # 3c. Hypothesis tests
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
@@ -1439,11 +1437,10 @@ class CogStatData:
                                                               count=True, percent=True, margins=True)
 
         # Effect size
-        sample_effect_size = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-        sample_effect_size += cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level,
+        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level,
                                                                  sample=True)
         if sample_effect_size:
-            sample_result += '\n\n' + sample_effect_size
+            sample_result += '\n\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
         # Plot the individual data with boxplots
         # There's no need to repeat the mosaic plot for the nominal variables
@@ -1475,11 +1472,11 @@ class CogStatData:
             population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True)
 
         # effect size
-        standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-        standardized_effect_size_result += cs_stat.compare_groups_effect_size(data, var_names, groups,
+        standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
                                                                              meas_level, sample=False)
         if standardized_effect_size_result is not None:
-            standardized_effect_size_result += '\n'
+            standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
+                                              standardized_effect_size_result + '\n'
 
         # Hypothesis testing
         if len(groups) == 1:
