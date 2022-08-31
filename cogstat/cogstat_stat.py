@@ -636,9 +636,10 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     -------
     html text
     """
-    pdf_result = pd.DataFrame()
     standardized_effect_size_result = ''
+    missing_pdf_result = False
     if sample:
+        pdf_result = pd.DataFrame()
         if meas_lev in ['int', 'unk']:
             pdf_result.loc[_("Pearson's correlation"), _('Value')] = \
                 '<i>r</i> = %0.3f' % stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])[0]
@@ -696,8 +697,8 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = \
                 ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
         elif meas_lev == 'nom':
-            standardized_effect_size_result = ''
-    if standardized_effect_size_result:
+            missing_pdf_result = True
+    if not missing_pdf_result:
         standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
                                                                                  classes='table_cs_pd'))
     return standardized_effect_size_result
