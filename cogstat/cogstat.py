@@ -1124,11 +1124,11 @@ class CogStatData:
 
         # TODO should we set all optional returned item to None at the beginning of the method? And in all methods
         return cs_util.convert_output([title, raw_result, raw_graph,
-                                       sample_result, sample_graph, regressor_correlation,
+                                       sample_result, sample_graph, regression_plot,
                                        standardized_effect_size_result,
-                                       regression_plot,
                                        residual_title, residual_graph,
-                                       population_properties_title, assumptions_result, multicollinearity_chart,
+                                       population_properties_title, assumptions_result, regressor_correlation,
+                                       multicollinearity_chart,
                                        estimation_result,
                                        estimation_parameters, population_graph, estimation_effect_size,
                                        population_result])
