@@ -5,6 +5,7 @@ GUI for CogStat.
 
 # Splash screen
 import os
+import io
 import sys
 import random
 
@@ -19,6 +20,12 @@ pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
+
+screen = app.screens()[0]
+physicaldpi = screen.physicalDotsPerInch()
+logicaldpi = screen.logicalDotsPerInch()
+# print('Physical DPI: %s' % physicaldpi)
+# print('Logical DPI: %s' % logicaldpi)
 
 # go on with regular imports, etc.
 from distutils.version import LooseVersion

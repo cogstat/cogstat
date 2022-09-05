@@ -658,8 +658,8 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
 
                 # Plotting regression line from statsmodels fitted values
                 fittedvalues = summary[:, 2]
-                ax.plot(data_sorted[x], fittedvalues, color=theme_colors[1])
-
+                ax.plot(data_sorted[x], fittedvalues, color=theme_colors[0]) # original final release
+                # ax.plot(data_sorted[x], fittedvalues, color=theme_colors[1]) # alternative color so that linreg line is discernible
                 if CI:
                     # this will overwrite plot title that was set when raw data are displayed
                     # It assumes that regression line and CI are displayed
