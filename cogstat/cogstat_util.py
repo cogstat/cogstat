@@ -206,6 +206,7 @@ def convert_output(outputs):
 
         # Save image – DEBUG ONLY
         filename = "chart"
+        i = 0
         while os.path.exists('{}{:d}.svg'.format(filename, i)):
             i += 1
         figure.savefig('{}{:d}.svg'.format(filename, i), format='SVG', dpi = 300)
