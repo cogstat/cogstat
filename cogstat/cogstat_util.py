@@ -205,11 +205,11 @@ def convert_output(outputs):
         qimage = '<img width='+str(imgwidth)+' src="data:image/png;base64,{0}">'.format(base64.b64encode(chartbuffer.read()).decode())
 
         # Save image – DEBUG ONLY
-        filename = "chart"
-        i = 0
-        while os.path.exists('{}{:d}.svg'.format(filename, i)):
-            i += 1
-        figure.savefig('{}{:d}.svg'.format(filename, i), format='SVG', dpi = 300)
+        # filename = "chart"
+        # i = 0
+        # while os.path.exists('{}{:d}.svg'.format(filename, i)):
+        #     i += 1
+        # figure.savefig('{}{:d}.svg'.format(filename, i), format='SVG', dpi = 300)
 
         return qimage
 
