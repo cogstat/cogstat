@@ -794,9 +794,9 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
 
         if sample:
             pdf_result_corr.loc[predictor, _('Value')] = \
-                '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, y, predictors_other)['r']
+                '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, y[0], predictors_other)['r']
         else:
-            partial_result = pingouin.partial_corr(data, predictor, y, predictors_other)
+            partial_result = pingouin.partial_corr(data, predictor, y[0], predictors_other)
             pdf_result_corr.loc[predictor + ', <i>r</i>'] = \
                 ['%0.3f' % (partial_result['r']), '[%0.3f, %0.3f]' % (partial_result['CI95%'][0][0],
                                                                       partial_result['CI95%'][0][1])]
