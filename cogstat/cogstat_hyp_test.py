@@ -1179,7 +1179,7 @@ def one_way_anova(pdf, var_name, grouping_name):
 
         # 2. Calculate effect size in eta-square
         # pingouin may fail in calculating the effect size, see its API documentation
-        eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
+        eta_square = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.95,
                                           k=len(set(data[grouping_name])))
         if np.isnan(eta_square):
             eta_square_effect_size = ''
