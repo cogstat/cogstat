@@ -60,7 +60,7 @@ def open_demo_data_file(directory):
 
 def save_output():
     return str(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'CogStat analysis result.pdf',
-                                                     '*.pdf')[0])
+                                                     '*.pdf, *.html')[0])
 
 # XXX self.buttonBox.Ok.setEnabled(False) # TODO how can we disable the OK button without the other?
 # TODO Some variables are CamelCase - change them

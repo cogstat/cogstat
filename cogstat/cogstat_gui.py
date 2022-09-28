@@ -955,11 +955,24 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if not filename:
             filename = cogstat_dialogs.save_output()
         self.output_filename = filename
-        if filename:
+        if filename[:-4]==".pdf":
             pdf_printer = QtPrintSupport.QPrinter()
             pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
             pdf_printer.setOutputFileName(self.output_filename)
             self.output_pane.print_(pdf_printer)
+            self.unsaved_output = False
+        else:
+            # Save output as html file
+            if filename[:-5]==".html":
+                html_filename = filename
+            else:
+                html_filename = filename[:-4] + '.html'
+            html_file = self.output_pane.toHtml()
+            # replace non-breaking spaces with html code for non-breaking spaces
+            html_file = html_file.replace(' ', '&nbsp;')
+            
+            with open(html_filename, 'w') as f:
+                f.write(html_file)
             self.unsaved_output = False
 
     ### Cogstat menu  methods ###
