@@ -20,6 +20,9 @@ splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
 
+screen = app.screens()[0]
+physicaldpi = screen.physicalDotsPerInch()
+
 # go on with regular imports, etc.
 from distutils.version import LooseVersion
 import gettext

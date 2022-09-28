@@ -174,8 +174,10 @@ def convert_output(outputs):
     from matplotlib.figure import Figure
     from matplotlib import rcParams
     from PyQt5 import QtGui
+    from . import cogstat_gui as gui
 
     rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
+    rcParams['figure.dpi'] = gui.physicaldpi * gui.app.devicePixelRatio()
 
     def _figure_to_qimage(figure):
         """Convert matplotlib figure to pyqt qImage.
@@ -188,16 +190,17 @@ def convert_output(outputs):
         -------
         qImage
         """
-        figure.canvas.draw()
-        size_x, size_y = figure.get_size_inches() * rcParams['figure.dpi'] / app_devicePixelRatio
-        # TODO is it better to use figure.canvas.width(), figure.canvas.height() instead of figure.get_size_inches()?
-        string_buffer = figure.canvas.buffer_rgba()
-        # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding.
-        # This should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI.
-        qimage = QtGui.QImage(string_buffer, int(size_x * app_devicePixelRatio), int(size_y * app_devicePixelRatio),
-                              QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
-        QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
-        return qimage
+        import base64
+        import io
+        chartbuffer = io.BytesIO()
+
+        # PNG
+        figure.savefig(chartbuffer, format='PNG', dpi = 300)
+        chartbuffer.seek(0)
+        imgwidth = gui.physicaldpi * 6.4
+        qimage = '<img width='+str(imgwidth)+' src="data:image/png;base64,{0}">'.format(base64.b64encode(chartbuffer.read()).decode())
+
+        return qimage # not qimage technically, just didn't want to change the name as it's used in other places
 
     if csc.output_type in ['ipnb', 'gui']:
         # convert custom notation to html
