@@ -180,7 +180,7 @@ def convert_output(outputs):
     rcParams['figure.dpi'] = gui.physicaldpi * gui.app.devicePixelRatio()
 
     def _figure_to_qimage(figure):
-        """Convert matplotlib figure to pyqt qImage.
+        """Convert matplotlib figure to image file.
 
         Parameters
         ----------
@@ -188,7 +188,7 @@ def convert_output(outputs):
 
         Returns
         -------
-        qImage
+        PNG
         """
         import base64
         import io
