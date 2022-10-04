@@ -164,48 +164,28 @@ def precision(data):
 
 
 def convert_output(outputs):
-    """
-    Convert output either to the GUI or to the IPython Notebook
-    :param outputs: list of the output items
-    :return: converted output, list of items
+    """Convert output either to the GUI or to the IPython Notebook
+
+    Parameters
+    ----------
+    outputs : list of str or matplotlib figures or None or similar list
+        list of the output items
+
+    Returns
+    -------
+    list of str or matplotlib figures or similar list
+        converted output, list of items
     """
 
     import logging
     from matplotlib.figure import Figure
-    from matplotlib import rcParams
-    from PyQt5 import QtGui
-
-    rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
-
-    def _figure_to_qimage(figure):
-        """Convert matplotlib figure to pyqt qImage.
-
-        Parameters
-        ----------
-        figure : matplotlib figure
-
-        Returns
-        -------
-        qImage
-        """
-        figure.canvas.draw()
-        size_x, size_y = figure.get_size_inches() * rcParams['figure.dpi'] / app_devicePixelRatio
-        # TODO is it better to use figure.canvas.width(), figure.canvas.height() instead of figure.get_size_inches()?
-        string_buffer = figure.canvas.buffer_rgba()
-        # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding.
-        # This should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI.
-        qimage = QtGui.QImage(string_buffer, int(size_x * app_devicePixelRatio), int(size_y * app_devicePixelRatio),
-                              QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
-        QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
-        return qimage
 
     if csc.output_type in ['ipnb', 'gui']:
         # convert custom notation to html
         new_output = []
         for i, output in enumerate(outputs):
-            if isinstance(output, Figure):
-                # For gui convert matplotlib to qImage
-                new_output.append(output if csc.output_type == 'ipnb' else _figure_to_qimage(output))
+            if isinstance(output, Figure):  # keep the figure
+                new_output.append(output)
             elif isinstance(output, str):
                 new_output.append(reformat_output(output))
             elif isinstance(output, list):  # flat list

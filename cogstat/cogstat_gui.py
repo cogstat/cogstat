@@ -21,9 +21,12 @@ splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
 
 # go on with regular imports, etc.
+import base64
 from distutils.version import LooseVersion
 import gettext
+import io
 import logging
+import matplotlib.figure
 import os
 import sys
 import traceback
@@ -433,12 +436,21 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if isinstance(output, str):
                 self.output_pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with self.output_pane.toHtml()
-            elif isinstance(output, QtGui.QImage):
-                data = QtCore.QByteArray()
-                buffer = QtCore.QBuffer(data)
-                output.save(buffer, format='PNG')
-                html = '<img src="data:image/png;base64,{0}">'.format(str(data.toBase64())[2:-1])
-                self.output_pane.append(html)
+            elif isinstance(output, matplotlib.figure.Figure):
+                chart_buffer = io.BytesIO()
+                image_format = 'png'  # TODO this will be an ini setting
+                if image_format == 'png':
+                    output.savefig(chart_buffer, format='png')  # TODO dpi= and modify html width to keep the original image size
+                    chart_buffer.seek(0)
+                    html_img = '<img src="data:image/png;base64,{0}">'.\
+                        format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
+                elif image_format == 'svg':
+                    output.savefig(chart_buffer, format='svg')  # TODO set the right size
+                    chart_buffer.seek(0)
+                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
+                        format(base64.b64encode(chart_buffer.read()).decode())
+                chart_buffer.close()
+                self.output_pane.append(html_img)
             elif output is None:
                 pass  # We don't do anything with None-s
             else:
@@ -1029,7 +1041,7 @@ class GuiResultPackage():
     Result object includes:
     - self.command: Command to run (python code) - not used yet
     - self.output:
-        - list of strings (html) or figures (QImages)
+        - list of strings (html) or matplotlib figures
         - the first item is recommended to be the title line
     """
 
