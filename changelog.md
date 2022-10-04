@@ -13,6 +13,7 @@ Upcoming release (2022)
   - Hypothesis tests
 - Reload actual data file
 - Multivariate outlier filtering
+- Save results into html file instead of pdf file (Róbert Fodor) 
 
 ## Fixes
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 

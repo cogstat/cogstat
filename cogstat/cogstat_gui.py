@@ -445,9 +445,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     html_img = '<img src="data:image/png;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
                 elif image_format == 'svg':
-                    output.savefig(chart_buffer, format='svg')  # TODO set the right size
+                    output.savefig(chart_buffer, format='svg')  # TODO set the right size in the GUI (but it works OK when saved in html)
                     chart_buffer.seek(0)
-                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
+                    html_img = '<img src="data:image/svg+xml;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())
                 chart_buffer.close()
                 self.output_pane.append(html_img)
@@ -944,32 +944,36 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
 
     def save_result(self):
-        """Save the output pane to pdf file."""
+        """Save the results pane to an html file."""
         if self.output_filename == '':
             self.save_result_as()
         else:
-            pdf_printer = QtPrintSupport.QPrinter()
-            pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
-            pdf_printer.setColorMode(QtPrintSupport.QPrinter.Color)
-            pdf_printer.setOutputFileName(self.output_filename)
-            self.output_pane.print_(pdf_printer)
+            html_file = self.output_pane.toHtml()
+            html_file = html_file.replace(' ', '&nbsp;')  # replace non-breaking spaces with html code for nbsp
+            with open(self.output_filename, 'w') as f:
+                f.write(html_file)
             self.unsaved_output = False
             
     def save_result_as(self, filename=None):
-        """Save the output pane to pdf file.
-        
-        Arguments:
-        filename (str): name of the file to save to
+        """Save the results pane to an html file.
+
+        Parameters
+        ----------
+        filename : str
+            name of the file to save to
+
+        Returns
+        -------
+
         """
         if not filename:
             filename = cogstat_dialogs.save_output()
-        self.output_filename = filename
+            self.output_filename = filename
         if filename:
-            pdf_printer = QtPrintSupport.QPrinter()
-            pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
-            pdf_printer.setOutputFileName(self.output_filename)
-            self.output_pane.print_(pdf_printer)
-            self.unsaved_output = False
+            if filename[-5:] != ".html":
+                filename = filename + '.html'
+            self.output_filename = filename
+            self.save_result()
 
     ### Cogstat menu  methods ###
     def _open_help_webpage(self):
