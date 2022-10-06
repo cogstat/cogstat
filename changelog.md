@@ -13,7 +13,8 @@ Upcoming release (2022)
   - Hypothesis tests
 - Reload actual data file
 - Multivariate outlier filtering
-- Save results into html file instead of pdf file (Róbert Fodor) 
+- Save results into html file instead of pdf file (Róbert Fodor)
+- New demo data files https://learningstatisticswithcogstat.com/
 
 ## Fixes
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 
