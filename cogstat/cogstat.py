@@ -1160,7 +1160,8 @@ class CogStatData:
         pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
         return cs_util.convert_output([title, pivot_result])
 
-    def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
+    def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
+                  reaction_time_in='sec'):
         """
         Run diffusion analysis on behavioral data.
 
@@ -1168,16 +1169,20 @@ class CogStatData:
 
         Parameters
         ----------
-        error_name : list of str
+        error_name : str
             Name of the variable storing the errors.
-            Error should be coded as 1, correct response as 0.
-        RT_name : list of str
+            Correct and incorrect trials should be coded with 0 and 1. See the correct_coding parameter.
+        RT_name : str
             Name of the variable storing response times.
-            Time should be stored in sec.
-        participant_name : list of str
+            Time should be stored in sec or msec. See the reaction_time_in parameter.
+        participant_name : str
             Name of the variable storing participant IDs.
         condition_names : list of str
             Name(s) of the variable(s) storing conditions.
+        correct_coding : {'0', '1'}
+            Are correct responses noted with 0 or 1? Incorrect responses are noted with the other value.
+        reaction_time_in : {'sec', 'msec'}
+            Unit of reaction time
 
         Returns
         -------
@@ -1186,7 +1191,8 @@ class CogStatData:
         """
         # TODO return pandas DataFrame
         title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
-        pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names)
+        pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
+                                         correct_coding, reaction_time_in)
         return cs_util.convert_output([title, pivot_result])
 
     def compare_variables(self, var_names, factors=[], ylims=[None, None]):

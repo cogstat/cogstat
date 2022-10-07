@@ -15,6 +15,7 @@ Upcoming release (2022)
 - Multivariate outlier filtering
 - Save results into html file instead of pdf file (Róbert Fodor)
 - New demo data files https://learningstatisticswithcogstat.com/
+- In diffusion analysis, the time unit (sec or msec) and error coding (1 or 0) can be set
 
 ## Fixes
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 

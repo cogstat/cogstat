@@ -201,26 +201,49 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     return result
 
 
-def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_names=[], case_unsensitive_index_sort=True):
-    """
-    Behavioral diffusion analysis
+def diffusion(df, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
+              reaction_time_in='sec', case_unsensitive_index_sort=True):
+    """Drift diffusion parameter recovery based on the EZ method.
 
     Parameters
     ----------
-
+    df : pandas dataframe
+    error_name : str
+        Name of the variable storing the errors.
+        Correct and incorrect trials should be coded with 0 and 1. See the correct_coding parameter.
+    RT_name : str
+        Name of the variable storing response times.
+        Time should be stored in sec or msec. See the reaction_time_in parameter.
+    participant_name : str
+        Name of the variable storing participant IDs.
+    condition_names : list of str
+        Name(s) of the variable(s) storing conditions.
+    correct_coding : {'0', '1'}
+        Are correct responses noted with 0 or 1? Incorrect responses are noted with the other value.
+    reaction_time_in : {'sec', 'msec'}
+        Unit of reaction time
     case_unsensitive_index_sort : bool
         Pdf.pivot_table() sorts the index, but unlike spreadsheet software packages, it is case sensitive.
         If this parameter is True, the indexes will be reordered to be case-insensitive
+
+    Returns
+    -------
+
     """
+
     if not (error_name and RT_name):
         result = _('Specify the minimum required parameters (reaction time and error).')
         return result
     result = ''
     result += _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
-              (error_name[0], RT_name[0], participant_name[0] if participant_name != [] else _('None'),
+              (error_name, RT_name, participant_name if participant_name != '' else _('None'),
                ','.join(condition_names) if condition_names != [] else _('None'))
     df_diff = df.copy()
 
+    if reaction_time_in == 'msec':  # if time is in msec, then convert time to sec
+        df_diff[RT_name] = df_diff[RT_name] / 1000
+    if correct_coding == '1':  # if correct is coded as 1, then reverse the coding
+        df_diff[error_name] = 1 - df_diff[error_name]
     # If condition and/or participant variables were not given, add a quasi condition/participant variable with
     # constant values
     if not condition_names:
@@ -228,18 +251,18 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
         condition_names = [_('Condition')]
     if not participant_name:
         df_diff[_('Participant')] = _('single participant')
-        participant_name = [_('Participant')]
+        participant_name = _('Participant')
 
     # If any data is missing from a trial, drop the whole trial
-    df_diff = df_diff.dropna(subset=error_name+RT_name+participant_name+condition_names)
+    df_diff = df_diff.dropna(subset=[error_name] + [RT_name] + [participant_name] + condition_names)
 
     # Calculate RT and error rate statistics
-    mean_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name[0]] == 0], values=RT_name[0],
+    mean_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name] == 0], values=RT_name,
                                            index=participant_name, columns=condition_names, aggfunc=np.mean)
-    var_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name[0]] == 0], values=RT_name[0],
+    var_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name] == 0], values=RT_name,
                                           index=participant_name, columns=condition_names, aggfunc=np.var)
     # TODO for the var function do we need a ddof=1 parameter?
-    mean_percent_correct_table = 1 - pd.pivot_table(df_diff, values=error_name[0], index=participant_name,
+    mean_percent_correct_table = 1 - pd.pivot_table(df_diff, values=error_name, index=participant_name,
                                                     columns=condition_names,
                                                     aggfunc=cs_stat_num.diffusion_edge_correction_mean)
     if case_unsensitive_index_sort:
@@ -251,6 +274,7 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
             var_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
             mean_percent_correct_table.sort_index(inplace=True, key=lambda x: x.str.lower())
 
+    # Display RT and error rate statistics
     previous_precision = pd.get_option('display.precision')
     pd.set_option('display.precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
     result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.
@@ -276,6 +300,8 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     drift_rate_table = drift_rate_table.reindex(index=original_index, columns=original_columns)
     threshold_table = threshold_table.reindex(index=original_index, columns=original_columns)
     nondecision_time_table = nondecision_time_table.reindex(index=original_index, columns=original_columns)
+
+    # Display diffusion parameters
     result += '\n\n' + _('Drift rate') + _format_html_table(drift_rate_table.to_html(bold_rows=False))
     result += '\n\n' + _('Threshold') + _format_html_table(threshold_table.to_html(bold_rows=False))
     result += '\n\n' + _('Nondecision time') + _format_html_table(nondecision_time_table.to_html(bold_rows=False))

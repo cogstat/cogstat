@@ -391,10 +391,12 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         _remove_item_from_list_widget(self.sourceListWidget, self.conditionListWidget, self.names)
 
     def read_parameters(self):
-        return ([str(self.errorListWidget.item(i).text()) for i in range(self.errorListWidget.count())],
-                [str(self.RTListWidget.item(i).text()) for i in range(self.RTListWidget.count())],
-                [str(self.participantListWidget.item(i).text()) for i in range(self.participantListWidget.count())],
-                [str(self.conditionListWidget.item(i).text()) for i in range(self.conditionListWidget.count())])
+        return (str(self.errorListWidget.item(0).text()) if range(self.errorListWidget.count()) else '',
+                str(self.RTListWidget.item(0).text()) if range(self.RTListWidget.count()) else '',
+                str(self.participantListWidget.item(0).text()) if range(self.participantListWidget.count()) else '',
+                [str(self.conditionListWidget.item(i).text()) for i in range(self.conditionListWidget.count())],
+                str(self.response_coding.currentText()),
+                str(self.reaction_time_in.currentText()))
 
 
 from .ui import filter_outlier
