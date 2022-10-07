@@ -244,7 +244,10 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>Reaction time in</string>
+        <string>Reaction &amp;time in</string>
+       </property>
+       <property name="buddy">
+        <cstring>reaction_time_in</cstring>
        </property>
       </widget>
      </item>
@@ -281,7 +284,10 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Response coding</string>
+        <string>&amp;Response coding</string>
+       </property>
+       <property name="buddy">
+        <cstring>response_coding</cstring>
        </property>
       </widget>
      </item>
@@ -332,7 +338,10 @@
      <item>
       <widget class="QLabel" name="label_8">
        <property name="text">
-        <string>Scaling parameter</string>
+        <string>&amp;Scaling parameter</string>
+       </property>
+       <property name="buddy">
+        <cstring>scaling_parameter</cstring>
        </property>
       </widget>
      </item>
@@ -356,11 +365,21 @@
  </widget>
  <tabstops>
   <tabstop>sourceListWidget</tabstop>
+  <tabstop>addError</tabstop>
   <tabstop>removeError</tabstop>
   <tabstop>errorListWidget</tabstop>
+  <tabstop>addRT</tabstop>
+  <tabstop>removeRT</tabstop>
   <tabstop>RTListWidget</tabstop>
+  <tabstop>addParticipant</tabstop>
+  <tabstop>removeParticipant</tabstop>
+  <tabstop>participantListWidget</tabstop>
+  <tabstop>addCondition</tabstop>
   <tabstop>removeCondition</tabstop>
   <tabstop>conditionListWidget</tabstop>
+  <tabstop>response_coding</tabstop>
+  <tabstop>reaction_time_in</tabstop>
+  <tabstop>scaling_parameter</tabstop>
  </tabstops>
  <resources/>
  <connections>

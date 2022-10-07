@@ -83,7 +83,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Compare groups - Single case slope"))
         self.label.setText(_translate("Dialog", "Available variables"))
         self.label_2.setText(_translate("Dialog", "Slope SE variable"))
-        self.label_3.setText(_translate("Dialog", "Number of trials"))
+        self.label_3.setText(_translate("Dialog", "Number of &trials"))
 
 
 if __name__ == "__main__":
