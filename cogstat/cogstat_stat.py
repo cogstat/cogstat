@@ -202,7 +202,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
 
 
 def diffusion(df, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
-              reaction_time_in='sec', case_unsensitive_index_sort=True):
+              reaction_time_in='sec', scaling_parameter=0.1, case_unsensitive_index_sort=True):
     """Drift diffusion parameter recovery based on the EZ method.
 
     Parameters
@@ -222,6 +222,8 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
         Are correct responses noted with 0 or 1? Incorrect responses are noted with the other value.
     reaction_time_in : {'sec', 'msec'}
         Unit of reaction time
+    scaling_parameter : float
+        Usually either 0.1 or 1
     case_unsensitive_index_sort : bool
         Pdf.pivot_table() sorts the index, but unlike spreadsheet software packages, it is case sensitive.
         If this parameter is True, the indexes will be reordered to be case-insensitive
@@ -290,7 +292,7 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names),
                                var_correct_RT_table.stack(condition_names),
                                mean_correct_RT_table.stack(condition_names)],
-                              axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x),
+                              axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x, s=scaling_parameter),
                                             axis=1, result_type='expand')
     EZ_parameters.columns = ['drift rate', 'threshold', 'nondecision time']
     drift_rate_table = EZ_parameters['drift rate'].unstack(condition_names)

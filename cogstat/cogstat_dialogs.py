@@ -396,7 +396,8 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
                 str(self.participantListWidget.item(0).text()) if range(self.participantListWidget.count()) else '',
                 [str(self.conditionListWidget.item(i).text()) for i in range(self.conditionListWidget.count())],
                 str(self.response_coding.currentText()),
-                str(self.reaction_time_in.currentText()))
+                str(self.reaction_time_in.currentText()),
+                float(self.scaling_parameter.currentText()))
 
 
 from .ui import filter_outlier

@@ -1161,7 +1161,7 @@ class CogStatData:
         return cs_util.convert_output([title, pivot_result])
 
     def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
-                  reaction_time_in='sec'):
+                  reaction_time_in='sec', scaling_parameter=0.1):
         """
         Run diffusion analysis on behavioral data.
 
@@ -1181,6 +1181,8 @@ class CogStatData:
             Name(s) of the variable(s) storing conditions.
         correct_coding : {'0', '1'}
             Are correct responses noted with 0 or 1? Incorrect responses are noted with the other value.
+        scaling_parameter : float
+            Usually either 0.1 or 1
         reaction_time_in : {'sec', 'msec'}
             Unit of reaction time
 
@@ -1192,7 +1194,7 @@ class CogStatData:
         # TODO return pandas DataFrame
         title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
         pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
-                                         correct_coding, reaction_time_in)
+                                         correct_coding, reaction_time_in, scaling_parameter)
         return cs_util.convert_output([title, pivot_result])
 
     def compare_variables(self, var_names, factors=[], ylims=[None, None]):

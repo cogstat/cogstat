@@ -794,7 +794,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(False)
 
     def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
-                  reaction_time_in='sec'):
+                  reaction_time_in='sec', scaling_parameter=0.1):
         """Run a diffusion analysis on behavioral data.
 
         Arguments:
@@ -809,8 +809,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_diffusion.exec_():
-                error_name, RT_name, participant_name, condition_names, correct_coding, reaction_time_in = \
-                    self.dial_diffusion.read_parameters()
+                error_name, RT_name, participant_name, condition_names, correct_coding, reaction_time_in, \
+                scaling_parameter = self.dial_diffusion.read_parameters()
             else:
                 return
         self._busy_signal(True)
@@ -823,8 +823,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             try:
                 # use the original term in the function call, not the translated one
                 reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
-                text_result = self.active_data.diffusion(error_name, RT_name, participant_name,
-                                                         condition_names, correct_coding[0], reaction_time_in)
+                text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names,
+                                                         correct_coding[0], reaction_time_in, scaling_parameter)
             except:
                 text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
                 traceback.print_exc()
