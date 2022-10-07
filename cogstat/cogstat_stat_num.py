@@ -422,6 +422,7 @@ def diffusion_get_ez_params(Pc, VRT, MRT, s=0.1):
     MRT : float
         Mean correct reaction time
     s : float
+        Scaling parameter
 
 
     Returns
