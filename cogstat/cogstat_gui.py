@@ -169,8 +169,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier',
                                  True, True],
                                 ['separator'],
-                                ['/icons8-data-sheet.svg', _('&Display data'), _('Ctrl+D'), 'self.print_data', False,
-                                 True],
                                 ['/icons8-data-sheet-check.svg', _('Display data &briefly'), _('Ctrl+B'),
                                  'self._print_data_brief', True, True],
                                 ['toolbar separator']
@@ -294,41 +292,70 @@ class StatMainWindow(QtWidgets.QMainWindow):
             hsv_color[2] = min(1, hsv_color[2] * lightness)  # change the lightness, which cannot be larger than 1
             return to_hex(hsv_to_rgb(hsv_color))
 
-        self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
-        self.output_pane.document().setDefaultStyleSheet('body {color:black;} '
-                                                         'h2 {color:%s;} h3 {color:%s} '
-                                                         'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
-                                                         '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
-                                                         'td {white-space:nowrap}' %
-                                                         (_change_color_lightness(csc.mpl_theme_color, 1.1),
-                                                          _change_color_lightness(csc.mpl_theme_color, 1.0),
-                                                          _change_color_lightness(csc.mpl_theme_color, 0.8),
-                                                          _change_color_lightness(csc.mpl_theme_color, 0.4)))
-        #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
-                          ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
-                           _('CogStat makes statistical analysis more simple and efficient.'),
-                          _('To start working open a data file or paste your data from a spreadsheet.'),
-                          _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> '
-                            'or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">'
-                            'quick start tutorial.</a>'))
-        self.output_pane.setText(cs_util.convert_output([welcome_message])[0])
-        self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
-        self.output_pane.setReadOnly(True)
-        self.output_pane.setOpenExternalLinks(True)
-        self.output_pane.setStyleSheet("QTextBrowser { background-color: white; }")
-            # Some styles use non-white background (e.g. Linux Mint 17 Mate uses gray)
-        # Set default font
-        #print self.output_pane.currentFont().toString()
-        # http://stackoverflow.com/questions/2475750/using-qt-css-to-set-own-q-propertyqfont
-        font = QtGui.QFont()
-        font.setFamily(csc.default_font)
-        font.setPointSizeF(csc.default_font_size)
-        self.output_pane.setFont(font)
-        #print self.output_pane.currentFont().toString()
+        self.centralwidget = QtWidgets.QWidget()
+        self.splitter = QtWidgets.QSplitter(self.centralwidget)
+        self.data_pane = QtWidgets.QTextBrowser(self.splitter)
+        self.output_pane = QtWidgets.QTextBrowser(self.splitter)
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setStretchFactor(1, 10)
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.addWidget(self.splitter)   
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+ 
+        self.data_pane.setOpenExternalLinks(True)
+        self.data_pane.setStyleSheet("QTextBrowser { background-color: white; }")
 
-        self.setCentralWidget(self.output_pane)
+         # QTextBrowser can handle links, QTextEdit cannot
+        # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
+
+             #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+        welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
+                            ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
+                            _('CogStat makes statistical analysis more simple and efficient.'),
+                            _('To start working open a data file or paste your data from a spreadsheet.'),
+                            _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> '
+                                'or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">'
+                                'quick start tutorial.</a>'))
+
+        no_data_message = '%s<br>' % \
+                            ('Please open a data file.')
+
+
+
+        self.output_pane.setText(cs_util.convert_output([welcome_message])[0])  
+        self.data_pane.setText(cs_util.convert_output([no_data_message])[0]) 
+        self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
+        self.no_data_message_on= True  
+    
+
+        output_panes = [self.output_pane, self.data_pane]
+
+        for panes in output_panes:
+            panes.document().setDefaultStyleSheet('body {color:black;} '
+                                                            'h2 {color:%s;} h3 {color:%s} '
+                                                            'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
+                                                            '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
+                                                            'td {white-space:nowrap}' %
+                                                            (_change_color_lightness(csc.mpl_theme_color, 1.1),
+                                                            _change_color_lightness(csc.mpl_theme_color, 1.0),
+                                                            _change_color_lightness(csc.mpl_theme_color, 0.8),
+                                                            _change_color_lightness(csc.mpl_theme_color, 0.4)))
+        
+            self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
+            panes.setReadOnly(True)
+            panes.setOpenExternalLinks(True)
+            panes.setStyleSheet("QTextBrowser { background-color: white; }")
+                # Some styles use non-white background (e.g. Linux Mint 17 Mate uses gray)
+            # Set default font
+            #print self.output_pane.currentFont().toString()
+            # http://stackoverflow.com/questions/2475750/using-qt-css-to-set-own-q-propertyqfont
+            font = QtGui.QFont()
+            font.setFamily(csc.default_font)
+            font.setPointSizeF(csc.default_font_size)
+            panes.setFont(font)
+            #print self.output_pane.currentFont().toString()
+
+        self.setCentralWidget(self.centralwidget)
         self.setAcceptDrops(True)
 
         self.show()
@@ -425,6 +452,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.output_pane.clear()
             #self.output_pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
             self.welcome_text_on = False
+
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
         #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
         #print(self.output_pane.toHtml())
@@ -436,29 +464,57 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if isinstance(output, str):
                 self.output_pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with self.output_pane.toHtml()
-            elif isinstance(output, matplotlib.figure.Figure):
-                chart_buffer = io.BytesIO()
-                image_format = 'png'  # TODO this will be an ini setting
-                if image_format == 'png':
-                    output.savefig(chart_buffer, format='png')  # TODO dpi= and modify html width to keep the original image size
-                    chart_buffer.seek(0)
-                    html_img = '<img src="data:image/png;base64,{0}">'.\
-                        format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
-                elif image_format == 'svg':
-                    output.savefig(chart_buffer, format='svg')  # TODO set the right size in the GUI (but it works OK when saved in html)
-                    chart_buffer.seek(0)
-                    html_img = '<img src="data:image/svg+xml;base64,{0}">'.\
-                        format(base64.b64encode(chart_buffer.read()).decode())
-                chart_buffer.close()
-                self.output_pane.append(html_img)
+            elif isinstance(output, QtGui.QImage):
+                data = QtCore.QByteArray()
+                buffer = QtCore.QBuffer(data)
+                output.save(buffer, format='PNG')
+                html = '<img src="data:image/png;base64,{0}">'.format(str(data.toBase64())[2:-1])
+                self.output_pane.append(html)
             elif output is None:
                 pass  # We don't do anything with None-s
             else:
-                logging.error('Unknown output type: %s' % type(output))
+                logging.error('Unknown output type: %s' % type(output))        
         self.unsaved_output = True
         self.output_pane.scrollToAnchor(anchor)
         #self.output_pane.moveCursor(QtGui.QTextCursor.End)
 
+
+    def _print_to_data_pane(self, index=-1):
+        """Print a GuiResultPackage to GUI output pane
+        :param index: index of the item in self.analysis_results to be printed
+                      If no index is given, the last item is printed.
+        """
+
+        if self.no_data_message_on:
+            self.data_pane.clear()
+            #self.output_pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
+            self.no_data_message_on = False
+        #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #print(self.output_pane.toHtml())
+
+        anchor = str(random.random())
+        self.data_pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
+
+
+        for output in self.analysis_results[index].output:
+            if isinstance(output, str):
+                self.data_pane.append(output)  # insertHtml() messes up the html doc,
+                                                 # check it with self.output_pane.toHtml()
+            elif isinstance(output, QtGui.QImage):
+                data = QtCore.QByteArray()
+                buffer = QtCore.QBuffer(data)
+                output.save(buffer, format='PNG')
+                html = '<img src="data:image/png;base64,{0}">'.format(str(data.toBase64())[2:-1])
+                self.data_pane.append(html)
+            elif output is None:
+                pass  # We don't do anything with None-s
+            else:
+                logging.error('Unknown output type: %s' % type(output))        
+        self.unsaved_output = True
+        self.data_pane.scrollToAnchor(anchor)
+        #self.output_pane.moveCursor(QtGui.QTextCursor.End)
+    
     ### Data menu methods ###
     def open_file(self, path=''):
         """Open data file.
@@ -499,11 +555,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
             result = self.active_data.reload_data()
             self.analysis_results[-1].add_output(result)
-            self._print_to_output_pane()
+            self.print_data_pane()
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Reload data')))
             traceback.print_exc()
-            self._print_to_output_pane()
+            self.print_data_pane()
         self._busy_signal(False)
 
     def open_clipboard(self):
@@ -534,7 +590,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
             self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
-            self._print_to_output_pane()
+            self.print_data_pane()
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
@@ -609,10 +665,21 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.print_data')  # TODO commands will be used to rerun the analysis
         self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
-        self._print_to_output_pane()
 
+    def print_data_pane(self):
+        self.print_data()   
+        self._print_to_data_pane()
+        open_data_message = _('Your data is successfully uploaded and ready for analysis.') + '\n'+ ('Data source: ')+ '\n' + self.active_data.import_source[0] + (self.active_data.import_source[1] if self.active_data.import_source[1] else '')\
+                  + '\n'
+        self.output_pane.setText(cs_util.convert_output([open_data_message])[0])  
+        self.open_data_message_on= True 
+        if self.open_data_message_on:
+            #self.output_pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
+            self.open_data_message = True
+        
     def _print_data_brief(self):
         self.print_data(brief=True)
+        self._print_to_output_pane()
 
     ### Analysis menu methods ###
 
