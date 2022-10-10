@@ -431,7 +431,8 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
-        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+               self.multivariate_outliers.isChecked()
 
 
 from .ui import var_properties

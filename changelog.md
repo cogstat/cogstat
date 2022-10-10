@@ -12,7 +12,7 @@ Upcoming release (2022)
   - Analysis of multicollinearity
   - Hypothesis tests
 - Reload actual data file
-- Multivariate outlier filtering
+- Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
 - Save results into html file instead of pdf file (Róbert Fodor)
 - New demo data files https://learningstatisticswithcogstat.com/
 - In diffusion analysis, the time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set

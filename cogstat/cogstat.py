@@ -658,7 +658,7 @@ class CogStatData:
                     if var_name != var_names[-1]:
                         text_output += '\n\n'
             elif mode == 'mahalanobis':
-                # Based on the robust mahalanobis distance in Leys et al, 2017 and Rousseeuw, 1999
+                # Based on the robust Mahalanobis distance in Leys et al, 2017 and Rousseeuw, 1999
                 # Removing non-interval variables
                 valid_var_names = var_names[:]
                 for var_name in valid_var_names:
@@ -668,14 +668,14 @@ class CogStatData:
                     text_output += _('Only interval variables can be used for filtering. Ignoring variable(s) %s.') % \
                                    ', '.join(set(var_names) - set(valid_var_names)) + '\n'
 
-                # Calculating the robust mahalanobis distances
+                # Calculating the robust Mahalanobis distances
                 from sklearn import covariance
                 cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.data_frame[valid_var_names])
 
                 # Custom filtering criteria based on Leys et al. (2017)
                 # Appropriate cut-off point based on chi2
                 limit = stats.chi2.ppf(0.95, len(self.data_frame[valid_var_names].columns))
-                # Get robust mahalanobis distances from model object
+                # Get robust Mahalanobis distances from model object
                 distances = cov.mahalanobis(self.data_frame[valid_var_names])
                 filtering_data_frame = self.orig_data_frame.copy()
                 filtering_data_frame['mahalanobis'] = distances
@@ -685,9 +685,10 @@ class CogStatData:
                                                    (filtering_data_frame['mahalanobis'] < limit)].index)
 
                 # Display filtering information
-                text_output += _('Multivariate filtering based on the variables: %s.\n') % ', '.join(valid_var_names)
+                text_output += _('Multivariate filtering based on the variables: %s (%s).\n') % \
+                               (', '.join(valid_var_names), mode_names[mode])
                 prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1  # TODO we should set this to a constant value
-                text_output += _('Cases above the cutoff mahalanobis distance will be excluded:') + \
+                text_output += _('Cases above the cutoff Mahalanobis distance will be excluded:') + \
                                ' %0.*f\n' % (prec, limit)
 
                 # Display the excluded cases

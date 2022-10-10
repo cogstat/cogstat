@@ -575,18 +575,15 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                                                   in ['int', 'unk'])]
                 self.dial_filter.init_vars(names=names)
             if self.dial_filter.exec_():
-                var_names = self.dial_filter.read_parameters()
+                var_names, multivariate_outliers = self.dial_filter.read_parameters()
             else:
                 return
         self._busy_signal(True)
         try:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
-            if len(var_names) > 1:  # TODO should we add a switch to the GUI to decide if single or multivariate
-                                    # filtering is needed?
-                result = self.active_data.filter_outlier(var_names, mode='mahalanobis')
-            else:
-                result = self.active_data.filter_outlier(var_names)
+            result = self.active_data.filter_outlier(var_names,
+                                                     mode='mahalanobis' if multivariate_outliers else '2.5mad')
             self.analysis_results[-1].add_output(result)
             self._print_to_output_pane()
         except:
