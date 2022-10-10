@@ -568,7 +568,8 @@ class CogStatData:
         """
         Filter self.data_frame based on outliers.
 
-        All variables are investigated independently and cases are excluded if any variables shows they are outliers.
+        With univariate methods, all variables are investigated independently and cases are excluded if any variables
+        shows they are outliers.
         If mode is 'mahalanobis', then variables are jointly investigated for multivariate outliers.
         If var_names is None, then the filtering will be switched off (i.e. all cases will be used).
 
@@ -599,6 +600,8 @@ class CogStatData:
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
         chart_results = []
+
+        # Filtering should be done on the original data, so use self.orig_data_frame
 
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
@@ -670,13 +673,13 @@ class CogStatData:
 
                 # Calculating the robust Mahalanobis distances
                 from sklearn import covariance
-                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.data_frame[valid_var_names])
+                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[valid_var_names])
 
                 # Custom filtering criteria based on Leys et al. (2017)
                 # Appropriate cut-off point based on chi2
-                limit = stats.chi2.ppf(0.95, len(self.data_frame[valid_var_names].columns))
+                limit = stats.chi2.ppf(0.95, len(self.orig_data_frame[valid_var_names].columns))
                 # Get robust Mahalanobis distances from model object
-                distances = cov.mahalanobis(self.data_frame[valid_var_names])
+                distances = cov.mahalanobis(self.orig_data_frame[valid_var_names])
                 filtering_data_frame = self.orig_data_frame.copy()
                 filtering_data_frame['mahalanobis'] = distances
 

@@ -101,6 +101,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.open_file('cogstat/test/data/test.csv')
 #        self.open_clipboard()
 #        self.print_data()
+#        self.filter_outlier(['before', 'after'], True)
 #        self.explore_variable(['X'])
 #        self.explore_variable(['a'], freq=False)
 #        self.explore_variable_pair(['X', 'Y'])
@@ -555,11 +556,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self._print_to_output_pane()
         self._busy_signal(False)
 
-    def filter_outlier(self, var_names=None):
+    def filter_outlier(self, var_names=None, multivariate_outliers=False):
         """Filter outliers.
 
-        Arguments:
-        var_names (list): variable names
+        Parameters
+        ----------
+        var_names : list of str
+            variable names
+        multivariate_outliers : bool
+
+        Returns
+        -------
+
         """
         if not var_names:
             try:
