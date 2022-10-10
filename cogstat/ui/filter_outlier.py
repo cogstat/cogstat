@@ -84,7 +84,7 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Only interval variables are available"))
         self.label.setText(_translate("Dialog", "Available variables"))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
-        self.multivariate_outliers.setText(_translate("Dialog", "Multivariate outliers"))
+        self.multivariate_outliers.setText(_translate("Dialog", "&Multivariate outliers"))
 
 
 if __name__ == "__main__":
