@@ -305,7 +305,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.data_pane.setOpenExternalLinks(True)
         self.data_pane.setStyleSheet("QTextBrowser { background-color: white; }")
 
-        # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
 
              #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
