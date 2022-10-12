@@ -295,7 +295,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.centralwidget = QtWidgets.QWidget()
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
         self.data_pane = QtWidgets.QTextBrowser(self.splitter)
-        self.output_pane = QtWidgets.QTextBrowser(self.splitter)
+        self.output_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setStretchFactor(1, 10)
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
