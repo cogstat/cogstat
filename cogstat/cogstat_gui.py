@@ -330,6 +330,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         output_panes = [self.output_pane, self.data_pane]
 
         for panes in output_panes:
+            # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
             panes.document().setDefaultStyleSheet('body {color:black;} '
                                                             'h2 {color:%s;} h3 {color:%s} '
                                                             'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
