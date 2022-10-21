@@ -4,6 +4,10 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release (2022)
 =======================
 ## New features
+- Data handling
+  - Reload actual data file
+  - Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
+  - New demo data files https://learningstatisticswithcogstat.com/
 - Multiple linear regression analysis (Tamás Szűcs)
   - Model fit metrics
   - Partial correlation
@@ -11,11 +15,8 @@ Upcoming release (2022)
   - Scatterplot matrix of raw data
   - Analysis of multicollinearity
   - Hypothesis tests
-- Reload actual data file
-- Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
-- Save results into html file instead of pdf file (Róbert Fodor)
-- New demo data files https://learningstatisticswithcogstat.com/
 - In diffusion analysis, the time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
+- Save results into html file instead of pdf file (Róbert Fodor)
 
 ## Fixes
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 
