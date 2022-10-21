@@ -156,6 +156,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     # text_result += _('Testing normality with the Kolmogorov–Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %
     #               stats.kstest(data, 'norm')
     if len(data) < 3:
+        # translators: the first %s includes the name of the variable, the second %s includes the optional grouping variable and level names in parentheses
         return False, _('Too small sample to test normality in variable %s%s.\n' %
                         (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
     else:
