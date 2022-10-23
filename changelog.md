@@ -17,6 +17,8 @@ Upcoming release (2022)
   - Hypothesis tests
 - In diffusion analysis, the time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
 - Save results into html file instead of pdf file (Róbert Fodor)
+- - New localization
+    - Chinese (Xiaomeng Zhu)
 
 ## Fixes
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 
