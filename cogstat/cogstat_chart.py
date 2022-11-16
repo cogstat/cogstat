@@ -27,10 +27,20 @@ matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
 ### Set matplotlib styles ###
 # Set the styles
-if csc.theme not in plt.style.available:
+# This is a bit complex so that preferred themes with different names in various matplotlib versions can be used.
+try:
+    plt.style.use(csc.theme)  # either a theme name or a list of theme names
+    # if csc.theme is a list, then overwrite csc.theme and in cogstat.ini with the first available theme
+    if type(csc.theme) is list:
+        for theme in csc.theme:
+            if theme in plt.style.available:
+                csc.theme = theme
+                csc.save(['graph', 'theme'], theme)
+                break
+except IOError:  # if the given themes are not available
     csc.theme = sorted(plt.style.available)[0]
+    plt.style.use(csc.theme)
     csc.save(['graph', 'theme'], csc.theme)
-plt.style.use(csc.theme)
 
 #print plt.style.available
 #style_num = 15
