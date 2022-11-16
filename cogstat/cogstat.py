@@ -637,8 +637,8 @@ class CogStatData:
                         upper_limit = median + 2.5 * mad_value
                     # Find the cases to be kept
                     remaining_cases_indexes.append(self.orig_data_frame[
-                                                       (self.orig_data_frame[var_name] > lower_limit) &
-                                                       (self.orig_data_frame[var_name] < upper_limit)].index)
+                                                       (self.orig_data_frame[var_name] >= lower_limit) &
+                                                       (self.orig_data_frame[var_name] <= upper_limit)].index)
 
                     # Display filtering information
                     text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
@@ -662,7 +662,7 @@ class CogStatData:
                     if var_name != var_names[-1]:
                         text_output += '\n\n'
             elif mode == 'mahalanobis':
-                # Based on the robust Mahalanobis distance in Leys et al, 2017 and Rousseeuw, 1999
+                # Based on the robust Mahalanobis distance in Leys et al., 2017 and Rousseeuw, 1999
                 # Removing non-interval variables
                 valid_var_names = var_names[:]
                 for var_name in valid_var_names:
@@ -686,8 +686,8 @@ class CogStatData:
                 filtering_data_frame['mahalanobis'] = distances
 
                 # Find the cases to be kept
-                remaining_cases_indexes.append(filtering_data_frame[
-                                                   (filtering_data_frame['mahalanobis'] < limit)].index)
+                remaining_cases_indexes.append(filtering_data_frame[(filtering_data_frame['mahalanobis'] <= limit)].
+                                               index)
 
                 # Display filtering information
                 text_output += _('Multivariate filtering based on the variables: %s (%s).\n') % \

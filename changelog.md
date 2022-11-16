@@ -21,6 +21,7 @@ Upcoming release (2022)
   - Chinese (Xiaomeng Zhu)
 
 ## Fixes
+- :warning: In outlier filtering, the cases with the limit value will be included and not excluded
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 
 - Various GUI, and output fixes
 
