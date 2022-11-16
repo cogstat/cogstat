@@ -620,11 +620,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
             result = self.active_data.filter_outlier(var_names,
                                                      mode='mahalanobis' if multivariate_outliers else '2.5mad')
             self.analysis_results[-1].add_output(result)
-            self._print_to_output_pane()
+            self._print_to_pane(pane=self.result_pane)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outliers')))
             traceback.print_exc()
-            self._print_to_output_pane()
+            self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
 
     def print_data(self, brief=False, display_import_message=False):
@@ -644,11 +644,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if self.active_data.import_message and display_import_message:
             self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
 
-    def _print_to_output_pane(self):
-        """Print a GuiResultPackage to GUI output pane
-        """
-        self._print_to_pane(pane=self.result_pane)
-
     def _print_to_data_pane(self):
         """Print the data to GUI data pane
         """
@@ -663,7 +658,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """Print the data briefly to GUI output pane
         """
         self.print_data(brief=True)
-        self._print_to_output_pane()
+        self._print_to_pane(pane=self.result_pane)
         
     ### Analysis menu methods ###
 
@@ -697,18 +692,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable'),
                                                                             _('At least one variable should be set.')))
             self.analysis_results[-1].add_output(text_result)
-            self._print_to_output_pane()
+            self._print_to_pane(pane=self.result_pane)
         try:
             for var_name in var_names:
                 self.analysis_results.append(GuiResultPackage())
                 self.analysis_results[-1].add_command('self.explore_variable()')  # TODO
                 result = self.active_data.explore_variable(var_name, frequencies=freq, central_value=loc_test_value)
                 self.analysis_results[-1].add_output(result)
-                self._print_to_output_pane()
+                self._print_to_pane(pane=self.result_pane)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable')))
             traceback.print_exc()
-            self._print_to_output_pane()
+            self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
 
     def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
@@ -744,7 +739,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore relation of variable pair'),
                                                              _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
-            self._print_to_output_pane()
+            self._print_to_pane(pane=self.result_pane)
         else:
             try:
                 for x in var_names:
@@ -755,14 +750,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
                             result_list = self.active_data.regression([x], y, xlims, ylims)
                             self.analysis_results[-1].add_output(result_list)
-                            self._print_to_output_pane()
+                            self._print_to_pane(pane=self.result_pane)
                         if x == y:
                             pass_diag = True
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                              _('Explore relation of variable pair')))
                 traceback.print_exc()
-                self._print_to_output_pane()
+                self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
             
     def regression(self, predictors=[], predicted=None, xlims=[None, None], ylims=[None, None]):
@@ -800,12 +795,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_command('self.regression')  # TODO
             result_list = self.active_data.regression(predictors, predicted, xlims, ylims)
             self.analysis_results[-1].add_output(result_list)
-            self._print_to_output_pane()
+            self._print_to_pane(pane=self.result_pane)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                          _('Explore relation of variable pairs')))
             traceback.print_exc()
-            self._print_to_output_pane()
+            self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
 
 
@@ -841,7 +836,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 text_result = cs_util.reformat_output(broken_analysis % _('Pivot table'))
                 traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
-        self._print_to_output_pane()
+        self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
 
     def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
@@ -880,7 +875,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
                 traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
-        self._print_to_output_pane()
+        self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
 
     def compare_variables(self, var_names=None, factors=[], ylims=[None, None]):
@@ -926,7 +921,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
                 traceback.print_exc()
-        self._print_to_output_pane()
+        self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
         
     def compare_groups(self, var_names=None, groups=None, single_case_slope_SE=None, single_case_slope_trial_n=None,
@@ -969,7 +964,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                                  _('Compare groups')))
                     traceback.print_exc()
-        self._print_to_output_pane()
+        self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
 
     ### Result menu methods ###
@@ -1066,7 +1061,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
                                              [0])
         self.analysis_results[-1].add_output(text_output)
-        self._print_to_output_pane()
+        self._print_to_pane(pane=self.result_pane)
         self._busy_signal(False)
 
     def closeEvent(self, event):
