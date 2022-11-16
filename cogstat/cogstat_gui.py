@@ -208,8 +208,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-edit-file.svg', _('Text is &editable'), _('Ctrl+Shift+E'),
                                  'self.text_editable', False, False],
                                 ['separator'],
-                                ['/icons8-pdf.svg', _('&Save results'), _('Ctrl+P'), 'self.save_result', False, False],
-                                ['/icons8-pdf-edit.svg', _('Save results &as')+'...', _('Ctrl+Shift+P'),
+                                ['/icons8-pdf.svg', _('&Save results'), _('Ctrl+S'), 'self.save_result', False, False],
+                                ['/icons8-pdf-edit.svg', _('Save results &as')+'...', _('Ctrl+Shift+S'),
                                  'self.save_result_as', False, False],
                                 ['toolbar separator']
                             ],
