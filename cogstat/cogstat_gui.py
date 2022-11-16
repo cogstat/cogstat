@@ -296,7 +296,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.centralwidget = QtWidgets.QWidget()
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
         self.data_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
-        self.output_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
+        self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setStretchFactor(1, 10)
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -304,7 +304,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
-        for pane in [self.output_pane, self.data_pane]:
+        for pane in [self.result_pane, self.data_pane]:
             # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
             pane.document().setDefaultStyleSheet('body {color:black;} '
                                                             'h2 {color:%s;} h3 {color:%s} '
@@ -336,10 +336,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
         data_welcome_message = '%s%s%s%s<br>' % \
                                ('<cs_h1>', _('Data view'), '</cs_h1>',
                                _('To start working open a data file or paste your data from a spreadsheet.'))
-        self.output_pane.setText(cs_util.convert_output([output_welcome_message])[0])
+        self.result_pane.setText(cs_util.convert_output([output_welcome_message])[0])
         self.data_pane.setText(cs_util.convert_output([data_welcome_message])[0])
-        self.output_welcome_text_on = True  # Used for deleting the welcome text at the first analysis
-        self.data_welcome_message_on = True
+        # We add these extra properties to track if the welcome message  is still on
+        self.result_pane.welcome_message_on = True
+        self.data_pane.welcome_message_on = True
 
         self.setCentralWidget(self.centralwidget)
         self.setAcceptDrops(True)
@@ -429,42 +430,62 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
-    def _print_to_pane(self, index=-1, value = None, message = None):
-        """Print a GuiResultPackage to GUI output or data pane
-        :param index: index of the item in self.analysis_results to be printed
-                      If no index is given, the last item is printed.
-                value: output_pane or data_pane
-                message: message for output pane or data pane
+    def _print_to_pane(self, index=-1, pane=None):
+        """Print a GuiResultPackage to the output or data pane.
+
+        The pane should have a pane.welcome_message_on property.
+
+        Parameters
+        ----------
+        index : index of the item in self.analysis_results to be printed
+                If no index is given, the last item is printed.
+        pane : QtWidgets.QTextBrowser object
+            the pane the message should be printed to
+
+        Returns
+        -------
+
         """
 
-        if message:
-            value.clear()
-            #value.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
-            message = False
-        #value.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
-        #value.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
-        #print(value.toHtml())
+        if pane.welcome_message_on:
+            pane.clear()
+            #pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
+            pane.welcome_message_on = False
+        #pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #pane.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #print(pane.toHtml())
 
+        # anchor and scrolling is relevant only in the result pane
+        # TODO we may remove it for other panes
         anchor = str(random.random())
-        value.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
+        pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
 
         for output in self.analysis_results[index].output:
             if isinstance(output, str):
-                value.append(output)  # insertHtml() messes up the html doc,
+                pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with value.toHtml()
-            elif isinstance(output, QtGui.QImage):
-                data = QtCore.QByteArray()
-                buffer = QtCore.QBuffer(data)
-                #output.save(buffer, format='PNG')
-                html = '<img src="data:image/png;base64,{0}">'.format(str(data.toBase64())[2:-1])
-                value.append(html)
+            elif isinstance(output, matplotlib.figure.Figure):
+                chart_buffer = io.BytesIO()
+                image_format = 'png'  # TODO this will be an ini setting
+                if image_format == 'png':
+                    output.savefig(chart_buffer, format='png')  # TODO dpi= and modify html width to keep the original image size
+                    chart_buffer.seek(0)
+                    html_img = '<img src="data:image/png;base64,{0}">'.\
+                        format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
+                elif image_format == 'svg':
+                    output.savefig(chart_buffer, format='svg')  # TODO set the right size
+                    chart_buffer.seek(0)
+                    html_img = '<img src="data:image/svg-xml;base64,{0}">'. \
+                        format(base64.b64encode(chart_buffer.read()).decode())
+                chart_buffer.close()
+                pane.append(html_img)
             elif output is None:
                 pass  # We don't do anything with None-s
             else:
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
-        value.scrollToAnchor(anchor)
-        #svalue.moveCursor(QtGui.QTextCursor.End)
+        pane.scrollToAnchor(anchor)
+        #pane.moveCursor(QtGui.QTextCursor.End)
    
     ### Data menu methods ###
     def open_file(self, path=''):
@@ -626,16 +647,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def _print_to_output_pane(self):
         """Print a GuiResultPackage to GUI output pane
         """
-        self._print_to_pane(value = self.output_pane, message = self.output_welcome_text_on)
+        self._print_to_pane(pane=self.result_pane)
 
     def _print_to_data_pane(self):
         """Print the data to GUI data pane
         """
         self.print_data()
-        self._print_to_pane(value = self.data_pane, message = self.data_welcome_message_on)
+        self._print_to_pane(pane=self.data_pane)
         open_data_message = _('Your data is successfully uploaded and ready for analysis.') + '\n'+ ('Data source: ')+ '\n' + self.active_data.import_source[0] + (self.active_data.import_source[1] if self.active_data.import_source[1] else '')\
                   + '\n'
-        self.output_pane.setText(cs_util.convert_output([open_data_message])[0])  
+        self.result_pane.setText(cs_util.convert_output([open_data_message])[0])
         self.open_data_message_on= True 
                 
     def _print_data_brief(self):
@@ -958,22 +979,22 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
                                                QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
-            self.output_pane.clear()
+            self.result_pane.clear()
             self.analysis_results = []
             self.unsaved_output = False  # Not necessary to save the empty output
 
     def find_text(self):
-        self.dial_find_text = cogstat_dialogs.find_text_dialog(output_pane=self.output_pane)
+        self.dial_find_text = cogstat_dialogs.find_text_dialog(output_pane=self.result_pane)
         self.dial_find_text.exec_()
 
     def zoom_in(self):
-        self.output_pane.zoomIn(1)
+        self.result_pane.zoomIn(1)
 
     def zoom_out(self):
-        self.output_pane.zoomOut(1)
+        self.result_pane.zoomOut(1)
 
     def text_editable(self):
-        self.output_pane.setReadOnly(not(self.menus[2].actions()[5].isChecked()))  # see also _init_UI
+        self.result_pane.setReadOnly(not(self.menus[2].actions()[5].isChecked()))  # see also _init_UI
         #self.output_pane.setReadOnly(not(self.toolbar.actions()[15].isChecked()))
         # TODO if the position of this menu is changed, then this function will not work
         # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
@@ -983,7 +1004,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if self.output_filename == '':
             self.save_result_as()
         else:
-            html_file = self.output_pane.toHtml()
+            html_file = self.result_pane.toHtml()
             html_file = html_file.replace(' ', '&nbsp;')  # replace non-breaking spaces with html code for nbsp
             with open(self.output_filename, 'w') as f:
                 f.write(html_file)
