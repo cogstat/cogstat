@@ -573,6 +573,8 @@ class CogStatData:
         If mode is 'mahalanobis', then variables are jointly investigated for multivariate outliers.
         If var_names is None, then the filtering will be switched off (i.e. all cases will be used).
 
+        If any values in the given variables are missing in a case, the whole case will also be excluded.
+
         Parameters
         ----------
         var_names : None or list of str
@@ -673,14 +675,15 @@ class CogStatData:
 
                 # Calculating the robust Mahalanobis distances
                 from sklearn import covariance
-                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[valid_var_names])
+                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[valid_var_names].
+                                                                          dropna())
 
                 # Custom filtering criteria based on Leys et al. (2017)
                 # Appropriate cut-off point based on chi2
                 limit = stats.chi2.ppf(0.95, len(self.orig_data_frame[valid_var_names].columns))
                 # Get robust Mahalanobis distances from model object
-                distances = cov.mahalanobis(self.orig_data_frame[valid_var_names])
-                filtering_data_frame = self.orig_data_frame.copy()
+                distances = cov.mahalanobis(self.orig_data_frame[valid_var_names].dropna())
+                filtering_data_frame = self.orig_data_frame.dropna(subset=valid_var_names).copy()
                 filtering_data_frame['mahalanobis'] = distances
 
                 # Find the cases to be kept
@@ -696,7 +699,7 @@ class CogStatData:
 
                 # Display the excluded cases
                 excluded_cases = \
-                    self.orig_data_frame.drop(remaining_cases_indexes[-1])
+                    self.orig_data_frame.dropna(subset=valid_var_names).drop(remaining_cases_indexes[-1])
                 # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
@@ -705,8 +708,8 @@ class CogStatData:
                                                                                      classes="table_cs_pd")) + "\n"
                     for var_name in valid_var_names:
                         chart_results.append(cs_chart.create_filtered_cases_chart(
-                            self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
-                            excluded_cases[var_name], var_name,
+                            self.orig_data_frame.dropna(subset=valid_var_names).loc[remaining_cases_indexes[-1]]
+                            [var_name], excluded_cases[var_name], var_name,
                             lower_limit=None, upper_limit=None))
 
                 else:
