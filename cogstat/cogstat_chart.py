@@ -55,6 +55,8 @@ if csc.language == 'th':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
 if csc.language == 'ko':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['NanumGothic', 'NanumMyeongjo']
+if csc.language == 'zh':
+    matplotlib.rcParams['font.sans-serif'][0:0] = ['SimHei', 'Heiti TC', 'WenQuanYi Zen Hei', 'SimSun']
 #print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
 matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
 matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axis
