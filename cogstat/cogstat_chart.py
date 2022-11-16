@@ -233,7 +233,7 @@ def _mosaic_labelizer(crosstab_data, l, separator='\n'):
 ### Charts for filtering ###
 ############################
 
-def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_limit, upper_limit):
+def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_limit=None, upper_limit=None):
     """Displays the filtered and kept cases for a variable.
 
     Parameters
@@ -241,8 +241,8 @@ def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_
     included_cases
     excluded_cases
     var_name : str
-    lower_limit : float
-    upper_limit : float
+    lower_limit : float or None
+    upper_limit : float or None
 
     Returns
     -------
@@ -258,13 +258,13 @@ def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_
     # Excluded cases and limit lines are denoted with the second color in the theme.
     plt.scatter(included_cases, np.random.random(size=len(included_cases)), color=theme_colors[0], marker='o')
     plt.scatter(excluded_cases, np.random.random(size=len(excluded_cases)), color=theme_colors[1], marker='o')
-    if (lower_limit != None) and (upper_limit != None):
+    if (lower_limit is not None) and (upper_limit is not None):
         plt.vlines([lower_limit, upper_limit], ymin=-1, ymax=2, colors=theme_colors[1])
     ax.axes.set_ylim([-1.5, 2.5])
     fig.subplots_adjust(top=0.85, bottom=0.4)
 
     # Add labels
-    if (lower_limit == None) and (upper_limit == None):
+    if (lower_limit is None) and (upper_limit is None):
         plt.title(_plt('Included and excluded cases'))
     else:
         plt.title(_plt('Included and excluded cases with exclusion criteria'))
