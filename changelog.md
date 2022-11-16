@@ -5,6 +5,7 @@ Upcoming release (2022)
 =======================
 ## New features
 - Data handling
+  - New data pane to check the data more flexibly (Belma Bumin)
   - Reload actual data file
   - Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
   - New demo data files https://learningstatisticswithcogstat.com/

@@ -30,7 +30,7 @@ matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 # This is a bit complex so that preferred themes with different names in various matplotlib versions can be used.
 try:
     plt.style.use(csc.theme)  # either a theme name or a list of theme names
-    # if csc.theme is a list, then overwrite csc.theme and in cogstat.ini with the first available theme
+    # if csc.theme is a list, then overwrite the theme in csc.theme and in cogstat.ini with the first available theme
     if type(csc.theme) is list:
         for theme in csc.theme:
             if theme in plt.style.available:

@@ -272,7 +272,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # TODO if the position of these menus are changed, then this setting will not work
         self._show_data_menus(on=False)
 
-        # Prepare Output pane
+        # Prepare Output and data panes
         def _change_color_lightness(color, lightness=1.0):
             """Modify the lightness of a color.
 
@@ -302,31 +302,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.addWidget(self.splitter)   
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
- 
+        #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
-             #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
-                            ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
-                            _('CogStat makes statistical analysis more simple and efficient.'),
-                            _('To start working open a data file or paste your data from a spreadsheet.'),
-                            _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> '
-                                'or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">'
-                                'quick start tutorial.</a>'))
-            #self.data_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        no_data_message = '%s<br>' % \
-                            ('Please open a data file.')
-
-
-
-        self.output_pane.setText(cs_util.convert_output([welcome_message])[0])  
-        self.data_pane.setText(cs_util.convert_output([no_data_message])[0]) 
-        self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
-        self.no_data_message_on= True  
-    
-
-        output_panes = [self.output_pane, self.data_pane]
-
-        for pane in output_panes:
+        for pane in [self.output_pane, self.data_pane]:
             # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
             pane.document().setDefaultStyleSheet('body {color:black;} '
                                                             'h2 {color:%s;} h3 {color:%s} '
@@ -349,6 +327,19 @@ class StatMainWindow(QtWidgets.QMainWindow):
             font.setPointSizeF(csc.default_font_size)
             pane.setFont(font)
             #print pane.currentFont().toString()
+
+        output_welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
+                                 ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
+                                 _('CogStat makes statistical analysis more simple and efficient.'),
+                                 _('To start working open a data file or paste your data from a spreadsheet.'),
+                                 _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>'))
+        data_welcome_message = '%s%s%s%s<br>' % \
+                               ('<cs_h1>', _('Data view'), '</cs_h1>',
+                               _('To start working open a data file or paste your data from a spreadsheet.'))
+        self.output_pane.setText(cs_util.convert_output([output_welcome_message])[0])
+        self.data_pane.setText(cs_util.convert_output([data_welcome_message])[0])
+        self.output_welcome_text_on = True  # Used for deleting the welcome text at the first analysis
+        self.data_welcome_message_on = True
 
         self.setCentralWidget(self.centralwidget)
         self.setAcceptDrops(True)
@@ -635,13 +626,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def _print_to_output_pane(self):
         """Print a GuiResultPackage to GUI output pane
         """
-        self._print_to_pane(value = self.output_pane, message = self.welcome_text_on)
+        self._print_to_pane(value = self.output_pane, message = self.output_welcome_text_on)
 
     def _print_to_data_pane(self):
         """Print the data to GUI data pane
         """
         self.print_data()
-        self._print_to_pane(value = self.data_pane, message = self.no_data_message_on)
+        self._print_to_pane(value = self.data_pane, message = self.data_welcome_message_on)
         open_data_message = _('Your data is successfully uploaded and ready for analysis.') + '\n'+ ('Data source: ')+ '\n' + self.active_data.import_source[0] + (self.active_data.import_source[1] if self.active_data.import_source[1] else '')\
                   + '\n'
         self.output_pane.setText(cs_util.convert_output([open_data_message])[0])  
