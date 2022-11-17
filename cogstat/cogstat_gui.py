@@ -5,7 +5,7 @@ GUI for CogStat.
 The GUI includes
 - a menu bar
 - a toolbar (selected items from menu bar)
-- the data pane (usually just displays the data with the self.active_data.print_data())
+- the data in a QTableView
 - the result pane
 
 """
@@ -39,6 +39,7 @@ import sys
 import traceback
 from urllib.request import urlopen
 import webbrowser
+import pandas as pd
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
@@ -146,7 +147,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             print("Couldn't check for update")
 
     def _init_UI(self):
-        self.resize(830, 1000)  # for the height we assume that a full HD screen is available; if the value is larger
+        self.resize(1250, 1000)  # for the height we assume that a full HD screen is available; if the value is larger
                                 # than the available screen size, the window will be the max height
         #print(QtWidgets.QDesktopWidget().screenGeometry(-1).height())  # height of the actual screen
         self.setWindowTitle('CogStat')
@@ -302,16 +303,19 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         self.centralwidget = QtWidgets.QWidget()
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
-        self.data_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
+        self.table_view = QtWidgets.QTableView(self.splitter)
+        self.table_view.horizontalHeader().setStretchLastSection(True)
         self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter.setStretchFactor(1, 10)
+        self.splitter.setStretchFactor(0, 2)
+        self.splitter.setStretchFactor(1, 3)
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.addWidget(self.splitter)   
+        self.gridLayout.addWidget(self.splitter)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
-        for pane in [self.result_pane, self.data_pane]:
+        # Currently, it doesn't make sense to use a loop here, but we keep it, until we decide how to implement the ToC
+        for pane in [self.result_pane]:
             # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
             pane.document().setDefaultStyleSheet('body {color:black;} '
                                                             'h2 {color:%s;} h3 {color:%s} '
@@ -344,10 +348,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                ('<cs_h1>', _('Data view'), '</cs_h1>',
                                _('To start working open a data file or paste your data from a spreadsheet.'))
         self.result_pane.setText(cs_util.convert_output([output_welcome_message])[0])
-        self.data_pane.setText(cs_util.convert_output([data_welcome_message])[0])
         # We add these extra properties to track if the welcome message  is still on
         self.result_pane.welcome_message_on = True
-        self.data_pane.welcome_message_on = True
 
         self.setCentralWidget(self.centralwidget)
         self.setAcceptDrops(True)
@@ -493,7 +495,40 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.unsaved_output = True
         pane.scrollToAnchor(anchor)
         #pane.moveCursor(QtGui.QTextCursor.End)
-   
+
+    def _display_data(self, reset=False):
+        """ Display the actual data in the tableview.
+        Show the variable names, the measurement levels and the data.
+        Show the filtered cases.
+
+        Parameters
+        ----------
+        reset : bool
+            Should the tableview be cleared?
+
+        """
+        if reset:
+            self.table_view.setModel(None)
+        else:
+            # Make a copy of the original data so that both filtered and included cases can be displayed.
+            data_to_display = self.active_data.orig_data_frame.copy()
+            # This new column is used for formatting the rows in the tableview.
+            # We use a column name that is not likely to be used by the users.
+            # By default, all cases are excluded.
+            data_to_display['costat_filtered-cases'] = 1
+            # Modfy the included cases.
+            data_to_display['costat_filtered-cases'][self.active_data.data_frame.index] = 0
+            # Add the measurement level to the dataframe.
+            data_to_display = pd.concat(
+               [pd.DataFrame([[self.active_data.data_measlevs[name] for name in self.active_data.data_frame.columns]],
+                             columns=self.active_data.data_frame.columns, index=['type']), data_to_display])
+            model = PandasModel(data_to_display)
+            self.table_view.setModel(model)
+            # Hide the filtering column
+            self.table_view.setColumnHidden(model.columnCount() - 1, True)
+            self.table_view.show()
+
+
     ### Data menu methods ###
     def open_file(self, path=''):
         """Open data file.
@@ -535,14 +570,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
             result = self.active_data.reload_data()
             self.analysis_results[-1].add_output(result)
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-            self.data_pane.clear()
-            self._print_to_pane(pane=self.data_pane, output_list=self.active_data.print_data())
+            self._display_data()
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Reload data')))
             traceback.print_exc()
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-            self.data_pane.clear()
-            self._print_to_pane(pane=self.data_pane, output_list=self.active_data.print_data())
+            self._display_data(reset=True)
         self._busy_signal(False)
 
     def open_clipboard(self):
@@ -574,8 +607,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
             self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-            self.data_pane.clear()
-            self._print_to_pane(pane=self.data_pane, output_list=self.active_data.print_data())
+            self._display_data()
+
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
@@ -593,9 +626,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                    '<br><br>' + _('Data to be imported') +
                                                    ':<br>%s<br>%s' % (data, file_content))
             traceback.print_exc()
-            self.data_pane.clear()
-            self._print_to_pane(pane=self.data_pane, output_list=[cs_util.reformat_output('<cs_h1>' + _('Data') +
-                                                                  '</cs_h1>' + _('CogStat could not open the data.'))])
+            self._display_data(reset=True)
         self._busy_signal(False)
 
     def filter_outlier(self, var_names=None, multivariate_outliers=False):
@@ -636,6 +667,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                      mode='mahalanobis' if multivariate_outliers else '2.5mad')
             self.analysis_results[-1].add_output(result)
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+            self._display_data()
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outliers')))
             traceback.print_exc()
@@ -1092,7 +1124,73 @@ class StatMainWindow(QtWidgets.QMainWindow):
             event.ignore()
         """
 
-# -*- coding: utf-8 -*-
+
+class PandasModel(QtCore.QAbstractTableModel):
+    """A model to interface a Qt view with pandas dataframe """
+
+    # Based on https://doc.qt.io/qtforpython/examples/example_external__pandas.html
+
+    def __init__(self, dataframe: pd.DataFrame, parent=None):
+        QtCore.QAbstractTableModel.__init__(self, parent)
+        self._dataframe = dataframe
+
+    def rowCount(self, parent=QtCore.QModelIndex()) -> int:
+        """ Override method from QAbstractTableModel
+
+        Return row count of the pandas DataFrame
+        """
+        if parent == QtCore.QModelIndex():
+            return len(self._dataframe)
+
+        return 0
+
+    def columnCount(self, parent=QtCore.QModelIndex()) -> int:
+        """Override method from QAbstractTableModel
+
+        Return column count of the pandas DataFrame
+        """
+        if parent == QtCore.QModelIndex():
+            return len(self._dataframe.columns)
+        return 0
+
+    def data(self, index: QtCore.QModelIndex, role=Qt.ItemDataRole):
+        """Override method from QAbstractTableModel
+
+        Return data cell from the pandas DataFrame
+        """
+        if not index.isValid():
+            return None
+
+        if role == Qt.DisplayRole:
+            return str(self._dataframe.iloc[index.row(), index.column()])
+
+        # Filtered data have different background
+        if role == Qt.ForegroundRole and not(index.row() == 0):  # don't hange the measurement level row (row 0)
+            if self._dataframe['costat_filtered-cases'].iloc[index.row()]:
+                return QtGui.QColor('lightGray')
+
+        # Use different background for the measurement level
+        if role == Qt.BackgroundRole:
+            if index.row() == 0:
+                return QtGui.QColor('lightGray')
+
+        return None
+
+    def headerData(
+        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
+    ):
+        """Override method from QAbstractTableModel
+
+        Return dataframe index as vertical header data and columns as horizontal header data.
+        """
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(self._dataframe.columns[section])
+
+            if orientation == Qt.Vertical:
+                return str(self._dataframe.index[section])
+
+        return None
 
 class GuiResultPackage():
     """ A class for storing a package of results.
