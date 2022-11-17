@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 GUI for CogStat.
+
+The GUI includes
+- a menu bar
+- a toolbar (selected items from menu bar)
+- the data pane (usually just displays the data with the self.active_data.print_data())
+- the result pane
+
 """
 
 # Splash screen
@@ -272,7 +279,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # TODO if the position of these menus are changed, then this setting will not work
         self._show_data_menus(on=False)
 
-        # Prepare Output and data panes
+        # Prepare result and data panes
         def _change_color_lightness(color, lightness=1.0):
             """Modify the lightness of a color.
 
@@ -430,17 +437,17 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
-    def _print_to_pane(self, index=-1, pane=None):
+    def _print_to_pane(self, pane=None, output_list=[]):
         """Print a GuiResultPackage to the output or data pane.
 
         The pane should have a pane.welcome_message_on property.
 
         Parameters
         ----------
-        index : index of the item in self.analysis_results to be printed
-                If no index is given, the last item is printed.
         pane : QtWidgets.QTextBrowser object
-            the pane the message should be printed to
+            The pane the message should be printed to.
+        output_list : list of str (html) or matplotlib.figure.Figure
+            List of items to display
 
         Returns
         -------
@@ -460,7 +467,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         anchor = str(random.random())
         pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
 
-        for output in self.analysis_results[index].output:
+        for output in output_list:
             if isinstance(output, str):
                 pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with value.toHtml()
@@ -527,11 +534,15 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
             result = self.active_data.reload_data()
             self.analysis_results[-1].add_output(result)
-            self._print_to_data_pane()
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+            self.data_pane.clear()
+            self._print_to_pane(pane=self.data_pane, output_list=self.active_data.print_data())
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Reload data')))
             traceback.print_exc()
-            self._print_to_data_pane()
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+            self.data_pane.clear()
+            self._print_to_pane(pane=self.data_pane, output_list=self.active_data.print_data())
         self._busy_signal(False)
 
     def open_clipboard(self):
@@ -562,7 +573,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
             self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
-            self._print_to_data_pane()
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+            self.data_pane.clear()
+            self._print_to_pane(pane=self.data_pane, output_list=self.active_data.print_data())
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command('self._open_data()')  # TODO
@@ -580,7 +593,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                    '<br><br>' + _('Data to be imported') +
                                                    ':<br>%s<br>%s' % (data, file_content))
             traceback.print_exc()
-            self._print_to_data_pane()
+            self.data_pane.clear()
+            self._print_to_pane(pane=self.data_pane, output_list=[cs_util.reformat_output('<cs_h1>' + _('Data') +
+                                                                  '</cs_h1>' + _('CogStat could not open the data.'))])
         self._busy_signal(False)
 
     def filter_outlier(self, var_names=None, multivariate_outliers=False):
@@ -620,14 +635,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
             result = self.active_data.filter_outlier(var_names,
                                                      mode='mahalanobis' if multivariate_outliers else '2.5mad')
             self.analysis_results[-1].add_output(result)
-            self._print_to_pane(pane=self.result_pane)
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outliers')))
             traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane)
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
-    def print_data(self, brief=False, display_import_message=False):
+    def print_data(self, brief=False):
         """Print the current data to the output.
 
         Parameters
@@ -641,24 +656,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.print_data')  # TODO commands will be used to rerun the analysis
         self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
-        if self.active_data.import_message and display_import_message:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
+        self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
 
-    def _print_to_data_pane(self):
-        """Print the data to GUI data pane
-        """
-        self.print_data()
-        self._print_to_pane(pane=self.data_pane)
-        open_data_message = _('Your data is successfully uploaded and ready for analysis.') + '\n'+ ('Data source: ')+ '\n' + self.active_data.import_source[0] + (self.active_data.import_source[1] if self.active_data.import_source[1] else '')\
-                  + '\n'
-        self.result_pane.setText(cs_util.convert_output([open_data_message])[0])
-        self.open_data_message_on= True 
-                
     def _print_data_brief(self):
         """Print the data briefly to GUI output pane
         """
         self.print_data(brief=True)
-        self._print_to_pane(pane=self.result_pane)
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         
     ### Analysis menu methods ###
 
@@ -692,18 +696,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable'),
                                                                             _('At least one variable should be set.')))
             self.analysis_results[-1].add_output(text_result)
-            self._print_to_pane(pane=self.result_pane)
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         try:
             for var_name in var_names:
                 self.analysis_results.append(GuiResultPackage())
                 self.analysis_results[-1].add_command('self.explore_variable()')  # TODO
                 result = self.active_data.explore_variable(var_name, frequencies=freq, central_value=loc_test_value)
                 self.analysis_results[-1].add_output(result)
-                self._print_to_pane(pane=self.result_pane)
+                self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable')))
             traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane)
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
     def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
@@ -739,7 +743,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore relation of variable pair'),
                                                              _('At least two variables should be set.')))
             self.analysis_results[-1].add_output(text_result)
-            self._print_to_pane(pane=self.result_pane)
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         else:
             try:
                 for x in var_names:
@@ -750,14 +754,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
                             result_list = self.active_data.regression([x], y, xlims, ylims)
                             self.analysis_results[-1].add_output(result_list)
-                            self._print_to_pane(pane=self.result_pane)
+                            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
                         if x == y:
                             pass_diag = True
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                              _('Explore relation of variable pair')))
                 traceback.print_exc()
-                self._print_to_pane(pane=self.result_pane)
+                self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
             
     def regression(self, predictors=[], predicted=None, xlims=[None, None], ylims=[None, None]):
@@ -795,12 +799,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.analysis_results[-1].add_command('self.regression')  # TODO
             result_list = self.active_data.regression(predictors, predicted, xlims, ylims)
             self.analysis_results[-1].add_output(result_list)
-            self._print_to_pane(pane=self.result_pane)
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         except:
             self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                          _('Explore relation of variable pairs')))
             traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane)
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
 
@@ -836,7 +840,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 text_result = cs_util.reformat_output(broken_analysis % _('Pivot table'))
                 traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
-        self._print_to_pane(pane=self.result_pane)
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
     def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
@@ -875,7 +879,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
                 traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
-        self._print_to_pane(pane=self.result_pane)
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
     def compare_variables(self, var_names=None, factors=[], ylims=[None, None]):
@@ -921,7 +925,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             except:
                 self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
                 traceback.print_exc()
-        self._print_to_pane(pane=self.result_pane)
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
         
     def compare_groups(self, var_names=None, groups=None, single_case_slope_SE=None, single_case_slope_trial_n=None,
@@ -964,7 +968,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                                  _('Compare groups')))
                     traceback.print_exc()
-        self._print_to_pane(pane=self.result_pane)
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
     ### Result menu methods ###
@@ -1061,7 +1065,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
                                              [0])
         self.analysis_results[-1].add_output(text_output)
-        self._print_to_pane(pane=self.result_pane)
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
     def closeEvent(self, event):
