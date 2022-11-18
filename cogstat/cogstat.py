@@ -91,12 +91,14 @@ class CogStatData:
         - Second line could be the measuring level
 
         Data structure that is created:
-        self.data_frame - pandas DataFrame
+        self.orig_data_frame - pandas DataFrame, the original data without filtering
+        self.data_frame - pandas DataFrame, the actual data with optional filtering
         self.data_measlevs - dictionary storing level of measurement of the variables (name:level):
                 'nom', 'ord', or 'int' (ratio is included in 'int')
                 'unk' - unknown: if no other level is given
-        self.orig_data_frame # TODO
-        self.filtering_status # TODO
+        self.filtering_status - list of two items:
+                                [0] list of the variables the filtering is based on (or None)
+                                [2] the name of the filtering method (or '')
 
         self.import_source - list of 2 strings:
                              [0]: import data type
@@ -116,7 +118,7 @@ class CogStatData:
         self.data_measlevs = None
         self.import_source = ['', '']
         self.import_message = ''
-        self.filtering_status = None
+        self.filtering_status = [None, '']
 
         self._import_data(data=data, measurement_levels=measurement_levels)
 
@@ -599,6 +601,8 @@ class CogStatData:
                       '2.5mad': _('Median ± 2.5 MAD'),
                       'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
 
+        self.filtering_status = [var_names, mode]
+
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
         chart_results = []
@@ -607,12 +611,10 @@ class CogStatData:
 
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
-            self.filtering_status = None
             text_output = _('Filtering is switched off.')
         else:  # Create a filtered dataframe based on the variable(s)
             remaining_cases_indexes = []
             text_output = ''
-            self.filtering_status = ''
             if mode in ['2sd', '2.5mad']:
                 for var_name in var_names:
                     # Check if the variable is 'int'
@@ -725,15 +727,20 @@ class CogStatData:
         self.data_frame = self.orig_data_frame.copy()
         for remaining_cases_index in remaining_cases_indexes:
             self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
-        self.filtering_status = ', '.join(var_names) + ' (%s)' % mode_names[mode]
 
         return cs_util.convert_output([title, text_output, chart_results])
 
     def _filtering_status(self):
-        if self.filtering_status:
-            return '<b>' + _('Filtering is on:') + ' %s</b>\n' % self.filtering_status
-        else:
+
+        mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
+                      '2.5mad': _('Median ± 2.5 MAD'),
+                      'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
+
+        if self.filtering_status[0] is None or self.filtering_status[0] == []:
             return ''
+        else:
+            filtering_message = ', '.join(self.filtering_status[0]) + ' (%s)' % mode_names[self.filtering_status[1]]
+            return '<b>' + _('Filtering is on:') + ' %s</b>\n' % filtering_message
 
     ### Various things ###
 
@@ -794,8 +801,7 @@ class CogStatData:
         meas_level, unknown_type = self._meas_lev_vars([var_name])
         result_list = ['<cs_h1>' + _('Explore variable') + '</cs_h1>']
         result_list.append(_('Exploring variable: ') + var_name + ' (%s)\n' % meas_level)
-        if self._filtering_status():
-            result_list[-1] += self._filtering_status()
+        result_list[-1] += self._filtering_status()
 
         # 1. Raw data
         text_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
