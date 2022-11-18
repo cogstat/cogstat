@@ -641,7 +641,8 @@ class CogStatData:
                                                        (self.orig_data_frame[var_name] <= upper_limit)].index)
 
                     # Display filtering information
-                    text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
+                    text_output += _('Filtering based on %s.') % (var_name + ' (%s)' % mode_names[mode]) + '\n'
+                    text_output += _('Cases with missing data will also be excluded.') + '\n'
                     prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
                     text_output += _('Cases outside of the range will be excluded:') + \
                                    ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
@@ -651,7 +652,9 @@ class CogStatData:
                     # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                     # TODO uncomment the above line after using pivot indexes in CS data
                     if len(excluded_cases):
-                        text_output += _('The following cases will be excluded: ')
+                        text_output += _('Excluded cases (%s cases):') % (len(excluded_cases))
+                        # Change indexes to be in line with the data view numbering
+                        excluded_cases.index = excluded_cases.index + 1
                         text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
                                                                                          classes="table_cs_pd"))
                         chart_results.append(cs_chart.create_filtered_cases_chart(
@@ -690,8 +693,9 @@ class CogStatData:
                                                index)
 
                 # Display filtering information
-                text_output += _('Multivariate filtering based on the variables: %s (%s).\n') % \
-                               (', '.join(valid_var_names), mode_names[mode])
+                text_output += _('Multivariate filtering based on the variables: %s (%s).') % \
+                               (', '.join(valid_var_names), mode_names[mode]) + '\n'
+                text_output += _('Cases with missing data will also be excluded.') + '\n'
                 prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1  # TODO we should set this to a constant value
                 text_output += _('Cases above the cutoff Mahalanobis distance will be excluded:') + \
                                ' %0.*f\n' % (prec, limit)
@@ -702,7 +706,9 @@ class CogStatData:
                 # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
-                    text_output += _('The following cases will be excluded (%s cases): ') % (len(excluded_cases))
+                    text_output += _('Excluded cases (%s cases): ') % (len(excluded_cases))
+                    # Change indexes to be in line with the data view numbering
+                    excluded_cases.index = excluded_cases.index + 1
                     text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
                                                                                      classes="table_cs_pd")) + "\n"
                     for var_name in valid_var_names:
