@@ -723,10 +723,10 @@ class CogStatData:
             else:
                 raise ValueError('Invalid mode parameter was given')
 
-        # Do the filtering (remove outliers), modify self.data_frame in place
-        self.data_frame = self.orig_data_frame.copy()
-        for remaining_cases_index in remaining_cases_indexes:
-            self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
+            # Do the filtering (remove outliers), modify self.data_frame in place
+            self.data_frame = self.orig_data_frame.copy()
+            for remaining_cases_index in remaining_cases_indexes:
+                self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
 
         return cs_util.convert_output([title, text_output, chart_results])
 
