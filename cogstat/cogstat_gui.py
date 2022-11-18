@@ -690,14 +690,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.print_data')  # TODO commands will be used to rerun the analysis
         self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
-        self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
 
     def _print_data_brief(self):
         """Print the data briefly to GUI output pane
         """
         self.print_data(brief=True)
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        
+
     ### Analysis menu methods ###
 
     def explore_variable(self, var_names=None, freq=True, dist=True, descr=True, norm=True, loc_test=True,
