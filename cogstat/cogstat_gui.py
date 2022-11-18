@@ -308,7 +308,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setStretchFactor(0, 2)
-        self.splitter.setStretchFactor(1, 3)
+        self.splitter.setStretchFactor(1, 4)
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.addWidget(self.splitter)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -507,9 +507,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
             Should the tableview be cleared?
 
         """
-        if reset:
-            self.table_view.setModel(None)
-        else:
+        # When reset is True, reset the view; when reset is False, initialize
+        self.table_view.setModel(None)
+        if not reset:
             # Make a copy of the original data so that both filtered and included cases can be displayed.
             data_to_display = self.active_data.orig_data_frame.copy()
             # This new column is used for formatting the rows in the tableview.
@@ -518,10 +518,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
             data_to_display['costat_filtered-cases'] = 1
             # Modfy the included cases.
             data_to_display['costat_filtered-cases'][self.active_data.data_frame.index] = 0
+            # Start row numbers from 1, instead of 0.
+            data_to_display.index = data_to_display.index + 1
             # Add the measurement level to the dataframe.
             data_to_display = pd.concat(
                [pd.DataFrame([[self.active_data.data_measlevs[name] for name in self.active_data.data_frame.columns]],
-                             columns=self.active_data.data_frame.columns, index=['type']), data_to_display])
+                             columns=self.active_data.data_frame.columns, index=[_('Level')]), data_to_display])
             model = PandasModel(data_to_display)
             self.table_view.setModel(model)
             # Hide the filtering column

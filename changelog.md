@@ -5,8 +5,7 @@ Upcoming release (2022)
 =======================
 ## New features
 - Data handling
-  - New data view to see the data more flexibly (thanks to Belma Bumin)
-    - Filtered cases are noted in the data view
+  - New data view to see the data together with the results (thanks to Belma Bumin)
   - Reload actual data file
   - Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
   - New demo data files https://learningstatisticswithcogstat.com/
