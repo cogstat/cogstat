@@ -179,7 +179,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  True, True],
                                 ['separator'],
                                 ['/icons8-data-sheet-check.svg', _('Display data &briefly'), _('Ctrl+B'),
-                                 'self._print_data_brief', True, True],
+                                 'self._print_data_brief', False, True],
                                 ['toolbar separator']
                             ],
                             [_('&Analysis'),
