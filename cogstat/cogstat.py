@@ -656,7 +656,7 @@ class CogStatData:
                                                                                          classes="table_cs_pd"))
                         chart_results.append(cs_chart.create_filtered_cases_chart(
                             self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
-                            excluded_cases[var_name], var_name))
+                            excluded_cases[var_name], var_name, lower_limit=lower_limit, upper_limit=upper_limit))
                     else:
                         text_output += _('No cases were excluded.')
                     if var_name != var_names[-1]:
@@ -708,8 +708,7 @@ class CogStatData:
                     for var_name in valid_var_names:
                         chart_results.append(cs_chart.create_filtered_cases_chart(
                             self.orig_data_frame.dropna(subset=valid_var_names).loc[remaining_cases_indexes[-1]]
-                            [var_name], excluded_cases[var_name], var_name,
-                            lower_limit=None, upper_limit=None))
+                            [var_name], excluded_cases[var_name], var_name))
 
                 else:
                     text_output += _('No cases were excluded.')
