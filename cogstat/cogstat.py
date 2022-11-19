@@ -733,6 +733,13 @@ class CogStatData:
         return cs_util.convert_output([title, text_output, chart_results])
 
     def _filtering_status(self):
+        """Create a message about the filtering status (used variables and the filtering method).
+
+        Returns
+        -------
+        str
+            Filtering status to be printed. If filtering is off, then an empty string.
+        """
 
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
