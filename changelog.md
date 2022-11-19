@@ -16,7 +16,11 @@ Upcoming release (2022)
   - Scatterplot matrix of raw data
   - Analysis of multicollinearity
   - Hypothesis tests
-- In diffusion analysis, the time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
+- Behavioral data diffusion analysis
+  - The time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
+  - Slow trials are filtered before the analysis is run
+  - Display the number of fitered (missing and slow outlier) trials
+  - Number of used trials are displayed
 - Save results into html file instead of pdf file (Róbert Fodor)
 - New localization
   - Chinese (Xiaomeng Zhu)

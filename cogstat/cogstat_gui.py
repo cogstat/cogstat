@@ -107,6 +107,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.open_file('cogstat/test/data/example_data.csv'); #self.compare_groups()
 #        self.open_file('cogstat/test/data/VA_test.csv')
 #        self.open_file('cogstat/test/data/test.csv')
+#        self.open_file('cogstat/test/data/diffusion.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.filter_outlier(['before', 'after'], True)
@@ -116,8 +117,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.regression(['a'], 'b')
 #        self.regression(['b', 'f', 'g'], 'a')
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
-#        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'],
-#                       condition_names=['Num1', 'Num2'])
+#        self.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name', condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['a', 'e', 'g'])
 #        self.compare_variables(['D', 'E', 'F'])
