@@ -161,7 +161,9 @@ class CogStatData:
             """Some additional values are converted to NaNs."""
             self.data_frame.replace('', np.nan, inplace=True)
             self.data_frame.replace(r'^#.*!$', np.nan, regex=True, inplace=True)
-                # spreadsheet errors, such as #DIV/0!, #VALUE!
+                # spreadsheet errors, starting with # and ending with !, such as #DIV/0!, #VALUE!
+            self.data_frame.replace(r'^Err:.*$', np.nan, regex=True, inplace=True)
+                # spreadsheet errors, starting with Err:, such as Err:502
             # spreadsheet errors make the variable object dtype, although they may be numeric variables
             try:
                 self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
