@@ -165,11 +165,11 @@ class CogStatData:
             self.data_frame.replace(r'^Err:.*$', np.nan, regex=True, inplace=True)
                 # spreadsheet errors, starting with Err:, such as Err:502
             # spreadsheet errors make the variable object dtype, although they may be numeric variables
-            try:
-                self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
-                    self.data_frame.select_dtypes(include=['object']).astype(float)
-            except (ValueError, TypeError):
-                pass
+            for column in self.data_frame.select_dtypes(include=['object']).columns:
+                try:
+                    self.data_frame[column] = self.data_frame[column].astype(float)
+                except (ValueError, TypeError):
+                    pass
 
         def _convert_dtypes():
             """Convert dtypes.
