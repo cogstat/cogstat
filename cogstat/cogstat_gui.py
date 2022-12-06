@@ -515,15 +515,21 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # This new column is used for formatting the rows in the tableview.
             # We use a column name that is not likely to be used by the users.
             # By default, all cases are excluded.
-            data_to_display['costat_filtered-cases'] = 1
-            # Modfy the included cases.
-            data_to_display['costat_filtered-cases'][self.active_data.data_frame.index] = 0
+            data_to_display['cogstat_filtered_cases'] = 1
+            # Modify the included cases.
+            data_to_display['cogstat_filtered_cases'][self.active_data.data_frame.index] = 0
             # Start row numbers from 1, instead of 0.
             data_to_display.index = data_to_display.index + 1
-            # Add the measurement level to the dataframe.
+            # Add the variable type and measurement level to the dataframe.
+            dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num',
+                             'object': 'str', 'string': 'str', 'category': 'str', 'datetime64[ns]': 'str'}
             data_to_display = pd.concat(
-               [pd.DataFrame([[self.active_data.data_measlevs[name] for name in self.active_data.data_frame.columns]],
-                             columns=self.active_data.data_frame.columns, index=[_('Level')]), data_to_display])
+               [pd.DataFrame([[dtype_convert[str(self.active_data.data_frame[name].dtype).lower()] for name in
+                               self.active_data.data_frame.columns],
+                              [self.active_data.data_measlevs[name] for name in self.active_data.data_frame.columns]],
+                             columns=self.active_data.data_frame.columns,
+                             index=[_('Type'), _('Level')]), data_to_display])
+            # Prepare table view
             model = PandasModel(data_to_display)
             self.table_view.setModel(model)
             # Hide the filtering column
@@ -1166,13 +1172,13 @@ class PandasModel(QtCore.QAbstractTableModel):
             return str(self._dataframe.iloc[index.row(), index.column()])
 
         # Filtered data have different background
-        if role == Qt.ForegroundRole and not(index.row() == 0):  # don't hange the measurement level row (row 0)
-            if self._dataframe['costat_filtered-cases'].iloc[index.row()]:
+        if role == Qt.ForegroundRole and not(index.row() in [0, 1]):  # don't change the measurement level row (row 0)
+            if self._dataframe['cogstat_filtered_cases'].iloc[index.row()]:
                 return QtGui.QColor('lightGray')
 
-        # Use different background for the measurement level
+        # Use different background for the data type and measurement level
         if role == Qt.BackgroundRole:
-            if index.row() == 0:
+            if index.row() in [0, 1]:
                 return QtGui.QColor('lightGray')
 
         return None
