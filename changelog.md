@@ -24,6 +24,7 @@ Upcoming release (2022)
 - Save results into html file instead of pdf file (Róbert Fodor)
 - New localization
   - Chinese (Xiaomeng Zhu)
+  - Malay (Nur Hidayati Miza binti Junaidi)
 
 ## Fixes
 - :warning: In outlier filtering, the cases with the limit value will be included and not excluded

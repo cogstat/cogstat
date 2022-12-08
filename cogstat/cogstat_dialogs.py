@@ -928,7 +928,8 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
                       'et': 'Eesti (Estonian)', 'fa': 'فارسی (Persian)',
                       'fr': 'Français (French)', 'he': 'עברית (Hebrew)',
                       'hr': 'Hrvatski (Croatian)', 'hu': 'Magyar (Hungarian)', 'it': 'Italiano (Italian)',
-                      'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'nb': 'Norsk Bokmål (Norvegian Bokmål)',
+                      'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'ms': 'Melayu (Malay)',
+                      'nb': 'Norsk Bokmål (Norvegian Bokmål)',
                       'ro': 'Română (Romanian)', 'ru': 'Русский (Russian)', 'sk': 'Slovenčina (Slovak)',
                       'th': 'ไทย (Thai)', 'tr': 'Türkçe (Turkish)', 'zh': '汉语 (Chinese)'}
         lang_names_sorted = sorted([lang_names[lang] for lang in langs])
