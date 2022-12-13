@@ -28,10 +28,11 @@ Upcoming release (2022)
 
 ## Fixes
 - :warning: In outlier filtering, the cases with the limit value will be included and not excluded
-- :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 
+- :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed
+- Extended calculation validations (thanks to Eszter Miklós)
 - Various GUI, and output fixes
 
-2.3.0rc (6 July 2022)
+2.3.0 (23 July 2022)
 ===============
 
 ## New features
