@@ -482,9 +482,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     html_img = '<img src="data:image/png;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
                 elif image_format == 'svg':
-                    output.savefig(chart_buffer, format='svg')  # TODO set the right size
+                    # TODO in savefig(), when the format is 'svg', the dpi parameter is ignored, and a dpi of 72 is
+                    #  used instead https://github.com/cogstat/cogstat/issues/101
+                    output.savefig(chart_buffer, format='svg')
                     chart_buffer.seek(0)
-                    html_img = '<img src="data:image/svg-xml;base64,{0}">'. \
+                    # TODO width="800" height="600" won't help because the image is blurry
+                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())
                 chart_buffer.close()
                 pane.append(html_img)
