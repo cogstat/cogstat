@@ -316,7 +316,6 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the latter (CI) method has changed in v0.3.5 https://pingouin-stats.org/changelog.html
             # Based on the formula, calculated in LO Calc 7.0: 0.029614903724218, -0.34445335392457, 0.403683161373007
             # Note that the last value is 0.404 in LO, not .403 as in pingouin TODO
-            # jasp 0.16.1   Hedges'g: 0.030 TODO TODO where is it available in jasp?
         self.assertTrue("<td>Hedges' g</td>      <td>0.030</td>      <td>-0.344</td>      <td>0.403</td>" in result[5])
             # jamovi 2.0.0.0 0.954 0.215
             # jasp 0.16.1   0.954   0.215
