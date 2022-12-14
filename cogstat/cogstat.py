@@ -600,6 +600,8 @@ class CogStatData:
             The method modifies the self.data_frame in place.
         list of charts
             If cases were filtered, then filtered and remaining cases are shown.
+
+        Modifies the self.filtering_status.
         """
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
