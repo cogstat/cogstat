@@ -98,47 +98,62 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of missing cases: 0' in result[2])
         # Descriptives
             # jamovi 2.0.0.0    3.14
+            # R version 4.1.1 (2021-08-10)
+                #Platform: x86_64-w64-mingw32/x64 (64-bit)
+                #Running under: Windows 10 x64 (build 19044) -> R version 4.1.1 from now on
+            # R version 4.1.1 mean = 3.144
             # jasp 0.16.1   3.14
         self.assertTrue('<td>Mean</td>      <td>3.1438</td>' in result[4])
             # LibreOffice 7.1.5.2   stdev.p() 3.21518743552465
             # LibreOffice 7.4.3.2   stdev.s() 3.27015188599418
             # jasp 0.16.1   3.270  This is the population estimation (even if it is listed under the descriptives)
+            # R version 4.1.1 sd() = 3.270152
         self.assertTrue('<td>Standard deviation</td>      <td>3.2152</td>' in result[4])
             # jamovi 2.0.0.0 0.359
             # jasp 0.16.1 0.359
+            # R version 4.1.1 skewness = 0.359 SE = 0.405
         self.assertTrue('<td>Skewness</td>      <td>0.3586</td>' in result[4])
             # jamovi 2.0.0.0 0.0446
             # jasp 0.16.1   0.045
+            # R version 4.1.1 kurtosis = 0.045 SE = 0.700
         self.assertTrue('<td>Kurtosis</td>      <td>0.0446</td>' in result[4])
             # jamovi 2.0.0.0 12.8
             # jasp 0.16.1   12.784
+            # R version 4.1.1 range = -2.803  9.981
         self.assertTrue('<td>Range</td>      <td>12.7840</td>' in result[4])
             # jamovi 2.0.0.0 9.98
             # JASP 0.15.0.0 9.981
             # jasp 0.16.1   9.981
+            # R version 4.1.1 9.981
         self.assertTrue('<td>Maximum</td>      <td>9.9810</td>' in result[4])
             # jamovi 2.0.0.0 4.39
             # JASP 0.15.0.0 4.388
             # jasp 0.16.1   4.388
+            # R version 4.1.1 4.388
         self.assertTrue('<td>Upper quartile</td>      <td>4.3875</td>' in result[4])
             # jamovi 2.0.0.0 2.85
             # JASP 0.15.0.0 2.854
             # jasp 0.16.1   2.854   With more decimals, it is 2.85450
+            # R version 4.1.1 2.854
         self.assertTrue('<td>Median</td>      <td>2.8545</td>' in result[4])
             # jamovi 2.0.0.0 1.42
             # JASP 0.15.0.0 1.419
             # jasp 0.16.1   1.419
+            # R version 4.1.1 1.419
         self.assertTrue('<td>Lower quartile</td>      <td>1.4190</td>' in result[4])
             # jamovi 2.0.0.0 -2.80
             # JASP 0.15.0.0 -2.803
             # jasp 0.16.1   -2.803
+            # R version 4.1.1 -2.803
         self.assertTrue('<td>Minimum</td>      <td>-2.8030</td>' in result[4])
         # Shapiro–Wilk normality
             # jamovi 2.0.0.0 0.959
             # jasp 0.16.1   0.959
+            # R version 4.1.1 W = 0.9587, 
         self.assertTrue('<i>W</i> = 0.96' in result[6])  # <i>W</i> = 0.959
             # jamovi 2.0.0.0 0.287
             # jasp 0.16.1   0.287
+            # R version 4.1.1 p-value = 0.2869
         self.assertTrue('<i>p</i> = .287' in result[6])
 
         # Population estimation and one sample t-test
@@ -146,6 +161,12 @@ class CogStatTestCase(unittest.TestCase):
             # https://www.statskingdom.com/confidence-interval-calculator.html
                 # To use the t-value based solution, do not use the population SD (i.e., rely on t-distribution)
             # Mean confidence interval: [1.922672 , 4.364861]
+
+            # R version 4.1.1 mean of x: 3.143767 CI95 [1.922672 4.364861]
+            # R 4.1.1 t = 5.2655, df = 29,p-value = 1.213e-05
+ 
+
+
         self.assertTrue('<td>Mean</td>      <td>3.1438</td>      <td>1.9227</td>      <td>4.3649</td>' in result[8])
             # jamovi 2.0.0.0 3.27 - SD estimates population SD
             # https: // www.statskingdom.com / confidence - interval - calculator.html To use the t-value based solution, do not
@@ -155,20 +176,28 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681
+            # R 4.1.1 power = 0.9422216 two sided t.test with sig.level = 0.05, n = 29, eff size = 0.68
         self.assertTrue('effect size in d: 0.68' in result[10])
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 1.92, 0.065
+            # R 4.1.1 0.96  CI [0.52, 1.39]
+            
         self.assertTrue('t</i>(29) = 1.92' in result[10])
         self.assertTrue('p</i> = .065' in result[10])
         # Bayesian one sample t-test
             # Note that the test value is 2 here.
             # JASP 0.16 BF10: 0.969, BF01: 1.032
+            # R 4.1.1 t = 5.2655, df = 29, p-value = 1.213e-05 sample estimates: 3.143767 95CI: 1.922672 4.364861
+
         self.assertTrue('BF<sub>10</sub> = 0.97, BF<sub>01</sub> = 1.03' in result[10])
+
+        # R 4.1.1 Alt., r=0.707 : 1769.845 ±0% Bayes factor type: BFoneSample, JZS
 
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 20.0)
             # jamovi 2.0.0.0 W(!) 262, p 0.556
             # before scipy 1.9, the p value was 0.551; with scipy 1.9 the p has the same value as in jamovi
+            
         self.assertTrue('T</i> = 203' in result[10])
         self.assertTrue('p</i> = .556' in result[10])
 
@@ -189,6 +218,7 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 W(!) 320, p 0.073
             # JASP 0.15.0.0 W(!) 320, p 0.073
+            # R 4.1.1 V = 465, p-value = 1.863e-09
             # before scipy 1.9, the p value was 0.074; with scipy 1.9 the p has the same value as in jamovi
         self.assertTrue('T</i> = 145' in result[9])
         self.assertTrue('p</i> = .073' in result[9])
@@ -209,14 +239,38 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('N of missing pairs: 0' in result[1])
             # Regression model: jamovi 2.2.5.0 g 0.347 Intercept 4.593
             # jasp 0.16.1   g 0.347     Intercept 4.593
+            # R 4.1.1 (Intercept)            g  
+                        #4.5932              0.3465  
         self.assertTrue('y = 0.347x + 4.593' in result[3])
             # Pearson's correlation: jamovi 2.2.5.0 0.168
             # jasp 0.16.1   0.168
+            # R 4.1.1 0.1681807
         self.assertTrue('<i>r</i> = 0.168' in result[5])
             # Spearman's correlation: jamovi 2.2.5.0 0.103
             # jasp 0.16.1   0.103
+            # R 4.1.1 0.1034483
         self.assertTrue('<i>r<sub>s</sub></i> = 0.103' in result[5])
             # Henze-Zirkler test: MVN 5.9 using R 4.1.3 statistic 0.3620904 p 0.6555329
+            # R 4.1.1
+            #/ W      p-value UV.Normality
+            #a 0.9587 0.2869  Yes         
+            #b 0.5337 0       No          
+            #c 0.734  0       No          
+            # d 0.7941 1e-04   No          
+            # e 0.9659 0.4347  Yes         
+            # f 0.8179 1e-04   No          
+            # g 0.9461 0.1326  Yes         
+            # h 0.9799 0.8241  Yes         
+            # i 0.6318 0       No          
+            # j 0.6318 0       No          
+            # k 0.6366 0       No          
+            # l 0.9842 0.9235  Yes         
+            # m 0.6382 0       No          
+            # n 0.1796 0       No          
+            # o 0.6782 0       No          
+            # p 0.9756 0.6996  Yes         
+            # q 0.7737 0       No          
+            # r 0.9634 0.3762  Yes
         self.assertTrue('<i>W</i> = 0.36, <i>p</i> = .655' in result[9])
             # Koenker's test: bptest(h~g, data=data, studentize=True) in lmtest 0.9-40 using R 4.1.3, BP 0.11333, df=1, p-value 0.7364
         self.assertTrue('<i>LM</i> = 0.11, <i>p</i> = .737' in result[9])
