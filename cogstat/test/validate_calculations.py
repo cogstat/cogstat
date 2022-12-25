@@ -520,10 +520,12 @@ class CogStatTestCase(unittest.TestCase):
         data.data_measlevs['f'] = 'ord'
         result = data.compare_variables(['e', 'f'])
             # JASP 0.15.0.0 2.3895, 4.2275
+            # R 4.1.1 3.050233 5.3681
         self.assertTrue('<td>2.3895</td>      <td>4.2275</td>' in result[3])
         # Wilcoxon signed-rank test
             # jamovi 2.0.0.0 110, 0.011
             # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
+            # R 4.1.1 W = 274, p-value = 0.008774
         self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result[6])
 
         # 3 Ord variables
@@ -545,6 +547,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>      <td>13</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])  # TODO more cells
         # McNemar
             # jamovi 2.0.0.0 0.00, 1.000 TODO https://github.com/cogstat/cogstat/issues/55
+            # R 4.1.1 McNemar's chi-squared = 0, df = 1, p-value = 1
         self.assertTrue('&chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.06, <i>p</i> = .814' in result[5])  # &chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.0556
 
         # 3 Nom variables
@@ -552,6 +555,7 @@ class CogStatTestCase(unittest.TestCase):
         # Cochran's Q
             # TODO validate
             # not available in JASP and jamovi?
+            # R 4.1.1 error: there must be 1 observation per level of 'j' in each block 
         self.assertTrue('<i>Q</i>(2, <i>N</i> = 30) = 0.78, <i>p</i> = .676' in result[7])  # <i>Q</i>(2, <i>N</i> = 30) = 0.783
 
     def test_compare_groups(self):
@@ -561,18 +565,21 @@ class CogStatTestCase(unittest.TestCase):
         result = data.compare_groups('l', ['m'])
             # jamovi 2.0.0.0 2.53,4.58
             # jasp 0.16.1   2.532, 4.576
+            # R 4.1.1 3.553733 1.5
         self.assertTrue('<td>2.5316</td>      <td>4.5759</td>' in result[3])
         # Cohen's d
             # CS formula: https://pingouin-stats.org/generated/pingouin.compute_effsize.html
             # Based on the formula, calculated in LO Calc 6.4: -0.704171924382848
             # jamovi v1.2.19.0: 0.0704
             # jasp 0.16.1   -0.704
+            # R 4.1.1 0.94      | [0.41, 1.47]
         self.assertTrue("<td>Cohen's d</td>      <td>-0.704</td>" in result[3])
         # eta-squared
             # jasp 0.16.1   0.117 TODO
             # CS formula: https://pingouin-stats.org/generated/pingouin.convert_effsize.html
             # Based on the formula, calculated in LO Calc 6.4: 0.110292204104377
             # jamovi v1.2.19.0: 0.117 # TODO why the difference? Maybe https://github.com/raphaelvallat/pingouin/releases/tag/v0.5.2
+            # R 4.1.1        | 0.12 | [0.00, 1.00]
         self.assertTrue('<td>Eta-squared</td>      <td>0.110</td>' in result[3])
         # Hedges'g (with CI)
             # CS formula: https://pingouin-stats.org/generated/pingouin.compute_effsize.html
@@ -580,6 +587,7 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the latter (CI) method has changed in v0.3.5 https://pingouin-stats.org/changelog.html
             # Based on the formula, calculated in LO Calc 7.0: -0.685140250750879, -1.45474443187683, 0.084463930375068
             # jasp 0.16.1   -2.044, -4.216, 0.127
+            #
         self.assertTrue('<td>Difference between the two groups:</td>      <td>-2.0443</td>      <td>-4.2157</td>      <td>0.1272</td>' in result[5])
             # TODO CI
             # jasp 0.16.1   -0.685
@@ -595,18 +603,22 @@ class CogStatTestCase(unittest.TestCase):
         # independent samples t-test
             # jamovi v1.2.19.0: t, df, p: -1.93, 28.0, 0.064
             # jasp 0.16.1   t: -1.928, df: 28, p:0.064
+            # R 4.1.1 t = -1.9285, df = 27.362, p-value = 0.06423
         self.assertTrue('<i>t</i>(28) = -1.93, <i>p</i> = .064' in result[8])
         # Bayesian independent samples t-test
             # JASP 0.16 BF10: 1.348, BF01: 0.742
+
         self.assertTrue('BF<sub>10</sub> = 1.35, BF<sub>01</sub> = 0.74' in result[8])
 
         # Non-normal group
         result = data.compare_groups('o', ['m'])
             # jasp 0.16.1   W: 0.808 p: 0.005
+            # R 4.1.1 t = -2.8185, df = 14.762, p-value = 0.01312 welch t-test
         self.assertTrue('(m: 2.0): <i>W</i> = 0.81, <i>p</i> = .005' in result[8])  # <i>W</i> = 0.808
         # Mann-Whitney
             # jamovi 2.0.0.0 51.0, 0.010 TODO
             # jasp 0.16.1   51.000 0.010 TODO with more decimals p 0.00987
+            # R 4.1.1 W = 51, p-value = 0.0114
         self.assertTrue('<i>U</i> = 51.00, <i>p</i> = .011' in result[8])
 
         # Heteroscedastic groups
@@ -614,6 +626,7 @@ class CogStatTestCase(unittest.TestCase):
         # Welch's t-test
             # jamovi 2.0.0.0 0.119, 0.907
             # jasp 0.16.1   0.119 0.907
+            # R 4.1.1 t = 0.1188, df = 20.679, p-value = 0.9066
         self.assertTrue('<i>t</i>(25.3) = 0.12, <i>p</i> = .907' in result[8])  # <i>t</i>(25.3) = 0.119
 
 
@@ -625,14 +638,17 @@ class CogStatTestCase(unittest.TestCase):
             # jasp 0.16.1   3.287, 5.040, 7.241
         self.assertTrue('<td>3.2869</td>      <td>5.0400</td>      <td>7.2412</td>' in result[3])
             # jasp 0.16.1   omega2: 0.167
+            # R 4.1.1        |   0.19 | [0.02, 1.00]
         self.assertTrue('&omega;<sup>2</sup> = 0.167' in result[7])
         # Levene's test for homogeneity
             # jamovi 2.0.0.0 0.495, 0.615 TODO https://github.com/cogstat/cogstat/issues/56
             # jasp 0.16.1   F:0.495 p:0.615 TODO
+            # R 4.1.1   F =0.6767 0.5167
         self.assertTrue('<i>W</i> = 0.68, <i>p</i> = .517' in result[8])  # <i>W</i> = 0.675
         # Sensitivity power analysis
             # TODO eta-square; see also https://github.com/raphaelvallat/pingouin/releases/tag/v0.5.2
             # G*Power (f value) 3.1.9.6: 0.7597473
+            # R 4.1.1 power = 0.986451
         self.assertTrue('effect size in eta-square: 0.15' in result[8])
         self.assertTrue('effect size in f: 0.76' in result[8])
             # jamovi 2.0.0.0 4.00, 0.030
@@ -645,8 +661,32 @@ class CogStatTestCase(unittest.TestCase):
         # Kruskal-Wallis
             # jamovi 2.0.0.0 8.37, 0.015
             # jasp 0.16.1   8.366, 0.015
+            # R 4.1.1 chi-squared = 8.3659, df = 2, p-value = 0.01525
         self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 8.37, <i>p</i> = .015' in result[8])
         # TODO post-hoc Dunn's test
+
+        # R 4.1.1 első 20 összehasonlítás
+        # Comparison          Z   P.unadj P.adj
+# 1   -0.011 - -1.113  0.7701830 0.4411914     1
+# 2   -0.011 - -1.838  0.0000000 1.0000000     1
+# 3   -1.113 - -1.838 -0.7701830 0.4411914     1
+# 4   -0.011 - -2.327  0.7701830 0.4411914     1
+# 5   -1.113 - -2.327  0.0000000 1.0000000     1
+# 6   -1.838 - -2.327  0.7701830 0.4411914     1
+# 7    -0.011 - 0.265  0.7701830 0.4411914     1
+# 8    -1.113 - 0.265  0.0000000 1.0000000     1
+# 9    -1.838 - 0.265  0.7701830 0.4411914     1
+# 10   -2.327 - 0.265  0.0000000 1.0000000     1
+# 11   -0.011 - 0.959  0.0000000 1.0000000     1
+# 12   -1.113 - 0.959 -0.7701830 0.4411914     1
+# 13   -1.838 - 0.959  0.0000000 1.0000000     1
+# 14   -2.327 - 0.959 -0.7701830 0.4411914     1
+# 15    0.265 - 0.959 -0.7701830 0.4411914     1
+# 16   -0.011 - 1.479  0.7701830 0.4411914     1
+# 17   -1.113 - 1.479  0.0000000 1.0000000     1
+# 18   -1.838 - 1.479  0.7701830 0.4411914     1
+# 19   -2.327 - 1.479  0.0000000 1.0000000     1
+# 20    0.265 - 1.479  0.0000000 1.0000000     1
 
         # 2 Ord groups
         data.data_measlevs['o'] = 'ord'
@@ -654,6 +694,7 @@ class CogStatTestCase(unittest.TestCase):
         # Mann-Whitney
             # jamovi 2.0.0.0 51.0, 0.010 TODO
             # jasp 0.16.1 51.0, 0.010 TODO
+            # R 4.1.1 W = 51, p-value = 0.0114
         self.assertTrue('<i>U</i> = 51.00, <i>p</i> = .011' in result[6])
 
         # 3 Ord groups
@@ -662,6 +703,7 @@ class CogStatTestCase(unittest.TestCase):
         # Kruskal-Wallis
             # jamovi 2.0.0.0 8.37, 0.015
             # jasp 0.16.1   8.366, 0.015
+            #chi-squared = 8.3659, df = 2, p-value = 0.01525
         self.assertTrue('&chi;<sup>2</sup>(2, <i>N</i> = 30) = 8.37, <i>p</i> = .015' in result[6])
         data.data_measlevs['o'] = 'int'
 
@@ -670,6 +712,7 @@ class CogStatTestCase(unittest.TestCase):
         # Cramer's V
             # jamovi 2.0.0.0 0.222 # This is without continuity correction
             # jasp 0.16.1   0.222 TODO
+            # R 4.1.1 0.12              | [0.00, 1.00]
         self.assertTrue('&phi;<i><sub>c</sub></i> = 0.154' in result[3])
             # jamovi 2.0.0.0 continuity corection 0.710, 0.399
             # jasp 0.16.1   0.710, 0.399
@@ -683,12 +726,14 @@ class CogStatTestCase(unittest.TestCase):
         # Chi-squared test
             # jamovi 2.0.0.0 0.00242, 0.999
             # jasp 0.16.1   0.002, 0.999
+            # X-squared = 0.002424, df = 2, p-value = 0.9988
         self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.00, <i>p</i> = .999' in result[5])  # TODO validate  # &chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002
 
         # 3 × 3 Int groups
         result = data.compare_groups('a', ['c', 'd'])
         # JASP does not handle groups with a single participant. Jamovi does.
             # jamovi 2.2.5 1.070, 1.844, 2.369
+            # R 4.1.1 i don't get the same means
         self.assertTrue('<td>Mean</td>      <td>1.0695</td>      <td>1.8439</td>      <td>2.3693</td>' in result[3])
             # jamovi 2.2.5 3.12, 2.23, 4.92 - jamovi calculates the population estimation
             # LibreOffice 7.3.3.2 pivot table with StDevP (and not StDev) 2.70051934819953, 2.08907368452503, 4.26098869835394
