@@ -106,7 +106,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Only for testing
 #        self.open_file('cogstat/test/data/example_data.csv'); #self.compare_groups()
 #        self.open_file('cogstat/test/data/VA_test.csv')
-#        self.open_file('cogstat/test/data/test.csv')
+#        self.open_file('cogstat/test/data/test2.csv')
 #        self.open_file('cogstat/test/data/diffusion.csv')
 #        self.open_clipboard()
 #        self.print_data()
@@ -122,11 +122,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_variables(['a', 'e', 'g'])
 #        self.compare_variables(['D', 'E', 'F'])
 #        self.compare_variables()
-#        self.compare_variables(['a', 'b', 'c1', 'd', 'e', 'f', 'g', 'h'],
-#                               factors=[['factor1', 2], ['factor2', 2], ['factor3', 2]])
+#        self.compare_variables(['a', 'b'], factors=[['factor', 2]], display_factors=[['factor'], []])
+#        self.compare_variables(['a', 'g', 'b', 'h'],
+#                               factors=[['factor1', 2], ['factor2', 2]],
+#                               display_factors=[['factor1'], ['factor2']])
 #        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
-#        self.compare_groups(['A'], ['G', 'H'])
+#        self.compare_groups(['b'], groups=['i', 'j', 'k'], display_groups=[['k', 'i'], ['j'], []]),
+#        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.compare_groups(['dep_nom'], ['g0', 'g1', 'g2', 'g3'])
 #        self.save_result_as()
@@ -924,12 +927,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
-    def compare_variables(self, var_names=None, factors=[], ylims=[None, None]):
+    def compare_variables(self, var_names=None, factors=None, display_factors=None, ylims=[None, None]):
         """Compare variables.
         
         Arguments:
         var_names (list): variable names
         """
+        if factors is None:
+            factors = []
+        if display_factors is None:
+            display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
             try:
                 self.dial_comp_var
@@ -938,15 +945,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var.exec_():
-                var_names, factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
+                var_names, factors, display_factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
                                                                                   # appropriate
             else:
                 return
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
-        if len(factors) == 1:
-            factors = []  # ignore single factor
+        # TODO why did we need this? rethink the specifications
+        #if len(factors) == 1:
+        #    factors = []  # ignore single factor
         if len(var_names) < 2:
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
                                                   (_('Compare repeated measures variables'),
@@ -961,7 +969,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                              'factors.')))
                     self.analysis_results[-1].add_output(text_result)
                 else:
-                    result_list = self.active_data.compare_variables(var_names, factors, ylims)
+                    result_list = self.active_data.compare_variables(var_names, factors, display_factors, ylims)
                     for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
                         self.analysis_results[-1].add_output(result)
             except:
@@ -970,7 +978,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
         
-    def compare_groups(self, var_names=None, groups=None, single_case_slope_SE=None, single_case_slope_trial_n=None,
+    def compare_groups(self, var_names=None, groups=None, display_groups=None,
+                       single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """Compare groups.
         
@@ -986,7 +995,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
-                var_names, groups, single_case_slope_SE, single_case_slope_trial_n, ylims = self.dial_comp_grp.\
+                var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = self.dial_comp_grp.\
                     read_parameters()  # TODO check if settings are appropriate
             else:
                 return
@@ -1003,7 +1012,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 try:
                     self.analysis_results.append(GuiResultPackage())
                     self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-                    result_list = self.active_data.compare_groups(var_name, groups, single_case_slope_SE,
+                    result_list = self.active_data.compare_groups(var_name, groups, display_groups,
+                                                                  single_case_slope_SE,
                                                                   single_case_slope_trial_n, ylims)
                     self.analysis_results[-1].add_output(result_list)
                 except:

@@ -1227,7 +1227,7 @@ class CogStatData:
                                          correct_coding, reaction_time_in, scaling_parameter)
         return cs_util.convert_output([title, pivot_result])
 
-    def compare_variables(self, var_names, factors=[], ylims=[None, None]):
+    def compare_variables(self, var_names, factors=None, display_factors=None, ylims=[None, None]):
         """
         Compare repeated measures variables.
 
@@ -1242,6 +1242,8 @@ class CogStatData:
                 ['name of the factor 2', number_of_the_levels]]
 
             Factorial combination of the factors will be generated, and variables will be assigned respectively
+        display_factors: list of two lists of strings
+            Factors to be displayed on x axis, and color (panel cannot be used for repeated measures data).
         ylims : list of {int or float}
             Limit of the y axis for interval and ordinal variables instead of using automatic values.
 
@@ -1250,6 +1252,13 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        if factors is None:
+            factors = []
+        # if display_factors is not specified, then all factors are displayed on the x-axis
+        if (display_factors is None) or (display_factors == [[], []]):
+            display_factors = [[factor[0] for factor in factors], []]
+
+
         plt.close('all')
         title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
@@ -1295,11 +1304,23 @@ class CogStatData:
         # Plot the raw data
         raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=True,
                                                                    ylims=ylims)
+        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
+                                                                                  names=[factor[0] for factor in factors]))
+        raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                       factor_info=factor_info,
+                                                                       indep_x=display_factors[0],
+                                                                       indep_color=display_factors[1],
+                                                                       ylims=ylims, raw_data=True)
 
         # Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
+            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                              factor_info=factor_info,
+                                                                              indep_x=display_factors[0],
+                                                                              indep_color=display_factors[1],
+                                                                              ylims=ylims, raw_data=True, box_plots=True)
         else:
             sample_graph = None
 
@@ -1354,6 +1375,16 @@ class CogStatData:
         population_result += '\n'
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
+        population_estimation, *population_graph_new = cs_chart.\
+            create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                  factor_info=factor_info,
+                                                  indep_x=display_factors[0],
+                                                  indep_color=display_factors[1],
+                                                  ylims=ylims, estimations=True,
+                                                  estimation_table=True)
+        population_result += \
+            cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
 
         # 3b. Effect size
         effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
@@ -1364,10 +1395,12 @@ class CogStatData:
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
-                                       population_graph, result_ht])
+        return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
+                                       population_graph, population_graph_new, result_ht])
 
-    def compare_groups(self, var_name, grouping_variables,  single_case_slope_SE=None, single_case_slope_trial_n=None,
+    def compare_groups(self, var_name,
+                       grouping_variables=None, display_groups=None,
+                       single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """
         Compare groups.
@@ -1378,6 +1411,8 @@ class CogStatData:
             Name of the dependent variable
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
+        display_groups : list of three list of strings
+            List of name(s) of grouping variable(s) displayed on x axies, with colors, and on panels.
         single_case_slope_SE : str
             When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
@@ -1392,7 +1427,13 @@ class CogStatData:
         """
         plt.close('all')
         var_names = [var_name]
-        groups = grouping_variables
+        if grouping_variables is None:
+            grouping_variables = []
+        # if display_groups are not specified, then all group will be displayed on x-axis
+        if (display_groups is None) or (display_groups == [[], [], []]):
+            display_groups = [grouping_variables, [], []]
+
+        groups = grouping_variables[:]
         # TODO check if there is only one dep.var.
         title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
@@ -1452,6 +1493,12 @@ class CogStatData:
 
         raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
+        raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+                                                                       dep_name=var_name,
+                                                                       indep_x=display_groups[0],
+                                                                       indep_color=display_groups[1],
+                                                                       indep_panel=display_groups[2],
+                                                                       ylims=ylims, raw_data=True)
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -1475,8 +1522,7 @@ class CogStatData:
                                                               count=True, percent=True, margins=True)
 
         # Effect size
-        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level,
-                                                                 sample=True)
+        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level, sample=True)
         if sample_effect_size:
             sample_result += '\n\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
@@ -1485,6 +1531,14 @@ class CogStatData:
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                        level_combinations, ylims=ylims)
+            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+                                                                              dep_name=var_name,
+                                                                              indep_x=display_groups[0],
+                                                                              indep_color=display_groups[1],
+                                                                              indep_panel=display_groups[2],
+                                                                              ylims=ylims,
+                                                                              raw_data=True,
+                                                                              box_plots=True)
         else:
             sample_graph = None
 
@@ -1493,6 +1547,13 @@ class CogStatData:
         group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, groups)
         population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, groups,
                                                                            level_combinations, ylims=ylims)
+        population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+                                                                              dep_name=var_name,
+                                                                              indep_x=display_groups[0],
+                                                                              indep_color=display_groups[1],
+                                                                              indep_panel=display_groups[2],
+                                                                              estimations=True, ylims=ylims,
+                                                                              estimation_table=True)
 
         # Population estimation
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
@@ -1508,6 +1569,10 @@ class CogStatData:
                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
         if meas_level == 'nom':
             population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True)
+        population_result += \
+            cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+
 
         # effect size
         standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
@@ -1527,8 +1592,8 @@ class CogStatData:
             result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
                         cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
-                                       population_graph, standardized_effect_size_result, result_ht])
+        return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
+                                       population_graph, population_graph_new, standardized_effect_size_result, result_ht])
 
 
 def display(results):

@@ -16,11 +16,15 @@ Upcoming release (2022)
   - Scatterplot matrix of raw data
   - Analysis of multicollinearity
   - Hypothesis tests
+- Displaying groups and factors
+  - In comparing groups, display groups not only on x axes but also with colors or in panels
+  - In comparing repeated measures variables, display conditions not only on x axes but also with colors
+    - Rearrange the factors flexibly  
 - Behavioral data diffusion analysis
   - The time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
   - Slow trials are filtered before the analysis is run
-  - Display the number of fitered (missing and slow outlier) trials
-  - Number of used trials are displayed
+  - Display the number of filtered (missing and slow outlier) trials
+  - Number of included trials per conditions are displayed
 - Save results into html file instead of pdf file (Róbert Fodor)
 - New localization
   - Chinese (Xiaomeng Zhu)

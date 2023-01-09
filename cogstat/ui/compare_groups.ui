@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>577</width>
-    <height>369</height>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -156,6 +156,13 @@
       <widget class="QPushButton" name="pushButton_2">
        <property name="text">
         <string>O&amp;ptions...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="text">
+        <string>&amp;Display groups...</string>
        </property>
       </widget>
      </item>
