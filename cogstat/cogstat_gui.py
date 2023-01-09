@@ -442,7 +442,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
-    def _print_to_pane(self, pane=None, output_list=[]):
+    def _print_to_pane(self, pane=None, output_list=None):
         """Print a GuiResultPackage to the output or data pane.
 
         The pane should have a pane.welcome_message_on property.
@@ -459,6 +459,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
 
+        if output_list is None:
+            output_list = []
         if pane.welcome_message_on:
             pane.clear()
             #pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
@@ -853,7 +855,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(False)
 
 
-    def pivot(self, depend_names=None, row_names=[], col_names=[], page_names=[], function='Mean'):
+    def pivot(self, depend_names=None, row_names=None, col_names=None, page_names=None, function='Mean'):
         """Build a pivot table.
         
         Arguments:
@@ -861,6 +863,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
         row_names, col_names, page_names (lists of str): name of the independent variables
         function (str): available functions: N,Sum, Mean, Median, Standard Deviation, Variance (default Mean)
         """
+        if page_names is None:
+            page_names = []
+        if col_names is None:
+            col_names = []
+        if row_names is None:
+            row_names = []
         if not depend_names:
             try:
                 self.dial_pivot
@@ -888,7 +896,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
-    def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
+    def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
                   reaction_time_in='sec', scaling_parameter=0.1):
         """Run a diffusion analysis on behavioral data.
 
@@ -896,6 +904,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         RT_name, error name, participant_name (lists of str): name of the variables
         condition_names (lists of str): name of the condition(s) variables
         """
+        if condition_names is None:
+            condition_names = []
         if not RT_name:
             try:
                 self.dial_diffusion

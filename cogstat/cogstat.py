@@ -1163,7 +1163,7 @@ class CogStatData:
                                        estimation_parameters, population_graph, estimation_effect_size,
                                        population_result])
 
-    def pivot(self, depend_name='', row_names=[], col_names=[], page_names=[], function='Mean'):
+    def pivot(self, depend_name='', row_names=None, col_names=None, page_names=None, function='Mean'):
         """
         Compute pivot table.
 
@@ -1185,12 +1185,18 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        if page_names is None:
+            page_names = []
+        if col_names is None:
+            col_names = []
+        if row_names is None:
+            row_names = []
         # TODO optionally return pandas DataFrame or Panel
         title = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
         pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
         return cs_util.convert_output([title, pivot_result])
 
-    def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
+    def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
                   reaction_time_in='sec', scaling_parameter=0.1):
         """
         Run diffusion analysis on behavioral data.
@@ -1221,6 +1227,8 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        if condition_names is None:
+            condition_names = []
         # TODO return pandas DataFrame
         title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
         pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,

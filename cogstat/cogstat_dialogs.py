@@ -197,10 +197,12 @@ def _add_to_list_widget_with_factors(source_list_widget, target_list_widget, nam
                 break
 
 
-def _remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
+def _remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=None):
     """
     Remove selected items from target_list_widget.
     """
+    if names is None:
+        names = []
     for item in target_list_widget.selectedItems():
         if item.text().split(' :: ')[1]:
             source_list_widget.insertItem(_find_previous_item_position(source_list_widget, names, item.text().
@@ -239,8 +241,10 @@ def _float_or_none(x):
 
 from .ui import pivot
 class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -307,8 +311,10 @@ from .ui import diffusion
 
 
 class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -402,8 +408,10 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
 
 from .ui import filter_outlier
 class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -437,8 +445,10 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
 
 from .ui import var_properties
 class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -483,8 +493,10 @@ class xylims_dialog(QtWidgets.QDialog, xylims.Ui_Dialog):
 
 from .ui import explore_var_pairs
 class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -529,8 +541,10 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
 
 from .ui import regression
 class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -812,8 +826,10 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
 from .ui import compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_single_case_slope.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -890,8 +906,10 @@ class displayfactors_groups_dialog(QtWidgets.QDialog, displayfactors_groups.Ui_D
 
 from .ui import compare_groups
 class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)

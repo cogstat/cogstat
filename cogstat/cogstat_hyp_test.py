@@ -771,7 +771,7 @@ def cochran_q_test(pdf, var_names):
            (df, len(pdf[var_names[0]]), non_data_dim_precision, q, print_p(p))
 
 
-def repeated_measures_anova(pdf, var_names, factors=[]):
+def repeated_measures_anova(pdf, var_names, factors=None):
     """
 
     Parameters
@@ -786,6 +786,8 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
 
     """
 
+    if factors is None:
+        factors = []
     if not factors:  # one-way comparison
         # Mauchly's test for sphericity
         spher, w, chisq, dof, wp = pingouin.sphericity(pdf[var_names])

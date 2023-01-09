@@ -201,7 +201,7 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     return result
 
 
-def diffusion(df, error_name='', RT_name='', participant_name='', condition_names=[], correct_coding='0',
+def diffusion(df, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
               reaction_time_in='sec', scaling_parameter=0.1, max_reaction_time=2.5, case_unsensitive_index_sort=True):
     """Drift diffusion parameter recovery based on the EZ method.
 
@@ -236,6 +236,8 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     """
 
     # Can we run the analysis?
+    if condition_names is None:
+        condition_names = []
     if not (error_name and RT_name):
         result = _('Specify the minimum required parameters (reaction time and error).')
         return result
@@ -419,7 +421,7 @@ def proportions_ci(pdf, var_name):
     return text_result
 
 
-def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
+def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
     """
     Computes descriptive stats for variables and/or groups.
 
@@ -442,6 +444,8 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     -------
 
     """
+    if statistics is None:
+        statistics = []
     stat_names = {'mean': _('Mean'),
                   'median': _('Median'),
                   'std': _('Standard deviation'),
@@ -513,7 +517,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     return text_result
 
 
-def variable_estimation(data, statistics=[]):
+def variable_estimation(data, statistics=None):
     """
     Calculate the point and interval estimations of the required parameters.
 
@@ -529,6 +533,8 @@ def variable_estimation(data, statistics=[]):
     str
         Table of the point and interval estimations
     """
+    if statistics is None:
+        statistics = []
     pdf_result = pd.DataFrame()
     population_param_text = ''
     for statistic in statistics:
