@@ -187,8 +187,11 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
                     # default pivot_table() sort returns case-sensitive ordered indexes
                     # we reorder the tables to be case-insensitive
                     from pandas.api.types import is_string_dtype
-                    if is_string_dtype(ptable.index):
-                        ptable.sort_index(inplace=True, key=lambda x: x.str.lower())
+                    # this should be done separately for all index levels to make sure that, in a multiindex, only
+                    # string indexes are sorted
+                    for index_i in range(ptable.index.nlevels):
+                        if is_string_dtype(ptable.index.get_level_values(index_i)):
+                            ptable.sort_index(level=index_i, inplace=True, key=lambda x: x.str.lower())
                 ptable_result = '%s\n%s' % (ptable_result, _format_html_table(ptable.
                                             to_html(bold_rows=False, sparsify=False, float_format=format_output)))
             else:
