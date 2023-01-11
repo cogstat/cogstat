@@ -1099,7 +1099,8 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
             # default=0 parameter is needed when a group level combination does not include any cases
         for var_i in range(len(variables)):
             val_count = _value_count(variables[var_i], max_freq)
-            ax.scatter(np.ones(len(val_count)) + var_i, val_count.index, val_count.values * 5,
+            # size parameter must be float, not int
+            ax.scatter(np.ones(len(val_count)) + var_i, val_count.index, val_count.values.astype(float) * 5,
                        color=theme_colors[0], marker='o')
             #plt.plot(np.ones(len(variables[i]))+i, variables[i], '.', color = '#808080', ms=3)
         if max_freq > 1:
@@ -1543,8 +1544,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
                         enumerate(color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows'))):
                     if raw_data:
                         val_count = _value_count(x_raw_group[dep_name], max_freq_global)
+                        # size parameter must be float, not int
                         ax.scatter(np.ones(len(val_count)) + j + i/(color_n+1),
-                                   val_count.index, val_count.values * 5,
+                                   val_count.index, val_count.values.astype(float) * 5,
                                    color=theme_colors[i % len(theme_colors)], marker='o',
                                    label=color_label if not color_label_set else '')
                         color_label_set = True
