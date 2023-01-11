@@ -1187,10 +1187,13 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
+                    # convert pandas Float64 to float
                     pdf_result.loc[_("Cohen's d"), _('Value')] = \
-                        pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='cohen')
+                        pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                                                 paired=False, eftype='cohen')
                     pdf_result.loc[_("Eta-squared"), _('Value')] = \
-                        pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='eta-square')
+                        pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                                                 paired=False, eftype='eta-square')
                 else:
                     standardized_effect_size_result = None
             else:
@@ -1219,7 +1222,9 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
-                    hedges = pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='hedges')
+                    # convert pandas Float64 to float
+                    hedges = pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                                                      paired=False, eftype='hedges')
                     hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(grouped_data[0]), ny=len(grouped_data[0]),
                                                       paired=False, eftype='cohen', confidence=0.95, decimals=3)
                     pdf_result.loc[_("Hedges' g")] = hedges, *hedges_ci
