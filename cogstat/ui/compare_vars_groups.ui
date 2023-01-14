@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>668</width>
+    <width>595</width>
     <height>434</height>
    </rect>
   </property>
@@ -162,16 +162,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="display_options_button">
        <property name="text">
-        <string>&amp;Display factors/groups...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>O&amp;ptions...</string>
+        <string>&amp;Display options...</string>
        </property>
       </widget>
      </item>
@@ -218,8 +211,7 @@
   <tabstop>remove_group_button</tabstop>
   <tabstop>group_listWidget</tabstop>
   <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_2</tabstop>
+  <tabstop>display_options_button</tabstop>
   <tabstop>single_case_button</tabstop>
  </tabstops>
  <resources/>

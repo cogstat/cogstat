@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(668, 434)
+        Dialog.resize(595, 434)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -74,12 +74,9 @@ class Ui_Dialog(object):
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout.addWidget(self.pushButton)
-        self.pushButton_3 = QtWidgets.QPushButton(Dialog)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.horizontalLayout.addWidget(self.pushButton_3)
-        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.display_options_button = QtWidgets.QPushButton(Dialog)
+        self.display_options_button.setObjectName("display_options_button")
+        self.horizontalLayout.addWidget(self.display_options_button)
         self.single_case_button = QtWidgets.QPushButton(Dialog)
         self.single_case_button.setObjectName("single_case_button")
         self.horizontalLayout.addWidget(self.single_case_button)
@@ -106,9 +103,8 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.add_group_button, self.remove_group_button)
         Dialog.setTabOrder(self.remove_group_button, self.group_listWidget)
         Dialog.setTabOrder(self.group_listWidget, self.pushButton)
-        Dialog.setTabOrder(self.pushButton, self.pushButton_3)
-        Dialog.setTabOrder(self.pushButton_3, self.pushButton_2)
-        Dialog.setTabOrder(self.pushButton_2, self.single_case_button)
+        Dialog.setTabOrder(self.pushButton, self.display_options_button)
+        Dialog.setTabOrder(self.display_options_button, self.single_case_button)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -120,8 +116,7 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Group(s)"))
         self.pushButton.setText(_translate("Dialog", "&Factors..."))
         self.pushButton.setShortcut(_translate("Dialog", "Alt+F"))
-        self.pushButton_3.setText(_translate("Dialog", "&Display factors/groups..."))
-        self.pushButton_2.setText(_translate("Dialog", "O&ptions..."))
+        self.display_options_button.setText(_translate("Dialog", "&Display options..."))
         self.single_case_button.setText(_translate("Dialog", "Single case &slope..."))
 
 

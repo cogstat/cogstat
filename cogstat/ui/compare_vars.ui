@@ -116,16 +116,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="display_options_button">
        <property name="text">
-        <string>&amp;Display factors...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>O&amp;ptions...</string>
+        <string>&amp;Display options...</string>
        </property>
       </widget>
      </item>
@@ -162,7 +155,6 @@
   <tabstop>removeVar</tabstop>
   <tabstop>selected_listWidget</tabstop>
   <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
  </tabstops>
  <resources/>
  <connections>

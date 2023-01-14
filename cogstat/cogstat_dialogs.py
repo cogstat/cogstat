@@ -669,21 +669,9 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
         return [self.listWidget.item(i).text() for i in range(self.listWidget.count())]
         #return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
-from .ui import ylims
-class ylims_dialog(QtWidgets.QDialog, ylims.Ui_Dialog):
-    def __init__(self, parent=None):
-        QtWidgets.QDialog.__init__(self, parent)
-        self.setupUi(self)
-        self.setModal(True)
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
 
-    def read_parameters(self):
-        return [self.lineEdit.text(), self.lineEdit_2.text()]
-
-
-from .ui import displayfactors_repeated
-class displayfactors_repeated_dialog(QtWidgets.QDialog, displayfactors_repeated.Ui_Dialog):
+from .ui import display_options_repeated
+class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeated.Ui_Dialog):
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -707,10 +695,11 @@ class displayfactors_repeated_dialog(QtWidgets.QDialog, displayfactors_repeated.
     def remove_color(self):
         _remove_item_from_list_widget(self.factor_x_listWidget, self.factor_color_listWidget, self.factors)
     def read_parameters(self):
-        return ([str(self.factor_x_listWidget.item(i).text()) for i in range(self.factor_x_listWidget.count())] if
+        return ([[str(self.factor_x_listWidget.item(i).text()) for i in range(self.factor_x_listWidget.count())] if
                 self.factor_x_listWidget.count() else [],
                 [str(self.factor_color_listWidget.item(i).text()) for i in range(self.factor_color_listWidget.count())] if
-                self.factor_color_listWidget.count() else [])
+                self.factor_color_listWidget.count() else []],
+                [self.minimum_y.text(), self.maximum_y.text()])
 
 
 from .ui import compare_vars
@@ -730,12 +719,10 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.factorsButton_clicked)
-        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
-        self.pushButton_3.clicked.connect(self.displayfactorsButton_clicked)
+        self.display_options_button.clicked.connect(self.display_options_button_clicked)
 
         self.factors_dialog = factors_dialog(self)
-        self.ylims_dialog = ylims_dialog(self)
-        self.displayfactors_repeated_dialog = displayfactors_repeated_dialog(self)
+        self.display_options_repeated_dialog = display_options_repeated_dialog(self)
         self.factors = []
         self.displayfactors = [[], []]
         self.ylims = [None, None]
@@ -808,14 +795,10 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                             _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                             item.text())
 
-    def displayfactorsButton_clicked(self):
-        self.displayfactors_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
-        if self.displayfactors_repeated_dialog.exec_():
-            self.displayfactors = self.displayfactors_repeated_dialog.read_parameters()
-
-    def optionsButton_clicked(self):
-        if self.ylims_dialog.exec_():
-            self.ylims = self.ylims_dialog.read_parameters()
+    def display_options_button_clicked(self):
+        self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+        if self.display_options_repeated_dialog.exec_():
+            self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
 
@@ -866,8 +849,8 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
                 str(self.spinBox.text()))
 
 
-from .ui import displayfactors_groups
-class displayfactors_groups_dialog(QtWidgets.QDialog, displayfactors_groups.Ui_Dialog):
+from .ui import display_options_groups
+class display_options_groups_dialog(QtWidgets.QDialog, display_options_groups.Ui_Dialog):
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -899,12 +882,13 @@ class displayfactors_groups_dialog(QtWidgets.QDialog, displayfactors_groups.Ui_D
     def remove_panel(self):
         _remove_item_from_list_widget(self.factor_x_listWidget, self.factor_panel_listWidget, self.factors)
     def read_parameters(self):
-        return ([str(self.factor_x_listWidget.item(i).text()) for i in range(self.factor_x_listWidget.count())] if
+        return ([[str(self.factor_x_listWidget.item(i).text()) for i in range(self.factor_x_listWidget.count())] if
                 self.factor_x_listWidget.count() else [],
                 [str(self.factor_color_listWidget.item(i).text()) for i in range(self.factor_color_listWidget.count())] if
                 self.factor_color_listWidget.count() else [],
                 [str(self.factor_panel_listWidget.item(i).text()) for i in range(self.factor_panel_listWidget.count())] if
-                self.factor_panel_listWidget.count() else [])
+                self.factor_panel_listWidget.count() else []],
+                [self.minimum_y.text(), self.maximum_y.text()])
 
 
 from .ui import compare_groups
@@ -930,12 +914,10 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.add_group_button.clicked.connect(self.add_group)
         self.remove_group_button.clicked.connect(self.remove_group)
         self.pushButton.clicked.connect(self.on_slopeButton_clicked)
-        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
-        self.pushButton_3.clicked.connect(self.displayfactorsButton_clicked)
+        self.display_options_button.clicked.connect(self.display_options_button_clicked)
 
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
-        self.ylims_dialog = ylims_dialog(self)
-        self.displayfactors_groups_dialog = displayfactors_groups_dialog(self)
+        self.display_options_groups_dialog = display_options_groups_dialog(self)
         self.displayfactors = [[], [], []]
         self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
         self.ylims = [None, None]
@@ -963,15 +945,11 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         if self.slope_dialog.exec_():
             self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
-    def displayfactorsButton_clicked(self):
-        self.displayfactors_groups_dialog.\
+    def display_options_button_clicked(self):
+        self.display_options_groups_dialog.\
             set_factors(factors=[str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
-        if self.displayfactors_groups_dialog.exec_():
-            self.displayfactors = self.displayfactors_groups_dialog.read_parameters()
-
-    def optionsButton_clicked(self):
-        if self.ylims_dialog.exec_():
-            self.ylims = self.ylims_dialog.read_parameters()
+        if self.display_options_groups_dialog.exec_():
+            self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
 
@@ -1003,14 +981,12 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.add_group_button.clicked.connect(self.add_group)
         self.remove_group_button.clicked.connect(self.remove_group)
         self.pushButton.clicked.connect(self.factorsButton_clicked)
-        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
-        self.pushButton_3.clicked.connect(self.displayfactorsButton_clicked)
+        self.display_options_button.clicked.connect(self.display_options_button_clicked)
         self.single_case_button.clicked.connect(self.on_slopeButton_clicked)
 
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
         self.factors_dialog = factors_dialog(self)
-        self.ylims_dialog = ylims_dialog(self)
-        self.displayfactors_repeated_dialog = displayfactors_repeated_dialog(self)
+        self.display_options_groups_dialog = display_options_groups_dialog(self)
         self.factors = []
         self.displayfactors = [[], []]
         self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
@@ -1090,14 +1066,10 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                             _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                             item.text())
 
-    def displayfactorsButton_clicked(self):
-        self.displayfactors_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
-        if self.displayfactors_repeated_dialog.exec_():
-            self.displayfactors = self.displayfactors_repeated_dialog.read_parameters()
-
-    def optionsButton_clicked(self):
-        if self.ylims_dialog.exec_():
-            self.ylims = self.ylims_dialog.read_parameters()
+    def display_options_button_clicked(self):
+        self.display_options_groups_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+        if self.display_options_groups_dialog.exec_():
+            self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
 

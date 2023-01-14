@@ -58,12 +58,9 @@ class Ui_Dialog(object):
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout.addWidget(self.pushButton)
-        self.pushButton_3 = QtWidgets.QPushButton(Dialog)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.horizontalLayout.addWidget(self.pushButton_3)
-        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.display_options_button = QtWidgets.QPushButton(Dialog)
+        self.display_options_button.setObjectName("display_options_button")
+        self.horizontalLayout.addWidget(self.display_options_button)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
@@ -83,7 +80,6 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.addVar, self.removeVar)
         Dialog.setTabOrder(self.removeVar, self.selected_listWidget)
         Dialog.setTabOrder(self.selected_listWidget, self.pushButton)
-        Dialog.setTabOrder(self.pushButton, self.pushButton_2)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -92,8 +88,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Selected variables"))
         self.pushButton.setText(_translate("Dialog", "&Factors..."))
         self.pushButton.setShortcut(_translate("Dialog", "Alt+F"))
-        self.pushButton_3.setText(_translate("Dialog", "&Display factors..."))
-        self.pushButton_2.setText(_translate("Dialog", "O&ptions..."))
+        self.display_options_button.setText(_translate("Dialog", "&Display options..."))
 
 
 if __name__ == "__main__":
