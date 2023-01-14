@@ -1260,8 +1260,9 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
-        if factors is None:
-            factors = []
+        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        if factors is None or factors == []:
+            factors = [[' ', len(var_names)]]
         # if display_factors is not specified, then all factors are displayed on the x-axis
         if (display_factors is None) or (display_factors == [[], []]):
             display_factors = [[factor[0] for factor in factors], []]
@@ -1272,16 +1273,16 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         raw_result = _('Variables to compare: ') + ', '.\
             join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-        if factors:
-            raw_result += _('Factors (number of levels): ') + ', '.\
-                join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
-            factor_combinations = ['']
-            for factor in factors:
-                factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i+1) for factor_combination
-                                       in factor_combinations for level_i in range(factor[1])]
-            factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-            for factor_combination, var_name in zip(factor_combinations, var_names):
-                raw_result += '%s: %s\n' % (factor_combination, var_name)
+
+        raw_result += _('Factors (number of levels): ') + ', '.\
+            join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
+        factor_combinations = ['']
+        for factor in factors:
+            factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i+1) for factor_combination
+                                   in factor_combinations for level_i in range(factor[1])]
+        factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
+        for factor_combination, var_name in zip(factor_combinations, var_names):
+            raw_result += '%s: %s\n' % (factor_combination, var_name)
 
         raw_result += self._filtering_status()
 

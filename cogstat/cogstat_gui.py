@@ -962,9 +962,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
-        # TODO why did we need this? rethink the specifications
-        #if len(factors) == 1:
-        #    factors = []  # ignore single factor
         if len(var_names) < 2:
             text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
                                                   (_('Compare repeated measures variables'),

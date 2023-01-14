@@ -589,7 +589,7 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
         result_ht += _('Testing if the medians are the same.') + '</decision>\n'
     elif meas_level == 'nom':
         result_ht += _('Testing if the distributions are the same.') + '</decision>\n'
-    if not factors:  # one-way comparison
+    if len(factors) == 1:  # one-way comparison
         if len(var_names) < 2:
             result_ht += _('At least two variables required.')
         elif len(var_names) == 2:
@@ -788,7 +788,7 @@ def repeated_measures_anova(pdf, var_names, factors=None):
 
     if factors is None:
         factors = []
-    if not factors:  # one-way comparison
+    if len(factors) == 1:  # one-way comparison
         # Mauchly's test for sphericity
         spher, w, chisq, dof, wp = pingouin.sphericity(pdf[var_names])
         text_result = _("Result of Mauchly's test to check sphericity") + \
