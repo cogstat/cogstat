@@ -608,6 +608,8 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
 
 from .ui import factor
 class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
+    """Set  a repeated measures factor's name and number of the levels.
+    """
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -627,6 +629,8 @@ class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
 
 from .ui import factors
 class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
+    """Specify the list of repeated measures factors.
+    """
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -744,16 +748,16 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
-        if len(self.factors) < 2:
-            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
-        else:
+        if self.factors:
             _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
     def remove_var(self):
-        if len(self.factors) < 2:
-            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
-        else:
+        if self.factors:
             _remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def show_factors(self):
         # remove all items first
@@ -786,9 +790,9 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
             self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
             #print(self.factors)
-            if len(self.factors) > 1:
+            if self.factors:
                 self.show_factors()
-            else:  # remove the factor levels if there is one or zero factor level
+            else:  # remove the factor levels if there is no explicit factor level
                 for i in range(self.selected_listWidget.count()):
                     item = self.selected_listWidget.takeItem(0)
                     # move formerly selected variables back to the source list
@@ -816,12 +820,11 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             self.ylims[1] = _float_or_none(self.ylims[1])
 
     def read_parameters(self):
-        if len(self.factors) > 1:
-            return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in
-                    range(self.selected_listWidget.count())], self.factors, self.displayfactors, self.ylims
-        else:
-            return [str(self.selected_listWidget.item(i).text()) for i in
-                    range(self.selected_listWidget.count())], self.factors, self.displayfactors, self.ylims
+        return [str(self.selected_listWidget.item(i).text().split(' :: ')[1])
+                for i in range(self.selected_listWidget.count())] \
+                if self.factors else \
+                [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+                self.factors, self.displayfactors, self.ylims
 
 
 from .ui import compare_groups_single_case_slope
@@ -1021,16 +1024,16 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
-        if len(self.factors) < 2:
-            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
-        else:
+        if self.factors:
             _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
     def remove_var(self):
-        if len(self.factors) < 2:
-            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
-        else:
+        if self.factors:
             _remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def add_group(self):
         if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
@@ -1069,9 +1072,9 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
             self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
             #print(self.factors)
-            if len(self.factors) > 1:
+            if self.factors:
                 self.show_factors()
-            else:  # remove the factor levels if there is one or zero factor level
+            else:  # remove the factor levels if there is no explicit factor level
                 for i in range(self.selected_listWidget.count()):
                     item = self.selected_listWidget.takeItem(0)
                     # move formerly selected variables back to the source list
@@ -1104,7 +1107,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
     def read_parameters(self):
         return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())] \
-                if len(self.factors) > 1 else [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+                if self.factors else [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())], \
                 self.factors, self.displayfactors, \
                 self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims
