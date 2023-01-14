@@ -73,9 +73,9 @@ class Ui_Dialog(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 2, 1, 1)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.display_option_button = QtWidgets.QPushButton(Dialog)
-        self.display_option_button.setObjectName("display_option_button")
-        self.horizontalLayout.addWidget(self.display_option_button)
+        self.display_options_button = QtWidgets.QPushButton(Dialog)
+        self.display_options_button.setObjectName("display_options_button")
+        self.horizontalLayout.addWidget(self.display_options_button)
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setEnabled(True)
         self.pushButton.setObjectName("pushButton")
@@ -101,8 +101,8 @@ class Ui_Dialog(object):
         Dialog.setTabOrder(self.selected_listWidget, self.add_group_button)
         Dialog.setTabOrder(self.add_group_button, self.remove_group_button)
         Dialog.setTabOrder(self.remove_group_button, self.group_listWidget)
-        Dialog.setTabOrder(self.group_listWidget, self.display_option_button)
-        Dialog.setTabOrder(self.display_option_button, self.pushButton)
+        Dialog.setTabOrder(self.group_listWidget, self.display_options_button)
+        Dialog.setTabOrder(self.display_options_button, self.pushButton)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -110,7 +110,7 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "Available variables"))
         self.label_2.setText(_translate("Dialog", "Dependent variable(s)"))
         self.label_3.setText(_translate("Dialog", "Group(s)"))
-        self.display_option_button.setText(_translate("Dialog", "&Display options..."))
+        self.display_options_button.setText(_translate("Dialog", "&Display options..."))
         self.pushButton.setText(_translate("Dialog", "Single case &slope..."))
 
 

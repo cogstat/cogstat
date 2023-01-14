@@ -17,8 +17,8 @@ Upcoming release (2022)
   - Analysis of multicollinearity
   - Hypothesis tests
 - Displaying groups and factors
-  - In comparing groups, display groups not only on x axes but also with colors or in panels
-  - In comparing repeated measures variables, display conditions not only on x axes but also with colors
+  - In comparing groups, display groups not only on x-axes but also with colors or in panels
+  - In comparing repeated measures variables, display conditions not only on x-axes but also with colors
     - Rearrange the factors flexibly  
 - Behavioral data diffusion analysis
   - The time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set

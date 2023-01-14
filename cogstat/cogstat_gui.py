@@ -764,9 +764,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         var_names : list of str
             Names of the variables
         xlims : list of floats
-            Minimum and maximum value of the x axis
+            Minimum and maximum value of the x-axis
         ylims : list of floats
-            Minimum and maximum value of the y axis
+            Minimum and maximum value of the y-axis
 
         Returns
         -------
@@ -817,9 +817,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         predictors : list of str
             Name of the regressors
         xlims : list of floats
-            Minimum and maximum value of the x axis
+            Minimum and maximum value of the x-axis
         ylims : list of floats
-            Minimum and maximum value of the y axis
+            Minimum and maximum value of the y-axis
         Returns
         -------
 

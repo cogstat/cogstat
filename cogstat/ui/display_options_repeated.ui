@@ -86,7 +86,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Factor(s) displayed in x axis</string>
+        <string>Factor(s) displayed in x-axis</string>
        </property>
        <property name="buddy">
         <cstring>factor_x_listWidget</cstring>
@@ -126,7 +126,7 @@
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Minimum of y axis</string>
+          <string>Minimum of y-axis</string>
          </property>
          <property name="buddy">
           <cstring>minimum_y</cstring>
@@ -147,7 +147,7 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Maximum of y axis</string>
+          <string>Maximum of y-axis</string>
          </property>
          <property name="buddy">
           <cstring>maximum_y</cstring>

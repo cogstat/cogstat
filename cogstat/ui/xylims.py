@@ -68,10 +68,10 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Options"))
-        self.label_2.setText(_translate("Dialog", "Maximum of x axis"))
-        self.label.setText(_translate("Dialog", "Minimum of x axis"))
-        self.label_3.setText(_translate("Dialog", "Minimum of y axis"))
-        self.label_4.setText(_translate("Dialog", "Maximum of y axis"))
+        self.label_2.setText(_translate("Dialog", "Maximum of x-axis"))
+        self.label.setText(_translate("Dialog", "Minimum of x-axis"))
+        self.label_3.setText(_translate("Dialog", "Minimum of y-axis"))
+        self.label_4.setText(_translate("Dialog", "Maximum of y-axis"))
 
 
 if __name__ == "__main__":

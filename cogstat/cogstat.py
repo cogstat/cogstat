@@ -955,9 +955,9 @@ class CogStatData:
         predicted : str
             Name of the predicted variable.
         xlims : list of {int or float}
-            Limit of the x axis for interval and ordinal variables instead of using automatic values.
+            Limit of the x-axis for interval and ordinal variables instead of using automatic values.
         ylims : list of {int or float}
-            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------
@@ -1289,9 +1289,9 @@ class CogStatData:
 
             Factorial combination of the factors will be generated, and variables will be assigned respectively
         display_factors: list of two lists of strings
-            Factors to be displayed on x axis, and color (panel cannot be used for repeated measures data).
+            Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
         ylims : list of {int or float}
-            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------
@@ -1469,13 +1469,13 @@ class CogStatData:
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
         display_groups : list of three list of strings
-            List of name(s) of grouping variable(s) displayed on x axies, with colors, and on panels.
+            List of name(s) of grouping variable(s) displayed on x-axis, with colors, and on panels.
         single_case_slope_SE : str
             When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
             When comparing the slope between a single case and a group, number of trials.
         ylims : list of {int or float}
-            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------

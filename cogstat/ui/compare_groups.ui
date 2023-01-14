@@ -153,7 +153,7 @@
    <item row="1" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="display_option_button">
+      <widget class="QPushButton" name="display_options_button">
        <property name="text">
         <string>&amp;Display options...</string>
        </property>
@@ -207,7 +207,7 @@
   <tabstop>add_group_button</tabstop>
   <tabstop>remove_group_button</tabstop>
   <tabstop>group_listWidget</tabstop>
-  <tabstop>display_option_button</tabstop>
+  <tabstop>display_options_button</tabstop>
   <tabstop>pushButton</tabstop>
  </tabstops>
  <resources/>

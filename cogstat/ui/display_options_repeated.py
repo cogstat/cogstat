@@ -101,10 +101,10 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Display options"))
         self.add_color_button.setText(_translate("Dialog", "..."))
         self.remove_color_button.setText(_translate("Dialog", "..."))
-        self.label.setText(_translate("Dialog", "Factor(s) displayed in x axis"))
+        self.label.setText(_translate("Dialog", "Factor(s) displayed in x-axis"))
         self.label_4.setText(_translate("Dialog", "Factor(s) displayed with colors"))
-        self.label_3.setText(_translate("Dialog", "Minimum of y axis"))
-        self.label_2.setText(_translate("Dialog", "Maximum of y axis"))
+        self.label_3.setText(_translate("Dialog", "Minimum of y-axis"))
+        self.label_2.setText(_translate("Dialog", "Maximum of y-axis"))
 
 
 if __name__ == "__main__":

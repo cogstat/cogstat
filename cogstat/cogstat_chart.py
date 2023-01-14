@@ -416,7 +416,7 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         # Prepare the frequencies for the plot
         val_count = data.value_counts()
         if max(val_count) > 1:
-            plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
+            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count),
                          x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         val_count = (val_count * (max(freq) / max(val_count))) / 20.0
 
@@ -490,7 +490,7 @@ def create_normality_chart(pdf, var_name):
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
     n, bins, patches = plt.hist(data.values, density=True, color=theme_colors[0])
     if max(val_count) > 1:
-        plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
+        plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count),
                      x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     val_count = (val_count * (max(n) / max(val_count))) / 20.0
 
@@ -510,7 +510,7 @@ def create_normality_chart(pdf, var_name):
     ax1.set_xlabel(var_name)
     ax1.set_ylabel(_('Normalized relative frequency'))
 
-    # percent on y axes http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
+    # percent on y-axes http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
     def to_percent(y, position):
         s = str(100 * y)
         return s + r'$\%$' if matplotlib.rcParams['text.usetex'] is True else s + '%'
@@ -590,7 +590,7 @@ def create_residual_chart(data, meas_lev, x, y):
     if meas_lev == 'int':
         val_count = data.value_counts()
         if max(val_count) > 1:
-            plt.suptitle(_plt('Largest tick on the x axes displays %d cases.') % max(val_count),
+            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count),
                          x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
         import statsmodels.regression
@@ -1143,7 +1143,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         # Current issues:
         # - if there are cells with zero value, three variables mosaic plot will not run - probably statsmodels issue
         # - ax = plt.subplot(111) removes the labels of the third variable at the top
-        # - dependent variable should go to the y axis when there are three variables
+        # - dependent variable should go to the y-axis when there are three variables
         ct = pd.crosstab(data_frame[var_names[0]], [data_frame[ddd] for ddd in data_frame[groups]]).
                 sort_index(axis='index', ascending=False).unstack()  
                 # sort the index to have the same order on the chart as in the table
@@ -1260,13 +1260,13 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
         Used only when within-subject variable is used (including mixed design).
         Cannot be used with dep_name.
     indep_x : list of str
-        Independent variables to be displayed on the x axes
+        Independent variables to be displayed on the x-axes
     indep_color : list of str
         Independent variables to be displayed as different colors
     indep_panel : list of str
         Independent variables to be displayed on different panels. Only grouping variables can be used here.
     ylims : list of two floats
-        Minimum and maximum values of the y axes
+        Minimum and maximum values of the y-axes
     raw_data : bool
         Should the raw data displayed?
     box_plots : bool
@@ -1526,7 +1526,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
             # C. X level
             if raw_data or box_plots:
                 # raw data and boxplots rely on long_raw_data
-                # TODO can we have a better solution omitting the loops on the x axes level while drawing the chart?
+                # TODO can we have a better solution omitting the loops on the x-axes level while drawing the chart?
 
                 # For repeated measures data, display the connections
                 # TODO connect color conditions too; within a single x value, the neighboring colors could be connected;
@@ -1608,7 +1608,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
             xtick_labels = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).groups.keys()
             # If all factors are repeated measures, then display the variable names, and not the factor levels
             #   TODO we may reconsider this solution
-            # TODO does this work when not all repeated measures factors are on x axis?
+            # TODO does this work when not all repeated measures factors are on x-axis?
             if set(indep_x) - set(between_indep_names):  # all independent variables are repeated measures
                 xtick_labels_formatted = [factor_info[group_level].iloc[0, 0] if isinstance(group_level, str)
                                           else factor_info[group_level].iloc[0] for group_level in xtick_labels]
