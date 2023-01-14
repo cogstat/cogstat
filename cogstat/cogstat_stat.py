@@ -1181,7 +1181,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
     standardized_effect_size_result = ''
 
     if sample:
-        pdf_result = pd.DataFrame()
+        pdf_result = pd.DataFrame(columns=[_('Value')])
         if meas_level in ['int', 'unk']:
             if len(groups) == 1:
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))

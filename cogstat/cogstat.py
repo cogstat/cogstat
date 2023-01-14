@@ -1332,6 +1332,7 @@ class CogStatData:
                                                                               ylims=ylims, raw_data=True, box_plots=True)
         else:
             sample_graph = None
+            sample_graph_new = None
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -1550,6 +1551,7 @@ class CogStatData:
                                                                               box_plots=True)
         else:
             sample_graph = None
+            sample_graph_new = None
 
         # 3. Population properties
         # Plot population estimations

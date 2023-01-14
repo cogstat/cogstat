@@ -648,7 +648,7 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
                 if not non_normal_vars:
                     result_ht += '<decision>' + _('Normality is not violated.') + ' >> ' + \
                                  _('Running repeated measures one-way ANOVA.') + '\n</decision>'
-                    result_ht += repeated_measures_anova(data, var_names)
+                    result_ht += repeated_measures_anova(data, var_names, factors)
                 else:
                     result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
                         join(non_normal_vars) + ' >> ' + _('Running Friedman test.') + '\n</decision>'

@@ -1404,6 +1404,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
                                             index=(indep_names if indep_names else dep_name),
                                             aggfunc=np.median)  # sort=False - in pandas 1.3
         long_stat_data = pd.concat([medians], axis=1, keys=['medians'], names=['cogstat statistics'])
+    elif dep_meas_level == 'nom':
+        pass # TODO
+        return ([pd.DataFrame()] if estimation_table else []) + [None]
 
     long_stat_data = long_stat_data.stack('cogstat statistics', dropna=False)
     # long_stat_data is expected to be Series in the following parts
@@ -1424,13 +1427,17 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
 
     # Create estimations table with mean, and 95% CI ranges
     if estimation_table:
-        estimation_table_df = pd.concat([long_stat_data['means'],
-                                         long_stat_data['means'] - long_stat_data['cis'],
-                                         long_stat_data['means'] + long_stat_data['cis']],
-                                        axis=1)
-        estimation_table_df.columns = [_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')]
-        estimation_table_df.index = estimation_table_df.index.droplevel('all_stat_rows')
-        estimation_tables = estimation_table_df
+        if dep_meas_level in ['int', 'unk']:
+            estimation_table_df = pd.concat([long_stat_data['means'],
+                                             long_stat_data['means'] - long_stat_data['cis'],
+                                             long_stat_data['means'] + long_stat_data['cis']],
+                                            axis=1)
+            estimation_table_df.columns = [_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')]
+            estimation_table_df.index = estimation_table_df.index.droplevel('all_stat_rows')
+            estimation_tables = estimation_table_df
+        elif dep_meas_level == 'ord':
+            estimation_tables = pd.DataFrame()
+            pass  # TODO
 
     # 3. Create charts
     graphs = []
