@@ -189,14 +189,17 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-normal-distribution-histogram.svg', _('&Explore variable')+'...',
                                  _('Ctrl+1'), 'self.explore_variable', True, True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
-                                 _('Ctrl+2'), 'self.explore_variable_pair', False, True],
-                                ['/icons8-scatter-plot.svg', _('Explore &relation of variables')+'...',
+                                 _('Ctrl+2'), 'self.explore_variable_pair', True, True],
+                                ['/icons8-heat-map-100.png', _('Explore &relation of variables')+'...',
                                  _('Ctrl+R'), 'self.regression', True, True],
-                                ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
-                                 'Ctrl+M', 'self.compare_variables', True, True],
+                                ['/icons8-combo-chart.svg', _('Compare re&peated measures variables')+'...',
+                                 'Ctrl+P', 'self.compare_variables', True, True],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
                                  'self.compare_groups', True, True],
+                                ['/icons8-combo-chart-50.png', _('Compare repeated &measures variables and groups')+'...',
+                                 'Ctrl+M', 'self.compare_variables_groups', True, True],
                                 ['separator'],
+                                ['toolbar separator'],
                                 ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True,
                                  True],
                                 ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
@@ -1027,6 +1030,56 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
                                                                                  _('Compare groups')))
                     traceback.print_exc()
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        self._busy_signal(False)
+
+    def compare_variables_groups(self, var_names=None, groups=None, factors=None,
+                                 display_factors=None,
+                                 single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+        """Compare variables.
+
+        Arguments:
+        var_names (list): variable names
+        """
+        if groups is None:
+            groups = []
+        if factors is None:
+            factors = []
+        if display_factors is None:
+            display_factors = [[factor[0] for factor in factors] if factors else [], []]
+        if not var_names:
+            try:
+                self.dial_comp_var_groups
+            except:
+                self.dial_comp_var_groups = cogstat_dialogs.compare_vars_groups_dialog(names=self.active_data.data_frame.columns)
+            else:
+                self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
+            if self.dial_comp_var_groups.exec_():
+                var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
+                    self.dial_comp_var_groups.read_parameters()  # TODO check if settings are appropriate
+            else:
+                return
+        self._busy_signal(True)
+        self.analysis_results.append(GuiResultPackage())
+        self.analysis_results[-1].add_command('self.compare_variables_groups()')  # TODO
+        # TODO check relevant details
+        try:
+            if '' in var_names:
+                pass  # TODO
+                """text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
+                                                      (_('Compare repeated measures variables'),
+                                                       _('A variable should be assigned to each level of the '
+                                                         'factors.')))
+                self.analysis_results[-1].add_output(text_result)"""
+            else:
+                result_list = self.active_data.compare_variables_groups(var_names, factors, groups, display_factors,
+                                                                        single_case_slope_SE, single_case_slope_trial_n, ylims)
+                for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
+                    self.analysis_results[-1].add_output(result)
+        except:
+            self.analysis_results[-1].add_output(
+                cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
+            traceback.print_exc()
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 

@@ -979,6 +979,137 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
                 self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims)
 
 
+from .ui import compare_vars_groups
+class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialog):
+    def __init__(self, parent=None, names=[]):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.group_listWidget.doubleClicked.connect(self.remove_group)
+        self.group_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.group_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.addVar.clicked.connect(self.add_var)
+        self.removeVar.clicked.connect(self.remove_var)
+        self.add_group_button.clicked.connect(self.add_group)
+        self.remove_group_button.clicked.connect(self.remove_group)
+        self.pushButton.clicked.connect(self.factorsButton_clicked)
+        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
+        self.pushButton_3.clicked.connect(self.displayfactorsButton_clicked)
+        self.single_case_button.clicked.connect(self.on_slopeButton_clicked)
+
+        self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
+        self.factors_dialog = factors_dialog(self)
+        self.ylims_dialog = ylims_dialog(self)
+        self.displayfactors_repeated_dialog = displayfactors_repeated_dialog(self)
+        self.factors = []
+        self.displayfactors = [[], []]
+        self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
+        self.ylims = [None, None]
+
+        self.init_vars(names)
+        self.show()
+
+    def init_vars(self, names):
+        self.names = names
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def add_var(self):
+        if len(self.factors) < 2:
+            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+        else:
+            _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+
+    def remove_var(self):
+        if len(self.factors) < 2:
+            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+        else:
+            _remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+
+    def add_group(self):
+        if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
+            _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+    def remove_group(self):
+        _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
+
+    def show_factors(self):
+        # remove all items first
+        for i in range(self.selected_listWidget.count()):
+            item = self.selected_listWidget.takeItem(0)
+            if ' :: ' in item.text():
+                if not item.text().endswith(' :: '):
+                    self.source_listWidget.insertItem(
+                        _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                        item.text().split(' :: ')[1])
+                    item.setText(item.text().split(' :: ')[0] + ' :: ')
+            else:
+                self.source_listWidget.insertItem(
+                    _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                    item.text())
+
+        # add new empty factor levels
+        factor_combinations = ['']
+        for factor in self.factors:
+            factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i + 1) for factor_combination in
+                                   factor_combinations for level_i in range(factor[1])]
+        factor_combinations = [factor_combination[3:] + ' :: ' for factor_combination in factor_combinations]
+        for factor_combination in factor_combinations:
+            self.selected_listWidget.addItem(QString(factor_combination))
+
+    def factorsButton_clicked(self):
+        if self.factors_dialog.exec_():
+            factor_list = self.factors_dialog.read_parameters()
+            #print(factor_list)
+
+            self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
+            #print(self.factors)
+            if len(self.factors) > 1:
+                self.show_factors()
+            else:  # remove the factor levels if there is one or zero factor level
+                for i in range(self.selected_listWidget.count()):
+                    item = self.selected_listWidget.takeItem(0)
+                    # move formerly selected variables back to the source list
+                    if ' :: ' in item.text():
+                        if not item.text().endswith(' :: '):  # if there is a factor name and a variable
+                            self.source_listWidget.insertItem(
+                                _find_previous_item_position(self.source_listWidget, self.names,
+                                                             item.text().split(' :: ')[1]),
+                                item.text().split(' :: ')[1])
+                            item.setText(item.text().split(' :: ')[0] + ' :: ')
+                    else:
+                        self.source_listWidget.insertItem(
+                            _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                            item.text())
+
+    def displayfactorsButton_clicked(self):
+        self.displayfactors_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+        if self.displayfactors_repeated_dialog.exec_():
+            self.displayfactors = self.displayfactors_repeated_dialog.read_parameters()
+
+    def optionsButton_clicked(self):
+        if self.ylims_dialog.exec_():
+            self.ylims = self.ylims_dialog.read_parameters()
+            self.ylims[0] = _float_or_none(self.ylims[0])
+            self.ylims[1] = _float_or_none(self.ylims[1])
+
+    def on_slopeButton_clicked(self):
+        if self.slope_dialog.exec_():
+            self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
+
+    def read_parameters(self):
+        return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())] \
+                if len(self.factors) > 1 else [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+                [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())], \
+                self.factors, self.displayfactors, \
+                self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims
+
+
 from .ui import find_text
 class find_text_dialog(QtWidgets.QDialog, find_text.Ui_Dialog):
     def __init__(self, parent=None, output_pane=None):

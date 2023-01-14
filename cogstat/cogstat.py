@@ -1606,6 +1606,14 @@ class CogStatData:
         return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
                                        population_graph, population_graph_new, standardized_effect_size_result, result_ht])
 
+    def compare_variables_groups(self, var_names, factors=None, grouping_variables=None, display_factors=None,
+                          single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+
+        title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
+        title += _('Work in progress...')
+
+        return cs_util.convert_output([title])
+
 
 def display(results):
     """

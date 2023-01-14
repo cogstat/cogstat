@@ -626,7 +626,7 @@ Control	0.63	0.116
 Control	0.627	0.065
 Control	0.674	0.105
 Control	0.538	0.107''')
-        result = data.compare_groups('slope', ['group'], 'slope_SE', 25)
+        result = data.compare_groups('slope', ['group'], single_case_slope_SE='slope_SE', single_case_slope_trial_n=25)
         self.assertTrue('Test d.2: <i>t</i>(42.1) = -4.21, <i>p</i> &lt; .001' in result[8])
         result = data.compare_groups('slope', ['group'])
         self.assertTrue('<i>t</i>(5) = -5.05, <i>p</i> = .004' in result[8])
