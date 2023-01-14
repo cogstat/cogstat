@@ -792,7 +792,7 @@ class CogStatData:
 
     ### Compile statistics ###
 
-    def explore_variable(self, var_name, frequencies=True, central_value=0.0):
+    def explore_variable(self, var_name='', frequencies=True, central_value=0.0):
         """
         Explore a single variable.
 
@@ -811,6 +811,11 @@ class CogStatData:
             Analysis results in HTML format
         """
         plt.close('all')
+        if not var_name:
+            title = '<cs_h1>' + _('Explore variable') + '</cs_h1>'
+            title += _('At least one variable should be set.')
+            return cs_util.convert_output([title])
+
         meas_level, unknown_type = self._meas_lev_vars([var_name])
         result_list = ['<cs_h1>' + _('Explore variable') + '</cs_h1>']
         result_list.append(_('Exploring variable: ') + var_name + ' (%s)\n' % meas_level)
@@ -939,7 +944,7 @@ class CogStatData:
         result_list.append(text_result)
         return cs_util.convert_output(result_list)
 
-    def regression(self, predictors, predicted, xlims=[None, None], ylims=[None, None]):
+    def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
         """
         Explore a variable pair.
 
@@ -960,6 +965,17 @@ class CogStatData:
             Analysis results in HTML format
         """
         plt.close('all')
+
+        title = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
+        preconditions = True
+        if (predictors is None) or (predictors == [None]) or not predictors:
+            title += _('At least one predictor variable should be set.') + '\n'
+            preconditions = False
+        if predicted is None:
+            title += _('The predicted variable should be set.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
 
         meas_lev, unknown_var = self._meas_lev_vars(predictors + [predicted])
 
@@ -1191,8 +1207,20 @@ class CogStatData:
             col_names = []
         if row_names is None:
             row_names = []
-        # TODO optionally return pandas DataFrame or Panel
+
         title = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
+        preconditions = True
+        if not depend_name:
+            title += _('The dependent variable should be set.') + '\n'
+            preconditions = False
+        if not (row_names or col_names or page_names):
+            title += _('At least one grouping variable should be set.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
+
+
+        # TODO optionally return pandas DataFrame or Panel
         pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
         return cs_util.convert_output([title, pivot_result])
 
@@ -1231,6 +1259,16 @@ class CogStatData:
             condition_names = []
         # TODO return pandas DataFrame
         title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
+        preconditions = True
+        if not RT_name:
+            title += _('The reaction time should be given.') + '\n'
+            preconditions = False
+        if not error_name:
+            title += _('The error variables should be given.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
+
         pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
                                          correct_coding, reaction_time_in, scaling_parameter)
         return cs_util.convert_output([title, pivot_result])
@@ -1260,6 +1298,15 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+
+        title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
+        if len(var_names) < 2:
+            title += _('At least two variables should be set.')
+            return cs_util.convert_output([title])
+        if '' in var_names:
+            title = _('A variable should be assigned to each level of the factors.')
+            return cs_util.convert_output([title])
+
         # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
         if factors is None or factors == []:
             factors = [[' ', len(var_names)]]
@@ -1435,6 +1482,17 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
+        preconditions = True
+        if not var_name or (var_name is None):
+            title += _('The dependent variable should be set.') + '\n'
+            preconditions = False
+        if (grouping_variables is None) or grouping_variables==[]:
+            title += _('At least one grouping variable should be set.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
+
         plt.close('all')
         var_names = [var_name]
         if grouping_variables is None:

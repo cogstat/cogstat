@@ -738,15 +738,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_prop.exec_():
                 var_names, freq, loc_test_value = self.dial_var_prop.read_parameters()
+                if not var_names:
+                    var_names = ['']  # error message for missing variable come from the explore_variable() method
             else:
                 return
         self._busy_signal(True)
-        if len(var_names) < 1:  # TODO this check should go to the appropriate dialog
-            self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable'),
-                                                                            _('At least one variable should be set.')))
-            self.analysis_results[-1].add_output(text_result)
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         try:
             for var_name in var_names:
                 self.analysis_results.append(GuiResultPackage())
@@ -788,30 +784,27 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 return
         self._busy_signal(True)
-        if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
-            self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore relation of variable pair'),
-                                                             _('At least two variables should be set.')))
-            self.analysis_results[-1].add_output(text_result)
+        if len(var_names) < 2:
+            var_names = (var_names + [None, None])[:2]  # regression() method handles the missing variables
+        try:
+            for x in var_names:
+                pass_diag = False
+                for y in var_names:
+                    if pass_diag:
+                        self.analysis_results.append(GuiResultPackage())
+                        self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
+                        result_list = self.active_data.regression([x], y, xlims, ylims)
+                        self.analysis_results[-1].add_output(result_list)
+                        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+                    if x == y:
+                        pass_diag = True
+                if x is None:  # with [None, None] var_names regression() is called only once
+                    break
+        except:
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
+                                                                         _('Explore relation of variable pair')))
+            traceback.print_exc()
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        else:
-            try:
-                for x in var_names:
-                    pass_diag = False
-                    for y in var_names:
-                        if pass_diag:
-                            self.analysis_results.append(GuiResultPackage())
-                            self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
-                            result_list = self.active_data.regression([x], y, xlims, ylims)
-                            self.analysis_results[-1].add_output(result_list)
-                            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-                        if x == y:
-                            pass_diag = True
-            except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                             _('Explore relation of variable pair')))
-                traceback.print_exc()
-                self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
             
     def regression(self, predictors=[], predicted=None, xlims=[None, None], ylims=[None, None]):
@@ -840,6 +833,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.dial_regression.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_regression.exec_():
                 predicted, predictors, xlims, ylims = self.dial_regression.read_parameters()
+                if predicted == []:  # regression() method handles missing parameters
+                    predicted = [None]
                 predicted = predicted[0]  # currently, GUI predicted is a list, but it should be a string
             else:
                 return
@@ -858,11 +853,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(False)
 
 
-    def pivot(self, depend_names=None, row_names=None, col_names=None, page_names=None, function='Mean'):
+    def pivot(self, depend_name=None, row_names=None, col_names=None, page_names=None, function='Mean'):
         """Build a pivot table.
         
         Arguments:
-        depend_names (list of str): name of the dependent variable
+        depend_name (str): name of the dependent variable
         row_names, col_names, page_names (lists of str): name of the independent variables
         function (str): available functions: N,Sum, Mean, Median, Standard Deviation, Variance (default Mean)
         """
@@ -872,7 +867,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             col_names = []
         if row_names is None:
             row_names = []
-        if not depend_names:
+        if not depend_name:
             try:
                 self.dial_pivot
             except:
@@ -880,21 +875,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_pivot.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_pivot.exec_():
-                row_names, col_names, page_names, depend_names, function = self.dial_pivot.read_parameters()
+                row_names, col_names, page_names, depend_name, function = self.dial_pivot.read_parameters()
             else:
                 return
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
-        if not depend_names or not (row_names or col_names or page_names):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Pivot table'),
-                                                             _('The dependent variable and at least one grouping '
-                                                               'variable should be given.')))
-        else:
-            try:
-                text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
-            except:
-                text_result = cs_util.reformat_output(broken_analysis % _('Pivot table'))
-                traceback.print_exc()
+        try:
+            text_result = self.active_data.pivot(depend_name, row_names, col_names, page_names, function)
+        except:
+            text_result = cs_util.reformat_output(broken_analysis % _('Pivot table'))
+            traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
@@ -923,19 +913,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
-        if (not RT_name) or (not error_name):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (
-                _('Behavioral data diffusion analysis'),
-                _('At least the reaction time and the error variables should be given.')))
-        else:
-            try:
-                # use the original term in the function call, not the translated one
-                reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
-                text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names,
-                                                         correct_coding[0], reaction_time_in, scaling_parameter)
-            except:
-                text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
-                traceback.print_exc()
+        try:
+            # use the original term in the function call, not the translated one
+            reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
+            text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names,
+                                                     correct_coding[0], reaction_time_in, scaling_parameter)
+        except:
+            text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
+            traceback.print_exc()
         self.analysis_results[-1].add_output(text_result)
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
@@ -965,26 +950,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
-        if len(var_names) < 2:
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
-                                                  (_('Compare repeated measures variables'),
-                                                   _('At least two variables should be set.')))
-            self.analysis_results[-1].add_output(text_result)
-        else:
-            try:
-                if '' in var_names:
-                    text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
-                                                          (_('Compare repeated measures variables'),
-                                                           _('A variable should be assigned to each level of the '
-                                                             'factors.')))
-                    self.analysis_results[-1].add_output(text_result)
-                else:
-                    result_list = self.active_data.compare_variables(var_names, factors, display_factors, ylims)
-                    for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
-                        self.analysis_results[-1].add_output(result)
-            except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
-                traceback.print_exc()
+        try:
+            result_list = self.active_data.compare_variables(var_names, factors, display_factors, ylims)
+            for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
+                self.analysis_results[-1].add_output(result)
+        except:
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
+            traceback.print_exc()
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
         
@@ -1005,31 +977,25 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
-                var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = self.dial_comp_grp.\
-                    read_parameters()  # TODO check if settings are appropriate
+                var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = \
+                    self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
+                if var_names == []:
+                    var_names = [None]  # compare_groups() method handles the missing parameters
             else:
                 return
         self._busy_signal(True)
-        if not var_names or not groups:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Compare groups'),
-                                                             _('Both the dependent variable and at least one grouping '
-                                                               'variable should be set.')))
-            self.analysis_results[-1].add_output(text_result)
-        else:
-            for var_name in var_names:
-                try:
-                    self.analysis_results.append(GuiResultPackage())
-                    self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-                    result_list = self.active_data.compare_groups(var_name, groups, display_groups,
-                                                                  single_case_slope_SE,
-                                                                  single_case_slope_trial_n, ylims)
-                    self.analysis_results[-1].add_output(result_list)
-                except:
-                    self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                                 _('Compare groups')))
-                    traceback.print_exc()
+        for var_name in var_names:
+            try:
+                self.analysis_results.append(GuiResultPackage())
+                self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
+                result_list = self.active_data.compare_groups(var_name, groups, display_groups,
+                                                              single_case_slope_SE,
+                                                              single_case_slope_trial_n, ylims)
+                self.analysis_results[-1].add_output(result_list)
+            except:
+                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
+                                                                             _('Compare groups')))
+                traceback.print_exc()
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
 
