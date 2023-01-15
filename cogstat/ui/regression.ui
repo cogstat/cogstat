@@ -43,7 +43,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>O&amp;ptions...</string>
+        <string>&amp;Display options...</string>
        </property>
       </widget>
      </item>

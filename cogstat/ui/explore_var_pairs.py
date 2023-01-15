@@ -84,7 +84,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Explore relation of variable pairs"))
         self.label.setText(_translate("Dialog", "Available variables"))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
-        self.pushButton.setText(_translate("Dialog", "O&ptions..."))
+        self.pushButton.setText(_translate("Dialog", "&Display options..."))
 
 
 if __name__ == "__main__":
