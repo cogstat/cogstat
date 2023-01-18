@@ -549,6 +549,50 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.table_view.setColumnHidden(model.columnCount() - 1, True)
             self.table_view.show()
 
+    def _run_analysis(self, title, function_name, parameters=None):
+        """Run an analysis by calling the function with the parameters.
+        If it fails, provide an error message with the title as heading.
+
+        Parameters
+        ----------
+        title : str
+            Used for the heading of the error message
+        function_name : str
+            Name of the function or method that implements the analysis
+        parameters : dict
+            Optional parameters
+
+        Returns
+        -------
+        bool
+            Whether the analysis could run without an exception
+
+        """
+        from . import cogstat_util as cs_util  # import cs_util so that it is available in locals()
+
+        #print(title, function_name, parameters)
+
+        self._busy_signal(True)
+        self.analysis_results.append(GuiResultPackage())
+        self.analysis_results[-1].add_command([function_name, parameters])
+        result = None
+        successful_run = True
+        try:
+            # split the function name into a first part and the rest of it
+            function_highest_level, function_rest_levels = function_name.split('.', 1)
+            if parameters is None:  # no parameters are stored
+                result = attrgetter(function_rest_levels)(locals()[function_highest_level])()
+            else:  # there are parameters stored in a dict
+                result = attrgetter(function_rest_levels)(locals()[function_highest_level])(**parameters)
+            self.analysis_results[-1].add_output(result)
+        except:
+            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % title))
+            traceback.print_exc()
+            successful_run = False
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        self._busy_signal(False)
+        return successful_run
+
 
     ### Data menu methods ###
     def open_file(self, path=''):
@@ -584,20 +628,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def reload_file(self):
         """Reload data file."""
-        self._busy_signal(True)
-        try:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command(['self.active_data.reload_data'])
-            result = self.active_data.reload_data()
-            self.analysis_results[-1].add_output(result)
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        function_name = 'self.active_data.reload_data'
+        successful = self._run_analysis(title=_('Reload data'), function_name=function_name)
+        if successful:
             self._display_data()
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Reload data')))
-            traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        else:
             self._display_data(reset=True)
-        self._busy_signal(False)
 
     def open_clipboard(self):
         """Open data copied to clipboard."""
@@ -680,21 +716,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 var_names, multivariate_outliers = self.dial_filter.read_parameters()
             else:
                 return
-        self._busy_signal(True)
-        try:
-            self.analysis_results.append(GuiResultPackage())
-            mode = 'mahalanobis' if multivariate_outliers else '2.5mad'
-            self.analysis_results[-1].add_command(['self.active_data.filter_outlier',
-                                                   {'var_names': var_names, 'mode': mode}])
-            result = self.active_data.filter_outlier(var_names, mode=mode)
-            self.analysis_results[-1].add_output(result)
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        function_name = 'self.active_data.filter_outlier'
+        parameters = {'var_names': var_names, 'mode': 'mahalanobis' if multivariate_outliers else '2.5mad'}
+        if self._run_analysis(title=_('Filter outliers'), function_name=function_name, parameters=parameters):
             self._display_data()
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outliers')))
-            traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
 
     def print_data(self, brief=False):
         """Print the current data to the output.
@@ -745,21 +770,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
             else:
                 return
-        self._busy_signal(True)
-        try:
-            for var_name in var_names:
-                self.analysis_results.append(GuiResultPackage())
-                self.analysis_results[-1].add_command(['self.active_data.explore_variable', {'var_name': var_name,
-                                                      'frequencies': freq, 'central_value': loc_test_value}])
-                result = self.active_data.explore_variable(var_name=var_name, frequencies=freq,
-                                                           central_value=loc_test_value)
-                self.analysis_results[-1].add_output(result)
-                self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable')))
-            traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
+        function_name = 'self.active_data.explore_variable'
+        for var_name in var_names:
+            parameters = {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}
+            self._run_analysis(title=_('Explore variable'), function_name=function_name, parameters=parameters)
 
     def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
@@ -788,31 +802,21 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 var_names, xlims, ylims = self.dial_var_pair.read_parameters()
             else:
                 return
-        self._busy_signal(True)
         if len(var_names) < 2:
             var_names = (var_names + [None, None])[:2]  # regression() method handles the missing variables
-        try:
-            for x in var_names:
-                pass_diag = False
-                for y in var_names:
-                    if pass_diag:
-                        self.analysis_results.append(GuiResultPackage())
-                        self.analysis_results[-1].add_command(['self.active_data.regression', {'predictors': x,
-                                                               'predicted': y, 'xlims': xlims, 'ylims': ylims}])
-                        result_list = self.active_data.regression(predictors=[x], predicted=y, xlims=xlims, ylims=ylims)
-                        self.analysis_results[-1].add_output(result_list)
-                        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-                    if x == y:
-                        pass_diag = True
-                if x is None:  # with [None, None] var_names regression() is called only once
-                    break
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                         _('Explore relation of variable pair')))
-            traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
-            
+        function_name = 'self.active_data.regression'
+        for x in var_names:
+            pass_diag = False
+            for y in var_names:
+                if pass_diag:
+                    parameters = {'predictors': x, 'predicted': y, 'xlims': xlims, 'ylims': ylims}
+                    self._run_analysis(title=_('Explore relation of variable pair'), function_name=function_name,
+                                       parameters=parameters)
+                if x == y:
+                    pass_diag = True
+            if x is None:  # with [None, None] var_names regression() is called only once
+                break
+
     def regression(self, predictors=[], predicted=None, xlims=[None, None], ylims=[None, None]):
         """Regression analysis.
 
@@ -844,21 +848,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 predicted = predicted[0]  # currently, GUI predicted is a list, but it should be a string
             else:
                 return
-        self._busy_signal(True)
-        try:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command(['self.active_data.regression', {'predictors': predictors,
-                                                   'predicted': predicted, 'xlims': xlims, 'ylims': ylims}])
-            result_list = self.active_data.regression(predictors=predictors, predicted=predicted,
-                                                      xlims=xlims, ylims=ylims)
-            self.analysis_results[-1].add_output(result_list)
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                         _('Explore relation of variable pairs')))
-            traceback.print_exc()
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
+        function_name = 'self.active_data.regression'
+        parameters = {'predictors': predictors, 'predicted': predicted, 'xlims': xlims, 'ylims': ylims}
+        self._run_analysis(title=_('Explore relation of variables'), function_name=function_name, parameters=parameters)
 
 
     def pivot(self, depend_name=None, row_names=None, col_names=None, page_names=None, function='Mean'):
@@ -886,19 +878,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 row_names, col_names, page_names, depend_name, function = self.dial_pivot.read_parameters()
             else:
                 return
-        self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command(['self.active_data.pivot', {'depend_name': depend_name,
-                                               'row_names': row_names, 'col_names': col_names, 'page_names': page_names,
-                                               'function': function}])
-        try:
-            text_result = self.active_data.pivot(depend_name, row_names, col_names, page_names, function)
-        except:
-            text_result = cs_util.reformat_output(broken_analysis % _('Pivot table'))
-            traceback.print_exc()
-        self.analysis_results[-1].add_output(text_result)
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
+        function_name = 'self.active_data.pivot'
+        parameters = {'depend_name': depend_name, 'row_names': row_names, 'col_names': col_names,
+                      'page_names': page_names, 'function': function}
+        self._run_analysis(title=_('Pivot table'), function_name=function_name, parameters=parameters)
 
     def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
                   reaction_time_in='sec', scaling_parameter=0.1):
@@ -922,25 +905,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 scaling_parameter = self.dial_diffusion.read_parameters()
             else:
                 return
-        self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        try:
-            # use the original term in the function call, not the translated one
-            reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
-            self.analysis_results[-1].add_command(['self.active_data.diffusion', {'error_name': error_name,
-                                                  'RT_name': RT_name, 'participant_name': participant_name,
-                                                  'condition_names': condition_names,
-                                                  'correct_coding': correct_coding[0],
-                                                  'reaction_time_in': reaction_time_in,
-                                                  'scaling_parameter': scaling_parameter}])
-            text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names,
-                                                     correct_coding[0], reaction_time_in, scaling_parameter)
-        except:
-            text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
-            traceback.print_exc()
-        self.analysis_results[-1].add_output(text_result)
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
+        # use the original term in the function call, not the translated one
+        reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
+        function_name = 'self.active_data.diffusion'
+        parameters = {'error_name': error_name, 'RT_name': RT_name, 'participant_name': participant_name,
+                      'condition_names': condition_names, 'correct_coding': correct_coding[0],
+                      'reaction_time_in': reaction_time_in, 'scaling_parameter': scaling_parameter}
+        self._run_analysis(title=_('Behavioral data diffusion analysis'), function_name=function_name,
+                           parameters=parameters)
 
     def compare_variables(self, var_names=None, factors=None, display_factors=None, ylims=[None, None]):
         """Compare variables.
@@ -964,20 +936,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                                                   # appropriate
             else:
                 return
-        self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command(['self.active_data.compare_variables', {'var_names': var_names,
-                                              'factors': factors, 'display_factors': display_factors, 'ylims': ylims}])
-        try:
-            result_list = self.active_data.compare_variables(var_names, factors, display_factors, ylims)
-            for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
-                self.analysis_results[-1].add_output(result)
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
-            traceback.print_exc()
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
-        
+        function_name = 'self.active_data.compare_variables'
+        parameters = {'var_names': var_names, 'factors': factors, 'display_factors': display_factors, 'ylims': ylims}
+        self._run_analysis(title=_('Compare repeated measures variables'), function_name=function_name,
+                           parameters=parameters)
+
     def compare_groups(self, var_names=None, groups=None, display_groups=None,
                        single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
@@ -1001,25 +964,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     var_names = [None]  # compare_groups() method handles the missing parameters
             else:
                 return
-        self._busy_signal(True)
+        function_name = 'self.active_data.compare_groups'
         for var_name in var_names:
-            try:
-                self.analysis_results.append(GuiResultPackage())
-                self.analysis_results[-1].add_command(['self.active_data.compare_groups', {'var_name': var_name,
-                                                      'grouping_variables': groups, 'display_groups': display_groups,
-                                                      'single_case_slope_SE': single_case_slope_SE,
-                                                      'single_case_slope_trial_n': single_case_slope_trial_n,
-                                                       'ylims': ylims}])
-                result_list = self.active_data.compare_groups(var_name, groups, display_groups,
-                                                              single_case_slope_SE,
-                                                              single_case_slope_trial_n, ylims)
-                self.analysis_results[-1].add_output(result_list)
-            except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                             _('Compare groups')))
-                traceback.print_exc()
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
+            parameters = {'var_name': var_name, 'grouping_variables': groups, 'display_groups': display_groups,
+                          'single_case_slope_SE': single_case_slope_SE,
+                          'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}
+            self._run_analysis(title=_('Compare groups'), function_name=function_name, parameters=parameters)
 
     def compare_variables_groups(self, var_names=None, groups=None, factors=None,
                                  display_factors=None,
@@ -1047,33 +997,20 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.dial_comp_var_groups.read_parameters()  # TODO check if settings are appropriate
             else:
                 return
-        self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command(['self.active_data.compare_variables_groups', {'var_names': var_names,
-                                             'factors': factors, 'grouping_variables': groups,
-                                             'display_factors': display_factors,
-                                             'single_case_slope_SE': single_case_slope_SE,
-                                             'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}])
+        function_name = 'self.active_data.compare_variables_groups'
+        parameters = {'var_names': var_names, 'factors': factors, 'grouping_variables': groups,
+                      'display_factors': display_factors, 'single_case_slope_SE': single_case_slope_SE,
+                      'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}
+        self._run_analysis(title=_('Compare repeated measures variables'), function_name=function_name,
+                           parameters=parameters)  # TODO title
         # TODO check relevant details
-        try:
-            if '' in var_names:
-                pass  # TODO
-                """text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
-                                                      (_('Compare repeated measures variables'),
-                                                       _('A variable should be assigned to each level of the '
-                                                         'factors.')))
-                self.analysis_results[-1].add_output(text_result)"""
-            else:
-                result_list = self.active_data.compare_variables_groups(var_names, factors, groups, display_factors,
-                                                                        single_case_slope_SE, single_case_slope_trial_n, ylims)
-                for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
-                    self.analysis_results[-1].add_output(result)
-        except:
-            self.analysis_results[-1].add_output(
-                cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
-            traceback.print_exc()
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
+        if '' in var_names:
+            pass  # TODO
+            """text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
+                                                  (_('Compare repeated measures variables'),
+                                                   _('A variable should be assigned to each level of the '
+                                                     'factors.')))
+            self.analysis_results[-1].add_output(text_result)"""
 
     def rerun_analyses(self):
         """Rerun the analyses that are currently visible in the results pane.
@@ -1101,7 +1038,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 # split the command into a first part and the rest of it
                 command_to_run_first, command_to_run_rest = command_to_run[0].split('.', 1)
                 if len(command_to_run) == 1:  # no parameters are stored
-                    result = attrgetter(command_to_run_rest)(locals()[command_to_run_first])
+                    result = attrgetter(command_to_run_rest)(locals()[command_to_run_first])()
                 else:  # there are parameters stored in a dict
                     result = attrgetter(command_to_run_rest)(locals()[command_to_run_first])(**command_to_run[1])
                 self.analysis_results[-1].add_output(result)
@@ -1199,11 +1136,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """Print the versions of the software components CogStat uses."""
         # Intentionally not localized.
         self._busy_signal(True)
-        
+
+        function_name = 'cs_util.print_versions'
+        parameters = {'main_window': self}
         text_output = cs_util.reformat_output(cs_util.print_versions(self))
         
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command(['cs_util.print_versions', {'main_window': self}])
+        self.analysis_results[-1].add_command([function_name, parameters])
         self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
                                              [0])
         self.analysis_results[-1].add_output(text_output)
