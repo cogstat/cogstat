@@ -40,6 +40,7 @@ import traceback
 from urllib.request import urlopen
 import webbrowser
 import pandas as pd
+from operator import attrgetter
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
@@ -94,10 +95,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if missing_required_components:
                 sys.exit()
         
-        self.analysis_results = []
-        # analysis_result stores list of GuiResultPackages.
-        # It will be useful when we can rerun all the previous analysis in the GUI output
-        # At the moment no former results can be manipulated later
+        self.analysis_results = []  # analysis_result stores list of GuiResultPackages objects
 
         csc.output_type = 'gui'  # For some GUI specific formatting
 
@@ -181,7 +179,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier',
                                  True, True],
                                 ['separator'],
-                                ['/icons8-data-sheet-check.svg', _('Display data &briefly'), _('Ctrl+B'),
+                                ['/icons8-data-sheet-check.svg', _('Display &data briefly'), _('Ctrl+D'),
                                  'self._print_data_brief', False, True],
                                 ['toolbar separator']
                             ],
@@ -204,6 +202,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  True],
                                 ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
                                  '...', 'Ctrl+Shift+D', 'self.diffusion', True, True],
+                                ['separator'],
+                                ['toolbar separator'],
+                                ['/icons8-reboot-100.png', _('Rerun all analyses') +
+                                 '...', 'Ctrl+Shift+R', 'self.rerun_analyses', True, True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
@@ -227,7 +229,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             ],
                             [_('&CogStat'),
                                 ['/icons8-help.svg', _('&Help'), _('F1'), 'self._open_help_webpage', True, False],
-                                ['/icons8-settings.svg', _('&Preferences')+'...', _('Ctrl+Shift+R'),
+                                ['/icons8-settings.svg', _('&Preferences')+'...', _('Ctrl+Shift+P'),
                                  'self._show_preferences', True, False],
                                 ['/icons8-file-add.svg', _('Request a &feature'), '', 'self._open_reqfeat_webpage',
                                  False, False],
@@ -585,7 +587,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         try:
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
+            self.analysis_results[-1].add_command(['self.active_data.reload_data'])
             result = self.active_data.reload_data()
             self.analysis_results[-1].add_output(result)
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
@@ -623,14 +625,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
 
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self._open_data()')  # TODO
+            self.analysis_results[-1].add_command(['self._open_data', {'data': data}])
             self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
             self._display_data()
 
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self._open_data()')  # TODO
+            self.analysis_results[-1].add_command(['self._open_data'], {'data': data})
             try:
                 file_content = '<br>' + _('Data file content') + ':<br>' + open(data, 'r').read()[:1000].replace('\n', '<br>') if os.path.exists(data) else ''
             except:
@@ -681,9 +683,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         try:
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
-            result = self.active_data.filter_outlier(var_names,
-                                                     mode='mahalanobis' if multivariate_outliers else '2.5mad')
+            mode = 'mahalanobis' if multivariate_outliers else '2.5mad'
+            self.analysis_results[-1].add_command(['self.active_data.filter_outlier',
+                                                   {'var_names': var_names, 'mode': mode}])
+            result = self.active_data.filter_outlier(var_names, mode=mode)
             self.analysis_results[-1].add_output(result)
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
             self._display_data()
@@ -705,7 +708,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command('self.print_data')  # TODO commands will be used to rerun the analysis
+        self.analysis_results[-1].add_command(['self.active_data.print_data', {'brief': brief}])
         self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
 
@@ -746,8 +749,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             for var_name in var_names:
                 self.analysis_results.append(GuiResultPackage())
-                self.analysis_results[-1].add_command('self.explore_variable()')  # TODO
-                result = self.active_data.explore_variable(var_name, frequencies=freq, central_value=loc_test_value)
+                self.analysis_results[-1].add_command(['self.active_data.explore_variable', {'var_name': var_name,
+                                                      'frequencies': freq, 'central_value': loc_test_value}])
+                result = self.active_data.explore_variable(var_name=var_name, frequencies=freq,
+                                                           central_value=loc_test_value)
                 self.analysis_results[-1].add_output(result)
                 self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         except:
@@ -792,8 +797,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 for y in var_names:
                     if pass_diag:
                         self.analysis_results.append(GuiResultPackage())
-                        self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
-                        result_list = self.active_data.regression([x], y, xlims, ylims)
+                        self.analysis_results[-1].add_command(['self.active_data.regression', {'predictors': x,
+                                                               'predicted': y, 'xlims': xlims, 'ylims': ylims}])
+                        result_list = self.active_data.regression(predictors=[x], predicted=y, xlims=xlims, ylims=ylims)
                         self.analysis_results[-1].add_output(result_list)
                         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
                     if x == y:
@@ -841,8 +847,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self._busy_signal(True)
         try:
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.regression')  # TODO
-            result_list = self.active_data.regression(predictors, predicted, xlims, ylims)
+            self.analysis_results[-1].add_command(['self.active_data.regression', {'predictors': predictors,
+                                                   'predicted': predicted, 'xlims': xlims, 'ylims': ylims}])
+            result_list = self.active_data.regression(predictors=predictors, predicted=predicted,
+                                                      xlims=xlims, ylims=ylims)
             self.analysis_results[-1].add_output(result_list)
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         except:
@@ -880,6 +888,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
+        self.analysis_results[-1].add_command(['self.active_data.pivot', {'depend_name': depend_name,
+                                               'row_names': row_names, 'col_names': col_names, 'page_names': page_names,
+                                               'function': function}])
         try:
             text_result = self.active_data.pivot(depend_name, row_names, col_names, page_names, function)
         except:
@@ -916,6 +927,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
         try:
             # use the original term in the function call, not the translated one
             reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
+            self.analysis_results[-1].add_command(['self.active_data.diffusion', {'error_name': error_name,
+                                                  'RT_name': RT_name, 'participant_name': participant_name,
+                                                  'condition_names': condition_names,
+                                                  'correct_coding': correct_coding[0],
+                                                  'reaction_time_in': reaction_time_in,
+                                                  'scaling_parameter': scaling_parameter}])
             text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names,
                                                      correct_coding[0], reaction_time_in, scaling_parameter)
         except:
@@ -949,7 +966,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
+        self.analysis_results[-1].add_command(['self.active_data.compare_variables', {'var_names': var_names,
+                                              'factors': factors, 'display_factors': display_factors, 'ylims': ylims}])
         try:
             result_list = self.active_data.compare_variables(var_names, factors, display_factors, ylims)
             for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
@@ -987,7 +1005,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
         for var_name in var_names:
             try:
                 self.analysis_results.append(GuiResultPackage())
-                self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
+                self.analysis_results[-1].add_command(['self.active_data.compare_groups', {'var_name': var_name,
+                                                      'grouping_variables': groups, 'display_groups': display_groups,
+                                                      'single_case_slope_SE': single_case_slope_SE,
+                                                      'single_case_slope_trial_n': single_case_slope_trial_n,
+                                                       'ylims': ylims}])
                 result_list = self.active_data.compare_groups(var_name, groups, display_groups,
                                                               single_case_slope_SE,
                                                               single_case_slope_trial_n, ylims)
@@ -1027,7 +1049,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command('self.compare_variables_groups()')  # TODO
+        self.analysis_results[-1].add_command(['self.active_data.compare_variables_groups', {'var_names': var_names,
+                                             'factors': factors, 'grouping_variables': groups,
+                                             'display_factors': display_factors,
+                                             'single_case_slope_SE': single_case_slope_SE,
+                                             'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}])
         # TODO check relevant details
         try:
             if '' in var_names:
@@ -1048,6 +1074,43 @@ class StatMainWindow(QtWidgets.QMainWindow):
             traceback.print_exc()
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
         self._busy_signal(False)
+
+    def rerun_analyses(self):
+        """Rerun the analyses that are currently visible in the results pane.
+
+        """
+        from . import cogstat_util as cs_util  # import cs_util so that it is available in locals()
+
+        self._busy_signal(True)
+        # Collect the commands to be run from the current result pane
+        commands_to_run = [analysis_result.command for analysis_result in self.analysis_results]
+        # Clear the results pane and the related list
+        self.result_pane.clear()
+        self.analysis_results = []
+        self.unsaved_output = False  # Not necessary to save the empty output
+        # Rerun the collected analyses
+        for command_to_run in commands_to_run:
+            # command_to_run is a list of two items: 0. the command to be run, 1. the optional parameters in a dict
+            #print('Command:', command_to_run )
+            # TODO refactor the data import
+            # TODO add print_versions() heading
+            try:
+                self.analysis_results.append(GuiResultPackage())
+                self.analysis_results[-1].add_command(command_to_run)
+                result = None
+                # split the command into a first part and the rest of it
+                command_to_run_first, command_to_run_rest = command_to_run[0].split('.', 1)
+                if len(command_to_run) == 1:  # no parameters are stored
+                    result = attrgetter(command_to_run_rest)(locals()[command_to_run_first])
+                else:  # there are parameters stored in a dict
+                    result = attrgetter(command_to_run_rest)(locals()[command_to_run_first])(**command_to_run[1])
+                self.analysis_results[-1].add_output(result)
+                self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+            except:  # TODO We need some heading information so that appropriate information can be sent to the results pane
+                print('Could not run the analysis again:', command_to_run)
+                traceback.print_exc()
+        self._busy_signal(False)
+
 
     ### Result menu methods ###
     def delete_output(self):
@@ -1140,6 +1203,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         text_output = cs_util.reformat_output(cs_util.print_versions(self))
         
         self.analysis_results.append(GuiResultPackage())
+        self.analysis_results[-1].add_command(['cs_util.print_versions', {'main_window': self}])
         self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
                                              [0])
         self.analysis_results[-1].add_output(text_output)
@@ -1242,10 +1306,10 @@ class GuiResultPackage():
     """ A class for storing a package of results.
 
     Result object includes:
-    - self.command: Command to run (python code) - not used yet
+    - self.command: Command to run. List of str (command) and optional dict (parameters)
+        e.g., ['self.active_data.explore_variable', {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}]
     - self.output:
-        - list of strings (html) or matplotlib figures
-        - the first item is recommended to be the title line
+        - list of strings (html) or matplotlib figures or Nones
     """
 
     def __init__(self):
@@ -1253,7 +1317,7 @@ class GuiResultPackage():
         self.output = []
 
     def add_command(self, command):
-        self.command.append(command)
+        self.command.extend(command)
 
     def add_output(self, output):
         """Add output to the self.output

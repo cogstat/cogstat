@@ -9,6 +9,7 @@ Upcoming release (2022)
   - Reload actual data file
   - Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
   - New demo data files https://learningstatisticswithcogstat.com/
+- Ability to rerun the analyses
 - Multiple linear regression analysis (Tamás Szűcs)
   - Model fit metrics
   - Partial correlation
