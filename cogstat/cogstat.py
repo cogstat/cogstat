@@ -519,7 +519,7 @@ class CogStatData:
         if self.import_source[1]:  # if the actual dataset was imported from a file, then reload it
             self._import_data(data=self.import_source[1], show_heading=False)  # measurement level should be reimported too
             output += _('The file was successfully reloaded.') + '\n'
-            output += cs_util.reformat_output(self.import_message)
+            output += self.import_message
             if self.filtering_status[0]:
                 self.filter_outlier(var_names=self.filtering_status[0], mode=self.filtering_status[1])
         else:

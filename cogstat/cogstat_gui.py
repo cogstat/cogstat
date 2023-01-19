@@ -586,7 +586,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 result = attrgetter(function_rest_levels)(locals()[function_highest_level])(**parameters)
             self.analysis_results[-1].add_output(result)
         except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % title))
+            self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title]))
             traceback.print_exc()
             successful_run = False
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
@@ -662,7 +662,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
             self.analysis_results.append(GuiResultPackage())
             self.analysis_results[-1].add_command([_('Data'), 'self._open_data', {'data': data}])
-            self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
+            self.analysis_results[-1].add_output(cs_util.convert_output([self.active_data.import_message]))
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
             self._display_data()
 
@@ -674,14 +674,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
             except:
                 file_content = ''
             self.analysis_results[-1].\
-                add_output(cs_util.reformat_output('<cs_h1>' + _('Data') + '</cs_h1>' +
+                add_output(cs_util.convert_output(['<cs_h1>' + _('Data') + '</cs_h1>' +
                                                    _('Oops, something went wrong, CogStat could not open the '
                                                      'data. You may want to report the issue.') + ' ' +
                                                    _('Read more about how to report an issue <a href = "%s">here</a>.')
-                                                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug') +
+                                                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug' +
                                                    '<br><br>' + _('Error code') + ': %s' %e +
                                                    '<br><br>' + _('Data to be imported') +
-                                                   ':<br>%s<br>%s' % (data, file_content))
+                                                   ':<br>%s<br>%s' % (data, file_content)]))
             traceback.print_exc()
             self._display_data(reset=True)
         self._busy_signal(False)
@@ -1124,7 +1124,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         function_name = 'cs_util.print_versions'
         parameters = {'main_window': self}
-        text_output = cs_util.reformat_output(cs_util.print_versions(self))
+        text_output = cs_util.convert_output([cs_util.print_versions(self)])
         
         self.analysis_results.append(GuiResultPackage())
         self.analysis_results[-1].add_command([_('System components'), function_name, parameters])
