@@ -589,9 +589,10 @@ def create_residual_chart(data, meas_lev, x, y):
 
     if meas_lev == 'int':
         val_count = data.value_counts()
-        if max(val_count) > 1:
-            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count),
-                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
+        # TODO FIXME this will not change the current plot but some other plots
+        #if max(val_count) > 1:
+        #    plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count),
+        #                 x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
         import statsmodels.regression
         import statsmodels.tools

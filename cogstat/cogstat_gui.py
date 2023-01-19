@@ -809,7 +809,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             pass_diag = False
             for y in var_names:
                 if pass_diag:
-                    parameters = {'predictors': x, 'predicted': y, 'xlims': xlims, 'ylims': ylims}
+                    parameters = {'predictors': [x], 'predicted': y, 'xlims': xlims, 'ylims': ylims}
                     self._run_analysis(title=_('Explore relation of variable pair'), function_name=function_name,
                                        parameters=parameters)
                 if x == y:
