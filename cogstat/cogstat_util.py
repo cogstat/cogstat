@@ -5,10 +5,15 @@ Various functions for CogStat.
 
 import os
 import sys
+import gettext
 
 import numpy as np
 
 from . import cogstat_config as csc
+from . import cogstat_util as cs_util
+
+t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
+_ = t.gettext
 
 app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
 
@@ -94,7 +99,7 @@ def get_versions():
 
 
 def print_versions(main_window):
-    text_output = ''
+    text_output = '<cs_h1>' + _('System components') + '</cs_h1>'
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
     text_output += 'CogStat path: %s\n' % \
                    os.path.dirname(os.path.abspath(__file__))
@@ -128,7 +133,7 @@ def print_versions(main_window):
 #    for param in os.environ.keys():
 #        text_output += u'%s %s' % (param,os.environ[param]) + '\n'
 
-    return text_output
+    return cs_util.convert_output([text_output])
 
 
 def precision(data):

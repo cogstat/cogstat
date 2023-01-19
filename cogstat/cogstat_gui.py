@@ -1030,7 +1030,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
             #  2. the optional parameters in a dict
             #print('Analysis:', analysis_to_run )
             # TODO refactor the data import
-            # TODO add print_versions() heading
             self._run_analysis(*analysis_to_run)
 
 
@@ -1120,19 +1119,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""
         # Intentionally not localized.
-        self._busy_signal(True)
-
-        function_name = 'cs_util.print_versions'
-        parameters = {'main_window': self}
-        text_output = cs_util.convert_output([cs_util.print_versions(self)])
-        
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command([_('System components'), function_name, parameters])
-        self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
-                                             [0])
-        self.analysis_results[-1].add_output(text_output)
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-        self._busy_signal(False)
+        self._run_analysis(title=_('System components'), function_name='cs_util.print_versions',
+                           parameters={'main_window': self})
 
     def closeEvent(self, event):
         # Override the close behavior, otherwise alt+F4 quits unconditionally.
