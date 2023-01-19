@@ -574,7 +574,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         self._busy_signal(True)
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command([function_name, parameters])
+        self.analysis_results[-1].add_command([title, function_name, parameters])
         result = None
         successful_run = True
         try:
@@ -661,14 +661,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
 
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command(['self._open_data', {'data': data}])
+            self.analysis_results[-1].add_command([_('Data'), 'self._open_data', {'data': data}])
             self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
             self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
             self._display_data()
 
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command(['self._open_data'], {'data': data})
+            self.analysis_results[-1].add_command([_('Data'), 'self._open_data', {'data': data}])
             try:
                 file_content = '<br>' + _('Data file content') + ':<br>' + open(data, 'r').read()[:1000].replace('\n', '<br>') if os.path.exists(data) else ''
             except:
@@ -733,7 +733,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command(['self.active_data.print_data', {'brief': brief}])
+        self.analysis_results[-1].add_command([_('Data'), 'self.active_data.print_data', {'brief': brief}])
         self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
 
@@ -1018,35 +1018,20 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         from . import cogstat_util as cs_util  # import cs_util so that it is available in locals()
 
-        self._busy_signal(True)
-        # Collect the commands to be run from the current result pane
-        commands_to_run = [analysis_result.command for analysis_result in self.analysis_results]
+        # Collect the analyses to be run from the current result pane
+        analyses_to_run = [analysis_result.command for analysis_result in self.analysis_results]
         # Clear the results pane and the related list
         self.result_pane.clear()
         self.analysis_results = []
         self.unsaved_output = False  # Not necessary to save the empty output
         # Rerun the collected analyses
-        for command_to_run in commands_to_run:
-            # command_to_run is a list of two items: 0. the command to be run, 1. the optional parameters in a dict
-            #print('Command:', command_to_run )
+        for analysis_to_run in analyses_to_run:
+            # analysis_to_run is a list of three items: 0. the title of teh analysis, 1. function/method to be run,
+            #  2. the optional parameters in a dict
+            #print('Analysis:', analysis_to_run )
             # TODO refactor the data import
             # TODO add print_versions() heading
-            try:
-                self.analysis_results.append(GuiResultPackage())
-                self.analysis_results[-1].add_command(command_to_run)
-                result = None
-                # split the command into a first part and the rest of it
-                command_to_run_first, command_to_run_rest = command_to_run[0].split('.', 1)
-                if len(command_to_run) == 1:  # no parameters are stored
-                    result = attrgetter(command_to_run_rest)(locals()[command_to_run_first])()
-                else:  # there are parameters stored in a dict
-                    result = attrgetter(command_to_run_rest)(locals()[command_to_run_first])(**command_to_run[1])
-                self.analysis_results[-1].add_output(result)
-                self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-            except:  # TODO We need some heading information so that appropriate information can be sent to the results pane
-                print('Could not run the analysis again:', command_to_run)
-                traceback.print_exc()
-        self._busy_signal(False)
+            self._run_analysis(*analysis_to_run)
 
 
     ### Result menu methods ###
@@ -1142,7 +1127,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         text_output = cs_util.reformat_output(cs_util.print_versions(self))
         
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command([function_name, parameters])
+        self.analysis_results[-1].add_command([_('System components'), function_name, parameters])
         self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
                                              [0])
         self.analysis_results[-1].add_output(text_output)
