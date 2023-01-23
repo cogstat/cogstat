@@ -574,5 +574,87 @@ Control	0.538	0.107''')
         # median +- 2.5*MAD is −5.97275 and 19.97275
         self.assertTrue('will be excluded: -6.0  –  20.0' in result[1])
 
+    def test_reliability_internal(self):
+        # TODO temporarily ran from compare_variables()
+        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1=['e'])
+        self.assertTrue('N of valid cases: 30' in result[1])
+        self.assertTrue('N of missing cases: 0' in result[1])
+        self.assertTrue('Reverse coded items: e')
+
+        # Cronbach's alpha Jamovi 2.2.5 alpha=0.429
+        # TODO validate CI
+        self.assertTrue("Cronbach's alpha = 0.429" in result[5])  # Sample
+        self.assertTrue('<td>0.429</td>      <td>[0.003, 0.702]</td>' in result[7])  # Population
+
+        # Cronbach's alpha when item removed with CIs, and item-rest correlations with CIs
+        # Jamovi 2.2.5 Cronbach's alpha if item dropped top to bottom: 0.517, 0.276, 0.381, 0.235
+        # Jamovi 2.2.5 Item-rest correlations top to bottom: 0.076, 0.3303, 0.2245, 0.3617
+        # TODO validate CIs
+        self.assertTrue('<td>0.517</td>      <td>[0.114, 0.754]</td>      <td>0.076</td>      <td>[-0.292, 0.425]</td>'
+                        in result[8])
+        self.assertTrue('<td>0.276</td>      <td>[-0.327, 0.631]</td>      <td>0.330</td>      <td>[-0.034, 0.617]</td>'
+                        in result[8])
+        self.assertTrue('<td>0.381</td>      <td>[-0.135, 0.685]</td>      <td>0.224</td>      <td>[-0.148, 0.541]</td>'
+                        in result[8])
+        self.assertTrue('<td>0.235</td>      <td>[-0.402, 0.611]</td>      <td>0.362</td>      <td>[0.002, 0.639]</td>'
+                        in result[8])
+
+
+    def test_reliability_interrater(self):
+        # TODO validate! Pingouin, jamovi and JASP all give different ICC values and CIs.
+        # The difference is greater at lower values (i.e. around 0), and negligible at medium to higher values.
+        # TODO temporarily ran from compare_variables()
+
+        # ICC1,1 and CI and assumption tests
+        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='1', question_2='1')
+        self.assertTrue('N of valid cases: 30' in result[1])
+        self.assertTrue('N of missing cases: 0' in result[1])
+        # Assumption tests (same for all ICC types)
+        self.assertTrue('Shapiro–Wilk normality test in variable a: <i>W</i> = 0.96, <i>p</i> = .287' in result[6])
+        self.assertTrue('Shapiro–Wilk normality test in variable e: <i>W</i> = 0.97, <i>p</i> = .435' in result[6])
+        self.assertTrue('Shapiro–Wilk normality test in variable f: <i>W</i> = 0.82, <i>p</i> &lt; .001' in result[6])
+        self.assertTrue('Shapiro–Wilk normality test in variable g: <i>W</i> = 0.95, <i>p</i> = .133' in result[6])
+        self.assertTrue('Levene test: <i>W</i> = 0.19, <i>p</i> = .904' in result[6])
+        # Results
+        self.assertTrue('-0.070' in result[5])  # Sample
+        self.assertTrue('<td>-0.070</td>      <td>[-0.170, 0.090]</td>' in result[8])  # Population
+        self.assertTrue('<i>F</i>(29, 90) = 0.74, <i>p</i> = .820' in result[9])  # Hypothesis test
+
+        # ICC2,1 and CI
+        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='2', question_2='1')
+        # Results
+        self.assertTrue('-0.034' in result[5])  # Sample
+        self.assertTrue('<td>-0.034</td>      <td>[-0.130, 0.120]</td>' in result[8])  # Population
+        self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682' in result[9])  # Hypothesis test
+
+        # ICC3,1 and CI
+        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='3', question_2='1')
+        # Results
+        self.assertTrue('-0.039' in result[5])  # Sample
+        self.assertTrue('<td>-0.039</td>      <td>[-0.150, 0.140]</td>' in result[8])  # Population
+        self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682' in result[9])  # Hypothesis test
+
+        # ICC1,k and CI
+        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='1', question_2='k')
+        # Results
+        self.assertTrue('-0.352' in result[5])  # Sample
+        self.assertTrue('<td>-0.352</td>      <td>[-1.350, 0.290]</td>' in result[8])  # Population
+        self.assertTrue('<i>F</i>(29, 90) = 0.74, <i>p</i> = .820' in result[9])  # Hypothesis test
+
+        # ICC2,k and CI
+        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='2', question_2='k')
+        # Results
+        self.assertTrue('-0.149' in result[5])  # Sample
+        self.assertTrue('<td>-0.149</td>      <td>[-0.820, 0.360]</td>' in result[8])  # Population
+        self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682' in result[9])  # Hypothesis test
+
+        # ICC3,k and CI
+        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='3', question_2='k')
+        # Results
+        self.assertTrue('-0.176' in result[5])  # Sample
+        self.assertTrue('<td>-0.176</td>      <td>[-1.050, 0.390]</td>' in result[8])  # Population
+        self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682')
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 import matplotlib.pylab
 import numpy as np
 import pandas as pd
+import statsmodels.api
 from scipy import stats
 from statsmodels.graphics.mosaicplot import mosaic
 import statsmodels.api as sm
@@ -273,6 +274,73 @@ def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_
     _set_axis_measurement_level(ax, 'int', 'nom')
 
     return plt.gcf()
+
+
+#######################################
+### Charts for Reliability Analyses ###
+#######################################
+
+
+def create_item_total_matrix(data, regression=True):
+    """Draw a grid of charts relating item scores and the total score with item-removal displaying raw data and
+    optionally the regression line.
+
+    # TODO should we use the pandas or seaborn solution?
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    regression : bool
+        Display the regression line along with the scatterplot of raw data if True,
+        display only scatterplot of raw data if False.
+
+    Returns
+    -------
+    matplotlib chart
+        A matrix plot of the variables optionally containing the regression line.
+    """
+
+    if regression:
+        from statsmodels.stats.outliers_influence import summary_table
+    fig = plt.figure(tight_layout=True)
+    fig.suptitle(_plt('Scatterplots of item scores and total scores with item-removal'))
+    index = 1
+    ncols = len(data.columns.tolist()) if len(data.columns.tolist()) < 4 else 3
+    import math
+    nrows = math.ceil(len(data.columns.tolist())/3)
+
+    items_list = data.columns.tolist()
+    total_scores = [[sum(data[data.columns.difference([var])].iloc[i, :]) for i in range(len(data))]
+                    for var in items_list]  # Total scores with item-removal
+    total_scores_df = pd.DataFrame(total_scores).T
+    total_scores_df.columns = ["%s_total" % var for var in items_list]
+    data_temp_all_vars = pd.concat([data, total_scores_df], axis=1)
+    global_max_freq = max([max(data_temp_all_vars[[var, var+'_total']].value_counts()) for var in items_list])
+
+    for item in items_list:
+        ax = plt.subplot(nrows, ncols, index)
+
+        # Prepare the frequencies for the plot
+        data_temp = data_temp_all_vars[[item, item+'_total']]
+        val_count = _value_count(data_temp, global_max_freq)
+
+        ax.scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
+        if regression:
+            regress_result = statsmodels.api.OLS(total_scores_df[item+"_total"],
+                                                 statsmodels.api.add_constant(data[item])).fit()
+            ax.plot(data[item], regress_result.predict(statsmodels.api.add_constant(data[item])),
+                    color=theme_colors[1])
+
+        ax.set_ylabel(_plt('Total score (sum)'))
+        ax.set_xlabel(item)
+        index += 1
+    if global_max_freq > 1:
+        fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,
+                 horizontalalignment='right', fontsize=10)
+
+    graph = plt.gcf()
+    return graph
+
 
 ####################################
 ### Charts for Explore variables ###

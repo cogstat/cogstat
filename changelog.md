@@ -13,6 +13,9 @@ Upcoming release (2022)
   - Hypothesis tests
 - Reload actual data file
 - Multivariate outlier filtering
+- Reliability analyses (Tamás Szűcs)
+  - Internal consistency reliability analysis
+  - Interrater reliability analysis
 
 ## Fixes
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 

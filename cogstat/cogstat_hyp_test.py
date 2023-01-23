@@ -124,7 +124,6 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
         QQ plot
     """
     text_result = ''
-
     if group_name:
         data = pdf[pdf[group_name] == group_value][var_name].dropna()
     else:
@@ -561,6 +560,97 @@ def multiple_regression_hyp_tests(data, result, predictors, normality, homosceda
     #  Pingouin doesn't use t-tests and doesn't give test statistics.
 
     return output
+
+### Reliability analyses ###
+
+def reliability_interrater_assumptions(data, data_long, var_names, meas_lev):
+    """
+    Testing assumptions of ICC calculations in interrater relability analysis.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+        Original wide format data.
+    data_long : pandas dataframe
+        Long format data.
+    var_names : list of str
+        Names of variables to be analysed.
+    meas_lev : list of str
+        Measurement levels of variables.
+
+    Returns
+    -------
+    list of str
+        List of variables in which normality is violated.
+    str
+        HTML text summary of normality test.
+    float
+        P-value of Levene test.
+    str
+        HTML text summary of homoscedasticity test.
+    """
+
+    non_normal_vars = []
+    norm_text = ''
+    for var_name in var_names:
+        norm, text_result = normality_test(data, data_measlevs=meas_lev, var_name=var_name)
+        norm_text += text_result
+        if not norm:
+            non_normal_vars.append(var_name)
+    var_hom_p, var_text_result = levene_test(data_long, var_name='value', group_name='variable')
+
+    return non_normal_vars, norm_text, var_hom_p, var_text_result
+
+def reliability_interrater_hyp_test(df1, df2, f, p, non_normal_vars, var_hom_p):
+    """
+    Hypothesis test output for ICC values with warnings in case of violated assumptions. Testing against 0.
+
+    Parameters
+    ----------
+    df1 : float
+        First degree of freedom of the F-test.
+    df2 : float
+        Second degree of freedom of the F-test.
+    f : float
+        F-value of the F-test.
+    p : float
+        P-value of the F-test.
+    non_normal_vars : list of str
+        List of variables where normality has been violated.
+    var_hom_p : float
+        P-value of Levene test of heteroscedasticity.
+
+    Returns
+    -------
+    str
+        HTML text
+    """
+
+    # TODO is it useful to test an intraclass correlation against 0? What test value should be used?
+    hypothesis_test_result = '\n' + '<cs_h3>' + _('Hypothesis test') + '</cs_h3>' + '\n'
+    hypothesis_test_result += '<decision>' + _('Testing if ICC differs from 0.') + '</decision>' + '\n'
+
+    if not non_normal_vars:
+        hypothesis_test_result += '<decision>' + _('Assumption of normality met. ') + '</decision>'
+    else:
+        hypothesis_test_result += '<decision>' + \
+                                  _('Assumption of normality violated in variable(s) %s. '
+                                    % ', ' .join(non_normal_vars)) + '</decision>'
+    if var_hom_p < 0.05:
+        hypothesis_test_result += '<decision>' + _('Assumption of homogeneity of variances violated. ') + '</decision>'
+    else:
+        hypothesis_test_result += '<decision>' + _('Assumption of homogeneity of variances met. ') + '</decision>'
+
+    if (var_hom_p < 0.05) or (len(non_normal_vars) != 0):
+        hypothesis_test_result += '<decision>' + _(' Hypothesis tests may be inaccurate.') + '</decision>' + '\n'
+    else:
+        hypothesis_test_result += '\n'
+
+    hypothesis_test_result += '<decision>' + _('Running F-test.') + '</decision>' + '\n'
+    hypothesis_test_result += _('Result of F-test') + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
+                              % (df1, df2, non_data_dim_precision, f, print_p(p))
+
+    return hypothesis_test_result
 
 
 ### Compare variables ###
