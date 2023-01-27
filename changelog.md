@@ -4,6 +4,12 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release (2022)
 =======================
 ## New features
+- Data handling
+  - New data view to see the data together with the results (thanks to Belma Bumin)
+  - Reload actual data file
+  - Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
+  - New demo data files https://learningstatisticswithcogstat.com/
+- Ability to rerun the analyses
 - Multiple linear regression analysis (Tamás Szűcs)
   - Model fit metrics
   - Partial correlation
@@ -11,17 +17,30 @@ Upcoming release (2022)
   - Scatterplot matrix of raw data
   - Analysis of multicollinearity
   - Hypothesis tests
-- Reload actual data file
-- Multivariate outlier filtering
 - Reliability analyses (Tamás Szűcs)
   - Internal consistency reliability analysis
   - Interrater reliability analysis
+- Displaying groups and factors
+  - In comparing groups, display groups not only on x-axes but also with colors or in panels
+  - In comparing repeated measures variables, display conditions not only on x-axes but also with colors
+    - Rearrange the factors flexibly  
+- Behavioral data diffusion analysis
+  - The time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
+  - Slow trials are filtered before the analysis is run
+  - Display the number of filtered (missing and slow outlier) trials
+  - Number of included trials per conditions are displayed
+- Save results into html file instead of pdf file (Róbert Fodor)
+- New localization
+  - Chinese (Xiaomeng Zhu)
+  - Malay (Nur Hidayati Miza binti Junaidi)
 
 ## Fixes
-- :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed 
+- :warning: In outlier filtering, the cases with the limit value will be included and not excluded
+- :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed
+- Extended calculation validations (thanks to Eszter Miklós)
 - Various GUI, and output fixes
 
-2.3.0rc (6 July 2022)
+2.3.0 (23 July 2022)
 ===============
 
 ## New features

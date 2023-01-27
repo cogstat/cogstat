@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 GUI for CogStat.
+
+The GUI includes
+- a menu bar
+- a toolbar (selected items from menu bar)
+- the data in a QTableView
+- the result pane
+
 """
 
 # Splash screen
@@ -21,14 +28,19 @@ splash_screen.show()
 splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
 
 # go on with regular imports, etc.
+import base64
 from distutils.version import LooseVersion
 import gettext
+import io
 import logging
+import matplotlib.figure
 import os
 import sys
 import traceback
 from urllib.request import urlopen
 import webbrowser
+import pandas as pd
+from operator import attrgetter
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
 
@@ -83,10 +95,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if missing_required_components:
                 sys.exit()
         
-        self.analysis_results = []
-        # analysis_result stores list of GuiResultPackages.
-        # It will be useful when we can rerun all the previous analysis in the GUI output
-        # At the moment no former results can be manipulated later
+        self.analysis_results = []  # analysis_result stores list of GuiResultPackages objects
 
         csc.output_type = 'gui'  # For some GUI specific formatting
 
@@ -95,26 +104,30 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Only for testing
 #        self.open_file('cogstat/test/data/example_data.csv'); #self.compare_groups()
 #        self.open_file('cogstat/test/data/VA_test.csv')
-#        self.open_file('cogstat/test/data/test.csv')
+#        self.open_file('cogstat/test/data/test2.csv')
+#        self.open_file('cogstat/test/data/diffusion.csv')
 #        self.open_clipboard()
 #        self.print_data()
+#        self.filter_outlier(['before', 'after'], True)
 #        self.explore_variable(['X'])
 #        self.explore_variable(['a'], freq=False)
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.regression(['a'], 'b')
 #        self.regression(['b', 'f', 'g'], 'a')
 #        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
-#        self.diffusion(error_name=['Error'], RT_name=['RT_sec'], participant_name=['Name'],
-#                       condition_names=['Num1', 'Num2'])
+#        self.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name', condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['a', 'e', 'g'])
 #        self.compare_variables(['D', 'E', 'F'])
 #        self.compare_variables()
-#        self.compare_variables(['a', 'b', 'c1', 'd', 'e', 'f', 'g', 'h'],
-#                               factors=[['factor1', 2], ['factor2', 2], ['factor3', 2]])
+#        self.compare_variables(['a', 'b'], factors=[['factor', 2]], display_factors=[['factor'], []])
+#        self.compare_variables(['a', 'g', 'b', 'h'],
+#                               factors=[['factor1', 2], ['factor2', 2]],
+#                               display_factors=[['factor1'], ['factor2']])
 #        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
-#        self.compare_groups(['A'], ['G', 'H'])
+#        self.compare_groups(['b'], groups=['i', 'j', 'k'], display_groups=[['k', 'i'], ['j'], []]),
+#        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.compare_groups(['dep_nom'], ['g0', 'g1', 'g2', 'g3'])
 #        self.save_result_as()
@@ -135,7 +148,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             print("Couldn't check for update")
 
     def _init_UI(self):
-        self.resize(830, 1000)  # for the height we assume that a full HD screen is available; if the value is larger
+        self.resize(1250, 1000)  # for the height we assume that a full HD screen is available; if the value is larger
                                 # than the available screen size, the window will be the max height
         #print(QtWidgets.QDesktopWidget().screenGeometry(-1).height())  # height of the actual screen
         self.setWindowTitle('CogStat')
@@ -166,28 +179,33 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier',
                                  True, True],
                                 ['separator'],
-                                ['/icons8-data-sheet.svg', _('&Display data'), _('Ctrl+D'), 'self.print_data', False,
-                                 True],
-                                ['/icons8-data-sheet-check.svg', _('Display data &briefly'), _('Ctrl+B'),
-                                 'self._print_data_brief', True, True],
+                                ['/icons8-data-sheet-check.svg', _('Display &data briefly'), _('Ctrl+D'),
+                                 'self._print_data_brief', False, True],
                                 ['toolbar separator']
                             ],
                             [_('&Analysis'),
                                 ['/icons8-normal-distribution-histogram.svg', _('&Explore variable')+'...',
                                  _('Ctrl+1'), 'self.explore_variable', True, True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
-                                 _('Ctrl+2'), 'self.explore_variable_pair', False, True],
-                                ['/icons8-scatter-plot.svg', _('Explore &relation of variables')+'...',
+                                 _('Ctrl+2'), 'self.explore_variable_pair', True, True],
+                                ['/icons8-heat-map-100.png', _('Explore &relation of variables')+'...',
                                  _('Ctrl+R'), 'self.regression', True, True],
-                                ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
-                                 'Ctrl+M', 'self.compare_variables', True, True],
+                                ['/icons8-combo-chart.svg', _('Compare re&peated measures variables')+'...',
+                                 'Ctrl+P', 'self.compare_variables', True, True],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
                                  'self.compare_groups', True, True],
+                                ['/icons8-combo-chart-50.png', _('Compare repeated &measures variables and groups')+'...',
+                                 'Ctrl+M', 'self.compare_variables_groups', True, True],
                                 ['separator'],
+                                ['toolbar separator'],
                                 ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True,
                                  True],
                                 ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
                                  '...', 'Ctrl+Shift+D', 'self.diffusion', True, True],
+                                ['separator'],
+                                ['toolbar separator'],
+                                ['/icons8-reboot-100.png', _('Rerun all analyses') +
+                                 '...', 'Ctrl+Shift+R', 'self.rerun_analyses', True, True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
@@ -204,14 +222,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['/icons8-edit-file.svg', _('Text is &editable'), _('Ctrl+Shift+E'),
                                  'self.text_editable', False, False],
                                 ['separator'],
-                                ['/icons8-pdf.svg', _('&Save results'), _('Ctrl+P'), 'self.save_result', False, False],
-                                ['/icons8-pdf-edit.svg', _('Save results &as')+'...', _('Ctrl+Shift+P'),
+                                ['/icons8-document.svg', _('&Save results'), _('Ctrl+S'), 'self.save_result', False, False],
+                                ['/icons8-document-plus.svg', _('Save results &as')+'...', _('Ctrl+Shift+S'),
                                  'self.save_result_as', False, False],
                                 ['toolbar separator']
                             ],
                             [_('&CogStat'),
                                 ['/icons8-help.svg', _('&Help'), _('F1'), 'self._open_help_webpage', True, False],
-                                ['/icons8-settings.svg', _('&Preferences')+'...', _('Ctrl+Shift+R'),
+                                ['/icons8-settings.svg', _('&Preferences')+'...', _('Ctrl+Shift+P'),
                                  'self._show_preferences', True, False],
                                 ['/icons8-file-add.svg', _('Request a &feature'), '', 'self._open_reqfeat_webpage',
                                  False, False],
@@ -270,7 +288,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # TODO if the position of these menus are changed, then this setting will not work
         self._show_data_menus(on=False)
 
-        # Prepare Output pane
+        # Prepare result and data panes
         def _change_color_lightness(color, lightness=1.0):
             """Modify the lightness of a color.
 
@@ -291,41 +309,57 @@ class StatMainWindow(QtWidgets.QMainWindow):
             hsv_color[2] = min(1, hsv_color[2] * lightness)  # change the lightness, which cannot be larger than 1
             return to_hex(hsv_to_rgb(hsv_color))
 
-        self.output_pane = QtWidgets.QTextBrowser()  # QTextBrowser can handle links, QTextEdit cannot
-        # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
-        self.output_pane.document().setDefaultStyleSheet('body {color:black;} '
-                                                         'h2 {color:%s;} h3 {color:%s} '
-                                                         'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
-                                                         '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
-                                                         'td {white-space:nowrap}' %
-                                                         (_change_color_lightness(csc.mpl_theme_color, 1.1),
-                                                          _change_color_lightness(csc.mpl_theme_color, 1.0),
-                                                          _change_color_lightness(csc.mpl_theme_color, 0.8),
-                                                          _change_color_lightness(csc.mpl_theme_color, 0.4)))
+        self.centralwidget = QtWidgets.QWidget()
+        self.splitter = QtWidgets.QSplitter(self.centralwidget)
+        self.table_view = QtWidgets.QTableView(self.splitter)
+        self.table_view.horizontalHeader().setStretchLastSection(True)
+        self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setStretchFactor(0, 2)
+        self.splitter.setStretchFactor(1, 4)
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.addWidget(self.splitter)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
-        welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
-                          ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
-                           _('CogStat makes statistical analysis more simple and efficient.'),
-                          _('To start working open a data file or paste your data from a spreadsheet.'),
-                          _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> '
-                            'or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">'
-                            'quick start tutorial.</a>'))
-        self.output_pane.setText(cs_util.convert_output([welcome_message])[0])
-        self.welcome_text_on = True  # Used for deleting the welcome text at the first analysis
-        self.output_pane.setReadOnly(True)
-        self.output_pane.setOpenExternalLinks(True)
-        self.output_pane.setStyleSheet("QTextBrowser { background-color: white; }")
-            # Some styles use non-white background (e.g. Linux Mint 17 Mate uses gray)
-        # Set default font
-        #print self.output_pane.currentFont().toString()
-        # http://stackoverflow.com/questions/2475750/using-qt-css-to-set-own-q-propertyqfont
-        font = QtGui.QFont()
-        font.setFamily(csc.default_font)
-        font.setPointSizeF(csc.default_font_size)
-        self.output_pane.setFont(font)
-        #print self.output_pane.currentFont().toString()
 
-        self.setCentralWidget(self.output_pane)
+        # Currently, it doesn't make sense to use a loop here, but we keep it, until we decide how to implement the ToC
+        for pane in [self.result_pane]:
+            # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
+            pane.document().setDefaultStyleSheet('body {color:black;} '
+                                                            'h2 {color:%s;} h3 {color:%s} '
+                                                            'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
+                                                            '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
+                                                            'td {white-space:nowrap}' %
+                                                            (_change_color_lightness(csc.mpl_theme_color, 1.1),
+                                                            _change_color_lightness(csc.mpl_theme_color, 1.0),
+                                                            _change_color_lightness(csc.mpl_theme_color, 0.8),
+                                                            _change_color_lightness(csc.mpl_theme_color, 0.4)))
+            pane.setReadOnly(True)
+            pane.setOpenExternalLinks(True)
+            pane.setStyleSheet("QTextBrowser { background-color: white; }")
+                # Some styles use non-white background (e.g. Linux Mint 17 Mate uses gray)
+            # Set default font
+            #print pane.currentFont().toString()
+            # http://stackoverflow.com/questions/2475750/using-qt-css-to-set-own-q-propertyqfont
+            font = QtGui.QFont()
+            font.setFamily(csc.default_font)
+            font.setPointSizeF(csc.default_font_size)
+            pane.setFont(font)
+            #print pane.currentFont().toString()
+
+        output_welcome_message = '%s%s%s%s<br>%s<br>%s<br>' % \
+                                 ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
+                                 _('CogStat makes statistical analysis more simple and efficient.'),
+                                 _('To start working open a data file or paste your data from a spreadsheet.'),
+                                 _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>'))
+        data_welcome_message = '%s%s%s%s<br>' % \
+                               ('<cs_h1>', _('Data view'), '</cs_h1>',
+                               _('To start working open a data file or paste your data from a spreadsheet.'))
+        self.result_pane.setText(cs_util.convert_output([output_welcome_message])[0])
+        # We add these extra properties to track if the welcome message  is still on
+        self.result_pane.welcome_message_on = True
+
+        self.setCentralWidget(self.centralwidget)
         self.setAcceptDrops(True)
 
         self.show()
@@ -413,39 +447,152 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
-    def _print_to_output_pane(self, index=-1):
-        """Print a GuiResultPackage to GUI output pane
-        :param index: index of the item in self.analysis_results to be printed
-                      If no index is given, the last item is printed.
+    def _print_to_pane(self, pane=None, output_list=None):
+        """Print a GuiResultPackage to the output or data pane.
+
+        The pane should have a pane.welcome_message_on property.
+
+        Parameters
+        ----------
+        pane : QtWidgets.QTextBrowser object
+            The pane the message should be printed to.
+        output_list : list of str (html) or matplotlib.figure.Figure
+            List of items to display
+
+        Returns
+        -------
+
         """
-        if self.welcome_text_on:
-            self.output_pane.clear()
-            #self.output_pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
-            self.welcome_text_on = False
-        #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
-        #self.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
-        #print(self.output_pane.toHtml())
 
+        if output_list is None:
+            output_list = []
+        if pane.welcome_message_on:
+            pane.clear()
+            #pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
+            pane.welcome_message_on = False
+        #pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #pane.output_pane.append('<h2>test2</h2>testt<h3>test3</h3>testt<br>testpbr')
+        #print(pane.toHtml())
+
+        # anchor and scrolling is relevant only in the result pane
+        # TODO we may remove it for other panes
         anchor = str(random.random())
-        self.output_pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
+        pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
 
-        for output in self.analysis_results[index].output:
+        for output in output_list:
             if isinstance(output, str):
-                self.output_pane.append(output)  # insertHtml() messes up the html doc,
-                                                 # check it with self.output_pane.toHtml()
-            elif isinstance(output, QtGui.QImage):
-                data = QtCore.QByteArray()
-                buffer = QtCore.QBuffer(data)
-                output.save(buffer, format='PNG')
-                html = '<img src="data:image/png;base64,{0}">'.format(str(data.toBase64())[2:-1])
-                self.output_pane.append(html)
+                pane.append(output)  # insertHtml() messes up the html doc,
+                                                 # check it with value.toHtml()
+            elif isinstance(output, matplotlib.figure.Figure):
+                chart_buffer = io.BytesIO()
+                image_format = 'png'  # TODO this will be an ini setting
+                if image_format == 'png':
+                    output.savefig(chart_buffer, format='png')  # TODO dpi= and modify html width to keep the original image size
+                    chart_buffer.seek(0)
+                    html_img = '<img src="data:image/png;base64,{0}">'.\
+                        format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
+                elif image_format == 'svg':
+                    # TODO in savefig(), when the format is 'svg', the dpi parameter is ignored, and a dpi of 72 is
+                    #  used instead https://github.com/cogstat/cogstat/issues/101
+                    output.savefig(chart_buffer, format='svg')
+                    chart_buffer.seek(0)
+                    # TODO width="800" height="600" won't help because the image is blurry
+                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
+                        format(base64.b64encode(chart_buffer.read()).decode())
+                chart_buffer.close()
+                pane.append(html_img)
             elif output is None:
                 pass  # We don't do anything with None-s
             else:
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
-        self.output_pane.scrollToAnchor(anchor)
-        #self.output_pane.moveCursor(QtGui.QTextCursor.End)
+        pane.scrollToAnchor(anchor)
+        #pane.moveCursor(QtGui.QTextCursor.End)
+
+    def _display_data(self, reset=False):
+        """ Display the actual data in the tableview.
+        Show the variable names, the measurement levels and the data.
+        Show the filtered cases.
+
+        Parameters
+        ----------
+        reset : bool
+            Should the tableview be cleared?
+
+        """
+        # When reset is True, reset the view; when reset is False, initialize
+        self.table_view.setModel(None)
+        if not reset:
+            # Make a copy of the original data so that both filtered and included cases can be displayed.
+            data_to_display = self.active_data.orig_data_frame.copy()
+            # This new column is used for formatting the rows in the tableview.
+            # We use a column name that is not likely to be used by the users.
+            # By default, all cases are excluded.
+            data_to_display['cogstat_filtered_cases'] = 1
+            # Modify the included cases.
+            data_to_display['cogstat_filtered_cases'][self.active_data.data_frame.index] = 0
+            # Start row numbers from 1, instead of 0.
+            data_to_display.index = data_to_display.index + 1
+            # Add the variable type and measurement level to the dataframe.
+            dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num',
+                             'object': 'str', 'string': 'str', 'category': 'str', 'datetime64[ns]': 'str'}
+            data_to_display = pd.concat(
+               [pd.DataFrame([[dtype_convert[str(self.active_data.data_frame[name].dtype).lower()] for name in
+                               self.active_data.data_frame.columns],
+                              [self.active_data.data_measlevs[name] for name in self.active_data.data_frame.columns]],
+                             columns=self.active_data.data_frame.columns,
+                             index=[_('Type'), _('Level')]), data_to_display])
+            # Prepare table view
+            model = PandasModel(data_to_display)
+            self.table_view.setModel(model)
+            # Hide the filtering column
+            self.table_view.setColumnHidden(model.columnCount() - 1, True)
+            self.table_view.show()
+
+    def _run_analysis(self, title, function_name, parameters=None):
+        """Run an analysis by calling the function with the parameters.
+        If it fails, provide an error message with the title as heading.
+
+        Parameters
+        ----------
+        title : str
+            Used for the heading of the error message
+        function_name : str
+            Name of the function or method that implements the analysis
+        parameters : dict
+            Optional parameters
+
+        Returns
+        -------
+        bool
+            Whether the analysis could run without an exception
+
+        """
+        from . import cogstat_util as cs_util  # import cs_util so that it is available in locals()
+
+        #print(title, function_name, parameters)
+
+        self._busy_signal(True)
+        self.analysis_results.append(GuiResultPackage())
+        self.analysis_results[-1].add_command([title, function_name, parameters])
+        result = None
+        successful_run = True
+        try:
+            # split the function name into a first part and the rest of it
+            function_highest_level, function_rest_levels = function_name.split('.', 1)
+            if parameters is None:  # no parameters are stored
+                result = attrgetter(function_rest_levels)(locals()[function_highest_level])()
+            else:  # there are parameters stored in a dict
+                result = attrgetter(function_rest_levels)(locals()[function_highest_level])(**parameters)
+            self.analysis_results[-1].add_output(result)
+        except:
+            self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title]))
+            traceback.print_exc()
+            successful_run = False
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        self._busy_signal(False)
+        return successful_run
+
 
     ### Data menu methods ###
     def open_file(self, path=''):
@@ -481,18 +628,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def reload_file(self):
         """Reload data file."""
-        self._busy_signal(True)
-        try:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
-            result = self.active_data.reload_data()
-            self.analysis_results[-1].add_output(result)
-            self._print_to_output_pane()
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Reload data')))
-            traceback.print_exc()
-            self._print_to_output_pane()
-        self._busy_signal(False)
+        function_name = 'self.active_data.reload_data'
+        successful = self._run_analysis(title=_('Reload data'), function_name=function_name)
+        if successful:
+            self._display_data()
+        else:
+            self._display_data(reset=True)
 
     def open_clipboard(self):
         """Open data copied to clipboard."""
@@ -520,34 +661,43 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
 
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self._open_data()')  # TODO
-            self.analysis_results[-1].add_output(cs_util.reformat_output(self.active_data.import_message))
-            self._print_to_output_pane()
+            self.analysis_results[-1].add_command([_('Data'), 'self._open_data', {'data': data}])
+            self.analysis_results[-1].add_output(cs_util.convert_output([self.active_data.import_message]))
+            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+            self._display_data()
+
         except Exception as e:
             self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self._open_data()')  # TODO
+            self.analysis_results[-1].add_command([_('Data'), 'self._open_data', {'data': data}])
             try:
                 file_content = '<br>' + _('Data file content') + ':<br>' + open(data, 'r').read()[:1000].replace('\n', '<br>') if os.path.exists(data) else ''
             except:
                 file_content = ''
             self.analysis_results[-1].\
-                add_output(cs_util.reformat_output('<cs_h1>' + _('Data') + '</cs_h1>' +
+                add_output(cs_util.convert_output(['<cs_h1>' + _('Data') + '</cs_h1>' +
                                                    _('Oops, something went wrong, CogStat could not open the '
                                                      'data. You may want to report the issue.') + ' ' +
                                                    _('Read more about how to report an issue <a href = "%s">here</a>.')
-                                                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug') +
+                                                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug' +
                                                    '<br><br>' + _('Error code') + ': %s' %e +
                                                    '<br><br>' + _('Data to be imported') +
-                                                   ':<br>%s<br>%s' % (data, file_content))
+                                                   ':<br>%s<br>%s' % (data, file_content)]))
             traceback.print_exc()
-            self._print_to_output_pane()
+            self._display_data(reset=True)
         self._busy_signal(False)
 
-    def filter_outlier(self, var_names=None):
+    def filter_outlier(self, var_names=None, multivariate_outliers=False):
         """Filter outliers.
 
-        Arguments:
-        var_names (list): variable names
+        Parameters
+        ----------
+        var_names : list of str
+            variable names
+        multivariate_outliers : bool
+
+        Returns
+        -------
+
         """
         if not var_names:
             try:
@@ -563,25 +713,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                                                   in ['int', 'unk'])]
                 self.dial_filter.init_vars(names=names)
             if self.dial_filter.exec_():
-                var_names = self.dial_filter.read_parameters()
+                var_names, multivariate_outliers = self.dial_filter.read_parameters()
             else:
                 return
-        self._busy_signal(True)
-        try:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.filter_outlier()')  # TODO
-            if len(var_names) > 1:  # TODO should we add a switch to the GUI to decide if single or multivariate
-                                    # filtering is needed?
-                result = self.active_data.filter_outlier(var_names, mode='mahalanobis')
-            else:
-                result = self.active_data.filter_outlier(var_names)
-            self.analysis_results[-1].add_output(result)
-            self._print_to_output_pane()
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Filter outliers')))
-            traceback.print_exc()
-            self._print_to_output_pane()
-        self._busy_signal(False)
+        function_name = 'self.active_data.filter_outlier'
+        parameters = {'var_names': var_names, 'mode': 'mahalanobis' if multivariate_outliers else '2.5mad'}
+        if self._run_analysis(title=_('Filter outliers'), function_name=function_name, parameters=parameters):
+            self._display_data()
 
     def print_data(self, brief=False):
         """Print the current data to the output.
@@ -595,11 +733,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
         self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command('self.print_data')  # TODO commands will be used to rerun the analysis
+        self.analysis_results[-1].add_command([_('Data'), 'self.active_data.print_data', {'brief': brief}])
         self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
-        self._print_to_output_pane()
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
 
     def _print_data_brief(self):
+        """Print the data briefly to GUI output pane
+        """
         self.print_data(brief=True)
 
     ### Analysis menu methods ###
@@ -626,27 +766,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_prop.exec_():
                 var_names, freq, loc_test_value = self.dial_var_prop.read_parameters()
+                if not var_names:
+                    var_names = ['']  # error message for missing variable come from the explore_variable() method
             else:
                 return
-        self._busy_signal(True)
-        if len(var_names) < 1:  # TODO this check should go to the appropriate dialog
-            self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore variable'),
-                                                                            _('At least one variable should be set.')))
-            self.analysis_results[-1].add_output(text_result)
-            self._print_to_output_pane()
-        try:
-            for var_name in var_names:
-                self.analysis_results.append(GuiResultPackage())
-                self.analysis_results[-1].add_command('self.explore_variable()')  # TODO
-                result = self.active_data.explore_variable(var_name, frequencies=freq, central_value=loc_test_value)
-                self.analysis_results[-1].add_output(result)
-                self._print_to_output_pane()
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Explore variable')))
-            traceback.print_exc()
-            self._print_to_output_pane()
-        self._busy_signal(False)
+        function_name = 'self.active_data.explore_variable'
+        for var_name in var_names:
+            parameters = {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}
+            self._run_analysis(title=_('Explore variable'), function_name=function_name, parameters=parameters)
 
     def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
@@ -656,9 +783,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         var_names : list of str
             Names of the variables
         xlims : list of floats
-            Minimum and maximum value of the x axis
+            Minimum and maximum value of the x-axis
         ylims : list of floats
-            Minimum and maximum value of the y axis
+            Minimum and maximum value of the y-axis
 
         Returns
         -------
@@ -675,33 +802,21 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 var_names, xlims, ylims = self.dial_var_pair.read_parameters()
             else:
                 return
-        self._busy_signal(True)
-        if len(var_names) < 2:  # TODO this check should go to the appropriate dialog
-            self.analysis_results.append(GuiResultPackage())
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Explore relation of variable pair'),
-                                                             _('At least two variables should be set.')))
-            self.analysis_results[-1].add_output(text_result)
-            self._print_to_output_pane()
-        else:
-            try:
-                for x in var_names:
-                    pass_diag = False
-                    for y in var_names:
-                        if pass_diag:
-                            self.analysis_results.append(GuiResultPackage())
-                            self.analysis_results[-1].add_command('self.explore_variable_pair')  # TODO
-                            result_list = self.active_data.regression([x], y, xlims, ylims)
-                            self.analysis_results[-1].add_output(result_list)
-                            self._print_to_output_pane()
-                        if x == y:
-                            pass_diag = True
-            except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                             _('Explore relation of variable pair')))
-                traceback.print_exc()
-                self._print_to_output_pane()
-        self._busy_signal(False)
-            
+        if len(var_names) < 2:
+            var_names = (var_names + [None, None])[:2]  # regression() method handles the missing variables
+        function_name = 'self.active_data.regression'
+        for x in var_names:
+            pass_diag = False
+            for y in var_names:
+                if pass_diag:
+                    parameters = {'predictors': [x], 'predicted': y, 'xlims': xlims, 'ylims': ylims}
+                    self._run_analysis(title=_('Explore relation of variable pair'), function_name=function_name,
+                                       parameters=parameters)
+                if x == y:
+                    pass_diag = True
+            if x is None:  # with [None, None] var_names regression() is called only once
+                break
+
     def regression(self, predictors=[], predicted=None, xlims=[None, None], ylims=[None, None]):
         """Regression analysis.
 
@@ -712,9 +827,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         predictors : list of str
             Name of the regressors
         xlims : list of floats
-            Minimum and maximum value of the x axis
+            Minimum and maximum value of the x-axis
         ylims : list of floats
-            Minimum and maximum value of the y axis
+            Minimum and maximum value of the y-axis
         Returns
         -------
 
@@ -728,33 +843,31 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.dial_regression.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_regression.exec_():
                 predicted, predictors, xlims, ylims = self.dial_regression.read_parameters()
+                if predicted == []:  # regression() method handles missing parameters
+                    predicted = [None]
                 predicted = predicted[0]  # currently, GUI predicted is a list, but it should be a string
             else:
                 return
-        self._busy_signal(True)
-        try:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.regression')  # TODO
-            result_list = self.active_data.regression(predictors, predicted, xlims, ylims)
-            self.analysis_results[-1].add_output(result_list)
-            self._print_to_output_pane()
-        except:
-            self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                         _('Explore relation of variable pairs')))
-            traceback.print_exc()
-            self._print_to_output_pane()
-        self._busy_signal(False)
+        function_name = 'self.active_data.regression'
+        parameters = {'predictors': predictors, 'predicted': predicted, 'xlims': xlims, 'ylims': ylims}
+        self._run_analysis(title=_('Explore relation of variables'), function_name=function_name, parameters=parameters)
 
 
-    def pivot(self, depend_names=None, row_names=[], col_names=[], page_names=[], function='Mean'):
+    def pivot(self, depend_name=None, row_names=None, col_names=None, page_names=None, function='Mean'):
         """Build a pivot table.
         
         Arguments:
-        depend_names (list of str): name of the dependent variable
+        depend_name (str): name of the dependent variable
         row_names, col_names, page_names (lists of str): name of the independent variables
         function (str): available functions: N,Sum, Mean, Median, Standard Deviation, Variance (default Mean)
         """
-        if not depend_names:
+        if page_names is None:
+            page_names = []
+        if col_names is None:
+            col_names = []
+        if row_names is None:
+            row_names = []
+        if not depend_name:
             try:
                 self.dial_pivot
             except:
@@ -762,32 +875,24 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_pivot.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_pivot.exec_():
-                row_names, col_names, page_names, depend_names, function = self.dial_pivot.read_parameters()
+                row_names, col_names, page_names, depend_name, function = self.dial_pivot.read_parameters()
             else:
                 return
-        self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        if not depend_names or not (row_names or col_names or page_names):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Pivot table'),
-                                                             _('The dependent variable and at least one grouping '
-                                                               'variable should be given.')))
-        else:
-            try:
-                text_result = self.active_data.pivot(depend_names, row_names, col_names, page_names, function)
-            except:
-                text_result = cs_util.reformat_output(broken_analysis % _('Pivot table'))
-                traceback.print_exc()
-        self.analysis_results[-1].add_output(text_result)
-        self._print_to_output_pane()
-        self._busy_signal(False)
+        function_name = 'self.active_data.pivot'
+        parameters = {'depend_name': depend_name, 'row_names': row_names, 'col_names': col_names,
+                      'page_names': page_names, 'function': function}
+        self._run_analysis(title=_('Pivot table'), function_name=function_name, parameters=parameters)
 
-    def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
+    def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
+                  reaction_time_in='sec', scaling_parameter=0.1):
         """Run a diffusion analysis on behavioral data.
 
         Arguments:
         RT_name, error name, participant_name (lists of str): name of the variables
         condition_names (lists of str): name of the condition(s) variables
         """
+        if condition_names is None:
+            condition_names = []
         if not RT_name:
             try:
                 self.dial_diffusion
@@ -796,31 +901,29 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_diffusion.exec_():
-                error_name, RT_name, participant_name, condition_names = self.dial_diffusion.read_parameters()
+                error_name, RT_name, participant_name, condition_names, correct_coding, reaction_time_in, \
+                scaling_parameter = self.dial_diffusion.read_parameters()
             else:
                 return
-        self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        if (not RT_name) or (not error_name):  # TODO this check should go to the dialog
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (
-                _('Behavioral data diffusion analysis'),
-                _('At least the reaction time and the error variables should be given.')))
-        else:
-            try:
-                text_result = self.active_data.diffusion(error_name, RT_name, participant_name, condition_names)
-            except:
-                text_result = cs_util.reformat_output(broken_analysis % _('Behavioral data diffusion analysis'))
-                traceback.print_exc()
-        self.analysis_results[-1].add_output(text_result)
-        self._print_to_output_pane()
-        self._busy_signal(False)
+        # use the original term in the function call, not the translated one
+        reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
+        function_name = 'self.active_data.diffusion'
+        parameters = {'error_name': error_name, 'RT_name': RT_name, 'participant_name': participant_name,
+                      'condition_names': condition_names, 'correct_coding': correct_coding[0],
+                      'reaction_time_in': reaction_time_in, 'scaling_parameter': scaling_parameter}
+        self._run_analysis(title=_('Behavioral data diffusion analysis'), function_name=function_name,
+                           parameters=parameters)
 
-    def compare_variables(self, var_names=None, factors=[], ylims=[None, None]):
+    def compare_variables(self, var_names=None, factors=None, display_factors=None, ylims=[None, None]):
         """Compare variables.
         
         Arguments:
         var_names (list): variable names
         """
+        if factors is None:
+            factors = []
+        if display_factors is None:
+            display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
             try:
                 self.dial_comp_var
@@ -829,39 +932,17 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var.exec_():
-                var_names, factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
+                var_names, factors, display_factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
                                                                                   # appropriate
             else:
                 return
-        self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command('self.compare_variables()')  # TODO
-        if len(factors) == 1:
-            factors = []  # ignore single factor
-        if len(var_names) < 2:
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
-                                                  (_('Compare repeated measures variables'),
-                                                   _('At least two variables should be set.')))
-            self.analysis_results[-1].add_output(text_result)
-        else:
-            try:
-                if '' in var_names:
-                    text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
-                                                          (_('Compare repeated measures variables'),
-                                                           _('A variable should be assigned to each level of the '
-                                                             'factors.')))
-                    self.analysis_results[-1].add_output(text_result)
-                else:
-                    result_list = self.active_data.compare_variables(var_names, factors, ylims)
-                    for result in result_list:  # TODO is this a list of lists? Can we remove the loop?
-                        self.analysis_results[-1].add_output(result)
-            except:
-                self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis % _('Compare repeated measures variables')))
-                traceback.print_exc()
-        self._print_to_output_pane()
-        self._busy_signal(False)
-        
-    def compare_groups(self, var_names=None, groups=None, single_case_slope_SE=None, single_case_slope_trial_n=None,
+        function_name = 'self.active_data.compare_variables'
+        parameters = {'var_names': var_names, 'factors': factors, 'display_factors': display_factors, 'ylims': ylims}
+        self._run_analysis(title=_('Compare repeated measures variables'), function_name=function_name,
+                           parameters=parameters)
+
+    def compare_groups(self, var_names=None, groups=None, display_groups=None,
+                       single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """Compare groups.
         
@@ -877,32 +958,80 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
-                var_names, groups, single_case_slope_SE, single_case_slope_trial_n, ylims = self.dial_comp_grp.\
-                    read_parameters()  # TODO check if settings are appropriate
+                var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = \
+                    self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
+                if var_names == []:
+                    var_names = [None]  # compare_groups() method handles the missing parameters
             else:
                 return
-        self._busy_signal(True)
-        if not var_names or not groups:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-            text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' % (_('Compare groups'),
-                                                             _('Both the dependent variable and at least one grouping '
-                                                               'variable should be set.')))
-            self.analysis_results[-1].add_output(text_result)
-        else:
-            for var_name in var_names:
-                try:
-                    self.analysis_results.append(GuiResultPackage())
-                    self.analysis_results[-1].add_command('self.compare_groups()')  # TODO
-                    result_list = self.active_data.compare_groups(var_name, groups, single_case_slope_SE,
-                                                                  single_case_slope_trial_n, ylims)
-                    self.analysis_results[-1].add_output(result_list)
-                except:
-                    self.analysis_results[-1].add_output(cs_util.reformat_output(broken_analysis %
-                                                                                 _('Compare groups')))
-                    traceback.print_exc()
-        self._print_to_output_pane()
-        self._busy_signal(False)
+        function_name = 'self.active_data.compare_groups'
+        for var_name in var_names:
+            parameters = {'var_name': var_name, 'grouping_variables': groups, 'display_groups': display_groups,
+                          'single_case_slope_SE': single_case_slope_SE,
+                          'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}
+            self._run_analysis(title=_('Compare groups'), function_name=function_name, parameters=parameters)
+
+    def compare_variables_groups(self, var_names=None, groups=None, factors=None,
+                                 display_factors=None,
+                                 single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+        """Compare variables.
+
+        Arguments:
+        var_names (list): variable names
+        """
+        if groups is None:
+            groups = []
+        if factors is None:
+            factors = []
+        if display_factors is None:
+            display_factors = [[factor[0] for factor in factors] if factors else [], []]
+        if not var_names:
+            try:
+                self.dial_comp_var_groups
+            except:
+                self.dial_comp_var_groups = cogstat_dialogs.compare_vars_groups_dialog(names=self.active_data.data_frame.columns)
+            else:
+                self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
+            if self.dial_comp_var_groups.exec_():
+                var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
+                    self.dial_comp_var_groups.read_parameters()  # TODO check if settings are appropriate
+            else:
+                return
+        function_name = 'self.active_data.compare_variables_groups'
+        parameters = {'var_names': var_names, 'factors': factors, 'grouping_variables': groups,
+                      'display_factors': display_factors, 'single_case_slope_SE': single_case_slope_SE,
+                      'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}
+        self._run_analysis(title=_('Compare repeated measures variables'), function_name=function_name,
+                           parameters=parameters)  # TODO title
+        # TODO check relevant details
+        if '' in var_names:
+            pass  # TODO
+            """text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
+                                                  (_('Compare repeated measures variables'),
+                                                   _('A variable should be assigned to each level of the '
+                                                     'factors.')))
+            self.analysis_results[-1].add_output(text_result)"""
+
+    def rerun_analyses(self):
+        """Rerun the analyses that are currently visible in the results pane.
+
+        """
+        from . import cogstat_util as cs_util  # import cs_util so that it is available in locals()
+
+        # Collect the analyses to be run from the current result pane
+        analyses_to_run = [analysis_result.command for analysis_result in self.analysis_results]
+        # Clear the results pane and the related list
+        self.result_pane.clear()
+        self.analysis_results = []
+        self.unsaved_output = False  # Not necessary to save the empty output
+        # Rerun the collected analyses
+        for analysis_to_run in analyses_to_run:
+            # analysis_to_run is a list of three items: 0. the title of teh analysis, 1. function/method to be run,
+            #  2. the optional parameters in a dict
+            #print('Analysis:', analysis_to_run )
+            # TODO refactor the data import
+            self._run_analysis(*analysis_to_run)
+
 
     ### Result menu methods ###
     def delete_output(self):
@@ -911,53 +1040,57 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
                                                QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
-            self.output_pane.clear()
+            self.result_pane.clear()
             self.analysis_results = []
             self.unsaved_output = False  # Not necessary to save the empty output
 
     def find_text(self):
-        self.dial_find_text = cogstat_dialogs.find_text_dialog(output_pane=self.output_pane)
+        self.dial_find_text = cogstat_dialogs.find_text_dialog(output_pane=self.result_pane)
         self.dial_find_text.exec_()
 
     def zoom_in(self):
-        self.output_pane.zoomIn(1)
+        self.result_pane.zoomIn(1)
 
     def zoom_out(self):
-        self.output_pane.zoomOut(1)
+        self.result_pane.zoomOut(1)
 
     def text_editable(self):
-        self.output_pane.setReadOnly(not(self.menus[2].actions()[5].isChecked()))  # see also _init_UI
+        self.result_pane.setReadOnly(not(self.menus[2].actions()[5].isChecked()))  # see also _init_UI
         #self.output_pane.setReadOnly(not(self.toolbar.actions()[15].isChecked()))
         # TODO if the position of this menu is changed, then this function will not work
         # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
 
     def save_result(self):
-        """Save the output pane to pdf file."""
+        """Save the results pane to an html file."""
         if self.output_filename == '':
             self.save_result_as()
         else:
-            pdf_printer = QtPrintSupport.QPrinter()
-            pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
-            pdf_printer.setColorMode(QtPrintSupport.QPrinter.Color)
-            pdf_printer.setOutputFileName(self.output_filename)
-            self.output_pane.print_(pdf_printer)
+            html_file = self.result_pane.toHtml()
+            html_file = html_file.replace(' ', '&nbsp;')  # replace non-breaking spaces with html code for nbsp
+            with open(self.output_filename, 'w') as f:
+                f.write(html_file)
             self.unsaved_output = False
             
     def save_result_as(self, filename=None):
-        """Save the output pane to pdf file.
-        
-        Arguments:
-        filename (str): name of the file to save to
+        """Save the results pane to an html file.
+
+        Parameters
+        ----------
+        filename : str
+            name of the file to save to
+
+        Returns
+        -------
+
         """
         if not filename:
             filename = cogstat_dialogs.save_output()
-        self.output_filename = filename
+            self.output_filename = filename
         if filename:
-            pdf_printer = QtPrintSupport.QPrinter()
-            pdf_printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
-            pdf_printer.setOutputFileName(self.output_filename)
-            self.output_pane.print_(pdf_printer)
-            self.unsaved_output = False
+            if filename[-5:] != ".html":
+                filename = filename + '.html'
+            self.output_filename = filename
+            self.save_result()
 
     ### Cogstat menu  methods ###
     def _open_help_webpage(self):
@@ -986,16 +1119,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""
         # Intentionally not localized.
-        self._busy_signal(True)
-        
-        text_output = cs_util.reformat_output(cs_util.print_versions(self))
-        
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_output(cs_util.convert_output(['<cs_h1>' + _('System components') + '</cs_h1>'])
-                                             [0])
-        self.analysis_results[-1].add_output(text_output)
-        self._print_to_output_pane()
-        self._busy_signal(False)
+        self._run_analysis(title=_('System components'), function_name='cs_util.print_versions',
+                           parameters={'main_window': self})
 
     def closeEvent(self, event):
         # Override the close behavior, otherwise alt+F4 quits unconditionally.
@@ -1021,16 +1146,82 @@ class StatMainWindow(QtWidgets.QMainWindow):
             event.ignore()
         """
 
-# -*- coding: utf-8 -*-
+
+class PandasModel(QtCore.QAbstractTableModel):
+    """A model to interface a Qt view with pandas dataframe """
+
+    # Based on https://doc.qt.io/qtforpython/examples/example_external__pandas.html
+
+    def __init__(self, dataframe: pd.DataFrame, parent=None):
+        QtCore.QAbstractTableModel.__init__(self, parent)
+        self._dataframe = dataframe
+
+    def rowCount(self, parent=QtCore.QModelIndex()) -> int:
+        """ Override method from QAbstractTableModel
+
+        Return row count of the pandas DataFrame
+        """
+        if parent == QtCore.QModelIndex():
+            return len(self._dataframe)
+
+        return 0
+
+    def columnCount(self, parent=QtCore.QModelIndex()) -> int:
+        """Override method from QAbstractTableModel
+
+        Return column count of the pandas DataFrame
+        """
+        if parent == QtCore.QModelIndex():
+            return len(self._dataframe.columns)
+        return 0
+
+    def data(self, index: QtCore.QModelIndex, role=Qt.ItemDataRole):
+        """Override method from QAbstractTableModel
+
+        Return data cell from the pandas DataFrame
+        """
+        if not index.isValid():
+            return None
+
+        if role == Qt.DisplayRole:
+            return str(self._dataframe.iloc[index.row(), index.column()])
+
+        # Filtered data have different background
+        if role == Qt.ForegroundRole and not(index.row() in [0, 1]):  # don't change the measurement level row (row 0)
+            if self._dataframe['cogstat_filtered_cases'].iloc[index.row()]:
+                return QtGui.QColor('lightGray')
+
+        # Use different background for the data type and measurement level
+        if role == Qt.BackgroundRole:
+            if index.row() in [0, 1]:
+                return QtGui.QColor('lightGray')
+
+        return None
+
+    def headerData(
+        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
+    ):
+        """Override method from QAbstractTableModel
+
+        Return dataframe index as vertical header data and columns as horizontal header data.
+        """
+        if role == Qt.DisplayRole:
+            if orientation == Qt.Horizontal:
+                return str(self._dataframe.columns[section])
+
+            if orientation == Qt.Vertical:
+                return str(self._dataframe.index[section])
+
+        return None
 
 class GuiResultPackage():
     """ A class for storing a package of results.
 
     Result object includes:
-    - self.command: Command to run (python code) - not used yet
+    - self.command: Command to run. List of str (command) and optional dict (parameters)
+        e.g., ['self.active_data.explore_variable', {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}]
     - self.output:
-        - list of strings (html) or figures (QImages)
-        - the first item is recommended to be the title line
+        - list of strings (html) or matplotlib figures or Nones
     """
 
     def __init__(self):
@@ -1038,7 +1229,7 @@ class GuiResultPackage():
         self.output = []
 
     def add_command(self, command):
-        self.command.append(command)
+        self.command.extend(command)
 
     def add_output(self, output):
         """Add output to the self.output

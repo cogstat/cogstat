@@ -5,10 +5,15 @@ Various functions for CogStat.
 
 import os
 import sys
+import gettext
 
 import numpy as np
 
 from . import cogstat_config as csc
+from . import cogstat_util as cs_util
+
+t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
+_ = t.gettext
 
 app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
 
@@ -94,7 +99,7 @@ def get_versions():
 
 
 def print_versions(main_window):
-    text_output = ''
+    text_output = '<cs_h1>' + _('System components') + '</cs_h1>'
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
     text_output += 'CogStat path: %s\n' % \
                    os.path.dirname(os.path.abspath(__file__))
@@ -128,7 +133,7 @@ def print_versions(main_window):
 #    for param in os.environ.keys():
 #        text_output += u'%s %s' % (param,os.environ[param]) + '\n'
 
-    return text_output
+    return cs_util.convert_output([text_output])
 
 
 def precision(data):
@@ -164,50 +169,30 @@ def precision(data):
 
 
 def convert_output(outputs):
-    """
-    Convert output either to the GUI or to the IPython Notebook
-    :param outputs: list of the output items
-    :return: converted output, list of items
+    """Convert output either to the GUI or to the IPython Notebook
+
+    Parameters
+    ----------
+    outputs : list of str or matplotlib figures or None or similar lists
+        list of the output items
+
+    Returns
+    -------
+    list of str or matplotlib figures or similar list
+        converted output, list of items
     """
 
     import logging
     from matplotlib.figure import Figure
-    from matplotlib import rcParams
-    from PyQt5 import QtGui
-
-    rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
-
-    def _figure_to_qimage(figure):
-        """Convert matplotlib figure to pyqt qImage.
-
-        Parameters
-        ----------
-        figure : matplotlib figure
-
-        Returns
-        -------
-        qImage
-        """
-        figure.canvas.draw()
-        size_x, size_y = figure.get_size_inches() * rcParams['figure.dpi'] / app_devicePixelRatio
-        # TODO is it better to use figure.canvas.width(), figure.canvas.height() instead of figure.get_size_inches()?
-        string_buffer = figure.canvas.buffer_rgba()
-        # I couldn't see it documented, but seemingly the figure uses BGR, not RGB coding.
-        # This should be a copy, otherwise closing the matplotlib figures would damage the qImages on the GUI.
-        qimage = QtGui.QImage(string_buffer, int(size_x * app_devicePixelRatio), int(size_y * app_devicePixelRatio),
-                              QtGui.QImage.Format_ARGB32).rgbSwapped().copy()
-        QtGui.QImage.setDevicePixelRatio(qimage, app_devicePixelRatio)
-        return qimage
 
     if csc.output_type in ['ipnb', 'gui']:
         # convert custom notation to html
         new_output = []
         for i, output in enumerate(outputs):
-            if isinstance(output, Figure):
-                # For gui convert matplotlib to qImage
-                new_output.append(output if csc.output_type == 'ipnb' else _figure_to_qimage(output))
+            if isinstance(output, Figure):  # keep the figure
+                new_output.append(output)
             elif isinstance(output, str):
-                new_output.append(reformat_output(output))
+                new_output.append(_reformat_string(output))
             elif isinstance(output, list):  # flat list
                 new_output.extend(convert_output(output))
             elif output is None:
@@ -229,14 +214,14 @@ cs_headings = {'<cs_h1>': '<h2>',
                '</cs_h4>': '</h5>'}
 
 
-def reformat_output(output):
-    """Reformat the output to display
+def _reformat_string(string):
+    """Reformat the string to display
     1. Change CogStat-specific tags to html tags.
     2. Change various non-html compatible pieces to html pieces.
 
     Parameters
     ----------
-    output : str
+    string : str
         text to reformat
 
     Returns
@@ -244,23 +229,23 @@ def reformat_output(output):
     str
         reformatted output
     """
-    if isinstance(output, str):  # TODO Do we still need this in Python3?
-        output = str(output)
+    if isinstance(string, str):  # TODO Do we still need this in Python3?
+        string = str(string)
 
     # Change Python '\n' to html <br>
-    output = output.replace('\n', '<br>')
+    string = string.replace('\n', '<br>')
 
     # Change custom cogstat tags to html tags as defined in the .ini file
     for style_element in list(csc.styles.keys()):
-        output = output.replace(style_element, csc.styles[style_element])
-        output = output.replace(str(style_element),
+        string = string.replace(style_element, csc.styles[style_element])
+        string = string.replace(str(style_element),
                                 str(csc.styles[style_element]))  # TODO Do we still need this?
 
     # Change cogstat headings to html headings
     for cs_heading_key in cs_headings.keys():
-        output = output.replace(cs_heading_key, cs_headings[cs_heading_key])
+        string = string.replace(cs_heading_key, cs_headings[cs_heading_key])
 
     # In the R output the '< ' (which is non breaking space here (\xa0) )
     # would be handled as html tag in cogstat, so we change it to '&lt; '
-    output = output.replace('<\xa0', '&lt; ')
-    return output
+    string = string.replace('<\xa0', '&lt; ')
+    return string

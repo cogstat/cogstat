@@ -59,8 +59,8 @@ def open_demo_data_file(directory):
 
 
 def save_output():
-    return str(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'CogStat analysis result.pdf',
-                                                     '*.pdf')[0])
+    return str(QtWidgets.QFileDialog.getSaveFileName(None, _('Save result file'), 'CogStat analysis result.html',
+                                                     '*.html')[0])
 
 # XXX self.buttonBox.Ok.setEnabled(False) # TODO how can we disable the OK button without the other?
 # TODO Some variables are CamelCase - change them
@@ -197,10 +197,12 @@ def _add_to_list_widget_with_factors(source_list_widget, target_list_widget, nam
                 break
 
 
-def _remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
+def _remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=None):
     """
     Remove selected items from target_list_widget.
     """
+    if names is None:
+        names = []
     for item in target_list_widget.selectedItems():
         if item.text().split(' :: ')[1]:
             source_list_widget.insertItem(_find_previous_item_position(source_list_widget, names, item.text().
@@ -239,8 +241,10 @@ def _float_or_none(x):
 
 from .ui import pivot
 class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -307,8 +311,10 @@ from .ui import diffusion
 
 
 class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -391,16 +397,21 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         _remove_item_from_list_widget(self.sourceListWidget, self.conditionListWidget, self.names)
 
     def read_parameters(self):
-        return ([str(self.errorListWidget.item(i).text()) for i in range(self.errorListWidget.count())],
-                [str(self.RTListWidget.item(i).text()) for i in range(self.RTListWidget.count())],
-                [str(self.participantListWidget.item(i).text()) for i in range(self.participantListWidget.count())],
-                [str(self.conditionListWidget.item(i).text()) for i in range(self.conditionListWidget.count())])
+        return (str(self.errorListWidget.item(0).text()) if range(self.errorListWidget.count()) else '',
+                str(self.RTListWidget.item(0).text()) if range(self.RTListWidget.count()) else '',
+                str(self.participantListWidget.item(0).text()) if range(self.participantListWidget.count()) else '',
+                [str(self.conditionListWidget.item(i).text()) for i in range(self.conditionListWidget.count())],
+                str(self.response_coding.currentText()),
+                str(self.reaction_time_in.currentText()),
+                float(self.scaling_parameter.currentText()))
 
 
 from .ui import filter_outlier
 class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -428,13 +439,16 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def read_parameters(self):
-        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
+        return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+               self.multivariate_outliers.isChecked()
 
 
 from .ui import var_properties
 class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -479,8 +493,10 @@ class xylims_dialog(QtWidgets.QDialog, xylims.Ui_Dialog):
 
 from .ui import explore_var_pairs
 class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -525,8 +541,10 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
 
 from .ui import regression
 class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -590,6 +608,8 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
 
 from .ui import factor
 class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
+    """Set  a repeated measures factor's name and number of the levels.
+    """
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -609,6 +629,8 @@ class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
 
 from .ui import factors
 class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
+    """Specify the list of repeated measures factors.
+    """
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -647,17 +669,37 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
         return [self.listWidget.item(i).text() for i in range(self.listWidget.count())]
         #return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())]
 
-from .ui import ylims
-class ylims_dialog(QtWidgets.QDialog, ylims.Ui_Dialog):
+
+from .ui import display_options_repeated
+class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeated.Ui_Dialog):
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_x_listWidget.doubleClicked.connect(self.add_color)
+        self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.doubleClicked.connect(self.remove_color)
+        self.add_color_button.clicked.connect(self.add_color)
+        self.remove_color_button.clicked.connect(self.remove_color)
 
+    def set_factors(self, factors=None):
+        self.factors = factors
+        _prepare_list_widgets(self.factor_x_listWidget, self.factors, [self.factor_color_listWidget])
+    def add_color(self):
+        _add_to_list_widget(self.factor_x_listWidget, self.factor_color_listWidget)
+    def remove_color(self):
+        _remove_item_from_list_widget(self.factor_x_listWidget, self.factor_color_listWidget, self.factors)
     def read_parameters(self):
-        return [self.lineEdit.text(), self.lineEdit_2.text()]
+        return ([[str(self.factor_x_listWidget.item(i).text()) for i in range(self.factor_x_listWidget.count())] if
+                self.factor_x_listWidget.count() else [],
+                [str(self.factor_color_listWidget.item(i).text()) for i in range(self.factor_color_listWidget.count())] if
+                self.factor_color_listWidget.count() else []],
+                [self.minimum_y.text(), self.maximum_y.text()])
 
 
 from .ui import compare_vars
@@ -677,11 +719,12 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.factorsButton_clicked)
-        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
+        self.display_options_button.clicked.connect(self.display_options_button_clicked)
 
         self.factors_dialog = factors_dialog(self)
-        self.ylims_dialog = ylims_dialog(self)
+        self.display_options_repeated_dialog = display_options_repeated_dialog(self)
         self.factors = []
+        self.displayfactors = [[], []]
         self.ylims = [None, None]
 
         self.init_vars(names)
@@ -692,16 +735,16 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def add_var(self):
-        if len(self.factors) < 2:
-            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
-        else:
+        if self.factors:
             _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
     def remove_var(self):
-        if len(self.factors) < 2:
-            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
-        else:
+        if self.factors:
             _remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def show_factors(self):
         # remove all items first
@@ -734,9 +777,9 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
             self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
             #print(self.factors)
-            if len(self.factors) > 1:
+            if self.factors:
                 self.show_factors()
-            else:  # remove the factor levels if there is one or zero factor level
+            else:  # remove the factor levels if there is no explicit factor level
                 for i in range(self.selected_listWidget.count()):
                     item = self.selected_listWidget.takeItem(0)
                     # move formerly selected variables back to the source list
@@ -752,25 +795,27 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                             _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                             item.text())
 
-    def optionsButton_clicked(self):
-        if self.ylims_dialog.exec_():
-            self.ylims = self.ylims_dialog.read_parameters()
+    def display_options_button_clicked(self):
+        self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+        if self.display_options_repeated_dialog.exec_():
+            self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
 
     def read_parameters(self):
-        if len(self.factors) > 1:
-            return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in
-                    range(self.selected_listWidget.count())], self.factors, self.ylims
-        else:
-            return [str(self.selected_listWidget.item(i).text()) for i in
-                    range(self.selected_listWidget.count())], self.factors, self.ylims
+        return [str(self.selected_listWidget.item(i).text().split(' :: ')[1])
+                for i in range(self.selected_listWidget.count())] \
+                if self.factors else \
+                [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+                self.factors, self.displayfactors, self.ylims
 
 
 from .ui import compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_single_case_slope.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -804,10 +849,54 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
                 str(self.spinBox.text()))
 
 
+from .ui import display_options_groups
+class display_options_groups_dialog(QtWidgets.QDialog, display_options_groups.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.doubleClicked.connect(self.remove_color)
+        self.factor_panel_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_panel_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_panel_listWidget.doubleClicked.connect(self.remove_panel)
+        self.add_color_button.clicked.connect(self.add_color)
+        self.remove_color_button.clicked.connect(self.remove_color)
+        self.add_panel_button.clicked.connect(self.add_panel)
+        self.remove_panel_button.clicked.connect(self.remove_panel)
+
+    def set_factors(self, factors=None):
+        self.factors = factors
+        _prepare_list_widgets(self.factor_x_listWidget, self.factors, [self.factor_color_listWidget, self.factor_panel_listWidget])
+    def add_color(self):
+        _add_to_list_widget(self.factor_x_listWidget, self.factor_color_listWidget)
+    def remove_color(self):
+        _remove_item_from_list_widget(self.factor_x_listWidget, self.factor_color_listWidget, self.factors)
+    def add_panel(self):
+        _add_to_list_widget(self.factor_x_listWidget, self.factor_panel_listWidget)
+    def remove_panel(self):
+        _remove_item_from_list_widget(self.factor_x_listWidget, self.factor_panel_listWidget, self.factors)
+    def read_parameters(self):
+        return ([[str(self.factor_x_listWidget.item(i).text()) for i in range(self.factor_x_listWidget.count())] if
+                self.factor_x_listWidget.count() else [],
+                [str(self.factor_color_listWidget.item(i).text()) for i in range(self.factor_color_listWidget.count())] if
+                self.factor_color_listWidget.count() else [],
+                [str(self.factor_panel_listWidget.item(i).text()) for i in range(self.factor_panel_listWidget.count())] if
+                self.factor_panel_listWidget.count() else []],
+                [self.minimum_y.text(), self.maximum_y.text()])
+
+
 from .ui import compare_groups
 class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None, names=None):
         QtWidgets.QDialog.__init__(self, parent)
+        if names is None:
+            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -825,10 +914,11 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.add_group_button.clicked.connect(self.add_group)
         self.remove_group_button.clicked.connect(self.remove_group)
         self.pushButton.clicked.connect(self.on_slopeButton_clicked)
-        self.pushButton_2.clicked.connect(self.optionsButton_clicked)
+        self.display_options_button.clicked.connect(self.display_options_button_clicked)
 
         self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
-        self.ylims_dialog = ylims_dialog(self)
+        self.display_options_groups_dialog = display_options_groups_dialog(self)
+        self.displayfactors = [[], [], []]
         self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
         self.ylims = [None, None]
 
@@ -855,16 +945,144 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         if self.slope_dialog.exec_():
             self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
-    def optionsButton_clicked(self):
-        if self.ylims_dialog.exec_():
-            self.ylims = self.ylims_dialog.read_parameters()
+    def display_options_button_clicked(self):
+        self.display_options_groups_dialog.\
+            set_factors(factors=[str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
+        if self.display_options_groups_dialog.exec_():
+            self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
 
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
+                self.displayfactors,
                 self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims)
+
+
+from .ui import compare_vars_groups
+class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialog):
+    def __init__(self, parent=None, names=[]):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.group_listWidget.doubleClicked.connect(self.remove_group)
+        self.group_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.group_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.addVar.clicked.connect(self.add_var)
+        self.removeVar.clicked.connect(self.remove_var)
+        self.add_group_button.clicked.connect(self.add_group)
+        self.remove_group_button.clicked.connect(self.remove_group)
+        self.pushButton.clicked.connect(self.factorsButton_clicked)
+        self.display_options_button.clicked.connect(self.display_options_button_clicked)
+        self.single_case_button.clicked.connect(self.on_slopeButton_clicked)
+
+        self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
+        self.factors_dialog = factors_dialog(self)
+        self.display_options_groups_dialog = display_options_groups_dialog(self)
+        self.factors = []
+        self.displayfactors = [[], []]
+        self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
+        self.ylims = [None, None]
+
+        self.init_vars(names)
+        self.show()
+
+    def init_vars(self, names):
+        self.names = names
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def add_var(self):
+        if self.factors:
+            _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+
+    def remove_var(self):
+        if self.factors:
+            _remove_from_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+        else:
+            _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+
+    def add_group(self):
+        if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
+            _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+    def remove_group(self):
+        _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
+
+    def show_factors(self):
+        # remove all items first
+        for i in range(self.selected_listWidget.count()):
+            item = self.selected_listWidget.takeItem(0)
+            if ' :: ' in item.text():
+                if not item.text().endswith(' :: '):
+                    self.source_listWidget.insertItem(
+                        _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                        item.text().split(' :: ')[1])
+                    item.setText(item.text().split(' :: ')[0] + ' :: ')
+            else:
+                self.source_listWidget.insertItem(
+                    _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                    item.text())
+
+        # add new empty factor levels
+        factor_combinations = ['']
+        for factor in self.factors:
+            factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i + 1) for factor_combination in
+                                   factor_combinations for level_i in range(factor[1])]
+        factor_combinations = [factor_combination[3:] + ' :: ' for factor_combination in factor_combinations]
+        for factor_combination in factor_combinations:
+            self.selected_listWidget.addItem(QString(factor_combination))
+
+    def factorsButton_clicked(self):
+        if self.factors_dialog.exec_():
+            factor_list = self.factors_dialog.read_parameters()
+            #print(factor_list)
+
+            self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
+            #print(self.factors)
+            if self.factors:
+                self.show_factors()
+            else:  # remove the factor levels if there is no explicit factor level
+                for i in range(self.selected_listWidget.count()):
+                    item = self.selected_listWidget.takeItem(0)
+                    # move formerly selected variables back to the source list
+                    if ' :: ' in item.text():
+                        if not item.text().endswith(' :: '):  # if there is a factor name and a variable
+                            self.source_listWidget.insertItem(
+                                _find_previous_item_position(self.source_listWidget, self.names,
+                                                             item.text().split(' :: ')[1]),
+                                item.text().split(' :: ')[1])
+                            item.setText(item.text().split(' :: ')[0] + ' :: ')
+                    else:
+                        self.source_listWidget.insertItem(
+                            _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                            item.text())
+
+    def display_options_button_clicked(self):
+        self.display_options_groups_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+        if self.display_options_groups_dialog.exec_():
+            self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
+            self.ylims[0] = _float_or_none(self.ylims[0])
+            self.ylims[1] = _float_or_none(self.ylims[1])
+
+    def on_slopeButton_clicked(self):
+        if self.slope_dialog.exec_():
+            self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
+
+    def read_parameters(self):
+        return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())] \
+                if self.factors else [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
+                [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())], \
+                self.factors, self.displayfactors, \
+                self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims
 
 
 from .ui import find_text
@@ -924,9 +1142,10 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
                       'et': 'Eesti (Estonian)', 'fa': 'فارسی (Persian)',
                       'fr': 'Français (French)', 'he': 'עברית (Hebrew)',
                       'hr': 'Hrvatski (Croatian)', 'hu': 'Magyar (Hungarian)', 'it': 'Italiano (Italian)',
-                      'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'nb': 'Norsk Bokmål (Norvegian Bokmål)',
+                      'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'ms': 'Melayu (Malay)',
+                      'nb': 'Norsk Bokmål (Norvegian Bokmål)',
                       'ro': 'Română (Romanian)', 'ru': 'Русский (Russian)', 'sk': 'Slovenčina (Slovak)',
-                      'th': 'ไทย (Thai)', 'tr': 'Türkçe (Turkish)'}
+                      'th': 'ไทย (Thai)', 'tr': 'Türkçe (Turkish)', 'zh': '汉语 (Chinese)'}
         lang_names_sorted = sorted([lang_names[lang] for lang in langs])
         self.lang_codes = {lang_name:lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
 

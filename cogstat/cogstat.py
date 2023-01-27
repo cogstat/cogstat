@@ -91,12 +91,14 @@ class CogStatData:
         - Second line could be the measuring level
 
         Data structure that is created:
-        self.data_frame - pandas DataFrame
+        self.orig_data_frame - pandas DataFrame, the original data without filtering
+        self.data_frame - pandas DataFrame, the actual data with optional filtering
         self.data_measlevs - dictionary storing level of measurement of the variables (name:level):
                 'nom', 'ord', or 'int' (ratio is included in 'int')
                 'unk' - unknown: if no other level is given
-        self.orig_data_frame # TODO
-        self.filtering_status # TODO
+        self.filtering_status - list of two items:
+                                [0] list of the variables the filtering is based on (or None)
+                                [2] the name of the filtering method (or '')
 
         self.import_source - list of 2 strings:
                              [0]: import data type
@@ -116,7 +118,7 @@ class CogStatData:
         self.data_measlevs = None
         self.import_source = ['', '']
         self.import_message = ''
-        self.filtering_status = None
+        self.filtering_status = [None, '']
 
         self._import_data(data=data, measurement_levels=measurement_levels)
 
@@ -159,13 +161,15 @@ class CogStatData:
             """Some additional values are converted to NaNs."""
             self.data_frame.replace('', np.nan, inplace=True)
             self.data_frame.replace(r'^#.*!$', np.nan, regex=True, inplace=True)
-                # spreadsheet errors, such as #DIV/0!, #VALUE!
+                # spreadsheet errors, starting with # and ending with !, such as #DIV/0!, #VALUE!
+            self.data_frame.replace(r'^Err:.*$', np.nan, regex=True, inplace=True)
+                # spreadsheet errors, starting with Err:, such as Err:502
             # spreadsheet errors make the variable object dtype, although they may be numeric variables
-            try:
-                self.data_frame[self.data_frame.select_dtypes(include=['object']).columns] = \
-                    self.data_frame.select_dtypes(include=['object']).astype(float)
-            except (ValueError, TypeError):
-                pass
+            for column in self.data_frame.select_dtypes(include=['object']).columns:
+                try:
+                    self.data_frame[column] = self.data_frame[column].astype(float)
+                except (ValueError, TypeError):
+                    pass
 
         def _convert_dtypes():
             """Convert dtypes.
@@ -515,7 +519,9 @@ class CogStatData:
         if self.import_source[1]:  # if the actual dataset was imported from a file, then reload it
             self._import_data(data=self.import_source[1], show_heading=False)  # measurement level should be reimported too
             output += _('The file was successfully reloaded.') + '\n'
-            output += cs_util.reformat_output(self.import_message)
+            output += self.import_message
+            if self.filtering_status[0]:
+                self.filter_outlier(var_names=self.filtering_status[0], mode=self.filtering_status[1])
         else:
             output += _('The data was not imported from a file. It cannot be reloaded.') + '\n'
             # or do we assume that this method is not called when the actual file was not imported from a file?
@@ -568,9 +574,12 @@ class CogStatData:
         """
         Filter self.data_frame based on outliers.
 
-        All variables are investigated independently and cases are excluded if any variables shows they are outliers.
+        With univariate methods, all variables are investigated independently and cases are excluded if any variables
+        shows they are outliers.
         If mode is 'mahalanobis', then variables are jointly investigated for multivariate outliers.
         If var_names is None, then the filtering will be switched off (i.e. all cases will be used).
+
+        If any values in the given variables are missing in a case, the whole case will also be excluded.
 
         Parameters
         ----------
@@ -591,23 +600,27 @@ class CogStatData:
             The method modifies the self.data_frame in place.
         list of charts
             If cases were filtered, then filtered and remaining cases are shown.
+
+        Modifies the self.filtering_status.
         """
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
                       'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
 
+        self.filtering_status = [var_names, mode]
+
         title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
         chart_results = []
 
+        # Filtering should be done on the original data, so use self.orig_data_frame
+
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
-            self.filtering_status = None
             text_output = _('Filtering is switched off.')
         else:  # Create a filtered dataframe based on the variable(s)
             remaining_cases_indexes = []
             text_output = ''
-            self.filtering_status = ''
             if mode in ['2sd', '2.5mad']:
                 for var_name in var_names:
                     # Check if the variable is 'int'
@@ -632,11 +645,12 @@ class CogStatData:
                         upper_limit = median + 2.5 * mad_value
                     # Find the cases to be kept
                     remaining_cases_indexes.append(self.orig_data_frame[
-                                                       (self.orig_data_frame[var_name] > lower_limit) &
-                                                       (self.orig_data_frame[var_name] < upper_limit)].index)
+                                                       (self.orig_data_frame[var_name] >= lower_limit) &
+                                                       (self.orig_data_frame[var_name] <= upper_limit)].index)
 
                     # Display filtering information
-                    text_output += _('Filtering based on %s.\n') % (var_name + ' (%s)' % mode_names[mode])
+                    text_output += _('Filtering based on %s.') % (var_name + ' (%s)' % mode_names[mode]) + '\n'
+                    text_output += _('Cases with missing data will also be excluded.') + '\n'
                     prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
                     text_output += _('Cases outside of the range will be excluded:') + \
                                    ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
@@ -646,19 +660,20 @@ class CogStatData:
                     # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                     # TODO uncomment the above line after using pivot indexes in CS data
                     if len(excluded_cases):
-                        text_output += _('The following cases will be excluded: ')
+                        text_output += _('Excluded cases (%s cases):') % (len(excluded_cases))
+                        # Change indexes to be in line with the data view numbering
+                        excluded_cases.index = excluded_cases.index + 1
                         text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
                                                                                          classes="table_cs_pd"))
                         chart_results.append(cs_chart.create_filtered_cases_chart(
                             self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
-                            excluded_cases[var_name], var_name,
-                            lower_limit, upper_limit))
+                            excluded_cases[var_name], var_name, lower_limit=lower_limit, upper_limit=upper_limit))
                     else:
                         text_output += _('No cases were excluded.')
                     if var_name != var_names[-1]:
                         text_output += '\n\n'
             elif mode == 'mahalanobis':
-                # Based on the robust mahalanobis distance in Leys et al, 2017 and Rousseeuw, 1999
+                # Based on the robust Mahalanobis distance in Leys et al., 2017 and Rousseeuw, 1999
                 # Removing non-interval variables
                 valid_var_names = var_names[:]
                 for var_name in valid_var_names:
@@ -668,61 +683,77 @@ class CogStatData:
                     text_output += _('Only interval variables can be used for filtering. Ignoring variable(s) %s.') % \
                                    ', '.join(set(var_names) - set(valid_var_names)) + '\n'
 
-                # Calculating the robust mahalanobis distances
+                # Calculating the robust Mahalanobis distances
                 from sklearn import covariance
-                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.data_frame[valid_var_names])
+                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[valid_var_names].
+                                                                          dropna())
 
                 # Custom filtering criteria based on Leys et al. (2017)
                 # Appropriate cut-off point based on chi2
-                limit = stats.chi2.ppf(0.95, len(self.data_frame[valid_var_names].columns))
-                # Get robust mahalanobis distances from model object
-                distances = cov.mahalanobis(self.data_frame[valid_var_names])
-                filtering_data_frame = self.orig_data_frame.copy()
+                limit = stats.chi2.ppf(0.95, len(self.orig_data_frame[valid_var_names].columns))
+                # Get robust Mahalanobis distances from model object
+                distances = cov.mahalanobis(self.orig_data_frame[valid_var_names].dropna())
+                filtering_data_frame = self.orig_data_frame.dropna(subset=valid_var_names).copy()
                 filtering_data_frame['mahalanobis'] = distances
 
                 # Find the cases to be kept
-                remaining_cases_indexes.append(filtering_data_frame[
-                                                   (filtering_data_frame['mahalanobis'] < limit)].index)
+                remaining_cases_indexes.append(filtering_data_frame[(filtering_data_frame['mahalanobis'] <= limit)].
+                                               index)
 
                 # Display filtering information
-                text_output += _('Multivariate filtering based on the variables: %s.\n') % ', '.join(valid_var_names)
+                text_output += _('Multivariate filtering based on the variables: %s (%s).') % \
+                               (', '.join(valid_var_names), mode_names[mode]) + '\n'
+                text_output += _('Cases with missing data will also be excluded.') + '\n'
                 prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1  # TODO we should set this to a constant value
-                text_output += _('Cases above the cutoff mahalanobis distance will be excluded:') + \
+                text_output += _('Cases above the cutoff Mahalanobis distance will be excluded:') + \
                                ' %0.*f\n' % (prec, limit)
 
                 # Display the excluded cases
                 excluded_cases = \
-                    self.orig_data_frame.drop(remaining_cases_indexes[-1])
+                    self.orig_data_frame.dropna(subset=valid_var_names).drop(remaining_cases_indexes[-1])
                 # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
-                    text_output += _('The following cases will be excluded (%s cases): ') % (len(excluded_cases))
+                    text_output += _('Excluded cases (%s cases): ') % (len(excluded_cases))
+                    # Change indexes to be in line with the data view numbering
+                    excluded_cases.index = excluded_cases.index + 1
                     text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
                                                                                      classes="table_cs_pd")) + "\n"
                     for var_name in valid_var_names:
                         chart_results.append(cs_chart.create_filtered_cases_chart(
-                            self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
-                            excluded_cases[var_name], var_name,
-                            lower_limit=None, upper_limit=None))
+                            self.orig_data_frame.dropna(subset=valid_var_names).loc[remaining_cases_indexes[-1]]
+                            [var_name], excluded_cases[var_name], var_name))
 
                 else:
                     text_output += _('No cases were excluded.')
             else:
                 raise ValueError('Invalid mode parameter was given')
 
-        # Do the filtering (remove outliers), modify self.data_frame in place
-        self.data_frame = self.orig_data_frame.copy()
-        for remaining_cases_index in remaining_cases_indexes:
-            self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
-        self.filtering_status = ', '.join(var_names) + ' (%s)' % mode_names[mode]
+            # Do the filtering (remove outliers), modify self.data_frame in place
+            self.data_frame = self.orig_data_frame.copy()
+            for remaining_cases_index in remaining_cases_indexes:
+                self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
 
         return cs_util.convert_output([title, text_output, chart_results])
 
     def _filtering_status(self):
-        if self.filtering_status:
-            return '<b>' + _('Filtering is on:') + ' %s</b>\n' % self.filtering_status
-        else:
+        """Create a message about the filtering status (used variables and the filtering method).
+
+        Returns
+        -------
+        str
+            Filtering status to be printed. If filtering is off, then an empty string.
+        """
+
+        mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
+                      '2.5mad': _('Median ± 2.5 MAD'),
+                      'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
+
+        if self.filtering_status[0] is None or self.filtering_status[0] == []:
             return ''
+        else:
+            filtering_message = ', '.join(self.filtering_status[0]) + ' (%s)' % mode_names[self.filtering_status[1]]
+            return '<b>' + _('Filtering is on:') + ' %s</b>\n' % filtering_message
 
     ### Various things ###
 
@@ -761,7 +792,7 @@ class CogStatData:
 
     ### Compile statistics ###
 
-    def explore_variable(self, var_name, frequencies=True, central_value=0.0):
+    def explore_variable(self, var_name='', frequencies=True, central_value=0.0):
         """
         Explore a single variable.
 
@@ -780,11 +811,15 @@ class CogStatData:
             Analysis results in HTML format
         """
         plt.close('all')
+        if not var_name:
+            title = '<cs_h1>' + _('Explore variable') + '</cs_h1>'
+            title += _('At least one variable should be set.')
+            return cs_util.convert_output([title])
+
         meas_level, unknown_type = self._meas_lev_vars([var_name])
         result_list = ['<cs_h1>' + _('Explore variable') + '</cs_h1>']
         result_list.append(_('Exploring variable: ') + var_name + ' (%s)\n' % meas_level)
-        if self._filtering_status():
-            result_list[-1] += self._filtering_status()
+        result_list[-1] += self._filtering_status()
 
         # 1. Raw data
         text_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
@@ -1054,7 +1089,7 @@ class CogStatData:
                                        hypothesis_tests])
 
 
-    def regression(self, predictors, predicted, xlims=[None, None], ylims=[None, None]):
+    def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
         """
         Explore a variable pair.
 
@@ -1065,9 +1100,9 @@ class CogStatData:
         predicted : str
             Name of the predicted variable.
         xlims : list of {int or float}
-            Limit of the x axis for interval and ordinal variables instead of using automatic values.
+            Limit of the x-axis for interval and ordinal variables instead of using automatic values.
         ylims : list of {int or float}
-            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------
@@ -1075,6 +1110,17 @@ class CogStatData:
             Analysis results in HTML format
         """
         plt.close('all')
+
+        title = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
+        preconditions = True
+        if (predictors is None) or (predictors == [None]) or not predictors:
+            title += _('At least one predictor variable should be set.') + '\n'
+            preconditions = False
+        if predicted is None:
+            title += _('The predicted variable should be set.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
 
         meas_lev, unknown_var = self._meas_lev_vars(predictors + [predicted])
 
@@ -1278,7 +1324,7 @@ class CogStatData:
                                        estimation_parameters, population_graph, estimation_effect_size,
                                        population_result])
 
-    def pivot(self, depend_name='', row_names=[], col_names=[], page_names=[], function='Mean'):
+    def pivot(self, depend_name='', row_names=None, col_names=None, page_names=None, function='Mean'):
         """
         Compute pivot table.
 
@@ -1300,12 +1346,31 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
-        # TODO optionally return pandas DataFrame or Panel
+        if page_names is None:
+            page_names = []
+        if col_names is None:
+            col_names = []
+        if row_names is None:
+            row_names = []
+
         title = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
+        preconditions = True
+        if not depend_name:
+            title += _('The dependent variable should be set.') + '\n'
+            preconditions = False
+        if not (row_names or col_names or page_names):
+            title += _('At least one grouping variable should be set.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
+
+
+        # TODO optionally return pandas DataFrame or Panel
         pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
         return cs_util.convert_output([title, pivot_result])
 
-    def diffusion(self, error_name=[], RT_name=[], participant_name=[], condition_names=[]):
+    def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
+                  reaction_time_in='sec', scaling_parameter=0.1):
         """
         Run diffusion analysis on behavioral data.
 
@@ -1313,28 +1378,47 @@ class CogStatData:
 
         Parameters
         ----------
-        error_name : list of str
+        error_name : str
             Name of the variable storing the errors.
-            Error should be coded as 1, correct response as 0.
-        RT_name : list of str
+            Correct and incorrect trials should be coded with 0 and 1. See the correct_coding parameter.
+        RT_name : str
             Name of the variable storing response times.
-            Time should be stored in sec.
-        participant_name : list of str
+            Time should be stored in sec or msec. See the reaction_time_in parameter.
+        participant_name : str
             Name of the variable storing participant IDs.
         condition_names : list of str
             Name(s) of the variable(s) storing conditions.
+        correct_coding : {'0', '1'}
+            Are correct responses noted with 0 or 1? Incorrect responses are noted with the other value.
+        scaling_parameter : float
+            Usually either 0.1 or 1
+        reaction_time_in : {'sec', 'msec'}
+            Unit of reaction time
 
         Returns
         -------
         list of str and image
             Analysis results in HTML format
         """
+        if condition_names is None:
+            condition_names = []
         # TODO return pandas DataFrame
         title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
-        pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names)
+        preconditions = True
+        if not RT_name:
+            title += _('The reaction time should be given.') + '\n'
+            preconditions = False
+        if not error_name:
+            title += _('The error variables should be given.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
+
+        pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
+                                         correct_coding, reaction_time_in, scaling_parameter)
         return cs_util.convert_output([title, pivot_result])
 
-    def compare_variables(self, var_names, factors=[], ylims=[None, None]):
+    def compare_variables(self, var_names, factors=None, display_factors=None, ylims=[None, None]):
         """
         Compare repeated measures variables.
 
@@ -1349,29 +1433,48 @@ class CogStatData:
                 ['name of the factor 2', number_of_the_levels]]
 
             Factorial combination of the factors will be generated, and variables will be assigned respectively
+        display_factors: list of two lists of strings
+            Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
         ylims : list of {int or float}
-            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------
         list of str and image
             Analysis results in HTML format
         """
+
+        title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
+        if len(var_names) < 2:
+            title += _('At least two variables should be set.')
+            return cs_util.convert_output([title])
+        if '' in var_names:
+            title = _('A variable should be assigned to each level of the factors.')
+            return cs_util.convert_output([title])
+
+        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        if factors is None or factors == []:
+            factors = [[' ', len(var_names)]]
+        # if display_factors is not specified, then all factors are displayed on the x-axis
+        if (display_factors is None) or (display_factors == [[], []]):
+            display_factors = [[factor[0] for factor in factors], []]
+
+
         plt.close('all')
         title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         raw_result = _('Variables to compare: ') + ', '.\
             join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-        if factors:
-            raw_result += _('Factors (number of levels): ') + ', '.\
-                join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
-            factor_combinations = ['']
-            for factor in factors:
-                factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i+1) for factor_combination
-                                       in factor_combinations for level_i in range(factor[1])]
-            factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-            for factor_combination, var_name in zip(factor_combinations, var_names):
-                raw_result += '%s: %s\n' % (factor_combination, var_name)
+
+        raw_result += _('Factors (number of levels): ') + ', '.\
+            join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
+        factor_combinations = ['']
+        for factor in factors:
+            factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i+1) for factor_combination
+                                   in factor_combinations for level_i in range(factor[1])]
+        factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
+        for factor_combination, var_name in zip(factor_combinations, var_names):
+            raw_result += '%s: %s\n' % (factor_combination, var_name)
 
         raw_result += self._filtering_status()
 
@@ -1402,13 +1505,26 @@ class CogStatData:
         # Plot the raw data
         raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=True,
                                                                    ylims=ylims)
+        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
+                                                                                  names=[factor[0] for factor in factors]))
+        raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                       factor_info=factor_info,
+                                                                       indep_x=display_factors[0],
+                                                                       indep_color=display_factors[1],
+                                                                       ylims=ylims, raw_data=True)
 
         # Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
+            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                              factor_info=factor_info,
+                                                                              indep_x=display_factors[0],
+                                                                              indep_color=display_factors[1],
+                                                                              ylims=ylims, raw_data=True, box_plots=True)
         else:
             sample_graph = None
+            sample_graph_new = None
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -1461,6 +1577,16 @@ class CogStatData:
         population_result += '\n'
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
+        population_estimation, *population_graph_new = cs_chart.\
+            create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                  factor_info=factor_info,
+                                                  indep_x=display_factors[0],
+                                                  indep_color=display_factors[1],
+                                                  ylims=ylims, estimations=True,
+                                                  estimation_table=True)
+        population_result += \
+            cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
 
         # 3b. Effect size
         effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
@@ -1471,10 +1597,12 @@ class CogStatData:
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
-                                       population_graph, result_ht])
+        return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
+                                       population_graph, population_graph_new, result_ht])
 
-    def compare_groups(self, var_name, grouping_variables,  single_case_slope_SE=None, single_case_slope_trial_n=None,
+    def compare_groups(self, var_name,
+                       grouping_variables=None, display_groups=None,
+                       single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """
         Compare groups.
@@ -1485,21 +1613,40 @@ class CogStatData:
             Name of the dependent variable
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
+        display_groups : list of three list of strings
+            List of name(s) of grouping variable(s) displayed on x-axis, with colors, and on panels.
         single_case_slope_SE : str
             When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
             When comparing the slope between a single case and a group, number of trials.
         ylims : list of {int or float}
-            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------
         list of str and image
             Analysis results in HTML format
         """
+        title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
+        preconditions = True
+        if not var_name or (var_name is None):
+            title += _('The dependent variable should be set.') + '\n'
+            preconditions = False
+        if (grouping_variables is None) or grouping_variables==[]:
+            title += _('At least one grouping variable should be set.')
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output([title])
+
         plt.close('all')
         var_names = [var_name]
-        groups = grouping_variables
+        if grouping_variables is None:
+            grouping_variables = []
+        # if display_groups are not specified, then all group will be displayed on x-axis
+        if (display_groups is None) or (display_groups == [[], [], []]):
+            display_groups = [grouping_variables, [], []]
+
+        groups = grouping_variables[:]
         # TODO check if there is only one dep.var.
         title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
@@ -1559,6 +1706,12 @@ class CogStatData:
 
         raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
+        raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+                                                                       dep_name=var_name,
+                                                                       indep_x=display_groups[0],
+                                                                       indep_color=display_groups[1],
+                                                                       indep_panel=display_groups[2],
+                                                                       ylims=ylims, raw_data=True)
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -1582,8 +1735,7 @@ class CogStatData:
                                                               count=True, percent=True, margins=True)
 
         # Effect size
-        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level,
-                                                                 sample=True)
+        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level, sample=True)
         if sample_effect_size:
             sample_result += '\n\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
@@ -1592,14 +1744,30 @@ class CogStatData:
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                        level_combinations, ylims=ylims)
+            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+                                                                              dep_name=var_name,
+                                                                              indep_x=display_groups[0],
+                                                                              indep_color=display_groups[1],
+                                                                              indep_panel=display_groups[2],
+                                                                              ylims=ylims,
+                                                                              raw_data=True,
+                                                                              box_plots=True)
         else:
             sample_graph = None
+            sample_graph_new = None
 
         # 3. Population properties
         # Plot population estimations
         group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, groups)
         population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, groups,
                                                                            level_combinations, ylims=ylims)
+        population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+                                                                              dep_name=var_name,
+                                                                              indep_x=display_groups[0],
+                                                                              indep_color=display_groups[1],
+                                                                              indep_panel=display_groups[2],
+                                                                              estimations=True, ylims=ylims,
+                                                                              estimation_table=True)
 
         # Population estimation
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
@@ -1615,6 +1783,10 @@ class CogStatData:
                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
         if meas_level == 'nom':
             population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True)
+        population_result += \
+            cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+
 
         # effect size
         standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
@@ -1634,8 +1806,16 @@ class CogStatData:
             result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
                         cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
 
-        return cs_util.convert_output([title, raw_result, raw_graph, sample_result, sample_graph, population_result,
-                                       population_graph, standardized_effect_size_result, result_ht])
+        return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
+                                       population_graph, population_graph_new, standardized_effect_size_result, result_ht])
+
+    def compare_variables_groups(self, var_names, factors=None, grouping_variables=None, display_factors=None,
+                          single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+
+        title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
+        title += _('Work in progress...')
+
+        return cs_util.convert_output([title])
 
 
 def display(results):

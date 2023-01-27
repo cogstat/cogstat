@@ -155,6 +155,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     # text_result += _('Testing normality with the Kolmogorov–Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %
     #               stats.kstest(data, 'norm')
     if len(data) < 3:
+        # translators: the first %s includes the name of the variable, the second %s includes the optional grouping variable and level names in parentheses
         return False, _('Too small sample to test normality in variable %s%s.\n' %
                         (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
     else:
@@ -678,7 +679,7 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
         result_ht += _('Testing if the medians are the same.') + '</decision>\n'
     elif meas_level == 'nom':
         result_ht += _('Testing if the distributions are the same.') + '</decision>\n'
-    if not factors:  # one-way comparison
+    if len(factors) == 1:  # one-way comparison
         if len(var_names) < 2:
             result_ht += _('At least two variables required.')
         elif len(var_names) == 2:
@@ -737,7 +738,7 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
                 if not non_normal_vars:
                     result_ht += '<decision>' + _('Normality is not violated.') + ' >> ' + \
                                  _('Running repeated measures one-way ANOVA.') + '\n</decision>'
-                    result_ht += repeated_measures_anova(data, var_names)
+                    result_ht += repeated_measures_anova(data, var_names, factors)
                 else:
                     result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
                         join(non_normal_vars) + ' >> ' + _('Running Friedman test.') + '\n</decision>'
@@ -860,7 +861,7 @@ def cochran_q_test(pdf, var_names):
            (df, len(pdf[var_names[0]]), non_data_dim_precision, q, print_p(p))
 
 
-def repeated_measures_anova(pdf, var_names, factors=[]):
+def repeated_measures_anova(pdf, var_names, factors=None):
     """
 
     Parameters
@@ -875,7 +876,9 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
 
     """
 
-    if not factors:  # one-way comparison
+    if factors is None:
+        factors = []
+    if len(factors) == 1:  # one-way comparison
         # Mauchly's test for sphericity
         spher, w, chisq, dof, wp = pingouin.sphericity(pdf[var_names])
         text_result = _("Result of Mauchly's test to check sphericity") + \
@@ -1297,7 +1300,8 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     # Not available in statsmodels
 
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
-    u, p = stats.mannwhitneyu(var1, var2, alternative='two-sided')
+    # convert pandas Float64 to float
+    u, p = stats.mannwhitneyu(var1.astype(float), var2.astype(float), alternative='two-sided')
     text_result = _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.*f, %s\n' % \
                    (non_data_dim_precision, u, print_p(p))
 

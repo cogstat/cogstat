@@ -187,8 +187,11 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
                     # default pivot_table() sort returns case-sensitive ordered indexes
                     # we reorder the tables to be case-insensitive
                     from pandas.api.types import is_string_dtype
-                    if is_string_dtype(ptable.index):
-                        ptable.sort_index(inplace=True, key=lambda x: x.str.lower())
+                    # this should be done separately for all index levels to make sure that, in a multiindex, only
+                    # string indexes are sorted
+                    for index_i in range(ptable.index.nlevels):
+                        if is_string_dtype(ptable.index.get_level_values(index_i)):
+                            ptable.sort_index(level=index_i, inplace=True, key=lambda x: x.str.lower())
                 ptable_result = '%s\n%s' % (ptable_result, _format_html_table(ptable.
                                             to_html(bold_rows=False, sparsify=False, float_format=format_output)))
             else:
@@ -201,25 +204,62 @@ def pivot(pdf, row_names, col_names, page_names, depend_name, function):
     return result
 
 
-def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_names=[], case_unsensitive_index_sort=True):
-    """
-    Behavioral diffusion analysis
+def diffusion(df, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
+              reaction_time_in='sec', scaling_parameter=0.1, max_reaction_time=2.5, case_unsensitive_index_sort=True):
+    """Drift diffusion parameter recovery based on the EZ method.
 
     Parameters
     ----------
-
+    df : pandas dataframe
+    error_name : str
+        Name of the variable storing the errors.
+        Correct and incorrect trials should be coded with 0 and 1. See the correct_coding parameter.
+    RT_name : str
+        Name of the variable storing response times.
+        Time should be stored in sec or msec. See the reaction_time_in parameter.
+    participant_name : str
+        Name of the variable storing participant IDs.
+    condition_names : list of str
+        Name(s) of the variable(s) storing conditions.
+    correct_coding : {'0', '1'}
+        Are correct responses noted with 0 or 1? Incorrect responses are noted with the other value.
+    reaction_time_in : {'sec', 'msec'}
+        Unit of reaction time
+    scaling_parameter : float
+        Usually either 0.1 or 1
+    max_reaction_time : float
+        Maximum reaction time is sec. Trials with larger RT will be excluded.
     case_unsensitive_index_sort : bool
-        Pdf.pivot_table() sorts the index, but unlike spreadsheet software packages, it is case sensitive.
+        Pdf.pivot_table() sorts the index, but unlike spreadsheet software packages, it is case-sensitive.
         If this parameter is True, the indexes will be reordered to be case-insensitive
+
+    Returns
+    -------
+
     """
+
+    # Can we run the analysis?
+    if condition_names is None:
+        condition_names = []
     if not (error_name and RT_name):
         result = _('Specify the minimum required parameters (reaction time and error).')
         return result
+
+    # Variable information
     result = ''
-    result += _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
-              (error_name[0], RT_name[0], participant_name[0] if participant_name != [] else _('None'),
+    result += _('Used variables.') + ' ' + _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
+              (error_name, RT_name, participant_name if participant_name != '' else _('None'),
                ','.join(condition_names) if condition_names != [] else _('None'))
+
+    # 1. Prepare the raw data
+    # Use df_diff dataframe for the calculations
     df_diff = df.copy()
+
+    # Modify time unit and error coding if needed
+    if reaction_time_in == 'msec':  # if time is in msec, then convert time to sec
+        df_diff[RT_name] = df_diff[RT_name] / 1000
+    if correct_coding == '1':  # if correct is coded as 1, then reverse the coding
+        df_diff[error_name] = 1 - df_diff[error_name]
 
     # If condition and/or participant variables were not given, add a quasi condition/participant variable with
     # constant values
@@ -228,18 +268,28 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
         condition_names = [_('Condition')]
     if not participant_name:
         df_diff[_('Participant')] = _('single participant')
-        participant_name = [_('Participant')]
+        participant_name = _('Participant')
 
     # If any data is missing from a trial, drop the whole trial
-    df_diff = df_diff.dropna(subset=error_name+RT_name+participant_name+condition_names)
+    df_diff = df_diff.dropna(subset=[error_name] + [RT_name] + [participant_name] + condition_names)
+    missing_trials_n = len(df) - len(df_diff)
+    result += '\n\n' + _('Number of trials excluded because of missing data:') + \
+              ' %s (%.1f%%)\n' % (missing_trials_n, (missing_trials_n / len(df)) * 100)
 
-    # Calculate RT and error rate statistics
-    mean_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name[0]] == 0], values=RT_name[0],
+    # Filter slow outlier cases
+    filtered_trials_n = len(df_diff) - len(df_diff[df_diff[RT_name] < max_reaction_time])
+    df_diff = df_diff[df_diff[RT_name] < max_reaction_time]
+    result += _('Number of trials excluded because reaction time was larger than %s sec:') % max_reaction_time + \
+              ' %s (%.1f%%)\n' % (filtered_trials_n, (filtered_trials_n / len(df)) * 100)
+
+    # 2. Calculate N, RT, and error rate statistics
+    n_table = pd.pivot_table(df_diff, values=error_name, index=participant_name, columns=condition_names, aggfunc=len)
+    mean_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name] == 0], values=RT_name,
                                            index=participant_name, columns=condition_names, aggfunc=np.mean)
-    var_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name[0]] == 0], values=RT_name[0],
+    var_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name] == 0], values=RT_name,
                                           index=participant_name, columns=condition_names, aggfunc=np.var)
     # TODO for the var function do we need a ddof=1 parameter?
-    mean_percent_correct_table = 1 - pd.pivot_table(df_diff, values=error_name[0], index=participant_name,
+    mean_percent_correct_table = 1 - pd.pivot_table(df_diff, values=error_name, index=participant_name,
                                                     columns=condition_names,
                                                     aggfunc=cs_stat_num.diffusion_edge_correction_mean)
     if case_unsensitive_index_sort:
@@ -247,12 +297,15 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
         # we reorder the tables to be case-insensitive
         from pandas.api.types import is_string_dtype
         if is_string_dtype(mean_correct_RT_table.index):
+            n_table.sort_index(inplace=True, key=lambda x: x.str.lower())
             mean_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
             var_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
             mean_percent_correct_table.sort_index(inplace=True, key=lambda x: x.str.lower())
 
+    # Display RT and error rate statistics
     previous_precision = pd.get_option('display.precision')
     pd.set_option('display.precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
+    result += '\n\n' + _('Number of trials') + _format_html_table(n_table.to_html(bold_rows=False))
     result += '\n\n' + _('Mean percent correct with edge correction') + _format_html_table(mean_percent_correct_table.
                                                                                            to_html(bold_rows=False))
     result += '\n\n' + _('Mean correct reaction time') + _format_html_table(mean_correct_RT_table.
@@ -260,13 +313,13 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     result += '\n\n' + _('Correct reaction time variance') + _format_html_table(var_correct_RT_table.
                                                                                 to_html(bold_rows=False))
 
-    # Recover diffusion parameters
+    # 3. Recover diffusion parameters
     original_index = mean_percent_correct_table.index  # to recover index order later
     original_columns = mean_percent_correct_table.columns  # to recover column order later
     EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names),
                                var_correct_RT_table.stack(condition_names),
                                mean_correct_RT_table.stack(condition_names)],
-                              axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x),
+                              axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x, s=scaling_parameter),
                                             axis=1, result_type='expand')
     EZ_parameters.columns = ['drift rate', 'threshold', 'nondecision time']
     drift_rate_table = EZ_parameters['drift rate'].unstack(condition_names)
@@ -276,6 +329,8 @@ def diffusion(df, error_name=[], RT_name=[], participant_name=[], condition_name
     drift_rate_table = drift_rate_table.reindex(index=original_index, columns=original_columns)
     threshold_table = threshold_table.reindex(index=original_index, columns=original_columns)
     nondecision_time_table = nondecision_time_table.reindex(index=original_index, columns=original_columns)
+
+    # Display diffusion parameters
     result += '\n\n' + _('Drift rate') + _format_html_table(drift_rate_table.to_html(bold_rows=False))
     result += '\n\n' + _('Threshold') + _format_html_table(threshold_table.to_html(bold_rows=False))
     result += '\n\n' + _('Nondecision time') + _format_html_table(nondecision_time_table.to_html(bold_rows=False))
@@ -369,7 +424,7 @@ def proportions_ci(pdf, var_name):
     return text_result
 
 
-def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
+def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
     """
     Computes descriptive stats for variables and/or groups.
 
@@ -392,6 +447,8 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     -------
 
     """
+    if statistics is None:
+        statistics = []
     stat_names = {'mean': _('Mean'),
                   'median': _('Median'),
                   'std': _('Standard deviation'),
@@ -463,7 +520,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=[]):
     return text_result
 
 
-def variable_estimation(data, statistics=[]):
+def variable_estimation(data, statistics=None):
     """
     Calculate the point and interval estimations of the required parameters.
 
@@ -479,6 +536,8 @@ def variable_estimation(data, statistics=[]):
     str
         Table of the point and interval estimations
     """
+    if statistics is None:
+        statistics = []
     pdf_result = pd.DataFrame()
     population_param_text = ''
     for statistic in statistics:
@@ -1122,16 +1181,19 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
     standardized_effect_size_result = ''
 
     if sample:
-        pdf_result = pd.DataFrame()
+        pdf_result = pd.DataFrame(columns=[_('Value')])
         if meas_level in ['int', 'unk']:
             if len(groups) == 1:
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
+                    # convert pandas Float64 to float
                     pdf_result.loc[_("Cohen's d"), _('Value')] = \
-                        pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='cohen')
+                        pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                                                 paired=False, eftype='cohen')
                     pdf_result.loc[_("Eta-squared"), _('Value')] = \
-                        pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='eta-square')
+                        pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                                                 paired=False, eftype='eta-square')
                 else:
                     standardized_effect_size_result = None
             else:
@@ -1160,7 +1222,9 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
-                    hedges = pingouin.compute_effsize(grouped_data[0], grouped_data[1], paired=False, eftype='hedges')
+                    # convert pandas Float64 to float
+                    hedges = pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                                                      paired=False, eftype='hedges')
                     hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(grouped_data[0]), ny=len(grouped_data[0]),
                                                       paired=False, eftype='cohen', confidence=0.95, decimals=3)
                     pdf_result.loc[_("Hedges' g")] = hedges, *hedges_ci

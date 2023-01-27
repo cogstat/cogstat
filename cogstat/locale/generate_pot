@@ -1,10 +1,9 @@
 # http://wiki.maemo.org/Internationalize_a_Python_application
 # maxdepth 1 means that no subdirectories will be searched
 # (in this version xgettext cannot handle file names that include space)
-xgettext --language=Python --keyword=_ --keyword=_plt --keyword=_translate:2 --output=cogstat.pot `find ../. ../ui -maxdepth 1 -name "*.py"`
+# POEditor may support the comments only for new strings
+xgettext --language=Python --keyword=_ --keyword=_plt --keyword=_translate:2 --add-comments=translators --output=cogstat.pot `find ../. ../ui -maxdepth 1 -name "*.py"`
 
-# POEditor supports comments only for new strings
-#xgettext --language=Python --keyword=_ --add-comments=translators --output=cogstat.pot `find ../. -maxdepth 1 -name "*.py"`
 
 # http://achilles-keep-moving.blogspot.hu/2011/07/minimal-tutorial-for-python.html
 #python pygettext.py -d cn -o cn.pot lang.py

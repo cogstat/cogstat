@@ -1,0 +1,1992 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: CogStat\n"
+"Language: zh-CN\n"
+
+#: .././cogstat_hyp_test.py:38
+msgid "The properties of the variables are not set. Set them in your data source."
+msgstr "未设置变量属性，请在数据源中设置。"
+
+#: .././cogstat_stat.py:123
+msgid "Sorry, string variables cannot be used in Pivot table."
+msgstr "抱歉，数据透视表中不允许存在字符串变量。"
+
+#: .././cogstat_stat.py:129
+msgid "Independent variable(s) - Pages: "
+msgstr "自变量 - 页:"
+
+#: .././cogstat_stat.py:131
+msgid "Independent variable(s) - Columns: "
+msgstr "自变量 - 列:"
+
+#: .././cogstat_stat.py:133
+msgid "Independent variable(s) - Rows: "
+msgstr "自变量 - 行："
+
+#: .././cogstat_stat.py:134
+msgid "Function: "
+msgstr "功能："
+
+#: .././cogstat_stat.py:328 .././cogstat_stat.py:330 .././cogstat_stat.py:639
+#: .././cogstat_stat.py:641 .././cogstat_stat.py:644 .././cogstat_stat.py:651
+#: .././cogstat_stat.py:654 .././cogstat_stat.py:834 .././cogstat_stat.py:836
+#: .././cogstat_stat.py:961 .././cogstat_stat.py:963 .././cogstat_stat.py:976
+#: .././cogstat_stat.py:979 .././cogstat_stat.py:1009 .././cogstat_chart.py:795
+#: .././cogstat_chart.py:856
+msgid "Value"
+msgstr "值"
+
+#: .././cogstat_chart.py:375 .././cogstat_chart.py:449
+#: .././cogstat_chart.py:549
+msgid "Largest tick on the x axes displays %d cases."
+msgstr "x轴上最大凸起显示%d的案例"
+
+#: .././cogstat_chart.py:392
+msgid "Histogram with individual data and boxplot"
+msgstr "个体数据及箱型图的直方图"
+
+#: .././cogstat_chart.py:332 .././cogstat_chart.py:398
+msgid "Frequency"
+msgstr "频率"
+
+#: .././cogstat_chart.py:329
+msgid "Histogram"
+msgstr "直方图"
+
+#: .././cogstat.py:657
+msgid "N of valid cases: %g"
+msgstr "有效个案数 ：g的%"
+
+#: .././cogstat.py:752
+msgid "Median: %0.*f"
+msgstr "中位数：%0.*f"
+
+#: .././cogstat_hyp_test.py:134
+msgid "Normality can be checked only for interval variables."
+msgstr "只有等距变量可检查正态性。"
+
+#: .././cogstat_chart.py:460
+msgid "Histogram with individual data and normal distribution"
+msgstr "个体数据及正态分布的直方图"
+
+#: .././cogstat_chart.py:467
+msgid "Normalized relative frequency"
+msgstr "正态相对频率"
+
+#: .././cogstat_chart.py:483
+msgid "Quantile-quantile plot"
+msgstr "分位数图"
+
+#: .././cogstat_hyp_test.py:198
+msgid "One sample t-test cannot be run for constant variable.\n"
+""
+msgstr "单样本T检验不可用于恒变量"
+
+#: .././cogstat_hyp_test.py:224
+msgid "One sample t-test against %g"
+msgstr "对g的%进行单样本T检验"
+
+#: .././cogstat_chart.py:514
+msgid "Mean value with 95% confidence interval"
+msgstr "平均值（95%置信区间）"
+
+#: .././cogstat_hyp_test.py:232
+msgid "One sample t-test is computed only for interval variables."
+msgstr "单样本T检验只可用于等距变量。"
+
+#: .././cogstat_chart.py:518
+msgid "Median value"
+msgstr "中位数值"
+
+#: .././cogstat_hyp_test.py:271
+msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
+msgstr "威尔科克森符号秩检验只可用于等距变量或顺序变量。"
+
+#: .././cogstat_stat.py:124 .././cogstat_stat.py:394 .././cogstat_stat.py:489
+#: .././cogstat_stat.py:490 .././cogstat_stat.py:491 ../ui/pivot.py:170
+msgid "Mean"
+msgstr "平均值"
+
+#: .././cogstat_stat.py:124 .././cogstat_stat.py:395 .././cogstat_stat.py:498
+#: .././cogstat_stat.py:499 .././cogstat_stat.py:500 .././cogstat.py:1080
+#: ../ui/pivot.py:171
+msgid "Median"
+msgstr "中位数"
+
+#: .././cogstat_chart.py:851
+msgid "Medians for the variables"
+msgstr "变量的中位数"
+
+#: .././cogstat_chart.py:1051
+msgid "Medians for the groups"
+msgstr "组的中位数"
+
+#: .././cogstat_stat.py:461 .././cogstat_stat.py:463
+msgid "No data"
+msgstr "无数据"
+
+#: .././cogstat_chart.py:643
+msgid "Largest sign on the graph displays %d cases."
+msgstr "图表上最大符号显示%d的个案。"
+
+#: .././cogstat_chart.py:652
+msgid "Scatterplot of the variables"
+msgstr "变量的散点图"
+
+#: .././cogstat_chart.py:723 .././cogstat_chart.py:815
+msgid "Mosaic plot of the variables"
+msgstr "变量的马赛克图"
+
+#: .././cogstat_chart.py:781
+msgid "Thickest line displays %d cases."
+msgstr "最厚线显示%d的个案。"
+
+#: .././cogstat_chart.py:844
+msgid "Means and 95% confidence intervals for the variables"
+msgstr "变量的平均值及95%的置信区间"
+
+#: .././cogstat_hyp_test.py:634
+msgid "Paired t-test requires two variables."
+msgstr "配对T检验至少需要两个变量。"
+
+#: .././cogstat_hyp_test.py:655
+msgid "Result of paired samples t-test"
+msgstr "配对样本T检验的结果"
+
+#: .././cogstat_hyp_test.py:682
+msgid "Paired Wilcoxon test requires two variables."
+msgstr "配对威尔科克森检验至少需要两个变量。"
+
+#: .././cogstat_hyp_test.py:817
+msgid "Friedman test requires at least two variables."
+msgstr "弗里德曼检验至少需要两个变量。"
+
+#: .././cogstat_hyp_test.py:823
+msgid "Result of the Friedman test: "
+msgstr "弗里德曼检验的结果是："
+
+#: .././cogstat_stat.py:1125
+msgid "Boxplot and individual data of the groups"
+msgstr "组的箱形图及个体数据"
+
+#: .././cogstat_chart.py:1006
+msgid "Mosaic plot of the groups"
+msgstr "组的马赛克图"
+
+#: .././cogstat_chart.py:1042
+msgid "Means and 95% confidence intervals for the groups"
+msgstr "组的平均值及95%的置信区间"
+
+#: .././cogstat_hyp_test.py:1027
+msgid "Levene test"
+msgstr "Levene 检验"
+
+#: .././cogstat_stat.py:919
+msgid "Difference between the two groups:"
+msgstr "两组之间的差别："
+
+#. is there a typo of one extra %
+#: .././cogstat_hyp_test.py:693
+msgid "95%% confidence interval [%0.*f, %0.*f]"
+msgstr "95%的置信区间[%0.*f, %0.*f]"
+
+#: .././cogstat_hyp_test.py:1059
+msgid "Result of independent samples t-test:"
+msgstr "独立样本T检验的结果是："
+
+#: .././cogstat_hyp_test.py:1095
+msgid "One of the groups should include only a single data."
+msgstr "至少有一组需要包含单个数据"
+
+#: .././cogstat_hyp_test.py:1092
+msgid "Result of the modified independent samples t-test:"
+msgstr "调整后独立样本T检验的结果是："
+
+#: .././cogstat_hyp_test.py:1196
+msgid "Result of one-way ANOVA: "
+msgstr "单因素方差分析的结果是："
+
+#: .././cogstat_hyp_test.py:1204 .././cogstat_hyp_test.py:1308
+msgid "Groups differ. Post-hoc test of the means."
+msgstr "组有差异。对平均值进行事后检验。"
+
+#. what is the context of "&" in lots of strings? just want to make sure if it's something I need to translate or it's just standing for something PoEditor could not display
+#: .././cogstat_gui.py:153
+msgid "&Data"
+msgstr "数据"
+
+#. https://s3.eu-west-1.amazonaws.com/po-pub/i/ZaWxnFWyDv1xvgu1HnS6fG94.png  Re: the use of "&" - it looks like the & is just in use to showcase the small symbol in the actual software, will go forward with not translating the "&" if that's true.
+#: .././cogstat_gui.py:154
+msgid "&Open data file"
+msgstr "打开数据文件"
+
+#: .././cogstat_gui.py:154
+msgid "Ctrl+O"
+msgstr "Ctrl+O"
+
+#: .././cogstat_gui.py:158
+msgid "&Paste data"
+msgstr "粘贴数据"
+
+#: .././cogstat_gui.py:158
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: .././cogstat_gui.py:163 .././cogstat_gui.py:221
+msgid "&Display data"
+msgstr "显示数据"
+
+#: .././cogstat_gui.py:163
+msgid "Ctrl+D"
+msgstr "Ctrl+D"
+
+#: .././cogstat_gui.py:164 .././cogstat_gui.py:222
+msgid "Display data &briefly"
+msgstr "快速显示数据"
+
+#: .././cogstat_gui.py:168
+msgid "&Analysis"
+msgstr "分析"
+
+#: .././cogstat_gui.py:170
+msgid "Ctrl+1"
+msgstr "Ctrl+1"
+
+#: .././cogstat_gui.py:172
+msgid "Ctrl+2"
+msgstr "Ctrl+2"
+
+#: .././cogstat_gui.py:178 .././cogstat_gui.py:222
+msgid "Pivot &table"
+msgstr "数据透视表"
+
+#: .././cogstat_gui.py:175 .././cogstat_gui.py:225
+msgid "Compare &groups"
+msgstr "对组进行对比"
+
+#: .././cogstat_gui.py:792 .././cogstat_gui.py:806 .././cogstat.py:1131
+#: ../ui/compare_groups.py:108
+msgid "Compare groups"
+msgstr "对组进行对比"
+
+#: .././cogstat_gui.py:183
+msgid "&Results"
+msgstr "结果"
+
+#: .././cogstat_gui.py:184
+msgid "&Clear results"
+msgstr "清空结果"
+
+#: .././cogstat_gui.py:195
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#. do we want to give CogStat a Chinese name translation as well or just as "CogStat"
+#: .././cogstat_gui.py:200
+msgid "&CogStat"
+msgstr "CogStat"
+
+#: .././cogstat_gui.py:201
+msgid "&Help"
+msgstr "帮助"
+
+#: .././cogstat_gui.py:201
+msgid "F1"
+msgstr "F1"
+
+#: .././cogstat_gui.py:202
+msgid "&Preferences"
+msgstr "系统偏好"
+
+#: .././cogstat_gui.py:204
+msgid "Request a &feature"
+msgstr "申请新功能"
+
+#: .././cogstat_gui.py:210
+msgid "&Report a problem"
+msgstr "报告问题"
+
+#: .././cogstat_gui.py:212
+msgid "&Diagnosis information"
+msgstr "诊断信息"
+
+#: .././cogstat_gui.py:215
+msgid "&About"
+msgstr "关于"
+
+#: .././cogstat_gui.py:217
+msgid "&Exit"
+msgstr "退出"
+
+#: .././cogstat_gui.py:217
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: .././cogstat_gui.py:221
+msgid "&Save data"
+msgstr "保存数据"
+
+#: .././cogstat_gui.py:221
+msgid "Save data &as"
+msgstr "保存数据为"
+
+#: .././cogstat_gui.py:226
+msgid "&Compare groups and variables"
+msgstr "对组和变量进行对比"
+
+#: .././cogstat_gui.py:485
+msgid "Import error"
+msgstr "导入数据错误"
+
+#: .././cogstat_gui.py:485
+msgid "Data could not be loaded."
+msgstr "数据无法加载。"
+
+#: .././cogstat_gui.py:630 .././cogstat_gui.py:748
+msgid "At least two variables should be set."
+msgstr "请至少设置两个变量。"
+
+#: .././cogstat_gui.py:675 .././cogstat_gui.py:682 .././cogstat.py:933
+#: ../ui/pivot.py:161
+msgid "Pivot table"
+msgstr "数据透视表"
+
+#: .././cogstat_gui.py:676
+msgid "The dependent variable and at least one grouping variable should be given."
+msgstr "请设置因变量及至少一个分组变量。"
+
+#: .././cogstat_gui.py:747
+msgid "Both the dependent and the grouping variables should be set."
+msgstr "请设置因变量及分组变量。"
+
+#: .././cogstat_gui.py:813
+msgid "Clear output"
+msgstr "清空输出"
+
+#: .././cogstat_gui.py:814
+msgid "Are you sure you want to delete the output?"
+msgstr "确定删除输出吗？"
+
+#. same comment on if we want to give “CogStat” a chinese name
+#: .././cogstat_gui.py:884
+msgid "About CogStat "
+msgstr "关于CogStat"
+
+#: .././cogstat_gui.py:898
+msgid "System components"
+msgstr "系统组件"
+
+#: .././cogstat_gui.py:911
+msgid "Save output"
+msgstr "保存输出"
+
+#: .././cogstat_gui.py:912
+msgid "Output has unsaved results. Do you want to save it?"
+msgstr "输出未被保存，现在保存吗？"
+
+#: .././cogstat_gui.py:499 .././cogstat.py:463
+msgid "Data"
+msgstr "数据"
+
+#: .././cogstat.py:464
+msgid "Source: "
+msgstr "数据源"
+
+#: .././cogstat.py:465
+msgid " variables and "
+msgstr "变量及"
+
+#: .././cogstat.py:466
+msgid " cases"
+msgstr "个案"
+
+#: .././cogstat.py:479
+msgid " further cases are not displayed..."
+msgstr "更多个案未被显示"
+
+#: .././cogstat_hyp_test.py:877 .././cogstat_hyp_test.py:924
+#: .././cogstat_hyp_test.py:998 .././cogstat.py:735
+msgid "Interval variable."
+msgstr "等距变量。"
+
+#: .././cogstat_hyp_test.py:911 .././cogstat_hyp_test.py:961
+#: .././cogstat_hyp_test.py:1003 .././cogstat.py:758
+msgid "Ordinal variable."
+msgstr "顺序变量。"
+
+#: .././cogstat_gui.py:592 .././cogstat_gui.py:604 .././cogstat.py:647
+msgid "Explore variable"
+msgstr "访问变量"
+
+#: .././cogstat.py:648
+msgid "Exploring variable: "
+msgstr "正在访问变量"
+
+#: .././cogstat.py:671
+msgid "Frequencies"
+msgstr "频率"
+
+#: .././cogstat.py:699
+msgid "Normality"
+msgstr "正态性"
+
+#: .././cogstat.py:801
+msgid "Exploring variable pair: "
+msgstr "正在访问配对变量"
+
+#: .././cogstat_hyp_test.py:424 .././cogstat_hyp_test.py:444
+#: .././cogstat_hyp_test.py:471 .././cogstat_hyp_test.py:534
+#: .././cogstat_hyp_test.py:571
+msgid "Interval variables."
+msgstr "等距变量。"
+
+#: .././cogstat_hyp_test.py:426 .././cogstat_hyp_test.py:446
+msgid "Running Pearson's and Spearman's correlation."
+msgstr "正在运行皮尔森相关系数和斯皮尔曼相关系数。"
+
+#: .././cogstat_hyp_test.py:429 .././cogstat_hyp_test.py:449
+#: .././cogstat_stat.py:639 .././cogstat_stat.py:663
+msgid "Pearson's correlation"
+msgstr "皮尔森相关系数"
+
+#: .././cogstat.py:856
+msgid "Linear regression"
+msgstr "线性回归分析"
+
+#: .././cogstat_hyp_test.py:439 .././cogstat_hyp_test.py:459
+#: .././cogstat_hyp_test.py:475 .././cogstat_hyp_test.py:486
+#: .././cogstat_stat.py:641 .././cogstat_stat.py:644 .././cogstat_stat.py:693
+msgid "Spearman's rank-order correlation"
+msgstr "斯皮尔曼等级相关系数"
+
+#: .././cogstat_hyp_test.py:482 .././cogstat_hyp_test.py:556
+#: .././cogstat_hyp_test.py:592
+msgid "Ordinal variables."
+msgstr "顺序变量。"
+
+#: .././cogstat_hyp_test.py:472 .././cogstat_hyp_test.py:482
+msgid "Running Spearman's correlation."
+msgstr "正在运行斯皮尔曼相关系数。"
+
+#: .././cogstat.py:788
+msgid "Not all variables are nominal. Consider comparing groups."
+msgstr "变量中含有非定义变量，尝试对组进行对比。"
+
+#: .././cogstat_hyp_test.py:496
+msgid "Nominal variables."
+msgstr "定义变量。"
+
+#: .././cogstat_hyp_test.py:496
+msgid "Running Cramér's V."
+msgstr "正在运行Cramér's V"
+
+#: .././cogstat.py:992
+msgid "Variables to compare: "
+msgstr "进行比较的变量："
+
+#: .././cogstat.py:1013
+msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
+msgstr "抱歉，无法对不同测量等级的变量进行对比。可以选择将高测量等级进行降级以获得相同测量等级。"
+
+#: .././cogstat_hyp_test.py:529
+msgid "At least two variables required."
+msgstr "至少需要两个变量。"
+
+#: .././cogstat_hyp_test.py:531
+msgid "Two variables. "
+msgstr "两个变量。"
+
+#: .././cogstat_hyp_test.py:537 .././cogstat_hyp_test.py:575
+#: .././cogstat_hyp_test.py:861 .././cogstat_hyp_test.py:880
+#: .././cogstat_hyp_test.py:928 .././cogstat.py:738
+msgid "Checking for normality."
+msgstr "正在检查正态性。"
+
+#: .././cogstat_hyp_test.py:867
+msgid "Normality is violated in variable "
+msgstr "变量违反正态性。"
+
+#: .././cogstat_hyp_test.py:549
+msgid "Normality is not violated. >> Running paired t-test."
+msgstr "正态性未被违反>>正在运行配对T检验。"
+
+#: .././cogstat_hyp_test.py:553 .././cogstat_hyp_test.py:557
+msgid "Running paired Wilcoxon test."
+msgstr "正在运行配对威尔科克森检验。"
+
+#: .././cogstat_hyp_test.py:567 .././cogstat_hyp_test.py:603
+#: .././cogstat_hyp_test.py:612 .././cogstat_hyp_test.py:615
+#: .././cogstat_hyp_test.py:1004 .././cogstat_hyp_test.py:1007
+#: .././cogstat.py:764
+msgid "Sorry, not implemented yet."
+msgstr "抱歉，未被执行。"
+
+#: .././cogstat_hyp_test.py:569
+msgid "More than two variables. "
+msgstr "超过两个变量“"
+
+#: .././cogstat_hyp_test.py:589 .././cogstat_hyp_test.py:593
+msgid "Running Friedman test."
+msgstr "正在运行弗里德曼检验。"
+
+#: .././cogstat_stat.py:134 .././cogstat.py:1134
+msgid "Dependent variable: "
+msgstr "因变量："
+
+#: .././cogstat.py:1135
+msgid "Group(s): "
+msgstr "组："
+
+#: .././cogstat_hyp_test.py:849
+msgid "One grouping variable. "
+msgstr "一个分组变量："
+
+#: .././cogstat_hyp_test.py:851
+msgid "There is only one group. At least two groups required."
+msgstr "只有一个组，至少需要两个组。"
+
+#: .././cogstat_hyp_test.py:855
+msgid "Two groups. "
+msgstr "两个组："
+
+#: .././cogstat_hyp_test.py:859
+msgid "One group contains only one case. >> Choosing modified t-test."
+msgstr "一个组只包含一个个案 >>正在选择调整后的T检验。"
+
+#: .././cogstat_hyp_test.py:868
+msgid "group "
+msgstr "组"
+
+#: .././cogstat_hyp_test.py:872
+msgid "Normality is not violated. >> Running modified t-test."
+msgstr "正态性未被违反>>正在运行调整T检验。"
+
+#: .././cogstat_hyp_test.py:915 .././cogstat_hyp_test.py:965
+#: .././cogstat_hyp_test.py:1006
+msgid "Nominal variable."
+msgstr "定义变量。"
+
+#: .././cogstat_hyp_test.py:922
+msgid "More than two groups."
+msgstr "超过两个组。"
+
+#: .././cogstat.py:1207
+msgid "Several grouping variables."
+msgstr "几个分组变量。"
+
+#: .././cogstat_dialogs.py:28 .././cogstat_dialogs.py:45
+msgid "Open data file"
+msgstr "打开数据文件"
+
+#: .././cogstat_dialogs.py:62
+msgid "Save result file"
+msgstr "保存结果文件"
+
+#: .././cogstat_gui.py:169 .././cogstat_gui.py:223
+msgid "&Explore variable"
+msgstr "访问变量"
+
+#: .././cogstat_gui.py:484 .././cogstat.py:423
+msgid "Import failed"
+msgstr "导入失败"
+
+#: .././cogstat_stat.py:329 .././cogstat_stat.py:332
+msgid "Freq"
+msgstr "频率"
+
+#: .././cogstat_stat.py:333 .././cogstat_stat.py:335 .././cogstat_stat.py:336
+msgid "Rel freq"
+msgstr "相对频率"
+
+#: .././cogstat_stat.py:332
+msgid "Cum freq"
+msgstr "累积频率"
+
+#: .././cogstat_stat.py:335 .././cogstat_stat.py:337
+msgid "Cum rel freq"
+msgstr "累积相对频率"
+
+#: .././cogstat_stat.py:1023
+msgid "Cramér's V measure of association cannot be computed (division by zero)."
+msgstr "Cramér's V 关联度量无法被计算（除数为零）。"
+
+#: .././cogstat.py:123 .././cogstat.py:131
+msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
+msgstr "测量等级数量与变量数不匹配。测量等级规定被忽略。"
+
+#: .././cogstat.py:299
+msgid "pandas dataframe"
+msgstr "pandas数据结构"
+
+#: .././cogstat.py:419
+msgid "clipboard"
+msgstr "剪贴板"
+
+#: .././cogstat.py:475
+msgid "Type"
+msgstr "类型"
+
+#: .././cogstat.py:475
+msgid "Level"
+msgstr "等级"
+
+#: .././cogstat.py:522
+msgid "Filtering is switched off."
+msgstr "过滤功能被关闭。"
+
+#: .././cogstat.py:555
+msgid "Filtering based on %s.\n"
+""
+msgstr "正在基于%s进行过滤。"
+
+#: .././cogstat.py:524
+msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
+""
+msgstr "超过范围的个案会被排除：%0.*f  --  %0.*f"
+
+#: .././cogstat.py:565
+msgid "The following cases will be excluded: "
+msgstr "下列个案将被排除："
+
+#: .././cogstat.py:572
+msgid "No cases were excluded."
+msgstr "不排除任何个案。"
+
+#: .././cogstat_hyp_test.py:888 .././cogstat_hyp_test.py:936
+msgid "Checking for homogeneity of variance across groups."
+msgstr "正在对组进行方差齐次性检查。"
+
+#: .././cogstat_gui.py:52
+msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "%s 抱歉，CogStat无法进行分析，你可以选择报告错误。"
+
+#: .././cogstat_hyp_test.py:375
+msgid "Normality cannot be checked for constant variable in %s%s.\n"
+""
+msgstr "正态性检查不可用于处于%s%s的恒变量。 "
+
+#. what does "%s%s" stand for? Looks like it's passing in the value from the actual test?
+#: .././cogstat_hyp_test.py:159 .././cogstat_hyp_test.py:378
+msgid "Too small sample to test normality in variable %s%s.\n"
+""
+msgstr "处于%s%s的变量样本太小无法检查正态性。"
+
+#: .././cogstat_hyp_test.py:698
+msgid "Result of the McNemar test"
+msgstr "麦克尼马尔检验的结果是"
+
+#: .././cogstat_hyp_test.py:705
+msgid "Result of Cochran's Q test"
+msgstr "Cochran Q检验的结果是"
+
+#: .././cogstat_hyp_test.py:727
+msgid "Result of Mauchly's test to check sphericity"
+msgstr "Mauchly球形检验来检验球形性的结果是"
+
+#: .././cogstat_hyp_test.py:734
+msgid "Sphericity is violated."
+msgstr "球形性被违反。"
+
+#: .././cogstat_hyp_test.py:736 .././cogstat_hyp_test.py:742
+msgid "Result of repeated measures ANOVA"
+msgstr "重复测量方差分析的结果是"
+
+#: .././cogstat_hyp_test.py:741
+msgid "Sphericity is not violated. "
+msgstr "球形性未被违反。"
+
+#: .././cogstat_hyp_test.py:395
+msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
+msgstr "正在用邦费罗尼校正对变量进行配对测试："
+
+#: .././cogstat_hyp_test.py:1130
+msgid "Result of Welch's unequal variances t-test:"
+msgstr "Welch不等方差T检验的结果是："
+
+#: .././cogstat_hyp_test.py:535
+msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
+msgstr "根据猜想选择配对T检验或配对威尔科克森符号秩检验。"
+
+#: .././cogstat_hyp_test.py:552 .././cogstat_hyp_test.py:588
+msgid "Normality is violated in variable(s): %s."
+msgstr "变量%s 违反正态性。"
+
+#: .././cogstat_hyp_test.py:561 .././cogstat_hyp_test.py:597
+msgid "Nominal dichotomous variables."
+msgstr "定义二分变量。"
+
+#: .././cogstat_hyp_test.py:562
+msgid "Running McNemar test."
+msgstr "正在运行麦克尼马尔检验。"
+
+#: .././cogstat_hyp_test.py:566 .././cogstat_hyp_test.py:602
+msgid "Nominal non dichotomous variables."
+msgstr "定义非二分变量。"
+
+#: .././cogstat_hyp_test.py:572
+msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
+msgstr "根据猜想选择重复测量方差分析或弗里德曼检验。"
+
+#: .././cogstat_hyp_test.py:598
+msgid "Running Cochran's Q test."
+msgstr "正在运行Cochran Q检验。"
+
+#: .././cogstat_hyp_test.py:514
+msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
+msgstr "根据猜想选择双样本T检验，曼-惠特尼U检验或Welch'sT检验。"
+
+#: .././cogstat_hyp_test.py:901
+msgid "Normality is violated in variable %s, group(s) %s."
+msgstr "变量%s和组%s违反正态性。"
+
+#: .././cogstat_hyp_test.py:907
+msgid "Running Welch's t-test."
+msgstr "正在运行Welch'sT检验。"
+
+#: .././cogstat_hyp_test.py:562
+msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
+msgstr "根据猜想选择单因素方差分析或Kruskal–Wallis检验。"
+
+#: .././cogstat_hyp_test.py:951
+msgid "Normality is violated in variable %s, group(s) %s. "
+msgstr "变量%s和组%s违反正态性。"
+
+#: .././cogstat_hyp_test.py:591
+msgid "Homeogeneity of variance violated in variable %s. "
+msgstr "变量%s违反方差齐次性。"
+
+#: .././cogstat_hyp_test.py:584 .././cogstat.py:743
+msgid "Normality is not violated."
+msgstr "正态性未被违反。"
+
+#: .././cogstat_hyp_test.py:585
+msgid "Running repeated measures one-way ANOVA."
+msgstr "正在运行对单因素方差分析的重复测量。"
+
+#: .././cogstat_gui.py:164
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: .././cogstat_gui.py:413
+msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
+msgstr "载入数据。抱歉，CogStat无法载入数据，你可以选择报告错误。"
+
+#: .././cogstat.py:659
+msgid "N of missing cases: %g"
+msgstr "缺失个案数：%g"
+
+#: .././cogstat_chart.py:310 .././cogstat_chart.py:405
+#: .././cogstat_chart.py:706 .././cogstat_chart.py:707
+#: .././cogstat_chart.py:950
+msgid "Rank of %s"
+msgstr "%s的排序"
+
+#: .././cogstat_hyp_test.py:268 .././cogstat_hyp_test.py:686
+msgid "Result of Wilcoxon signed-rank test"
+msgstr "威尔科克森符号秩检验的结果是"
+
+#: .././cogstat.py:653 .././cogstat.py:808 .././cogstat.py:1022
+#: .././cogstat.py:1145 .././cogstat_chart.py:312
+msgid "Raw data"
+msgstr "原始数据"
+
+#: .././cogstat.py:667 .././cogstat.py:822 .././cogstat.py:1043
+#: .././cogstat.py:1191
+msgid "Sample properties"
+msgstr "样本属性"
+
+#: .././cogstat.py:530
+msgid "Population parameter estimations and tests"
+msgstr "总体参数估计及测试"
+
+#: .././cogstat.py:726
+msgid "Testing if mean deviates from the value %s."
+msgstr "正在检查平均值是否偏离值%s。"
+
+#: .././cogstat.py:729
+msgid "Testing if median deviates from the value %s."
+msgstr "正在检查中位数是否偏离值%s。"
+
+#: .././cogstat.py:736
+msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
+msgstr "根据猜想选择单样本T检验或威尔科克森符号秩检验。"
+
+#: .././cogstat.py:744
+msgid "Running one-sample t-test."
+msgstr "正在运行单样本T检验"
+
+#: .././cogstat.py:750
+msgid "Normality is violated."
+msgstr "正态性被违反。"
+
+#: .././cogstat.py:751 .././cogstat.py:758
+msgid "Running Wilcoxon signed-rank test."
+msgstr "正在运行威尔科克森符号秩检验。 "
+
+#: .././cogstat.py:695 .././cogstat.py:880 .././cogstat.py:1068
+#: .././cogstat.py:1231
+msgid "Population properties"
+msgstr "总体属性"
+
+#: .././cogstat_hyp_test.py:420 .././cogstat_hyp_test.py:481
+msgid "Testing if correlation differs from 0."
+msgstr "正在检验相关性是否不为0。"
+
+#: .././cogstat_hyp_test.py:491
+msgid "Testing if variables are independent."
+msgstr "正在检验变量是否独立。"
+
+#: .././cogstat_hyp_test.py:522 .././cogstat_hyp_test.py:843
+#: .././cogstat_hyp_test.py:989
+msgid "Testing if the means are the same."
+msgstr "正在检查平均值是否相同。"
+
+#: .././cogstat_hyp_test.py:524 .././cogstat_hyp_test.py:845
+#: .././cogstat_hyp_test.py:991
+msgid "Testing if the medians are the same."
+msgstr "正在检验中位数是否相同。"
+
+#: .././cogstat_hyp_test.py:526 .././cogstat_hyp_test.py:847
+#: .././cogstat_hyp_test.py:993
+msgid "Testing if the distributions are the same."
+msgstr "正在检验分布是否相同。"
+
+#: .././cogstat_hyp_test.py:897
+msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
+msgstr "正态性和齐次性未被违反 >> 正在运行两种样本T检验。"
+
+#: .././cogstat_hyp_test.py:945
+msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
+msgstr "正态性和齐次性未被违反 >> 正在运行单因素方差分析。"
+
+#: .././cogstat_gui.py:887
+msgid "Simple automatic data analysis software"
+msgstr "简单自动数据分析软件"
+
+#: .././cogstat_gui.py:888
+msgid "Visit CogStat website"
+msgstr "访问CogStat网站"
+
+#: .././cogstat_gui.py:299
+msgid "Welcome to CogStat!"
+msgstr "欢迎使用CogStat！"
+
+#: .././cogstat_gui.py:300
+msgid "CogStat makes statistical analysis more simple and efficient."
+msgstr "CogStat使数据分析更加简单高效。"
+
+#: .././cogstat_gui.py:301
+msgid "To start working open a data file or paste your data from a spreadsheet."
+msgstr "打开数据文件或从数据表中复制数据来开始。"
+
+#: .././cogstat_chart.py:309
+msgid "Rank of the raw data"
+msgstr "原始数据排序"
+
+#: .././cogstat_chart.py:390
+msgid "Histogram of rank data with individual data and boxplot"
+msgstr "个体数据排序的直方图及箱型图"
+
+#: .././cogstat_chart.py:705
+msgid "Scatterplot of the rank of the variables"
+msgstr "变量排序的散点图"
+
+#: .././cogstat_chart.py:762
+msgid "Individual data of the variables"
+msgstr "变量的个体数据"
+
+#: .././cogstat_chart.py:952
+msgid "Individual data of the rank data of the groups"
+msgstr "组排序的个体数据"
+
+#: .././cogstat_stat.py:1109
+msgid "Boxplot and individual data of the rank data of the groups"
+msgstr "箱型图及组排序的个体数据"
+
+#: .././cogstat_chart.py:968
+msgid "Individual data of the groups"
+msgstr "组的个体数据"
+
+#: .././cogstat_stat.py:489 .././cogstat_stat.py:498 .././cogstat_stat.py:562
+#: .././cogstat_stat.py:658 .././cogstat_stat.py:795 .././cogstat_stat.py:802
+#: .././cogstat_stat.py:846 .././cogstat_stat.py:896 .././cogstat_stat.py:922
+#: .././cogstat_stat.py:987
+msgid "Point estimation"
+msgstr "点估计"
+
+#: .././cogstat_stat.py:562 .././cogstat_stat.py:658
+msgid "95% confidence interval"
+msgstr "95%的置信区间"
+
+#: .././cogstat_stat.py:126 .././cogstat_stat.py:396 .././cogstat_stat.py:496
+#: ../ui/pivot.py:174
+msgid "Standard deviation"
+msgstr "标准差"
+
+#: .././cogstat.py:1028 .././cogstat.py:1164
+msgid "N of valid cases"
+msgstr "有效个案数"
+
+#: .././cogstat_gui.py:128
+msgid "Update available"
+msgstr "可进行更新"
+
+#: .././cogstat_gui.py:129
+msgid "New version is available."
+msgstr "新版本可使用。"
+
+#: .././cogstat_gui.py:130
+msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
+msgstr "你可以在<a href = \"%s\">CogStat的下载页面</a>下载最新版本"
+
+#: .././cogstat_gui.py:171 .././cogstat_gui.py:224
+msgid "Explore relation of variable &pair"
+msgstr "访问变量和配对之间的关系"
+
+#: .././cogstat_gui.py:173 .././cogstat_gui.py:225
+msgid "Compare repeated measures va&riables"
+msgstr "比较重复测量变量"
+
+#: .././cogstat_stat.py:397
+msgid "Minimum"
+msgstr "最小值"
+
+#: .././cogstat_stat.py:398
+msgid "Maximum"
+msgstr "最大值"
+
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:401 ../ui/pivot.py:173
+msgid "Upper quartile"
+msgstr "上四分位数"
+
+#: .././cogstat_stat.py:429
+msgid "Descriptives for the variables"
+msgstr "变量简介"
+
+#: .././cogstat_stat.py:446
+msgid "Descriptives for the groups"
+msgstr "组的描述统计"
+
+#: .././cogstat_stat.py:731 .././cogstat_stat.py:742 .././cogstat_stat.py:756
+msgid "Contingency table"
+msgstr "列联表"
+
+#: .././cogstat_hyp_test.py:1246
+msgid "Main effect of %s: "
+msgstr "%s的主要效应是："
+
+#: .././cogstat_gui.py:629 .././cogstat_gui.py:648 .././cogstat.py:798
+msgid "Explore relation of variable pair"
+msgstr "访问变量配对之间的关系"
+
+#: .././cogstat_gui.py:747 .././cogstat_gui.py:754 .././cogstat_gui.py:763
+#: .././cogstat.py:990 ../ui/compare_vars.py:86
+msgid "Compare repeated measures variables"
+msgstr "比较重复测量变量"
+
+#: .././cogstat.py:1029 .././cogstat.py:1167
+msgid "N of missing cases"
+msgstr "缺失个案数"
+
+#: .././cogstat_hyp_test.py:999
+msgid "Choosing factorial ANOVA."
+msgstr "正在选择多因素方差分析。"
+
+#: .././cogstat.py:814
+msgid "N of valid pairs"
+msgstr "有效配对数为"
+
+#: .././cogstat.py:815
+msgid "N of missing pairs"
+msgstr "缺失配对数为"
+
+#: .././cogstat.py:937
+msgid "N of missing group cases"
+msgstr "缺失的分组个案数N是"
+
+#: .././cogstat.py:1183
+msgid "N of missing grouping variable in %s"
+msgstr "在%s中缺失的分组变量数N是"
+
+#: .././cogstat_stat.py:402
+msgid "Skewness"
+msgstr "偏度"
+
+#: .././cogstat_stat.py:403
+msgid "Kurtosis"
+msgstr "峰度"
+
+#: .././cogstat_stat.py:399
+msgid "Range"
+msgstr "范围"
+
+#: .././cogstat_stat.py:430
+msgid "Descriptives for the variable"
+msgstr "变量简介"
+
+#: .././cogstat.py:41
+msgid "The measurement levels of the variables are not set. Set them in your data source."
+msgstr "有变量缺少测量等级。请在数据源中进行设置。"
+
+#: .././cogstat_gui.py:56 .././cogstat_gui.py:502
+msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
+msgstr "在<a href = \"%s\">这里</a>阅读如何报告问题。"
+
+#: .././cogstat_gui.py:302
+msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
+msgstr "在<a href = \"https://www.cogstat.org\">CogStat网页</a>上阅读更多信息或阅读<a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">新手教程</a>。"
+
+#: .././cogstat_hyp_test.py:39 .././cogstat.py:42 .././cogstat.py:236
+#: .././cogstat.py:245 .././cogstat.py:277 .././cogstat.py:288
+msgid "Read more about this issue <a href = \"%s\">here</a>."
+msgstr "在<a href = \"%s\">这里</a>阅读更多关于这一问题的信息。"
+
+#: .././cogstat_hyp_test.py:1109
+msgid "Result of slope test with %s:"
+msgstr "对%s进行斜率测试的结果是："
+
+#: .././cogstat.py:232
+msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
+msgstr "在CogStat中字符变量不可为等距变量或顺序变量。此类变量被自动设置定义变量。"
+
+#: .././cogstat.py:243
+msgid "The measurement level was not set for all variables."
+msgstr "有变量缺少测量等级。"
+
+#: .././cogstat.py:242
+msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr "部分字符变量含有非英文字符，分析或产生问题：%s"
+
+#: .././cogstat.py:252
+msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
+msgstr "部分字符变量含有非英文字符，分析或产生问题：%s"
+
+#: .././cogstat_gui.py:156
+msgid "Open d&emo data file"
+msgstr "打开展示数据文件"
+
+#: .././cogstat_gui.py:156
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: .././cogstat_gui.py:187
+msgid "&Increase text size"
+msgstr "增加文字大小"
+
+#: .././cogstat_gui.py:187
+msgid "Ctrl++"
+msgstr "Ctrl++"
+
+#: .././cogstat_gui.py:188
+msgid "&Decrease text size"
+msgstr "减小文字大小"
+
+#: .././cogstat_gui.py:188
+msgid "Ctrl+-"
+msgstr "Ctrl+-"
+
+#: .././cogstat_gui.py:195
+msgid "&Save results"
+msgstr "保存结果"
+
+#: .././cogstat_gui.py:196
+msgid "Save results &as"
+msgstr "保存结果为"
+
+#: .././cogstat_chart.py:764
+msgid "Boxplots and individual data of the variables"
+msgstr "箱型图及变量的个体数据 "
+
+#: .././cogstat_chart.py:941
+msgid "Largest individual sign displays %d cases."
+msgstr "最大单个标志显示%d个案。"
+
+#: .././cogstat_chart.py:954
+msgid "Boxplots and individual data of the rank data of the groups"
+msgstr "箱型图及组排序的个体数据"
+
+#: .././cogstat_chart.py:970
+msgid "Boxplots and individual data of the groups"
+msgstr "箱型图及组的个体数据"
+
+#: .././cogstat_stat.py:799 .././cogstat_stat.py:804 .././cogstat_stat.py:846
+#: .././cogstat_stat.py:899 .././cogstat_stat.py:927 .././cogstat_stat.py:987
+msgid "95% CI (low)"
+msgstr "95%置信区间（低）"
+
+#: .././cogstat_stat.py:800 .././cogstat_stat.py:804 .././cogstat_stat.py:846
+#: .././cogstat_stat.py:900 .././cogstat_stat.py:928 .././cogstat_stat.py:987
+msgid "95% CI (high)"
+msgstr "95%置信区间（高）"
+
+#: .././cogstat_hyp_test.py:1309
+msgid "Results of Dunn's test (p values)."
+msgstr "Dunn's test（p值）的结果是。"
+
+#: .././cogstat.py:1073 .././cogstat.py:1234
+msgid "Present confidence interval values suppose normality."
+msgstr "目前置信区间值假设正态性存在。"
+
+#: .././cogstat.py:1073 .././cogstat.py:1234
+msgid "Means"
+msgstr "平均值"
+
+#: .././cogstat_gui.py:184
+msgid "Ctrl+Del"
+msgstr "Ctrl+Del"
+
+#: .././cogstat_gui.py:192
+msgid "Ctrl+Shift+E"
+msgstr "Ctrl+Shift+E"
+
+#: .././cogstat_gui.py:196
+msgid "Ctrl+Shift+P"
+msgstr "Ctrl+Shift+P"
+
+#: .././cogstat.py:481
+msgid "The next %s cases will not be printed. You can check all cases in the original data source."
+msgstr "下一个%s个案不会被打印。可以在原始数据源中检查全部个案。"
+
+#: ../ui/pivot.py:162 ../ui/compare_vars.py:87 ../ui/compare_groups.py:109
+#: ../ui/diffusion.py:131 ../ui/explore_var_pairs.py:84
+#: ../ui/var_properties.py:103 ../ui/filter_outlier.py:81
+#: ../ui/compare_groups_single_case_slope.py:84
+msgid "Available variables"
+msgstr "可用变量"
+
+#: .././cogstat_stat.py:124 ../ui/pivot.py:168
+msgid "N"
+msgstr "数"
+
+#: .././cogstat_stat.py:124 ../ui/pivot.py:169
+msgid "Sum"
+msgstr "总和"
+
+#: .././cogstat_stat.py:125 .././cogstat_stat.py:400 ../ui/pivot.py:172
+msgid "Lower quartile"
+msgstr "下四分位数"
+
+#: .././cogstat_stat.py:126 ../ui/pivot.py:175
+msgid "Variance"
+msgstr "方差"
+
+#: ../ui/pivot.py:165
+msgid "Rows"
+msgstr "行"
+
+#: ../ui/pivot.py:164
+msgid "Columns"
+msgstr "列"
+
+#: ../ui/pivot.py:163
+msgid "Pages"
+msgstr "页"
+
+#: ../ui/pivot.py:166
+msgid "Dependent variable"
+msgstr "因变量"
+
+#: ../ui/pivot.py:167
+msgid "Function"
+msgstr "功能"
+
+#: ../ui/compare_groups.py:110
+msgid "Dependent variable(s)"
+msgstr "因变量"
+
+#: ../ui/compare_groups.py:111
+msgid "Group(s)"
+msgstr "组"
+
+#: ../ui/preferences.py:60
+msgid "Preferences"
+msgstr "偏好"
+
+#: ../ui/preferences.py:62
+msgid "Language"
+msgstr "语言"
+
+#: ../ui/preferences.py:64
+msgid "You should restart CogStat to use the new language"
+msgstr "请重启CogStat以使用新语言"
+
+#: ../ui/preferences.py:63
+msgid "Chart theme"
+msgstr "图表主题"
+
+#: ../ui/preferences.py:61
+msgid "You should restart CogStat to use the new theme"
+msgstr "请重启CogStat以使用新主题"
+
+#: ../ui/compare_groups_single_case_slope.py:83
+msgid "Compare groups - Single case slope"
+msgstr "对比组 - 单个个案斜率"
+
+#: ../ui/compare_groups_single_case_slope.py:85
+msgid "Slope SE variable"
+msgstr "斜率变量"
+
+#: ../ui/compare_groups_single_case_slope.py:86
+msgid "Number of trials"
+msgstr "试验数量"
+
+#: ../ui/var_properties.py:102
+msgid "Explore variables"
+msgstr "访问变量"
+
+#: ../ui/compare_vars.py:88 ../ui/explore_var_pairs.py:85
+#: ../ui/var_properties.py:104 ../ui/filter_outlier.py:82
+msgid "Selected variables"
+msgstr "已选择变量"
+
+#: ../ui/var_properties.py:107
+msgid "Statistics"
+msgstr "统计学"
+
+#: ../ui/var_properties.py:108
+msgid "0"
+msgstr "0"
+
+#: ../ui/explore_var_pairs.py:83
+msgid "Explore relation of variable pairs"
+msgstr "访问变量配对之间的关系"
+
+#: .././cogstat_gui.py:160 .././cogstat_gui.py:222
+msgid "&Filter outliers"
+msgstr "过滤离群值"
+
+#: .././cogstat_gui.py:160
+msgid "Ctrl+L"
+msgstr "Ctrl+L"
+
+#: .././cogstat_gui.py:192
+msgid "Text is &editable"
+msgstr "文字可被编辑"
+
+#: .././cogstat_gui.py:202
+msgid "Ctrl+Shift+R"
+msgstr "Ctrl+Shift+R"
+
+#: .././cogstat_hyp_test.py:792
+msgid "Main effect of %s"
+msgstr "%s的主要效应"
+
+#: .././cogstat_hyp_test.py:794
+msgid "Interaction of factors %s"
+msgstr "因素间的互动%s"
+
+#: .././cogstat.py:529
+msgid "Only interval variables can be used for filtering. Ignoring variable %s."
+msgstr "只有 正在忽略变量%s。"
+
+#: .././cogstat.py:995
+msgid "Factors (number of levels): "
+msgstr "因素（等级数量）："
+
+#: .././cogstat_hyp_test.py:606
+msgid "Interval variables with several factors."
+msgstr "多因素等距变量。"
+
+#: .././cogstat_hyp_test.py:607
+msgid "Choosing repeated measures ANOVA."
+msgstr "正在选择重复测量单因素方差分析。"
+
+#: .././cogstat_hyp_test.py:611
+msgid "Ordinal variables with several factors."
+msgstr "多因素顺序变量。"
+
+#: .././cogstat_hyp_test.py:614
+msgid "Nominal variables with several factors."
+msgstr "多因素定义变量。"
+
+#: ../ui/filter_outlier.py:80
+msgid "Filter outlier"
+msgstr "过滤离群值"
+
+#: ../ui/factors.py:49
+msgid "Factors"
+msgstr "因素"
+
+#: ../ui/factors.py:51
+msgid "Alt+A"
+msgstr "Alt+A"
+
+#: ../ui/factors.py:53
+msgid "Alt+M"
+msgstr "Alt+M"
+
+#: ../ui/factors.py:55
+msgid "Alt+R"
+msgstr "Alt+R"
+
+#: ../ui/compare_vars.py:90
+msgid "Alt+F"
+msgstr "Alt+F"
+
+#: ../ui/factor.py:53
+msgid "Set factor"
+msgstr "设置因素"
+
+#: ../ui/factor.py:54
+msgid "Name of the factor"
+msgstr "因素名称"
+
+#: ../ui/factor.py:55
+msgid "Number of levels"
+msgstr "等级数量"
+
+#: ../ui/filter_outlier.py:83
+msgid "Only interval variables are available"
+msgstr "只有等距变量可用"
+
+#: .././cogstat_gui.py:179 .././cogstat_gui.py:223
+msgid "Behavioral data &diffusion analysis"
+msgstr "行为数据&扩散分析"
+
+#: .././cogstat_gui.py:185
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:645
+#: .././cogstat_hyp_test.py:1051
+msgid "d"
+msgstr "d"
+
+#: .././cogstat_hyp_test.py:1174
+msgid "f"
+msgstr "f"
+
+#: .././cogstat_hyp_test.py:1242
+msgid "Result of multi-way ANOVA"
+msgstr "多因素方差分析的结果是"
+
+#: .././cogstat_hyp_test.py:1252
+msgid "Interaction of %s: "
+msgstr "%s的交互作用："
+
+#: .././cogstat_hyp_test.py:1339
+msgid "w"
+msgstr "w"
+
+#: .././cogstat_chart.py:484
+msgid "Normal theoretical quantiles"
+msgstr "正态理论分位数"
+
+#: .././cogstat_chart.py:485
+msgid "Sample quantiles"
+msgstr "样本分位数"
+
+#: .././cogstat_stat.py:218
+msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
+msgstr "错误：%s，反应时间：%s，参加者：%s，条件：%s"
+
+#: .././cogstat_stat.py:255
+msgid "Mean percent correct with edge correction"
+msgstr "边缘矫正后的平均比例"
+
+#: .././cogstat_stat.py:257
+msgid "Mean correct reaction time"
+msgstr "正确反应时间的平均值"
+
+#: .././cogstat_stat.py:259
+msgid "Correct reaction time variance"
+msgstr "正确反应时间方差"
+
+#: .././cogstat_stat.py:278
+msgid "Drift rate"
+msgstr "漂移率"
+
+#: .././cogstat_stat.py:279
+msgid "Threshold"
+msgstr "临界值"
+
+#: .././cogstat_stat.py:280
+msgid "Nondecision time"
+msgstr "非决策时间"
+
+#: .././cogstat_stat.py:360 .././cogstat_stat.py:754
+msgid "low"
+msgstr "低"
+
+#: .././cogstat_stat.py:360 .././cogstat_stat.py:754
+msgid "high"
+msgstr "高"
+
+#: .././cogstat_stat.py:361
+msgid "Relative frequencies"
+msgstr "相对频率"
+
+#: .././cogstat_stat.py:361 .././cogstat_stat.py:757
+msgid "95% confidence interval (multinomial proportions)"
+msgstr "95%的置信区间（多项占比）"
+
+#: .././cogstat_stat.py:404
+msgid "Variation ratio"
+msgstr "异众比率"
+
+#: .././cogstat_stat.py:488
+msgid "Present confidence interval values for the mean suppose normality."
+msgstr "目前平均值的置信区间值假设正态性存在。"
+
+#: .././cogstat_stat.py:491 .././cogstat_stat.py:500
+msgid "95% confidence interval (high)"
+msgstr "95%的置信区间（高度）"
+
+#: .././cogstat_stat.py:490 .././cogstat_stat.py:499
+msgid "95% confidence interval (low)"
+msgstr "95%的置信区间（低度）"
+
+#: .././cogstat_stat.py:502 .././cogstat_stat.py:805 .././cogstat_stat.py:930
+msgid "Out of the data range"
+msgstr "超出数据范围"
+
+#: .././cogstat_stat.py:651 .././cogstat_stat.py:654 .././cogstat_stat.py:976
+#: .././cogstat_stat.py:979
+msgid "Cramér's V measure of association"
+msgstr "Cramér's V 关联度量"
+
+#: .././cogstat_stat.py:730 .././cogstat_stat.py:739
+msgid "Total"
+msgstr "总和"
+
+#: .././cogstat_stat.py:731
+msgid "Case count"
+msgstr "个案数"
+
+#: .././cogstat_stat.py:742
+msgid "Percentage"
+msgstr "百分比"
+
+#: .././cogstat_stat.py:834 .././cogstat_stat.py:961
+msgid "Cohen's d"
+msgstr "Cohen's d效应量"
+
+#: .././cogstat_stat.py:836 .././cogstat_stat.py:963
+msgid "Eta-squared"
+msgstr "（Eta-squared）埃塔平方"
+
+#: .././cogstat_stat.py:854 .././cogstat_stat.py:996
+msgid "Hedges' g"
+msgstr "Hedges'g值（效果量使用标准化均数差）"
+
+#: .././cogstat.py:714 .././cogstat.py:881 .././cogstat.py:1071
+#: .././cogstat.py:1232
+msgid "Population parameter estimations"
+msgstr "总体参数估计"
+
+#: ../ui/find_text.py:56
+msgid "Find text"
+msgstr "寻找文本"
+
+#: ../ui/find_text.py:57
+msgid "Text to find"
+msgstr "需要寻找的文本是"
+
+#: ../ui/find_text.py:58
+msgid "Find next"
+msgstr "寻找下一个"
+
+#: ../ui/find_text.py:59
+msgid "Find previous"
+msgstr "寻找前一个"
+
+#: .././cogstat_gui.py:710 .././cogstat_gui.py:716 .././cogstat.py:962
+#: ../ui/diffusion.py:130
+msgid "Behavioral data diffusion analysis"
+msgstr "行为数据扩散分析"
+
+#: .././cogstat_stat.py:229 .././cogstat_stat.py:230 ../ui/diffusion.py:134
+msgid "Participant"
+msgstr "参加者"
+
+#: ../ui/diffusion.py:132
+msgid "Error"
+msgstr "错误"
+
+#: ../ui/diffusion.py:133
+msgid "Reaction time (in sec)"
+msgstr "反应时间（按秒）"
+
+#: ../ui/diffusion.py:135
+msgid "Condition(s)"
+msgstr "条件"
+
+#: ../ui/xylims.py:69 ../ui/ylims.py:50
+msgid "Options"
+msgstr "选项"
+
+#: ../ui/xylims.py:71
+msgid "Minimum of x axis"
+msgstr "x轴的最小值"
+
+#: ../ui/xylims.py:70
+msgid "Maximum of x axis"
+msgstr "x轴的最大值"
+
+#: ../ui/xylims.py:72 ../ui/ylims.py:52
+msgid "Minimum of y axis"
+msgstr "y轴的最小值"
+
+#: ../ui/xylims.py:73 ../ui/ylims.py:51
+msgid "Maximum of y axis"
+msgstr "y轴的最大值"
+
+#: .././cogstat_gui.py:711
+msgid "At least the reaction time and the error variables should be given."
+msgstr "至少请给出反应时间及误差变量。"
+
+#: .././cogstat_hyp_test.py:995
+msgid "At least two grouping variables."
+msgstr "至少两个分组变量。"
+
+#: .././cogstat_hyp_test.py:419 .././cogstat_hyp_test.py:480
+#: .././cogstat_hyp_test.py:490 .././cogstat_hyp_test.py:520
+#: .././cogstat_hyp_test.py:841 .././cogstat_hyp_test.py:987
+#: .././cogstat.py:724
+msgid "Hypothesis tests"
+msgstr "假设检验"
+
+#: .././cogstat.py:1236
+msgid "Medians"
+msgstr "中位数"
+
+#: .././cogstat_dialogs.py:36 .././cogstat_dialogs.py:53
+msgid "All importable data files"
+msgstr "全部可导入的数据文件"
+
+#: .././cogstat_dialogs.py:37 .././cogstat_dialogs.py:54
+msgid "Spreadsheet files"
+msgstr "表单文件"
+
+#: .././cogstat_dialogs.py:37 .././cogstat_dialogs.py:54
+msgid "Text files"
+msgstr "文本文件"
+
+#: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:55
+msgid "SPSS data files"
+msgstr "SPSS数据文件"
+
+#: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:55
+msgid "jamovi data files"
+msgstr "jamovi数据文件"
+
+#: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:56
+msgid "JASP data files"
+msgstr "JASP数据文件"
+
+#: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:56
+msgid "SAS data files"
+msgstr "SAS 数据文件"
+
+#: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:57
+msgid "STATA data files"
+msgstr "STATA 数据文件"
+
+#: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:57
+msgid "R data files"
+msgstr "R 数据文件"
+
+#: .././cogstat_stat.py:366 .././cogstat_stat.py:764
+msgid "Some of the cells do not include at least 5 cases, so the confidence intervals may be invalid."
+msgstr "部分单元格拥有小于5个个案，置信区间或许无效。"
+
+#: .././cogstat_stat.py:1009
+msgid "Omega-squared"
+msgstr "（Omega-squared）欧米伽方"
+
+#: .././cogstat_gui.py:495
+msgid "Data file content"
+msgstr "数据文件内容"
+
+#: .././cogstat_gui.py:500
+msgid "Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
+msgstr "抱歉，CogStat无法载入数据，你可以选择报告错误。"
+
+#: .././cogstat_gui.py:504
+msgid "Error code"
+msgstr "错误代码"
+
+#: .././cogstat_gui.py:505
+msgid "Data to be imported"
+msgstr "数据将被导入"
+
+#: .././cogstat.py:219
+msgid "Number of measurement levels do not match the number of variables. You may want to correct the number of measurement levels."
+msgstr "测量等级数量与变量数不匹配，可以选择更正测量等级数量。"
+
+#: .././cogstat_hyp_test.py:163
+msgid "Shapiro–Wilk normality test in variable %s%s"
+msgstr "对处于%s%s的变量进行夏皮罗-威尔克正态性检验。"
+
+#: .././cogstat_hyp_test.py:735
+msgid "Using Greenhouse–Geisser correction."
+msgstr "正在使用Greenhouse–Geisser校正"
+
+#: .././cogstat_hyp_test.py:749
+msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
+msgstr "正在用邦费罗尼校正对变量进行配对测试："
+
+#: .././cogstat_hyp_test.py:869 .././cogstat_hyp_test.py:903
+#: .././cogstat_hyp_test.py:912
+msgid "Running Mann–Whitney test."
+msgstr "正在运行曼-惠特尼U检验。"
+
+#: .././cogstat_hyp_test.py:878
+msgid "Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on assumptions."
+msgstr "根据猜想选择双样本T检验，曼-惠特尼U检验或Welch'sT检验。"
+
+#: .././cogstat_hyp_test.py:906 .././cogstat_hyp_test.py:954
+msgid "Homogeneity of variance violated in variable %s."
+msgstr "变量%s违反方差齐次性。"
+
+#: .././cogstat_hyp_test.py:916 .././cogstat_hyp_test.py:965
+msgid "Running chi-squared test."
+msgstr "正在运行卡方检验。"
+
+#: .././cogstat_hyp_test.py:925
+msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
+msgstr "根据猜想选择单因素方差分析或Kruskal–Wallis检验。"
+
+#: .././cogstat_hyp_test.py:957 .././cogstat_hyp_test.py:961
+msgid "Running Kruskal–Wallis test."
+msgstr "正在运行克鲁斯卡尔-沃利斯检验。"
+
+#: .././cogstat_hyp_test.py:1147
+msgid "Result of independent samples Mann–Whitney rank test: "
+msgstr "对独立样本进行曼-惠特尼U检验的结果是："
+
+#: .././cogstat_hyp_test.py:1304 .././cogstat_hyp_test.py:1315
+msgid "Result of the Kruskal–Wallis test: "
+msgstr "克鲁斯卡尔-沃利斯检验的结果是："
+
+#: .././cogstat_hyp_test.py:1346
+msgid "Result of the Pearson's chi-squared test: "
+msgstr "皮尔森卡方检验的结果是："
+
+#: .././cogstat.py:332
+msgid "Spreadsheet file"
+msgstr "表单文件"
+
+#: .././cogstat.py:374
+msgid "SPSS/SAS/STATA file"
+msgstr "SPSS/SAS/STATA文件"
+
+#: .././cogstat.py:382
+msgid "R file"
+msgstr "R文件"
+
+#: .././cogstat.py:389
+msgid "JASP file"
+msgstr "JASP文件"
+
+#: .././cogstat.py:396
+msgid "jamovi file"
+msgstr "jamovi文件"
+
+#: .././cogstat.py:320
+msgid "Text file"
+msgstr "文本文件"
+
+#: .././cogstat_gui.py:185
+msgid "&Find text..."
+msgstr "寻找文字"
+
+#: .././cogstat_stat.py:215
+msgid "Specify the minimum required parameters (reaction time and error)."
+msgstr "请指定所需最小参数 （反应时间及错误）"
+
+#: .././cogstat_stat.py:219 .././cogstat_stat.py:220
+msgid "None"
+msgstr "没有"
+
+#: .././cogstat_stat.py:226 .././cogstat_stat.py:227
+msgid "Condition"
+msgstr "条件"
+
+#: .././cogstat_stat.py:226
+msgid "single condition"
+msgstr "单个条件"
+
+#: .././cogstat_stat.py:229
+msgid "single participant"
+msgstr "单个参加者"
+
+#: .././cogstat.py:40 .././cogstat.py:242
+msgid "Measurement level warning"
+msgstr "测量等级警告"
+
+#: .././cogstat.py:231
+msgid "String variable conversion warning"
+msgstr "字符变量转化警告"
+
+#: .././cogstat.py:235 .././cogstat.py:244
+msgid "You can fix this issue in your data source."
+msgstr "你可以在数据源中解决这一问题。"
+
+#: .././cogstat.py:270
+msgid "Recommended characters in variable names warning"
+msgstr "数据值中的推荐字符警告"
+
+#: .././cogstat.py:276 .././cogstat.py:287
+msgid "If some analyses cannot be run, fix this in your data source."
+msgstr "如果某些分析无法运行，请在数据源中调整。"
+
+#: .././cogstat.py:281
+msgid "Recommended characters in data values warning"
+msgstr "数据值中的推荐字符警告"
+
+#: ../ui/factors.py:50
+msgid "&Add factor"
+msgstr "添加因素"
+
+#: ../ui/factors.py:52
+msgid "&Modify factor"
+msgstr "调整因素"
+
+#: ../ui/factors.py:54
+msgid "&Remove factor"
+msgstr "移除因素"
+
+#: ../ui/compare_vars.py:89
+msgid "&Factors..."
+msgstr "因素"
+
+#: ../ui/compare_vars.py:91 ../ui/compare_groups.py:112
+#: ../ui/explore_var_pairs.py:86
+msgid "O&ptions..."
+msgstr "选项"
+
+#: ../ui/compare_groups.py:113
+msgid "Single case &slope..."
+msgstr "单个个案&斜率"
+
+#: ../ui/var_properties.py:105
+msgid "&Frequencies"
+msgstr "频率"
+
+#: ../ui/var_properties.py:106
+msgid "Central tendency &test value"
+msgstr "集中趋势&测试值"
+
+#: .././cogstat.py:272
+msgid "Some variable name(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
+msgstr "部分字符变量含有非英文字符，数字，或下划线，分析或产生问题：%s"
+
+#: .././cogstat.py:283
+msgid "Some string variable(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
+msgstr "部分字符变量含有非英文字符，数字，或下划线，分析或产生问题：%s"
+
+#: .././cogstat_gui.py:55
+msgid "Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "抱歉，CogStat无法进行分析，你可以选择报告错误。"
+
+#: .././cogstat_gui.py:542 .././cogstat.py:515
+msgid "Filter outliers"
+msgstr "过滤离群值"
+
+#: .././cogstat_gui.py:593
+msgid "At least one variable should be set."
+msgstr "至少设置一个变量。"
+
+#: .././cogstat_gui.py:755
+msgid "A variable should be assigned to each level of the factors."
+msgstr "变量需被指定给各个等级的因素。"
+
+#: .././cogstat_hyp_test.py:94
+msgid "Sensitivity power could not be calculated."
+msgstr "敏感度无法被计算。"
+
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:645
+#: .././cogstat_hyp_test.py:1051 .././cogstat_hyp_test.py:1174
+#: .././cogstat_hyp_test.py:1187 .././cogstat_hyp_test.py:1339
+msgid "Minimal effect size in %s"
+msgstr "在%s中的最小效应量"
+
+#: .././cogstat_hyp_test.py:1187
+msgid "eta-square"
+msgstr "（eta-square）埃塔平方"
+
+#: .././cogstat_gui.py:793
+msgid "Both the dependent variable and at least one grouping variable should be set."
+msgstr "请设置因变量及至少一个分组变量。"
+
+#: .././cogstat_hyp_test.py:91
+msgid "Sensitivity power analysis. Minimal effect size to reach 95% power with the present sample size for the present hypothesis test."
+msgstr "敏感度分析。在当前假设检验的样本量下，达到 95%功效的最小效应量"
+
+#: .././cogstat_hyp_test.py:228
+msgid "Result of the Bayesian one sample t-test"
+msgstr "贝叶斯单样本T检验的结果是"
+
+#: .././cogstat_hyp_test.py:309
+msgid "Homoscedasticity cannot be checked for constant variable in %s%s."
+msgstr "方差齐性检查不可用于处于%s%s的恒变量。"
+
+#: .././cogstat_hyp_test.py:313
+msgid "Too small sample to test homoscedasticity in variable %s%s.\n"
+""
+msgstr "处于%s%s的变量样本太小，无法进行方差齐性检验。"
+
+#: .././cogstat_hyp_test.py:337
+msgid "Koenker's studentized score test"
+msgstr "Koenker的学生化分数测试"
+
+#: .././cogstat_hyp_test.py:339
+msgid "White's test"
+msgstr "怀特检验"
+
+#: .././cogstat_hyp_test.py:384
+msgid "Henze-Zirkler test of multivariate normality in variables %s%s"
+msgstr "对处于%s%s的变量进行Henze-Zirkler测试来检验多变量正态性"
+
+#: .././cogstat_hyp_test.py:424
+msgid "Normality not violated."
+msgstr "正态性未被违反。"
+
+#: .././cogstat_hyp_test.py:434 .././cogstat_hyp_test.py:454
+msgid "Bayes Factor for Pearson correlation"
+msgstr "皮尔森相关系数的贝叶斯因子"
+
+#: .././cogstat_hyp_test.py:467
+msgid "Normality violated."
+msgstr "正态性被违反。"
+
+#: .././cogstat_hyp_test.py:659
+msgid "Result of the Bayesian paired two-samples t-test"
+msgstr "贝叶斯配对双样本T检验的结果是"
+
+#: .././cogstat_hyp_test.py:827
+msgid "Variables differ. Running post-hoc pairwise comparison."
+msgstr "变量不同。正在运行事后配对测试。"
+
+#: .././cogstat_hyp_test.py:828
+msgid "Results of Durbin-Conover test (p values)."
+msgstr "德宾-沃森检验（p值）的结果是。"
+
+#: .././cogstat_hyp_test.py:1063
+msgid "Result of the Bayesian independent two-samples t-test"
+msgstr "贝叶斯独立双样本T检验的结果是"
+
+#: .././cogstat_stat.py:561
+msgid "Regression coefficients"
+msgstr "回归系数"
+
+#: .././cogstat_stat.py:566 .././cogstat_stat.py:668
+msgid "Normality could not be calculated."
+msgstr "正态性无法被计算。"
+
+#: .././cogstat_stat.py:567 .././cogstat_stat.py:571 .././cogstat_stat.py:578
+#: .././cogstat_stat.py:582 .././cogstat_stat.py:669 .././cogstat_stat.py:673
+#: .././cogstat_stat.py:680 .././cogstat_stat.py:684
+msgid "CIs may be biased."
+msgstr "置信区间或有偏差。"
+
+#: .././cogstat_stat.py:570 .././cogstat_stat.py:672
+msgid "Assumption of normality violated for CI calculations."
+msgstr "组态相互作用计算违反正态性猜想。"
+
+#: .././cogstat_stat.py:573 .././cogstat_stat.py:676
+msgid "Assumption of normality for CI calculations met."
+msgstr "组态相互作用计算符合正态性猜想。"
+
+#: .././cogstat_stat.py:577 .././cogstat_stat.py:679
+msgid "Homoscedasticity could not be calculated."
+msgstr "方差齐性无法被计算。"
+
+#: .././cogstat_stat.py:581 .././cogstat_stat.py:683
+msgid "Assumption of homoscedasticity violated for CI calculations."
+msgstr "组态相互作用计算违反方差齐性猜想。"
+
+#: .././cogstat_stat.py:584 .././cogstat_stat.py:686
+msgid "Assumption of homoscedasticity for CI calculations met."
+msgstr "组态相互作用计算符合方差齐性猜想。"
+
+#: .././cogstat_stat.py:598
+msgid "Slope"
+msgstr "斜率"
+
+#: .././cogstat_stat.py:601
+msgid "Intercept"
+msgstr "截距"
+
+#: .././cogstat_stat.py:637 .././cogstat_stat.py:657 .././cogstat_stat.py:827
+#: .././cogstat_stat.py:952
+msgid "Standardized effect sizes"
+msgstr "标准化效应指数"
+
+#: .././cogstat.py:512
+msgid "Mean ± 2 SD"
+msgstr "平均值 ± 2 SD（标准差）"
+
+#: .././cogstat.py:513
+msgid "Median ± 2.5 MAD"
+msgstr "中位数± 2.5 MAD （平均绝对偏差）"
+
+#: .././cogstat.py:557
+msgid "Cases outside of the range will be excluded:"
+msgstr "超过范围的个案会被排除："
+
+#: .././cogstat.py:833
+msgid "Checking assumptions of inferential methods"
+msgstr "对推论方式进行猜想检验"
+
+#: .././cogstat.py:834
+msgid "Testing multivariate normality of variables"
+msgstr "正在对变量进行多变量正态性检查"
+
+#: .././cogstat.py:850
+msgid "Testing homoscedasticity"
+msgstr "正在检验方差齐性"
+
+#: .././cogstat.py:869
+msgid "Residual analysis"
+msgstr "残差分析"
+
+#: .././cogstat_chart.py:266
+msgid "Included and excluded cases with exclusion criteria"
+msgstr "以排除标准包含和排除的个案"
+
+#: .././cogstat_chart.py:566
+msgid "Residual plot"
+msgstr "残差图"
+
+#: .././cogstat_chart.py:568
+msgid "Residuals"
+msgstr "残差"
+
+#: .././cogstat_chart.py:574
+msgid "Histogram of residuals"
+msgstr "残差的直方图"
+
+#: .././cogstat_chart.py:666
+msgid "Linear regression line with 95% CI"
+msgstr "95%置信区间的线性回归直线"
+
+#: .././cogstat_chart.py:679
+msgid "Scatter plot with linear regression line"
+msgstr "带有线性回归直线的散点图"
+
+#: .././cogstat_hyp_test.py:136
+msgid "Normality cannot be checked for constant variable in %s%s."
+msgstr "正态性检查不可用于处于%s%s的恒变量。"
+
+#: .././cogstat_hyp_test.py:425
+msgid "Homoscedasticity not violated."
+msgstr "方差齐性未被违反。"
+
+#: .././cogstat_hyp_test.py:445
+msgid "Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate."
+msgstr "假设检验的猜想无法被检验，假设检验或许不准确。"
+
+#: .././cogstat_hyp_test.py:469
+msgid "Homoscedasticity violated."
+msgstr "方差齐性被违反。"
+
+#: .././cogstat.py:586
+msgid "Filtering is on:"
+msgstr "过滤已开启："
+
