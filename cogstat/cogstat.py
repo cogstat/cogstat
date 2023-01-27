@@ -924,7 +924,7 @@ class CogStatData:
 
         Returns
         -------
-        list of str and image
+        list of str and matplotlib image
             Analysis results in HTML format
         """
 
