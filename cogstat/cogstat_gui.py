@@ -288,6 +288,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # TODO if the position of these menus are changed, then this setting will not work
         self._show_data_menus(on=False)
 
+        # Initialize dialogs
+        self.dial_var_prop = cogstat_dialogs.explore_var_dialog()
+        self.dial_filter = cogstat_dialogs.filter_outlier()
+        self.dial_var_pair = cogstat_dialogs.explore_var_pairs_dialog()
+        self.dial_regression = cogstat_dialogs.regression_dialog()
+        self.dial_pivot = cogstat_dialogs.pivot_dialog()
+        self.dial_diffusion = cogstat_dialogs.diffusion_dialog()
+        self.dial_comp_var = cogstat_dialogs.compare_vars_dialog()
+        self.dial_comp_grp = cogstat_dialogs.compare_groups_dialog()
+        self.dial_comp_var_groups = cogstat_dialogs.compare_vars_groups_dialog()
+        self.dial_pref = cogstat_dialogs.preferences_dialog()
+
         # Prepare result and data panes
         def _change_color_lightness(color, lightness=1.0):
             """Modify the lightness of a color.
@@ -700,18 +712,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
         if not var_names:
-            try:
-                self.dial_filter
-            except:
-                # Only interval variables can be used for filtering
-                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name]
-                                                                                  in ['int', 'unk'])]
-                self.dial_filter = cogstat_dialogs.filter_outlier(names=names)
-            else:  # TODO is it not necessary anymore? For all dialogs
-                # Only interval variables can be used for filtering
-                names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name]
-                                                                                  in ['int', 'unk'])]
-                self.dial_filter.init_vars(names=names)
+            # Only interval variables can be used for filtering
+            names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name]
+                                                                              in ['int', 'unk'])]
+            self.dial_filter.init_vars(names=names)
             if self.dial_filter.exec_():
                 var_names, multivariate_outliers = self.dial_filter.read_parameters()
             else:
@@ -755,12 +759,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         loc_test_value (numeric): test location against this value (default 0.0)
         """
         if not var_names:
-            try:
-                self.dial_var_prop
-            except:
-                self.dial_var_prop = cogstat_dialogs.explore_var_dialog(names=self.active_data.data_frame.columns)
-            else:  # TODO is it not necessary anymore? For all dialogs
-                self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_prop.exec_():
                 var_names, freq, loc_test_value = self.dial_var_prop.read_parameters()
                 if not var_names:
@@ -789,12 +788,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
         if not var_names:
-            try:
-                self.dial_var_pair
-            except:
-                self.dial_var_pair = cogstat_dialogs.explore_var_pairs_dialog(names=self.active_data.data_frame.columns)
-            else:
-                self.dial_var_pair.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_var_pair.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_var_pair.exec_():
                 var_names, xlims, ylims = self.dial_var_pair.read_parameters()
             else:
@@ -832,12 +826,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
         if not predicted:
-            try:
-                self.dial_regression
-            except:
-                self.dial_regression = cogstat_dialogs.regression_dialog(names=self.active_data.data_frame.columns)
-            else:
-                self.dial_regression.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_regression.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_regression.exec_():
                 predicted, predictors, xlims, ylims = self.dial_regression.read_parameters()
                 if predicted == []:  # regression() method handles missing parameters
@@ -865,12 +854,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if row_names is None:
             row_names = []
         if not depend_name:
-            try:
-                self.dial_pivot
-            except:
-                self.dial_pivot = cogstat_dialogs.pivot_dialog(names=self.active_data.data_frame.columns)
-            else:
-                self.dial_pivot.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_pivot.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_pivot.exec_():
                 row_names, col_names, page_names, depend_name, function = self.dial_pivot.read_parameters()
             else:
@@ -891,12 +875,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if condition_names is None:
             condition_names = []
         if not RT_name:
-            try:
-                self.dial_diffusion
-            except:
-                self.dial_diffusion = cogstat_dialogs.diffusion_dialog(names=self.active_data.data_frame.columns)
-            else:
-                self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_diffusion.exec_():
                 error_name, RT_name, participant_name, condition_names, correct_coding, reaction_time_in, \
                 scaling_parameter = self.dial_diffusion.read_parameters()
@@ -922,12 +901,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if display_factors is None:
             display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
-            try:
-                self.dial_comp_var
-            except:
-                self.dial_comp_var = cogstat_dialogs.compare_vars_dialog(names=self.active_data.data_frame.columns)
-            else:
-                self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var.exec_():
                 var_names, factors, display_factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
                                                                                   # appropriate
@@ -948,12 +922,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         groups (list): grouping variable names
         """
         if not var_names:
-            try:
-                self.dial_comp_grp
-            except:
-                self.dial_comp_grp = cogstat_dialogs.compare_groups_dialog(names=self.active_data.data_frame.columns)
-            else:
-                self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec_():
                 var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = \
                     self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
@@ -983,12 +952,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if display_factors is None:
             display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
-            try:
-                self.dial_comp_var_groups
-            except:
-                self.dial_comp_var_groups = cogstat_dialogs.compare_vars_groups_dialog(names=self.active_data.data_frame.columns)
-            else:
-                self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
+            self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var_groups.exec_():
                 var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
                     self.dial_comp_var_groups.read_parameters()  # TODO check if settings are appropriate
@@ -1094,10 +1058,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Documentation-for-users')
         
     def _show_preferences(self):
-        try:
-            self.dial_pref
-        except:
-            self.dial_pref = cogstat_dialogs.preferences_dialog()
         self.dial_pref.exec_()
     
     def _open_reqfeat_webpage(self):

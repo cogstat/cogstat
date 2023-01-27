@@ -241,10 +241,8 @@ def _float_or_none(x):
 
 from .ui import pivot
 class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -271,9 +269,6 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         self.dependentListWidget.doubleClicked.connect(self.remove_dependent)
         self.dependentListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.dependentListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
-
-        self.init_vars(names)
-        self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -311,10 +306,8 @@ from .ui import diffusion
 
 
 class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -341,9 +334,6 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         self.conditionListWidget.doubleClicked.connect(self.remove_condition)
         self.conditionListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.conditionListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
-
-        self.init_vars(names)
-        self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -408,10 +398,8 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
 
 from .ui import filter_outlier
 class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -424,9 +412,6 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
-
-        self.init_vars(names)
-        self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -445,10 +430,8 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
 
 from .ui import var_properties
 class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -461,9 +444,6 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
         self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
-
-        self.init_vars(names)
-        self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -493,10 +473,8 @@ class xylims_dialog(QtWidgets.QDialog, xylims.Ui_Dialog):
 
 from .ui import explore_var_pairs
 class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -515,9 +493,6 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         self.xlims = [None, None]
         self.ylims = [None, None]
 
-        self.init_vars(names)
-        self.show()
-        
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
@@ -541,10 +516,8 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
 
 from .ui import regression
 class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -566,9 +539,6 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
         self.xylims_dialog = xylims_dialog(self)
         self.xlims = [None, None]
         self.ylims = [None, None]
-
-        self.init_vars(names)
-        self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -704,7 +674,7 @@ class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeate
 
 from .ui import compare_vars
 class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.setModal(True)
@@ -726,9 +696,6 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.factors = []
         self.displayfactors = [[], []]
         self.ylims = [None, None]
-
-        self.init_vars(names)
-        self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -812,10 +779,8 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
 from .ui import compare_groups_single_case_slope
 class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_single_case_slope.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -828,9 +793,6 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
-
-        self.init_vars(names)
-        #self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -893,10 +855,8 @@ class display_options_groups_dialog(QtWidgets.QDialog, display_options_groups.Ui
 
 from .ui import compare_groups
 class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
-    def __init__(self, parent=None, names=None):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        if names is None:
-            names = []
         self.setupUi(self)
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
@@ -916,14 +876,11 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.pushButton.clicked.connect(self.on_slopeButton_clicked)
         self.display_options_button.clicked.connect(self.display_options_button_clicked)
 
-        self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
+        self.slope_dialog = compare_groups_single_case_slope_dialog(self)
         self.display_options_groups_dialog = display_options_groups_dialog(self)
         self.displayfactors = [[], [], []]
         self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
         self.ylims = [None, None]
-
-        self.init_vars(names)
-        self.show()
 
     def init_vars(self, names):
         self.names = names
@@ -962,7 +919,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
 
 from .ui import compare_vars_groups
 class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialog):
-    def __init__(self, parent=None, names=[]):
+    def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.setModal(True)
@@ -984,7 +941,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.display_options_button.clicked.connect(self.display_options_button_clicked)
         self.single_case_button.clicked.connect(self.on_slopeButton_clicked)
 
-        self.slope_dialog = compare_groups_single_case_slope_dialog(self, names=names)
+        self.slope_dialog = compare_groups_single_case_slope_dialog(self)
         self.factors_dialog = factors_dialog(self)
         self.display_options_groups_dialog = display_options_groups_dialog(self)
         self.factors = []
@@ -992,12 +949,10 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
         self.ylims = [None, None]
 
-        self.init_vars(names)
-        self.show()
-
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+        self.slope_dialog.init_vars(names)
 
     def add_var(self):
         if self.factors:
@@ -1116,7 +1071,6 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
     
         self.init_langs()
         self.init_themes()
-        self.show()
 
     def init_langs(self):
         """Set the available languages.
