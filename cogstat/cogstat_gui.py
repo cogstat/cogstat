@@ -732,10 +732,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         -------
 
         """
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command([_('Data'), 'self.active_data.print_data', {'brief': brief}])
-        self.analysis_results[-1].add_output(self.active_data.print_data(brief=brief))
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        self._run_analysis(title=_('Data'), function_name='self.active_data.print_data', parameters={'brief': brief})
 
     def _print_data_brief(self):
         """Print the data briefly to GUI output pane
