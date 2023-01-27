@@ -585,8 +585,20 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:  # there are parameters stored in a dict
                 result = attrgetter(function_rest_levels)(locals()[function_highest_level])(**parameters)
             self.analysis_results[-1].add_output(result)
-        except:
+        except Exception as e:
+            # TODO consider adding the Python error message to the results pane (maybe optional, set in Preferences)
+            # _('Error code') + ': %s' % e
             self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title]))
+            if title == _('Data'):  # Data import-specific error message
+                data = parameters['data']
+                try:
+                    file_content = _('Data file content') + ':<br>' + open(data, 'r').read()[:1000].replace(
+                        '\n', '<br>') if os.path.exists(data) else ''
+                except:
+                    file_content = ''
+                self.analysis_results[-1].add_output(cs_util.convert_output(
+                    [_('Data to be imported') + ':<br>%s<br>%s' % (data, file_content)]))
+                self._display_data(reset=True)
             traceback.print_exc()
             successful_run = False
         self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
@@ -641,50 +653,38 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if clipboard.mimeData().hasFormat("text/plain"):
             self._open_data(str(clipboard.text()))
     
-    def _open_data(self, data):
+    def _open_data_core(self, data):
         """ Core of the import process.
         """
-        self._busy_signal(True)
-        try:
-            self.active_data = cogstat.CogStatData(data=data)
-            if self.active_data.import_source[0] == _('Import failed'):
-                self._show_data_menus(False)
+        self.active_data = cogstat.CogStatData(data=data)
+        if self.active_data.import_source[0] == _('Import failed'):
+            self._show_data_menus(False)
+        else:
+            self._show_data_menus()
+
+            # Make Reload menu available, if the imported data is coming from a file
+            if self.active_data.import_source[1]:
+                self.menu_commands[_('Re&load actual data file')].setEnabled(True)
+                self.toolbar_actions[_('Re&load actual data file')].setEnabled(True)
             else:
-                self._show_data_menus()
+                self.menu_commands[_('Re&load actual data file')].setEnabled(False)
+                self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
+        self._display_data()
+        return cs_util.convert_output([self.active_data.import_message])
 
-                # Make Reload menu available, if the imported data is coming from a file
-                if self.active_data.import_source[1]:
-                    self.menu_commands[_('Re&load actual data file')].setEnabled(True)
-                    self.toolbar_actions[_('Re&load actual data file')].setEnabled(True)
-                else:
-                    self.menu_commands[_('Re&load actual data file')].setEnabled(False)
-                    self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
+    def _open_data(self, data):
+        """Open all kind of data. It calls _open_data_core() that opens the data and returns the output message.
+        With the returned method, this can be used with the _run_analysis() method.
 
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command([_('Data'), 'self._open_data', {'data': data}])
-            self.analysis_results[-1].add_output(cs_util.convert_output([self.active_data.import_message]))
-            self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
-            self._display_data()
+        Parameters
+        ----------
+        data :
 
-        except Exception as e:
-            self.analysis_results.append(GuiResultPackage())
-            self.analysis_results[-1].add_command([_('Data'), 'self._open_data', {'data': data}])
-            try:
-                file_content = '<br>' + _('Data file content') + ':<br>' + open(data, 'r').read()[:1000].replace('\n', '<br>') if os.path.exists(data) else ''
-            except:
-                file_content = ''
-            self.analysis_results[-1].\
-                add_output(cs_util.convert_output(['<cs_h1>' + _('Data') + '</cs_h1>' +
-                                                   _('Oops, something went wrong, CogStat could not open the '
-                                                     'data. You may want to report the issue.') + ' ' +
-                                                   _('Read more about how to report an issue <a href = "%s">here</a>.')
-                                                   % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug' +
-                                                   '<br><br>' + _('Error code') + ': %s' %e +
-                                                   '<br><br>' + _('Data to be imported') +
-                                                   ':<br>%s<br>%s' % (data, file_content)]))
-            traceback.print_exc()
-            self._display_data(reset=True)
-        self._busy_signal(False)
+        Returns
+        -------
+
+        """
+        self._run_analysis(title=_('Data'), function_name='self._open_data_core', parameters={'data': data})
 
     def filter_outlier(self, var_names=None, multivariate_outliers=False):
         """Filter outliers.
