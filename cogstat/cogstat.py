@@ -925,7 +925,7 @@ class CogStatData:
         Returns
         -------
         list of str and matplotlib image
-            Analysis results in HTML format
+            Analysis results: str in HTML format
         """
 
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
