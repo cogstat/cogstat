@@ -652,8 +652,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def reload_file(self):
         """Reload data file."""
-        function_name = 'self.active_data.reload_data'
-        successful = self._run_analysis(title=_('Reload data'), function_name=function_name)
+        successful = self._run_analysis(title=_('Reload data'), function_name='self.active_data.reload_data')
         if successful:
             self._display_data()
         else:
@@ -720,9 +719,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 var_names, multivariate_outliers = self.dial_filter.read_parameters()
             else:
                 return
-        function_name = 'self.active_data.filter_outlier'
-        parameters = {'var_names': var_names, 'mode': 'mahalanobis' if multivariate_outliers else '2.5mad'}
-        if self._run_analysis(title=_('Filter outliers'), function_name=function_name, parameters=parameters):
+        if self._run_analysis(title=_('Filter outliers'), function_name='self.active_data.filter_outlier',
+                              parameters={'var_names': var_names,
+                                          'mode': 'mahalanobis' if multivariate_outliers else '2.5mad'}):
             self._display_data()
 
     def print_data(self, brief=False):
@@ -766,10 +765,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
             else:
                 return
-        function_name = 'self.active_data.explore_variable'
         for var_name in var_names:
-            parameters = {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}
-            self._run_analysis(title=_('Explore variable'), function_name=function_name, parameters=parameters)
+            self._run_analysis(title=_('Explore variable'), function_name='self.active_data.explore_variable',
+                               parameters={'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value})
 
     def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
@@ -795,14 +793,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         if len(var_names) < 2:
             var_names = (var_names + [None, None])[:2]  # regression() method handles the missing variables
-        function_name = 'self.active_data.regression'
         for x in var_names:
             pass_diag = False
             for y in var_names:
                 if pass_diag:
-                    parameters = {'predictors': [x], 'predicted': y, 'xlims': xlims, 'ylims': ylims}
-                    self._run_analysis(title=_('Explore relation of variable pair'), function_name=function_name,
-                                       parameters=parameters)
+                    self._run_analysis(title=_('Explore relation of variable pair'),
+                                       function_name='self.active_data.regression',
+                                       parameters={'predictors': [x], 'predicted': y, 'xlims': xlims, 'ylims': ylims})
                 if x == y:
                     pass_diag = True
             if x is None:  # with [None, None] var_names regression() is called only once
@@ -834,9 +831,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 predicted = predicted[0]  # currently, GUI predicted is a list, but it should be a string
             else:
                 return
-        function_name = 'self.active_data.regression'
-        parameters = {'predictors': predictors, 'predicted': predicted, 'xlims': xlims, 'ylims': ylims}
-        self._run_analysis(title=_('Explore relation of variables'), function_name=function_name, parameters=parameters)
+        self._run_analysis(title=_('Explore relation of variables'), function_name='self.active_data.regression',
+                           parameters={'predictors': predictors, 'predicted': predicted,
+                                       'xlims': xlims, 'ylims': ylims})
 
 
     def pivot(self, depend_name=None, row_names=None, col_names=None, page_names=None, function='Mean'):
@@ -859,10 +856,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 row_names, col_names, page_names, depend_name, function = self.dial_pivot.read_parameters()
             else:
                 return
-        function_name = 'self.active_data.pivot'
-        parameters = {'depend_name': depend_name, 'row_names': row_names, 'col_names': col_names,
-                      'page_names': page_names, 'function': function}
-        self._run_analysis(title=_('Pivot table'), function_name=function_name, parameters=parameters)
+        self._run_analysis(title=_('Pivot table'), function_name='self.active_data.pivot',
+                           parameters={'depend_name': depend_name, 'row_names': row_names, 'col_names': col_names,
+                                       'page_names': page_names, 'function': function})
 
     def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
                   reaction_time_in='sec', scaling_parameter=0.1):
@@ -883,12 +879,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         # use the original term in the function call, not the translated one
         reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
-        function_name = 'self.active_data.diffusion'
-        parameters = {'error_name': error_name, 'RT_name': RT_name, 'participant_name': participant_name,
-                      'condition_names': condition_names, 'correct_coding': correct_coding[0],
-                      'reaction_time_in': reaction_time_in, 'scaling_parameter': scaling_parameter}
-        self._run_analysis(title=_('Behavioral data diffusion analysis'), function_name=function_name,
-                           parameters=parameters)
+        self._run_analysis(title=_('Behavioral data diffusion analysis'), function_name='self.active_data.diffusion',
+                           parameters={'error_name': error_name, 'RT_name': RT_name,
+                                       'participant_name': participant_name, 'condition_names': condition_names,
+                                       'correct_coding': correct_coding[0], 'reaction_time_in': reaction_time_in,
+                                       'scaling_parameter': scaling_parameter})
 
     def compare_variables(self, var_names=None, factors=None, display_factors=None, ylims=[None, None]):
         """Compare variables.
@@ -907,10 +902,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                                                   # appropriate
             else:
                 return
-        function_name = 'self.active_data.compare_variables'
-        parameters = {'var_names': var_names, 'factors': factors, 'display_factors': display_factors, 'ylims': ylims}
-        self._run_analysis(title=_('Compare repeated measures variables'), function_name=function_name,
-                           parameters=parameters)
+        self._run_analysis(title=_('Compare repeated measures variables'),
+                           function_name='self.active_data.compare_variables',
+                           parameters={'var_names': var_names, 'factors': factors, 'display_factors': display_factors,
+                                       'ylims': ylims})
 
     def compare_groups(self, var_names=None, groups=None, display_groups=None,
                        single_case_slope_SE=None, single_case_slope_trial_n=None,
@@ -930,12 +925,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     var_names = [None]  # compare_groups() method handles the missing parameters
             else:
                 return
-        function_name = 'self.active_data.compare_groups'
         for var_name in var_names:
-            parameters = {'var_name': var_name, 'grouping_variables': groups, 'display_groups': display_groups,
-                          'single_case_slope_SE': single_case_slope_SE,
-                          'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}
-            self._run_analysis(title=_('Compare groups'), function_name=function_name, parameters=parameters)
+            self._run_analysis(title=_('Compare groups'), function_name='self.active_data.compare_groups',
+                               parameters={'var_name': var_name, 'grouping_variables': groups,
+                                           'display_groups': display_groups,
+                                           'single_case_slope_SE': single_case_slope_SE,
+                                           'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
 
     def compare_variables_groups(self, var_names=None, groups=None, factors=None,
                                  display_factors=None,
@@ -958,12 +953,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.dial_comp_var_groups.read_parameters()  # TODO check if settings are appropriate
             else:
                 return
-        function_name = 'self.active_data.compare_variables_groups'
-        parameters = {'var_names': var_names, 'factors': factors, 'grouping_variables': groups,
-                      'display_factors': display_factors, 'single_case_slope_SE': single_case_slope_SE,
-                      'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims}
-        self._run_analysis(title=_('Compare repeated measures variables'), function_name=function_name,
-                           parameters=parameters)  # TODO title
+        self._run_analysis(title=_('Compare repeated measures variables'),  # TODO title
+                           function_name='self.active_data.compare_variables_groups',
+                           parameters={'var_names': var_names, 'factors': factors, 'grouping_variables': groups,
+                                       'display_factors': display_factors, 'single_case_slope_SE': single_case_slope_SE,
+                                       'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
         # TODO check relevant details
         if '' in var_names:
             pass  # TODO
