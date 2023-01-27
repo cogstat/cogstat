@@ -17,6 +17,9 @@ Upcoming release (2022)
   - Scatterplot matrix of raw data
   - Analysis of multicollinearity
   - Hypothesis tests
+- Reliability analyses (Tamás Szűcs)
+  - Internal consistency reliability analysis
+  - Interrater reliability analysis
 - Displaying groups and factors
   - In comparing groups, display groups not only on x-axes but also with colors or in panels
   - In comparing repeated measures variables, display conditions not only on x-axes but also with colors

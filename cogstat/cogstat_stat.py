@@ -1252,3 +1252,125 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                                                                                  classes="table_cs_pd"))
 
     return standardized_effect_size_result
+
+
+### Reliability analyses ###
+
+
+def reliability_internal_calc(data, reverse_items=None, sample=True):
+    """
+    Calculate internal consistency reliability using Cronbach's alpha and its confidence interval.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    reverse_items : list of str
+        Items to code in reverse.
+    sample: bool
+        Returns only point estimates if True, point estimates and confidence intervals if False.
+
+    Returns
+    -------
+    tuple
+        Tuple of overall Cronbach's alpha (float) and its confidence interval (numpy array).
+    str
+        HTML table containing Cronbach's alpha with item removal, item-rest correlations and
+        optionally their confidence intervals.
+    """
+    data = data.copy()
+    if reverse_items:
+        for reverse_item in reverse_items:
+            data[reverse_item] = np.max(data[reverse_item]) - data[reverse_item]
+
+    # TODO treat nans as nan_policy='listwise' or by imputing?
+    alpha = pingouin.cronbach_alpha(data=data, nan_policy='listwise')
+
+    # Sample properties
+    item_removed_df = pd.DataFrame(columns=[_('Item'), _("Cronbach's alpha when removed"), _('Item-rest correlation')])
+    item_removed_df_pop = pd.DataFrame(columns=[_('Item'), _("Cronbach's alpha when removed"),
+                                                _('95% confidence interval'), _('Item-rest correlation'),
+                                                _('95% confidence interval')])
+    items_list = data.columns.tolist()
+    for item in items_list:
+        items_remaining = items_list.copy()
+        items_remaining.remove(item)
+        alpha_without = pingouin.cronbach_alpha(data=data[items_remaining], nan_policy='listwise')
+        df = len(data) - 2
+        rest_total = [sum(data[items_remaining].iloc[i, :]) for i in range(len(data))]
+        r, p = stats.pearsonr(rest_total, data[item])
+        r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
+
+        item_removed_df.loc[len(item_removed_df.index)] = [item, '%0.3f' % alpha_without[0], '%0.3f' % r]
+        item_removed_df_pop.loc[len(item_removed_df.index)] = [item, '%0.3f' % alpha_without[0],
+                                                               '[%0.3f, %0.3f]' % (alpha_without[1][0], alpha_without[1][1]),
+                                                               '%0.3f' % r, '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+
+    if sample:
+        # Return sample properties
+        item_removed = _format_html_table(item_removed_df.to_html(bold_rows=False, escape=False,
+                                                                  float_format=lambda x: '%0.3f' % (x),
+                                                                  classes="table_cs_pd", index=False))
+
+    else:
+        # Return population properties
+        # TODO assumption checks?
+        item_removed = _format_html_table(item_removed_df_pop.to_html(bold_rows=False, escape=False,
+                                                                float_format=lambda x: '%0.3f' % (x),
+                                                                classes="table_cs_pd", index=False)) + '\n'
+
+    return alpha, item_removed
+
+
+def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, type='icc11'):
+    """
+    Calculate inter-rater reliability using intraclass correlation.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    targets : str
+        The name of the variable containing the targets or subjects rated by the raters.
+    raters : str
+        The name of the variable containing the raters.
+    ratings : str
+        The name of the variable containing the ratings.
+    type : {'icc11', 'icc21', 'icc31', 'icc1k', 'icc2k', 'icc3k'}
+        The type of intraclass correlation to return.
+
+    Returns
+    -------
+    list of str
+        List of HTML strings showing the filtered cases.
+    list of charts
+        If cases were filtered, then filtered and remaining cases are shown.
+    """
+    # TODO is nan_policy='omit' the correct choice?
+    icc = pingouin.intraclass_corr(data, targets=targets, raters=raters, ratings=ratings, nan_policy='omit')
+
+    sample_result_df = pd.DataFrame(columns=[_('Point estimation')])
+    pop_result_df = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+
+    # Dictionaries for indexing pingouin output based on ICC type chosen
+    icc_name_dict = {'icc11': 'ICC1,1', 'icc21': 'ICC2,1', 'icc31': 'ICC3,1',
+                     'icc1k': 'ICC1,k', 'icc2k': 'ICC2,k', 'icc3k': 'ICC3,k'}
+    icc_loc_dict = {'icc11': 0, 'icc21': 1, 'icc31': 2,
+                    'icc1k': 3, 'icc2k': 4, 'icc3k': 5}
+
+    pop_result_df.loc[_(icc_name_dict[type])] = ['%0.3f' % icc.loc[icc_loc_dict[type], 'ICC'],
+                                      '[%0.3f, %0.3f]' % (icc.loc[icc_loc_dict[type], 'CI95%'][0],
+                                                          icc.loc[icc_loc_dict[type], 'CI95%'][1])]
+
+    sample_result_df.loc[_(icc_name_dict[type])] = ['%0.3f' % icc.loc[icc_loc_dict[type], 'ICC']]
+
+    f, df1, df2, p = icc.loc[icc_loc_dict[type], 'F'], icc.loc[icc_loc_dict[type], 'df1'], \
+                     icc.loc[icc_loc_dict[type], 'df2'], icc.loc[icc_loc_dict[type], 'pval']
+
+    sample_result_table = _format_html_table(sample_result_df.to_html(bold_rows=False, escape=False,
+                                                                                float_format=lambda x: '%0.3f' % (x),
+                                                                                classes="table_cs_pd"))
+
+    population_result_table = _format_html_table(pop_result_df.to_html(bold_rows=False, escape=False,
+                                                                                float_format=lambda x: '%0.3f' % (x),
+                                                                                classes="table_cs_pd"))
+
+    return sample_result_table, population_result_table, f, df1, df2, p

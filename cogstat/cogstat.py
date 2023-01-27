@@ -944,6 +944,151 @@ class CogStatData:
         result_list.append(text_result)
         return cs_util.convert_output(result_list)
 
+
+    def reliability_internal(self, var_names, reverse_items=None):
+        """
+        Calculate internal consistency reliability using Cronbach's alpha and it's confidence interval,
+        as well as item-rest correlations and their confidence intervals.
+
+        Parameters
+        ----------
+        var_names : list of str
+            Names of the variables or items.
+        reverse_items : list of str
+            Names of reverse coded variables or items.
+
+        Returns
+        -------
+        list of str and matplotlib image
+            Analysis results: str in HTML format
+        """
+
+        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+
+        title = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
+        title += '\n' + _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
+                                                                  for var, meas in zip(var_names, meas_levels))
+        if reverse_items:
+            title += '\n' + _('Reverse coded item(s): ') + ', '.join('%s' % var for var in reverse_items)
+
+        # Raw data
+        raw_title = '\n' + '<cs_h2>' + _('Raw data') + '</cs_h2>'
+
+        data = pd.DataFrame(self.data_frame[var_names].dropna())
+        missing_cases = len(self.data_frame[var_names])-len(data)
+        raw_title += _('N of valid cases') + ': %g' % len(data) + '\n'
+        raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
+        raw_graph = cs_chart.create_item_total_matrix(data, regression=False)
+
+        # Sample properties
+        sample_title = '\n' + '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        alpha, item_removed_sample = cs_stat.reliability_internal_calc(data, reverse_items=reverse_items, sample=True)
+        sample_graph = cs_chart.create_item_total_matrix(data, regression=True)
+        sample_result = '\n' + _("Cronbach's alpha ") + '= %0.3f' % alpha[0] + '\n'
+
+        # Population properties
+        population_result = '\n' + '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        alpha, item_removed_pop = cs_stat.reliability_internal_calc(data, reverse_items=reverse_items, sample=False)
+        pop_result_df = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        pop_result_df.loc[_("Cronbach's alpha")] = \
+            ['%0.3f' % alpha[0], '[%0.3f, %0.3f]' % (alpha[1][0], alpha[1][1])]
+        population_result += cs_stat._format_html_table(pop_result_df.to_html(bold_rows=False, escape=False,
+                                                                float_format=lambda x: '%0.3f' % (x),
+                                                                classes="table_cs_pd")) + '\n'
+
+        return cs_util.convert_output([title, raw_title, raw_graph, sample_title, sample_graph, sample_result,
+                                       item_removed_sample, population_result, item_removed_pop])
+
+
+    def reliability_interrater(self, var_names=None, question_1='1', question_2='1', ylims=[None,None]):
+        """
+        Calculate inter-rater reliability using intraclass correlation. Chose type of ICC to calculate based on
+        the answers to question_1 and question_2 according to Shrout and Fleiss (1979) and its JASP implementation.
+
+        Parameters
+        ----------
+        var_names : list of str
+            Names of variables containing the ratings of the raters.
+        question_1 : {'1', '2', '3'}
+            Subjects are rated by different randomly selected raters (1), same set of randomly selected raters (2)
+            or same set of fixed raters (3).
+        question_2 : {'1', 'k'}
+            Ratings are averages (k) or not (1).
+        ylims : list of {int or float}
+            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+
+        Returns
+        -------
+        list of str and image
+            Analysis results in HTML format
+        """
+
+        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+
+        title = '<cs_h1>' + _('Inter-rater reliability') + '</cs_h1>'
+        title += '\n' + _('Reliability calculated from variables: ') \
+                 + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+
+        # Raw data
+        raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>' + '\n'
+
+        data = pd.DataFrame(self.data_frame[var_names].dropna())
+        missing_cases = len(self.data_frame[var_names])-len(data)
+        raw_title += _('N of valid cases') + ': %g' % len(data) + '\n'
+        raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
+
+        raw_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
+                                                                  raw_data_only=True, ylims=ylims)
+
+        # Analysis
+        data_copy = data.reset_index()
+        data_long = pd.melt(data_copy, id_vars='index')
+        icc_type = "icc%s%s" % (question_1, question_2)
+        sample_result_table, population_result_table, f, df1, df2, p = \
+            cs_stat.reliability_interrater_calc(data_long, targets='index', raters='variable', ratings='value',
+                                                type=icc_type)
+
+        # Sample properties
+        sample_title = '\n' + '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        sample_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
+                                                                     raw_data_only=False, ylims=ylims)
+
+        # Population properties
+        population_result = '\n' + '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        population_result += '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods.') + '</cs_h3>'
+        population_result += '\n' + '<decision>' + _('Testing normality.') + '</decision>'
+        non_normal_vars, normality_text, var_hom_p, var_text_result = \
+            cs_hyp_test.reliability_interrater_assumptions(data, data_long, var_names, self.data_measlevs)
+        population_result += '\n' + normality_text
+        warnings = ''
+        if not non_normal_vars:
+            population_result += '<decision>' + _('Assumption of normality met.') + '</decision>' + '\n'
+        else:
+            population_result += '<decision>' + _('Assumption of normality violated in variable(s) %s' %
+                                                  ', '.join(non_normal_vars)) + '</decision>' + '\n'
+            warnings += '<decision>' + _('Assumption of normality violated. ') + '</decision>'
+        population_result += '\n' + '<decision>' + _('Testing homogeneity of variances.') + '</decision>'
+        population_result += '\n' + var_text_result
+        if var_hom_p < 0.05:
+            population_result += '<decision>' + _('Assumption of homogeneity of variances violated. ') + '</decision>'\
+                                 + '\n'
+            warnings += '<decision>' + _('Assumption of homogeneity of variances violated.') + '</decision>'
+        else:
+            population_result += '<decision>' + _('Assumption of homogeneity of variances met.') + '</decision>' + '\n'
+
+        population_result += '\n' + '<cs_h3>' + _('Interval estimates') + '</cs_h3>'
+        if non_normal_vars or var_hom_p < 0.05:
+            warnings += '<decision>' + _('CIs may be inaccurate.') + '</decision>'
+        else:
+            warnings += '<decision>' + _('Assumptions met.') + '</decision>'
+
+        hypothesis_tests = cs_hyp_test.reliability_interrater_hyp_test(df1, df2, f, p, non_normal_vars, var_hom_p)
+
+        return cs_util.convert_output([title, raw_title, raw_plot, sample_title, sample_plot,
+                                       sample_result_table, population_result, warnings, population_result_table,
+                                       hypothesis_tests])
+
+
     def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
         """
         Explore a variable pair.
