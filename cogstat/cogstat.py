@@ -934,7 +934,7 @@ class CogStatData:
         title += '\n' + _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
                                                                   for var, meas in zip(var_names, meas_levels))
         if reverse_items:
-            title += '\n' + _('Reverse coded items: ') + ', '.join('%s' % var for var in reverse_items)
+            title += '\n' + _('Reverse coded item(s): ') + ', '.join('%s' % var for var in reverse_items)
 
         # Raw data
         raw_title = '\n' + '<cs_h2>' + _('Raw data') + '</cs_h2>'
