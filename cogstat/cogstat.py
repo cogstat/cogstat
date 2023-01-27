@@ -931,7 +931,7 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         title = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
-        title += '\n' + _('Reliability of item(s): ') + ', '.join('%s (%s)' % (var, meas)
+        title += '\n' + _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
                                                                   for var, meas in zip(var_names, meas_levels))
         if reverse_items:
             title += '\n' + _('Reverse coded items: ') + ', '.join('%s' % var for var in reverse_items)
