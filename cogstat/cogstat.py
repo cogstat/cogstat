@@ -945,7 +945,7 @@ class CogStatData:
         return cs_util.convert_output(result_list)
 
 
-    def reliability_internal(self, var_names, reverse_items=None):
+    def reliability_internal(self, var_names=None, reverse_items=None):
         """
         Calculate internal consistency reliability using Cronbach's alpha and it's confidence interval,
         as well as item-rest correlations and their confidence intervals.
@@ -955,7 +955,7 @@ class CogStatData:
         var_names : list of str
             Names of the variables or items.
         reverse_items : list of str
-            Names of reverse coded variables or items.
+            Subset of var_names. Names of reverse coded variables or items.
 
         Returns
         -------

@@ -198,6 +198,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  'Ctrl+M', 'self.compare_variables_groups', True, True],
                                 ['separator'],
                                 ['toolbar separator'],
+                                ['/icons8-goal-100.png', _('Internal &consistency reliability analysis')+'...',
+                                 'Ctrl+Shift+C', 'self.reliability_internal', True, True],
+                                ['/icons8-collect-100.png', _('&Interrater reliability analysis')+'...',
+                                 'Ctrl+Shift+I', 'self.reliability_interrater', True, True],
+                                ['separator'],
+                                ['toolbar separator'],
                                 ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True,
                                  True],
                                 ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
@@ -298,6 +304,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.dial_comp_var = cogstat_dialogs.compare_vars_dialog()
         self.dial_comp_grp = cogstat_dialogs.compare_groups_dialog()
         self.dial_comp_var_groups = cogstat_dialogs.compare_vars_groups_dialog()
+        self.dial_rel_int = cogstat_dialogs.reliability_internal_dialog()
         self.dial_pref = cogstat_dialogs.preferences_dialog()
 
         # Prepare result and data panes
@@ -966,6 +973,22 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                    _('A variable should be assigned to each level of the '
                                                      'factors.')))
             self.analysis_results[-1].add_output(text_result)"""
+
+    def reliability_internal(self, var_names=None):
+        if not var_names:
+            self.dial_rel_int.init_vars(names=self.active_data.data_frame.columns)
+            if self.dial_rel_int.exec_():
+                var_names, reversed_names = self.dial_rel_int.read_parameters()
+                if not var_names:
+                    var_names = ['']  # error message for missing variable come from the explore_variable() method
+            else:
+                return
+        self._run_analysis(title=_('Internal consistency reliability analysis'),
+                           function_name='self.active_data.reliability_internal',
+                           parameters={'var_names': var_names, 'reverse_items': reversed_names})
+
+    def reliability_interrater(self):
+        pass
 
     def rerun_analyses(self):
         """Rerun the analyses that are currently visible in the results pane.

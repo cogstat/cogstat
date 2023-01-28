@@ -118,7 +118,7 @@ def _prepare_list_widgets(source_list_widget, names, selected_list_widgets):
             source_list_widget.addItem(QString(var_name))
 
 
-def _add_to_list_widget(source_list_widget, target_list_widget):
+def _add_to_list_widget(source_list_widget, target_list_widget, checkable=False):
     """Add the selected item(s) of the source_list_widget to the target_list_widget, and remove the item(s) from the
     source_list_widget.
 
@@ -126,6 +126,8 @@ def _add_to_list_widget(source_list_widget, target_list_widget):
     ----------
     source_list_widget : qt listWidget
     target_list_widget : qt listWidget
+    checkable : bool
+        Are the target list widget items checkable?
 
     Returns
     -------
@@ -137,6 +139,11 @@ def _add_to_list_widget(source_list_widget, target_list_widget):
     number_of_items = len(source_list_widget.selectedItems())
     for item in source_list_widget.selectedItems():
         target_list_widget.addItem(QString(item.text()))
+        if checkable:
+            #temp_item = QtWidgets.QListWidgetItem(QString(item.text()))
+            #temp_item.setCheckState(QtCore.Qt.Unchecked)
+            #target_list_widget.addItem(temp_item)
+            target_list_widget.findItems(item.text(), QtCore.Qt.MatchExactly)[0].setCheckState(QtCore.Qt.Unchecked)
         source_list_widget.takeItem(source_list_widget.row(item))
     return number_of_items
 
@@ -1038,6 +1045,40 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())], \
                 self.factors, self.displayfactors, \
                 self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims
+
+
+from .ui import reliability_internal
+
+class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.addVar.clicked.connect(self.add_var)
+        self.removeVar.clicked.connect(self.remove_var)
+
+    def init_vars(self, names):
+        self.names = names
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def add_var(self):
+        _add_to_list_widget(self.source_listWidget, self.selected_listWidget, checkable=True)
+
+    def remove_var(self):
+        _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+
+    def read_parameters(self):
+        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
+                [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())
+                 if self.selected_listWidget.item(i).checkState() == QtCore.Qt.Checked])
 
 
 from .ui import find_text
