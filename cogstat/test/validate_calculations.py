@@ -649,8 +649,7 @@ Control	0.538	0.107''')
         self.assertTrue('will be excluded: -6.0  –  20.0' in result[1])
 
     def test_reliability_internal(self):
-        # TODO temporarily ran from compare_variables()
-        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1=['e'])
+        result = data.reliability_internal(['a', 'e', 'f', 'g'], reverse_items=['e'])
         self.assertTrue('N of valid cases: 30' in result[1])
         self.assertTrue('N of missing cases: 0' in result[1])
         self.assertTrue('Reverse coded items: e')
@@ -677,10 +676,9 @@ Control	0.538	0.107''')
     def test_reliability_interrater(self):
         # TODO validate! Pingouin, jamovi and JASP all give different ICC values and CIs.
         # The difference is greater at lower values (i.e. around 0), and negligible at medium to higher values.
-        # TODO temporarily ran from compare_variables()
 
         # ICC1,1 and CI and assumption tests
-        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='1', question_2='1')
+        result = data.reliability_interrater(var_names=['a', 'e', 'f', 'g'], ratings_averaged=False)
         self.assertTrue('N of valid cases: 30' in result[1])
         self.assertTrue('N of missing cases: 0' in result[1])
         # Assumption tests (same for all ICC types)
@@ -691,42 +689,38 @@ Control	0.538	0.107''')
         self.assertTrue('Levene test: <i>W</i> = 0.19, <i>p</i> = .904' in result[6])
         # Results
         self.assertTrue('-0.070' in result[5])  # Sample
-        self.assertTrue('<td>-0.070</td>      <td>[-0.170, 0.090]</td>' in result[8])  # Population
+        self.assertTrue('<td>-0.070</td>      <td>[-0.17, 0.09]</td>' in result[8])  # Population
         self.assertTrue('<i>F</i>(29, 90) = 0.74, <i>p</i> = .820' in result[9])  # Hypothesis test
 
         # ICC2,1 and CI
-        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='2', question_2='1')
         # Results
         self.assertTrue('-0.034' in result[5])  # Sample
-        self.assertTrue('<td>-0.034</td>      <td>[-0.130, 0.120]</td>' in result[8])  # Population
+        self.assertTrue('<td>-0.034</td>      <td>[-0.13, 0.12]</td>' in result[8])  # Population
         self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682' in result[9])  # Hypothesis test
 
         # ICC3,1 and CI
-        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='3', question_2='1')
         # Results
         self.assertTrue('-0.039' in result[5])  # Sample
-        self.assertTrue('<td>-0.039</td>      <td>[-0.150, 0.140]</td>' in result[8])  # Population
+        self.assertTrue('<td>-0.039</td>      <td>[-0.15, 0.14]</td>' in result[8])  # Population
         self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682' in result[9])  # Hypothesis test
 
         # ICC1,k and CI
-        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='1', question_2='k')
+        result = data.reliability_interrater(var_names=['a', 'e', 'f', 'g'], ratings_averaged=True)
         # Results
         self.assertTrue('-0.352' in result[5])  # Sample
-        self.assertTrue('<td>-0.352</td>      <td>[-1.350, 0.290]</td>' in result[8])  # Population
+        self.assertTrue('<td>-0.352</td>      <td>[-1.35, 0.29]</td>' in result[8])  # Population
         self.assertTrue('<i>F</i>(29, 90) = 0.74, <i>p</i> = .820' in result[9])  # Hypothesis test
 
         # ICC2,k and CI
-        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='2', question_2='k')
         # Results
         self.assertTrue('-0.149' in result[5])  # Sample
-        self.assertTrue('<td>-0.149</td>      <td>[-0.820, 0.360]</td>' in result[8])  # Population
+        self.assertTrue('<td>-0.149</td>      <td>[-0.82, 0.36]</td>' in result[8])  # Population
         self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682' in result[9])  # Hypothesis test
 
         # ICC3,k and CI
-        result = data.compare_variables(['a', 'e', 'f', 'g'], question_1='3', question_2='k')
         # Results
         self.assertTrue('-0.176' in result[5])  # Sample
-        self.assertTrue('<td>-0.176</td>      <td>[-1.050, 0.390]</td>' in result[8])  # Population
+        self.assertTrue('<td>-0.176</td>      <td>[-1.05, 0.39]</td>' in result[8])  # Population
         self.assertTrue('<i>F</i>(29, 87) = 0.85, <i>p</i> = .682')
 
 
