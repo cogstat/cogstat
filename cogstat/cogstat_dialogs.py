@@ -1048,7 +1048,6 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
 
 from .ui import reliability_internal
-
 class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dialog):
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
@@ -1079,6 +1078,38 @@ class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dia
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                 [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())
                  if self.selected_listWidget.item(i).checkState() == QtCore.Qt.Checked])
+
+
+from .ui import reliability_interrater
+class reliability_interrater_dialog(QtWidgets.QDialog, reliability_interrater.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.source_listWidget.doubleClicked.connect(self.add_var)
+        self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.doubleClicked.connect(self.remove_var)
+        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.addVar.clicked.connect(self.add_var)
+        self.removeVar.clicked.connect(self.remove_var)
+
+    def init_vars(self, names):
+        self.names = names
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def add_var(self):
+        _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
+
+    def remove_var(self):
+        _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
+
+    def read_parameters(self):
+        return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
+                self.ratings_averaged_check_box.isChecked())
 
 
 from .ui import find_text

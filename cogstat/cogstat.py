@@ -1000,20 +1000,17 @@ class CogStatData:
                                        item_removed_sample, population_result, item_removed_pop])
 
 
-    def reliability_interrater(self, var_names=None, question_1='1', question_2='1', ylims=[None,None]):
+    def reliability_interrater(self, var_names=None, ratings_averaged=True, ylims=[None, None]):
         """
-        Calculate inter-rater reliability using intraclass correlation. Chose type of ICC to calculate based on
-        the answers to question_1 and question_2 according to Shrout and Fleiss (1979) and its JASP implementation.
+        Calculate inter-rater reliability using intraclass correlation. Use the McGraw and Wong, 1996 terms. Follow the
+        Liljequist et al. 2019 strategy and display three indexes.
 
         Parameters
         ----------
         var_names : list of str
             Names of variables containing the ratings of the raters.
-        question_1 : {'1', '2', '3'}
-            Subjects are rated by different randomly selected raters (1), same set of randomly selected raters (2)
-            or same set of fixed raters (3).
-        question_2 : {'1', 'k'}
-            Ratings are averages (k) or not (1).
+        ratings_averaged : bool
+            Are the ratings averaged?
         ylims : list of {int or float}
             Limit of the y axis for interval and ordinal variables instead of using automatic values.
 
@@ -1043,10 +1040,9 @@ class CogStatData:
         # Analysis
         data_copy = data.reset_index()
         data_long = pd.melt(data_copy, id_vars='index')
-        icc_type = "icc%s%s" % (question_1, question_2)
-        sample_result_table, population_result_table, f, df1, df2, p = \
+        sample_result_table, population_result_table, hyp_test_table = \
             cs_stat.reliability_interrater_calc(data_long, targets='index', raters='variable', ratings='value',
-                                                type=icc_type)
+                                                ratings_averaged=ratings_averaged)
 
         # Sample properties
         sample_title = '\n' + '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -1082,7 +1078,7 @@ class CogStatData:
         else:
             warnings += '<decision>' + _('Assumptions met.') + '</decision>'
 
-        hypothesis_tests = cs_hyp_test.reliability_interrater_hyp_test(df1, df2, f, p, non_normal_vars, var_hom_p)
+        hypothesis_tests = cs_hyp_test.reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p)
 
         return cs_util.convert_output([title, raw_title, raw_plot, sample_title, sample_plot,
                                        sample_result_table, population_result, warnings, population_result_table,

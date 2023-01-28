@@ -602,20 +602,15 @@ def reliability_interrater_assumptions(data, data_long, var_names, meas_lev):
 
     return non_normal_vars, norm_text, var_hom_p, var_text_result
 
-def reliability_interrater_hyp_test(df1, df2, f, p, non_normal_vars, var_hom_p):
+def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
     """
     Hypothesis test output for ICC values with warnings in case of violated assumptions. Testing against 0.
 
     Parameters
     ----------
-    df1 : float
-        First degree of freedom of the F-test.
-    df2 : float
-        Second degree of freedom of the F-test.
-    f : float
-        F-value of the F-test.
-    p : float
-        P-value of the F-test.
+    hyp_test_table : pandas dataframe
+        Three rows with the three ICC tests
+        Columns are df1, df2, F, p
     non_normal_vars : list of str
         List of variables where normality has been violated.
     var_hom_p : float
@@ -648,8 +643,10 @@ def reliability_interrater_hyp_test(df1, df2, f, p, non_normal_vars, var_hom_p):
         hypothesis_test_result += '\n'
 
     hypothesis_test_result += '<decision>' + _('Running F-test.') + '</decision>' + '\n'
-    hypothesis_test_result += _('Result of F-test') + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
-                              % (df1, df2, non_data_dim_precision, f, print_p(p))
+    for hyp_test_index, hyp_test_row in hyp_test_table.iterrows():
+        hypothesis_test_result += _('F-test for %s') % hyp_test_index + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
+                                  % (hyp_test_row['df1'], hyp_test_row['df2'], non_data_dim_precision,
+                                     hyp_test_row['F'], print_p(hyp_test_row['pval']))
 
     return hypothesis_test_result
 

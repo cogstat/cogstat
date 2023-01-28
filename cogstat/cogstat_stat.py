@@ -1321,7 +1321,7 @@ def reliability_internal_calc(data, reverse_items=None, sample=True):
     return alpha, item_removed
 
 
-def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, type='icc11'):
+def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, ratings_averaged=True):
     """
     Calculate inter-rater reliability using intraclass correlation.
 
@@ -1334,8 +1334,8 @@ def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, t
         The name of the variable containing the raters.
     ratings : str
         The name of the variable containing the ratings.
-    type : {'icc11', 'icc21', 'icc31', 'icc1k', 'icc2k', 'icc3k'}
-        The type of intraclass correlation to return.
+    ratings_averaged : bool
+        Are the ratings averaged?
 
     Returns
     -------
@@ -1347,30 +1347,29 @@ def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, t
     # TODO is nan_policy='omit' the correct choice?
     icc = pingouin.intraclass_corr(data, targets=targets, raters=raters, ratings=ratings, nan_policy='omit')
 
-    sample_result_df = pd.DataFrame(columns=[_('Point estimation')])
-    pop_result_df = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+    slice_row = slice(3, 5) if ratings_averaged else slice(0, 2)
+    row_labels = [_('ICC(k)'), _('ICC(A,k)'), _('ICC(C,k)')] if ratings_averaged \
+        else [_('ICC(1)'), _('ICC(A,1)'), _('ICC(C,1)')]
 
-    # Dictionaries for indexing pingouin output based on ICC type chosen
-    icc_name_dict = {'icc11': 'ICC1,1', 'icc21': 'ICC2,1', 'icc31': 'ICC3,1',
-                     'icc1k': 'ICC1,k', 'icc2k': 'ICC2,k', 'icc3k': 'ICC3,k'}
-    icc_loc_dict = {'icc11': 0, 'icc21': 1, 'icc31': 2,
-                    'icc1k': 3, 'icc2k': 4, 'icc3k': 5}
+    pop_result_df = pd.DataFrame(icc.loc[slice_row][['ICC', 'CI95%']])
+    pop_result_df['ICC'] = pop_result_df['ICC'].map('{:,.3f}'.format)
+    # TODO pop_result_df['CI95%'] = pop_result_df['CI95%'].map('{:,.3f}'.format)
+    pop_result_df.index = row_labels
+    pop_result_df.columns = [_('Point estimation'), _('95%% confidencce interval')]
 
-    pop_result_df.loc[_(icc_name_dict[type])] = ['%0.3f' % icc.loc[icc_loc_dict[type], 'ICC'],
-                                      '[%0.3f, %0.3f]' % (icc.loc[icc_loc_dict[type], 'CI95%'][0],
-                                                          icc.loc[icc_loc_dict[type], 'CI95%'][1])]
+    sample_result_df = pd.DataFrame(icc.loc[slice_row]['ICC'])
+    sample_result_df['ICC'] = sample_result_df['ICC'].map('{:,.3f}'.format)
+    sample_result_df.index = row_labels
 
-    sample_result_df.loc[_(icc_name_dict[type])] = ['%0.3f' % icc.loc[icc_loc_dict[type], 'ICC']]
-
-    f, df1, df2, p = icc.loc[icc_loc_dict[type], 'F'], icc.loc[icc_loc_dict[type], 'df1'], \
-                     icc.loc[icc_loc_dict[type], 'df2'], icc.loc[icc_loc_dict[type], 'pval']
+    hyp_test_table = icc.loc[slice_row][['F', 'df1', 'df2', 'pval']]
+    hyp_test_table.index = row_labels
 
     sample_result_table = _format_html_table(sample_result_df.to_html(bold_rows=False, escape=False,
-                                                                                float_format=lambda x: '%0.3f' % (x),
-                                                                                classes="table_cs_pd"))
+                                                                      float_format=lambda x: '%0.3f' % (x),
+                                                                      classes="table_cs_pd"))
 
     population_result_table = _format_html_table(pop_result_df.to_html(bold_rows=False, escape=False,
-                                                                                float_format=lambda x: '%0.3f' % (x),
-                                                                                classes="table_cs_pd"))
+                                                                       float_format=lambda x: '%0.3f' % (x),
+                                                                       classes="table_cs_pd"))
 
-    return sample_result_table, population_result_table, f, df1, df2, p
+    return sample_result_table, population_result_table, hyp_test_table

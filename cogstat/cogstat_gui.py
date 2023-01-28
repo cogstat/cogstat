@@ -304,7 +304,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.dial_comp_var = cogstat_dialogs.compare_vars_dialog()
         self.dial_comp_grp = cogstat_dialogs.compare_groups_dialog()
         self.dial_comp_var_groups = cogstat_dialogs.compare_vars_groups_dialog()
-        self.dial_rel_int = cogstat_dialogs.reliability_internal_dialog()
+        self.dial_rel_internal = cogstat_dialogs.reliability_internal_dialog()
+        self.dial_rel_interrater = cogstat_dialogs.reliability_interrater_dialog()
         self.dial_pref = cogstat_dialogs.preferences_dialog()
 
         # Prepare result and data panes
@@ -974,11 +975,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                      'factors.')))
             self.analysis_results[-1].add_output(text_result)"""
 
-    def reliability_internal(self, var_names=None):
+    def reliability_internal(self, var_names=None, reversed_names=None):
         if not var_names:
-            self.dial_rel_int.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_rel_int.exec_():
-                var_names, reversed_names = self.dial_rel_int.read_parameters()
+            self.dial_rel_internal.init_vars(names=self.active_data.data_frame.columns)
+            if self.dial_rel_internal.exec_():
+                var_names, reversed_names = self.dial_rel_internal.read_parameters()
                 if not var_names:
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
             else:
@@ -987,8 +988,19 @@ class StatMainWindow(QtWidgets.QMainWindow):
                            function_name='self.active_data.reliability_internal',
                            parameters={'var_names': var_names, 'reverse_items': reversed_names})
 
-    def reliability_interrater(self):
-        pass
+    def reliability_interrater(self, var_names=None, ratings_averaged=True):
+        if not var_names:
+            self.dial_rel_interrater.init_vars(names=self.active_data.data_frame.columns)
+            if self.dial_rel_interrater.exec_():
+                var_names, ratings_averaged = self.dial_rel_interrater.read_parameters()
+                if not var_names:
+                    var_names = ['']  # error message for missing variable come from the explore_variable() method
+            else:
+                return
+            print(var_names)
+        self._run_analysis(title=_('Interrater reliability analysis'),
+                           function_name='self.active_data.reliability_interrater',
+                           parameters={'var_names': var_names, 'ratings_averaged': ratings_averaged})
 
     def rerun_analyses(self):
         """Rerun the analyses that are currently visible in the results pane.
