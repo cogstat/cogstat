@@ -504,8 +504,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with value.toHtml()
             elif isinstance(output, matplotlib.figure.Figure):
-                image_format = 'png'  # TODO this will be an ini setting
-                if image_format == 'png':
+                if csc.image_format == 'png':
                     chart_buffer = io.BytesIO()
                     output.savefig(chart_buffer, format='png')  # TODO dpi= and modify html width to keep the original image size
                     chart_buffer.seek(0)
@@ -513,7 +512,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
                     chart_buffer.close()
                     # print('PNG size', sys.getsizeof(html_img))
-                elif image_format == 'svg':
+                elif csc.image_format == 'svg':
                     """
                     # matplotlib-based method
                     chart_buffer = io.BytesIO()

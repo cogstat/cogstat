@@ -1144,6 +1144,10 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         self.init_langs()
         self.init_themes()
 
+        image_formats = ['png', 'svg']
+        self.image_combo_box.addItems(image_formats)
+        self.image_combo_box.setCurrentIndex(image_formats.index(csc.image_format))
+
     def init_langs(self):
         """Set the available languages.
         """
@@ -1196,4 +1200,5 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         """
         csc.save(['language'], self.lang_codes[str(self.langComboBox.currentText())])
         csc.save(['graph', 'theme'], str(self.themeComboBox.currentText()))
+        csc.save(['graph', 'format'], str(self.image_combo_box.currentText()))
         self.accept()
