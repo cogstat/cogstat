@@ -654,8 +654,8 @@ Control	0.538	0.107''')
         self.assertTrue('N of missing cases: 0' in result[1])
         self.assertTrue('Reverse coded items: e')
 
-        # Cronbach's alpha Jamovi 2.2.5 alpha=0.429
-        # TODO validate CI
+        # Cronbach's alpha Jamovi 2.2.5 alpha=0.429 [-0.023, 0.702]
+        # TODO CI value deviation from JASP around zero is acceptable?
         self.assertTrue("Cronbach's alpha = 0.429" in result[5])  # Sample
         self.assertTrue('<td>0.429</td>      <td>[0.003, 0.702]</td>' in result[7])  # Population
 
