@@ -1260,6 +1260,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
 def reliability_internal_calc(data, sample=True):
     """
     Calculate internal consistency reliability using Cronbach's alpha and its confidence interval.
+    The function assumes that reversed items have been reversed already.
 
     Parameters
     ----------
