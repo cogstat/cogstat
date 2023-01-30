@@ -1347,9 +1347,10 @@ def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, r
 
     pop_result_df = pd.DataFrame(icc.loc[slice_row][['ICC', 'CI95%']])
     pop_result_df['ICC'] = pop_result_df['ICC'].map('{:,.3f}'.format)
-    # TODO pop_result_df['CI95%'] = pop_result_df['CI95%'].map('{:,.3f}'.format)
+    pop_result_df['CI95%'] = [['%0.3f, %0.3f' % (ci[0], ci[1])] for ci in pop_result_df['CI95%']]
+
     pop_result_df.index = row_labels
-    pop_result_df.columns = [_('Point estimation'), _('95%% confidencce interval')]
+    pop_result_df.columns = [_('Point estimation'), _('95% confidence interval')]
 
     sample_result_df = pd.DataFrame(icc.loc[slice_row]['ICC'])
     sample_result_df['ICC'] = sample_result_df['ICC'].map('{:,.3f}'.format)
