@@ -1257,15 +1257,13 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
 ### Reliability analyses ###
 
 
-def reliability_internal_calc(data, reverse_items=None, sample=True):
+def reliability_internal_calc(data, sample=True):
     """
     Calculate internal consistency reliability using Cronbach's alpha and its confidence interval.
 
     Parameters
     ----------
     data : pandas dataframe
-    reverse_items : list of str
-        Items to code in reverse.
     sample: bool
         Returns only point estimates if True, point estimates and confidence intervals if False.
 
@@ -1277,10 +1275,6 @@ def reliability_internal_calc(data, reverse_items=None, sample=True):
         HTML table containing Cronbach's alpha with item removal, item-rest correlations and
         optionally their confidence intervals.
     """
-    data = data.copy()
-    if reverse_items:
-        for reverse_item in reverse_items:
-            data[reverse_item] = np.max(data[reverse_item]) - data[reverse_item]
 
     # TODO treat nans as nan_policy='listwise' or by imputing?
     alpha = pingouin.cronbach_alpha(data=data, nan_policy='listwise')
