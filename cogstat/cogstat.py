@@ -971,7 +971,6 @@ class CogStatData:
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         if reverse_items:
-            data = data.copy()
             for reverse_item in reverse_items:
                 data[reverse_item] = np.max(data[reverse_item]) - data[reverse_item]
             title += '\n' + _('Reverse coded item(s): ') + ', '.join('%s' % var for var in reverse_items)
