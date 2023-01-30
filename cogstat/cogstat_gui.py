@@ -504,22 +504,36 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with value.toHtml()
             elif isinstance(output, matplotlib.figure.Figure):
-                chart_buffer = io.BytesIO()
                 image_format = 'png'  # TODO this will be an ini setting
                 if image_format == 'png':
+                    chart_buffer = io.BytesIO()
                     output.savefig(chart_buffer, format='png')  # TODO dpi= and modify html width to keep the original image size
                     chart_buffer.seek(0)
                     html_img = '<img src="data:image/png;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
+                    chart_buffer.close()
+                    # print('PNG size', sys.getsizeof(html_img))
                 elif image_format == 'svg':
-                    # TODO in savefig(), when the format is 'svg', the dpi parameter is ignored, and a dpi of 72 is
-                    #  used instead https://github.com/cogstat/cogstat/issues/101
+                    """
+                    # matplotlib-based method
+                    chart_buffer = io.BytesIO()
+                    # in savefig(), for 'svg' format, the dpi parameter is ignored, 72 is used instead
                     output.savefig(chart_buffer, format='svg')
                     chart_buffer.seek(0)
-                    # TODO width="800" height="600" won't help because the image is blurry
-                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
+                    # width="800" height="600" won't help because the image is blurry
+                    html_img += '<img src="data:image/svg-xml;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())
-                chart_buffer.close()
+                    chart_buffer.close()
+                    #print('SVG matplotlib size', sys.getsizeof(html_img))
+                    """
+                    # svgutils-based method
+                    import svgutils.transform
+                    svg_fig = svgutils.transform.from_mpl(output)
+                    svg_size = output.get_size_inches() * output.dpi
+                    svg_fig.set_size((str(svg_size[0]), str(svg_size[1])))
+                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
+                        format(base64.b64encode(svg_fig.to_str()).decode())
+                    #print('SVG svgutils size', sys.getsizeof(html_img))
                 pane.append(html_img)
             elif output is None:
                 pass  # We don't do anything with None-s
