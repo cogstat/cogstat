@@ -130,6 +130,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.compare_groups(['dep_nom'], ['g0', 'g1', 'g2', 'g3'])
+#        self.reliability_internal(var_names=['a', 'e', 'f', 'g'])
 #        self.save_result_as()
 #        self.save_result_as(filename='CogStat analysis result.pdf')
 

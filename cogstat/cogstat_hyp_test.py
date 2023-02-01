@@ -195,7 +195,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         if data_measlevs[var_name] == 'unk':
             text_result += warn_unknown_variable
         if len(set(data)) == 1:
-            return _('One sample t-test cannot be run for constant variable.\n'), None
+            return _('One sample t-test cannot be run for constant variable.') + '\n', None
 
         descr = DescrStatsW(data)
         t, p, df = descr.ttest_mean(float(test_value))
@@ -1077,7 +1077,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
         if meas_level == 'int':
             result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
                          _('Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions.') + \
-                         '</decision>' + '\n'
+                         '</decision>\n'
 
             result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
             non_normal_groups = []
