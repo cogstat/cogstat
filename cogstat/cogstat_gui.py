@@ -520,7 +520,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     output.savefig(chart_buffer, format='svg')
                     chart_buffer.seek(0)
                     # width="800" height="600" won't help because the image is blurry
-                    html_img += '<img src="data:image/svg-xml;base64,{0}">'.\
+                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())
                     chart_buffer.close()
                     #print('SVG matplotlib size', sys.getsizeof(html_img))
