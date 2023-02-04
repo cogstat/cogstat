@@ -826,7 +826,7 @@ class CogStatData:
 
         data = pd.DataFrame(self.data_frame[var_name].dropna())
 
-        text_result2 = _('N of valid cases: %g') % len(data) + '\n'
+        text_result2 = _('N of observed cases: %g') % len(data) + '\n'
         missing_cases = len(self.data_frame[var_name])-len(data)
         text_result2 += _('N of missing cases: %g') % missing_cases + '\n'
 
@@ -976,7 +976,7 @@ class CogStatData:
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         missing_cases = len(self.data_frame[var_names])-len(data)
-        raw_title += _('N of valid cases') + ': %g' % len(data) + '\n'
+        raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
         raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
         raw_graph = cs_chart.create_item_total_matrix(data, regression=False)
 
@@ -1031,7 +1031,7 @@ class CogStatData:
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         missing_cases = len(self.data_frame[var_names])-len(data)
-        raw_title += _('N of valid cases') + ': %g' % len(data) + '\n'
+        raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
         raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
 
         raw_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
@@ -1152,7 +1152,7 @@ class CogStatData:
         data = self.data_frame[predictors + [predicted]].dropna()
         valid_n = len(data)
         missing_n = len(self.data_frame[predictors + [predicted]]) - valid_n
-        raw_result += _('N of valid pairs') + ': %g' % valid_n + '\n'
+        raw_result += _('N of observed pairs') + ': %g' % valid_n + '\n'
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
@@ -1495,7 +1495,7 @@ class CogStatData:
         data = self.data_frame[var_names].dropna()
         valid_n = len(data)
         missing_n = len(self.data_frame[var_names])-valid_n
-        raw_result += _('N of valid cases') + ': %g\n' % valid_n
+        raw_result += _('N of observed cases') + ': %g\n' % valid_n
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
@@ -1677,7 +1677,7 @@ class CogStatData:
         columns = pd.MultiIndex.from_tuples(level_combinations, names=groups)
         pdf_result = pd.DataFrame(columns=columns)
 
-        pdf_result.loc[_('N of valid cases')] = [sum(
+        pdf_result.loc[_('N of observed cases')] = [sum(
             (data[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1))
                                                  for group_level in level_combinations]
         pdf_result.loc[_('N of missing cases')] = [sum(
@@ -1689,7 +1689,7 @@ class CogStatData:
         #            for group in group_levels:
         #                valid_n = sum(data[groups[0]]==group)
         #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
-        #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %
+        #                raw_result += _(u'Group: %s, N of observed cases: %g, N of missing cases: %g\n') %
         #                              (group, valid_n, missing_n)
         raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
         raw_result += '\n\n'
