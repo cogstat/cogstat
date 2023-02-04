@@ -42,7 +42,7 @@ import webbrowser
 import pandas as pd
 from operator import attrgetter
 
-from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 from . import cogstat
 from . import cogstat_dialogs
@@ -114,7 +114,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.regression(['a'], 'b')
 #        self.regression(['b', 'f', 'g'], 'a')
-#        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
+#        self.pivot([u'X'], row_names=[], col_names=[], page_names=['CONDITION', 'TIME3'], function='N')
 #        self.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name', condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['a', 'e', 'g'])
@@ -124,7 +124,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_variables(['a', 'g', 'b', 'h'],
 #                               factors=[['factor1', 2], ['factor2', 2]],
 #                               display_factors=[['factor1'], ['factor2']])
-#        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
+#        self.compare_variables(['CONDITION', 'CONDITION2', 'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
 #        self.compare_groups(['b'], groups=['i', 'j', 'k'], display_groups=[['k', 'i'], ['j'], []]),
 #        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
@@ -347,14 +347,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         for pane in [self.result_pane]:
             # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
             pane.document().setDefaultStyleSheet('body {color:black;} '
-                                                            'h2 {color:%s;} h3 {color:%s} '
-                                                            'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
-                                                            '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
-                                                            'td {white-space:nowrap}' %
-                                                            (_change_color_lightness(csc.mpl_theme_color, 1.1),
-                                                            _change_color_lightness(csc.mpl_theme_color, 1.0),
-                                                            _change_color_lightness(csc.mpl_theme_color, 0.8),
-                                                            _change_color_lightness(csc.mpl_theme_color, 0.4)))
+                                                 'h2 {color:%s;} h3 {color:%s;} '
+                                                 'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
+                                                 '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
+                                                 'td {white-space:nowrap}' %
+                                                 (_change_color_lightness(csc.mpl_theme_color, 1.1),
+                                                  _change_color_lightness(csc.mpl_theme_color, 1.0),
+                                                  _change_color_lightness(csc.mpl_theme_color, 0.8),
+                                                  _change_color_lightness(csc.mpl_theme_color, 0.4)))
             pane.setReadOnly(True)
             pane.setOpenExternalLinks(True)
             pane.setStyleSheet("QTextBrowser { background-color: white; }")
@@ -525,7 +525,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         format(base64.b64encode(chart_buffer.read()).decode())
                     chart_buffer.close()
                     #print('SVG matplotlib size', sys.getsizeof(html_img))
-                    """
+                    #"""
                     # svgutils-based method
                     import svgutils.transform
                     svg_fig = svgutils.transform.from_mpl(output)
@@ -1096,7 +1096,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.output_filename = filename
             self.save_result()
 
-    ### Cogstat menu  methods ###
+    ### Cogstat menu methods ###
     def _open_help_webpage(self):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Documentation-for-users')
         
