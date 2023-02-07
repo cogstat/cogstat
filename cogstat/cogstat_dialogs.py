@@ -162,11 +162,11 @@ def _remove_item_from_list_widget(source_list_widget, target_list_widget, names)
     int
         number of items removed
     """
-    nummber_of_items = len(target_list_widget.selectedItems())
+    number_of_items = len(target_list_widget.selectedItems())
     for item in target_list_widget.selectedItems():
         target_list_widget.takeItem(target_list_widget.row(item))
         source_list_widget.insertItem(_find_previous_item_position(source_list_widget, names, item.text()), item.text())
-    return nummber_of_items
+    return number_of_items
 
 
 def _find_previous_item_position(list_widget, names, text_item):
@@ -185,9 +185,9 @@ def _find_previous_item_position(list_widget, names, text_item):
               # insert the item at the beginning of the list_widget
 
 
-def _add_to_list_widget_with_factors(source_list_widget, target_list_widget, names=[]):
-    """
-    Add the selected items of the source_list_widget to the target_list_widget,
+def _add_to_list_widget_with_factors(source_list_widget, target_list_widget):
+    """Add the selected items of the source_list_widget to the target_list_widget, while using the factor information in
+    the target_list_widget.
     """
 
     if target_list_widget.selectedItems():  # there are selected items in the target list
@@ -205,8 +205,7 @@ def _add_to_list_widget_with_factors(source_list_widget, target_list_widget, nam
 
 
 def _remove_from_list_widget_with_factors(source_list_widget, target_list_widget, names=None):
-    """
-    Remove selected items from target_list_widget.
+    """Remove selected items from target_list_widget, while using the factor information in the target_list_widget.
     """
     if names is None:
         names = []
@@ -239,6 +238,18 @@ def _enable_adding_var(button, list_widget, enable):
 
 
 def _float_or_none(x):
+    """Return the value as float if possible, otherwise return None.
+
+    Parameters
+    ----------
+    x :
+        value to be converted
+
+    Returns
+    -------
+    float or None
+
+    """
     try:
         return float(x)
     except ValueError:
@@ -621,6 +632,23 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
 
         self.factor_dialog = factor_dialog(self)
 
+    def init_factors(self, factors):
+        """Add factors and level values to the list.
+        This is needed because the values can be changed by the Display option (adding 'Default factor') too, and not
+        only by the Factors dialog itself.
+
+        Parameters
+        ----------
+        factors : list of list of str and int
+
+        Returns
+        -------
+
+        """
+        self.listWidget.clear()
+        for factor_name, level_n in factors:
+            self.listWidget.addItem(QString('%s (%d)' % (factor_name, level_n)))
+
     def addButton_clicked(self):
         self.factor_dialog.lineEdit.setFocus()
         if self.factor_dialog.exec_():
@@ -691,8 +719,9 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
-        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        # TODO drag and drop and moving should handle factor names
+        #self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        #self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.factorsButton_clicked)
@@ -710,7 +739,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
     def add_var(self):
         if self.factors:
-            _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+            _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget)
         else:
             _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
@@ -721,19 +750,23 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def show_factors(self):
-        # remove all items first
+        # first, remove all items from the selected_listWidget
+        previously_used_vars = []
         for i in range(self.selected_listWidget.count()):
             item = self.selected_listWidget.takeItem(0)
-            if ' :: ' in item.text():
-                if not item.text().endswith(' :: '):
+            if ' :: ' in item.text():  # factor name and level are present
+                if not item.text().endswith(' :: '):  # variable name is also present
                     self.source_listWidget.insertItem(
                         _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
                         item.text().split(' :: ')[1])
+                    previously_used_vars.append(item.text().split(' :: ')[1])
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:
+            else:  # variable name only (without factor name and level)
                 self.source_listWidget.insertItem(
                     _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                     item.text())
+                previously_used_vars.append(item.text())
+        #print(previously_used_vars)
 
         # add new empty factor levels
         factor_combinations = ['']
@@ -741,40 +774,63 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i + 1) for factor_combination in
                                    factor_combinations for level_i in range(factor[1])]
         factor_combinations = [factor_combination[3:] + ' :: ' for factor_combination in factor_combinations]
-        for factor_combination in factor_combinations:
-            self.selected_listWidget.addItem(QString(factor_combination))
+        for i, factor_combination in enumerate(factor_combinations):
+            if i < len(previously_used_vars):
+                self.selected_listWidget.addItem(QString(factor_combination + previously_used_vars[i]))
+                self.source_listWidget.takeItem(self.source_listWidget.row(
+                    self.source_listWidget.findItems(previously_used_vars[i], QtCore.Qt.MatchExactly)[0]))
+            else:
+                self.selected_listWidget.addItem(QString(factor_combination))
 
     def factorsButton_clicked(self):
+        self.factors_dialog.init_factors(self.factors)
         if self.factors_dialog.exec_():
             factor_list = self.factors_dialog.read_parameters()
             #print(factor_list)
-
+            # factor list is a list of str, where a str has a 'factorname (x)'format, where x is the number of levels
             self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
             #print(self.factors)
             if self.factors:
                 self.show_factors()
             else:  # remove the factor levels if there is no explicit factor level
+                previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
                     item = self.selected_listWidget.takeItem(0)
                     # move formerly selected variables back to the source list
-                    if ' :: ' in item.text():
-                        if not item.text().endswith(' :: '):  # if there is a factor name and a variable
+                    if ' :: ' in item.text():  # factor name and level are present
+                        if not item.text().endswith(' :: '):  # variable name is also present
                             self.source_listWidget.insertItem(
                                 _find_previous_item_position(self.source_listWidget, self.names,
                                                              item.text().split(' :: ')[1]),
                                 item.text().split(' :: ')[1])
+                            previously_used_vars.append(item.text().split(' :: ')[1])
                             item.setText(item.text().split(' :: ')[0] + ' :: ')
-                    else:
+                    else:  # variable name only (without factor name and level)
                         self.source_listWidget.insertItem(
                             _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                             item.text())
+                        previously_used_vars.append(item.text())
+                for previously_used_var in previously_used_vars:
+                    self.selected_listWidget.addItem(QString(previously_used_var))
+                    self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchExactly)[0]))
 
     def display_options_button_clicked(self):
+        # If there are several variables but no factors are given, then create a default factor name that can be used in
+        #  Display options.
+        default_factor_added = False
+        if not self.factors and self.selected_listWidget.count() > 1:
+            self.factors = [[_('Default factor'), self.selected_listWidget.count()]]
+            default_factor_added = True
         self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
         if self.display_options_repeated_dialog.exec_():
             self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
+            self.show_factors()
+        else:  # if Display option is cancelled, then remove Default factor
+            if default_factor_added:  # do not remove Default factor if dialog is Cancelled but factor was added
+                                      #  previously
+                self.factors = []
 
     def read_parameters(self):
         return [str(self.selected_listWidget.item(i).text().split(' :: ')[1])
@@ -935,8 +991,9 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
-        self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        # TODO drag and drop and moving should handle factor names
+        #self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        #self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.group_listWidget.doubleClicked.connect(self.remove_group)
         self.group_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.group_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -963,7 +1020,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
     def add_var(self):
         if self.factors:
-            _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget, names=self.names)
+            _add_to_list_widget_with_factors(self.source_listWidget, self.selected_listWidget)
         else:
             _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
 
@@ -980,19 +1037,23 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
     def show_factors(self):
-        # remove all items first
+        # first, remove all items from the selected_listWidget
+        previously_used_vars = []
         for i in range(self.selected_listWidget.count()):
             item = self.selected_listWidget.takeItem(0)
-            if ' :: ' in item.text():
-                if not item.text().endswith(' :: '):
+            if ' :: ' in item.text():  # factor name and level are present
+                if not item.text().endswith(' :: '):  # variable name is also present
                     self.source_listWidget.insertItem(
                         _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
                         item.text().split(' :: ')[1])
+                    previously_used_vars.append(item.text().split(' :: ')[1])
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:
+            else:  # variable name only (without factor name and level)
                 self.source_listWidget.insertItem(
                     _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                     item.text())
+                previously_used_vars.append(item.text())
+        #print(previously_used_vars)
 
         # add new empty factor levels
         factor_combinations = ['']
@@ -1000,40 +1061,67 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i + 1) for factor_combination in
                                    factor_combinations for level_i in range(factor[1])]
         factor_combinations = [factor_combination[3:] + ' :: ' for factor_combination in factor_combinations]
-        for factor_combination in factor_combinations:
-            self.selected_listWidget.addItem(QString(factor_combination))
+        for i, factor_combination in enumerate(factor_combinations):
+            if i < len(previously_used_vars):
+                self.selected_listWidget.addItem(QString(factor_combination + previously_used_vars[i]))
+                self.source_listWidget.takeItem(self.source_listWidget.row(
+                    self.source_listWidget.findItems(previously_used_vars[i], QtCore.Qt.MatchExactly)[0]))
+            else:
+                self.selected_listWidget.addItem(QString(factor_combination))
 
     def factorsButton_clicked(self):
+        self.factors_dialog.init_factors(self.factors)
         if self.factors_dialog.exec_():
             factor_list = self.factors_dialog.read_parameters()
             #print(factor_list)
-
+            # factor list is a list of str, where a str has a 'factorname (x)'format, where x is the number of levels
             self.factors = [[t[:t.rfind(' (')], int(t[t.rfind('(')+1:t.rfind(')')])] for t in factor_list]
             #print(self.factors)
             if self.factors:
                 self.show_factors()
             else:  # remove the factor levels if there is no explicit factor level
+                previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
                     item = self.selected_listWidget.takeItem(0)
                     # move formerly selected variables back to the source list
-                    if ' :: ' in item.text():
-                        if not item.text().endswith(' :: '):  # if there is a factor name and a variable
+                    if ' :: ' in item.text():  # factor name and level are present
+                        if not item.text().endswith(' :: '):  # variable name is also present
                             self.source_listWidget.insertItem(
                                 _find_previous_item_position(self.source_listWidget, self.names,
                                                              item.text().split(' :: ')[1]),
                                 item.text().split(' :: ')[1])
+                            previously_used_vars.append(item.text().split(' :: ')[1])
                             item.setText(item.text().split(' :: ')[0] + ' :: ')
-                    else:
+                    else:  # variable name only (without factor name and level)
                         self.source_listWidget.insertItem(
                             _find_previous_item_position(self.source_listWidget, self.names, item.text()),
                             item.text())
+                        previously_used_vars.append(item.text())
+                for previously_used_var in previously_used_vars:
+                    self.selected_listWidget.addItem(QString(previously_used_var))
+                    self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchExactly)[0]))
 
     def display_options_button_clicked(self):
-        self.display_options_groups_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+        # If there are several variables but no factors are given, then create a default factor name that can be used in
+        #  Display options.
+        default_factor_added = False
+        if not self.factors and self.selected_listWidget.count() > 1:
+            self.factors = [[_('Default factor'), self.selected_listWidget.count()]]
+            restore_factors = True  # if Display option is cancelled, then remove Default factor
+            default_factor_added = True
+        self.display_options_groups_dialog.\
+            set_factors(factors=[str(self.group_listWidget.item(i).text())
+                                 for i in range(self.group_listWidget.count())] +
+                                [factor[0] for factor in self.factors])
         if self.display_options_groups_dialog.exec_():
             self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
+            self.show_factors()
+        else:  # if Display option is cancelled, then remove Default factor
+            if default_factor_added:  # do not remove Default factor if dialog is Cancelled but factor was added
+                                      #  previously
+                self.factors = []
 
     def on_slopeButton_clicked(self):
         if self.slope_dialog.exec_():
