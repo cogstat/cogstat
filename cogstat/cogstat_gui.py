@@ -130,6 +130,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.compare_groups(['dep_nom'], ['g0', 'g1', 'g2', 'g3'])
+#        self.compare_variables_groups(var_names=['a', 'e', 'f'], groups=['i'], display_factors=[['i', ' '], [], []])
 #        self.reliability_internal(var_names=['a', 'e', 'f', 'g'])
 #        self.save_result_as()
 #        self.save_result_as(filename='CogStat analysis result.pdf')
@@ -954,13 +955,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                            'single_case_slope_SE': single_case_slope_SE,
                                            'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
 
-    def compare_variables_groups(self, var_names=None, groups=None, factors=None,
-                                 display_factors=None,
+    def compare_variables_groups(self, var_names=None, groups=None, factors=None, display_factors=None,
                                  single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
-        """Compare variables.
-
-        Arguments:
-        var_names (list): variable names
+        """Compare variables and groups.
         """
         if groups is None:
             groups = []
@@ -972,22 +969,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var_groups.exec_():
                 var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
-                    self.dial_comp_var_groups.read_parameters()  # TODO check if settings are appropriate
+                    self.dial_comp_var_groups.read_parameters()
             else:
                 return
-        self._run_analysis(title=_('Compare repeated measures variables'),  # TODO title
+        self._run_analysis(title=_('Compare repeated measures variables and groups'),
                            function_name='self.active_data.compare_variables_groups',
                            parameters={'var_names': var_names, 'factors': factors, 'grouping_variables': groups,
                                        'display_factors': display_factors, 'single_case_slope_SE': single_case_slope_SE,
                                        'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
-        # TODO check relevant details
-        if '' in var_names:
-            pass  # TODO
-            """text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
-                                                  (_('Compare repeated measures variables'),
-                                                   _('A variable should be assigned to each level of the '
-                                                     'factors.')))
-            self.analysis_results[-1].add_output(text_result)"""
 
     def reliability_internal(self, var_names=None, reversed_names=None):
         if not var_names:

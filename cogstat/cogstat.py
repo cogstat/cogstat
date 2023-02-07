@@ -1504,6 +1504,7 @@ class CogStatData:
         factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
                                                                                   names=[factor[0] for factor in factors]))
         raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                       dep_names=var_names,
                                                                        factor_info=factor_info,
                                                                        indep_x=display_factors[0],
                                                                        indep_color=display_factors[1],
@@ -1514,6 +1515,7 @@ class CogStatData:
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
             sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                              dep_names=var_names,
                                                                               factor_info=factor_info,
                                                                               indep_x=display_factors[0],
                                                                               indep_color=display_factors[1],
@@ -1575,6 +1577,7 @@ class CogStatData:
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
         population_estimation, *population_graph_new = cs_chart.\
             create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                  dep_names=var_names,
                                                   factor_info=factor_info,
                                                   indep_x=display_factors[0],
                                                   indep_color=display_factors[1],
@@ -1703,7 +1706,7 @@ class CogStatData:
         raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
         raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
-                                                                       dep_name=var_name,
+                                                                       dep_names=[var_name],
                                                                        indep_x=display_groups[0],
                                                                        indep_color=display_groups[1],
                                                                        indep_panel=display_groups[2],
@@ -1741,7 +1744,7 @@ class CogStatData:
             sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                        level_combinations, ylims=ylims)
             sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
-                                                                              dep_name=var_name,
+                                                                              dep_names=[var_name],
                                                                               indep_x=display_groups[0],
                                                                               indep_color=display_groups[1],
                                                                               indep_panel=display_groups[2],
@@ -1758,7 +1761,7 @@ class CogStatData:
         population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, groups,
                                                                            level_combinations, ylims=ylims)
         population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
-                                                                              dep_name=var_name,
+                                                                              dep_names=[var_name],
                                                                               indep_x=display_groups[0],
                                                                               indep_color=display_groups[1],
                                                                               indep_panel=display_groups[2],
@@ -1807,11 +1810,81 @@ class CogStatData:
 
     def compare_variables_groups(self, var_names, factors=None, grouping_variables=None, display_factors=None,
                           single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+        """ TODO docstring
+
+        Parameters
+        ----------
+        var_names : list of str
+        factors :
+        grouping_variables : list of str
+        display_factors : list of three list of strings
+        single_case_slope_SE : str
+        single_case_slope_trial_n :int
+        ylims : list of {int or float}
+
+        Returns
+        -------
+
+        """
 
         title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
         title += _('Work in progress...')
 
-        return cs_util.convert_output([title])
+        #print('cs.py ini:', var_names, factors, grouping_variables, display_factors)
+
+        # TODO check conditions
+
+        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        if (factors is None or factors == []) and len(var_names) > 1:
+            factors = [[' ', len(var_names)]]
+
+        if (display_factors is None) or (display_factors == [[], []]) or (display_factors == [[], [], []]):  # TODO check what is possible here
+            if grouping_variables and not factors: # only between-subject
+                display_factors = [grouping_variables, [], []]
+            elif factors and not grouping_variables:  # only within-subject
+                display_factors = [[factor[0] for factor in factors], [], []]
+            else:  # mixed design
+                display_factors = [grouping_variables + [factor[0] for factor in factors], [], []]
+
+        data = self.data_frame[grouping_variables + var_names].dropna()
+        #meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+        meas_level, unknown_type = self._meas_lev_vars(var_names)
+
+        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
+                                                                                  names=[factor[0] for factor in factors]))
+
+        #print('cs.py first call:', var_names, factors, grouping_variables, display_factors)
+        #print(factor_info)
+
+        raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                       dep_names=var_names,
+                                                                       factor_info=factor_info,
+                                                                       indep_x=display_factors[0],
+                                                                       indep_color=display_factors[1],
+                                                                       indep_panel=display_factors[2],
+                                                                       ylims=ylims, raw_data=True)
+        #raw_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+
+        sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                          dep_names=var_names,
+                                                                          factor_info=factor_info,
+                                                                          indep_x=display_factors[0],
+                                                                          indep_color=display_factors[1],
+                                                                          indep_panel=display_factors[2],
+                                                                          ylims=ylims, raw_data=True, box_plots=True)
+        #sample_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+        population_estimation, *population_graph_new = cs_chart.\
+            create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                  dep_names=var_names,
+                                                  factor_info=factor_info,
+                                                  indep_x=display_factors[0],
+                                                  indep_color=display_factors[1],
+                                                  indep_panel=display_factors[2],
+                                                  ylims=ylims, estimations=True,
+                                                  estimation_table=True)
+        #population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+
+        return cs_util.convert_output([title, raw_graph_new, sample_graph_new, population_graph_new])
 
 
 def display(results):

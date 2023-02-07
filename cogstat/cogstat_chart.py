@@ -1301,33 +1301,30 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
     return graph
 
 
-def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', factor_info=None,
+def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, factor_info=None,
                                           indep_x=None, indep_color=None, indep_panel=None,
                                           ylims=[None, None],
                                           raw_data=False, box_plots=False, descriptives=False, estimations=False,
                                           descriptives_table=False, estimation_table=False):
     """Function to create repeated measures and group data charts. Return related results in numerical format, too.
 
-    Overall, when calling the function, provide the dataframe (data), the dependent variables (either dep_name or the
-    variables in factor_info, but not both), the (optional) independent variables specific to the display methods
-    (either grouping names or factors in factor_info or both or none), and the information that should be displayed
-    (raw_data, box_plots, etc.)
+    Overall, when calling the function, provide the dataframe (data), the dependent variables (in dep_names; and
+    optionally in factor_info if there are repeated measures factors), the (optional) independent variables specific
+    to the display methods (either grouping names or factors in factor_info or both or none), and the information
+    that should be displayed (raw_data, box_plots, etc.)
 
     Parameters
     ----------
     data : pandas DataFrame that include the table with all the data
     dep_meas_level : str
         Measurement level of the dependent variable
-    dep_name : str
-        Name of the dependent variable
-        Used only for between-subject design or for single variable.
-        Cannot be used with factor_info (i.e., either dep_name or factor_info should be set but not both).
+    dep_names : list of str
+        Name(s) of the dependent variable(s)
     factor_info : multiindex pandas DataFrame
-        Dependent variables in repeated measures design
+        Repeated measures design info
+        Use this if there are multiple variables in dep_names.
         Indexes are the names of the levels, and values are the names of the variables (i.e., indexes include the
-        within-subject independent variables and their level names).
-        Used only when within-subject variable is used (including mixed design).
-        Cannot be used with dep_name.
+        repeated measures independent factors and their level names).
     indep_x : list of str
         Independent variables to be displayed on the x-axes
     indep_color : list of str
@@ -1358,9 +1355,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
     """
 
     """
-    Technically, instead of using the variables of the original dataframe, we modify the data so that both within
-    and between subject independent variables are equally columns of the dataframe. For this, between subject grouping 
-    variables shouldn't be changed, but only the repeated measures within subject variables.  
+    Technically, instead of using the variables of the original dataframe, we modify the data so that both within-
+    and between-subject independent variables are equally columns of the dataframe. For this, between-subject grouping 
+    variables shouldn't be changed, but only the repeated measures within-subject variables.
 
     The function should handle all of these cases technically: TODO check these ones more systematically
     - no independent variables, only between, only within, mixed
@@ -1370,10 +1367,10 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
     
     In the descriptive or estimation tables, the arrangement follows the display dimensions in the sense that 
     multiindex follows the panel, color, x order. On the other hand, we don't follow strictly the charts (e.g., separate
-    tables for separate panels) because that leads to hard to read/review tables. 
+    tables for separate panels) because that leads to hard to read/review tables.
     
     Handling tables in this module is not an entirely coherent solution, however, it makes maintaining the code more
-    reasonable. 
+    reasonable.
     
     Sorting. For between-subjects design sort alphabetically, for repeated measures keep the originally
     specified orders.
@@ -1383,9 +1380,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
     (e.g., factor 1, factor 2, factor 3), the simple sorting does the job. If custom factor level names can be
     specified, then the ordering parts should be adjusted.
     
-    TODO For the testing period (until the beta/RC), both this function's the older parallel functions' charts and 
-    tables will be displayed
-
+    TODO For the testing period (until the beta/RC), both this function's and the older parallel functions' charts and 
+    tables will be displayed.
     """
 
     # 0. Check parameter constraints and find dependent and independent variables
@@ -1394,11 +1390,10 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
     if (raw_data + box_plots + descriptives + estimations) == 0:
         return None
 
-    # Dependent variable(s)
-    if bool(dep_name) == (factor_info is not None):  # xor
-        raise RuntimeError('One and only one of dep_name and factor_info should be set')
-    # Columns that include the dependent variable
-    dep_names = [dep_name] if dep_name else list(factor_info.values[0])
+    # Check if dep_names and factor_info are coherent
+    if factor_info is not None:
+        if sorted(dep_names) != sorted(factor_info.values[0]):
+            raise RuntimeError('The variables in dep_names and factor_info do not match')
 
     # Independent variable(s)
     if indep_x is None:
@@ -1440,6 +1435,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
         # This will be the name of the dependent variable in the dataframe. Therefore, dep_name variable can be used
         #  not only in between-subject design, but in design including within-subject design (including mixed design)
         dep_name = 'repeated_measures_dependent'
+    else:
+        dep_name = dep_names[0]
     long_raw_data = long_raw_data.join(data[between_indep_names])
     # This is used in the code where the code is easier to handle with a grouping column that includes all cases.
     long_raw_data['all_raw_rows'] = 1
@@ -1529,7 +1526,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
         else:  # single variable
             max_freq_global = max(long_raw_data[dep_name].value_counts())
         if raw_data and (set(indep_x) - set(between_indep_names)):  # all x-axes independent variables are repeated
-                                                                    # measures
+                                                                    # measures TODO fix this
             # This is used for a mixed design, when different panels are groups.
             # TODO This works only if all indep_x is repeated measures
             # TODO this could be faster with loops (saving time for repeated pivot())?
@@ -1598,12 +1595,16 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
                 # TODO can we have a better solution omitting the loops on the x-axes level while drawing the chart?
 
                 # For repeated measures data, display the connections
+                # This will handle mixed designs too: if repeated measures factors are the lowest level, then they'll
+                #  be connected. When the between-subject factor level changes, the pivot row has missing data. This
+                #  also means that if repeated maeasures variables are not the lowest levels, then the data will not be
+                #  connected.
                 # TODO connect color conditions too; within a single x value, the neighboring colors could be connected;
                 #  this would change max_freq_global_connec;
-                # TODO handle mixed design when not all indep_x and indep_color are repeated measures factors
-                if raw_data and (set(indep_x) - set(between_indep_names)):  # all x-axes independent variables are repeated measures
+                # TODO handle mixed design when not all indep_color are repeated measures factors
+                if raw_data and (set(indep_x) - set(between_indep_names)):  # at least one x-axes independent variable is repeated-measure
                     # Find the value among all variables with the largest frequency
-                    data_con = color_raw_group.pivot(columns=indep_x, values=dep_name)
+                    data_con = color_raw_group.pivot(columns=indep_x, values=dep_name).sort_index(axis=1)
                     # max_freq_panel_connec is the specific maximum frequency for the connected items per panel
                     max_freq_panel_connec = 1
                     for c_i in range(len(data_con.columns) - 1):  # for all x level pairs
@@ -1612,7 +1613,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
                             plt.plot([c_i + 1 + i/(color_n+1), c_i + 2 + i/(color_n+1)],
                                      [index[0], index[1]],
                                      '-', color=csc.ind_line_col, lw=value, solid_capstyle='round')
-                        max_freq_panel_connec = max(max_freq_panel_connec, max(xy_set_freq.values))
+                        max_freq_panel_connec = max(max_freq_panel_connec, max(xy_set_freq.values, default=0))
                     if max_freq_panel_connec > 1:
                         suptitle_text_line = _plt('Thickest line displays %d cases.') % max_freq_panel_connec + ' '
 
@@ -1678,13 +1679,15 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_name='', fac
             # If all factors are repeated measures, then display the variable names, and not the factor levels
             #   TODO we may reconsider this solution
             # TODO does this work when not all repeated measures factors are on x-axis?
-            if set(indep_x) - set(between_indep_names):  # all independent variables are repeated measures
+            if set(indep_x) - set(between_indep_names) == set(indep_x):  # all independent variables are within-subject
                 xtick_labels_formatted = [factor_info[group_level].iloc[0, 0] if isinstance(group_level, str)
                                           else factor_info[group_level].iloc[0] for group_level in xtick_labels]
-            else:
+            elif set(indep_x).issubset(set(between_indep_names)):  # all independent variables are between-subject
                 xtick_labels_formatted = [(' : '.join(map(str, group_level)) if isinstance(group_level, tuple)
                                            else group_level) for group_level in xtick_labels]
-            # TODO handle mixed within-subjects and between-subjects design
+            else:  # TODO handle mixed within-subjects and between-subjects design
+                xtick_labels_formatted = [(' : '.join(map(str, group_level))) for group_level in xtick_labels]
+
             plt.xticks(np.arange(len(xtick_labels)) + 1 + ((color_n - 1) / 2 / (color_n + 1)),
                        _wrap_labels(xtick_labels_formatted))
             plt.xlabel(' : '.join(indep_x))
