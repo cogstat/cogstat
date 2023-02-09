@@ -371,7 +371,7 @@ def create_item_total_matrix(data, regression=True):
             ax.plot(data[item], regress_result.predict(statsmodels.api.add_constant(data[item])),
                     color=theme_colors[1])
 
-        ax.set_ylabel(_plt('Total score (sum)'))
+        ax.set_ylabel(_plt('Total (rest)'))
         ax.set_xlabel(item)
         index += 1
     if global_max_freq > 1:
