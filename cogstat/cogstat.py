@@ -967,7 +967,7 @@ class CogStatData:
 
         title = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
         title += '\n' + _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
-                                                                  for var, meas in zip(var_names, meas_levels))
+                                                                for var, meas in zip(var_names, meas_levels))
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         if reverse_items:
@@ -1075,7 +1075,7 @@ class CogStatData:
         else:
             population_result += '<decision>' + _('Assumption of homogeneity of variances met.') + '</decision>' + '\n'
 
-        population_result += '\n' + '<cs_h3>' + _('Interval estimates') + '</cs_h3>'
+        population_result += '\n' + '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
         if non_normal_vars or var_hom_p < 0.05:
             warnings += '<decision>' + _('CIs may be inaccurate.') + '</decision>'
         else:
