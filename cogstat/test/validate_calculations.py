@@ -94,7 +94,7 @@ class CogStatTestCase(unittest.TestCase):
         # Int variable
         result = data.explore_variable('a', 1, 2.0)
         #for i, res in enumerate(result): print(i, res)
-        self.assertTrue('N of valid cases: 30' in result[2])
+        self.assertTrue('N of observed cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
         # Descriptives
             # jamovi 2.0.0.0    3.14
@@ -175,7 +175,7 @@ class CogStatTestCase(unittest.TestCase):
         # Ord variable
         data.data_measlevs['a'] = 'ord'
         result = data.explore_variable('a', 1, 2.0)
-        self.assertTrue('N of valid cases: 30' in result[2])
+        self.assertTrue('N of observed cases: 30' in result[2])
         self.assertTrue('N of missing cases: 0' in result[2])
         # Descriptives - Other software validation is not needed here
         self.assertTrue('<td>Maximum</td>      <td>9.9810</td>' in result[4])
@@ -205,7 +205,7 @@ class CogStatTestCase(unittest.TestCase):
 
         # Int variables
         result = data.regression(['g'], 'h')
-        self.assertTrue('N of valid pairs: 30' in result[1])
+        self.assertTrue('N of observed pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
             # Regression model: jamovi 2.2.5.0 g 0.347 Intercept 4.593
             # jasp 0.16.1   g 0.347     Intercept 4.593
@@ -259,7 +259,7 @@ class CogStatTestCase(unittest.TestCase):
 
         # Nom variables
         result = data.regression(['c'], 'd')
-        self.assertTrue('N of valid pairs: 30' in result[1])
+        self.assertTrue('N of observed pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
         # Cramer's V
             # jamovi 2.0.0.0 0.372
@@ -293,7 +293,7 @@ class CogStatTestCase(unittest.TestCase):
 
         # 2 Int variables
         result = data.compare_variables(['a', 'e'])
-        self.assertTrue('N of valid cases: 30' in result[1])
+        self.assertTrue('N of observed cases: 30' in result[1])
         self.assertTrue('N of missing cases: 0' in result[1])
         # Cohen's d
             # CS formula: https://pingouin-stats.org/generated/pingouin.compute_effsize.html
@@ -650,7 +650,7 @@ Control	0.538	0.107''')
 
     def test_reliability_internal(self):
         result = data.reliability_internal(['a', 'e', 'f', 'g'], reverse_items=['e'])
-        self.assertTrue('N of valid cases: 30' in result[1])
+        self.assertTrue('N of observed cases: 30' in result[1])
         self.assertTrue('N of missing cases: 0' in result[1])
         self.assertTrue('Reverse coded items: e')
 
@@ -679,7 +679,7 @@ Control	0.538	0.107''')
 
         # ICC1,1 and CI and assumption tests
         result = data.reliability_interrater(var_names=['a', 'e', 'f', 'g'], ratings_averaged=False)
-        self.assertTrue('N of valid cases: 30' in result[1])
+        self.assertTrue('N of observed cases: 30' in result[1])
         self.assertTrue('N of missing cases: 0' in result[1])
         # Assumption tests (same for all ICC types)
         self.assertTrue('Shapiro–Wilk normality test in variable a: <i>W</i> = 0.96, <i>p</i> = .287' in result[6])

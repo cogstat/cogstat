@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-Upcoming release (2022)
+Upcoming release (2023)
 =======================
 ## New features
 - Data handling
@@ -29,7 +29,9 @@ Upcoming release (2022)
   - Slow trials are filtered before the analysis is run
   - Display the number of filtered (missing and slow outlier) trials
   - Number of included trials per conditions are displayed
-- Save results into html file instead of pdf file (Róbert Fodor)
+- Output handling
+  - Save results into html file instead of pdf file (Róbert Fodor)
+  - Ability to use png or svg image formats for charts
 - New localization
   - Chinese (Xiaomeng Zhu)
   - Malay (Nur Hidayati Miza binti Junaidi)

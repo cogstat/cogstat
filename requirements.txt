@@ -17,3 +17,4 @@ IPython
 Jupyter
 PyQt5
 sklearn
+svgutils

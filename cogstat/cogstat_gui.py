@@ -42,7 +42,7 @@ import webbrowser
 import pandas as pd
 from operator import attrgetter
 
-from PyQt5 import QtCore, QtGui, QtWidgets, QtPrintSupport
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 from . import cogstat
 from . import cogstat_dialogs
@@ -114,7 +114,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.regression(['a'], 'b')
 #        self.regression(['b', 'f', 'g'], 'a')
-#        self.pivot([u'X'], row_names=[], col_names=[], page_names=[u'CONDITION', u'TIME3'], function='N')
+#        self.pivot([u'X'], row_names=[], col_names=[], page_names=['CONDITION', 'TIME3'], function='N')
 #        self.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name', condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['a', 'e', 'g'])
@@ -124,12 +124,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_variables(['a', 'g', 'b', 'h'],
 #                               factors=[['factor1', 2], ['factor2', 2]],
 #                               display_factors=[['factor1'], ['factor2']])
-#        self.compare_variables([u'CONDITION', u'CONDITION2', u'CONDITION3'])
+#        self.compare_variables(['CONDITION', 'CONDITION2', 'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
 #        self.compare_groups(['b'], groups=['i', 'j', 'k'], display_groups=[['k', 'i'], ['j'], []]),
 #        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.compare_groups(['dep_nom'], ['g0', 'g1', 'g2', 'g3'])
+#        self.compare_variables_groups(var_names=['a', 'e', 'f'], groups=['i'], display_factors=[['i', ' '], [], []])
+#        self.reliability_internal(var_names=['a', 'e', 'f', 'g'])
 #        self.save_result_as()
 #        self.save_result_as(filename='CogStat analysis result.pdf')
 
@@ -346,14 +348,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         for pane in [self.result_pane]:
             # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
             pane.document().setDefaultStyleSheet('body {color:black;} '
-                                                            'h2 {color:%s;} h3 {color:%s} '
-                                                            'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
-                                                            '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
-                                                            'td {white-space:nowrap}' %
-                                                            (_change_color_lightness(csc.mpl_theme_color, 1.1),
-                                                            _change_color_lightness(csc.mpl_theme_color, 1.0),
-                                                            _change_color_lightness(csc.mpl_theme_color, 0.8),
-                                                            _change_color_lightness(csc.mpl_theme_color, 0.4)))
+                                                 'h2 {color:%s;} h3 {color:%s;} '
+                                                 'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
+                                                 '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
+                                                 'td {white-space:nowrap}' %
+                                                 (_change_color_lightness(csc.mpl_theme_color, 1.1),
+                                                  _change_color_lightness(csc.mpl_theme_color, 1.0),
+                                                  _change_color_lightness(csc.mpl_theme_color, 0.8),
+                                                  _change_color_lightness(csc.mpl_theme_color, 0.4)))
             pane.setReadOnly(True)
             pane.setOpenExternalLinks(True)
             pane.setStyleSheet("QTextBrowser { background-color: white; }")
@@ -504,22 +506,35 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 pane.append(output)  # insertHtml() messes up the html doc,
                                                  # check it with value.toHtml()
             elif isinstance(output, matplotlib.figure.Figure):
-                chart_buffer = io.BytesIO()
-                image_format = 'png'  # TODO this will be an ini setting
-                if image_format == 'png':
+                if csc.image_format == 'png':
+                    chart_buffer = io.BytesIO()
                     output.savefig(chart_buffer, format='png')  # TODO dpi= and modify html width to keep the original image size
                     chart_buffer.seek(0)
                     html_img = '<img src="data:image/png;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())  # TODO width=...gui.physicaldpi * 6.4
-                elif image_format == 'svg':
-                    # TODO in savefig(), when the format is 'svg', the dpi parameter is ignored, and a dpi of 72 is
-                    #  used instead https://github.com/cogstat/cogstat/issues/101
+                    chart_buffer.close()
+                    # print('PNG size', sys.getsizeof(html_img))
+                elif csc.image_format == 'svg':
+                    """
+                    # matplotlib-based method
+                    chart_buffer = io.BytesIO()
+                    # in savefig(), for 'svg' format, the dpi parameter is ignored, 72 is used instead
                     output.savefig(chart_buffer, format='svg')
                     chart_buffer.seek(0)
-                    # TODO width="800" height="600" won't help because the image is blurry
+                    # width="800" height="600" won't help because the image is blurry
                     html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
                         format(base64.b64encode(chart_buffer.read()).decode())
-                chart_buffer.close()
+                    chart_buffer.close()
+                    #print('SVG matplotlib size', sys.getsizeof(html_img))
+                    #"""
+                    # svgutils-based method
+                    import svgutils.transform
+                    svg_fig = svgutils.transform.from_mpl(output)
+                    svg_size = output.get_size_inches() * output.dpi
+                    svg_fig.set_size((str(svg_size[0]), str(svg_size[1])))
+                    html_img = '<img src="data:image/svg-xml;base64,{0}">'.\
+                        format(base64.b64encode(svg_fig.to_str()).decode())
+                    #print('SVG svgutils size', sys.getsizeof(html_img))
                 pane.append(html_img)
             elif output is None:
                 pass  # We don't do anything with None-s
@@ -940,13 +955,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                            'single_case_slope_SE': single_case_slope_SE,
                                            'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
 
-    def compare_variables_groups(self, var_names=None, groups=None, factors=None,
-                                 display_factors=None,
+    def compare_variables_groups(self, var_names=None, groups=None, factors=None, display_factors=None,
                                  single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
-        """Compare variables.
-
-        Arguments:
-        var_names (list): variable names
+        """Compare variables and groups.
         """
         if groups is None:
             groups = []
@@ -958,22 +969,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var_groups.exec_():
                 var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
-                    self.dial_comp_var_groups.read_parameters()  # TODO check if settings are appropriate
+                    self.dial_comp_var_groups.read_parameters()
             else:
                 return
-        self._run_analysis(title=_('Compare repeated measures variables'),  # TODO title
+        self._run_analysis(title=_('Compare repeated measures variables and groups'),
                            function_name='self.active_data.compare_variables_groups',
                            parameters={'var_names': var_names, 'factors': factors, 'grouping_variables': groups,
                                        'display_factors': display_factors, 'single_case_slope_SE': single_case_slope_SE,
                                        'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
-        # TODO check relevant details
-        if '' in var_names:
-            pass  # TODO
-            """text_result = cs_util.reformat_output('<cs_h1>%s</cs_h1> %s' %
-                                                  (_('Compare repeated measures variables'),
-                                                   _('A variable should be assigned to each level of the '
-                                                     'factors.')))
-            self.analysis_results[-1].add_output(text_result)"""
 
     def reliability_internal(self, var_names=None, reversed_names=None):
         if not var_names:
@@ -1082,7 +1085,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.output_filename = filename
             self.save_result()
 
-    ### Cogstat menu  methods ###
+    ### Cogstat menu methods ###
     def _open_help_webpage(self):
         webbrowser.open('https://github.com/cogstat/cogstat/wiki/Documentation-for-users')
         

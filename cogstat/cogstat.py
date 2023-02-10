@@ -826,7 +826,7 @@ class CogStatData:
 
         data = pd.DataFrame(self.data_frame[var_name].dropna())
 
-        text_result2 = _('N of valid cases: %g') % len(data) + '\n'
+        text_result2 = _('N of observed cases: %g') % len(data) + '\n'
         missing_cases = len(self.data_frame[var_name])-len(data)
         text_result2 += _('N of missing cases: %g') % missing_cases + '\n'
 
@@ -869,7 +869,7 @@ class CogStatData:
 
         # Normality
         if meas_level in ['int', 'unk']:
-            text_result += '<cs_h3>'+_('Normality')+'</cs_h3>\n'
+            text_result += '<cs_h3>'+_('Normality')+'</cs_h3>'
             stat_result, text_result2 = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
             image = cs_chart.create_normality_chart(data, var_name)
                 # histogram with normality and qq plot
@@ -884,7 +884,7 @@ class CogStatData:
         if meas_level in ['int', 'ord', 'unk']:
             prec = cs_util.precision(data[var_name]) + 1
 
-        population_param_text = '\n<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
+        population_param_text = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
             population_param_text += cs_stat.variable_estimation(data[var_name], ['mean', 'std'])
         elif meas_level == 'ord':
@@ -894,7 +894,7 @@ class CogStatData:
         text_result = '\n'
 
         # Hypothesis tests
-        text_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n'
+        text_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if self.data_measlevs[var_name] in ['int', 'unk']:
             text_result += '<decision>' + _('Testing if mean deviates from the value %s.') % central_value +\
                            '</decision>\n'
@@ -966,8 +966,8 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         title = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
-        title += '\n' + _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
-                                                                for var, meas in zip(var_names, meas_levels))
+        title += _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
+                                                         for var, meas in zip(var_names, meas_levels))
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         if reverse_items:
@@ -976,21 +976,21 @@ class CogStatData:
             title += '\n' + _('Reverse coded item(s): ') + ', '.join('%s' % var for var in reverse_items)
 
         # Raw data
-        raw_title = '\n' + '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         missing_cases = len(self.data_frame[var_names])-len(data)
-        raw_title += _('N of valid cases') + ': %g' % len(data) + '\n'
+        raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
         raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
         raw_graph = cs_chart.create_item_total_matrix(data, regression=False)
 
         # Sample properties
-        sample_title = '\n' + '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        sample_title = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         alpha, item_removed_sample = cs_stat.reliability_internal_calc(data, sample=True)
         sample_graph = cs_chart.create_item_total_matrix(data, regression=True)
         sample_result = '\n' + _("Cronbach's alpha ") + '= %0.3f' % alpha[0] + '\n'
 
         # Population properties
-        population_result = '\n' + '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
         alpha, item_removed_pop = cs_stat.reliability_internal_calc(data, sample=False)
         pop_result_df = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         pop_result_df.loc[_("Cronbach's alpha")] = \
@@ -1026,7 +1026,7 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         title = '<cs_h1>' + _('Inter-rater reliability') + '</cs_h1>'
-        title += '\n' + _('Reliability calculated from variables: ') \
+        title += _('Reliability calculated from variables: ') \
                  + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
 
         # Raw data
@@ -1034,7 +1034,7 @@ class CogStatData:
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         missing_cases = len(self.data_frame[var_names])-len(data)
-        raw_title += _('N of valid cases') + ': %g' % len(data) + '\n'
+        raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
         raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
 
         raw_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
@@ -1048,14 +1048,14 @@ class CogStatData:
                                                 ratings_averaged=ratings_averaged)
 
         # Sample properties
-        sample_title = '\n' + '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        sample_title = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         sample_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
                                                                      raw_data_only=False, ylims=ylims)
 
         # Population properties
-        population_result = '\n' + '<cs_h2>' + _('Population properties') + '</cs_h2>'
-        population_result += '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods.') + '</cs_h3>'
-        population_result += '\n' + '<decision>' + _('Testing normality.') + '</decision>'
+        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        population_result += '<cs_h3>' + _('Checking assumptions of inferential methods.') + '</cs_h3>'
+        population_result += '<decision>' + _('Testing normality.') + '</decision>'
         non_normal_vars, normality_text, var_hom_p, var_text_result = \
             cs_hyp_test.reliability_interrater_assumptions(data, data_long, var_names, self.data_measlevs)
         population_result += '\n' + normality_text
@@ -1075,7 +1075,7 @@ class CogStatData:
         else:
             population_result += '<decision>' + _('Assumption of homogeneity of variances met.') + '</decision>' + '\n'
 
-        population_result += '\n' + '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
+        population_result += '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
         if non_normal_vars or var_hom_p < 0.05:
             warnings += '<decision>' + _('CIs may be inaccurate.') + '</decision>'
         else:
@@ -1155,7 +1155,7 @@ class CogStatData:
         data = self.data_frame[predictors + [predicted]].dropna()
         valid_n = len(data)
         missing_n = len(self.data_frame[predictors + [predicted]]) - valid_n
-        raw_result += _('N of valid pairs') + ': %g' % valid_n + '\n'
+        raw_result += _('N of observed pairs') + ': %g' % valid_n + '\n'
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
@@ -1179,7 +1179,7 @@ class CogStatData:
         elif meas_lev == 'int':
 
             # Test of multivariate normality
-            assumptions_result = '\n' + '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>\n'
+            assumptions_result = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
             assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
             normality, norm_text = cs_hyp_test.multivariate_normality(data, predictors + [predicted])
             assumptions_result += norm_text
@@ -1227,7 +1227,7 @@ class CogStatData:
             standardized_effect_size_result += '\n'
         else:
             if meas_lev in ['int', 'unk']:
-                standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + '\n'
+                standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
                 standardized_effect_size_result += cs_stat.multiple_variables_standard_effect_size(data, predictors,
                                                    [predicted], result, normality, homoscedasticity, multicollinearity,
                                                    sample=True)
@@ -1240,7 +1240,7 @@ class CogStatData:
         if meas_lev == 'int':
 
             # Residual analysis
-            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>\n'
+            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
             if len(predictors) == 1:
                 residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
             else:
@@ -1269,7 +1269,7 @@ class CogStatData:
         # 3. Population properties
         # TODO for the estimations, do not print warning if assumption is not violated
         population_properties_title = '<cs_h2>' + _('Population properties') + '</cs_h2>'
-        estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
+        estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         estimation_parameters, estimation_effect_size, population_graph = None, None, None
 
         if meas_lev == 'nom':
@@ -1296,13 +1296,13 @@ class CogStatData:
                                                                                  homoscedasticity=homoscedasticity)
         else:
             if meas_lev in ['int', 'unk']:
-                estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>' + '\n'
+                estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
                 estimation_effect_size += cs_stat.multiple_variables_standard_effect_size(self.data_frame, predictors,
                                                                                           [predicted], result, normality,
                                                                                           homoscedasticity, multicollinearity,
                                                                                           sample=False)
 
-        population_result = '\n' + '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n'
+        population_result = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if len(predictors) == 1:
             population_result += cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality, homoscedasticity) \
                                  + '\n'
@@ -1498,7 +1498,7 @@ class CogStatData:
         data = self.data_frame[var_names].dropna()
         valid_n = len(data)
         missing_n = len(self.data_frame[var_names])-valid_n
-        raw_result += _('N of valid cases') + ': %g\n' % valid_n
+        raw_result += _('N of observed cases') + ': %g\n' % valid_n
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the raw data
@@ -1507,6 +1507,7 @@ class CogStatData:
         factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
                                                                                   names=[factor[0] for factor in factors]))
         raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                       dep_names=var_names,
                                                                        factor_info=factor_info,
                                                                        indep_x=display_factors[0],
                                                                        indep_color=display_factors[1],
@@ -1517,6 +1518,7 @@ class CogStatData:
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
             sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                              dep_names=var_names,
                                                                               factor_info=factor_info,
                                                                               indep_x=display_factors[0],
                                                                               indep_color=display_factors[1],
@@ -1549,13 +1551,13 @@ class CogStatData:
         # 2b. Effect size
         effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
         if effect_size_result:
-            sample_result += '\n\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
+            sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
 
         # 3. Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
 
         # 3a. Population estimations
-        population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
+        population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
@@ -1578,6 +1580,7 @@ class CogStatData:
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
         population_estimation, *population_graph_new = cs_chart.\
             create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                  dep_names=var_names,
                                                   factor_info=factor_info,
                                                   indep_x=display_factors[0],
                                                   indep_color=display_factors[1],
@@ -1590,10 +1593,10 @@ class CogStatData:
         # 3b. Effect size
         effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
         if effect_size_result:
-            population_result += '\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
+            population_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
 
         # 3c. Hypothesis tests
-        result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
+        result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
         return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
@@ -1680,7 +1683,7 @@ class CogStatData:
         columns = pd.MultiIndex.from_tuples(level_combinations, names=groups)
         pdf_result = pd.DataFrame(columns=columns)
 
-        pdf_result.loc[_('N of valid cases')] = [sum(
+        pdf_result.loc[_('N of observed cases')] = [sum(
             (data[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1))
                                                  for group_level in level_combinations]
         pdf_result.loc[_('N of missing cases')] = [sum(
@@ -1692,7 +1695,7 @@ class CogStatData:
         #            for group in group_levels:
         #                valid_n = sum(data[groups[0]]==group)
         #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
-        #                raw_result += _(u'Group: %s, N of valid cases: %g, N of missing cases: %g\n') %
+        #                raw_result += _(u'Group: %s, N of observed cases: %g, N of missing cases: %g\n') %
         #                              (group, valid_n, missing_n)
         raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
         raw_result += '\n\n'
@@ -1706,7 +1709,7 @@ class CogStatData:
         raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
         raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
-                                                                       dep_name=var_name,
+                                                                       dep_names=[var_name],
                                                                        indep_x=display_groups[0],
                                                                        indep_color=display_groups[1],
                                                                        indep_panel=display_groups[2],
@@ -1736,7 +1739,7 @@ class CogStatData:
         # Effect size
         sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level, sample=True)
         if sample_effect_size:
-            sample_result += '\n\n' + '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
+            sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
         # Plot the individual data with boxplots
         # There's no need to repeat the mosaic plot for the nominal variables
@@ -1744,7 +1747,7 @@ class CogStatData:
             sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
                                                                        level_combinations, ylims=ylims)
             sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
-                                                                              dep_name=var_name,
+                                                                              dep_names=[var_name],
                                                                               indep_x=display_groups[0],
                                                                               indep_color=display_groups[1],
                                                                               indep_panel=display_groups[2],
@@ -1761,7 +1764,7 @@ class CogStatData:
         population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, groups,
                                                                            level_combinations, ylims=ylims)
         population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
-                                                                              dep_name=var_name,
+                                                                              dep_names=[var_name],
                                                                               indep_x=display_groups[0],
                                                                               indep_color=display_groups[1],
                                                                               indep_panel=display_groups[2],
@@ -1770,7 +1773,7 @@ class CogStatData:
 
         # Population estimation
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
-                            '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>\n'
+                            '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
         elif meas_level == 'ord':
@@ -1797,12 +1800,12 @@ class CogStatData:
         # Hypothesis testing
         if len(groups) == 1:
             group_levels = sorted(set(data[groups[0]]))
-            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
+            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                         cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
                                                                    var_names, groups, group_levels,
                                                                    single_case_slope_SE, single_case_slope_trial_n)
         else:
-            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + \
+            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                         cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
 
         return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
@@ -1810,11 +1813,81 @@ class CogStatData:
 
     def compare_variables_groups(self, var_names, factors=None, grouping_variables=None, display_factors=None,
                           single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+        """ TODO docstring
+
+        Parameters
+        ----------
+        var_names : list of str
+        factors :
+        grouping_variables : list of str
+        display_factors : list of three list of strings
+        single_case_slope_SE : str
+        single_case_slope_trial_n :int
+        ylims : list of {int or float}
+
+        Returns
+        -------
+
+        """
 
         title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
         title += _('Work in progress...')
 
-        return cs_util.convert_output([title])
+        #print('cs.py ini:', var_names, factors, grouping_variables, display_factors)
+
+        # TODO check conditions
+
+        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        if (factors is None or factors == []) and len(var_names) > 1:
+            factors = [[' ', len(var_names)]]
+
+        if (display_factors is None) or (display_factors == [[], []]) or (display_factors == [[], [], []]):  # TODO check what is possible here
+            if grouping_variables and not factors: # only between-subject
+                display_factors = [grouping_variables, [], []]
+            elif factors and not grouping_variables:  # only within-subject
+                display_factors = [[factor[0] for factor in factors], [], []]
+            else:  # mixed design
+                display_factors = [grouping_variables + [factor[0] for factor in factors], [], []]
+
+        data = self.data_frame[grouping_variables + var_names].dropna()
+        #meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+        meas_level, unknown_type = self._meas_lev_vars(var_names)
+
+        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
+                                                                                  names=[factor[0] for factor in factors]))
+
+        #print('cs.py first call:', var_names, factors, grouping_variables, display_factors)
+        #print(factor_info)
+
+        raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                       dep_names=var_names,
+                                                                       factor_info=factor_info,
+                                                                       indep_x=display_factors[0],
+                                                                       indep_color=display_factors[1],
+                                                                       indep_panel=display_factors[2],
+                                                                       ylims=ylims, raw_data=True)
+        #raw_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+
+        sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                          dep_names=var_names,
+                                                                          factor_info=factor_info,
+                                                                          indep_x=display_factors[0],
+                                                                          indep_color=display_factors[1],
+                                                                          indep_panel=display_factors[2],
+                                                                          ylims=ylims, raw_data=True, box_plots=True)
+        #sample_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+        population_estimation, *population_graph_new = cs_chart.\
+            create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                  dep_names=var_names,
+                                                  factor_info=factor_info,
+                                                  indep_x=display_factors[0],
+                                                  indep_color=display_factors[1],
+                                                  indep_panel=display_factors[2],
+                                                  ylims=ylims, estimations=True,
+                                                  estimation_table=True)
+        #population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+
+        return cs_util.convert_output([title, raw_graph_new, sample_graph_new, population_graph_new])
 
 
 def display(results):
