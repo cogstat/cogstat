@@ -623,7 +623,7 @@ def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
     """
 
     # TODO is it useful to test an intraclass correlation against 0? What test value should be used?
-    hypothesis_test_result = '\n' + '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + '\n'
+    hypothesis_test_result = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
     hypothesis_test_result += '<decision>' + _('Testing if ICC differs from 0.') + '</decision>' + '\n'
 
     if not non_normal_vars:

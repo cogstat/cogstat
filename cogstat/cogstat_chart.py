@@ -324,6 +324,7 @@ def create_filtered_cases_chart(included_cases, excluded_cases, var_name, lower_
 def create_item_total_matrix(data, regression=True):
     """Draw a grid of charts relating item scores and the total score with item-removal displaying raw data and
     optionally the regression line.
+    The function assumes that reversed items have been reversed already.
 
     # TODO should we use the pandas or seaborn solution?
 

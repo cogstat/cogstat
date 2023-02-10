@@ -1137,6 +1137,13 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
 from .ui import reliability_internal
 class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dialog):
+    """Dialog for internal consistency reliability analysis.
+
+    Unlike other statistical packages (e.g., jamovi or JASP), we use checkboxes next to the chosen variables to set if
+     they are reversed (other packages use separate list for the reversed items). This ensures intuitively that (a)
+     reversed items are the subset of the chosen variables, and (b) reversed items can be set in the same widget;
+     therefore, visually it is more compact.
+    """
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -1170,6 +1177,12 @@ class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dia
 
 from .ui import reliability_interrater
 class reliability_interrater_dialog(QtWidgets.QDialog, reliability_interrater.Ui_Dialog):
+    """Dialog for interrater reliability analysis.
+
+    While the cogstat.py method includes a parameter for ylims (since this parameter is available for the
+     chart type that the method uses, the GUI (this dialog) does not have an option for this, since it is a
+     highly unusual use case when the y-axis limits are set for interrater reliability analysis.
+    """
     def __init__(self, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)

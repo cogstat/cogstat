@@ -970,6 +970,10 @@ class CogStatData:
                                                          for var, meas in zip(var_names, meas_levels))
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
+        # Items to be reversed will be reversed here, and all functions will get (and expect) the reversed items.
+        # This solution assumes that all values in an item are used. Otherwise (e.g., in a 1-5 scale, only 1-4 values
+        #  are used), the score will be reversed incorrectly, leading to incorrect total score and other related
+        #  statistics.
         if reverse_items:
             for reverse_item in reverse_items:
                 data[reverse_item] = np.min(data[reverse_item]) + np.max(data[reverse_item]) - data[reverse_item]
@@ -980,7 +984,7 @@ class CogStatData:
 
         missing_cases = len(self.data_frame[var_names])-len(data)
         raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
-        raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
+        raw_title += _('N of missing cases') + ': %g' % missing_cases
         raw_graph = cs_chart.create_item_total_matrix(data, regression=False)
 
         # Sample properties
@@ -1027,15 +1031,15 @@ class CogStatData:
 
         title = '<cs_h1>' + _('Inter-rater reliability') + '</cs_h1>'
         title += _('Reliability calculated from variables: ') \
-                 + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+                 + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels))
 
         # Raw data
-        raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>' + '\n'
+        raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         missing_cases = len(self.data_frame[var_names])-len(data)
         raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
-        raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
+        raw_title += _('N of missing cases') + ': %g' % missing_cases
 
         raw_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
                                                                   raw_data_only=True, ylims=ylims)
@@ -1054,7 +1058,7 @@ class CogStatData:
 
         # Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
-        population_result += '<cs_h3>' + _('Checking assumptions of inferential methods.') + '</cs_h3>'
+        population_result += '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
         population_result += '<decision>' + _('Testing normality.') + '</decision>'
         non_normal_vars, normality_text, var_hom_p, var_text_result = \
             cs_hyp_test.reliability_interrater_assumptions(data, data_long, var_names, self.data_measlevs)
@@ -1069,11 +1073,10 @@ class CogStatData:
         population_result += '\n' + '<decision>' + _('Testing homogeneity of variances.') + '</decision>'
         population_result += '\n' + var_text_result
         if var_hom_p < 0.05:
-            population_result += '<decision>' + _('Assumption of homogeneity of variances violated. ') + '</decision>'\
-                                 + '\n'
+            population_result += '<decision>' + _('Assumption of homogeneity of variances violated. ') + '</decision>'
             warnings += '<decision>' + _('Assumption of homogeneity of variances violated.') + '</decision>'
         else:
-            population_result += '<decision>' + _('Assumption of homogeneity of variances met.') + '</decision>' + '\n'
+            population_result += '<decision>' + _('Assumption of homogeneity of variances met.') + '</decision>'
 
         population_result += '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
         if non_normal_vars or var_hom_p < 0.05:

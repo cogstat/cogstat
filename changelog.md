@@ -19,7 +19,14 @@ Upcoming release (2023)
   - Hypothesis tests
 - Reliability analyses (Tamás Szűcs)
   - Internal consistency reliability analysis
+    - Item-total scatter plots
+    - Cronbach's alpha with and without items and their CIs
+    - Item-rest correlation and their CIs
   - Interrater reliability analysis
+    - Chart showing scores from different raters
+    - ICC values and their CIs
+    - Assumption checks for inferential statistics
+    - Hypothesis tests whether ICC is 0
 - Displaying groups and factors
   - In comparing groups, display groups not only on x-axes but also with colors or in panels
   - In comparing repeated measures variables, display conditions not only on x-axes but also with colors

@@ -1282,7 +1282,7 @@ def reliability_internal_calc(data, sample=True):
 
     # Sample properties
     item_removed_df = pd.DataFrame(columns=[_('Item'), _("Cronbach's alpha when removed"), _('Item-rest correlation'),
-                                            _('Range')])
+                                            _('Value range')])
     item_removed_df_pop = pd.DataFrame(columns=[_('Item'), _("Cronbach's alpha when removed"),
                                                 _('95% confidence interval'), _('Item-rest correlation'),
                                                 _('95% confidence interval')])
@@ -1297,7 +1297,7 @@ def reliability_internal_calc(data, sample=True):
         r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
 
         item_removed_df.loc[len(item_removed_df.index)] = [item, '%0.3f' % alpha_without[0], '%0.3f' % r,
-                                                           '[%d : %d]' % (np.min(data[item]), np.max(data[item]))]
+                                                           '%d – %d' % (np.min(data[item]), np.max(data[item]))]
         item_removed_df_pop.loc[len(item_removed_df.index)] = [item, '%0.3f' % alpha_without[0],
                                                                '[%0.3f, %0.3f]' % (alpha_without[1][0], alpha_without[1][1]),
                                                                '%0.3f' % r, '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
@@ -1313,7 +1313,7 @@ def reliability_internal_calc(data, sample=True):
         # TODO assumption checks?
         item_removed = _format_html_table(item_removed_df_pop.to_html(bold_rows=False, escape=False,
                                                                 float_format=lambda x: '%0.3f' % (x),
-                                                                classes="table_cs_pd", index=False)) + '\n'
+                                                                classes="table_cs_pd", index=False))
 
     return alpha, item_removed
 
