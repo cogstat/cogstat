@@ -623,7 +623,7 @@ def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
     """
 
     # TODO is it useful to test an intraclass correlation against 0? What test value should be used?
-    hypothesis_test_result = '\n' + '<cs_h3>' + _('Hypothesis test') + '</cs_h3>' + '\n'
+    hypothesis_test_result = '\n' + '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + '\n'
     hypothesis_test_result += '<decision>' + _('Testing if ICC differs from 0.') + '</decision>' + '\n'
 
     if not non_normal_vars:
@@ -642,7 +642,7 @@ def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
     else:
         hypothesis_test_result += '\n'
 
-    hypothesis_test_result += '<decision>' + _('Running F-test.') + '</decision>' + '\n'
+    hypothesis_test_result += '<decision>' + _('Running F-tests.') + '</decision>' + '\n'
     for hyp_test_index, hyp_test_row in hyp_test_table.iterrows():
         hypothesis_test_result += _('F-test for %s') % hyp_test_index + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
                                   % (hyp_test_row['df1'], hyp_test_row['df2'], non_data_dim_precision,

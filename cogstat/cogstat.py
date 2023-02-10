@@ -968,13 +968,16 @@ class CogStatData:
         title = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
         title += _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
                                                          for var, meas in zip(var_names, meas_levels))
+
+        data = pd.DataFrame(self.data_frame[var_names].dropna())
         if reverse_items:
+            for reverse_item in reverse_items:
+                data[reverse_item] = np.min(data[reverse_item]) + np.max(data[reverse_item]) - data[reverse_item]
             title += '\n' + _('Reverse coded item(s): ') + ', '.join('%s' % var for var in reverse_items)
 
         # Raw data
         raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
-        data = pd.DataFrame(self.data_frame[var_names].dropna())
         missing_cases = len(self.data_frame[var_names])-len(data)
         raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
         raw_title += _('N of missing cases') + ': %g' % missing_cases + '\n'
@@ -982,13 +985,13 @@ class CogStatData:
 
         # Sample properties
         sample_title = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
-        alpha, item_removed_sample = cs_stat.reliability_internal_calc(data, reverse_items=reverse_items, sample=True)
+        alpha, item_removed_sample = cs_stat.reliability_internal_calc(data, sample=True)
         sample_graph = cs_chart.create_item_total_matrix(data, regression=True)
         sample_result = '\n' + _("Cronbach's alpha ") + '= %0.3f' % alpha[0] + '\n'
 
         # Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
-        alpha, item_removed_pop = cs_stat.reliability_internal_calc(data, reverse_items=reverse_items, sample=False)
+        alpha, item_removed_pop = cs_stat.reliability_internal_calc(data, sample=False)
         pop_result_df = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         pop_result_df.loc[_("Cronbach's alpha")] = \
             ['%0.3f' % alpha[0], '[%0.3f, %0.3f]' % (alpha[1][0], alpha[1][1])]
@@ -1072,7 +1075,7 @@ class CogStatData:
         else:
             population_result += '<decision>' + _('Assumption of homogeneity of variances met.') + '</decision>' + '\n'
 
-        population_result += '<cs_h3>' + _('Interval estimates') + '</cs_h3>'
+        population_result += '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
         if non_normal_vars or var_hom_p < 0.05:
             warnings += '<decision>' + _('CIs may be inaccurate.') + '</decision>'
         else:

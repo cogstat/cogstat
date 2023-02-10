@@ -1257,15 +1257,14 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
 ### Reliability analyses ###
 
 
-def reliability_internal_calc(data, reverse_items=None, sample=True):
+def reliability_internal_calc(data, sample=True):
     """
     Calculate internal consistency reliability using Cronbach's alpha and its confidence interval.
+    The function assumes that reversed items have been reversed already.
 
     Parameters
     ----------
     data : pandas dataframe
-    reverse_items : list of str
-        Items to code in reverse.
     sample: bool
         Returns only point estimates if True, point estimates and confidence intervals if False.
 
@@ -1277,16 +1276,13 @@ def reliability_internal_calc(data, reverse_items=None, sample=True):
         HTML table containing Cronbach's alpha with item removal, item-rest correlations and
         optionally their confidence intervals.
     """
-    data = data.copy()
-    if reverse_items:
-        for reverse_item in reverse_items:
-            data[reverse_item] = np.max(data[reverse_item]) - data[reverse_item]
 
     # TODO treat nans as nan_policy='listwise' or by imputing?
     alpha = pingouin.cronbach_alpha(data=data, nan_policy='listwise')
 
     # Sample properties
-    item_removed_df = pd.DataFrame(columns=[_('Item'), _("Cronbach's alpha when removed"), _('Item-rest correlation')])
+    item_removed_df = pd.DataFrame(columns=[_('Item'), _("Cronbach's alpha when removed"), _('Item-rest correlation'),
+                                            _('Range')])
     item_removed_df_pop = pd.DataFrame(columns=[_('Item'), _("Cronbach's alpha when removed"),
                                                 _('95% confidence interval'), _('Item-rest correlation'),
                                                 _('95% confidence interval')])
@@ -1300,7 +1296,8 @@ def reliability_internal_calc(data, reverse_items=None, sample=True):
         r, p = stats.pearsonr(rest_total, data[item])
         r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
 
-        item_removed_df.loc[len(item_removed_df.index)] = [item, '%0.3f' % alpha_without[0], '%0.3f' % r]
+        item_removed_df.loc[len(item_removed_df.index)] = [item, '%0.3f' % alpha_without[0], '%0.3f' % r,
+                                                           '[%d : %d]' % (np.min(data[item]), np.max(data[item]))]
         item_removed_df_pop.loc[len(item_removed_df.index)] = [item, '%0.3f' % alpha_without[0],
                                                                '[%0.3f, %0.3f]' % (alpha_without[1][0], alpha_without[1][1]),
                                                                '%0.3f' % r, '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
@@ -1353,9 +1350,10 @@ def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, r
 
     pop_result_df = pd.DataFrame(icc.loc[slice_row][['ICC', 'CI95%']])
     pop_result_df['ICC'] = pop_result_df['ICC'].map('{:,.3f}'.format)
-    # TODO pop_result_df['CI95%'] = pop_result_df['CI95%'].map('{:,.3f}'.format)
+    pop_result_df['CI95%'] = [['%0.3f, %0.3f' % (ci[0], ci[1])] for ci in pop_result_df['CI95%']]
+
     pop_result_df.index = row_labels
-    pop_result_df.columns = [_('Point estimation'), _('95%% confidencce interval')]
+    pop_result_df.columns = [_('Point estimation'), _('95% confidence interval')]
 
     sample_result_df = pd.DataFrame(icc.loc[slice_row]['ICC'])
     sample_result_df['ICC'] = sample_result_df['ICC'].map('{:,.3f}'.format)
