@@ -1430,10 +1430,8 @@ class CogStatData:
             The variable to be compared.
         factors : list of list of [str, int]
             The factors and their levels, e.g.,
-
                 [['name of the factor', number_of_the_levels],
                 ['name of the factor 2', number_of_the_levels]]
-
             Factorial combination of the factors will be generated, and variables will be assigned respectively
         display_factors: list of two lists of strings
             Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
@@ -1446,56 +1444,65 @@ class CogStatData:
             Analysis results in HTML format
         """
 
+        # 0. Analysis info
         title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
+        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+
+        # Check preconditions
+        preconditions = True
         if len(var_names) < 2:
-            title += _('At least two variables should be set.')
-            return cs_util.convert_output([title])
+            title += _('At least two variables should be set.') + '\n'
+            preconditions = False
         if '' in var_names:
-            title = _('A variable should be assigned to each level of the factors.')
+            title += _('A variable should be assigned to each level of the factors.') + '\n'
+            preconditions = False
+        # Check if the variables have the same measurement levels
+        # int and unk can be used together, since unk is taken as int by default
+        if (len(set(meas_levels)) > 1) and ('ord' in meas_levels or 'nom' in meas_levels):
+            title += _('Variables to compare: ') + ', '.\
+            join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+            title += _("Sorry, you can't compare variables with different measurement levels."
+                       " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
+                     + '\n'
+        if not preconditions:
             return cs_util.convert_output([title])
 
+        plt.close('all')
+
+        # Prepare missing parameters
         # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
         if factors is None or factors == []:
-            factors = [[' ', len(var_names)]]
+            factors = [[_('Unnamed factor'), len(var_names)]]
         # if display_factors is not specified, then all factors are displayed on the x-axis
         if (display_factors is None) or (display_factors == [[], []]):
             display_factors = [[factor[0] for factor in factors], []]
 
-
-        plt.close('all')
-        title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
-        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
-        raw_result = _('Variables to compare: ') + ', '.\
+        # Variables info
+        analysis_info = _('Variables to compare: ') + ', '.\
             join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-
-        raw_result += _('Factors (number of levels): ') + ', '.\
+        analysis_info += _('Factor(s) (number of levels): ') + ', '.\
             join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
         factor_combinations = ['']
         for factor in factors:
-            factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i+1) for factor_combination
-                                   in factor_combinations for level_i in range(factor[1])]
+            factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i+1)
+                                   for factor_combination in factor_combinations
+                                   for level_i in range(factor[1])]
+        # remove ' - ' from the beginning of the strings
         factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
+        analysis_info += _('Factor level combinations:') + '\n'
         for factor_combination, var_name in zip(factor_combinations, var_names):
-            raw_result += '%s: %s\n' % (factor_combination, var_name)
+            analysis_info += '%s: %s\n' % (factor_combination, var_name)
 
-        raw_result += self._filtering_status()
+        # Filtering status
+        analysis_info += self._filtering_status()
 
-        # Check if the variables have the same measurement levels
-        meas_levels = {self.data_measlevs[var_name] for var_name in var_names}
-        if len(meas_levels) > 1:
-            if 'ord' in meas_levels or 'nom' in meas_levels:  # int and unk can be used together,
-                                                              # since unk is taken as int by default
-                return cs_util.convert_output([title, raw_result, '<decision>' +
-                                               _("Sorry, you can't compare variables with different measurement levels."
-                                                 " You could downgrade higher measurement levels to lowers to have the "
-                                                 "same measurement level.") + '</decision>'])
-        # level of measurement of the variables
+        # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
-            raw_result += '\n<decision>' + warn_unknown_variable + '</decision>'
+            analysis_info += '\n<decision>' + warn_unknown_variable + '</decision>'
 
         # 1. Raw data
-        raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
@@ -1602,7 +1609,8 @@ class CogStatData:
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
-        return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
+        return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
+                                       sample_graph, sample_graph_new, population_result,
                                        population_graph, population_graph_new, result_ht])
 
     def compare_groups(self, var_name,
@@ -1632,50 +1640,58 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+
+        # 0. Analysis info
         title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
+
+        # Check preconditions
+        # TODO check if there is only one dep.var.
         preconditions = True
         if not var_name or (var_name is None):
             title += _('The dependent variable should be set.') + '\n'
             preconditions = False
         if (grouping_variables is None) or grouping_variables==[]:
-            title += _('At least one grouping variable should be set.')
+            title += _('At least one grouping variable should be set.') + '\n'
             preconditions = False
         if not preconditions:
             return cs_util.convert_output([title])
 
         plt.close('all')
+
         var_names = [var_name]
         if grouping_variables is None:
             grouping_variables = []
+
+        # Prepare missing parameters
         # if display_groups are not specified, then all group will be displayed on x-axis
         if (display_groups is None) or (display_groups == [[], [], []]):
             display_groups = [grouping_variables, [], []]
 
-        groups = grouping_variables[:]
-        # TODO check if there is only one dep.var.
-        title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
-        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
-        group_meas_levels = [self.data_measlevs[group] for group in groups]
-        raw_result = _('Dependent variable: ') + ', '.join('%s (%s)' % (var, meas) for var, meas in
-                                                           zip(var_names, meas_levels)) + '. ' + _('Group(s): ') + \
-                     ', '.join('%s (%s)' % (var, meas) for var, meas in zip(groups, group_meas_levels)) + '\n'
-        raw_result += self._filtering_status()
+        # Variables info
+        analysis_info = _('Dependent variable: ') + '%s (%s)' % (var_name, self.data_measlevs[var_name]) + '\n' + \
+                     _('Grouping variable(s): ') + \
+                     ', '.join('%s (%s)' % (var, meas) for var, meas
+                               in zip(grouping_variables, [self.data_measlevs[group] for group in grouping_variables]))\
+                     + '\n'
 
-        # level of measurement of the variables
+        # Filtering status
+        analysis_info += self._filtering_status()
+
+        # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars([var_names[0]])
         if unknown_type:
-            raw_result += '<decision>' + warn_unknown_variable + '</decision>'
+            analysis_info += '<decision>' + warn_unknown_variable + '</decision>'
 
         # 1. Raw data
-        raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         standardized_effect_size_result = None
 
-        data = self.data_frame[groups + [var_names[0]]].dropna()
+        data = self.data_frame[grouping_variables + [var_names[0]]].dropna()
         if single_case_slope_SE:
-            data = self.data_frame[groups + [var_names[0], single_case_slope_SE]].dropna()
+            data = self.data_frame[grouping_variables + [var_names[0], single_case_slope_SE]].dropna()
         # create a list of sets with the levels of all grouping variables
-        levels = [list(set(data[group])) for group in groups]
+        levels = [list(set(data[group])) for group in grouping_variables]
         for i in range(len(levels)):
             levels[i].sort()
         # TODO sort the levels in other parts of the output, too
@@ -1683,33 +1699,33 @@ class CogStatData:
         level_combinations = list(itertools.product(*levels))
 
         # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
-        columns = pd.MultiIndex.from_tuples(level_combinations, names=groups)
+        columns = pd.MultiIndex.from_tuples(level_combinations, names=grouping_variables)
         pdf_result = pd.DataFrame(columns=columns)
 
         pdf_result.loc[_('N of observed cases')] = [sum(
-            (data[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(axis=1))
+            (data[grouping_variables] == pd.Series({group: level for group, level in zip(grouping_variables, group_level)})).all(axis=1))
                                                  for group_level in level_combinations]
         pdf_result.loc[_('N of missing cases')] = [sum(
-            (self.data_frame[groups] == pd.Series({group: level for group, level in zip(groups, group_level)})).all(
+            (self.data_frame[grouping_variables] == pd.Series({group: level for group, level in zip(grouping_variables, group_level)})).all(
                 axis=1)) -
-                                                   sum((data[groups] == pd.Series({group: level for group, level in
-                                                                                   zip(groups, group_level)})).all(
+                                                   sum((data[grouping_variables] == pd.Series({group: level for group, level in
+                                                                                   zip(grouping_variables, group_level)})).all(
                                                        axis=1)) for group_level in level_combinations]
         #            for group in group_levels:
-        #                valid_n = sum(data[groups[0]]==group)
-        #                missing_n = sum(self.data_frame[groups[0]]==group)-valid_n
+        #                valid_n = sum(data[grouping_variables[0]]==group)
+        #                missing_n = sum(self.data_frame[grouping_variables[0]]==group)-valid_n
         #                raw_result += _(u'Group: %s, N of observed cases: %g, N of missing cases: %g\n') %
         #                              (group, valid_n, missing_n)
         raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
         raw_result += '\n\n'
-        for group in groups:
+        for group in grouping_variables:
             valid_n = len(self.data_frame[group].dropna())
             missing_n = len(self.data_frame[group]) - valid_n
             raw_result += _('N of missing grouping variable in %s') % group + ': %g\n' % missing_n
 
         # Plot individual data
 
-        raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
+        raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
         raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                        dep_names=[var_name],
@@ -1724,30 +1740,30 @@ class CogStatData:
         sample_result += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
             sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
-                                                     groups=groups,
+                                                     groups=grouping_variables,
                                                      statistics=['mean', 'std', 'max', 'upper quartile', 'median',
                                                                  'lower quartile', 'min'])
         elif meas_level == 'ord':
             sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
-                                                     groups=groups,
+                                                     groups=grouping_variables,
                                                      statistics=['max', 'upper quartile', 'median',
                                                                  'lower quartile', 'min'])
         elif meas_level == 'nom':
             sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
-                                                     groups=groups,
+                                                     groups=grouping_variables,
                                                      statistics=['variation ratio'])
-            sample_result += '\n' + cs_stat.contingency_table(data, groups, var_names,
+            sample_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names,
                                                               count=True, percent=True, margins=True)
 
         # Effect size
-        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, groups, meas_level, sample=True)
+        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables, meas_level, sample=True)
         if sample_effect_size:
             sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
         # Plot the individual data with boxplots
         # There's no need to repeat the mosaic plot for the nominal variables
         if meas_level in ['int', 'unk', 'ord']:
-            sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, groups,
+            sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
                                                                        level_combinations, ylims=ylims)
             sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                               dep_names=[var_name],
@@ -1763,8 +1779,8 @@ class CogStatData:
 
         # 3. Population properties
         # Plot population estimations
-        group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, groups)
-        population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, groups,
+        group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, grouping_variables)
+        population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, grouping_variables,
                                                                            level_combinations, ylims=ylims)
         population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                               dep_names=[var_name],
@@ -1787,74 +1803,142 @@ class CogStatData:
                 cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
         if meas_level == 'nom':
-            population_result += '\n' + cs_stat.contingency_table(data, groups, var_names, ci=True)
+            population_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names, ci=True)
         population_result += \
             cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
 
 
         # effect size
-        standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, groups,
+        standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables,
                                                                              meas_level, sample=False)
         if standardized_effect_size_result is not None:
             standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
                                               standardized_effect_size_result + '\n'
 
         # Hypothesis testing
-        if len(groups) == 1:
-            group_levels = sorted(set(data[groups[0]]))
+        if len(grouping_variables) == 1:
+            group_levels = sorted(set(data[grouping_variables[0]]))
             result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                         cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
-                                                                   var_names, groups, group_levels,
+                                                                   var_names, grouping_variables, group_levels,
                                                                    single_case_slope_SE, single_case_slope_trial_n)
         else:
             result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
-                        cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, groups)
+                        cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, grouping_variables)
 
-        return cs_util.convert_output([title, raw_result, raw_graph, raw_graph_new, sample_result, sample_graph, sample_graph_new, population_result,
+        return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
+                                       sample_graph, sample_graph_new, population_result,
                                        population_graph, population_graph_new, standardized_effect_size_result, result_ht])
 
-    def compare_variables_groups(self, var_names, factors=None, grouping_variables=None, display_factors=None,
+    def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
                           single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
-        """ TODO docstring
+        """ Compare mixed-design (repeated measures and groups) data.
 
         Parameters
         ----------
-        var_names : list of str
-        factors :
+        var_names: list of str
+            The variable to be compared.
+        factors : list of list of [str, int]
+            The factors and their levels, e.g.,
+                [['name of the factor', number_of_the_levels],
+                ['name of the factor 2', number_of_the_levels]]
+            Factorial combination of the factors will be generated, and variables will be assigned respectively
         grouping_variables : list of str
-        display_factors : list of three list of strings
+            List of name(s) of grouping variable(s).
+        display_factors: list of two lists of strings
+            Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
         single_case_slope_SE : str
-        single_case_slope_trial_n :int
+            When comparing the slope between a single case and a group, variable name storing the slope SEs
+        single_case_slope_trial : int
+            When comparing the slope between a single case and a group, number of trials.
         ylims : list of {int or float}
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------
+        list of str and image
+            Analysis results in HTML format
 
         """
 
+        if var_names is None:
+            var_names = []
+        if grouping_variables is None:
+            grouping_variables = []
+
+        # 0. Analysis info
         title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
-        title += _('Work in progress...')
+        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
-        #print('cs.py ini:', var_names, factors, grouping_variables, display_factors)
+        # Check preconditions
+        preconditions = True
+        if len(var_names) < 1:
+            title += _('At least one dependent variable should be set.') + '\n'
+            preconditions = False
+        if '' in var_names:
+            title = _('A variable should be assigned to each level of the factors.') + '\n'
+            preconditions = False
+        # Check if the repeated measures variables have the same measurement levels
+        # int and unk can be used together, since unk is taken as int by default
+        if (len(set(meas_levels)) > 1) and ('ord' in meas_levels or 'nom' in meas_levels):
+            title += _('Variables to compare: ') + ', '.\
+            join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+            title += _("Sorry, you can't compare variables with different measurement levels."
+                       " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
+                     + '\n'
+        if not preconditions:
+            return cs_util.convert_output([title])
 
-        # TODO check conditions
+        plt.close('all')
 
+        # Prepare missing parameters
         # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
         if (factors is None or factors == []) and len(var_names) > 1:
-            factors = [[' ', len(var_names)]]
-
+            factors = [[_('Unnamed factor'), len(var_names)]]
+        # handle if display_factors is not specified
         if (display_factors is None) or (display_factors == [[], []]) or (display_factors == [[], [], []]):  # TODO check what is possible here
-            if grouping_variables and not factors: # only between-subject
+            if grouping_variables and not factors:  # only between-subject: all group will be displayed on x-axis
                 display_factors = [grouping_variables, [], []]
-            elif factors and not grouping_variables:  # only within-subject
+            elif factors and not grouping_variables:  # only within-subject:  all factors are displayed on the x-axis
                 display_factors = [[factor[0] for factor in factors], [], []]
             else:  # mixed design
                 display_factors = [grouping_variables + [factor[0] for factor in factors], [], []]
 
-        data = self.data_frame[grouping_variables + var_names].dropna()
-        #meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+        # Variables info
+        if len(var_names) == 1:
+            analysis_info = _('Dependent variable: ') + '%s (%s)' % (var_names[0], self.data_measlevs[var_names[0]]) + '\n'
+        else:
+            analysis_info = _('Variables to compare: ') + ', '. \
+                join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+            analysis_info += _('Factor(s) (number of levels): ') + ', '. \
+                join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
+            factor_combinations = ['']
+            for factor in factors:
+                factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i + 1)
+                                       for factor_combination in factor_combinations
+                                       for level_i in range(factor[1])]
+            # remove ' - ' from the beginning of the strings
+            factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
+            analysis_info += _('Factor level combinations:') + '\n'
+            for factor_combination, var_name in zip(factor_combinations, var_names):
+                analysis_info += '%s: %s\n' % (factor_combination, var_name)
+        if grouping_variables:
+            analysis_info += _('Grouping variable(s): ') + \
+                          ', '.join('%s (%s)' % (var, meas) for var, meas
+                                    in zip(grouping_variables,
+                                           [self.data_measlevs[group] for group in grouping_variables])) + '\n'
+
+        # Filtering status
+        analysis_info += self._filtering_status()
+
+        # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
+        if unknown_type:
+            analysis_info += '\n<decision>' + warn_unknown_variable + '</decision>'
+
+        # 1. Raw data
+        data = self.data_frame[grouping_variables + var_names].dropna()
 
         factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
                                                                                   names=[factor[0] for factor in factors]))
@@ -1890,7 +1974,7 @@ class CogStatData:
                                                   estimation_table=True)
         #population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
 
-        return cs_util.convert_output([title, raw_graph_new, sample_graph_new, population_graph_new])
+        return cs_util.convert_output([title, analysis_info, raw_graph_new, sample_graph_new, population_graph_new])
 
 
 def display(results):

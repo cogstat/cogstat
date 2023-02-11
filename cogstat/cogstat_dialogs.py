@@ -634,7 +634,7 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
 
     def init_factors(self, factors):
         """Add factors and level values to the list.
-        This is needed because the values can be changed by the Display option (adding 'Default factor') too, and not
+        This is needed because the values can be changed by the Display option (adding 'Unnamed factor') too, and not
         only by the Factors dialog itself.
 
         Parameters
@@ -819,7 +819,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         #  Display options.
         default_factor_added = False
         if not self.factors and self.selected_listWidget.count() > 1:
-            self.factors = [[_('Default factor'), self.selected_listWidget.count()]]
+            self.factors = [[_('Unnamed factor'), self.selected_listWidget.count()]]
             default_factor_added = True
         self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
         if self.display_options_repeated_dialog.exec_():
@@ -827,8 +827,8 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
             self.show_factors()
-        else:  # if Display option is cancelled, then remove Default factor
-            if default_factor_added:  # do not remove Default factor if dialog is Cancelled but factor was added
+        else:  # if Display option is cancelled, then remove Unnamed factor
+            if default_factor_added:  # do not remove Unnamed factor if dialog is Cancelled but factor was added
                                       #  previously
                 self.factors = []
 
@@ -1106,8 +1106,8 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         #  Display options.
         default_factor_added = False
         if not self.factors and self.selected_listWidget.count() > 1:
-            self.factors = [[_('Default factor'), self.selected_listWidget.count()]]
-            restore_factors = True  # if Display option is cancelled, then remove Default factor
+            self.factors = [[_('Unnamed factor'), self.selected_listWidget.count()]]
+            restore_factors = True  # if Display option is cancelled, then remove Unnamed factor
             default_factor_added = True
         self.display_options_groups_dialog.\
             set_factors(factors=[str(self.group_listWidget.item(i).text())
@@ -1118,8 +1118,8 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             self.ylims[0] = _float_or_none(self.ylims[0])
             self.ylims[1] = _float_or_none(self.ylims[1])
             self.show_factors()
-        else:  # if Display option is cancelled, then remove Default factor
-            if default_factor_added:  # do not remove Default factor if dialog is Cancelled but factor was added
+        else:  # if Display option is cancelled, then remove Unnamed factor
+            if default_factor_added:  # do not remove Unnamed factor if dialog is Cancelled but factor was added
                                       #  previously
                 self.factors = []
 
