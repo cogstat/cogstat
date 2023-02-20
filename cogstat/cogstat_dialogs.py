@@ -486,7 +486,8 @@ class xylims_dialog(QtWidgets.QDialog, xylims.Ui_Dialog):
         self.buttonBox.rejected.connect(self.reject)
 
     def read_parameters(self):
-        return [self.lineEdit.text(), self.lineEdit_2.text()], [self.lineEdit_3.text(), self.lineEdit_4.text()]
+        return [_float_or_none(self.lineEdit.text()), _float_or_none(self.lineEdit_2.text())], \
+               [_float_or_none(self.lineEdit_3.text()), _float_or_none(self.lineEdit_4.text())]
 
 
 from .ui import explore_var_pairs
@@ -522,10 +523,6 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
     def optionsButton_clicked(self):
         if self.xylims_dialog.exec_():
             self.xlims, self.ylims = self.xylims_dialog.read_parameters()
-            self.xlims[0] = _float_or_none(self.xlims[0])
-            self.xlims[1] = _float_or_none(self.xlims[1])
-            self.ylims[0] = _float_or_none(self.ylims[0])
-            self.ylims[1] = _float_or_none(self.ylims[1])
 
     def read_parameters(self):
         return [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
@@ -583,10 +580,6 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
     def optionsButton_clicked(self):
         if self.xylims_dialog.exec_():
             self.xlims, self.ylims = self.xylims_dialog.read_parameters()
-            self.xlims[0] = _float_or_none(self.xlims[0])
-            self.xlims[1] = _float_or_none(self.xlims[1])
-            self.ylims[0] = _float_or_none(self.ylims[0])
-            self.ylims[1] = _float_or_none(self.ylims[1])
 
     def read_parameters(self):
         return [str(self.predicted_listWidget.item(i).text()) for i in range(self.predicted_listWidget.count())], \
@@ -704,7 +697,7 @@ class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeate
                 self.factor_x_listWidget.count() else [],
                 [str(self.factor_color_listWidget.item(i).text()) for i in range(self.factor_color_listWidget.count())] if
                 self.factor_color_listWidget.count() else []],
-                [self.minimum_y.text(), self.maximum_y.text()])
+                [_float_or_none(self.minimum_y.text()), _float_or_none(self.maximum_y.text())])
 
 
 from .ui import compare_vars
@@ -796,8 +789,6 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                 #  display options (where self.displayfactors are set)
                 self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
                 self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
-                self.ylims[0] = _float_or_none(self.ylims[0])
-                self.ylims[1] = _float_or_none(self.ylims[1])
             else:  # remove the factor levels if there is no explicit factor level
                 previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
@@ -830,8 +821,6 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
         if self.display_options_repeated_dialog.exec_():
             self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
-            self.ylims[0] = _float_or_none(self.ylims[0])
-            self.ylims[1] = _float_or_none(self.ylims[1])
             self.show_factors()
         else:  # if Display option is cancelled, then remove Unnamed factor
             if default_factor_added:  # do not remove Unnamed factor if dialog is Cancelled but factor was added
@@ -919,7 +908,7 @@ class display_options_groups_dialog(QtWidgets.QDialog, display_options_groups.Ui
                 self.factor_color_listWidget.count() else [],
                 [str(self.factor_panel_listWidget.item(i).text()) for i in range(self.factor_panel_listWidget.count())] if
                 self.factor_panel_listWidget.count() else []],
-                [self.minimum_y.text(), self.maximum_y.text()])
+                [_float_or_none(self.minimum_y.text()), _float_or_none(self.maximum_y.text())])
 
 
 from .ui import compare_groups
@@ -976,8 +965,6 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
             set_factors(factors=[str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
         if self.display_options_groups_dialog.exec_():
             self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
-            self.ylims[0] = _float_or_none(self.ylims[0])
-            self.ylims[1] = _float_or_none(self.ylims[1])
 
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
@@ -1092,8 +1079,6 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                                          for i in range(self.group_listWidget.count())] +
                                         [factor[0] for factor in self.factors])
                 self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
-                self.ylims[0] = _float_or_none(self.ylims[0])
-                self.ylims[1] = _float_or_none(self.ylims[1])
             else:  # remove the factor levels if there is no explicit factor level
                 previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
@@ -1130,8 +1115,6 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                                 [factor[0] for factor in self.factors])
         if self.display_options_groups_dialog.exec_():
             self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
-            self.ylims[0] = _float_or_none(self.ylims[0])
-            self.ylims[1] = _float_or_none(self.ylims[1])
             self.show_factors()
         else:  # if Display option is cancelled, then remove Unnamed factor
             if default_factor_added:  # do not remove Unnamed factor if dialog is Cancelled but factor was added
