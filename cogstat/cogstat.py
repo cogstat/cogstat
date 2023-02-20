@@ -1156,9 +1156,9 @@ class CogStatData:
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[predictors + [predicted]].dropna()
-        valid_n = len(data)
-        missing_n = len(self.data_frame[predictors + [predicted]]) - valid_n
-        raw_result += _('N of observed pairs') + ': %g' % valid_n + '\n'
+        observed_n = len(data)
+        missing_n = len(self.data_frame[predictors + [predicted]]) - observed_n
+        raw_result += _('N of observed pairs') + ': %g' % observed_n + '\n'
         raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
@@ -1489,7 +1489,7 @@ class CogStatData:
                                    for level_i in range(factor[1])]
         # remove ' - ' from the beginning of the strings
         factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-        analysis_info += _('Factor level combinations:') + '\n'
+        analysis_info += _('Factor level combinations and assigned variables:') + '\n'
         for factor_combination, var_name in zip(factor_combinations, var_names):
             analysis_info += '%s: %s\n' % (factor_combination, var_name)
 
@@ -1503,15 +1503,16 @@ class CogStatData:
 
         # 1. Raw data
         raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
-        # Prepare data, drop missing data
+
+        # Prepare data, drop missing data, display number of observed/missing cases
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
-        valid_n = len(data)
-        missing_n = len(self.data_frame[var_names])-valid_n
-        raw_result += _('N of observed cases') + ': %g\n' % valid_n
+        observed_n = len(data)
+        missing_n = len(self.data_frame[var_names]) - observed_n
+        raw_result += _('N of observed cases') + ': %g\n' % observed_n
         raw_result += _('N of missing cases') + ': %g\n' % missing_n
 
-        # Plot the raw data
+        # Plot the individual raw data
         raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=True,
                                                                    ylims=ylims)
         factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
@@ -1522,20 +1523,6 @@ class CogStatData:
                                                                        indep_x=display_factors[0],
                                                                        indep_color=display_factors[1],
                                                                        ylims=ylims, raw_data=True)
-
-        # Plot the individual data with box plot
-        # There's no need to repeat the mosaic plot for nominal variables
-        if meas_level in ['int', 'unk', 'ord']:
-            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
-            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
-                                                                              dep_names=var_names,
-                                                                              factor_info=factor_info,
-                                                                              indep_x=display_factors[0],
-                                                                              indep_color=display_factors[1],
-                                                                              ylims=ylims, raw_data=True, box_plots=True)
-        else:
-            sample_graph = None
-            sample_graph_new = None
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -1562,6 +1549,20 @@ class CogStatData:
         effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
         if effect_size_result:
             sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
+
+        # 2c. Plot the individual data with box plot
+        # There's no need to repeat the mosaic plot for nominal variables
+        if meas_level in ['int', 'unk', 'ord']:
+            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
+            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                              dep_names=var_names,
+                                                                              factor_info=factor_info,
+                                                                              indep_x=display_factors[0],
+                                                                              indep_color=display_factors[1],
+                                                                              ylims=ylims, raw_data=True, box_plots=True)
+        else:
+            sample_graph = None
+            sample_graph_new = None
 
         # 3. Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
@@ -1685,45 +1686,40 @@ class CogStatData:
         # 1. Raw data
         raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
-        standardized_effect_size_result = None
+        # Prepare data, drop missing data, display number of observed/missing cases
+        single_case_slope_SE_list = [single_case_slope_SE] if single_case_slope_SE else []
+        data = self.data_frame[grouping_variables + [var_names[0]] + single_case_slope_SE_list].dropna()
 
-        data = self.data_frame[grouping_variables + [var_names[0]]].dropna()
-        if single_case_slope_SE:
-            data = self.data_frame[grouping_variables + [var_names[0], single_case_slope_SE]].dropna()
+        # display the number of observed/missing cases for (a) grouping variable level combinations and (b) missing
+        #  level information
         # create a list of sets with the levels of all grouping variables
-        levels = [list(set(data[group])) for group in grouping_variables]
+        levels = [list(set(data[grouping_variable])) for grouping_variable in grouping_variables]
         for i in range(len(levels)):
             levels[i].sort()
         # TODO sort the levels in other parts of the output, too
         # create all level combinations for the grouping variables
         level_combinations = list(itertools.product(*levels))
-
         # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
         columns = pd.MultiIndex.from_tuples(level_combinations, names=grouping_variables)
         pdf_result = pd.DataFrame(columns=columns)
 
-        pdf_result.loc[_('N of observed cases')] = [sum(
-            (data[grouping_variables] == pd.Series({group: level for group, level in zip(grouping_variables, group_level)})).all(axis=1))
-                                                 for group_level in level_combinations]
-        pdf_result.loc[_('N of missing cases')] = [sum(
-            (self.data_frame[grouping_variables] == pd.Series({group: level for group, level in zip(grouping_variables, group_level)})).all(
-                axis=1)) -
-                                                   sum((data[grouping_variables] == pd.Series({group: level for group, level in
-                                                                                   zip(grouping_variables, group_level)})).all(
-                                                       axis=1)) for group_level in level_combinations]
-        #            for group in group_levels:
-        #                valid_n = sum(data[grouping_variables[0]]==group)
-        #                missing_n = sum(self.data_frame[grouping_variables[0]]==group)-valid_n
-        #                raw_result += _(u'Group: %s, N of observed cases: %g, N of missing cases: %g\n') %
-        #                              (group, valid_n, missing_n)
+        pdf_result.loc[_('N of observed cases')] = [sum((data[grouping_variables] == pd.Series(
+            {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)})).all(
+            axis=1)) for level_combination in level_combinations]
+        pdf_result.loc[_('N of missing cases')] = [sum((self.data_frame[grouping_variables] == pd.Series(
+            {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)})).all(
+            axis=1)) - sum((data[grouping_variables] == pd.Series(
+            {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)})).all(
+            axis=1)) for level_combination in level_combinations]
         raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
         raw_result += '\n\n'
-        for group in grouping_variables:
-            valid_n = len(self.data_frame[group].dropna())
-            missing_n = len(self.data_frame[group]) - valid_n
-            raw_result += _('N of missing grouping variable in %s') % group + ': %g\n' % missing_n
+        # display missing grouping level information
+        for grouping_variable in grouping_variables:
+            observed_n = len(self.data_frame[grouping_variable].dropna())
+            missing_n = len(self.data_frame[grouping_variable]) - observed_n
+            raw_result += _('N of missing grouping variable in %s') % grouping_variable + ': %g\n' % missing_n
 
-        # Plot individual data
+        # Plot individual raw data
 
         raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
@@ -1868,7 +1864,12 @@ class CogStatData:
             grouping_variables = []
 
         # 0. Analysis info
-        title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
+        if len(var_names) == 1 and grouping_variables:
+            title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
+        elif not grouping_variables:
+            title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
+        else:
+            title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         # Check preconditions
@@ -1920,7 +1921,7 @@ class CogStatData:
                                        for level_i in range(factor[1])]
             # remove ' - ' from the beginning of the strings
             factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-            analysis_info += _('Factor level combinations:') + '\n'
+            analysis_info += _('Factor level combinations and assigned variables:') + '\n'
             for factor_combination, var_name in zip(factor_combinations, var_names):
                 analysis_info += '%s: %s\n' % (factor_combination, var_name)
         if grouping_variables:
@@ -1938,14 +1939,58 @@ class CogStatData:
             analysis_info += '\n<decision>' + warn_unknown_variable + '</decision>'
 
         # 1. Raw data
-        data = self.data_frame[grouping_variables + var_names].dropna()
+        raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
-        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
-                                                                                  names=[factor[0] for factor in factors]))
+        # Prepare data, drop missing data, display number of observed/missing cases
+        # TODO are NaNs interesting in nominal variables?
+        single_case_slope_SE_list = [single_case_slope_SE] if single_case_slope_SE else []
+        data = self.data_frame[grouping_variables + var_names + single_case_slope_SE_list].dropna()
+
+        if not grouping_variables:
+            observed_n = len(data)
+            missing_n = len(self.data_frame[var_names]) - observed_n
+            raw_result += _('N of observed cases') + ': %g\n' % observed_n
+            raw_result += _('N of missing cases') + ': %g\n' % missing_n
+        else:  # there are grouping variables
+            # display the number of observed/missing cases for (a) grouping variable level combinations and (b) missing
+            #  level information
+            # create a list of sets with the levels of all grouping variables
+            levels = [list(set(data[grouping_variable])) for grouping_variable in grouping_variables]
+            for i in range(len(levels)):
+                levels[i].sort()
+            # TODO sort the levels in other parts of the output, too
+            # create all level combinations for the grouping variables
+            level_combinations = list(itertools.product(*levels))
+            # index should be specified to work in pandas 0.11; but this way can't use _() for the labels
+            columns = pd.MultiIndex.from_tuples(level_combinations, names=grouping_variables)
+            pdf_result = pd.DataFrame(columns=columns)
+
+            pdf_result.loc[_('N of observed cases')] = [sum((data[grouping_variables] == pd.Series(
+                {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)}))
+                                                            .all(axis=1)) for level_combination in level_combinations]
+            pdf_result.loc[_('N of missing cases')] = [sum((self.data_frame[grouping_variables] == pd.Series(
+                {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)}))
+                                                           .all(axis=1)) - sum((data[grouping_variables] == pd.Series(
+                {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)}))
+                                                           .all(axis=1)) for level_combination in level_combinations]
+            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
+            raw_result += '\n\n'
+
+            # display missing grouping level information
+            for grouping_variable in grouping_variables:
+                observed_n = len(self.data_frame[grouping_variable].dropna())
+                missing_n = len(self.data_frame[grouping_variable]) - observed_n
+                raw_result += _('N of missing grouping variable in %s') % grouping_variable + ': %g\n' % missing_n
+
+        factor_info = pd.DataFrame([var_names],
+                                   columns=pd.MultiIndex.from_product(
+                                       [['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
+                                       names=[factor[0] for factor in factors]))
 
         #print('cs.py first call:', var_names, factors, grouping_variables, display_factors)
         #print(factor_info)
 
+        # Plot the individual raw data
         raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                                        dep_names=var_names,
                                                                        factor_info=factor_info,
@@ -1953,8 +1998,8 @@ class CogStatData:
                                                                        indep_color=display_factors[1],
                                                                        indep_panel=display_factors[2],
                                                                        ylims=ylims, raw_data=True)
-        #raw_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
 
+        # 2. Sample properties
         sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                                           dep_names=var_names,
                                                                           factor_info=factor_info,
@@ -1974,7 +2019,8 @@ class CogStatData:
                                                   estimation_table=True)
         #population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
 
-        return cs_util.convert_output([title, analysis_info, raw_graph_new, sample_graph_new, population_graph_new])
+        return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new,
+                                       sample_graph_new, population_graph_new])
 
 
 def display(results):
