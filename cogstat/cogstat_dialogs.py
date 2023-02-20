@@ -792,6 +792,12 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             #print(self.factors)
             if self.factors:
                 self.show_factors()
+                # modify self.displayfactors too because the user possibly changed the factors without changing the
+                #  display options (where self.displayfactors are set)
+                self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+                self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
+                self.ylims[0] = _float_or_none(self.ylims[0])
+                self.ylims[1] = _float_or_none(self.ylims[1])
             else:  # remove the factor levels if there is no explicit factor level
                 previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
@@ -1079,6 +1085,15 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             #print(self.factors)
             if self.factors:
                 self.show_factors()
+                # modify self.displayfactors too because the user possibly changed the factors without changing the
+                #  display options (where self.displayfactors are set)
+                self.display_options_groups_dialog. \
+                    set_factors(factors=[str(self.group_listWidget.item(i).text())
+                                         for i in range(self.group_listWidget.count())] +
+                                        [factor[0] for factor in self.factors])
+                self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
+                self.ylims[0] = _float_or_none(self.ylims[0])
+                self.ylims[1] = _float_or_none(self.ylims[1])
             else:  # remove the factor levels if there is no explicit factor level
                 previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
