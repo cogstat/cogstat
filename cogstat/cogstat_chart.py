@@ -23,6 +23,7 @@ import statsmodels.api as sm
 
 from . import cogstat_config as csc
 from . import cogstat_stat as cs_stat
+from . import cogstat_util as cs_util
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
@@ -1306,7 +1307,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                                           indep_x=None, indep_color=None, indep_panel=None,
                                           ylims=[None, None],
                                           raw_data=False, box_plots=False, descriptives=False, estimations=False,
-                                          descriptives_table=False, estimation_table=False):
+                                          descriptives_table=False, estimation_table=False, statistics=None):
     """Function to create repeated measures and group data charts. Return related results in numerical format, too.
 
     Overall, when calling the function, provide the dataframe (data), the dependent variables (in dep_names; and
@@ -1346,6 +1347,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         Should we add a table of the descriptives?
     estimation_table : bool
         Should we add a table of the estimations?
+    statistics : list of str
+        Statistics to be shown in descriptives_table
+        They can be names that are included in the stat_names and stat_functions list in this function.
 
     Returns
     -------
@@ -1387,6 +1391,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
     # 0. Check parameter constraints and find dependent and independent variables
 
+    # TODO charts for nominal variables
+
     # TODO what if only the tables are needed?
     if (raw_data + box_plots + descriptives + estimations) == 0:
         return None
@@ -1415,6 +1421,35 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     if len(set(indep_panel) - set(between_indep_names)) != 0:
         raise RuntimeError('Only grouping variables can be used in panels')
 
+    # Available statistics
+    if statistics is None:
+        statistics = []
+    stat_names = {'mean': _('Mean'),
+                  'median': _('Median'),
+                  'std': _('Standard deviation'),
+                  'min': _('Minimum'),
+                  'max': _('Maximum'),
+                  'range': _('Range'),
+                  'lower quartile': _('Lower quartile'),
+                  'upper quartile': _('Upper quartile'),
+                  'skewness': _('Skewness'),
+                  'kurtosis': _('Kurtosis'),
+                  'variation ratio': _('Variation ratio')
+                  }
+    stat_functions = {'mean': np.mean,
+                      'median': np.median,
+                      'std': np.std,
+                      'min': np.amin,
+                      'max': np.amax,
+                      'range': np.ptp,
+                      'lower quartile': lambda x: np.percentile(x, 25),
+                      'upper quartile': lambda x: np.percentile(x, 75),
+                      # with the bias=False it gives the same value as SPSS
+                      'skewness': lambda x: stats.skew(x, bias=False),
+                      # with the bias=False it gives the same value as SPSS
+                      'kurtosis': lambda x: stats.kurtosis(x, bias=False),
+                      'variation ratio': lambda x: 1 - (sum(x == stats.mode(x)[0][0]) / len(x))
+                      }
 
     # 1a. Prepare raw data: Create long format raw data
     # TODO should we drop missing data? Or is it the job of the caller?
@@ -1490,7 +1525,16 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     # 2. Create descriptive and estimation tables
     # Independent variable levels follow panel, color, x order
     if descriptives_table:
-        pass  # TODO
+        descriptives_table_df = long_raw_data.pivot_table(values=dep_name,
+                                        index=(indep_names if indep_names else 'all_raw_rows'),
+                                        aggfunc=[stat_functions[statistic] for statistic in statistics])
+        descriptives_table_df.columns = [stat_names[statistic] for statistic in statistics]
+        prec = cs_util.precision(long_raw_data[dep_name]) + 1
+        # TODO use different precision for variation ratio; this should be done row-wise
+        #formatters = ['%0.{}f'.format(2 if stat_names[statistic] == 'variation ratio' else prec) for statistic in statistics]
+        descriptives_table_html = cs_stat._format_html_table(descriptives_table_df.T.
+                                                             to_html(bold_rows=False, classes="table_cs_pd",
+                                                             float_format='%0.{}f'.format(prec)))
 
     # Create estimations table with mean, and 95% CI ranges
     if estimation_table:
@@ -1713,4 +1757,11 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
         graphs.append(fig)
 
-    return ([estimation_tables] if estimation_table else []) + graphs
+    results_list = []
+    if descriptives_table:
+        results_list.append([descriptives_table_html])
+    if estimation_table:
+        results_list.append(estimation_tables)
+    results_list.append(graphs)
+
+    return results_list

@@ -1527,18 +1527,14 @@ class CogStatData:
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
+        # 2a. Descriptives
         sample_result += '<cs_h3>' + _('Descriptives for the variables') + '</cs_h3>'
-        if meas_level in ['int', 'unk']:
-            sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs,
-                                                     statistics=['mean', 'std', 'max', 'upper quartile',
-                                                                 'median', 'lower quartile', 'min'])
-        elif meas_level == 'ord':
-            sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs,
-                                                     statistics=['max', 'upper quartile', 'median',
-                                                                 'lower quartile', 'min'])
-        elif meas_level == 'nom':
-            sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs,
-                                                     statistics=['variation ratio'])
+        statistics = {'int': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'unk': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'ord': ['max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'nom': ['variation ratio']}
+        sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs, statistics=statistics[meas_level])
+        if meas_level == 'nom':
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
                 sample_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], count=True,
@@ -1546,9 +1542,9 @@ class CogStatData:
             sample_result += '\n'
 
         # 2b. Effect size
-        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
-        if effect_size_result:
-            sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
+        sample_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
+        if sample_effect_size:
+            sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
         # 2c. Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
@@ -1733,26 +1729,22 @@ class CogStatData:
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
+        # 2a. Descriptives
         sample_result += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
-        if meas_level in ['int', 'unk']:
-            sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
-                                                     groups=grouping_variables,
-                                                     statistics=['mean', 'std', 'max', 'upper quartile', 'median',
-                                                                 'lower quartile', 'min'])
-        elif meas_level == 'ord':
-            sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
-                                                     groups=grouping_variables,
-                                                     statistics=['max', 'upper quartile', 'median',
-                                                                 'lower quartile', 'min'])
-        elif meas_level == 'nom':
-            sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
-                                                     groups=grouping_variables,
-                                                     statistics=['variation ratio'])
+        statistics = {'int': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'unk': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'ord': ['max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'nom': ['variation ratio']}
+        sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
+                                                 grouping_variables=grouping_variables,
+                                                 statistics=statistics[meas_level])
+        if meas_level == 'nom':
             sample_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names,
                                                               count=True, percent=True, margins=True)
 
-        # Effect size
-        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables, meas_level, sample=True)
+        # 2b. Effect size
+        sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables, meas_level,
+                                                                sample=True)
         if sample_effect_size:
             sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
@@ -2000,14 +1992,41 @@ class CogStatData:
                                                                        ylims=ylims, raw_data=True)
 
         # 2. Sample properties
-        sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
-                                                                          dep_names=var_names,
-                                                                          factor_info=factor_info,
-                                                                          indep_x=display_factors[0],
-                                                                          indep_color=display_factors[1],
-                                                                          indep_panel=display_factors[2],
-                                                                          ylims=ylims, raw_data=True, box_plots=True)
+        sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+
+        sample_result += '<cs_h3>' + _('Descriptives for the variables') + '</cs_h3>'
+
+        statistics = {'int': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'unk': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'ord': ['max', 'upper quartile', 'median', 'lower quartile', 'min'],
+                      'nom': ['variation ratio']}
+
+        descriptive_table, *sample_graph_new = cs_chart.\
+            create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                  dep_names=var_names,
+                                                  factor_info=factor_info,
+                                                  indep_x=display_factors[0],
+                                                  indep_color=display_factors[1],
+                                                  indep_panel=display_factors[2],
+                                                  ylims=ylims, raw_data=True, box_plots=True,
+                                                  descriptives_table=True, statistics=statistics[meas_level])
         #sample_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+        # TODO for nominal dependent variable include the contingency table
+        #  See the variable and the group comparison solutions
+
+        # 2b. Effect size
+        if not grouping_variables:  # no grouping variables
+            sample_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level,
+                                                                       sample=True)
+        elif len(var_names) == 1:  # grouping variables with one dependent variable
+            sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables, meas_level,
+                                                                    sample=True)
+        else:  # mixed design
+            sample_effect_size = None
+            # TODO
+        if sample_effect_size:
+            sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
+
         population_estimation, *population_graph_new = cs_chart.\
             create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                   dep_names=var_names,
@@ -2020,7 +2039,7 @@ class CogStatData:
         #population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
 
         return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new,
-                                       sample_graph_new, population_graph_new])
+                                       sample_result, descriptive_table, sample_graph_new, population_graph_new])
 
 
 def display(results):

@@ -64,14 +64,20 @@ def _get_R_output(obj):
 
 def _split_into_groups(pdf, var_name, grouping_name):
     """
-    arguments:
-    var_name (str): name of the dependent var
-    grouping_name (list of str): name of the grouping var(s)
+    Parameters
+    ----------
+    pdf: pandas DataFrame
+    var_name : str
+        name of the dependent var
+    grouping_name : list of str
+        name of the grouping var(s)
     
-    return:
-    level_combinations (list of str or list of tuples of str): list of group levels (for one grouping variable)
+    Returns
+    -------
+    level_combinations : list of str or list of tuples of str
+        list of group levels (for one grouping variable)
         or list of tuples of group levels (for more than one grouping variable)
-    grouped data: list of pandas series
+    grouped data : list of pandas series
     """
 
     if isinstance(grouping_name, (str)):  # TODO list is required, fix the calls sending string
@@ -424,7 +430,7 @@ def proportions_ci(pdf, var_name):
     return text_result
 
 
-def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
+def print_var_stats(pdf, var_names, meas_levs, grouping_variables=None, statistics=None):
     """
     Computes descriptive stats for variables and/or groups.
 
@@ -434,12 +440,12 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
         It is assumed that missing cases are dropped
     var_names : list of str
         variable names to use
-    groups : list of str
+    grouping_variables : list of str
         grouping variable names
-    meas_levs :
-
+    meas_levs : dict
+        Level of measurement of the variables (name:level)
     statistics : list of str
-        they can be numpy functions, such as 'mean, 'median', and they should be included in the stat_names list
+        they can be functions that are included in the stat_names and stat_functions list in this function
 
     Now it only handles a single dependent variable and a single grouping variable.
 
@@ -447,6 +453,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
     -------
 
     """
+    # Available statistics
     if statistics is None:
         statistics = []
     stat_names = {'mean': _('Mean'),
@@ -461,7 +468,6 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
                   'kurtosis': _('Kurtosis'),
                   'variation ratio': _('Variation ratio')
                   }
-
     stat_functions = {'mean': np.mean,
                       'median': np.median,
                       'std': np.std,
@@ -480,13 +486,13 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
     text_result = ''
     prec = None
     # Compute only variable statistics
-    if not groups:  # for single variable or repeated measures variables
+    if not grouping_variables:  # for single variable or repeated measures variables
         # drop all data with NaN pair
         data = pdf[var_names]
         pdf_result = pd.DataFrame(columns=var_names)
         for var_name in var_names:
             if meas_levs[var_name] != 'nom':
-                prec = cs_util.precision(data[var_name])+1
+                prec = cs_util.precision(data[var_name]) + 1
             for stat in statistics:
                 pdf_result.loc[stat_names[stat], var_name] = '%0.*f' % \
                                                              (2 if stat == 'variation ratio' else prec,
@@ -495,7 +501,7 @@ def print_var_stats(pdf, var_names, meas_levs, groups=None, statistics=None):
     else:
         # missing groups and values will be dropped (though this is not needed since it is assumed that they have been
         # dropped)
-        groups, grouped_data = _split_into_groups(pdf, var_names[0], groups)
+        groups, grouped_data = _split_into_groups(pdf, var_names[0], grouping_variables)
         groups = [' : '.join(map(str, group)) for group in groups]
         pdf_result = pd.DataFrame(columns=groups)
 
