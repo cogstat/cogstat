@@ -102,7 +102,7 @@ class Ui_Dialog(object):
         self.addPredictor.setText(_translate("Dialog", "..."))
         self.removePredictor.setText(_translate("Dialog", "..."))
         self.label_2.setText(_translate("Dialog", "Predicted variable"))
-        self.label_3.setText(_translate("Dialog", "Predictor variables"))
+        self.label_3.setText(_translate("Dialog", "Predictor variable(s)"))
 
 
 if __name__ == "__main__":

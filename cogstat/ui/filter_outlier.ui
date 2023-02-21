@@ -65,7 +65,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Selected variables</string>
+        <string>Selected variable(s)</string>
        </property>
        <property name="buddy">
         <cstring>selected_listWidget</cstring>

@@ -40,7 +40,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Pages</string>
+        <string>Page(s)</string>
        </property>
        <property name="buddy">
         <cstring>pagesListWidget</cstring>
@@ -105,7 +105,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Columns</string>
+        <string>Column(s)</string>
        </property>
        <property name="buddy">
         <cstring>columnsListWidget</cstring>
@@ -170,7 +170,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Rows</string>
+        <string>Row(s)</string>
        </property>
        <property name="buddy">
         <cstring>rowsListWidget</cstring>
@@ -235,7 +235,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Dependent variable</string>
+        <string>Dependent variable(s)</string>
        </property>
        <property name="buddy">
         <cstring>dependentListWidget</cstring>

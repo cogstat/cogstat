@@ -84,7 +84,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Filter outlier"))
         self.label_3.setText(_translate("Dialog", "Only interval variables are available"))
         self.label.setText(_translate("Dialog", "Available variables"))
-        self.label_2.setText(_translate("Dialog", "Selected variables"))
+        self.label_2.setText(_translate("Dialog", "Selected variable(s)"))
         self.multivariate_outliers.setText(_translate("Dialog", "&Multivariate outliers"))
 
 

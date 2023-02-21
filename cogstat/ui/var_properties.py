@@ -70,7 +70,6 @@ class Ui_Dialog(object):
         self.label_4 = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
         font.setBold(True)
-        font.setWeight(75)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 0, 0, 1, 1)
@@ -102,7 +101,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Explore variables"))
         self.label.setText(_translate("Dialog", "Available variables"))
-        self.label_2.setText(_translate("Dialog", "Selected variables"))
+        self.label_2.setText(_translate("Dialog", "Selected variable(s)"))
         self.freq_checkbox.setText(_translate("Dialog", "&Frequencies"))
         self.label_3.setText(_translate("Dialog", "Central tendency &test value"))
         self.label_4.setText(_translate("Dialog", "Statistics"))
