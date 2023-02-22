@@ -545,7 +545,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
         pane.scrollToAnchor(anchor)
-        plt.close('all')
+        plt.close('all')  # free memory after everything is displayed
         #pane.moveCursor(QtGui.QTextCursor.End)
 
     def _display_data(self, reset=False):

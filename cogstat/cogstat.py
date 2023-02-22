@@ -2086,4 +2086,4 @@ def display(results):
             display(HTML(result))
         else:
             display(result)
-    plt.close('all')
+    plt.close('all')  # free memory after everything is displayed
