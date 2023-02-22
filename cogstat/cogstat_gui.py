@@ -34,6 +34,7 @@ import gettext
 import io
 import logging
 import matplotlib.figure
+import matplotlib.pyplot as plt
 import os
 import sys
 import traceback
@@ -544,6 +545,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
         pane.scrollToAnchor(anchor)
+        plt.close('all')
         #pane.moveCursor(QtGui.QTextCursor.End)
 
     def _display_data(self, reset=False):

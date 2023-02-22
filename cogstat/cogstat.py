@@ -810,7 +810,6 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
-        plt.close('all')
         if not var_name:
             title = '<cs_h1>' + _('Explore variable') + '</cs_h1>'
             title += _('At least one variable should be set.')
@@ -1111,8 +1110,6 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
-        plt.close('all')
-
         title = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
         preconditions = True
         if (predictors is None) or (predictors == [None]) or not predictors:
@@ -1467,8 +1464,6 @@ class CogStatData:
         if not preconditions:
             return cs_util.convert_output([title])
 
-        plt.close('all')
-
         # Prepare missing parameters
         # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
         if factors is None or factors == []:
@@ -1652,8 +1647,6 @@ class CogStatData:
             preconditions = False
         if not preconditions:
             return cs_util.convert_output([title])
-
-        plt.close('all')
 
         var_names = [var_name]
         if grouping_variables is None:
@@ -1882,8 +1875,6 @@ class CogStatData:
                      + '\n'
         if not preconditions:
             return cs_util.convert_output([title])
-
-        plt.close('all')
 
         # Prepare missing parameters
         # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
