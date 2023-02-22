@@ -470,12 +470,14 @@ def print_var_stats(pdf, var_names, meas_levs, grouping_variables=None, statisti
                   }
     stat_functions = {'mean': np.mean,
                       'median': np.median,
-                      'std': np.std,
+                      'std': lambda x: np.std(x, ddof=0, axis=0),
+                        # ddof is needed, otherwise pandas agg would use ddof=1 (which is not the np.std default value)
+                        # axis is needed for the pandas agg() solution
                       'min': np.amin,
                       'max': np.amax,
                       'range': np.ptp,
-                      'lower quartile': lambda x: np.percentile(x, 25),
-                      'upper quartile': lambda x: np.percentile(x, 75),
+                      'lower quartile': lambda x: np.percentile(x, 25, axis=0),
+                      'upper quartile': lambda x: np.percentile(x, 75, axis=0),
                       # with the bias=False it gives the same value as SPSS
                       'skewness': lambda x: stats.skew(x, bias=False),
                       # with the bias=False it gives the same value as SPSS
@@ -487,16 +489,14 @@ def print_var_stats(pdf, var_names, meas_levs, grouping_variables=None, statisti
     prec = None
     # Compute only variable statistics
     if not grouping_variables:  # for single variable or repeated measures variables
-        # drop all data with NaN pair
-        data = pdf[var_names]
         pdf_result = pd.DataFrame(columns=var_names)
         for var_name in var_names:
             if meas_levs[var_name] != 'nom':
-                prec = cs_util.precision(data[var_name]) + 1
+                prec = cs_util.precision(pdf[var_name]) + 1
             for stat in statistics:
                 pdf_result.loc[stat_names[stat], var_name] = '%0.*f' % \
                                                              (2 if stat == 'variation ratio' else prec,
-                                                              stat_functions[stat](data[var_name].dropna()))
+                                                              stat_functions[stat](pdf[var_name]))
     # There is at least one grouping variable
     else:
         # missing groups and values will be dropped (though this is not needed since it is assumed that they have been
@@ -760,7 +760,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
             r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
             pdf_result.loc[_("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = \
-                ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+                ['%0.3f' % r, '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
         elif meas_lev == 'nom':
             missing_pdf_result = True
     if not missing_pdf_result:
@@ -1095,7 +1095,7 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
 
     if not pdf_result.empty:
         standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
-                                                                                 float_format=lambda x: '%0.3f' % (x),
+                                                                                 float_format=lambda x: '%0.3f' % x,
                                                                                  classes="table_cs_pd"))
     return standardized_effect_size_result
 
@@ -1254,7 +1254,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
 
     if not pdf_result.empty:
         standardized_effect_size_result += _format_html_table(pdf_result.to_html(bold_rows=False, escape=False,
-                                                                                 float_format=lambda x: '%0.3f' % (x),
+                                                                                 float_format=lambda x: '%0.3f' % x,
                                                                                  classes="table_cs_pd"))
 
     return standardized_effect_size_result
@@ -1311,14 +1311,14 @@ def reliability_internal_calc(data, sample=True):
     if sample:
         # Return sample properties
         item_removed = _format_html_table(item_removed_df.to_html(bold_rows=False, escape=False,
-                                                                  float_format=lambda x: '%0.3f' % (x),
+                                                                  float_format=lambda x: '%0.3f' % x,
                                                                   classes="table_cs_pd", index=False))
 
     else:
         # Return population properties
         # TODO assumption checks?
         item_removed = _format_html_table(item_removed_df_pop.to_html(bold_rows=False, escape=False,
-                                                                float_format=lambda x: '%0.3f' % (x),
+                                                                float_format=lambda x: '%0.3f' % x,
                                                                 classes="table_cs_pd", index=False))
 
     return alpha, item_removed
@@ -1369,11 +1369,11 @@ def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, r
     hyp_test_table.index = row_labels
 
     sample_result_table = _format_html_table(sample_result_df.to_html(bold_rows=False, escape=False,
-                                                                      float_format=lambda x: '%0.3f' % (x),
+                                                                      float_format=lambda x: '%0.3f' % x,
                                                                       classes="table_cs_pd"))
 
     population_result_table = _format_html_table(pop_result_df.to_html(bold_rows=False, escape=False,
-                                                                       float_format=lambda x: '%0.3f' % (x),
+                                                                       float_format=lambda x: '%0.3f' % x,
                                                                        classes="table_cs_pd"))
 
     return sample_result_table, population_result_table, hyp_test_table

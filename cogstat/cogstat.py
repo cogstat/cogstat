@@ -1563,7 +1563,7 @@ class CogStatData:
         # 3. Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
 
-        # 3a. Population estimations
+        # 3a. and 3c. Population estimations and plots
         population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
@@ -1598,11 +1598,11 @@ class CogStatData:
                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
 
         # 3b. Effect size
-        effect_size_result = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
-        if effect_size_result:
-            population_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + effect_size_result
+        population_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
+        if population_effect_size:
+            population_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
 
-        # 3c. Hypothesis tests
+        # 3d. Hypothesis tests
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
@@ -1766,7 +1766,11 @@ class CogStatData:
             sample_graph_new = None
 
         # 3. Population properties
-        # Plot population estimations
+        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+
+        # 3a. and c. Population estimation and plots
+        population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
+
         group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, grouping_variables)
         population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, grouping_variables,
                                                                            level_combinations, ylims=ylims)
@@ -1778,14 +1782,11 @@ class CogStatData:
                                                                               estimations=True, ylims=ylims,
                                                                               estimation_table=True)
 
-        # Population estimation
-        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>' + \
-                            '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
-        if meas_level in ['int', 'unk']:
-            population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
-        elif meas_level == 'ord':
-            population_result += _('Medians')
         if meas_level in ['int', 'unk', 'ord']:
+            if meas_level in ['int', 'unk']:
+                population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+            elif meas_level == 'ord':
+                population_result += _('Medians')
             prec = cs_util.precision(data[var_names[0]]) + 1
             population_result += \
                 cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
@@ -1796,15 +1797,14 @@ class CogStatData:
             cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
 
-
-        # effect size
-        standardized_effect_size_result = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables,
+        # 3b. Effect size
+        population_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables,
                                                                              meas_level, sample=False)
-        if standardized_effect_size_result is not None:
-            standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
-                                              standardized_effect_size_result + '\n'
+        if population_effect_size is not None:
+            population_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
+                                              population_effect_size + '\n'
 
-        # Hypothesis testing
+        # 3d. Hypothesis testing
         if len(grouping_variables) == 1:
             group_levels = sorted(set(data[grouping_variables[0]]))
             result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
@@ -1817,7 +1817,7 @@ class CogStatData:
 
         return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
                                        sample_graph, sample_graph_new, population_result,
-                                       population_graph, population_graph_new, standardized_effect_size_result, result_ht])
+                                       population_graph, population_graph_new, result_ht])
 
     def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
                           single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
@@ -2027,6 +2027,11 @@ class CogStatData:
         if sample_effect_size:
             sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
+        # 3. Population properties
+        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+
+        # 3a. and 3c. Population estimations and plots
+        population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         population_estimation, *population_graph_new = cs_chart.\
             create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                   dep_names=var_names,
@@ -2036,10 +2041,42 @@ class CogStatData:
                                                   indep_panel=display_factors[2],
                                                   ylims=ylims, estimations=True,
                                                   estimation_table=True)
-        #population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
+        prec = cs_util.precision(data[var_names[0]]) + 1  # TODO which variables should be used here?
+        population_result += cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
+                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
+        # 3b. Effect size
+        if not grouping_variables:  # no grouping variables
+            population_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level,
+                                                                           sample=False)
+        elif len(var_names) == 1:  # grouping variables with one dependent variable
+            population_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables, meas_level,
+                                                                        sample=False)
+        else:  # mixed design
+            population_effect_size = None
+            # TODO
+        if population_effect_size:
+            population_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
+
+        # 3d. Hypothesis tests
+        result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
+        if not grouping_variables:  # no grouping variables
+            result_ht += cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names,
+                                                                self.data_measlevs)
+        elif len(var_names) == 1:  # grouping variables with one dependent variable
+            if len(grouping_variables) == 1:
+                group_levels = sorted(set(data[grouping_variables[0]]))
+                result_ht += cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
+                                                                        var_names, grouping_variables, group_levels,
+                                                                        single_case_slope_SE, single_case_slope_trial_n)
+            else:
+                result_ht += cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names,
+                                                                             grouping_variables)
+        else:  # mixed design
+            result_ht += _('Sorry, not implemented yet.')
 
         return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new,
-                                       sample_result, descriptive_table, sample_graph_new, population_graph_new])
+                                       sample_result, descriptive_table, sample_graph_new,
+                                       population_result, population_graph_new, result_ht])
 
 
 def display(results):
