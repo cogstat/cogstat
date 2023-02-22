@@ -126,11 +126,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #                               display_factors=[['factor1'], ['factor2']])
 #        self.compare_variables(['CONDITION', 'CONDITION2', 'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
+#        self.compare_groups(['b'], groups=['i', 'j']),
 #        self.compare_groups(['b'], groups=['i', 'j', 'k'], display_groups=[['k', 'i'], ['j'], []]),
 #        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.compare_groups(['dep_nom'], ['g0', 'g1', 'g2', 'g3'])
-#        self.compare_variables_groups(var_names=['a', 'e', 'f'], groups=['i'], display_factors=[['i', ' '], [], []])
+#        self.compare_variables_groups(var_names=['a', 'e', 'f'], groups=['i'], display_factors=[['i', _('Unnamed factor')], [], []])
 #        self.reliability_internal(var_names=['a', 'e', 'f', 'g'])
 #        self.reliability_interrater(var_names=['a', 'e', 'f', 'g'])
 #        self.save_result_as()
@@ -1101,10 +1102,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
         
     def _show_about(self):
         QtWidgets.QMessageBox.about(self, _('About CogStat ') + csc.versions['cogstat'], 'CogStat ' +
-                                    csc.versions['cogstat'] + ('<br>%s<br><br>Copyright © %s-%s Attila Krajcsi<br><br>'
+                                    csc.versions['cogstat'] + ('<br>%s<br><br>Copyright © %s-%s Attila Krajcsi and CogStat contributors<br><br>'
                                                                '<a href = "http://www.cogstat.org">%s</a>' %
                                                                (_('Simple automatic data analysis software'),
-                                                                2012, 2022, _('Visit CogStat website'))))
+                                                                2012, 2023, _('Visit CogStat website'))))
 
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""
