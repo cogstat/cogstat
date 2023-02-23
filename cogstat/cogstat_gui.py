@@ -122,8 +122,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_variables(['D', 'E', 'F'])
 #        self.compare_variables()
 #        self.compare_variables(['a', 'b'], factors=[['factor', 2]], display_factors=[['factor'], []])
-#        self.compare_variables(['a', 'g', 'b', 'h'],
-#                               factors=[['factor1', 2], ['factor2', 2]],
+#        self.compare_variables(['a', 'g', 'b', 'h', 'e', 'f'],
+#                               factors=[['factor1', 2], ['factor2', 3]],
 #                               display_factors=[['factor1'], ['factor2']])
 #        self.compare_variables(['CONDITION', 'CONDITION2', 'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
@@ -314,26 +314,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.dial_pref = cogstat_dialogs.preferences_dialog()
 
         # Prepare result and data panes
-        def _change_color_lightness(color, lightness=1.0):
-            """Modify the lightness of a color.
-
-            Parameters
-            ----------
-            color : str in hex color '#rrggbb'
-                color to change
-            lightness : float
-                multiply original value of hsv with this number
-
-            Returns
-            -------
-            str in hex color '#rrggbb'
-                modified color
-            """
-            from matplotlib.colors import hsv_to_rgb, rgb_to_hsv, to_hex
-            hsv_color = rgb_to_hsv(list(int(color[i:i + 2], 16) / 256 for i in (1, 3, 5)))
-            hsv_color[2] = min(1, hsv_color[2] * lightness)  # change the lightness, which cannot be larger than 1
-            return to_hex(hsv_to_rgb(hsv_color))
-
         self.centralwidget = QtWidgets.QWidget()
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
         self.table_view = QtWidgets.QTableView(self.splitter)
@@ -355,10 +335,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                  'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
                                                  '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
                                                  'td {white-space:nowrap}' %
-                                                 (_change_color_lightness(csc.mpl_theme_color, 1.1),
-                                                  _change_color_lightness(csc.mpl_theme_color, 1.0),
-                                                  _change_color_lightness(csc.mpl_theme_color, 0.8),
-                                                  _change_color_lightness(csc.mpl_theme_color, 0.4)))
+                                                 (cs_util.change_color(csc.mpl_theme_color, brightness=1.1),
+                                                  cs_util.change_color(csc.mpl_theme_color, brightness=1.0),
+                                                  cs_util.change_color(csc.mpl_theme_color, brightness=0.8),
+                                                  cs_util.change_color(csc.mpl_theme_color, brightness=0.4)))
             pane.setReadOnly(True)
             pane.setOpenExternalLinks(True)
             pane.setStyleSheet("QTextBrowser { background-color: white; }")

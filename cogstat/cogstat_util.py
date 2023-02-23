@@ -168,6 +168,35 @@ def precision(data):
         return None
 
 
+def change_color(color, saturation=1.0, brightness=1.0):
+    """Modify a color.
+
+    Parameters
+    ----------
+    color : color format recognized by matplotlib
+        color to change
+    saturation : float
+        multiply original saturation value of HSV with this number
+    brightness : float
+        multiply original brightness (or value in HSV terms) value of HSV with this number
+
+    Returns
+    -------
+    str in hex color '#rrggbb'
+        modified color
+    """
+    from matplotlib.colors import hsv_to_rgb, rgb_to_hsv, to_hex
+
+    color = to_hex(color)
+    hsv_color = rgb_to_hsv(list(int(color[i:i + 2], 16) / 256 for i in (1, 3, 5)))
+    #print(color, hsv_color)
+    hsv_color[1] = min(1, hsv_color[1] * saturation)  # change the saturation, which cannot be larger than 1
+    hsv_color[2] = min(1, hsv_color[2] * brightness)  # change the brightness, which cannot be larger than 1
+    #print(matplotlib.colors.to_hex(matplotlib.colors.hsv_to_rgb(hsv_color)))
+
+    return to_hex(hsv_to_rgb(hsv_color))
+
+
 def convert_output(outputs):
     """Convert output either to the GUI or to the IPython Notebook
 

@@ -64,7 +64,6 @@ try:
     theme = config['graph']['theme']
 except KeyError:
     theme = ''
-ind_line_col = str(config['graph']['individual line color'])
 fig_size_x = int(config['graph']['graph x size'])
 fig_size_y = int(config['graph']['graph y size'])
 graph_font_size = config['graph']['graph font size']

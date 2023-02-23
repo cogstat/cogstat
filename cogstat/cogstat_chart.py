@@ -44,24 +44,24 @@ except IOError:  # if the given themes are not available
     plt.style.use(csc.theme)
     csc.save(['graph', 'theme'], csc.theme)
 
-#print plt.style.available
+#print(plt.style.available)
 #style_num = 15
-#print plt.style.available[style_num]
+#print(plt.style.available[style_num])
 #plt.style.use(plt.style.available[style_num])
 theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]
-#print theme_colors
+#print(theme_colors)
 # this is a workaround, as 'C0' notation does not seem to work
 
 # store the first matplotlib theme color in cogstat config for the GUI-specific html heading styles
-csc.mpl_theme_color = matplotlib.colors.to_hex(theme_colors[0])
+csc.mpl_theme_color = theme_colors[0]
 
 # Overwrite style parameters when needed
 # https://matplotlib.org/tutorials/introductory/customizing.html
 # Some dashed and dotted axes styles (which are simply line styles) are hard to differentiate, so we overwrite the style
-#print matplotlib.rcParams['lines.dashed_pattern'], matplotlib.rcParams['lines.dotted_pattern']
+#print(matplotlib.rcParams['lines.dashed_pattern'], matplotlib.rcParams['lines.dotted_pattern'])
 matplotlib.rcParams['lines.dashed_pattern'] = [6.0, 6.0]
 matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
-#print matplotlib.rcParams['axes.spines.left']
+#print(matplotlib.rcParams['axes.spines.left'])
 #print(matplotlib.rcParams['font.size'], matplotlib.rcParams['font.serif'], matplotlib.rcParams['font.sans-serif'])
 if csc.language == 'th':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
@@ -69,16 +69,16 @@ if csc.language == 'ko':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['NanumGothic', 'NanumMyeongjo']
 if csc.language == 'zh':
     matplotlib.rcParams['font.sans-serif'][0:0] = ['SimHei', 'Heiti TC', 'WenQuanYi Zen Hei', 'SimSun']
-#print matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize']
+#print(matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize'])
 matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
 matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axis
-#print matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize']
-#print matplotlib.rcParams['figure.facecolor']
+#print(matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize'])
+#print(matplotlib.rcParams['figure.facecolor'])
 # Make sure that the axes are visible
-#print matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor']
+#print(matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor'])
 if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == \
         matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
-    #print matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor'])
+    #print(matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']))
     matplotlib.rcParams['axes.edgecolor'] = \
         'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']) == (0, 0, 0, 0) else 'k'
 
@@ -1007,6 +1007,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
         # Find the value among all variables with the largest frequency
         max_freq = max([max(data.iloc[:, [i, i+1]].groupby([data.columns[i], data.columns[i+1]]).size()) for i in
                         range(len(data.columns) - 1)])
+        individual_line_color = cs_util.change_color(theme_colors[0], saturation=0.4, brightness=1.3)
         for i in range(len(data.columns) - 1):  # for all pairs
             # Prepare the frequencies for the plot
             # Create dataframe with value pairs and their frequencies
@@ -1016,8 +1017,8 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
                 # largest dot shouldn't be larger than 10 × of the default size
                 # smallest dot is 1 unit size
             for j, row in xy_set_freq.iterrows():
-                plt.plot([i + 1, i + 2], [row.values[0], row.values[1]], '-', color=csc.ind_line_col, lw=row.values[2],
-                         solid_capstyle='round')
+                plt.plot([i + 1, i + 2], [row.values[0], row.values[1]], '-', color=individual_line_color,
+                         lw=row.values[2], solid_capstyle='round')
         if max_freq > 1:
             plt.suptitle(_plt('Thickest line displays %d cases.') % max_freq, x=0.9, y=0.025,
                          horizontalalignment='right', fontsize=10)
@@ -1652,12 +1653,12 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                     data_con = color_raw_group.pivot(columns=indep_x, values=dep_name).sort_index(axis=1)
                     # max_freq_panel_connec is the specific maximum frequency for the connected items per panel
                     max_freq_panel_connec = 1
+                    individual_line_color = cs_util.change_color(theme_colors[i], saturation=0.4, brightness=1.3)
                     for c_i in range(len(data_con.columns) - 1):  # for all x level pairs
                         xy_set_freq = _value_count(data_con.iloc[:, [c_i, c_i + 1]], max_freq=max_freq_global_connec)
                         for index, value in xy_set_freq.items():
-                            plt.plot([c_i + 1 + i/(color_n+1), c_i + 2 + i/(color_n+1)],
-                                     [index[0], index[1]],
-                                     '-', color=csc.ind_line_col, lw=value, solid_capstyle='round')
+                            plt.plot([c_i + 1 + i/(color_n+1), c_i + 2 + i/(color_n+1)], [index[0], index[1]],
+                                     '-', color= individual_line_color, lw=value, solid_capstyle='round', zorder=0)
                         max_freq_panel_connec = max(max_freq_panel_connec, max(xy_set_freq.values, default=0))
                     if max_freq_panel_connec > 1:
                         suptitle_text_line = _plt('Thickest line displays %d cases.') % max_freq_panel_connec + ' '
