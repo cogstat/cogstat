@@ -1045,8 +1045,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
         import itertools
         graph = []
         for var_pair in itertools.combinations(var_names, 2):
-            ct = pd.crosstab(data[var_pair[0]], data[var_pair[1]]).sort_index(axis='index',
-                                                                                          ascending=False) \
+            ct = pd.crosstab(data[var_pair[0]], data[var_pair[1]]).sort_index(axis='index', ascending=False) \
                 .unstack()  # sort the index to have the same order on the chart as in the table
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
                                 properties=_create_default_mosaic_properties(ct),
@@ -1109,7 +1108,7 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
 #################################
 
 
-def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups, group_levels, raw_data_only=False,
+def create_compare_groups_sample_chart(data_frame, meas_level, var_names, grouping_variables, group_levels, raw_data_only=False,
                                        ylims=[None, None]):
     """Display the boxplot of the groups with individual data or the mosaic plot
 
@@ -1119,8 +1118,9 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         It is assumed that the missing cases are dropped.
     meas_level : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the variables
-    var_names : list of str
-    groups : list of str
+    var_names : list of a single str
+        Dependent variable
+    grouping_variables : list of str
         Grouping variables
     group_levels
         List of lists or tuples with group levels (1 grouping variable) or group level combinations
@@ -1138,8 +1138,8 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         # TODO is this OK for ordinal?
         # Get the data to display
         # group the raw the data according to the level combinations
-        variables = [data_frame[var_names[0]][(data_frame[groups] ==
-                                               pd.Series({group: level for group, level in zip(groups, group_level)})).
+        variables = [data_frame[var_names[0]][(data_frame[grouping_variables] ==
+                                               pd.Series({group: level for group, level in zip(grouping_variables, group_level)})).
             all(axis=1)].dropna() for group_level in group_levels]
         if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
             index_ranks = dict(list(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables)))))
@@ -1183,22 +1183,17 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         # Add labels
         plt.xticks(list(range(1, len(group_levels)+1)), _wrap_labels([' : '.join(map(str, group_level)) for
                                                                       group_level in group_levels]))
-        plt.xlabel(' : '.join(groups))
+        plt.xlabel(' : '.join(grouping_variables))
         if meas_level == 'ord':
             plt.ylabel(_('Rank of %s') % var_names[0])
             if raw_data_only:
                 plt.title(_plt('Individual data of the rank data of the groups'))
             else:
                 plt.title(_plt('Boxplots and individual data of the rank data of the groups'))
-            ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
-            try:
-                ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
-                                    if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()],
-                                   wrap=True)
-            except TypeError:  # for matplotlib before 1.5
-                ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
-                                    if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()])
+            ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
+                                if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()],
+                               wrap=True)
             _set_axis_measurement_level(ax, 'nom', 'ord')
         else:
             plt.ylabel(var_names[0])
@@ -1216,30 +1211,30 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groups
         # - if there are cells with zero value, three variables mosaic plot will not run - probably statsmodels issue
         # - ax = plt.subplot(111) removes the labels of the third variable at the top
         # - dependent variable should go to the y-axis when there are three variables
-        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[ddd] for ddd in data_frame[groups]]).
+        ct = pd.crosstab(data_frame[var_names[0]], [data_frame[ddd] for ddd in data_frame[grouping_variables]]).
                 sort_index(axis='index', ascending=False).unstack()  
                 # sort the index to have the same order on the chart as in the table
         print(ct)
-        fig, rects = mosaic(ct, label_rotation=[0.0, 90.0] if len(groups) == 1 else [0.0, 90.0, 0.0],
+        fig, rects = mosaic(ct, label_rotation=[0.0, 90.0] if len(grouping_variables) == 1 else [0.0, 90.0, 0.0],
                             labelizer=lambda x: _mosaic_labelizer(ct, x, ' : '),
                             properties=_create_default_mosaic_properties(ct))
         ax = plt.subplot(111)
-        # ax.set_xlabel(' : '.join(groups))
-        ax.set_xlabel(groups[0])
-        ax.set_ylabel(groups[1] if len(groups) > 1 else var_names[0])
+        # ax.set_xlabel(' : '.join(grouping_variables))
+        ax.set_xlabel(grouping_variables[0])
+        ax.set_ylabel(grouping_variables[1] if len(grouping_variables) > 1 else var_names[0])
         plt.title(_plt('Mosaic plot of the groups'))
         _set_axis_measurement_level(ax, 'nom', 'nom')
         graph.append(fig)
         #"""
-        for group in groups:
-            ct = pd.crosstab(data_frame[var_names[0]], data_frame[group]).sort_index(axis='index', ascending=False).\
+        for grouping_variable in grouping_variables:
+            ct = pd.crosstab(data_frame[var_names[0]], data_frame[grouping_variable]).sort_index(axis='index', ascending=False).\
                 unstack()  # sort the index to have the same order on the chart as in the table
             #print(ct)
             fig, rects = mosaic(ct, label_rotation=[0.0, 90.0],
                                 properties=_create_default_mosaic_properties(ct),
                                 labelizer=lambda x: _mosaic_labelizer(ct, x, ' : '))
             ax = fig.get_axes()[0]
-            ax.set_xlabel(group)
+            ax.set_xlabel(grouping_variable)
             ax.set_ylabel(var_names[0])
             plt.title(_plt('Mosaic plot of the groups'))
             _set_axis_measurement_level(ax, 'nom', 'nom')
@@ -1491,7 +1486,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     # TODO add a solution when this is not calculated when not needed
 
     # TODO descriptives
-    # TODO ordinal and nominal
+    # TODO nominal
     if dep_meas_level in ['int', 'unk']:
         means = long_raw_data.pivot_table(values=dep_name,
                                           index=(indep_names if indep_names else 'all_raw_rows'),
@@ -1558,6 +1553,13 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     # (c) there are several values.
     # For all labels, display both the dimension name and the value.
 
+    # If the dependent variable(s) is/are ordinal, then use the order information to display data.
+    #  Here, we modify the long_raw_data. The rest of the function deals only with charts, and this will be used only
+    #  in raw data and box plots.
+    if dep_meas_level == 'ord':
+        original_values = long_raw_data[dep_name].values
+        long_raw_data[dep_name] = stats.rankdata(long_raw_data[dep_name])
+
     if raw_data:
         # Find most frequent value when data are split by all independent variable levels.
         #  The max_freq_global stores the maximum frequency of a value in the whole analysis (note that this could be
@@ -1590,28 +1592,6 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                    long_raw_data.groupby(by=(indep_panel if indep_panel else 'all_raw_rows'))):
         fig = plt.figure()
         ax = fig.add_subplot(111)
-
-        # Panel (chart) labels
-        plt_title = ''
-        # Currently, it handles only the cases that are needed in the main module
-        if [raw_data, box_plots, descriptives, estimations] == [1, 0, 0, 0]:
-            plt_title = _plt('Individual data')
-        elif [raw_data, box_plots, descriptives, estimations] == [1, 1, 0, 0]:
-            plt_title = _plt('Boxplots and individual data')
-        elif [raw_data, box_plots, descriptives, estimations] == [0, 0, 0, 1]:
-            if dep_meas_level in ['int', 'unk']:
-                plt_title = _plt('Means and 95% confidence intervals')
-            elif dep_meas_level in ['ord']:
-                plt_title = _plt('Medians')
-
-        if indep_panel:  # only if there are panel indepenent variables - otherwise, no variable info is needed
-            if len(indep_panel) == 1:
-                plt.title(plt_title + '\n%s (%s)' % (panel_stat_name, indep_panel[0]))
-            else:
-                plt.title(plt_title + '\n%s (%s)' % (' : '.join(map(str, panel_stat_name)),
-                                                     ' : '.join(map(str, indep_panel))))
-        else:
-            plt.title(plt_title)
 
         suptitle_text_line = ''
         suptitle_text_sign = ''
@@ -1658,7 +1638,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                         xy_set_freq = _value_count(data_con.iloc[:, [c_i, c_i + 1]], max_freq=max_freq_global_connec)
                         for index, value in xy_set_freq.items():
                             plt.plot([c_i + 1 + i/(color_n+1), c_i + 2 + i/(color_n+1)], [index[0], index[1]],
-                                     '-', color= individual_line_color, lw=value, solid_capstyle='round', zorder=0)
+                                     '-', color=individual_line_color, lw=value, solid_capstyle='round', zorder=0)
                         max_freq_panel_connec = max(max_freq_panel_connec, max(xy_set_freq.values, default=0))
                     if max_freq_panel_connec > 1:
                         suptitle_text_line = _plt('Thickest line displays %d cases.') % max_freq_panel_connec + ' '
@@ -1719,6 +1699,33 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
             if indep_color:
                 ax.legend(title=indep_color[0] if len(indep_color) == 1 else ' : '.join(indep_color))
 
+        # panel (chart) labels
+        plt_title = ''
+        # Currently, it handles only the cases that are needed in the main module
+        if [raw_data, box_plots, descriptives, estimations] == [1, 0, 0, 0]:
+            if dep_meas_level in ['int', 'unk']:
+                plt_title = _plt('Individual data')
+            elif dep_meas_level in ['ord']:
+                plt_title = _plt('Individual rank data')
+        elif [raw_data, box_plots, descriptives, estimations] == [1, 1, 0, 0]:
+            if dep_meas_level in ['int', 'unk']:
+                plt_title = _plt('Boxplots and individual data')
+            elif dep_meas_level in ['ord']:
+                plt_title = _plt('Boxplots and individual rank data')
+        elif [raw_data, box_plots, descriptives, estimations] == [0, 0, 0, 1]:
+            if dep_meas_level in ['int', 'unk']:
+                plt_title = _plt('Means and 95% confidence intervals')
+            elif dep_meas_level in ['ord']:
+                plt_title = _plt('Medians')
+        if indep_panel:  # only if there are panel independent variables - otherwise, no variable info is needed
+            if len(indep_panel) == 1:
+                plt.title(plt_title + '\n%s (%s)' % (panel_stat_name, indep_panel[0]))
+            else:
+                plt.title(plt_title + '\n%s (%s)' % (' : '.join(map(str, panel_stat_name)),
+                                                     ' : '.join(map(str, indep_panel))))
+        else:
+            plt.title(plt_title)
+
         # set x ticks and x label
         if indep_x:
             xtick_labels = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).groups.keys()
@@ -1741,7 +1748,18 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
             ax.tick_params(bottom=False, labelbottom=False)
 
         # set y label
-        plt.ylabel(_('Value') if factor_info is not None else dep_name)
+        if dep_meas_level in ['int', 'unk']:
+            plt.ylabel(_('Value') if factor_info is not None else dep_name)
+        elif dep_meas_level == 'ord':
+            plt.ylabel(_('Rank value') if factor_info is not None else _('Rank of %s') % dep_name)
+
+        # set y ticks
+        if dep_meas_level == 'ord':
+            # Create new tick labels, with the rank and the value of the corresponding rank
+            ax.set_yticklabels(['%i\n(%s)' % (i, sorted(original_values)[int(i)-1])
+                                if i-1 in range(len(original_values)) else '%i' % i for i in ax.get_yticks()],
+                               wrap=True)
+
         # set manual ylim values
         ax.set_ylim(ylims)  # Default None values do not change the limit
 

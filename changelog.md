@@ -30,7 +30,12 @@ Upcoming release (2023)
 - Displaying groups and factors
   - In comparing groups, display groups not only on x-axes but also with colors or in panels
   - In comparing repeated measures variables, display conditions not only on x-axes but also with colors
-    - Rearrange the factors flexibly  
+    - Rearrange the factors flexibly
+  - For ordinal repeated measures variables, display the rank of the values
+- Comparing variables and groups in mixed design
+  - Raw data
+  - Descriptives and related charts
+  - Parameter estimations and related charts
 - Behavioral data diffusion analysis
   - The time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
   - Slow trials are filtered before the analysis is run
