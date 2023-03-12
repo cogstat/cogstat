@@ -1298,6 +1298,6 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         """Save the settings when OK is pressed.
         """
         csc.save(['language'], self.lang_codes[str(self.langComboBox.currentText())])
-        csc.save(['graph', 'theme'], str(self.themeComboBox.currentText()))
-        csc.save(['graph', 'format'], str(self.image_combo_box.currentText()))
+        csc.save(['theme'], str(self.themeComboBox.currentText()))
+        csc.save(['image_format'], str(self.image_combo_box.currentText()))
         self.accept()

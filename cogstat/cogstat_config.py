@@ -54,8 +54,8 @@ if old_config != dict(config):
 language = config['language']
 
 # Output styles
-default_font = config['style']['default output font']
-default_font_size = float(config['style']['default output font size'])
+default_font = 'arial'
+default_font_size = 9.5
 
 # Define cs specific tags as html tags
 cs_tags = {'<cs_h1>': '<h2>',
@@ -75,14 +75,15 @@ cs_tags = {'<cs_h1>': '<h2>',
 
 # Graph parameters
 try:
-    theme = config['graph']['theme']
+    theme = config['theme']
 except KeyError:
     theme = ''
-fig_size_x = int(config['graph']['graph x size'])
-fig_size_y = int(config['graph']['graph y size'])
-graph_font_size = config['graph']['graph font size']
-graph_title_size = config['graph']['graph title size']
-image_format = config['graph']['format']
+fig_size_x = 8  # in inch
+fig_size_y = 6  # in inch
+# graph size will not give nice graphs with too small values - it is a matplotlib issue
+graph_font_size = 'medium'
+graph_title_size = 'medium'
+image_format = config['image_format']
 versions = {}  # To be modified from cogstat.py
 
 

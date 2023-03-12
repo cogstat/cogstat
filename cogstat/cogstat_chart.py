@@ -37,12 +37,12 @@ try:
         for theme in csc.theme:
             if theme in plt.style.available:
                 csc.theme = theme
-                csc.save(['graph', 'theme'], theme)
+                csc.save(['theme'], theme)
                 break
 except IOError:  # if the given themes are not available
     csc.theme = sorted(plt.style.available)[0]
     plt.style.use(csc.theme)
-    csc.save(['graph', 'theme'], csc.theme)
+    csc.save(['theme'], csc.theme)
 
 #print(plt.style.available)
 #style_num = 15
@@ -1546,8 +1546,11 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 replace('\n', '')
             estimation_table_styler = estimation_table_df.style.format('{:.%sf}' % prec)
         elif dep_meas_level == 'ord':
+            estimation_table_html = ''
             estimation_table_df = pd.DataFrame()
-            pass  # TODO
+            prec = cs_util.precision(long_raw_data[dep_name]) + 1
+            estimation_table_styler = estimation_table_df.style.format('{:.%sf}' % prec)
+            # TODO
 
     # 3. Create charts
     graphs = []
