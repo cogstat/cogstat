@@ -43,11 +43,11 @@ _ = t.gettext
 
 pd.options.display.html.border = 0
 
-warn_unknown_variable = '<warning><b>' + _('Measurement level warning') + '</b> ' + \
+warn_unknown_variable = '<cs_warning><b>' + _('Measurement level warning') + '</b> ' + \
                         _('The measurement levels of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                         % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                        + '</warning>'
+                        + '</cs_warning>'
                         # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
 
 
@@ -259,9 +259,9 @@ class CogStatData:
                     self.data_measlevs = {name: measurement_levels[name] for name in measurement_levels.keys()}
 
                 if len(self.data_frame.columns) != len(measurement_levels):
-                    warning_text += '\n<warning>' + \
+                    warning_text += '\n<cs_warning>' + \
                                     _('Number of measurement levels do not match the number of variables. '
-                                    'You may want to correct the number of measurement levels.')
+                                    'You may want to correct the number of measurement levels.') + '</cs_warning>'
 
             # 2. Apply constraints to measurement levels.
             # String variables cannot be interval or nominal variables in CogStat, so change them to nominal
@@ -272,23 +272,23 @@ class CogStatData:
             if invalid_var_names:  # these str variables were set to int or ord
                 for var_name in invalid_var_names:
                     self.data_measlevs[var_name] = 'nom'
-                warning_text += '\n<warning><b>' + _('String variable conversion warning') + '</b> ' + \
+                warning_text += '\n<cs_warning><b>' + _('String variable conversion warning') + '</b> ' + \
                                 _('String variables cannot be interval or ordinal variables in CogStat. '
                                 'Those variables are automatically set to nominal: ')\
                                 + '<i>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
                                 '</i>. ' + _('You can fix this issue in your data source.') \
                                 + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                 % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                + '</warning>'
+                                + '</cs_warning>'
 
             # Warn when any measurement levels are not set
             if 'unk' in set(self.data_measlevs.values()):
-                warning_text += '\n<warning><b>' + _('Measurement level warning') + '</b> ' + \
+                warning_text += '\n<cs_warning><b>' + _('Measurement level warning') + '</b> ' + \
                                        _('The measurement level was not set for all variables.') + ' '\
                                        + _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                       + '</warning>'
+                                       + '</cs_warning>'
         # end of set_measurement_level()
 
         def _check_valid_chars():
@@ -314,7 +314,7 @@ class CogStatData:
                                 non_ascii_vars.append(variable_name)
                                 break  #after finding the first non-ascii data, we can skip the rest variable data
             if non_ascii_var_names:
-                warning_text += '\n<warning><b>' + _('Recommended characters in variable names warning') + \
+                warning_text += '\n<cs_warning><b>' + _('Recommended characters in variable names warning') + \
                                        '</b> ' + \
                                        _('Some variable name(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
@@ -323,9 +323,9 @@ class CogStatData:
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                       + '</warning>'
+                                       + '</cs_warning>'
             if non_ascii_vars:
-                warning_text += '\n<warning><b>' + _('Recommended characters in data values warning') + \
+                warning_text += '\n<cs_warning><b>' + _('Recommended characters in data values warning') + \
                                        '</b> ' + \
                                        _('Some string variable(s) include characters other than English letters, '
                                          'numbers, or underscore which can cause problems in some analyses: %s.') \
@@ -334,7 +334,7 @@ class CogStatData:
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                                       + '</warning>'
+                                       + '</cs_warning>'
 
         self.import_message = ''
         import_measurement_levels = None
@@ -894,45 +894,45 @@ class CogStatData:
         # Hypothesis tests
         text_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if self.data_measlevs[var_name] in ['int', 'unk']:
-            text_result += '<decision>' + _('Testing if mean deviates from the value %s.') % central_value +\
-                           '</decision>\n'
+            text_result += '<cs_decision>' + _('Testing if mean deviates from the value %s.') % central_value +\
+                           '</cs_decision>\n'
         elif self.data_measlevs[var_name] == 'ord':
-            text_result += '<decision>' + _('Testing if median deviates from the value %s.') % central_value +\
-                           '</decision>\n'
+            text_result += '<cs_decision>' + _('Testing if median deviates from the value %s.') % central_value +\
+                           '</cs_decision>\n'
 
         if unknown_type:
-            text_result += '<decision>' + warn_unknown_variable + '\n</decision>'
+            text_result += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
         if meas_level in ['int', 'unk']:
-            text_result += '<decision>' + _('Interval variable.') + ' >> ' + \
+            text_result += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
                            _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
-                           '</decision>\n'
-            text_result += '<decision>' + _('Checking for normality.') + '\n</decision>'
+                           '</cs_decision>\n'
+            text_result += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
             norm, text_result_norm = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
 
             text_result += text_result_norm
             if norm:
-                text_result += '<decision>' + _('Normality is not violated.') + ' >> ' + \
-                               _('Running one-sample t-test.') + '</decision>\n'
+                text_result += '<cs_decision>' + _('Normality is not violated.') + ' >> ' + \
+                               _('Running one-sample t-test.') + '</cs_decision>\n'
                 text_result2, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name,
                                                           test_value=central_value)
                 graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'mean', ci)
 
             else:
-                text_result += '<decision>' + _('Normality is violated.') + ' >> ' + \
-                               _('Running Wilcoxon signed-rank test.') + '</decision>\n'
+                text_result += '<cs_decision>' + _('Normality is violated.') + ' >> ' + \
+                               _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n'
                 text_result += _('Median: %0.*f') % (prec, np.median(data[var_name])) + '\n'
                 text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                             value=central_value)
                 graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
 
         elif meas_level == 'ord':
-            text_result += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Wilcoxon signed-rank test.') + \
-                           '</decision>\n'
+            text_result += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + _('Running Wilcoxon signed-rank test.') + \
+                           '</cs_decision>\n'
             text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
                                                         value=central_value)
             graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
         else:
-            text_result2 = '<decision>' + _('Sorry, not implemented yet.') + '</decision>\n'
+            text_result2 = '<cs_decision>' + _('Sorry, not implemented yet.') + '</cs_decision>\n'
             graph = None
         text_result += text_result2
 
@@ -1056,30 +1056,30 @@ class CogStatData:
         # Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
         population_result += '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
-        population_result += '<decision>' + _('Testing normality.') + '</decision>'
+        population_result += '<cs_decision>' + _('Testing normality.') + '</cs_decision>'
         non_normal_vars, normality_text, var_hom_p, var_text_result = \
             cs_hyp_test.reliability_interrater_assumptions(data, data_long, var_names, self.data_measlevs)
         population_result += '\n' + normality_text
         warnings = ''
         if not non_normal_vars:
-            population_result += '<decision>' + _('Assumption of normality met.') + '</decision>' + '\n'
+            population_result += '<cs_decision>' + _('Assumption of normality met.') + '</cs_decision>' + '\n'
         else:
-            population_result += '<decision>' + _('Assumption of normality violated in variable(s) %s' %
-                                                  ', '.join(non_normal_vars)) + '</decision>' + '\n'
-            warnings += '<decision>' + _('Assumption of normality violated. ') + '</decision>'
-        population_result += '\n' + '<decision>' + _('Testing homogeneity of variances.') + '</decision>'
+            population_result += '<cs_decision>' + _('Assumption of normality violated in variable(s) %s' %
+                                                  ', '.join(non_normal_vars)) + '</cs_decision>' + '\n'
+            warnings += '<cs_decision>' + _('Assumption of normality violated. ') + '</cs_decision>'
+        population_result += '\n' + '<cs_decision>' + _('Testing homogeneity of variances.') + '</cs_decision>'
         population_result += '\n' + var_text_result
         if var_hom_p < 0.05:
-            population_result += '<decision>' + _('Assumption of homogeneity of variances violated. ') + '</decision>'
-            warnings += '<decision>' + _('Assumption of homogeneity of variances violated.') + '</decision>'
+            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated. ') + '</cs_decision>'
+            warnings += '<cs_decision>' + _('Assumption of homogeneity of variances violated.') + '</cs_decision>'
         else:
-            population_result += '<decision>' + _('Assumption of homogeneity of variances met.') + '</decision>'
+            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances met.') + '</cs_decision>'
 
         population_result += '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
         if non_normal_vars or var_hom_p < 0.05:
-            warnings += '<decision>' + _('CIs may be inaccurate.') + '</decision>'
+            warnings += '<cs_decision>' + _('CIs may be inaccurate.') + '</cs_decision>'
         else:
-            warnings += '<decision>' + _('Assumptions met.') + '</decision>'
+            warnings += '<cs_decision>' + _('Assumptions met.') + '</cs_decision>'
 
         hypothesis_tests = cs_hyp_test.reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p)
 
@@ -1144,7 +1144,7 @@ class CogStatData:
                          '\n' + _('Predicted') + ': ' + predicted + ' (%s)\n' % self.data_measlevs[predicted]
         raw_result += self._filtering_status()
         if unknown_var:
-            raw_result += '<decision>' + warn_unknown_variable + '\n</decision>'
+            raw_result += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
 
         # 1. Raw data
         raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
@@ -1178,7 +1178,7 @@ class CogStatData:
 
             # Test of multivariate normality
             assumptions_result = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
-            assumptions_result += '<decision>' + _('Testing multivariate normality of variables') + '</decision>\n'
+            assumptions_result += '<cs_decision>' + _('Testing multivariate normality of variables') + '</cs_decision>\n'
             normality, norm_text = cs_hyp_test.multivariate_normality(data, predictors + [predicted])
             assumptions_result += norm_text
 
@@ -1199,7 +1199,7 @@ class CogStatData:
             residuals = result.resid
 
             # Test of homoscedasticity
-            assumptions_result += '<decision>' + _('Testing homoscedasticity') + '</decision>\n'
+            assumptions_result += '<cs_decision>' + _('Testing homoscedasticity') + '</cs_decision>\n'
             homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, predictors + [predicted],
                                                                       residual=residuals)
             assumptions_result += het_text
@@ -1215,7 +1215,7 @@ class CogStatData:
         multicollinearity_chart = None
         if len(predictors) > 1:
             vif, multicollinearity = cs_stat.vif_table(data, predictors)
-            assumptions_result += '<decision>' + _('Testing multicollinearity') + '</decision>\n'
+            assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
             assumptions_result += vif
             multicollinearity_chart = cs_chart.create_multicollinearity_chart(self.data_frame, meas_lev, predictors)  # TODO redundant chart?
 
@@ -1492,7 +1492,7 @@ class CogStatData:
         # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
-            analysis_info += '\n<decision>' + warn_unknown_variable + '</decision>'
+            analysis_info += '\n<cs_decision>' + warn_unknown_variable + '</cs_decision>'
 
         # 1. Raw data
         raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
@@ -1663,7 +1663,7 @@ class CogStatData:
         # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars([var_names[0]])
         if unknown_type:
-            analysis_info += '<decision>' + warn_unknown_variable + '</decision>'
+            analysis_info += '<cs_decision>' + warn_unknown_variable + '</cs_decision>'
 
         # 1. Raw data
         raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
@@ -1908,7 +1908,7 @@ class CogStatData:
         # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
-            analysis_info += '\n<decision>' + warn_unknown_variable + '</decision>'
+            analysis_info += '\n<cs_decision>' + warn_unknown_variable + '</cs_decision>'
 
         # 1. Raw data
         raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'

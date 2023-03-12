@@ -57,7 +57,21 @@ language = config['language']
 default_font = config['style']['default output font']
 default_font_size = float(config['style']['default output font size'])
 
-styles = config['other styles']  # it reads the params as dictionary
+# Define cs specific tags as html tags
+cs_tags = {'<cs_h1>': '<h2>',
+           '</cs_h1>': '</h2>',
+           '<cs_h2>': '<h3>',
+           '</cs_h2>': '</h3>',
+           '<cs_h3>': '<h4>',
+           '</cs_h3>': '</h4>',
+           '<cs_h4>': '<h5>',
+           '</cs_h4>': '</h5>',
+           '<cs_decision>': '<font style="color: green">',
+           '</cs_decision>': '</font>',
+           '<cs_warning>': '<font style="color: orange">',
+           '</cs_warning>': '</font>',
+           '<cs_fix_width_font>': '<font style="font-family: courier">',
+           '</cs_fix_width_font>': '</font>'}
 
 # Graph parameters
 try:
