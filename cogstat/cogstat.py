@@ -1584,21 +1584,19 @@ class CogStatData:
                                                   indep_color=display_factors[1],
                                                   ylims=ylims, estimations=True,
                                                   estimation_table=True)
-        population_result += population_estimation.to_html(bold_rows=False,float_format=lambda x: '%0.*f' % (prec, x))\
-            .replace('\n', '')
 
         # 3b. Effect size
         population_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
         if population_effect_size:
-            population_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
+            population_effect_size += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
 
         # 3d. Hypothesis tests
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
         return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
-                                       sample_graph, sample_graph_new, population_result,
-                                       population_graph, population_graph_new, result_ht])
+                                       sample_graph, sample_graph_new, population_result, population_estimation,
+                                       population_effect_size, population_graph, population_graph_new, result_ht])
 
     def compare_groups(self, var_name,
                        grouping_variables=None, display_groups=None,
@@ -1780,14 +1778,12 @@ class CogStatData:
                 .replace('\n', '')
         if meas_level == 'nom':
             population_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names, ci=True)
-        population_result += population_estimation.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
-            .replace('\n', '')
 
         # 3b. Effect size
         population_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables,
                                                                              meas_level, sample=False)
         if population_effect_size is not None:
-            population_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
+            population__effect_size = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
                                               population_effect_size + '\n'
 
         # 3d. Hypothesis testing
@@ -1802,8 +1798,8 @@ class CogStatData:
                         cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, grouping_variables)
 
         return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
-                                       sample_graph, sample_graph_new, population_result,
-                                       population_graph, population_graph_new, result_ht])
+                                       sample_graph, sample_graph_new, population_result, population_estimation,
+                                       population__effect_size, population_graph, population_graph_new, result_ht])
 
     def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
                           single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
