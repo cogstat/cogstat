@@ -29,17 +29,23 @@ matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
 ### Set matplotlib styles ###
 # Set the styles
-# This is a bit complex so that preferred themes with different names in various matplotlib versions can be used.
-try:
-    plt.style.use(csc.theme)  # either a theme name or a list of theme names
-    # if csc.theme is a list, then overwrite the theme in csc.theme and in cogstat.ini with the first available theme
-    if type(csc.theme) is list:
-        for theme in csc.theme:
-            if theme in plt.style.available:
-                csc.theme = theme
-                csc.save('theme', theme)
-                break
-except IOError:  # if the given themes are not available
+# User ini file includes a single theme name (unless it is freshly created based on the default ini file.
+# Default ini files includes several theme names so that preferred themes with different names in various matplotlib
+#  versions can be used.
+theme_is_set = False  # Can we set the theme?
+for theme in csc.theme if type(csc.theme) is list else [csc.theme]:
+    try:
+        plt.style.use(theme)
+        theme_is_set = True
+        # if csc.theme is a list, then overwrite the theme in csc.theme and in cogstat.ini with the first available theme
+        if type(csc.theme) is list:  # list is used only in the default file, and it means that the ini file has just
+                                     # been created
+            csc.theme = theme
+            csc.save('theme', theme)
+        break
+    except IOError:  # if the given theme is not available, try the next one
+        continue
+if not theme_is_set:  # If the theme couldn't be set based on preferences/ini, set the first available theme
     csc.theme = sorted(plt.style.available)[0]
     plt.style.use(csc.theme)
     csc.save('theme', csc.theme)

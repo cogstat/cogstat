@@ -4,8 +4,9 @@ Settings
 """
 
 import os
-
+import shutil
 import configparser
+
 import appdirs  # The module handles the OS-specific user config dirs
 
 # Settings not handled in cogstat.ini
@@ -18,22 +19,27 @@ dirs = appdirs.AppDirs('cogstat')
 
 # If there is no cogstat-ini file for the user, create one with the default values
 if not os.path.isfile(dirs.user_config_dir + '/cogstat.ini'):
-    import shutil
     if not os.path.exists(dirs.user_config_dir):
         os.makedirs(dirs.user_config_dir)
     shutil.copyfile(os.path.dirname(os.path.abspath(__file__)) + '/cogstat.ini', dirs.user_config_dir + '/cogstat.ini')
 
 # config is the user-specific file, default_config includes the default values
 config = configparser.ConfigParser(inline_comment_prefixes='#')
-config.read(dirs.user_config_dir + '/cogstat.ini')
+try:
+    config.read(dirs.user_config_dir + '/cogstat.ini')
+except configparser.MissingSectionHeaderError:  # ini file was created before CS version 2.4, and we overwrite it
+    # create new ini file based on the default ini
+    shutil.copyfile(os.path.dirname(os.path.abspath(__file__)) + '/cogstat.ini', dirs.user_config_dir + '/cogstat.ini')
+    config.read(dirs.user_config_dir + '/cogstat.ini')
 default_config = configparser.ConfigParser(inline_comment_prefixes='#')
-default_config.read(dirs.user_config_dir + '/cogstat.ini')
+default_config.read(os.path.dirname(os.path.abspath(__file__)) + '/cogstat.ini')
 
 # If new key was added to the default ini file, add it to the user ini file
-for key in default_config.keys():
-    if not(key in config.keys()):
-        config[key] = default_config[key]
-        config.write()
+for key in default_config['Preferences'].keys():
+    if not(key in config['Preferences'].keys()):
+        config['Preferences'][key] = default_config['Preferences'][key]
+        with open(dirs.user_config_dir + '/cogstat.ini', 'w') as configfile:
+            config.write(configfile)
 
 # Read the setting values from cogstat.ini
 
@@ -62,7 +68,8 @@ cs_tags = {'<cs_h1>': '<h2>',
 
 # Graph parameters
 try:
-    theme = config['Preferences']['theme']
+    # because configparser cannot handle multiple values for a single key, split the values
+    theme = config['Preferences']['theme'].split(',')
 except KeyError:
     theme = ''
 fig_size_x = 8  # in inch
