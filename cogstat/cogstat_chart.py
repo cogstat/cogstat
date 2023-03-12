@@ -37,12 +37,12 @@ try:
         for theme in csc.theme:
             if theme in plt.style.available:
                 csc.theme = theme
-                csc.save(['theme'], theme)
+                csc.save('theme', theme)
                 break
 except IOError:  # if the given themes are not available
     csc.theme = sorted(plt.style.available)[0]
     plt.style.use(csc.theme)
-    csc.save(['theme'], csc.theme)
+    csc.save('theme', csc.theme)
 
 #print(plt.style.available)
 #style_num = 15
