@@ -198,7 +198,7 @@ def change_color(color, saturation=1.0, brightness=1.0):
 
 
 def convert_output(outputs):
-    """Convert output either to the GUI or to the IPython Notebook
+    """Convert output either to the GUI or to the IPython Notebook. Flat lists.
 
     Parameters
     ----------
@@ -213,12 +213,13 @@ def convert_output(outputs):
 
     import logging
     from matplotlib.figure import Figure
+    from pandas.io.formats.style import Styler
 
     if csc.output_type in ['ipnb', 'gui']:
         # convert custom notation to html
         new_output = []
         for i, output in enumerate(outputs):
-            if isinstance(output, Figure):  # keep the figure
+            if isinstance(output, (Figure, Styler)):  # keep the matplotlib figure and pandas styler
                 new_output.append(output)
             elif isinstance(output, str):
                 new_output.append(_reformat_string(output))

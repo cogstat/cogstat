@@ -41,6 +41,8 @@ logging.root.setLevel(logging.INFO)
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
+pd.options.display.html.border = 0
+
 warn_unknown_variable = '<warning><b>' + _('Measurement level warning') + '</b> ' + \
                         _('The measurement levels of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
@@ -560,8 +562,7 @@ class CogStatData:
                                  columns=self.data_frame.columns)
         data_comb = pd.concat([data_prop, self.data_frame])
         data_comb.index = [_('Type'), _('Level')]+[' ']*len(self.data_frame)
-        output += cs_stat._format_html_table(data_comb[:12 if brief else 1002].to_html(bold_rows=False,
-                                                                                       classes="table_cs_pd"))
+        output += data_comb[:12 if brief else 1002].to_html(bold_rows=False).replace('\n', '')
         if brief and (len(self.data_frame.index) > 10):
             output += str(len(self.data_frame.index)-10) + _(' further cases are not displayed...')+'\n'
         elif len(self.data_frame.index) > 999:
@@ -663,8 +664,7 @@ class CogStatData:
                         text_output += _('Excluded cases (%s cases):') % (len(excluded_cases))
                         # Change indexes to be in line with the data view numbering
                         excluded_cases.index = excluded_cases.index + 1
-                        text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
-                                                                                         classes="table_cs_pd"))
+                        text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '')
                         chart_results.append(cs_chart.create_filtered_cases_chart(
                             self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
                             excluded_cases[var_name], var_name, lower_limit=lower_limit, upper_limit=upper_limit))
@@ -717,8 +717,7 @@ class CogStatData:
                     text_output += _('Excluded cases (%s cases): ') % (len(excluded_cases))
                     # Change indexes to be in line with the data view numbering
                     excluded_cases.index = excluded_cases.index + 1
-                    text_output += cs_stat._format_html_table(excluded_cases.to_html(bold_rows=False,
-                                                                                     classes="table_cs_pd")) + "\n"
+                    text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '') + '\n'
                     for var_name in valid_var_names:
                         chart_results.append(cs_chart.create_filtered_cases_chart(
                             self.orig_data_frame.dropna(subset=valid_var_names).loc[remaining_cases_indexes[-1]]
@@ -998,9 +997,8 @@ class CogStatData:
         pop_result_df = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         pop_result_df.loc[_("Cronbach's alpha")] = \
             ['%0.3f' % alpha[0], '[%0.3f, %0.3f]' % (alpha[1][0], alpha[1][1])]
-        population_result += cs_stat._format_html_table(pop_result_df.to_html(bold_rows=False, escape=False,
-                                                                float_format=lambda x: '%0.3f' % (x),
-                                                                classes="table_cs_pd")) + '\n'
+        population_result += pop_result_df.to_html(bold_rows=False, escape=False, float_format=lambda x: '%0.3f' % (x))\
+                                 .replace('\n', '') + '\n'
 
         return cs_util.convert_output([title, raw_title, raw_graph, sample_title, sample_graph, sample_result,
                                        item_removed_sample, population_result, item_removed_pop])
@@ -1564,16 +1562,14 @@ class CogStatData:
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(data[var_names[0]]) + 1
-            population_result += \
-                cs_stat._format_html_table(mean_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
+            population_result += mean_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
+                .replace('\n', '')
         elif meas_level == 'ord':
             population_result += _('Median')
             median_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(data[var_names[0]]) + 1
-            population_result += \
-                cs_stat._format_html_table(median_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                      float_format=lambda x: '%0.*f' % (prec, x)))
+            population_result += median_estimations.to_html(bold_rows=False,float_format=lambda x: '%0.*f' % (prec, x))\
+                .replace('\n', '')
         elif meas_level == 'nom':
             for var_pair in itertools.combinations(var_names, 2):
                 population_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], ci=True)
@@ -1588,9 +1584,8 @@ class CogStatData:
                                                   indep_color=display_factors[1],
                                                   ylims=ylims, estimations=True,
                                                   estimation_table=True)
-        population_result += \
-            cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
+        population_result += population_estimation.to_html(bold_rows=False,float_format=lambda x: '%0.*f' % (prec, x))\
+            .replace('\n', '')
 
         # 3b. Effect size
         population_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
@@ -1700,7 +1695,7 @@ class CogStatData:
             axis=1)) - sum((data[grouping_variables] == pd.Series(
             {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)})).all(
             axis=1)) for level_combination in level_combinations]
-        raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
+        raw_result += pdf_result.to_html(bold_rows=False).replace('\n', '')
         raw_result += '\n\n'
         # display missing grouping level information
         for grouping_variable in grouping_variables:
@@ -1781,14 +1776,12 @@ class CogStatData:
             elif meas_level == 'ord':
                 population_result += _('Medians')
             prec = cs_util.precision(data[var_names[0]]) + 1
-            population_result += \
-                cs_stat._format_html_table(group_estimations.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+            population_result += group_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
+                .replace('\n', '')
         if meas_level == 'nom':
             population_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names, ci=True)
-        population_result += \
-            cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                     float_format=lambda x: '%0.*f' % (prec, x)))
+        population_result += population_estimation.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
+            .replace('\n', '')
 
         # 3b. Effect size
         population_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables,
@@ -1956,7 +1949,7 @@ class CogStatData:
                                                            .all(axis=1)) - sum((data[grouping_variables] == pd.Series(
                 {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)}))
                                                            .all(axis=1)) for level_combination in level_combinations]
-            raw_result += cs_stat._format_html_table(pdf_result.to_html(bold_rows=False, classes="table_cs_pd"))
+            raw_result += pdf_result.to_html(bold_rows=False).replace('\n', '')
             raw_result += '\n\n'
 
             # display missing grouping level information
@@ -2033,8 +2026,6 @@ class CogStatData:
                                                   ylims=ylims, estimations=True,
                                                   estimation_table=True)
         prec = cs_util.precision(data[var_names[0]]) + 1  # TODO which variables should be used here?
-        population_result += cs_stat._format_html_table(population_estimation.to_html(bold_rows=False, classes="table_cs_pd",
-                                                                    float_format=lambda x: '%0.*f' % (prec, x)))
         # 3b. Effect size
         if not grouping_variables:  # no grouping variables
             population_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level,
@@ -2046,7 +2037,7 @@ class CogStatData:
             population_effect_size = None
             # TODO
         if population_effect_size:
-            population_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
+            population_effect_size += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
 
         # 3d. Hypothesis tests
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
@@ -2067,7 +2058,8 @@ class CogStatData:
 
         return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new,
                                        sample_result, descriptive_table, sample_graph_new,
-                                       population_result, population_graph_new, result_ht])
+                                       population_result, population_estimation, population_effect_size,
+                                       population_graph_new, result_ht])
 
 
 def display(results):

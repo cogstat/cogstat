@@ -906,8 +906,7 @@ def repeated_measures_anova(pdf, var_names, factors=None):
                                               (non_data_dim_precision, x['t'], print_p(x['p (Holm)'])), axis=1)
 
             pht_text = pht[['text']]
-            text_result += cs_stat._format_html_table(pht_text.to_html(bold_rows=True, classes="table_cs_pd",
-                                                                       escape=False, header=False))
+            text_result += pht_text.to_html(bold_rows=True, escape=False, header=False).replace('\n', '')
 
             # Or we can print them in a matrix
             #pht_text = pht[['text']].unstack()
@@ -981,8 +980,7 @@ def friedman_test(pdf, var_names):
         text_result += '\n' + _('Variables differ. Running post-hoc pairwise comparison.') + '\n'
         text_result += _("Results of Durbin-Conover test (p values).") + '\n'
         posthoc_result = scikit_posthocs.posthoc_durbin(variables)
-        text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
-                                                                         float_format=lambda x: '%.3f' % x))
+        text_result += posthoc_result.to_html(float_format=lambda x: '%.3f' % x).replace('\n', '')
 
     return text_result
 
@@ -1467,8 +1465,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
             text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
             text_result += _("Results of Dunn's test (p values).") + '\n'
             posthoc_result = scikit_posthocs.posthoc_dunn(pdf, val_col=var_name, group_col=grouping_name)
-            text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
-                                                                             float_format=lambda x: '%.3f' % x))
+            text_result += posthoc_result.to_html(float_format=lambda x: '%.3f' % x).replace('\n', '')
 
     except Exception as e:
         text_result += _('Result of the Kruskal–Wallis test: ')+str(e)

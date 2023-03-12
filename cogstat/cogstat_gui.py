@@ -330,11 +330,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # Currently, it doesn't make sense to use a loop here, but we keep it, until we decide how to implement the ToC
         for pane in [self.result_pane]:
             # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
+            # Because qt does not support table borders, use padding to have a more reviewable table
             pane.document().setDefaultStyleSheet('body {color:black;} '
                                                  'h2 {color:%s;} h3 {color:%s;} '
                                                  'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
-                                                 '.table_cs_pd th {font-weight:normal; white-space:nowrap} '
-                                                 'td {white-space:nowrap}' %
+                                                 'th {font-weight:normal; white-space:nowrap; '
+                                                 'padding-right: 5px; padding-left: 5px} '
+                                                 'td {white-space:nowrap; padding-right: 5px; padding-left: 5px}' %
                                                  (cs_util.change_color(csc.mpl_theme_color, brightness=1.1),
                                                   cs_util.change_color(csc.mpl_theme_color, brightness=1.0),
                                                   cs_util.change_color(csc.mpl_theme_color, brightness=0.8),
@@ -461,8 +463,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         ----------
         pane : QtWidgets.QTextBrowser object
             The pane the message should be printed to.
-        output_list : list of str (html) or matplotlib.figure.Figure
-            List of items to display
+        output_list : list of str (html) or matplotlib figure or pandas dataframe styler
+            Flat list of items to display
 
         Returns
         -------
@@ -519,6 +521,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         format(base64.b64encode(svg_fig.to_str()).decode())
                     #print('SVG svgutils size', sys.getsizeof(html_img))
                 pane.append(html_img)
+            elif isinstance(output, pd.io.formats.style.Styler):
+                from . import cogstat_stat as cs_stat
+                pane.append(output.to_html().replace('\n', ''))
             elif output is None:
                 pass  # We don't do anything with None-s
             else:

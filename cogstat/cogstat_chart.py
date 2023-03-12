@@ -1528,9 +1528,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         prec = cs_util.precision(long_raw_data[dep_name]) + 1
         # TODO use different precision for variation ratio; this should be done row-wise
         #formatters = ['%0.{}f'.format(2 if stat_names[statistic] == 'variation ratio' else prec) for statistic in statistics]
-        descriptives_table_html = cs_stat._format_html_table(descriptives_table_df.T.
-                                                             to_html(bold_rows=False, classes="table_cs_pd",
-                                                             float_format='%0.{}f'.format(prec)))
+        descriptives_table_styler = descriptives_table_df.T.style.format('{:.%sf}' % prec)
+        descriptives_table_html = descriptives_table_df.T.to_html(float_format='%0.{}f'.format(prec)).replace('\n', '')
 
     # Create estimations table with mean, and 95% CI ranges
     if estimation_table:
@@ -1541,9 +1540,13 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                                             axis=1)
             estimation_table_df.columns = [_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')]
             estimation_table_df.index = estimation_table_df.index.droplevel('all_stat_rows')
-            estimation_tables = estimation_table_df
+            prec = cs_util.precision(long_raw_data[dep_name]) + 1
+            estimation_table_html = estimation_table_df.to_html(bold_rows=False,
+                                                                float_format=lambda x: '%0.*f' % (prec, x)).\
+                replace('\n', '')
+            estimation_table_styler = estimation_table_df.style.format('{:.%sf}' % prec)
         elif dep_meas_level == 'ord':
-            estimation_tables = pd.DataFrame()
+            estimation_table_df = pd.DataFrame()
             pass  # TODO
 
     # 3. Create charts
@@ -1777,10 +1780,11 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         graphs.append(fig)
 
     results_list = []
+    # TODO remove _html versions for the stable release
     if descriptives_table:
-        results_list.append([descriptives_table_html])
+        results_list.append([descriptives_table_html, descriptives_table_styler])
     if estimation_table:
-        results_list.append(estimation_tables)
+        results_list.append([estimation_table_html, estimation_table_styler])
     results_list.append(graphs)
 
     return results_list
