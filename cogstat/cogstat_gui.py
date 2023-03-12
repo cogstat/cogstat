@@ -318,6 +318,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
         self.table_view = QtWidgets.QTableView(self.splitter)
         self.table_view.horizontalHeader().setStretchLastSection(True)
+        self.table_view.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignLeft)
+        self.table_view.horizontalHeader().setTextElideMode(QtCore.Qt.ElideRight)
         self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setStretchFactor(0, 2)
