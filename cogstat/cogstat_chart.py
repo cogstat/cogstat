@@ -1746,7 +1746,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
             plt.xticks(np.arange(len(xtick_labels)) + 1 + ((color_n - 1) / 2 / (color_n + 1)),
                        _wrap_labels(xtick_labels_formatted))
-            plt.xlabel(' : '.join(indep_x))
+            if indep_x[0] != _('Unnamed factor'):
+                plt.xlabel(' : '.join(indep_x))
         else:
             ax.tick_params(bottom=False, labelbottom=False)
 
