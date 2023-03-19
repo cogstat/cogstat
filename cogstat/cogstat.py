@@ -1216,18 +1216,18 @@ class CogStatData:
             vif, multicollinearity = cs_stat.vif_table(data, predictors)
             assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
             assumptions_result += vif
+            assumptions_result += "\n" + cs_stat.correlation_matrix(data, predictors)
 
         if len(predictors) == 1:
             standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-            standardized_effect_size_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
-            standardized_effect_size_result += '\n'
+            standardized_effect_size_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True) \
+                                               + '\n'
         else:
             if meas_lev in ['int', 'unk']:
                 standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
                 standardized_effect_size_result += cs_stat.multiple_variables_standard_effect_size(data, predictors,
                                                    [predicted], result, normality, homoscedasticity, multicollinearity,
-                                                   sample=True)
-                standardized_effect_size_result += '\n'
+                                                   sample=True) + '\n'
             else:
                 standardized_effect_size_result = None
 
@@ -1236,11 +1236,12 @@ class CogStatData:
         if meas_lev == 'int':
 
             # Residual analysis
-            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
             if len(predictors) == 1:
+                residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
                 residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
             else:
                 # TODO multivariate residuals
+                residual_title = None
                 residual_graph = None
 
             # Sample scatter plot with regression line
@@ -1252,7 +1253,6 @@ class CogStatData:
                 sample_graph = None
 
             if len(predictors) > 1:
-                regressor_correlation = cs_stat.correlation_matrix(self.data_frame, predictors)  # TODO predicted should be included?
                 regression_plot = cs_chart.part_regress_plots(data, predicted, predictors)
             else:
                 regression_plot = None
@@ -1275,7 +1275,8 @@ class CogStatData:
             estimation_parameters += cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
                                                                                    normality=normality,
                                                                                    homoscedasticity=homoscedasticity,
-                                                                                   multicollinearity=multicollinearity if len(predictors) > 1 else None,
+                                                                                   multicollinearity=multicollinearity
+                                                                                   if len(predictors) > 1 else None,
                                                                                    result=result)
 
             if len(predictors) == 1:
@@ -1313,7 +1314,7 @@ class CogStatData:
                                        sample_result, sample_graph, regression_plot,
                                        standardized_effect_size_result,
                                        residual_title, residual_graph,
-                                       population_properties_title, assumptions_result, regressor_correlation,
+                                       population_properties_title, assumptions_result,
                                        estimation_result,
                                        estimation_parameters, population_graph, estimation_effect_size,
                                        population_result])
