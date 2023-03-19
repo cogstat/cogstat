@@ -1212,12 +1212,10 @@ class CogStatData:
                 # TODO regression coefficients (sample only)
         sample_result += '\n'
 
-        multicollinearity_chart = None
         if len(predictors) > 1:
             vif, multicollinearity = cs_stat.vif_table(data, predictors)
             assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
             assumptions_result += vif
-            multicollinearity_chart = cs_chart.create_multicollinearity_chart(self.data_frame, meas_lev, predictors)  # TODO redundant chart?
 
         if len(predictors) == 1:
             standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
@@ -1254,8 +1252,8 @@ class CogStatData:
                 sample_graph = None
 
             if len(predictors) > 1:
-                regression_plot = cs_chart.part_regress_plots(self.data_frame, predicted, predictors)
                 regressor_correlation = cs_stat.correlation_matrix(self.data_frame, predictors)  # TODO predicted should be included?
+                regression_plot = cs_chart.part_regress_plots(data, predicted, predictors)
             else:
                 regression_plot = None
                 regressor_correlation = None
@@ -1316,7 +1314,6 @@ class CogStatData:
                                        standardized_effect_size_result,
                                        residual_title, residual_graph,
                                        population_properties_title, assumptions_result, regressor_correlation,
-                                       multicollinearity_chart,
                                        estimation_result,
                                        estimation_parameters, population_graph, estimation_effect_size,
                                        population_result])
