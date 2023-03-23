@@ -313,22 +313,18 @@ def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
         return None, _('Too small sample to test homoscedasticity in variable %s%s.\n') % \
                         (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
     else:
-        X = data[var_names[0]]
-        X = sm.add_constant(X)
-        Y = data[var_names[1]]
+        x = sm.add_constant(data[predictors])
+        y = data[predicted]
 
-        # The resid variable is ordered according to X, which leads to White's test producing a result that
-        # is different than the R function white_lm(). Accordingly we fit the model again, without ordering, and use
-        # these residuals for White's test
-        model = sm.regression.linear_model.OLS(Y,X)
-        result = model.fit()
-        residual_unsorted = result.resid
+        # With one predictor x is sorted in the main analysis which produces erroneous results in the tests below,
+        # so here we run the regression model again with unsorted x.
+        residual_unsorted = sm.regression.linear_model.OLS(y, x).fit().resid
 
-        koenker = sm.stats.diagnostic.het_breuschpagan(sorted(residual), X, robust=True) # Need sorted() to have same result as R
+        koenker = sm.stats.diagnostic.het_breuschpagan(residual_unsorted, x, robust=True)
         lm_koenker = koenker[0]
         p_koenker = koenker[1]
 
-        white = sm.stats.diagnostic.het_white(residual_unsorted, X)
+        white = sm.stats.diagnostic.het_white(residual_unsorted, x)
         lm_white = white[0]
         p_white = white[1]
 
