@@ -906,12 +906,13 @@ def part_regress_plots(data, predicted, predictors):
         For all explanatory variables, the function plots the residuals from the regression of the dependent variable
         and the other explanatory variables against the residuals from the regression of the chosen explanatory variable
         and all other explanatory variables. Plots for all explanatory variables shown in a matrix.
-        This allows the visualization of the bivariate relationship while factoring out all other explanatory variables.
+        This allows the visualization of the bivariate relationships while factoring out all other explanatory variables.
     """
 
     import math
     ncols = 2 if len(predictors) < 5 else 3
-    # nrows=1 when predictors < 3, nrows=2 when predictors < 7, after that nrows increases every 3 additional predictors
+    # Using a sigmoid function to determine number of rows: 1 row when predictors < 3, 2 rows when predictors < 7,
+    # after that nrows increases every 3 additional predictors
     nrows = round(1 / (1 + np.exp(-len(predictors) + 2.5))) + 1 if len(predictors) < 7 else math.ceil(len(predictors) / 3)
 
     fig = plt.figure(tight_layout=True)
@@ -919,7 +920,7 @@ def part_regress_plots(data, predicted, predictors):
     global_max_freq = 1
     for index, predictor in enumerate(predictors):
         predictors_other = predictors.copy()
-        predictors_other.remove(predictor) # Remove the chosen explanatory variable from the list of explanatory variables
+        predictors_other.remove(predictor)
         # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
         resid_dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
         # Calculating the residuals from regressing the chosen explanatory variable on the remaining
@@ -929,8 +930,8 @@ def part_regress_plots(data, predicted, predictors):
         val_count = _value_count(pd.concat([resid_x_i, resid_dependent], axis=1), global_max_freq)
         ax = plt.subplot(nrows, ncols, index+1)
         ax.scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
-        ax.set_xlabel(predictor + _plt(' | other X'))
-        ax.set_ylabel(predicted + _plt(' | other X'))
+        ax.set_xlabel(predictor + _plt(' | other predictors'))
+        ax.set_ylabel(predicted + _plt(' | other predictors'))
 
     if global_max_freq > 1:
         fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,

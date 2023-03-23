@@ -1090,7 +1090,7 @@ class CogStatData:
 
     def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
         """
-        Explore a variable pair.
+        Explore a variable pair or multiple predictors and one predicted variable.
 
         Parameters
         ----------
@@ -1178,11 +1178,8 @@ class CogStatData:
 
             if len(predictors) == 1:
                 data_sorted = data.sort_values(by=x)  # Sorting required for subsequent plots to work
-                x_var = statsmodels.tools.add_constant(data_sorted[x])
-                y_var = data_sorted[y]
-                model = statsmodels.regression.linear_model.OLS(y_var, x_var)
+                model = statsmodels.regression.linear_model.OLS(data_sorted[y], add_constant(data_sorted[x]))
             else:
-                # TODO sorting
                 model = statsmodels.regression.linear_model.OLS(data[predicted], add_constant(data[predictors]))
             result = model.fit()
             residuals = result.resid
@@ -1240,11 +1237,9 @@ class CogStatData:
                 regression_plot = cs_chart.part_regress_plots(data, predicted, predictors)
             else:
                 regression_plot = None
-                regressor_correlation = None
         else:
             sample_graph = None
             regression_plot = None
-            regressor_correlation = None
 
         # 3. Population properties
         # TODO for the estimations, do not print warning if assumption is not violated
@@ -1294,6 +1289,7 @@ class CogStatData:
             else:
                 # TODO multivariate population graph
                 pass
+
         if len(predictors) == 1:
             estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
             estimation_effect_size += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
@@ -1303,7 +1299,7 @@ class CogStatData:
             if meas_lev in ['int', 'unk']:
                 estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
                 estimation_effect_size += cs_stat.multiple_variables_standard_effect_size(self.data_frame, predictors,
-                                                                                          [predicted], result, normality,
+                                                                                          predicted, result, normality,
                                                                                           homoscedasticity, multicollinearity,
                                                                                           sample=False)
 
