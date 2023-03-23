@@ -1192,9 +1192,14 @@ class CogStatData:
                 # TODO output with the right precision of the results
                 sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
             else:
-                pass
-                # TODO regression coefficients (sample only)
-        sample_result += '\n'
+                import string
+                # Shift constant to the end of the list
+                params = [x for x in list(result.params) if x != result.params[0]] + [result.params[0]]
+                # Pair up parameter estimates with variable names and unpack the resulting pairs to a non-nested tuple
+                content = tuple(c for b in zip(params, predictors+['']) for c in b)
+                # Get string to format
+                structure = ' + '.join(['%0.3f%s' for i in range(len(params))])
+                sample_result += _('Linear regression')+': %s = ' % predicted + structure % content
 
         sample_result += '\n'
 
