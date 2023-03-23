@@ -78,8 +78,11 @@ data_np = np.vstack((
     ))
 data_pd = pd.DataFrame(data_np.T, columns=
                        ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
+data_pd['s'] = data_pd['h'] + ((data_pd['r'] * np.round(np.random.normal(loc=3, scale=0.5, size=30), 3))/0.15) # For testing multicollinearity
+data_pd.to_csv("G:\My Drive\Research stuff\CogStat\CS internal tester data 2.csv")
 data = cs.CogStatData(data=data_pd, measurement_levels=['int', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int', 'nom',
-                                                       'nom', 'nom', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int'])
+                                                       'nom', 'nom', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int',
+                                                        'int'])
 
 # display the data so that it can be copied to validating software packages
 #pd.set_option('display.expand_frame_repr', False)
@@ -200,10 +203,10 @@ class CogStatTestCase(unittest.TestCase):
             # not available in JASP 0.16.1
         # TODO multinomial proportion CI
 
-    def test_explore_variable_pairs(self):
-        """Test explore variable pairs"""
+    def test_regression(self):
+        """Test simple and multiple regression, and ordinal and nominal counterparts"""
 
-        # Int variables
+        # Int variables, one predictor
         result = data.regression(['g'], 'h')
         self.assertTrue('N of observed pairs: 30' in result[1])
         self.assertTrue('N of missing pairs: 0' in result[1])
@@ -218,9 +221,9 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>r<sub>s</sub></i> = 0.103' in result[5])
             # Henze-Zirkler test: MVN 5.9 using R 4.1.3 statistic 0.3620904 p 0.6555329
         self.assertTrue('<i>W</i> = 0.36, <i>p</i> = .655' in result[9])
-            # Koenker's test: bptest(h~g, data=data, studentize=True) in lmtest 0.9-40 using R 4.1.3, BP 0.11333, df=1, p-value 0.7364
-        self.assertTrue('<i>LM</i> = 0.11, <i>p</i> = .737' in result[9])
-            # White's test: white_lm(model, interactions=FALSE, statonly = FALSE) in lmtest 0.9-40 using R 4.1.3, statistic 0.219 p-value 0.896
+            # Koenker's test: bptest(h~g, data=data, studentize=True) in skedastic 1.0.4 using R 4.1.3, BP 0.11333, df=1, p-value 0.7364
+        self.assertTrue('<i>LM</i> = 0.11, <i>p</i> = .736' in result[9])
+            # White's test: white_lm(model, interactions=TRUE, statonly = FALSE) in skedastic 1.0.4 using R 4.1.3, statistic 0.219 p-value 0.896
         self.assertTrue('<i>LM</i> = 0.22, <i>p</i> = .896' in result[9])
             # Slope CI: jamovi 2.2.5.0 [-0.440, 1.13]
             # jasp 0.16.1   [-0.440, 1.133]
@@ -243,6 +246,78 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue("Spearman's rank-order correlation: <i>r<sub>s</sub></i>(28) = 0.10, <i>p</i> = .586" in result[14])
             # Bayes Factor for Pearson: JASP 0.16 BF10: 0.331, BF01: 3.023
         self.assertTrue('BF<sub>10</sub> = 0.33, BF<sub>01</sub> = 3.02' in result[14])
+
+        # Int variables, three predictors
+        result = data.regression(['r', 's', 'g'], 'h')
+        self.assertTrue('N of observed pairs: 30' in result[1])
+        self.assertTrue('N of missing pairs: 0' in result[1])
+
+        # Sample effect sizes
+        # R2: Jamovi 2.2.5 R2 = 0.156, lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3 R2 = 0.1564
+        self.assertTrue('<i>R<sup>2</sup></i> = 0.156' in result[5])
+        # Partial pearson correlations: Jamovi 2.2.5
+        self.assertTrue('<td>r</td>      <td><i>r</i> = -0.330</td>' in result[5])  # r = -0.330
+        self.assertTrue('<td>s</td>      <td><i>r</i> = 0.357</td>' in result[5])  # r = 0.357
+        self.assertTrue('<td>g</td>      <td><i>r</i> = 0.187</td>' in result[5])  # r = 0.187
+        # Population properties
+        # Assumption tests
+        # Multivariate normality: MVN 5.9 using R 4.1.3 statistic 1.079154 p 0.002746894
+        self.assertTrue('<i>W</i> = 1.08, <i>p</i> = .003' in result[7])
+        # Homoscedasticity
+        # Koenker's test: bptest(h ~ g + s + r, data=data, studentize=TRUE) in skedastic 1.0.4 using R 4.1.3,
+        # BP = 2.8965, df = 3, p-value = 0.4079
+        self.assertTrue('<i>LM</i> = 2.90, <i>p</i> = .408' in result[7])
+        # White's test: white_lm(model, interactions=TRUE, statonly = FALSE) in skedastic 1.0.4 using R 4.1.3,
+        # statistic 7.71 p-value 0.564
+        self.assertTrue('<i>LM</i> = 7.71, <i>p</i> = .564' in result[7])
+        # Multicollinearity
+        # VIFs: Jamovi 2.2.5 VIF(r) = 16.43, VIF(s) = 16.11, VIF(g) = 1.10
+        self.assertTrue('<td>const</td>      <td>5.608</td>' in result[7])
+        self.assertTrue('<td>r</td>      <td>16.434</td>' in result[7])
+        self.assertTrue('<td>s</td>      <td>16.113</td>' in result[7])
+        self.assertTrue('<td>g</td>      <td>1.104</td>' in result[7])
+        # Beta weights when regressing r on all other regressors Jamovi 2.2.5
+        self.assertTrue('<td>const</td>      <td>-0.058</td>' in result[7])  # Intercept: -0.0581
+        self.assertTrue('<td>s</td>      <td>0.045</td>' in result[7])  # s: 0.0453
+        self.assertTrue('<td>g</td>      <td>0.051</td>' in result[7])  # g: 0.0512
+        # Beta weights when regressing s on all other regressors Jamovi 2.2.5
+        self.assertTrue('<td>const</td>      <td>6.275</td>' in result[7])  # Intercept: 6.275
+        self.assertTrue('<td>r</td>      <td>20.599</td>' in result[7])  # r: 20.599
+        self.assertTrue('<td>g</td>      <td>-0.634</td>' in result[7])  # g: -0.634
+        # Correlation matrix of predictors: Jamovi 2.2.5
+        # 1.000     0.968       0.292
+        # 0.968     1.000       0.259
+        # 0.292     0.259       1.000
+        self.assertTrue('<td>r</td>      <td>1.000</td>      <td>0.968</td>      <td>0.292</td>' in result[7])
+        self.assertTrue('<td>s</td>      <td>0.968</td>      <td>1.000</td>      <td>0.259</td>' in result[7])
+        self.assertTrue('<td>g</td>      <td>0.292</td>      <td>0.259</td>      <td>1.000</td>' in result[7])
+        # Regression model parameters: lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3, CIs from gamlj 2.6.1 in Jamovi 2.2.5
+        # Intercept = 3.40612 [-2.13583, 8.948], r = -2.32205 [-4.99767, 0.354], s = 0.11901 [-0.00649, 0.245], g = 0.37823 [-0.42342, 1.180]
+        self.assertTrue('<td>Intercept</td>      <td>3.406</td>      <td>[-2.136, 8.948]</td>' in result[9])
+        self.assertTrue('<td>Slope for r</td>      <td>-2.322</td>      <td>[-4.998, 0.354]</td>' in result[9])
+        self.assertTrue('<td>Slope for s</td>      <td>0.119</td>      <td>[-0.006, 0.245]</td>' in result[9])
+        self.assertTrue('<td>Slope for g</td>      <td>0.378</td>      <td>[-0.423, 1.180]</td>' in result[9])
+        # Standardized effect size estimates
+        # Model metrics: lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3, Adjusted r2 = 0.05906
+        self.assertTrue('<td>Adjusted <i>R<sup>2</sup></i></td>      <td>0.059</td>      <td>[-0.083, 0.201]</td>' in result[10])
+        self.assertTrue('<td>Log-likelihood</td>      <td>-95.332</td>' in result[10])  # logLik(model) in stats 4.1.3 in R: -95.33197 (df=5)
+        self.assertTrue('<td>AIC</td>      <td>198.664</td>' in result[10])  # Jamovi 2.2.5 AIC = 201
+        self.assertTrue('<td>BIC</td>      <td>204.269</td>' in result[10])  # Jamovi 2.2.5 BIC = 208
+        # Partial correlations TODO validate CIs
+        # Point estimates: Jamovi 2.2.5, CIs: cor.test() in stats 4.1.3 in R 4.1.3 run on residuals from respective tests
+        # e.g. for partial correlation of r and h: cor.test(resid(lm(h ~ s + g, data)), resid(lm(r ~ s + g, data)))
+        # CIs don't exactly match between R stats and python pingouin, but are very close
+        self.assertTrue('<td>r, <i>r</i></td>      <td>-0.330</td>      <td>[-0.630, 0.050]</td>' in result[10])  # r = -0.330 [-0.6171, 0.0341]
+        self.assertTrue('<td>s, <i>r</i></td>      <td>0.357</td>      <td>[-0.020, 0.640]</td>' in result[10])  # r = 0.357 [-0.00365, 0.63559]
+        self.assertTrue('<td>g, <i>r</i></td>      <td>0.187</td>      <td>[-0.200, 0.520]</td>' in result[10])  # r = 0.187 [-0.186. 0.513]
+        # Hypothesis tests
+        # lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3, F-statistic: 1.607, DFs: 3 and 26,  p-value: 0.2119
+        self.assertTrue('Model F-test: <i>F</i>(3,26) = 1.61, <i>p</i> = .212' in result[11])
+        # Jamovi 2.2.5:
+        self.assertTrue('r: <i>t</i>(26) = -1.78, <i>p</i> = .086' in result[11])  # t = -1.784 p = 0.086
+        self.assertTrue('s: <i>t</i>(26) = 1.95, <i>p</i> = .062' in result[11])  # t = 1.949 p = 0.062
+        self.assertTrue('g: <i>t</i>(26) = 0.97, <i>p</i> = .341' in result[11])  # t = 0.970 p = 0.341
+
 
         # Ord variables
         data.data_measlevs['a'] = 'ord'
