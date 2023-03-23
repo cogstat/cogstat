@@ -1164,23 +1164,12 @@ class CogStatData:
             raw_graph = cs_chart.create_scatter_matrix(data, meas_lev)
 
         # 2. Sample properties
-        # TODO assumption results should be moved to the population parts; normally, functions used here shouldn't rely
-        #  on this information; some of the related code are in temporary location
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         residual_title = None
         residual_graph = None
-        normality = None  # Do the two variables follow a multivariate normal distribution?
-        homoscedasticity = None
-        assumptions_result = None
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
-
-            # Test of multivariate normality
-            assumptions_result = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
-            assumptions_result += '<cs_decision>' + _('Testing multivariate normality of variables') + '</cs_decision>\n'
-            normality, norm_text = cs_hyp_test.multivariate_normality(data, predictors + [predicted])
-            assumptions_result += norm_text
 
             # Calculate regression with statsmodels
             import statsmodels.regression
@@ -1198,11 +1187,6 @@ class CogStatData:
             result = model.fit()
             residuals = result.resid
 
-            # Test of homoscedasticity
-            assumptions_result += '<cs_decision>' + _('Testing homoscedasticity') + '</cs_decision>\n'
-            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, predictors + [predicted],
-                                                                      residual=residuals)
-            assumptions_result += het_text
 
             if len(predictors) == 1:
                 # TODO output with the right precision of the results
@@ -1212,11 +1196,7 @@ class CogStatData:
                 # TODO regression coefficients (sample only)
         sample_result += '\n'
 
-        if len(predictors) > 1:
-            vif, multicollinearity = cs_stat.vif_table(data, predictors)
-            assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
-            assumptions_result += vif
-            assumptions_result += "\n" + cs_stat.correlation_matrix(data, predictors)
+        sample_result += '\n'
 
         if len(predictors) == 1:
             standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
@@ -1226,8 +1206,7 @@ class CogStatData:
             if meas_lev in ['int', 'unk']:
                 standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
                 standardized_effect_size_result += cs_stat.multiple_variables_standard_effect_size(data, predictors,
-                                                   [predicted], result, normality, homoscedasticity, multicollinearity,
-                                                   sample=True) + '\n'
+                                                   predicted, result, sample=True) + '\n'
             else:
                 standardized_effect_size_result = None
 
@@ -1268,9 +1247,33 @@ class CogStatData:
         estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         estimation_parameters, estimation_effect_size, population_graph = None, None, None
 
+        # Initilazing assumptions
+        normality = None  # Do the two variables follow a multivariate normal distribution?
+        homoscedasticity = None
+        assumptions_result = None
+
         if meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
         elif meas_lev == 'int':
+
+            # Test of multivariate normality
+            assumptions_result = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
+            assumptions_result += '<cs_decision>' + _('Testing multivariate normality of variables') + '</cs_decision>\n'
+            normality, norm_text = cs_hyp_test.multivariate_normality(data, predictors + [predicted])
+            assumptions_result += norm_text
+
+            # Test of homoscedasticity
+            assumptions_result += '<cs_decision>' + _('Testing homoscedasticity') + '</cs_decision>\n'
+            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, predictors, predicted)
+            assumptions_result += het_text
+
+            # Test of multicollinearity
+            if len(predictors) > 1:
+                vif, multicollinearity = cs_stat.vif_table(data, predictors)
+                assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
+                assumptions_result += vif
+                assumptions_result += "\n" + cs_stat.correlation_matrix(data, predictors)
+
             estimation_parameters = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
             estimation_parameters += cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
                                                                                    normality=normality,
