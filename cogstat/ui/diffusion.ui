@@ -231,12 +231,12 @@
       <widget class="QComboBox" name="reaction_time_in">
        <item>
         <property name="text">
-         <string>sec</string>
+         <string>s</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>msec</string>
+         <string>ms</string>
         </property>
        </item>
       </widget>

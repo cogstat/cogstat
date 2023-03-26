@@ -195,7 +195,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         if data_measlevs[var_name] == 'unk':
             text_result += warn_unknown_variable
         if len(set(data)) == 1:
-            return _('One sample t-test cannot be run for constant variable.') + '\n', None
+            return _('One sample t-test cannot be run for constant variable') + '.\n', None
 
         descr = DescrStatsW(data)
         t, p, df = descr.ttest_mean(float(test_value))
@@ -296,10 +296,10 @@ def homoscedasticity(data, predictors, predicted, group_name='', group_value='')
     text_result = ''
 
     if len(set(data)) == 1:
-        return None, _('Homoscedasticity cannot be checked for constant variable in %s%s.') % var_names +'\n'
+        return None, _('Homoscedasticity cannot be checked for constant variable in %s') % var_names +'.\n'
 
     if len(data) < 3:
-        return None, _('Too small sample to test homoscedasticity in variable %s%s.\n') % var_names + '\n'
+        return None, _('Too small sample to test homoscedasticity in variable %s') % var_names + '.\n\n'
     else:
         x = sm.add_constant(data[predictors])
         y = data[predicted]
@@ -349,10 +349,10 @@ def multivariate_normality(data, var_names):
 
     var_names_str = ', '.join(var_names)
     if len(set(data)) == 1:
-        return None, _('Normality cannot be checked for constant variables in %s.') % var_names_str + '\n'
+        return None, _('Normality cannot be checked for constant variables in %s') % var_names_str + '.\n'
 
     if len(data) < 3:
-        return None, _('Too small sample to test normality in variables %s.') % var_names_str + '\n'
+        return None, _('Too small sample to test normality in variables %s') % var_names_str + '.\n'
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
         text_result += _('Henze-Zirkler test of multivariate normality in variables %s') % var_names_str + \
@@ -388,13 +388,13 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
         Hypothesis test results in html format
     """
     if meas_lev == 'int':
-        population_result = '<cs_decision>' + _('Testing if correlation differs from 0.') + '</cs_decision>\n'
+        population_result = '<cs_decision>' + _('Testing if correlation differs from 0') + '.</cs_decision>\n'
         df = len(data) - 2
 
         if normality and homoscedasticity:
-            population_result += '<cs_decision>'+_('Interval variables.') + ' ' + _('Normality not violated.') + \
-                                 ' ' + _('Homoscedasticity not violated.') + ' >> ' + \
-                                 _("Running Pearson's and Spearman's correlation.") + '\n</cs_decision>'
+            population_result += '<cs_decision>'+_('Interval variables') + '. ' + _('Normality not violated') + \
+                                 '. ' + _('Homoscedasticity not violated') + '. >> ' + \
+                                 _("Running Pearson's and Spearman's correlation") + '.\n</cs_decision>'
 
             r, p = stats.pearsonr(data[x], data[y])
             population_result += _("Pearson's correlation") + \
@@ -412,9 +412,10 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  (df, non_data_dim_precision, r, print_p(p))
 
         elif normality is None or homoscedasticity is None:
-            population_result += '<cs_decision>'+_('Interval variables.') + ' ' \
-                                 + _('Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
-                                 + _("Running Pearson's and Spearman's correlation.") + '\n</cs_decision>'
+            population_result += '<cs_decision>'+_('Interval variables') + '. ' \
+                                 + _('Assumptions of hypothesis tests could not be tested') + '. ' + \
+                                 _('Hypothesis tests may be inaccurate') + '. >> ' + \
+                                 _("Running Pearson's and Spearman's correlation") + '.\n</cs_decision>'
 
             r, p = stats.pearsonr(data[x], data[y])
             population_result += _("Pearson's correlation") + \
@@ -435,12 +436,12 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
             violations = ''
 
             if not normality:
-                violations += _('Normality violated.') + ' '
+                violations += _('Normality violated') + '. '
             if not homoscedasticity:
-                violations += _('Homoscedasticity violated.') +' '
+                violations += _('Homoscedasticity violated') + '. '
 
-            population_result += '<cs_decision>'+_('Interval variables.') + ' ' + _(violations) + ' >> ' + \
-                                 _("Running Spearman's correlation.") + '\n</cs_decision>'
+            population_result += '<cs_decision>'+_('Interval variables') + '. ' + _(violations) + ' >> ' + \
+                                 _("Running Spearman's correlation") + '.\n</cs_decision>'
 
             r, p = stats.spearmanr(data[x], data[y])
             population_result += _("Spearman's rank-order correlation") + \
@@ -448,7 +449,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  (df, non_data_dim_precision, r, print_p(p))
 
     elif meas_lev == 'ord':
-        population_result = '<cs_decision>' + _('Testing if correlation differs from 0.') + '</cs_decision>\n'
+        population_result = '<cs_decision>' + _('Testing if correlation differs from 0') + '.</cs_decision>\n'
         population_result += '<cs_decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
                              '\n</cs_decision>'
         df = len(data) - 2
@@ -457,7 +458,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                              ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
                              (df, non_data_dim_precision, r, print_p(p))
     elif meas_lev == 'nom':
-        population_result = '<cs_decision>' + _('Testing if variables are independent.') + '</cs_decision>\n'
+        population_result = '<cs_decision>' + _('Testing if variables are independent') + '.</cs_decision>\n'
         # TODO enable the following warning
         #if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
         #    population_result += '<cs_warning>' + _('Not all variables are nominal. Consider comparing groups.') + \
@@ -494,37 +495,35 @@ def multiple_regression_hyp_tests(data, result, predictors, normality, homosceda
     """
 
     if normality and homoscedasticity and not multicollinearity:
-        output = '<cs_decision>' + _('Interval variables. More than two variables.') + ' ' + \
-                 _('Normality met. Homoscedasticity met. No multicollinearity.') + ' >> '  + \
-                 _('Running model F-test and tests for regressor slopes.') \
-                 + '\n</cs_decision>'
+        output = '<cs_decision>' + _('Interval variables') + '. ' + _('More than two variables') + '. ' + \
+                 _('Normality met') + '. ' + _('Homoscedasticity met') + '. ' + _('No multicollinearity') + '. >> ' + \
+                 _('Running model F-test and tests for regressor slopes') + '.\n</cs_decision>'
 
     elif normality is None or homoscedasticity is None or multicollinearity is None:
-        output = '<cs_decision>' + _('Interval variables. More than two variables.') + ' ' \
-                             + _(
-            'Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
-                             + _('Running model F-test and tests for regressor slopes.') \
-                             + '\n</cs_decision>'
+        output = '<cs_decision>' + _('Interval variables') + '. ' + _('More than two variables') + '. ' + \
+                 _('Assumptions of hypothesis tests could not be tested') + '. ' + \
+                 _('Hypothesis tests may be inaccurate') + '. >> ' \
+                 + _('Running model F-test and tests for regressor slopes') + '.\n</cs_decision>'
 
     else:
         violations = ''
 
         if not normality:
-            violations += _('Normality violated.') + ' '
+            violations += _('Normality violated') + '. '
         if not homoscedasticity:
-            violations += _('Homoscedasticity violated.') + ' '
+            violations += _('Homoscedasticity violated') + '. '
         if multicollinearity:
-            violations += _('Multicollinearity suspected.') + ' '
+            violations += _('Multicollinearity suspected') + '. '
 
-        output = '<cs_decision>' + _('Interval variables.') + ' ' + violations + ' >> ' + \
-                 _('Hypothesis tests may be inaccurate.') + \
-                 _('Running model F-test and tests for regressor slopes.') + '\n</cs_decision>'
+        output = '<cs_decision>' + _('Interval variables') + '. ' + violations + ' >> ' + \
+                 _('Hypothesis tests may be inaccurate') + '. ' + \
+                 _('Running model F-test and tests for regressor slopes') + '.\n</cs_decision>'
 
     output += _('Model F-test') + \
                          ': <i>F</i>(%d,%d) = %0.*f, %s' % \
                          (result.df_model, result.df_resid, non_data_dim_precision, result.fvalue,
                           print_p(result.f_pvalue)) + '\n'
-    output += _('Regressor slopes:') + '\n'
+    output += _('Regressor slopes') + ':\n'
     for predictor in predictors:
         output += predictor + ': <i>t</i>(%d) = %0.*f, %s' % (len(data) - len(predictors) - 1, non_data_dim_precision,
                                                               result.tvalues[predictor],
@@ -597,25 +596,26 @@ def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
 
     # TODO is it useful to test an intraclass correlation against 0? What test value should be used?
     hypothesis_test_result = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
-    hypothesis_test_result += '<cs_decision>' + _('Testing if ICC differs from 0.') + '</cs_decision>' + '\n'
+    hypothesis_test_result += '<cs_decision>' + _('Testing if ICC differs from 0') + '.</cs_decision>' + '\n'
 
     if not non_normal_vars:
-        hypothesis_test_result += '<cs_decision>' + _('Assumption of normality met. ') + '</cs_decision>'
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of normality met') + '.</cs_decision>'
     else:
         hypothesis_test_result += '<cs_decision>' + \
-                                  _('Assumption of normality violated in variable(s) %s. '
-                                    % ', ' .join(non_normal_vars)) + '</cs_decision>'
+                                  _('Assumption of normality violated in variable(s) %s'
+                                    % ', ' .join(non_normal_vars)) + '.</cs_decision>'
     if var_hom_p < 0.05:
-        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated. ') + '</cs_decision>'
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated') + \
+                                  '.</cs_decision>'
     else:
-        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances met. ') + '</cs_decision>'
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances met') + '.</cs_decision>'
 
     if (var_hom_p < 0.05) or (len(non_normal_vars) != 0):
-        hypothesis_test_result += '<cs_decision>' + _(' Hypothesis tests may be inaccurate.') + '</cs_decision>' + '\n'
+        hypothesis_test_result += '<cs_decision>' + _('Hypothesis tests may be inaccurate') + '.</cs_decision>' + '\n'
     else:
         hypothesis_test_result += '\n'
 
-    hypothesis_test_result += '<cs_decision>' + _('Running F-tests.') + '</cs_decision>' + '\n'
+    hypothesis_test_result += '<cs_decision>' + _('Running F-tests') + '.</cs_decision>' + '\n'
     for hyp_test_index, hyp_test_row in hyp_test_table.iterrows():
         hypothesis_test_result += _('F-test for %s') % hyp_test_index + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
                                   % (hyp_test_row['df1'], hyp_test_row['df2'], non_data_dim_precision,

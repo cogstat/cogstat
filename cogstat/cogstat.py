@@ -345,7 +345,7 @@ class CogStatData:
         # 1. Import from pandas DataFrame
         if isinstance(data, pd.DataFrame):
             self.data_frame = data
-            self.import_source[0] = _('Pandas dataframe')
+            self.import_source[0] = 'Pandas dataframe'  # intentionally, we don't localize this term
 
         # 2. Import from file
         elif isinstance(data, str) and not ('\n' in data):  # Single line text, i.e., filename
@@ -449,7 +449,7 @@ class CogStatData:
             else:
                 self.import_source[0] = _('Import failed')
                 self.import_message += '<cs_h1>' + _('Data') + '</cs_h1>' + \
-                                       _('Import failed. File type is not supported.')
+                                       _('Import failed') + '. ' + _('File type is not supported') + '.'
                 return
 
         # 3. Import from clipboard
@@ -478,7 +478,8 @@ class CogStatData:
         # 4. Invalid data source
         else:
             self.import_source[0] = _('Import failed')
-            self.import_message += '<cs_h1>' + _('Data') + '</cs_h1>' + _('Import failed. Invalid data source.')
+            self.import_message += '<cs_h1>' + _('Data') + '</cs_h1>' + _('Import failed') + '. ' + \
+                                   _('Invalid data source') + '.'
             return
 
         # II. Set additional details for all import sources
@@ -520,12 +521,12 @@ class CogStatData:
 
         if self.import_source[1]:  # if the actual dataset was imported from a file, then reload it
             self._import_data(data=self.import_source[1], show_heading=False)  # measurement level should be reimported too
-            output += _('The file was successfully reloaded.') + '\n'
+            output += _('The file was successfully reloaded') + '.\n'
             output += self.import_message
             if self.filtering_status[0]:
                 self.filter_outlier(var_names=self.filtering_status[0], mode=self.filtering_status[1])
         else:
-            output += _('The data was not imported from a file. It cannot be reloaded.') + '\n'
+            output += _('The data was not imported from a file') + '. ' + _('It cannot be reloaded') + '.\n'
             # or do we assume that this method is not called when the actual file was not imported from a file?
 
         return cs_util.convert_output([output])
@@ -650,18 +651,18 @@ class CogStatData:
                                                        (self.orig_data_frame[var_name] <= upper_limit)].index)
 
                     # Display filtering information
-                    text_output += _('Filtering based on %s.') % (var_name + ' (%s)' % mode_names[mode]) + '\n'
-                    text_output += _('Cases with missing data will also be excluded.') + '\n'
+                    text_output += _('Filtering based on %s') % (var_name + ' (%s)' % mode_names[mode]) + '.\n'
+                    text_output += _('Cases with missing data will also be excluded') + '.\n'
                     prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
-                    text_output += _('Cases outside of the range will be excluded:') + \
-                                   ' %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
+                    text_output += _('Cases outside of the range will be excluded') + \
+                                   ': %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
                     # Display the excluded cases
                     excluded_cases = \
                         self.orig_data_frame.drop(remaining_cases_indexes[-1])
                     # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                     # TODO uncomment the above line after using pivot indexes in CS data
                     if len(excluded_cases):
-                        text_output += _('Excluded cases (%s cases):') % (len(excluded_cases))
+                        text_output += _('Excluded cases (%s cases)') % (len(excluded_cases)) + ':'
                         # Change indexes to be in line with the data view numbering
                         excluded_cases.index = excluded_cases.index + 1
                         text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '')
@@ -669,7 +670,7 @@ class CogStatData:
                             self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
                             excluded_cases[var_name], var_name, lower_limit=lower_limit, upper_limit=upper_limit))
                     else:
-                        text_output += _('No cases were excluded.')
+                        text_output += _('No cases were excluded') + '.'
                     if var_name != var_names[-1]:
                         text_output += '\n\n'
             elif mode == 'mahalanobis':
@@ -680,8 +681,9 @@ class CogStatData:
                     if self.data_measlevs[var_name] in ['ord', 'nom']:
                         valid_var_names.remove(var_name)
                 if len(var_names) > len(valid_var_names):
-                    text_output += _('Only interval variables can be used for filtering. Ignoring variable(s) %s.') % \
-                                   ', '.join(set(var_names) - set(valid_var_names)) + '\n'
+                    text_output += _('Only interval variables can be used for filtering') + '.' + \
+                                   _('Ignoring variable(s) %s') % ', '.join(set(var_names) - set(valid_var_names)) + \
+                                   '.\n'
 
                 # Calculating the robust Mahalanobis distances
                 from sklearn import covariance
@@ -701,12 +703,12 @@ class CogStatData:
                                                index)
 
                 # Display filtering information
-                text_output += _('Multivariate filtering based on the variables: %s (%s).') % \
-                               (', '.join(valid_var_names), mode_names[mode]) + '\n'
-                text_output += _('Cases with missing data will also be excluded.') + '\n'
+                text_output += _('Multivariate filtering based on the variables: %s (%s)') % \
+                               (', '.join(valid_var_names), mode_names[mode]) + '.\n'
+                text_output += _('Cases with missing data will also be excluded') + '.\n'
                 prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1  # TODO we should set this to a constant value
-                text_output += _('Cases above the cutoff Mahalanobis distance will be excluded:') + \
-                               ' %0.*f\n' % (prec, limit)
+                text_output += _('Cases above the cutoff Mahalanobis distance will be excluded') + \
+                               ': %0.*f\n' % (prec, limit)
 
                 # Display the excluded cases
                 excluded_cases = \
@@ -714,7 +716,7 @@ class CogStatData:
                 # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
-                    text_output += _('Excluded cases (%s cases): ') % (len(excluded_cases))
+                    text_output += _('Excluded cases (%s cases)') % (len(excluded_cases)) + ': '
                     # Change indexes to be in line with the data view numbering
                     excluded_cases.index = excluded_cases.index + 1
                     text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '') + '\n'
@@ -724,7 +726,7 @@ class CogStatData:
                             [var_name], excluded_cases[var_name], var_name))
 
                 else:
-                    text_output += _('No cases were excluded.')
+                    text_output += _('No cases were excluded') +'.'
             else:
                 raise ValueError('Invalid mode parameter was given')
 
@@ -752,7 +754,7 @@ class CogStatData:
             return ''
         else:
             filtering_message = ', '.join(self.filtering_status[0]) + ' (%s)' % mode_names[self.filtering_status[1]]
-            return '<b>' + _('Filtering is on:') + ' %s</b>\n' % filtering_message
+            return '<b>' + _('Filtering is on') + ': %s</b>\n' % filtering_message
 
     ### Various things ###
 
@@ -824,9 +826,9 @@ class CogStatData:
 
         data = pd.DataFrame(self.data_frame[var_name].dropna())
 
-        text_result2 = _('N of observed cases: %g') % len(data) + '\n'
+        text_result2 = _('N of observed cases') + ': %g' % len(data) + '\n'
         missing_cases = len(self.data_frame[var_name])-len(data)
-        text_result2 += _('N of missing cases: %g') % missing_cases + '\n'
+        text_result2 += _('N of missing cases')  + ': %g' % missing_cases + '\n'
 
         image = cs_chart.create_variable_raw_chart(data, self.data_measlevs, var_name)
 
@@ -964,7 +966,7 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         title = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
-        title += _('Reliability of items: ') + ', '.join('%s (%s)' % (var, meas)
+        title += _('Reliability of items') + ': ' + ', '.join('%s (%s)' % (var, meas)
                                                          for var, meas in zip(var_names, meas_levels))
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
@@ -975,7 +977,7 @@ class CogStatData:
         if reverse_items:
             for reverse_item in reverse_items:
                 data[reverse_item] = np.min(data[reverse_item]) + np.max(data[reverse_item]) - data[reverse_item]
-            title += '\n' + _('Reverse coded item(s): ') + ', '.join('%s' % var for var in reverse_items)
+            title += '\n' + _('Reverse coded item(s)') + ': ' + ', '.join('%s' % var for var in reverse_items)
 
         # Raw data
         raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>'
@@ -989,7 +991,7 @@ class CogStatData:
         sample_title = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         alpha, item_removed_sample = cs_stat.reliability_internal_calc(data, sample=True)
         sample_graph = cs_chart.create_item_total_matrix(data, regression=True)
-        sample_result = '\n' + _("Cronbach's alpha ") + '= %0.3f' % alpha[0] + '\n'
+        sample_result = '\n' + _("Cronbach's alpha") + ' = %0.3f' % alpha[0] + '\n'
 
         # Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
@@ -1026,9 +1028,9 @@ class CogStatData:
 
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
-        title = '<cs_h1>' + _('Inter-rater reliability') + '</cs_h1>'
-        title += _('Reliability calculated from variables: ') \
-                 + ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels))
+        title = '<cs_h1>' + _('Interrater reliability') + '</cs_h1>'
+        title += _('Reliability calculated from variables') + ': ' + \
+                 ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels))
 
         # Raw data
         raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>'
@@ -1056,30 +1058,31 @@ class CogStatData:
         # Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
         population_result += '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
-        population_result += '<cs_decision>' + _('Testing normality.') + '</cs_decision>'
+        population_result += '<cs_decision>' + _('Testing normality') + '.</cs_decision>'
         non_normal_vars, normality_text, var_hom_p, var_text_result = \
             cs_hyp_test.reliability_interrater_assumptions(data, data_long, var_names, self.data_measlevs)
         population_result += '\n' + normality_text
         warnings = ''
         if not non_normal_vars:
-            population_result += '<cs_decision>' + _('Assumption of normality met.') + '</cs_decision>' + '\n'
+            population_result += '<cs_decision>' + _('Assumption of normality met') + '.</cs_decision>' + '\n'
         else:
             population_result += '<cs_decision>' + _('Assumption of normality violated in variable(s) %s' %
                                                   ', '.join(non_normal_vars)) + '</cs_decision>' + '\n'
-            warnings += '<cs_decision>' + _('Assumption of normality violated. ') + '</cs_decision>'
-        population_result += '\n' + '<cs_decision>' + _('Testing homogeneity of variances.') + '</cs_decision>'
+            warnings += '<cs_decision>' + _('Assumption of normality violated') + '.</cs_decision>'
+        population_result += '\n' + '<cs_decision>' + _('Testing homogeneity of variances') + '.</cs_decision>'
         population_result += '\n' + var_text_result
         if var_hom_p < 0.05:
-            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated. ') + '</cs_decision>'
-            warnings += '<cs_decision>' + _('Assumption of homogeneity of variances violated.') + '</cs_decision>'
+            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated') + \
+                                 '.</cs_decision>'
+            warnings += '<cs_decision>' + _('Assumption of homogeneity of variances violated') + '.</cs_decision>'
         else:
-            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances met.') + '</cs_decision>'
+            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances met') + '.</cs_decision>'
 
         population_result += '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
         if non_normal_vars or var_hom_p < 0.05:
-            warnings += '<cs_decision>' + _('CIs may be inaccurate.') + '</cs_decision>'
+            warnings += '<cs_decision>' + _('CIs may be inaccurate') + '.</cs_decision>'
         else:
-            warnings += '<cs_decision>' + _('Assumptions met.') + '</cs_decision>'
+            warnings += '<cs_decision>' + _('Assumptions met') + '.</cs_decision>'
 
         hypothesis_tests = cs_hyp_test.reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p)
 
@@ -1111,10 +1114,10 @@ class CogStatData:
         title = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
         preconditions = True
         if (predictors is None) or (predictors == [None]) or not predictors:
-            title += _('At least one predictor variable should be set.') + '\n'
+            title += _('At least one predictor variable should be set') + '.\n'
             preconditions = False
         if predicted is None:
-            title += _('The predicted variable should be set.')
+            title += _('The predicted variable should be set') + '.'
             preconditions = False
         if not preconditions:
             return cs_util.convert_output([title])
@@ -1356,10 +1359,10 @@ class CogStatData:
         title = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
         preconditions = True
         if not depend_name:
-            title += _('The dependent variable should be set.') + '\n'
+            title += _('The dependent variable should be set') + '.\n'
             preconditions = False
         if not (row_names or col_names or page_names):
-            title += _('At least one grouping variable should be set.')
+            title += _('At least one grouping variable should be set') + '\n'
             preconditions = False
         if not preconditions:
             return cs_util.convert_output([title])
@@ -1406,10 +1409,10 @@ class CogStatData:
         title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
         preconditions = True
         if not RT_name:
-            title += _('The reaction time should be given.') + '\n'
+            title += _('The reaction time should be given') + '.\n'
             preconditions = False
         if not error_name:
-            title += _('The error variables should be given.')
+            title += _('The error variables should be given') + '.'
             preconditions = False
         if not preconditions:
             return cs_util.convert_output([title])
@@ -1449,7 +1452,7 @@ class CogStatData:
         # Check preconditions
         preconditions = True
         if len(var_names) < 2:
-            title += _('At least two variables should be set.') + '\n'
+            title += _('At least two variables should be set') + '.\n'
             preconditions = False
         if '' in var_names:
             title += _('A variable should be assigned to each level of the factors.') + '\n'
@@ -1474,9 +1477,9 @@ class CogStatData:
             display_factors = [[factor[0] for factor in factors], []]
 
         # Variables info
-        analysis_info = _('Variables to compare: ') + ', '.\
-            join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-        analysis_info += _('Factor(s) (number of levels): ') + ', '.\
+        analysis_info = _('Variables to compare') + ': ' + \
+                        ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
+        analysis_info += _('Factor(s) (number of levels)') + ': ' + ', '.\
             join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
         factor_combinations = ['']
         for factor in factors:
@@ -1485,7 +1488,7 @@ class CogStatData:
                                    for level_i in range(factor[1])]
         # remove ' - ' from the beginning of the strings
         factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-        analysis_info += _('Factor level combinations and assigned variables:') + '\n'
+        analysis_info += _('Factor level combinations and assigned variables') + ':\n'
         for factor_combination, var_name in zip(factor_combinations, var_names):
             analysis_info += '%s: %s\n' % (factor_combination, var_name)
 
@@ -1636,10 +1639,10 @@ class CogStatData:
         # TODO check if there is only one dep.var.
         preconditions = True
         if not var_name or (var_name is None):
-            title += _('The dependent variable should be set.') + '\n'
+            title += _('The dependent variable should be set') + '.\n'
             preconditions = False
-        if (grouping_variables is None) or grouping_variables==[]:
-            title += _('At least one grouping variable should be set.') + '\n'
+        if (grouping_variables is None) or grouping_variables == []:
+            title += _('At least one grouping variable should be set') + '.\n'
             preconditions = False
         if not preconditions:
             return cs_util.convert_output([title])
@@ -1655,7 +1658,7 @@ class CogStatData:
 
         # Variables info
         analysis_info = _('Dependent variable: ') + '%s (%s)' % (var_name, self.data_measlevs[var_name]) + '\n' + \
-                     _('Grouping variable(s): ') + \
+                     _('Grouping variable(s)') + ': ' + \
                      ', '.join('%s (%s)' % (var, meas) for var, meas
                                in zip(grouping_variables, [self.data_measlevs[group] for group in grouping_variables]))\
                      + '\n'
@@ -1852,10 +1855,10 @@ class CogStatData:
         # Check preconditions
         preconditions = True
         if len(var_names) < 1:
-            title += _('At least one dependent variable should be set.') + '\n'
+            title += _('At least one dependent variable should be set') + '.\n'
             preconditions = False
         if '' in var_names:
-            title = _('A variable should be assigned to each level of the factors.') + '\n'
+            title = _('A variable should be assigned to each level of the factors') + '.\n'
             preconditions = False
         # Check if the repeated measures variables have the same measurement levels
         # int and unk can be used together, since unk is taken as int by default
@@ -1887,7 +1890,7 @@ class CogStatData:
         else:
             analysis_info = _('Variables to compare: ') + ', '. \
                 join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-            analysis_info += _('Factor(s) (number of levels): ') + ', '. \
+            analysis_info += _('Factor(s) (number of levels)') + ': ' + ', '. \
                 join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
             factor_combinations = ['']
             for factor in factors:
@@ -1896,11 +1899,11 @@ class CogStatData:
                                        for level_i in range(factor[1])]
             # remove ' - ' from the beginning of the strings
             factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-            analysis_info += _('Factor level combinations and assigned variables:') + '\n'
+            analysis_info += _('Factor level combinations and assigned variables') + ':\n'
             for factor_combination, var_name in zip(factor_combinations, var_names):
                 analysis_info += '%s: %s\n' % (factor_combination, var_name)
         if grouping_variables:
-            analysis_info += _('Grouping variable(s): ') + \
+            analysis_info += _('Grouping variable(s)') + ': ' + \
                           ', '.join('%s (%s)' % (var, meas) for var, meas
                                     in zip(grouping_variables,
                                            [self.data_measlevs[group] for group in grouping_variables])) + '\n'

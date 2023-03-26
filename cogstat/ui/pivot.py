@@ -165,7 +165,7 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Column(s)"))
         self.label_2.setText(_translate("Dialog", "Row(s)"))
         self.label_5.setText(_translate("Dialog", "Dependent variable(s)"))
-        self.label_6.setText(_translate("Dialog", " &Function"))
+        self.label_6.setText(_translate("Dialog", "&Function"))
         self.function.setItemText(0, _translate("Dialog", "N"))
         self.function.setItemText(1, _translate("Dialog", "Sum"))
         self.function.setItemText(2, _translate("Dialog", "Mean"))

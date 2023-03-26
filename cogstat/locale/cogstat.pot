@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-26 16:03+0200\n"
+"POT-Creation-Date: 2023-03-26 18:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -284,16 +284,16 @@ msgstr ""
 msgid "Data view"
 msgstr ""
 
-#: .././cogstat_gui.py:573 .././cogstat.py:564
+#: .././cogstat_gui.py:573 .././cogstat.py:565
 msgid "Type"
 msgstr ""
 
-#: .././cogstat_gui.py:573 .././cogstat.py:564
+#: .././cogstat_gui.py:573 .././cogstat.py:565
 msgid "Level"
 msgstr ""
 
 #: .././cogstat_gui.py:621 .././cogstat_gui.py:715 .././cogstat_gui.py:755
-#: .././cogstat.py:451 .././cogstat.py:481 .././cogstat.py:551
+#: .././cogstat.py:451 .././cogstat.py:481 .././cogstat.py:552
 msgid "Data"
 msgstr ""
 
@@ -309,49 +309,50 @@ msgstr ""
 msgid "Reload data"
 msgstr ""
 
-#: .././cogstat_gui.py:688 .././cogstat.py:450 .././cogstat.py:480
+#: .././cogstat_gui.py:688 .././cogstat.py:450 .././cogstat.py:452
+#: .././cogstat.py:480 .././cogstat.py:481
 msgid "Import failed"
 msgstr ""
 
-#: .././cogstat_gui.py:739 .././cogstat.py:613
+#: .././cogstat_gui.py:739 .././cogstat.py:614
 msgid "Filter outliers"
 msgstr ""
 
-#: .././cogstat_gui.py:786 .././cogstat.py:813 .././cogstat.py:818
+#: .././cogstat_gui.py:786 .././cogstat.py:815 .././cogstat.py:820
 msgid "Explore variable"
 msgstr ""
 
-#: .././cogstat_gui.py:817 .././cogstat.py:1133
+#: .././cogstat_gui.py:817 .././cogstat.py:1136
 msgid "Explore relation of variable pair"
 msgstr ""
 
-#: .././cogstat_gui.py:851 .././cogstat.py:1111 .././cogstat.py:1135
+#: .././cogstat_gui.py:851 .././cogstat.py:1114 .././cogstat.py:1138
 msgid "Explore relation of variables"
 msgstr ""
 
-#: .././cogstat_gui.py:876 .././cogstat.py:1356 ../ui/pivot.py:162
+#: .././cogstat_gui.py:876 .././cogstat.py:1359 ../ui/pivot.py:162
 msgid "Pivot table"
 msgstr ""
 
-#: .././cogstat_gui.py:898 ../ui/diffusion.py:191
+#: .././cogstat_gui.py:898
 msgid "sec"
 msgstr ""
 
-#: .././cogstat_gui.py:899 .././cogstat.py:1406 ../ui/diffusion.py:185
+#: .././cogstat_gui.py:899 .././cogstat.py:1409 ../ui/diffusion.py:185
 msgid "Behavioral data diffusion analysis"
 msgstr ""
 
-#: .././cogstat_gui.py:922 .././cogstat.py:1446 .././cogstat.py:1847
+#: .././cogstat_gui.py:922 .././cogstat.py:1449 .././cogstat.py:1850
 #: ../ui/compare_vars.py:86
 msgid "Compare repeated measures variables"
 msgstr ""
 
-#: .././cogstat_gui.py:946 .././cogstat.py:1633 .././cogstat.py:1845
+#: .././cogstat_gui.py:946 .././cogstat.py:1636 .././cogstat.py:1848
 #: ../ui/compare_groups.py:109
 msgid "Compare groups"
 msgstr ""
 
-#: .././cogstat_gui.py:969 .././cogstat.py:1849
+#: .././cogstat_gui.py:969 .././cogstat.py:1852
 #: ../ui/compare_vars_groups.py:111
 msgid "Compare repeated measures variables and groups"
 msgstr ""
@@ -438,7 +439,7 @@ msgid "Shapiro–Wilk normality test in variable %s%s"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:198
-msgid "One sample t-test cannot be run for constant variable."
+msgid "One sample t-test cannot be run for constant variable"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:770
@@ -477,12 +478,12 @@ msgstr ""
 
 #: .././cogstat_hyp_test.py:299
 #, python-format
-msgid "Homoscedasticity cannot be checked for constant variable in %s%s."
+msgid "Homoscedasticity cannot be checked for constant variable in %s"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:302
 #, python-format
-msgid "Too small sample to test homoscedasticity in variable %s%s.\n"
+msgid "Too small sample to test homoscedasticity in variable %s"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:321
@@ -495,12 +496,12 @@ msgstr ""
 
 #: .././cogstat_hyp_test.py:352
 #, python-format
-msgid "Normality cannot be checked for constant variables in %s."
+msgid "Normality cannot be checked for constant variables in %s"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:355
 #, python-format
-msgid "Too small sample to test normality in variables %s."
+msgid "Too small sample to test normality in variables %s"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:358
@@ -508,141 +509,149 @@ msgstr ""
 msgid "Henze-Zirkler test of multivariate normality in variables %s"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:391 .././cogstat_hyp_test.py:451
-msgid "Testing if correlation differs from 0."
+#: .././cogstat_hyp_test.py:391 .././cogstat_hyp_test.py:452
+msgid "Testing if correlation differs from 0"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:395 .././cogstat_hyp_test.py:415
-#: .././cogstat_hyp_test.py:442 .././cogstat_hyp_test.py:519
-#: .././cogstat_hyp_test.py:659 .././cogstat_hyp_test.py:696
-msgid "Interval variables."
+#: .././cogstat_hyp_test.py:443 .././cogstat_hyp_test.py:498
+#: .././cogstat_hyp_test.py:503 .././cogstat_hyp_test.py:518
+msgid "Interval variables"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:395
-msgid "Normality not violated."
+msgid "Normality not violated"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:396
-msgid "Homoscedasticity not violated."
+msgid "Homoscedasticity not violated"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:397 .././cogstat_hyp_test.py:417
-msgid "Running Pearson's and Spearman's correlation."
+#: .././cogstat_hyp_test.py:397 .././cogstat_hyp_test.py:418
+msgid "Running Pearson's and Spearman's correlation"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:400 .././cogstat_hyp_test.py:420
+#: .././cogstat_hyp_test.py:400 .././cogstat_hyp_test.py:421
 #: .././cogstat_stat.py:691 .././cogstat_stat.py:714
 msgid "Pearson's correlation"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:405 .././cogstat_hyp_test.py:425
+#: .././cogstat_hyp_test.py:405 .././cogstat_hyp_test.py:426
 msgid "Bayes Factor for Pearson correlation"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:410 .././cogstat_hyp_test.py:430
-#: .././cogstat_hyp_test.py:446 .././cogstat_hyp_test.py:456
+#: .././cogstat_hyp_test.py:410 .././cogstat_hyp_test.py:431
+#: .././cogstat_hyp_test.py:447 .././cogstat_hyp_test.py:457
 #: .././cogstat_stat.py:693 .././cogstat_stat.py:696 .././cogstat_stat.py:744
 msgid "Spearman's rank-order correlation"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:416 .././cogstat_hyp_test.py:505
-msgid ""
-"Assumptions of hypothesis tests could not be tested. Hypothesis tests may be "
-"inaccurate."
+#: .././cogstat_hyp_test.py:416 .././cogstat_hyp_test.py:504
+msgid "Assumptions of hypothesis tests could not be tested"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:438 .././cogstat_hyp_test.py:513
-msgid "Normality violated."
+#: .././cogstat_hyp_test.py:417 .././cogstat_hyp_test.py:505
+#: .././cogstat_hyp_test.py:519 .././cogstat_hyp_test.py:614
+msgid "Hypothesis tests may be inaccurate"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:440 .././cogstat_hyp_test.py:515
-msgid "Homoscedasticity violated."
+#: .././cogstat_hyp_test.py:439 .././cogstat_hyp_test.py:512
+msgid "Normality violated"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:443 .././cogstat_hyp_test.py:452
-msgid "Running Spearman's correlation."
+#: .././cogstat_hyp_test.py:441 .././cogstat_hyp_test.py:514
+msgid "Homoscedasticity violated"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:452 .././cogstat_hyp_test.py:681
+#: .././cogstat_hyp_test.py:444
+msgid "Running Spearman's correlation"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:453 .././cogstat_hyp_test.py:681
 #: .././cogstat_hyp_test.py:717
 msgid "Ordinal variables."
 msgstr ""
 
-#: .././cogstat_hyp_test.py:460
-msgid "Testing if variables are independent."
+#: .././cogstat_hyp_test.py:453
+msgid "Running Spearman's correlation."
 msgstr ""
 
-#: .././cogstat_hyp_test.py:465
+#: .././cogstat_hyp_test.py:461
+msgid "Testing if variables are independent"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:466
 msgid "Nominal variables."
 msgstr ""
 
-#: .././cogstat_hyp_test.py:465
+#: .././cogstat_hyp_test.py:466
 msgid "Running Cramér's V."
 msgstr ""
 
-#: .././cogstat_hyp_test.py:497 .././cogstat_hyp_test.py:503
-msgid "Interval variables. More than two variables."
+#: .././cogstat_hyp_test.py:498 .././cogstat_hyp_test.py:503
+msgid "More than two variables"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:498
-msgid "Normality met. Homoscedasticity met. No multicollinearity."
+#: .././cogstat_hyp_test.py:499
+msgid "Normality met"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:499 .././cogstat_hyp_test.py:506
-#: .././cogstat_hyp_test.py:521
-msgid "Running model F-test and tests for regressor slopes."
+#: .././cogstat_hyp_test.py:499
+msgid "Homoscedasticity met"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:517 .././cogstat_stat.py:643
-#: .././cogstat_stat.py:811
-msgid "Multicollinearity suspected."
+#: .././cogstat_hyp_test.py:499
+msgid "No multicollinearity"
 msgstr ""
 
+#: .././cogstat_hyp_test.py:500 .././cogstat_hyp_test.py:506
 #: .././cogstat_hyp_test.py:520
-msgid "Hypothesis tests may be inaccurate."
+msgid "Running model F-test and tests for regressor slopes"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:523
+#: .././cogstat_hyp_test.py:516 .././cogstat_stat.py:643
+#: .././cogstat_stat.py:812
+msgid "Multicollinearity suspected"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:522
 msgid "Model F-test"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:527
-msgid "Regressor slopes:"
+#: .././cogstat_hyp_test.py:526
+msgid "Regressor slopes"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:599 .././cogstat.py:895 .././cogstat.py:1307
-#: .././cogstat.py:1597 .././cogstat.py:1795 .././cogstat.py:1800
-#: .././cogstat.py:2042
+#: .././cogstat_hyp_test.py:598 .././cogstat.py:897 .././cogstat.py:1310
+#: .././cogstat.py:1600 .././cogstat.py:1798 .././cogstat.py:1803
+#: .././cogstat.py:2045
 msgid "Hypothesis tests"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:600
-msgid "Testing if ICC differs from 0."
+#: .././cogstat_hyp_test.py:599
+msgid "Testing if ICC differs from 0"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:603
-msgid "Assumption of normality met. "
+#: .././cogstat_hyp_test.py:602 .././cogstat_stat.py:624
+#: .././cogstat_stat.py:727 .././cogstat_stat.py:794 .././cogstat.py:1067
+msgid "Assumption of normality met"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:606
+#: .././cogstat_hyp_test.py:605 .././cogstat.py:1069
 #, python-format
-msgid "Assumption of normality violated in variable(s) %s. "
+msgid "Assumption of normality violated in variable(s) %s"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:609 .././cogstat.py:1073
-msgid "Assumption of homogeneity of variances violated. "
+#: .././cogstat_hyp_test.py:608 .././cogstat.py:1075 .././cogstat.py:1077
+msgid "Assumption of homogeneity of variances violated"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:611
-msgid "Assumption of homogeneity of variances met. "
-msgstr ""
-
-#: .././cogstat_hyp_test.py:614
-msgid " Hypothesis tests may be inaccurate."
+#: .././cogstat_hyp_test.py:611 .././cogstat.py:1079
+msgid "Assumption of homogeneity of variances met"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:618
-msgid "Running F-tests."
+msgid "Running F-tests"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:620
@@ -673,6 +682,10 @@ msgstr ""
 msgid "Two variables. "
 msgstr ""
 
+#: .././cogstat_hyp_test.py:659 .././cogstat_hyp_test.py:696
+msgid "Interval variables."
+msgstr ""
+
 #: .././cogstat_hyp_test.py:660
 msgid ""
 "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
@@ -680,7 +693,7 @@ msgstr ""
 
 #: .././cogstat_hyp_test.py:662 .././cogstat_hyp_test.py:700
 #: .././cogstat_hyp_test.py:986 .././cogstat_hyp_test.py:1005
-#: .././cogstat_hyp_test.py:1053 .././cogstat.py:909
+#: .././cogstat_hyp_test.py:1053 .././cogstat.py:911
 msgid "Checking for normality."
 msgstr ""
 
@@ -712,7 +725,7 @@ msgstr ""
 #: .././cogstat_hyp_test.py:692 .././cogstat_hyp_test.py:728
 #: .././cogstat_hyp_test.py:737 .././cogstat_hyp_test.py:740
 #: .././cogstat_hyp_test.py:1129 .././cogstat_hyp_test.py:1132
-#: .././cogstat.py:935 .././cogstat.py:2056
+#: .././cogstat.py:937 .././cogstat.py:2059
 msgid "Sorry, not implemented yet."
 msgstr ""
 
@@ -726,7 +739,7 @@ msgid ""
 "assumptions."
 msgstr ""
 
-#: .././cogstat_hyp_test.py:709 .././cogstat.py:914
+#: .././cogstat_hyp_test.py:709 .././cogstat.py:916
 msgid "Normality is not violated."
 msgstr ""
 
@@ -866,7 +879,7 @@ msgid "Normality is not violated. >> Running modified t-test."
 msgstr ""
 
 #: .././cogstat_hyp_test.py:1002 .././cogstat_hyp_test.py:1049
-#: .././cogstat_hyp_test.py:1123 .././cogstat.py:906
+#: .././cogstat_hyp_test.py:1123 .././cogstat.py:908
 msgid "Interval variable."
 msgstr ""
 
@@ -901,7 +914,7 @@ msgid "Running Welch's t-test."
 msgstr ""
 
 #: .././cogstat_hyp_test.py:1036 .././cogstat_hyp_test.py:1086
-#: .././cogstat_hyp_test.py:1128 .././cogstat.py:929
+#: .././cogstat_hyp_test.py:1128 .././cogstat.py:931
 msgid "Ordinal variable."
 msgstr ""
 
@@ -1044,7 +1057,7 @@ msgid "Mean"
 msgstr ""
 
 #: .././cogstat_stat.py:118 .././cogstat_stat.py:445 .././cogstat_stat.py:546
-#: .././cogstat_stat.py:547 .././cogstat_stat.py:548 .././cogstat.py:1571
+#: .././cogstat_stat.py:547 .././cogstat_stat.py:548 .././cogstat.py:1574
 #: .././cogstat_chart.py:1398 ../ui/pivot.py:172
 msgid "Median"
 msgstr ""
@@ -1080,7 +1093,7 @@ msgstr ""
 msgid "Independent variable(s) - Rows: "
 msgstr ""
 
-#: .././cogstat_stat.py:128 .././cogstat.py:1657 .././cogstat.py:1886
+#: .././cogstat_stat.py:128 .././cogstat.py:1660 .././cogstat.py:1889
 msgid "Dependent variable: "
 msgstr ""
 
@@ -1093,7 +1106,7 @@ msgid "Specify the minimum required parameters (reaction time and error)."
 msgstr ""
 
 #: .././cogstat_stat.py:243
-msgid "Used variables."
+msgid "Used variables"
 msgstr ""
 
 #: .././cogstat_stat.py:243
@@ -1122,12 +1135,13 @@ msgid "single participant"
 msgstr ""
 
 #: .././cogstat_stat.py:269
-msgid "Number of trials excluded because of missing data:"
+msgid "Number of trials excluded because of missing data"
 msgstr ""
 
 #: .././cogstat_stat.py:275
 #, python-format
-msgid "Number of trials excluded because reaction time was larger than %s sec:"
+msgid ""
+"Number of trials excluded because reaction time was larger than %s seconds"
 msgstr ""
 
 #: .././cogstat_stat.py:301
@@ -1160,11 +1174,11 @@ msgstr ""
 
 #: .././cogstat_stat.py:377 .././cogstat_stat.py:379 .././cogstat_stat.py:691
 #: .././cogstat_stat.py:693 .././cogstat_stat.py:696 .././cogstat_stat.py:703
-#: .././cogstat_stat.py:706 .././cogstat_stat.py:841 .././cogstat_stat.py:1043
-#: .././cogstat_stat.py:1045 .././cogstat_stat.py:1164
-#: .././cogstat_stat.py:1171 .././cogstat_stat.py:1174
-#: .././cogstat_stat.py:1188 .././cogstat_stat.py:1191
-#: .././cogstat_stat.py:1223 .././cogstat_chart.py:1011
+#: .././cogstat_stat.py:706 .././cogstat_stat.py:843 .././cogstat_stat.py:1045
+#: .././cogstat_stat.py:1047 .././cogstat_stat.py:1166
+#: .././cogstat_stat.py:1173 .././cogstat_stat.py:1176
+#: .././cogstat_stat.py:1190 .././cogstat_stat.py:1193
+#: .././cogstat_stat.py:1225 .././cogstat_chart.py:1011
 #: .././cogstat_chart.py:1071 .././cogstat_chart.py:1733
 msgid "Value"
 msgstr ""
@@ -1185,11 +1199,11 @@ msgstr ""
 msgid "Cum rel freq"
 msgstr ""
 
-#: .././cogstat_stat.py:408 .././cogstat_stat.py:965
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:967
 msgid "low"
 msgstr ""
 
-#: .././cogstat_stat.py:408 .././cogstat_stat.py:965
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:967
 msgid "high"
 msgstr ""
 
@@ -1197,12 +1211,12 @@ msgstr ""
 msgid "Relative frequencies"
 msgstr ""
 
-#: .././cogstat_stat.py:409 .././cogstat_stat.py:968
+#: .././cogstat_stat.py:409 .././cogstat_stat.py:970
 #, python-format
 msgid "95% confidence interval (multinomial proportions)"
 msgstr ""
 
-#: .././cogstat_stat.py:413 .././cogstat_stat.py:973
+#: .././cogstat_stat.py:413 .././cogstat_stat.py:975
 msgid ""
 "Some of the cells do not include at least 5 cases, so the confidence "
 "intervals may be invalid."
@@ -1241,10 +1255,10 @@ msgid "Present confidence interval values for the mean suppose normality."
 msgstr ""
 
 #: .././cogstat_stat.py:537 .././cogstat_stat.py:546 .././cogstat_stat.py:613
-#: .././cogstat_stat.py:709 .././cogstat_stat.py:1004 .././cogstat_stat.py:1011
-#: .././cogstat_stat.py:1055 .././cogstat_stat.py:1105
-#: .././cogstat_stat.py:1131 .././cogstat_stat.py:1199
-#: .././cogstat_stat.py:1333 .././cogstat.py:997 .././cogstat_chart.py:1515
+#: .././cogstat_stat.py:709 .././cogstat_stat.py:1006 .././cogstat_stat.py:1013
+#: .././cogstat_stat.py:1057 .././cogstat_stat.py:1107
+#: .././cogstat_stat.py:1133 .././cogstat_stat.py:1201
+#: .././cogstat_stat.py:1335 .././cogstat.py:999 .././cogstat_chart.py:1515
 msgid "Point estimation"
 msgstr ""
 
@@ -1258,218 +1272,213 @@ msgstr ""
 msgid "95% confidence interval (high)"
 msgstr ""
 
-#: .././cogstat_stat.py:550 .././cogstat_stat.py:1014 .././cogstat_stat.py:1139
+#: .././cogstat_stat.py:550 .././cogstat_stat.py:1016 .././cogstat_stat.py:1141
 msgid "Out of the data range"
 msgstr ""
 
-#: .././cogstat_stat.py:613 .././cogstat_stat.py:709 .././cogstat_stat.py:821
-#: .././cogstat_stat.py:822 .././cogstat_stat.py:1266 .././cogstat_stat.py:1267
-#: .././cogstat_stat.py:1333 .././cogstat.py:997
+#: .././cogstat_stat.py:613 .././cogstat_stat.py:709 .././cogstat_stat.py:823
+#: .././cogstat_stat.py:824 .././cogstat_stat.py:1268 .././cogstat_stat.py:1269
+#: .././cogstat_stat.py:1335 .././cogstat.py:999
 #, python-format
 msgid "95% confidence interval"
 msgstr ""
 
 #: .././cogstat_stat.py:617 .././cogstat_stat.py:719 .././cogstat_stat.py:786
-msgid "Normality could not be calculated."
+msgid "Normality could not be calculated"
 msgstr ""
 
 #: .././cogstat_stat.py:618 .././cogstat_stat.py:622 .././cogstat_stat.py:629
 #: .././cogstat_stat.py:633 .././cogstat_stat.py:720 .././cogstat_stat.py:724
-#: .././cogstat_stat.py:731 .././cogstat_stat.py:735 .././cogstat_stat.py:787
-#: .././cogstat_stat.py:791 .././cogstat_stat.py:798 .././cogstat_stat.py:802
-#: .././cogstat_stat.py:808 .././cogstat_stat.py:812
-msgid "CIs may be biased."
+#: .././cogstat_stat.py:735 .././cogstat_stat.py:787 .././cogstat_stat.py:791
+#: .././cogstat_stat.py:798 .././cogstat_stat.py:802 .././cogstat_stat.py:809
+#: .././cogstat_stat.py:813
+msgid "CIs may be biased"
 msgstr ""
 
 #: .././cogstat_stat.py:621 .././cogstat_stat.py:723 .././cogstat_stat.py:790
-msgid "Assumption of normality violated."
-msgstr ""
-
-#: .././cogstat_stat.py:624 .././cogstat_stat.py:727 .././cogstat_stat.py:794
-#: .././cogstat.py:1065
-msgid "Assumption of normality met."
+#: .././cogstat.py:1071
+msgid "Assumption of normality violated"
 msgstr ""
 
 #: .././cogstat_stat.py:628 .././cogstat_stat.py:730 .././cogstat_stat.py:797
-msgid "Homoscedasticity could not be calculated."
+msgid "Homoscedasticity could not be calculated"
 msgstr ""
 
 #: .././cogstat_stat.py:632 .././cogstat_stat.py:734 .././cogstat_stat.py:801
-msgid "Assumption of homoscedasticity violated."
+msgid "Assumption of homoscedasticity violated"
 msgstr ""
 
 #: .././cogstat_stat.py:635 .././cogstat_stat.py:737 .././cogstat_stat.py:804
-msgid "Assumption of homoscedasticity met."
+msgid "Assumption of homoscedasticity met"
 msgstr ""
 
-#: .././cogstat_stat.py:639 .././cogstat_stat.py:807
-msgid "Multicollinearity could not be calculated."
+#: .././cogstat_stat.py:639 .././cogstat_stat.py:808
+msgid "Multicollinearity could not be calculated"
 msgstr ""
 
 #: .././cogstat_stat.py:640 .././cogstat_stat.py:644
-msgid "Point estimates and CIs may be inaccurate."
+msgid "Point estimates and CIs may be inaccurate"
 msgstr ""
 
-#: .././cogstat_stat.py:646 .././cogstat_stat.py:814
-msgid "Multicollinearity not detected."
+#: .././cogstat_stat.py:646 .././cogstat_stat.py:815
+msgid "Multicollinearity not detected"
 msgstr ""
 
 #: .././cogstat_stat.py:650
 msgid "Intercept"
 msgstr ""
 
-#: .././cogstat_stat.py:703 .././cogstat_stat.py:706 .././cogstat_stat.py:1188
-#: .././cogstat_stat.py:1191
+#: .././cogstat_stat.py:703 .././cogstat_stat.py:706 .././cogstat_stat.py:1190
+#: .././cogstat_stat.py:1193
 msgid "Cramér's V measure of association"
 msgstr ""
 
-#: .././cogstat_stat.py:819
-#, python-format
-msgid "<i>R<sup>2</sup></i> = %0.3f"
+#: .././cogstat_stat.py:731
+msgid "CIs may be biased."
 msgstr ""
 
-#: .././cogstat_stat.py:821 .././cogstat_stat.py:822
+#: .././cogstat_stat.py:823 .././cogstat_stat.py:824
 msgid "Point estimate"
 msgstr ""
 
-#: .././cogstat_stat.py:825
-msgid "Adjusted <i>R<sup>2</sup></i>"
-msgstr ""
-
-#: .././cogstat_stat.py:828
-msgid "Log-likelihood"
-msgstr ""
-
-#: .././cogstat_stat.py:829
-msgid "AIC"
+#: .././cogstat_stat.py:827
+msgid "Adjusted"
 msgstr ""
 
 #: .././cogstat_stat.py:830
+msgid "Log-likelihood"
+msgstr ""
+
+#: .././cogstat_stat.py:831
+msgid "AIC"
+msgstr ""
+
+#: .././cogstat_stat.py:832
 msgid "BIC"
 msgstr ""
 
-#: .././cogstat_stat.py:834
+#: .././cogstat_stat.py:836
 msgid "Pearson's partial correlations"
 msgstr ""
 
-#: .././cogstat_stat.py:869
+#: .././cogstat_stat.py:871
 msgid "Pearson correlation matrix of explanatory variables"
 msgstr ""
 
-#: .././cogstat_stat.py:896
+#: .././cogstat_stat.py:898
 msgid "Variance inflation factors of explanatory variables and constant"
 msgstr ""
 
-#: .././cogstat_stat.py:898 .././cogstat_stat.py:903
+#: .././cogstat_stat.py:900 .././cogstat_stat.py:905
 msgid "VIF"
 msgstr ""
 
-#: .././cogstat_stat.py:905
+#: .././cogstat_stat.py:907
 #, python-format
-msgid "VIF > 10 in variable %s "
+msgid "VIF > 10 in variable %s"
 msgstr ""
 
-#: .././cogstat_stat.py:906
-msgid "Possible multicollinearity."
-msgstr ""
-
-#: .././cogstat_stat.py:909
-#, python-format
-msgid "Beta weights when regressing %s on all other regressors."
+#: .././cogstat_stat.py:908
+msgid "Possible multicollinearity"
 msgstr ""
 
 #: .././cogstat_stat.py:911
 #, python-format
+msgid "Beta weights when regressing %s on all other regressors"
+msgstr ""
+
+#: .././cogstat_stat.py:913
+#, python-format
 msgid "Slope on %s"
 msgstr ""
 
-#: .././cogstat_stat.py:943 .././cogstat_stat.py:951
+#: .././cogstat_stat.py:945 .././cogstat_stat.py:953
 msgid "Total"
 msgstr ""
 
-#: .././cogstat_stat.py:944 .././cogstat_stat.py:954 .././cogstat_stat.py:967
+#: .././cogstat_stat.py:946 .././cogstat_stat.py:956 .././cogstat_stat.py:969
 msgid "Contingency table"
 msgstr ""
 
-#: .././cogstat_stat.py:944
+#: .././cogstat_stat.py:946
 msgid "Case count"
 msgstr ""
 
-#: .././cogstat_stat.py:954
+#: .././cogstat_stat.py:956
 msgid "Percentage"
 msgstr ""
 
-#: .././cogstat_stat.py:1008 .././cogstat_stat.py:1013
-#: .././cogstat_stat.py:1055 .././cogstat_stat.py:1108
-#: .././cogstat_stat.py:1136 .././cogstat_stat.py:1199
+#: .././cogstat_stat.py:1010 .././cogstat_stat.py:1015
+#: .././cogstat_stat.py:1057 .././cogstat_stat.py:1110
+#: .././cogstat_stat.py:1138 .././cogstat_stat.py:1201
 #: .././cogstat_chart.py:1515
 msgid "95% CI (low)"
 msgstr ""
 
-#: .././cogstat_stat.py:1009 .././cogstat_stat.py:1013
-#: .././cogstat_stat.py:1055 .././cogstat_stat.py:1109
-#: .././cogstat_stat.py:1137 .././cogstat_stat.py:1199
+#: .././cogstat_stat.py:1011 .././cogstat_stat.py:1015
+#: .././cogstat_stat.py:1057 .././cogstat_stat.py:1111
+#: .././cogstat_stat.py:1139 .././cogstat_stat.py:1201
 #: .././cogstat_chart.py:1515
 msgid "95% CI (high)"
 msgstr ""
 
-#: .././cogstat_stat.py:1043 .././cogstat_stat.py:1171
+#: .././cogstat_stat.py:1045 .././cogstat_stat.py:1173
 msgid "Cohen's d"
 msgstr ""
 
-#: .././cogstat_stat.py:1045 .././cogstat_stat.py:1174
+#: .././cogstat_stat.py:1047 .././cogstat_stat.py:1176
 msgid "Eta-squared"
 msgstr ""
 
-#: .././cogstat_stat.py:1063 .././cogstat_stat.py:1210
+#: .././cogstat_stat.py:1065 .././cogstat_stat.py:1212
 msgid "Hedges' g"
 msgstr ""
 
-#: .././cogstat_stat.py:1128
+#: .././cogstat_stat.py:1130
 msgid "Difference between the two groups:"
 msgstr ""
 
-#: .././cogstat_stat.py:1223
+#: .././cogstat_stat.py:1225
 msgid "Omega-squared"
 msgstr ""
 
-#: .././cogstat_stat.py:1263 .././cogstat_stat.py:1265
+#: .././cogstat_stat.py:1265 .././cogstat_stat.py:1267
 msgid "Item"
 msgstr ""
 
-#: .././cogstat_stat.py:1263 .././cogstat_stat.py:1265
+#: .././cogstat_stat.py:1265 .././cogstat_stat.py:1267
 msgid "Cronbach's alpha when removed"
 msgstr ""
 
-#: .././cogstat_stat.py:1263 .././cogstat_stat.py:1266
+#: .././cogstat_stat.py:1265 .././cogstat_stat.py:1268
 msgid "Item-rest correlation"
 msgstr ""
 
-#: .././cogstat_stat.py:1264
+#: .././cogstat_stat.py:1266
 msgid "Value range"
 msgstr ""
 
-#: .././cogstat_stat.py:1325
+#: .././cogstat_stat.py:1327
 msgid "ICC(k)"
 msgstr ""
 
-#: .././cogstat_stat.py:1325
+#: .././cogstat_stat.py:1327
 msgid "ICC(A,k)"
 msgstr ""
 
-#: .././cogstat_stat.py:1325
+#: .././cogstat_stat.py:1327
 msgid "ICC(C,k)"
 msgstr ""
 
-#: .././cogstat_stat.py:1326
+#: .././cogstat_stat.py:1328
 msgid "ICC(1)"
 msgstr ""
 
-#: .././cogstat_stat.py:1326
+#: .././cogstat_stat.py:1328
 msgid "ICC(A,1)"
 msgstr ""
 
-#: .././cogstat_stat.py:1326
+#: .././cogstat_stat.py:1328
 msgid "ICC(C,1)"
 msgstr ""
 
@@ -1518,7 +1527,7 @@ msgid "Save result file"
 msgstr ""
 
 #: .././cogstat_dialogs.py:819 .././cogstat_dialogs.py:1109
-#: .././cogstat.py:1471 .././cogstat.py:1874 .././cogstat_chart.py:1726
+#: .././cogstat.py:1474 .././cogstat.py:1877 .././cogstat_chart.py:1726
 msgid "Unnamed factor"
 msgstr ""
 
@@ -1582,10 +1591,6 @@ msgid ""
 "numbers, or underscore which can cause problems in some analyses: %s."
 msgstr ""
 
-#: .././cogstat.py:348
-msgid "Pandas dataframe"
-msgstr ""
-
 #: .././cogstat.py:370
 msgid "Text file"
 msgstr ""
@@ -1611,415 +1616,399 @@ msgid "jamovi file"
 msgstr ""
 
 #: .././cogstat.py:452
-msgid "Import failed. File type is not supported."
+msgid "File type is not supported"
 msgstr ""
 
 #: .././cogstat.py:476
 msgid "Clipboard"
 msgstr ""
 
-#: .././cogstat.py:481
-msgid "Import failed. Invalid data source."
+#: .././cogstat.py:482
+msgid "Invalid data source"
 msgstr ""
 
-#: .././cogstat.py:519
+#: .././cogstat.py:520
 msgid "Reload actual data file"
 msgstr ""
 
-#: .././cogstat.py:523
-msgid "The file was successfully reloaded."
+#: .././cogstat.py:524
+msgid "The file was successfully reloaded"
 msgstr ""
 
-#: .././cogstat.py:528
-msgid "The data was not imported from a file. It cannot be reloaded."
+#: .././cogstat.py:529
+msgid "The data was not imported from a file"
 msgstr ""
 
-#: .././cogstat.py:552
+#: .././cogstat.py:529
+msgid "It cannot be reloaded"
+msgstr ""
+
+#: .././cogstat.py:553
 msgid "Source: "
 msgstr ""
 
-#: .././cogstat.py:554
+#: .././cogstat.py:555
 msgid " variables and "
 msgstr ""
 
-#: .././cogstat.py:555
+#: .././cogstat.py:556
 msgid " cases"
 msgstr ""
 
-#: .././cogstat.py:567
+#: .././cogstat.py:568
 msgid " further cases are not displayed..."
 msgstr ""
 
-#: .././cogstat.py:569
+#: .././cogstat.py:570
 #, python-format
 msgid ""
 "The next %s cases will not be printed. You can check all cases in the "
 "original data source."
 msgstr ""
 
-#: .././cogstat.py:607 .././cogstat.py:747
+#: .././cogstat.py:608 .././cogstat.py:749
 msgid "Mean ± 2 SD"
 msgstr ""
 
-#: .././cogstat.py:608 .././cogstat.py:748
+#: .././cogstat.py:609 .././cogstat.py:750
 msgid "Median ± 2.5 MAD"
 msgstr ""
 
-#: .././cogstat.py:609 .././cogstat.py:749
+#: .././cogstat.py:610 .././cogstat.py:751
 msgid "MMCD Mahalanobis distance with .05 chi squared cut-off"
 msgstr ""
 
-#: .././cogstat.py:621
+#: .././cogstat.py:622
 msgid "Filtering is switched off."
 msgstr ""
 
-#: .././cogstat.py:629
+#: .././cogstat.py:630
 #, python-format
 msgid ""
 "Only interval variables can be used for filtering. Ignoring variable %s."
 msgstr ""
 
-#: .././cogstat.py:653
+#: .././cogstat.py:654
 #, python-format
-msgid "Filtering based on %s."
+msgid "Filtering based on %s"
 msgstr ""
 
-#: .././cogstat.py:654 .././cogstat.py:706
-msgid "Cases with missing data will also be excluded."
+#: .././cogstat.py:655 .././cogstat.py:708
+msgid "Cases with missing data will also be excluded"
 msgstr ""
 
-#: .././cogstat.py:656
-msgid "Cases outside of the range will be excluded:"
+#: .././cogstat.py:657
+msgid "Cases outside of the range will be excluded"
 msgstr ""
 
-#: .././cogstat.py:664
+#: .././cogstat.py:665 .././cogstat.py:719
 #, python-format
-msgid "Excluded cases (%s cases):"
+msgid "Excluded cases (%s cases)"
 msgstr ""
 
-#: .././cogstat.py:672 .././cogstat.py:727
-msgid "No cases were excluded."
+#: .././cogstat.py:673 .././cogstat.py:729
+msgid "No cases were excluded"
 msgstr ""
 
-#: .././cogstat.py:683
+#: .././cogstat.py:684
+msgid "Only interval variables can be used for filtering"
+msgstr ""
+
+#: .././cogstat.py:685
 #, python-format
-msgid ""
-"Only interval variables can be used for filtering. Ignoring variable(s) %s."
+msgid "Ignoring variable(s) %s"
 msgstr ""
 
-#: .././cogstat.py:704
+#: .././cogstat.py:706
 #, python-format
-msgid "Multivariate filtering based on the variables: %s (%s)."
+msgid "Multivariate filtering based on the variables: %s (%s)"
 msgstr ""
 
-#: .././cogstat.py:708
-msgid "Cases above the cutoff Mahalanobis distance will be excluded:"
+#: .././cogstat.py:710
+msgid "Cases above the cutoff Mahalanobis distance will be excluded"
 msgstr ""
 
-#: .././cogstat.py:717
-#, python-format
-msgid "Excluded cases (%s cases): "
+#: .././cogstat.py:757
+msgid "Filtering is on"
 msgstr ""
 
-#: .././cogstat.py:755
-msgid "Filtering is on:"
-msgstr ""
-
-#: .././cogstat.py:814
+#: .././cogstat.py:816
 msgid "At least one variable should be set."
 msgstr ""
 
-#: .././cogstat.py:819
+#: .././cogstat.py:821
 msgid "Exploring variable: "
 msgstr ""
 
-#: .././cogstat.py:823 .././cogstat.py:981 .././cogstat.py:1034
-#: .././cogstat.py:1150 .././cogstat.py:1501 .././cogstat.py:1672
-#: .././cogstat.py:1917 .././cogstat_chart.py:432
+#: .././cogstat.py:825 .././cogstat.py:983 .././cogstat.py:1036
+#: .././cogstat.py:1153 .././cogstat.py:1504 .././cogstat.py:1675
+#: .././cogstat.py:1920 .././cogstat_chart.py:432
 msgid "Raw data"
 msgstr ""
 
-#: .././cogstat.py:827
-#, python-format
-msgid "N of observed cases: %g"
+#: .././cogstat.py:829 .././cogstat.py:986 .././cogstat.py:1040
+#: .././cogstat.py:1511 .././cogstat.py:1694 .././cogstat.py:1930
+#: .././cogstat.py:1946
+msgid "N of observed cases"
 msgstr ""
 
-#: .././cogstat.py:829
-#, python-format
-msgid "N of missing cases: %g"
+#: .././cogstat.py:831 .././cogstat.py:987 .././cogstat.py:1041
+#: .././cogstat.py:1512 .././cogstat.py:1697 .././cogstat.py:1931
+#: .././cogstat.py:1949
+msgid "N of missing cases"
 msgstr ""
 
-#: .././cogstat.py:837 .././cogstat.py:989 .././cogstat.py:1052
-#: .././cogstat.py:1168 .././cogstat.py:1524 .././cogstat.py:1719
-#: .././cogstat.py:1978
+#: .././cogstat.py:839 .././cogstat.py:991 .././cogstat.py:1054
+#: .././cogstat.py:1171 .././cogstat.py:1527 .././cogstat.py:1722
+#: .././cogstat.py:1981
 msgid "Sample properties"
 msgstr ""
 
-#: .././cogstat.py:841
+#: .././cogstat.py:843
 msgid "Frequencies"
 msgstr ""
 
-#: .././cogstat.py:845
+#: .././cogstat.py:847
 msgid "Descriptives for the variable"
 msgstr ""
 
-#: .././cogstat.py:866 .././cogstat.py:995 .././cogstat.py:1057
-#: .././cogstat.py:1247 .././cogstat.py:1560 .././cogstat.py:1758
-#: .././cogstat.py:2014
+#: .././cogstat.py:868 .././cogstat.py:997 .././cogstat.py:1059
+#: .././cogstat.py:1250 .././cogstat.py:1563 .././cogstat.py:1761
+#: .././cogstat.py:2017
 msgid "Population properties"
 msgstr ""
 
-#: .././cogstat.py:870
+#: .././cogstat.py:872
 msgid "Normality"
 msgstr ""
 
-#: .././cogstat.py:885 .././cogstat.py:1248 .././cogstat.py:1563
-#: .././cogstat.py:1761 .././cogstat.py:2017
+#: .././cogstat.py:887 .././cogstat.py:1251 .././cogstat.py:1566
+#: .././cogstat.py:1764 .././cogstat.py:2020
 msgid "Population parameter estimations"
 msgstr ""
 
-#: .././cogstat.py:897
+#: .././cogstat.py:899
 #, python-format
 msgid "Testing if mean deviates from the value %s."
 msgstr ""
 
-#: .././cogstat.py:900
+#: .././cogstat.py:902
 #, python-format
 msgid "Testing if median deviates from the value %s."
 msgstr ""
 
-#: .././cogstat.py:907
+#: .././cogstat.py:909
 msgid ""
 "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the "
 "assumption."
 msgstr ""
 
-#: .././cogstat.py:915
+#: .././cogstat.py:917
 msgid "Running one-sample t-test."
 msgstr ""
 
-#: .././cogstat.py:921
+#: .././cogstat.py:923
 msgid "Normality is violated."
 msgstr ""
 
-#: .././cogstat.py:922 .././cogstat.py:929
+#: .././cogstat.py:924 .././cogstat.py:931
 msgid "Running Wilcoxon signed-rank test."
 msgstr ""
 
-#: .././cogstat.py:923
+#: .././cogstat.py:925
 #, python-format
 msgid "Median: %0.*f"
 msgstr ""
 
-#: .././cogstat.py:966 ../ui/reliability_internal.py:88
+#: .././cogstat.py:968 ../ui/reliability_internal.py:88
 msgid "Internal consistency reliability"
 msgstr ""
 
-#: .././cogstat.py:967
-msgid "Reliability of items: "
+#: .././cogstat.py:969
+msgid "Reliability of items"
 msgstr ""
 
-#: .././cogstat.py:978
-msgid "Reverse coded item(s): "
+#: .././cogstat.py:980
+msgid "Reverse coded item(s)"
 msgstr ""
 
-#: .././cogstat.py:984 .././cogstat.py:1038 .././cogstat.py:1508
-#: .././cogstat.py:1691 .././cogstat.py:1927 .././cogstat.py:1943
-msgid "N of observed cases"
-msgstr ""
-
-#: .././cogstat.py:985 .././cogstat.py:1039 .././cogstat.py:1509
-#: .././cogstat.py:1694 .././cogstat.py:1928 .././cogstat.py:1946
-msgid "N of missing cases"
-msgstr ""
-
-#: .././cogstat.py:992 .././cogstat.py:998
+#: .././cogstat.py:994 .././cogstat.py:1000
 msgid "Cronbach's alpha"
 msgstr ""
 
-#: .././cogstat.py:1029
-msgid "Inter-rater reliability"
+#: .././cogstat.py:1031 ../ui/reliability_interrater.py:86
+msgid "Interrater reliability"
 msgstr ""
 
-#: .././cogstat.py:1030
-msgid "Reliability calculated from variables: "
+#: .././cogstat.py:1032
+msgid "Reliability calculated from variables"
 msgstr ""
 
-#: .././cogstat.py:1058 .././cogstat.py:1261
+#: .././cogstat.py:1060 .././cogstat.py:1264
 msgid "Checking assumptions of inferential methods"
 msgstr ""
 
-#: .././cogstat.py:1059
-msgid "Testing normality."
+#: .././cogstat.py:1061
+msgid "Testing normality"
 msgstr ""
 
-#: .././cogstat.py:1067
-#, python-format
-msgid "Assumption of normality violated in variable(s) %s"
+#: .././cogstat.py:1072
+msgid "Testing homogeneity of variances"
 msgstr ""
 
-#: .././cogstat.py:1069
-msgid "Assumption of normality violated. "
-msgstr ""
-
-#: .././cogstat.py:1070
-msgid "Testing homogeneity of variances."
-msgstr ""
-
-#: .././cogstat.py:1074
-msgid "Assumption of homogeneity of variances violated."
-msgstr ""
-
-#: .././cogstat.py:1076
-msgid "Assumption of homogeneity of variances met."
-msgstr ""
-
-#: .././cogstat.py:1078
+#: .././cogstat.py:1081
 msgid "Parameter estimates"
 msgstr ""
 
-#: .././cogstat.py:1080
-msgid "CIs may be inaccurate."
+#: .././cogstat.py:1083
+msgid "CIs may be inaccurate"
 msgstr ""
 
-#: .././cogstat.py:1082
-msgid "Assumptions met."
-msgstr ""
-
-#: .././cogstat.py:1114
-msgid "At least one predictor variable should be set."
+#: .././cogstat.py:1085
+msgid "Assumptions met"
 msgstr ""
 
 #: .././cogstat.py:1117
-msgid "The predicted variable should be set."
+msgid "At least one predictor variable should be set"
 msgstr ""
 
-#: .././cogstat.py:1139
-msgid "Exploring variable pair"
+#: .././cogstat.py:1120
+msgid "The predicted variable should be set"
 msgstr ""
 
 #: .././cogstat.py:1142
+msgid "Exploring variable pair"
+msgstr ""
+
+#: .././cogstat.py:1145
 msgid "Predictors"
 msgstr ""
 
-#: .././cogstat.py:1144
+#: .././cogstat.py:1147
 msgid "Predicted"
 msgstr ""
 
-#: .././cogstat.py:1156
+#: .././cogstat.py:1159
 msgid "N of observed pairs"
 msgstr ""
 
-#: .././cogstat.py:1157
+#: .././cogstat.py:1160
 msgid "N of missing pairs"
 msgstr ""
 
-#: .././cogstat.py:1191 .././cogstat.py:1200
+#: .././cogstat.py:1194 .././cogstat.py:1203
 msgid "Linear regression"
 msgstr ""
 
-#: .././cogstat.py:1205 .././cogstat.py:1210 .././cogstat.py:1295
-#: .././cogstat.py:1301 .././cogstat.py:1543 .././cogstat.py:1594
-#: .././cogstat.py:1738 .././cogstat.py:1789 .././cogstat.py:2011
-#: .././cogstat.py:2039
+#: .././cogstat.py:1208 .././cogstat.py:1213 .././cogstat.py:1298
+#: .././cogstat.py:1304 .././cogstat.py:1546 .././cogstat.py:1597
+#: .././cogstat.py:1741 .././cogstat.py:1792 .././cogstat.py:2014
+#: .././cogstat.py:2042
 msgid "Standardized effect sizes"
 msgstr ""
 
-#: .././cogstat.py:1222
+#: .././cogstat.py:1225
 msgid "Residual analysis"
 msgstr ""
 
-#: .././cogstat.py:1262
+#: .././cogstat.py:1265
 msgid "Testing multivariate normality of variables"
 msgstr ""
 
-#: .././cogstat.py:1267
+#: .././cogstat.py:1270
 msgid "Testing homoscedasticity"
 msgstr ""
 
-#: .././cogstat.py:1274
+#: .././cogstat.py:1277
 msgid "Testing multicollinearity"
 msgstr ""
 
-#: .././cogstat.py:1278
+#: .././cogstat.py:1281
 msgid "Regression coefficients"
 msgstr ""
 
-#: .././cogstat.py:1359 .././cogstat.py:1639
-msgid "The dependent variable should be set."
-msgstr ""
-
 #: .././cogstat.py:1362 .././cogstat.py:1642
-msgid "At least one grouping variable should be set."
+msgid "The dependent variable should be set"
 msgstr ""
 
-#: .././cogstat.py:1409
-msgid "The reaction time should be given."
+#: .././cogstat.py:1365 .././cogstat.py:1645
+msgid "At least one grouping variable should be set"
 msgstr ""
 
 #: .././cogstat.py:1412
-msgid "The error variables should be given."
+msgid "The reaction time should be given"
 msgstr ""
 
-#: .././cogstat.py:1452
-msgid "At least two variables should be set."
+#: .././cogstat.py:1415
+msgid "The error variables should be given"
 msgstr ""
 
-#: .././cogstat.py:1455 .././cogstat.py:1858
+#: .././cogstat.py:1455
+msgid "At least two variables should be set"
+msgstr ""
+
+#: .././cogstat.py:1458
 msgid "A variable should be assigned to each level of the factors."
 msgstr ""
 
-#: .././cogstat.py:1460 .././cogstat.py:1477 .././cogstat.py:1863
-#: .././cogstat.py:1888
+#: .././cogstat.py:1463 .././cogstat.py:1866 .././cogstat.py:1891
 msgid "Variables to compare: "
 msgstr ""
 
-#: .././cogstat.py:1462 .././cogstat.py:1865
+#: .././cogstat.py:1465 .././cogstat.py:1868
 msgid ""
 "Sorry, you can't compare variables with different measurement levels. You "
 "could downgrade higher measurement levels to lowers to have the same "
 "measurement level."
 msgstr ""
 
-#: .././cogstat.py:1479 .././cogstat.py:1890
-msgid "Factor(s) (number of levels): "
+#: .././cogstat.py:1480
+msgid "Variables to compare"
 msgstr ""
 
-#: .././cogstat.py:1488 .././cogstat.py:1899
-msgid "Factor level combinations and assigned variables:"
+#: .././cogstat.py:1482 .././cogstat.py:1893
+msgid "Factor(s) (number of levels)"
 msgstr ""
 
-#: .././cogstat.py:1527 .././cogstat.py:1980
+#: .././cogstat.py:1491 .././cogstat.py:1902
+msgid "Factor level combinations and assigned variables"
+msgstr ""
+
+#: .././cogstat.py:1530 .././cogstat.py:1983
 msgid "Descriptives for the variables"
 msgstr ""
 
-#: .././cogstat.py:1565 .././cogstat.py:1776
+#: .././cogstat.py:1568 .././cogstat.py:1779
 msgid "Means"
 msgstr ""
 
-#: .././cogstat.py:1565 .././cogstat.py:1776
+#: .././cogstat.py:1568 .././cogstat.py:1779
 msgid "Present confidence interval values suppose normality."
 msgstr ""
 
-#: .././cogstat.py:1658 .././cogstat.py:1903
-msgid "Grouping variable(s): "
+#: .././cogstat.py:1661 .././cogstat.py:1906
+msgid "Grouping variable(s)"
 msgstr ""
 
-#: .././cogstat.py:1705 .././cogstat.py:1958
+#: .././cogstat.py:1708 .././cogstat.py:1961
 #, python-format
 msgid "N of missing grouping variable in %s"
 msgstr ""
 
-#: .././cogstat.py:1722
+#: .././cogstat.py:1725
 msgid "Descriptives for the groups"
 msgstr ""
 
-#: .././cogstat.py:1778 .././cogstat_chart.py:1699
+#: .././cogstat.py:1781 .././cogstat_chart.py:1699
 msgid "Medians"
 msgstr ""
 
-#: .././cogstat.py:1855
-msgid "At least one dependent variable should be set."
+#: .././cogstat.py:1858
+msgid "At least one dependent variable should be set"
+msgstr ""
+
+#: .././cogstat.py:1861
+msgid "A variable should be assigned to each level of the factors"
 msgstr ""
 
 #: .././cogstat_chart.py:316
@@ -2065,7 +2054,7 @@ msgstr ""
 
 #: .././cogstat_chart.py:495 .././cogstat_chart.py:569
 #, python-format
-msgid "Largest tick on the x-axes displays %d cases."
+msgid "Largest tick on the x-axes displays %d cases"
 msgstr ""
 
 #: .././cogstat_chart.py:510
@@ -2146,7 +2135,7 @@ msgid "Partial regression plots"
 msgstr ""
 
 #: .././cogstat_chart.py:933 .././cogstat_chart.py:934
-msgid " | other predictors"
+msgid "other predictors"
 msgstr ""
 
 #: .././cogstat_chart.py:977
@@ -2258,10 +2247,6 @@ msgstr ""
 msgid "Alt+R"
 msgstr ""
 
-#: ../ui/reliability_interrater.py:86
-msgid "Interrater reliability"
-msgstr ""
-
 #: ../ui/reliability_interrater.py:87 ../ui/pivot.py:163
 #: ../ui/compare_vars.py:87 ../ui/compare_groups.py:110 ../ui/diffusion.py:186
 #: ../ui/regression.py:100 ../ui/explore_var_pairs.py:85
@@ -2318,7 +2303,7 @@ msgid "Dependent variable(s)"
 msgstr ""
 
 #: ../ui/pivot.py:168
-msgid " &Function"
+msgid "&Function"
 msgstr ""
 
 #: ../ui/compare_vars.py:89 ../ui/compare_vars_groups.py:117
@@ -2370,8 +2355,12 @@ msgstr ""
 msgid "Condition(s)"
 msgstr ""
 
+#: ../ui/diffusion.py:191
+msgid "s"
+msgstr ""
+
 #: ../ui/diffusion.py:192
-msgid "msec"
+msgid "ms"
 msgstr ""
 
 #: ../ui/diffusion.py:193

@@ -240,7 +240,7 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
 
     # Variable information
     result = ''
-    result += _('Used variables.') + ' ' + _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
+    result += _('Used variables') + '. ' + _('Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s') % \
               (error_name, RT_name, participant_name if participant_name != '' else _('None'),
                ','.join(condition_names) if condition_names != [] else _('None'))
 
@@ -266,14 +266,14 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     # If any data is missing from a trial, drop the whole trial
     df_diff = df_diff.dropna(subset=[error_name] + [RT_name] + [participant_name] + condition_names)
     missing_trials_n = len(df) - len(df_diff)
-    result += '\n\n' + _('Number of trials excluded because of missing data:') + \
-              ' %s (%.1f%%)\n' % (missing_trials_n, (missing_trials_n / len(df)) * 100)
+    result += '\n\n' + _('Number of trials excluded because of missing data') + \
+              ': %s (%.1f%%)\n' % (missing_trials_n, (missing_trials_n / len(df)) * 100)
 
     # Filter slow outlier cases
     filtered_trials_n = len(df_diff) - len(df_diff[df_diff[RT_name] < max_reaction_time])
     df_diff = df_diff[df_diff[RT_name] < max_reaction_time]
-    result += _('Number of trials excluded because reaction time was larger than %s sec:') % max_reaction_time + \
-              ' %s (%.1f%%)\n' % (filtered_trials_n, (filtered_trials_n / len(df)) * 100)
+    result += _('Number of trials excluded because reaction time was larger than %s seconds') % max_reaction_time + \
+              ': %s (%.1f%%)\n' % (filtered_trials_n, (filtered_trials_n / len(df)) * 100)
 
     # 2. Calculate N, RT, and error rate statistics
     n_table = pd.pivot_table(df_diff, values=error_name, index=participant_name, columns=condition_names, aggfunc=len)
@@ -614,36 +614,36 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
 
         # Warnings based on the results of the assumption tests
         if normality is None:
-            regression_coefficients += '\n<cs_decision>' + _('Normality could not be calculated.') + ' ' +\
-                                                   _('CIs may be biased.') + '</cs_decision>'
+            regression_coefficients += '\n<cs_decision>' + _('Normality could not be calculated') + '. ' +\
+                                                   _('CIs may be biased') + '.</cs_decision>'
         elif not normality:
             regression_coefficients += '\n<cs_decision>' \
-                                       + _('Assumption of normality violated.') + ' ' + \
-                                       _('CIs may be biased.') + '</cs_decision>'
+                                       + _('Assumption of normality violated') + '. ' + \
+                                       _('CIs may be biased') + '.</cs_decision>'
         else:
-            regression_coefficients += '\n<cs_decision>' + _('Assumption of normality met.') + \
-                                       '</cs_decision>'
+            regression_coefficients += '\n<cs_decision>' + _('Assumption of normality met') + \
+                                       '.</cs_decision>'
 
         if homoscedasticity is None:
-            regression_coefficients += '\n<cs_decision>' + _('Homoscedasticity could not be calculated.') + ' ' + \
-                                       _('CIs may be biased.') + '</cs_decision>'
+            regression_coefficients += '\n<cs_decision>' + _('Homoscedasticity could not be calculated') + '. ' + \
+                                       _('CIs may be biased') + '.</cs_decision>'
         elif not homoscedasticity:
             regression_coefficients += '\n<cs_decision>' \
-                                       + _('Assumption of homoscedasticity violated.') + ' ' + \
-                                       _('CIs may be biased.') + '</cs_decision>'
+                                       + _('Assumption of homoscedasticity violated') + '. ' + \
+                                       _('CIs may be biased') + '.</cs_decision>'
         else:
-            regression_coefficients += '\n<cs_decision>' + _('Assumption of homoscedasticity met.') + '</cs_decision>'
+            regression_coefficients += '\n<cs_decision>' + _('Assumption of homoscedasticity met') + '.</cs_decision>'
 
         if len(predictors) > 1:
             if multicollinearity is None:
-                regression_coefficients += '\n<cs_decision>' + _('Multicollinearity could not be calculated.') + \
-                                           ' ' + _('Point estimates and CIs may be inaccurate.') + '</cs_decision>'
+                regression_coefficients += '\n<cs_decision>' + _('Multicollinearity could not be calculated') + \
+                                           '. ' + _('Point estimates and CIs may be inaccurate') + '.</cs_decision>'
             elif multicollinearity:
                 regression_coefficients += '\n<cs_decision>' \
-                                           + _('Multicollinearity suspected.') + ' ' + \
-                                           _('Point estimates and CIs may be inaccurate.') + '</cs_decision>'
+                                           + _('Multicollinearity suspected') + '. ' + \
+                                           _('Point estimates and CIs may be inaccurate') + '.</cs_decision>'
             else:
-                regression_coefficients += '\n<cs_decision>' + _('Multicollinearity not detected.') + '</cs_decision>'
+                regression_coefficients += '\n<cs_decision>' + _('Multicollinearity not detected') + '.</cs_decision>'
 
         # Gather point estimates and CIs into table
         cis = result.conf_int(alpha=0.05)
@@ -716,26 +716,26 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
 
             # Warnings based on the results of the assumption tests
             if normality is None:
-                standardized_effect_size_result += '\n<cs_decision>' + _('Normality could not be calculated.') + ' ' +\
-                                                   _('CIs may be biased.') + '</cs_decision>'
+                standardized_effect_size_result += '\n<cs_decision>' + _('Normality could not be calculated') + '. ' +\
+                                                   _('CIs may be biased') + '.</cs_decision>'
             elif not normality:
                 standardized_effect_size_result += '\n<cs_decision>' + \
-                                                   _('Assumption of normality violated.') + ' ' + \
-                                                   _('CIs may be biased.') + '</cs_decision>'
+                                                   _('Assumption of normality violated') + '. ' + \
+                                                   _('CIs may be biased') + '.</cs_decision>'
             else:
                 standardized_effect_size_result += '\n<cs_decision>' + \
-                                                   _('Assumption of normality met.') + '</cs_decision>'
+                                                   _('Assumption of normality met') + '.</cs_decision>'
 
             if homoscedasticity is None:
-                standardized_effect_size_result += '\n<cs_decision>' + _('Homoscedasticity could not be calculated.') \
-                                                   + ' ' + _('CIs may be biased.') + '</cs_decision>'
+                standardized_effect_size_result += '\n<cs_decision>' + _('Homoscedasticity could not be calculated') \
+                                                   + '. ' + _('CIs may be biased.') + '.</cs_decision>'
             elif not homoscedasticity:
                 standardized_effect_size_result += '\n<cs_decision>' \
-                                           + _('Assumption of homoscedasticity violated.') + ' ' + \
-                                           _('CIs may be biased.') + '</cs_decision>'
+                                           + _('Assumption of homoscedasticity violated') + '. ' + \
+                                           _('CIs may be biased') + '.</cs_decision>'
             else:
-                standardized_effect_size_result += '\n<cs_decision>' + _('Assumption of homoscedasticity met.') \
-                                                   + '</cs_decision>'
+                standardized_effect_size_result += '\n<cs_decision>' + _('Assumption of homoscedasticity met') \
+                                                   + '.</cs_decision>'
 
         if meas_lev in ['int', 'unk', 'ord']:
             df = len(data) - 2
@@ -783,46 +783,48 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
     # Warnings based on the results of the assumption tests
     if not sample:
         if normality is None:
-            standardized_effect_size_result += '\n<cs_decision>' + _('Normality could not be calculated.') + ' ' + \
-                                               _('CIs may be biased.') + '</cs_decision>'
+            standardized_effect_size_result += '\n<cs_decision>' + _('Normality could not be calculated') + '. ' + \
+                                               _('CIs may be biased') + '.</cs_decision>'
         elif not normality:
             standardized_effect_size_result += '\n<cs_decision>' + \
-                                               _('Assumption of normality violated.') + ' ' + \
-                                               _('CIs may be biased.') + '</cs_decision>'
+                                               _('Assumption of normality violated') + '. ' + \
+                                               _('CIs may be biased') + '.</cs_decision>'
         else:
             standardized_effect_size_result += '\n<cs_decision>' + \
-                                               _('Assumption of normality met.') + '</cs_decision>'
+                                               _('Assumption of normality met') + '.</cs_decision>'
 
         if homoscedasticity is None:
-            standardized_effect_size_result += '\n<cs_decision>' + _('Homoscedasticity could not be calculated.') + \
-                                               ' ' + _('CIs may be biased.') + '</cs_decision>'
+            standardized_effect_size_result += '\n<cs_decision>' + _('Homoscedasticity could not be calculated') + \
+                                               '. ' + _('CIs may be biased') + '.</cs_decision>'
         elif not homoscedasticity:
             standardized_effect_size_result += '\n<cs_decision>' \
-                                               + _('Assumption of homoscedasticity violated.') + ' ' + \
-                                               _('CIs may be biased.') + '</cs_decision>'
+                                               + _('Assumption of homoscedasticity violated') + '. ' + \
+                                               _('CIs may be biased') + '.</cs_decision>'
         else:
-            standardized_effect_size_result += '\n<cs_decision>' + _('Assumption of homoscedasticity met.') + '</cs_decision>'
+            standardized_effect_size_result += '\n<cs_decision>' + _('Assumption of homoscedasticity met') + \
+                                               '.</cs_decision>'
 
         if multicollinearity is None:
-            standardized_effect_size_result += '\n<cs_decision>' + _('Multicollinearity could not be calculated.') + \
-                                               ' ' + _('CIs may be biased.') + '</cs_decision>'
+            standardized_effect_size_result += '\n<cs_decision>' + _('Multicollinearity could not be calculated') + \
+                                               '. ' + _('CIs may be biased') + '.</cs_decision>'
         elif multicollinearity:
             standardized_effect_size_result += '\n<cs_decision>' \
-                                               + _('Multicollinearity suspected.') + ' ' + \
-                                               _('CIs may be biased.') + '</cs_decision>'
+                                               + _('Multicollinearity suspected') + '. ' + \
+                                               _('CIs may be biased') + '.</cs_decision>'
         else:
-            standardized_effect_size_result += '\n<cs_decision>' + _('Multicollinearity not detected.') + '</cs_decision>'
+            standardized_effect_size_result += '\n<cs_decision>' + _('Multicollinearity not detected') + \
+                                               '.</cs_decision>'
 
     # Calculate effect sizes for sample or population
     if sample:
         pdf_result_corr = pd.DataFrame()
-        standardized_effect_size_result += '\n' + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + '\n'
+        standardized_effect_size_result += '\n<i>R<sup>2</sup></i> = %0.3f\n' % result.rsquared
     else:  # population
         pdf_result_model = pd.DataFrame(columns=[_('Point estimate'), _('95% confidence interval')])
         pdf_result_corr = pd.DataFrame(columns=[_('Point estimate'), _('95% confidence interval')])
 
         ci = cs_stat_num.calc_r2_ci(result.rsquared_adj, len(predictors), len(data))
-        pdf_result_model.loc[_('Adjusted <i>R<sup>2</sup></i>')] = \
+        pdf_result_model.loc[_('Adjusted') + ' <i>R<sup>2</sup></i>'] = \
             ['%0.3f' % result.rsquared_adj, '[%0.3f, %0.3f]' % (ci[0], ci[1])]
 
         pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % result.llf, '']
@@ -902,11 +904,11 @@ def vif_table(data, var_names):
     for regressor in var_names:
         if vif_df.loc[regressor, _('VIF')] > 10:
             multicollinearity = True
-            table += '\n<cs_decision>' + _('VIF > 10 in variable %s ') % regressor + '\n' + \
-                     _('Possible multicollinearity.') + '\n</cs_decision>'
+            table += '\n<cs_decision>' + _('VIF > 10 in variable %s') % regressor + '\n' + \
+                     _('Possible multicollinearity') + '.\n</cs_decision>'
             regressors_other = var_names.copy()
             regressors_other.remove(regressor)
-            table += _('Beta weights when regressing %s on all other regressors.' % regressor)
+            table += _('Beta weights when regressing %s on all other regressors') % regressor + '.'
             slopes = pd.DataFrame(OLS(data[regressor], add_constant(data[regressors_other])).fit().params,
                                   columns=[_('Slope on %s') % regressor]).round(3)
             table += slopes.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
