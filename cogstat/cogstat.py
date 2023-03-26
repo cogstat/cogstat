@@ -1799,7 +1799,7 @@ class CogStatData:
 
         return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
                                        sample_graph, sample_graph_new, population_result, population_estimation,
-                                       population__effect_size, population_graph, population_graph_new, result_ht])
+                                       population_effect_size, population_graph, population_graph_new, result_ht])
 
     def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
                           single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
