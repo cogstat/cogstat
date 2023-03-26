@@ -78,10 +78,10 @@ data_np = np.vstack((
     ))
 data_pd = pd.DataFrame(data_np.T, columns=
                        ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-data_pd['s'] = data_pd['h'] + ((data_pd['r'] * np.round(np.random.normal(loc=3, scale=0.5, size=30), 3))/0.15) # For testing multicollinearity
-data_pd.to_csv("G:\My Drive\Research stuff\CogStat\CS internal tester data 2.csv")
+# For testing multicollinearity
+data_pd['s'] = data_pd['h'] + ((data_pd['r'] * np.round(np.random.normal(loc=3, scale=0.5, size=30), 3)) / 0.15)
 data = cs.CogStatData(data=data_pd, measurement_levels=['int', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int', 'nom',
-                                                       'nom', 'nom', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int',
+                                                        'nom', 'nom', 'int', 'nom', 'nom', 'int', 'int', 'int', 'int',
                                                         'int'])
 
 # display the data so that it can be copied to validating software packages

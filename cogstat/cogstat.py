@@ -1161,7 +1161,8 @@ class CogStatData:
             raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
                                                             regression=False, CI=False, xlims=xlims, ylims=ylims)
         else:
-            raw_graph = cs_chart.create_scatter_matrix(data, meas_lev)
+            # display the predicted variable first
+            raw_graph = cs_chart.create_scatter_matrix(data[[predicted] + predictors], meas_lev)
 
         # 2. Sample properties
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
