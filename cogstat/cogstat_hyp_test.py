@@ -333,7 +333,7 @@ def multivariate_normality(data, var_names):
         ----------
         data : pandas dataframe
             It is sufficient to include only the relevant variables. It is assumed that nans are dropped.
-        var_names : str
+        var_names : list of str
             Name of the variables to test.
 
         Returns
@@ -347,14 +347,14 @@ def multivariate_normality(data, var_names):
 
     text_result = ''
 
+    var_names_str = ', '.join(var_names)
     if len(set(data)) == 1:
-        return None, _('Normality cannot be checked for constant variable in %s%s.\n') % var_names
-    if len(data) < 3:
-        return None, _('Too small sample to test normality in variable %s%s.\n') % var_names
+        return None, _('Normality cannot be checked for constant variables in %s.') % var_names_str + '\n'
 
+    if len(data) < 3:
+        return None, _('Too small sample to test normality in variables %s.') % var_names_str + '\n'
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
-        var_names_str = ', '.join(var_names)
         text_result += _('Henze-Zirkler test of multivariate normality in variables %s') % var_names_str + \
                        ': <i>W</i> = %0.*f, %s\n' % (non_data_dim_precision, hz, print_p(p))
 
