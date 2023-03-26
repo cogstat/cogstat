@@ -274,7 +274,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
-def homoscedasticity(data, predictors, predicted, group_name='', group_value=''):
+def homoscedasticity(data, predictors, predicted):
     """Check homoscedasticity
 
     Parameters
@@ -295,11 +295,12 @@ def homoscedasticity(data, predictors, predicted, group_name='', group_value='')
 
     text_result = ''
 
+    # TODO var_names are not available here
     if len(set(data)) == 1:
         return None, _('Homoscedasticity cannot be checked for constant variable in %s') % var_names +'.\n'
 
     if len(data) < 3:
-        return None, _('Too small sample to test homoscedasticity in variable %s') % var_names + '.\n\n'
+        return None, _('Too small sample to test homoscedasticity in variable %s') % var_names + '.\n'
     else:
         x = sm.add_constant(data[predictors])
         y = data[predicted]
@@ -316,7 +317,7 @@ def homoscedasticity(data, predictors, predicted, group_name='', group_value='')
         lm_white = white[0]
         p_white = white[1]
 
-        homoscedasticity = False if p_koenker<0.05 or p_white<0.05 else True
+        homoscedasticity = False if p_koenker < 0.05 or p_white < 0.05 else True
 
         text_result += _("Koenker's studentized score test") \
                        + ": <i>LM</i> = %0.*f, %s\n" % (non_data_dim_precision, lm_koenker, print_p(p_koenker)) \
