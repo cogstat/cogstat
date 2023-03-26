@@ -1090,7 +1090,7 @@ class CogStatData:
 
     def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
         """
-        Explore a variable pair.
+        Explore a variable pair or multiple predictors and one predicted variable.
 
         Parameters
         ----------
@@ -1164,23 +1164,12 @@ class CogStatData:
             raw_graph = cs_chart.create_scatter_matrix(data, meas_lev)
 
         # 2. Sample properties
-        # TODO assumption results should be moved to the population parts; normally, functions used here shouldn't rely
-        #  on this information; some of the related code are in temporary location
         sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         residual_title = None
         residual_graph = None
-        normality = None  # Do the two variables follow a multivariate normal distribution?
-        homoscedasticity = None
-        assumptions_result = None
         if meas_lev == 'nom':
             sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
-
-            # Test of multivariate normality
-            assumptions_result = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
-            assumptions_result += '<cs_decision>' + _('Testing multivariate normality of variables') + '</cs_decision>\n'
-            normality, norm_text = cs_hyp_test.multivariate_normality(data, predictors + [predicted])
-            assumptions_result += norm_text
 
             # Calculate regression with statsmodels
             import statsmodels.regression
@@ -1189,47 +1178,37 @@ class CogStatData:
 
             if len(predictors) == 1:
                 data_sorted = data.sort_values(by=x)  # Sorting required for subsequent plots to work
-                x_var = statsmodels.tools.add_constant(data_sorted[x])
-                y_var = data_sorted[y]
-                model = statsmodels.regression.linear_model.OLS(y_var, x_var)
+                model = statsmodels.regression.linear_model.OLS(data_sorted[y], add_constant(data_sorted[x]))
             else:
-                # TODO sorting
                 model = statsmodels.regression.linear_model.OLS(data[predicted], add_constant(data[predictors]))
             result = model.fit()
             residuals = result.resid
 
-            # Test of homoscedasticity
-            assumptions_result += '<cs_decision>' + _('Testing homoscedasticity') + '</cs_decision>\n'
-            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, predictors + [predicted],
-                                                                      residual=residuals)
-            assumptions_result += het_text
 
             if len(predictors) == 1:
                 # TODO output with the right precision of the results
                 sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
             else:
-                pass
-                # TODO regression coefficients (sample only)
-        sample_result += '\n'
+                import string
+                # Shift constant to the end of the list
+                params = [x for x in list(result.params) if x != result.params[0]] + [result.params[0]]
+                # Pair up parameter estimates with variable names and unpack the resulting pairs to a non-nested tuple
+                content = tuple(c for b in zip(params, predictors+['']) for c in b)
+                # Get string to format
+                structure = ' + '.join(['%0.3f%s' for i in range(len(params))])
+                sample_result += _('Linear regression')+': %s = ' % predicted + structure % content
 
-        multicollinearity_chart = None
-        if len(predictors) > 1:
-            vif, multicollinearity = cs_stat.vif_table(data, predictors)
-            assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
-            assumptions_result += vif
-            multicollinearity_chart = cs_chart.create_multicollinearity_chart(self.data_frame, meas_lev, predictors)  # TODO redundant chart?
+        sample_result += '\n'
 
         if len(predictors) == 1:
             standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-            standardized_effect_size_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True)
-            standardized_effect_size_result += '\n'
+            standardized_effect_size_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True) \
+                                               + '\n'
         else:
             if meas_lev in ['int', 'unk']:
                 standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
                 standardized_effect_size_result += cs_stat.multiple_variables_standard_effect_size(data, predictors,
-                                                   [predicted], result, normality, homoscedasticity, multicollinearity,
-                                                   sample=True)
-                standardized_effect_size_result += '\n'
+                                                   predicted, result, sample=True) + '\n'
             else:
                 standardized_effect_size_result = None
 
@@ -1238,11 +1217,12 @@ class CogStatData:
         if meas_lev == 'int':
 
             # Residual analysis
-            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
             if len(predictors) == 1:
+                residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
                 residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
             else:
                 # TODO multivariate residuals
+                residual_title = None
                 residual_graph = None
 
             # Sample scatter plot with regression line
@@ -1254,15 +1234,12 @@ class CogStatData:
                 sample_graph = None
 
             if len(predictors) > 1:
-                regression_plot = cs_chart.part_regress_plots(self.data_frame, predicted, predictors)
-                regressor_correlation = cs_stat.correlation_matrix(self.data_frame, predictors)  # TODO predicted should be included?
+                regression_plot = cs_chart.part_regress_plots(data, predicted, predictors)
             else:
                 regression_plot = None
-                regressor_correlation = None
         else:
             sample_graph = None
             regression_plot = None
-            regressor_correlation = None
 
         # 3. Population properties
         # TODO for the estimations, do not print warning if assumption is not violated
@@ -1270,14 +1247,39 @@ class CogStatData:
         estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         estimation_parameters, estimation_effect_size, population_graph = None, None, None
 
+        # Initilazing assumptions
+        normality = None  # Do the two variables follow a multivariate normal distribution?
+        homoscedasticity = None
+        assumptions_result = None
+
         if meas_lev == 'nom':
             estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
         elif meas_lev == 'int':
+
+            # Test of multivariate normality
+            assumptions_result = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
+            assumptions_result += '<cs_decision>' + _('Testing multivariate normality of variables') + '</cs_decision>\n'
+            normality, norm_text = cs_hyp_test.multivariate_normality(data, predictors + [predicted])
+            assumptions_result += norm_text
+
+            # Test of homoscedasticity
+            assumptions_result += '<cs_decision>' + _('Testing homoscedasticity') + '</cs_decision>\n'
+            homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, predictors, predicted)
+            assumptions_result += het_text
+
+            # Test of multicollinearity
+            if len(predictors) > 1:
+                vif, multicollinearity = cs_stat.vif_table(data, predictors)
+                assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
+                assumptions_result += vif
+                assumptions_result += "\n" + cs_stat.correlation_matrix(data, predictors)
+
             estimation_parameters = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
             estimation_parameters += cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
                                                                                    normality=normality,
                                                                                    homoscedasticity=homoscedasticity,
-                                                                                   multicollinearity=multicollinearity if len(predictors) > 1 else None,
+                                                                                   multicollinearity=multicollinearity
+                                                                                   if len(predictors) > 1 else None,
                                                                                    result=result)
 
             if len(predictors) == 1:
@@ -1287,6 +1289,7 @@ class CogStatData:
             else:
                 # TODO multivariate population graph
                 pass
+
         if len(predictors) == 1:
             estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
             estimation_effect_size += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
@@ -1296,7 +1299,7 @@ class CogStatData:
             if meas_lev in ['int', 'unk']:
                 estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
                 estimation_effect_size += cs_stat.multiple_variables_standard_effect_size(self.data_frame, predictors,
-                                                                                          [predicted], result, normality,
+                                                                                          predicted, result, normality,
                                                                                           homoscedasticity, multicollinearity,
                                                                                           sample=False)
 
@@ -1315,8 +1318,7 @@ class CogStatData:
                                        sample_result, sample_graph, regression_plot,
                                        standardized_effect_size_result,
                                        residual_title, residual_graph,
-                                       population_properties_title, assumptions_result, regressor_correlation,
-                                       multicollinearity_chart,
+                                       population_properties_title, assumptions_result,
                                        estimation_result,
                                        estimation_parameters, population_graph, estimation_effect_size,
                                        population_result])

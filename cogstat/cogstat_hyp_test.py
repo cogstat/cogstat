@@ -274,21 +274,16 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
-def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
+def homoscedasticity(data, predictors, predicted, group_name='', group_value=''):
     """Check homoscedasticity
 
     Parameters
     ----------
-    pdf : pandas dataframe
-    var_names : list of str
-        Name of the variables to be checked.
-    residual : array
-        Residuals from the regression analysis.
-    group_name : str
-        Name of the grouping variable if part of var_name should be
-        checked. Otherwise ''.
-    group_value : str
-        Name of the group in group_name, if grouping is used.
+    data : pandas dataframe
+    predictors : list of str
+        Names of the predictor variables.
+    predicted : str
+        Name of the predicted or dependent variable.
 
     Returns
     -------
@@ -300,35 +295,24 @@ def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
 
     text_result = ''
 
-    if group_name:
-        data = pdf[pdf[group_name] == group_value][var_names]
-    else:
-        data = pdf[var_names]
-
     if len(set(data)) == 1:
-        return None, _('Homoscedasticity cannot be checked for constant variable in %s%s.') %  \
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') +'\n'
+        return None, _('Homoscedasticity cannot be checked for constant variable in %s%s.') % var_names +'\n'
 
     if len(data) < 3:
-        return None, _('Too small sample to test homoscedasticity in variable %s%s.\n') % \
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
+        return None, _('Too small sample to test homoscedasticity in variable %s%s.\n') % var_names + '\n'
     else:
-        X = data[var_names[0]]
-        X = sm.add_constant(X)
-        Y = data[var_names[1]]
+        x = sm.add_constant(data[predictors])
+        y = data[predicted]
 
-        # The resid variable is ordered according to X, which leads to White's test producing a result that
-        # is different than the R function white_lm(). Accordingly we fit the model again, without ordering, and use
-        # these residuals for White's test
-        model = sm.regression.linear_model.OLS(Y,X)
-        result = model.fit()
-        residual_unsorted = result.resid
+        # With one predictor x is sorted in the main analysis which produces erroneous results in the tests below,
+        # so here we run the regression model again with unsorted x.
+        residual_unsorted = sm.regression.linear_model.OLS(y, x).fit().resid
 
-        koenker = sm.stats.diagnostic.het_breuschpagan(sorted(residual), X, robust=True) # Need sorted() to have same result as R
+        koenker = sm.stats.diagnostic.het_breuschpagan(residual_unsorted, x, robust=True)
         lm_koenker = koenker[0]
         p_koenker = koenker[1]
 
-        white = sm.stats.diagnostic.het_white(residual_unsorted, X)
+        white = sm.stats.diagnostic.het_white(residual_unsorted, x)
         lm_white = white[0]
         p_white = white[1]
 
@@ -342,19 +326,15 @@ def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
         return homoscedasticity, text_result
 
 
-def multivariate_normality(pdf, var_names, group_name='', group_value=''):
+def multivariate_normality(data, var_names):
     """Henze-Zirkler test of multivariate normality.
 
         Parameters
         ----------
-        pdf : pandas dataframe
+        data : pandas dataframe
             It is sufficient to include only the relevant variables. It is assumed that nans are dropped.
         var_names : str
             Name of the variables to test.
-        group_name : str
-            Name of grouping variable if part of var_name should be checked. Otherwise ''.
-        group_value : str
-            Name of the group in group_name, if grouping is used.
 
         Returns
         -------
@@ -367,22 +347,15 @@ def multivariate_normality(pdf, var_names, group_name='', group_value=''):
 
     text_result = ''
 
-    if group_name:
-        data = pdf[pdf[group_name] == group_value][var_names]
-    else:
-        data = pdf[var_names]
     if len(set(data)) == 1:
-        return None, _('Normality cannot be checked for constant variable in %s%s.\n') % \
-               (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
+        return None, _('Normality cannot be checked for constant variable in %s%s.\n') % var_names
     if len(data) < 3:
-        return None, _('Too small sample to test normality in variable %s%s.\n') % \
-                       (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
+        return None, _('Too small sample to test normality in variable %s%s.\n') % var_names
 
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
         var_names_str = ', '.join(var_names)
-        text_result += _('Henze-Zirkler test of multivariate normality in variables %s%s') % \
-                       (var_names_str, ' (%s: %s)' % (group_name, group_value) if group_name else '') + \
+        text_result += _('Henze-Zirkler test of multivariate normality in variables %s') % var_names_str + \
                        ': <i>W</i> = %0.*f, %s\n' % (non_data_dim_precision, hz, print_p(p))
 
     return sig, text_result
@@ -522,7 +495,7 @@ def multiple_regression_hyp_tests(data, result, predictors, normality, homosceda
 
     if normality and homoscedasticity and not multicollinearity:
         output = '<cs_decision>' + _('Interval variables. More than two variables.') + ' ' + \
-                 _('Normality met. Homoscedasticity met. No multicollinearity.') + ' >> ' + '\n' + \
+                 _('Normality met. Homoscedasticity met. No multicollinearity.') + ' >> '  + \
                  _('Running model F-test and tests for regressor slopes.') \
                  + '\n</cs_decision>'
 
@@ -558,7 +531,7 @@ def multiple_regression_hyp_tests(data, result, predictors, normality, homosceda
                                                               print_p(result.pvalues[predictor])) + '\n'
 
     # TODO hypothesis tests for partial correlation coefficients.
-    #  Pingouin doesn't use t-tests and doesn't give test statistics.
+    # Pingouin doesn't use t-tests and doesn't give test statistics.
 
     return output
 

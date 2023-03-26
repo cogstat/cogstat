@@ -601,7 +601,7 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
     multicollinearity : bool or None
         True if multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
     result: statsmodels regression result object
-        The result of the multiple regression analysis.
+        The result of the regression analysis.
 
     Returns
     -------
@@ -618,10 +618,10 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
                                                    _('CIs may be biased.') + '</cs_decision>'
         elif not normality:
             regression_coefficients += '\n<cs_decision>' \
-                                       + _('Assumption of normality violated for CI calculations.') + ' ' + \
+                                       + _('Assumption of normality violated.') + ' ' + \
                                        _('CIs may be biased.') + '</cs_decision>'
         else:
-            regression_coefficients += '\n<cs_decision>' + _('Assumption of normality for CI calculations met.') + \
+            regression_coefficients += '\n<cs_decision>' + _('Assumption of normality met.') + \
                                        '</cs_decision>'
 
         if homoscedasticity is None:
@@ -629,11 +629,10 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
                                        _('CIs may be biased.') + '</cs_decision>'
         elif not homoscedasticity:
             regression_coefficients += '\n<cs_decision>' \
-                                       + _('Assumption of homoscedasticity violated for CI calculations.') + ' ' + \
+                                       + _('Assumption of homoscedasticity violated.') + ' ' + \
                                        _('CIs may be biased.') + '</cs_decision>'
         else:
-            regression_coefficients += '\n<cs_decision>' + _('Assumption of homoscedasticity for CI '
-                                                               'calculations met.') + '</cs_decision>'
+            regression_coefficients += '\n<cs_decision>' + _('Assumption of homoscedasticity met.') + '</cs_decision>'
 
         if len(predictors) > 1:
             if multicollinearity is None:
@@ -644,8 +643,7 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
                                            + _('Multicollinearity suspected.') + ' ' + \
                                            _('Point estimates and CIs may be inaccurate.') + '</cs_decision>'
             else:
-                regression_coefficients += '\n<cs_decision>' + _('Assumption of multicollinearity for'
-                                                                   ' CI calculations met.') + '</cs_decision>'
+                regression_coefficients += '\n<cs_decision>' + _('Multicollinearity not detected.') + '</cs_decision>'
 
         # Gather point estimates and CIs into table
         cis = result.conf_int(alpha=0.05)
@@ -752,7 +750,7 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
     return standardized_effect_size_result
 
 
-def multiple_variables_standard_effect_size(data, predictors, y, result, normality=None, homoscedasticity=None,
+def multiple_variables_standard_effect_size(data, predictors, predicted, result, normality=None, homoscedasticity=None,
                                             multicollinearity=None, sample=True):
     """Calculate standardized effect size measures for multiple regression.
 
@@ -760,8 +758,8 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
     ----------
     data : pandas dataframe
     predictors : list of str
-        Name of the explanatory variables.
-    y : list of str  # TODO is there a reason why this is a list? it is inconsistent with other interfaces
+        Names of the explanatory variables.
+    predicted : str
         Name of the dependent variable.
     result : statsmodels regression result object
         The result of the multiple regression analyses.
@@ -772,7 +770,7 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
         True if variables are homoscedastic, False otherwise. None if homoscedasticity couldn't be calculated or
         if the parameter was not specified.
     multicollinearity : bool or None
-        True if possible multicollinearity was detected (VIF>10). None if the parameter was not specified.
+        True if possible multicollinearity was detected (VIF>10), False otherwise. None if the parameter was not specified.
     sample : bool
         True for sample descriptives, False for population estimations.
 
@@ -780,49 +778,48 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
     -------
     html text
     """
-    # TODO validate
 
     standardized_effect_size_result = ''
     # Warnings based on the results of the assumption tests
-    # TODO warnings should be printed only with population properties?
-    if normality is None:
-        standardized_effect_size_result += '\n<cs_decision>' + _('Normality could not be calculated.') + ' ' + \
-                                           _('CIs may be biased.') + '</cs_decision>'
-    elif not normality:
-        standardized_effect_size_result += '\n<cs_decision>' + \
-                                           _('Assumption of normality violated.') + ' ' + \
-                                           _('CIs may be biased.') + '</cs_decision>'
-    else:
-        standardized_effect_size_result += '\n<cs_decision>' + \
-                                           _('Assumption of normality met.') + '</cs_decision>'
+    if not sample:
+        if normality is None:
+            standardized_effect_size_result += '\n<cs_decision>' + _('Normality could not be calculated.') + ' ' + \
+                                               _('CIs may be biased.') + '</cs_decision>'
+        elif not normality:
+            standardized_effect_size_result += '\n<cs_decision>' + \
+                                               _('Assumption of normality violated.') + ' ' + \
+                                               _('CIs may be biased.') + '</cs_decision>'
+        else:
+            standardized_effect_size_result += '\n<cs_decision>' + \
+                                               _('Assumption of normality met.') + '</cs_decision>'
 
-    if homoscedasticity is None:
-        standardized_effect_size_result += '\n<cs_decision>' + _('Homoscedasticity could not be calculated.') + \
-                                           ' ' + _('CIs may be biased.') + '</cs_decision>'
-    elif not homoscedasticity:
-        standardized_effect_size_result += '\n<cs_decision>' \
-                                           + _('Assumption of homoscedasticity violated.') + ' ' + \
-                                           _('CIs may be biased.') + '</cs_decision>'
-    else:
-        standardized_effect_size_result += '\n<cs_decision>' + _('Assumption of homoscedasticity met.') + '</cs_decision>'
+        if homoscedasticity is None:
+            standardized_effect_size_result += '\n<cs_decision>' + _('Homoscedasticity could not be calculated.') + \
+                                               ' ' + _('CIs may be biased.') + '</cs_decision>'
+        elif not homoscedasticity:
+            standardized_effect_size_result += '\n<cs_decision>' \
+                                               + _('Assumption of homoscedasticity violated.') + ' ' + \
+                                               _('CIs may be biased.') + '</cs_decision>'
+        else:
+            standardized_effect_size_result += '\n<cs_decision>' + _('Assumption of homoscedasticity met.') + '</cs_decision>'
 
-    if multicollinearity is None:
-        standardized_effect_size_result += '\n<cs_decision>' + _('Multicollinearity could not be calculated.') + \
-                                           ' ' + _('CIs may be biased.') + '</cs_decision>'
-    elif not multicollinearity:
-        standardized_effect_size_result += '\n<cs_decision>' \
-                                           + _('Assumption of multicollinearity violated.') + ' ' + \
-                                           _('CIs may be biased.') + '</cs_decision>'
-    else:
-        standardized_effect_size_result += '\n<cs_decision>' + _('Assumption of multicollinearity met.') + '</cs_decision>'
+        if multicollinearity is None:
+            standardized_effect_size_result += '\n<cs_decision>' + _('Multicollinearity could not be calculated.') + \
+                                               ' ' + _('CIs may be biased.') + '</cs_decision>'
+        elif multicollinearity:
+            standardized_effect_size_result += '\n<cs_decision>' \
+                                               + _('Multicollinearity suspected.') + ' ' + \
+                                               _('CIs may be biased.') + '</cs_decision>'
+        else:
+            standardized_effect_size_result += '\n<cs_decision>' + _('Multicollinearity not detected.') + '</cs_decision>'
 
     # Calculate effect sizes for sample or population
     if sample:
         pdf_result_corr = pd.DataFrame()
         standardized_effect_size_result += '\n' + _('<i>R<sup>2</sup></i> = %0.3f' % result.rsquared) + '\n'
     else:  # population
-        pdf_result_model = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
-        pdf_result_corr = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
+        pdf_result_model = pd.DataFrame(columns=[_('Point estimate'), _('95% confidence interval')])
+        pdf_result_corr = pd.DataFrame(columns=[_('Point estimate'), _('95% confidence interval')])
 
         ci = cs_stat_num.calc_r2_ci(result.rsquared_adj, len(predictors), len(data))
         pdf_result_model.loc[_('Adjusted <i>R<sup>2</sup></i>')] = \
@@ -842,9 +839,9 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
 
         if sample:
             pdf_result_corr.loc[predictor, _('Value')] = \
-                '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, y[0], predictors_other)['r']
+                '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, predicted, predictors_other)['r']
         else:
-            partial_result = pingouin.partial_corr(data, predictor, y[0], predictors_other)
+            partial_result = pingouin.partial_corr(data, predictor, predicted, predictors_other)
             pdf_result_corr.loc[predictor + ', <i>r</i>'] = \
                 ['%0.3f' % (partial_result['r']), '[%0.3f, %0.3f]' % (partial_result['CI95%'][0][0],
                                                                       partial_result['CI95%'][0][1])]
@@ -854,13 +851,13 @@ def multiple_variables_standard_effect_size(data, predictors, y, result, normali
     return standardized_effect_size_result
 
 
-def correlation_matrix(data, regressors):
+def correlation_matrix(data, predictors):
     """Create Pearson's correlation matrix for assessment of multicollinearity.
 
     Parameters
     ----------
     data : pandas dataframe
-    regressors : list of str
+    predictors : list of str
         list of explanatory variable names
 
     Returns
@@ -868,14 +865,14 @@ def correlation_matrix(data, regressors):
     html text
     """
 
-    corr_table = data[regressors].corr()
+    corr_table = data[predictors].corr().round(3)
     table = _('Pearson correlation matrix of explanatory variables')
     table += corr_table.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
     return table
 
 
 def vif_table(data, var_names):
-    """Calculate and display Variance Inflation Factors. Raises warning and displays corresponding
+    """Calculate and display Variance Inflation Factors. Raise warning and display corresponding
     auxiliary regression weights in case of suspected multicollineearity (VIF>10).
 
     Parameters
@@ -897,13 +894,13 @@ def vif_table(data, var_names):
 
     regressors = add_constant(data[var_names])
     table = _('Variance inflation factors of explanatory variables and constant')
-    vifs = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
-                         for i in range(regressors.shape[1])], index=regressors.columns, columns=[_('VIF')])
-    table += vifs.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
+    vif_df = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
+                           for i in range(regressors.shape[1])], index=regressors.columns, columns=[_('VIF')]).round(3)
+    table += vif_df.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
 
     multicollinearity = False
     for regressor in var_names:
-        if vifs.loc[regressor, _('VIF')] > 10:
+        if vif_df.loc[regressor, _('VIF')] > 10:
             multicollinearity = True
             table += '\n<cs_decision>' + _('VIF > 10 in variable %s ') % regressor + '\n' + \
                      _('Possible multicollinearity.') + '\n</cs_decision>'
@@ -911,7 +908,7 @@ def vif_table(data, var_names):
             regressors_other.remove(regressor)
             table += _('Beta weights when regressing %s on all other regressors.' % regressor)
             slopes = pd.DataFrame(OLS(data[regressor], add_constant(data[regressors_other])).fit().params,
-                                  columns=[_('Slope on %s') % regressor])
+                                  columns=[_('Slope on %s') % regressor]).round(3)
             table += slopes.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
     return table, multicollinearity
 

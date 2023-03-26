@@ -867,6 +867,7 @@ def create_scatter_matrix(data, meas_lev):
     if meas_lev == 'int':
         fig, ax = plt.subplots(len(data.columns), len(data.columns), tight_layout=True)
         fig.suptitle(_plt('Scatterplot matrix of variables'))
+        global_max_freq = 1
         for i in range(0, len(data.columns)):
             ax[i, 0].set_ylabel(data.columns[i])
             ax[len(data.columns) - 1, i].set_xlabel(data.columns[i])
@@ -874,50 +875,13 @@ def create_scatter_matrix(data, meas_lev):
                 if i == j:
                     ax[i, j].hist(data.iloc[:, i])
                 else:
-                    ax[i, j].scatter(data.iloc[:, i], data.iloc[:, j], s=20)  # TODO size should be proportional to frequency
-        graph = plt.gcf()
-        return graph
-    else:
-        return None
-
-def create_multicollinearity_chart(data, meas_lev, predictors):
-    """Draw a chart relating the explanatory variables in a multiple regression displaying raw data
-
-    Parameters
-    ----------
-    data : pandas dataframe
-    meas_lev : {'int', 'ord', 'nom', 'unk'}
-        Measurement level of the variables
-    predictors : list of str
-        Names of the explanatory variables.
-
-    Returns
-    -------
-    matplotlib chart
-        A matrix plot of the variables optionally containing the raw data.
-    """
-    if meas_lev == 'int':
-        data = data[predictors]
-        if len(predictors) == 2:
-            ncols = 1
-        elif len(predictors) >= 2:
-            ncols = 2
-        import math
-        nrows = math.ceil(len(predictors)/2)
-        fig = plt.figure(tight_layout=True)
-        fig.suptitle(_plt('Scatterplot matrix of explanatory variables'))
-        x_done = []
-        ind = 1
-        for index_1, x_i in enumerate(predictors):
-            for index_2, x_j in enumerate(predictors):
-                if x_i != x_j and [x_i, x_j] not in x_done and [x_j, x_i] not in x_done:
-                    ax = plt.subplot(nrows, ncols, ind)
-                    ax.scatter(data[x_i], data[x_j], s=20)  # TODO size should be proportional to frequency
-                    ax.set_xlabel(x_i)
-                    ax.set_ylabel(x_j)
-                    x_done.append([x_i, x_j])
-                    ind += 1
-
+                    val_count = _value_count(data.iloc[:, [i, j]], global_max_freq)
+                    if max(val_count.values) > global_max_freq:
+                        global_max_freq = max(val_count.values)
+                    ax[i, j].scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
+        if global_max_freq > 1:
+            fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,
+                     horizontalalignment='right', fontsize=10)
         graph = plt.gcf()
         return graph
     else:
@@ -942,32 +906,36 @@ def part_regress_plots(data, predicted, predictors):
         For all explanatory variables, the function plots the residuals from the regression of the dependent variable
         and the other explanatory variables against the residuals from the regression of the chosen explanatory variable
         and all other explanatory variables. Plots for all explanatory variables shown in a matrix.
-        This allows the visualization of the bivariate relationship while factoring out all other explanatory variables.
+        This allows the visualization of the bivariate relationships while factoring out all other explanatory variables.
     """
 
-    if len(predictors) == 2:
-        ncols = 1
-    elif len(predictors) >= 3:
-        ncols = 2
     import math
-    nrows = math.ceil(len(predictors) / 2)
+    ncols = 2 if len(predictors) < 5 else 3
+    # Using a sigmoid function to determine number of rows: 1 row when predictors < 3, 2 rows when predictors < 7,
+    # after that nrows increases every 3 additional predictors
+    nrows = round(1 / (1 + np.exp(-len(predictors) + 2.5))) + 1 if len(predictors) < 7 else math.ceil(len(predictors) / 3)
 
     fig = plt.figure(tight_layout=True)
     fig.suptitle(_plt('Partial regression plots'))
+    global_max_freq = 1
     for index, predictor in enumerate(predictors):
         predictors_other = predictors.copy()
-        predictors_other.remove(predictor) # Remove the chosen explanatory variable from the list of explanatory variables
-
+        predictors_other.remove(predictor)
         # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
         resid_dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
         # Calculating the residuals from regressing the chosen explanatory variable on the remaining
         # explanatory variables
         resid_x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
 
+        val_count = _value_count(pd.concat([resid_x_i, resid_dependent], axis=1), global_max_freq)
         ax = plt.subplot(nrows, ncols, index+1)
-        ax.scatter(resid_x_i, resid_dependent, s=20)  # TODO size should be proportional to frequency
-        ax.set_xlabel(predictor + _plt(' | other X'))
-        ax.set_ylabel(predicted + _plt(' | other X'))
+        ax.scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
+        ax.set_xlabel(predictor + _plt(' | other predictors'))
+        ax.set_ylabel(predicted + _plt(' | other predictors'))
+
+    if global_max_freq > 1:
+        fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,
+                 horizontalalignment='right', fontsize=10)
 
     graph = plt.gcf()
 
