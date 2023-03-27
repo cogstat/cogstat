@@ -1194,8 +1194,6 @@ class CogStatData:
             else:
                 model = statsmodels.regression.linear_model.OLS(data[predicted], add_constant(data[predictors]))
             result = model.fit()
-            residuals = result.resid
-
 
             if len(predictors) == 1:
                 # TODO output with the right precision of the results

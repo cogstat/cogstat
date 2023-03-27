@@ -295,7 +295,7 @@ def homoscedasticity(data, predictors, predicted):
 
     text_result = ''
     if len(data) < 3:
-        return None, _('Too small sample to test homoscedasticity in variable %s') % var_names + '.\n'
+        return None, _('Too small sample to test homoscedasticity in variables: %s') % ', '.join(predictors + [predicted]) + '.\n'
     else:
         x = sm.add_constant(data[predictors])
         y = data[predicted]
@@ -330,7 +330,7 @@ def multivariate_normality(data, var_names):
         data : pandas dataframe
             It is sufficient to include only the relevant variables. It is assumed that nans are dropped.
         var_names : list of str
-            Name of the variables to test.
+            Names of the variables to test.
 
         Returns
         -------
@@ -343,12 +343,11 @@ def multivariate_normality(data, var_names):
 
     text_result = ''
 
-    var_names_str = ', '.join(var_names)
     if len(data) < 3:
-        return None, _('Too small sample to test normality in variables %s') % var_names_str + '.\n'
+        return None, _('Too small sample to test normality in variables: %s') % ', '.join(var_names) + '.\n'
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
-        text_result += _('Henze-Zirkler test of multivariate normality in variables %s') % var_names_str + \
+        text_result += _('Henze-Zirkler test of multivariate normality in variables %s') % ', '.join(var_names) + \
                        ': <i>W</i> = %0.*f, %s\n' % (non_data_dim_precision, hz, print_p(p))
 
     return sig, text_result
