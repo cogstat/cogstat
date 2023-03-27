@@ -1119,6 +1119,14 @@ class CogStatData:
         if predicted is None:
             title += _('The predicted variable should be set') + '.'
             preconditions = False
+        constant_vars = []
+        for var in predictors + [predicted]:
+            if len(set(self.data_frame[var])) == 1:
+                constant_vars += [var]
+        if len(constant_vars) > 0:
+            title += _('Analysis cannot be run for constant variable(s): %s') % ', '.join(constant_vars) + '\n'
+            preconditions = False
+
         if not preconditions:
             return cs_util.convert_output([title])
 

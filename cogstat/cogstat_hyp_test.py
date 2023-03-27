@@ -294,11 +294,6 @@ def homoscedasticity(data, predictors, predicted):
     """
 
     text_result = ''
-
-    # TODO var_names are not available here
-    if len(set(data)) == 1:
-        return None, _('Homoscedasticity cannot be checked for constant variable in %s') % var_names +'.\n'
-
     if len(data) < 3:
         return None, _('Too small sample to test homoscedasticity in variable %s') % var_names + '.\n'
     else:
@@ -349,9 +344,6 @@ def multivariate_normality(data, var_names):
     text_result = ''
 
     var_names_str = ', '.join(var_names)
-    if len(set(data)) == 1:
-        return None, _('Normality cannot be checked for constant variables in %s') % var_names_str + '.\n'
-
     if len(data) < 3:
         return None, _('Too small sample to test normality in variables %s') % var_names_str + '.\n'
     else:
