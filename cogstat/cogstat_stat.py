@@ -661,6 +661,62 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
     return regression_coefficients
 
 
+
+def variable_pair_ordered_logistic_regression_coefficients(predictors, meas_lev, multicollinearity=None, result=None):
+    """
+    Calculate point and interval estimates of regression parameters (slopes) in ordered logistic regression analysis.
+
+    Parameters
+    ----------
+    predictors : list of str
+        List of explanatory variable names.
+    meas_lev : str
+        Measurement level of the regressors
+    multicollinearity : bool or None
+        True if multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
+    result: statsmodels regression result object
+        The result of the multiple regression analysis.
+
+    Returns
+    -------
+    str
+        Table of the point and interval estimations as html text
+    """
+    result = OrderedModel(dataset[regressor], dataset[regressors_other], distr='logit').fit(method='bfgs', disp=False)
+    
+    if meas_lev == "int":
+        regression_coefficients = ''
+        pdf_result = pd.DataFrame(columns=[('Point estimation'), ('Standard error'), ('95% confidence interval')])
+
+        # Warnings based on the results of the assumption tests
+
+        if len(predictors) > 1:
+            if multicollinearity is None:
+                regression_coefficients += '\n' + '<decision>' + ('Multicollinearity could not be calculated.') + \
+                                           ' ' + ('Point estimates and CIs may be inaccurate.') + '</decision>'
+            elif multicollinearity:
+                regression_coefficients += '\n' + '<decision>' \
+                                           + ('Multicollinearity suspected.') + ' ' + \
+                                           ('Point estimates and CIs may be inaccurate.') + '</decision>'
+            else:
+                regression_coefficients += '\n' + '<decision>' + ('Assumption of multicollinearity for'
+                                                                   ' CI calculations met.') + '</decision>'
+
+        # Gather point estimates and CIs into table
+        cis = result.conf_int(alpha=0.05)
+        for predictor in predictors:
+            pdf_result.loc['Slope for %s' % predictor] = ['%0.3f' % (result.params[predictor]), '%0.3f' % (result.bse[predictor]) , '[%0.3f, %0.3f]' %
+                                                          (cis.loc[predictor, 0], cis.loc[predictor, 1])]
+    else:
+        regression_coefficients = None
+
+    if regression_coefficients:
+        regression_coefficients += pdf_result.to_html(bold_rows=False, escape=False).replace('\n', '')
+
+    return regression_coefficients
+
+
+
 def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=None, homoscedasticity=None):
     """Calculate standardized effect size measures.
     (Some stats are also calculated elsewhere, making the analysis slower, but separation is a priority.)
