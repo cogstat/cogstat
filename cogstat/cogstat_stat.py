@@ -914,6 +914,49 @@ def vif_table(data, var_names):
             table += slopes.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
     return table, multicollinearity
 
+def ordered_logistic_regression_vif_table(data, var_names):
+    """Calculate and display Variance Inflation Factors. Raises warning and displays corresponding
+    auxiliary regression weights in case of suspected multicollineearity (VIF>10).
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    var_names : list of str
+        list of explanatory variable names
+
+    Returns
+    -------
+    html text, bool
+        Html text with variance inflation factors (VIFs) and beta weights from auxiliary regression in case of VIF > 10.
+        Boolean is True when any VIF is greater than 10. False otherwise.
+    """
+
+    from statsmodels.stats.outliers_influence import variance_inflation_factor
+    from statsmodels.api import add_constant
+    from statsmodels.miscmodels.ordinal_model import OrderedModel
+
+
+    regressors = add_constant(data[var_names])
+    table = ('Variance inflation factors of explanatory variables and constant')
+    vifs = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
+                         for i in range(regressors.shape[1])], index=regressors.columns, columns=[('VIF')])
+    table += vifs.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
+
+    multicollinearity = False
+    for regressor in var_names:
+        if vifs.loc[regressor, ('VIF')] > 10:
+            multicollinearity = True
+            table += '\n' + '<decision>' + _('VIF > 10 in variable %s ') % regressor + '\n' + \
+                     ('Possible multicollinearity.') + '\n</decision>'
+            regressors_other = var_names.copy()
+            regressors_other.remove(regressor)
+            table += ('Beta weights when regressing %s on all other regressors.' % regressor)
+            slopes = pd.DataFrame(OrderedModel(dataset[regressor], dataset[regressors_other], distr='logit').fit(method='bfgs', disp=False).params,
+                                  columns=[('Slope on %s') % regressor])
+            table += slopes.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
+    return table, multicollinearity
+
+
 
 def contingency_table(data_frame, x, y, count=False, percent=False, ci=False, margins=False):
     """Create contingency tables. Use for nominal data.
