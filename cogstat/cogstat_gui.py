@@ -315,19 +315,26 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Prepare result and data panes
         self.centralwidget = QtWidgets.QWidget()
-        self.splitter = QtWidgets.QSplitter(self.centralwidget)
-        self.table_view = QtWidgets.QTableView(self.splitter)
-        self.table_view.horizontalHeader().setStretchLastSection(True)
-        self.table_view.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignLeft)
-        self.table_view.horizontalHeader().setTextElideMode(QtCore.Qt.ElideRight)
-        self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
-        self.splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter.setStretchFactor(0, 2)
-        self.splitter.setStretchFactor(1, 4)
-        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.addWidget(self.splitter)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        #self.output_pane.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setTabShape(QtWidgets.QTabWidget.Rounded)
+        self.tabWidget.setDocumentMode(True)
+        self.gridLayout_tabWidget = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout_tabWidget.addWidget(self.tabWidget)
+        self.gridLayout_tabWidget.setContentsMargins(0, 0, 0, 0)         
+        self.tab = QtWidgets.QWidget()
+        self.gridLayout = QtWidgets.QGridLayout(self.tab)
+        self.result_pane = QtWidgets.QTextBrowser(self.tab)  # QTextBrowser can handle links, QTextEdit cannot
+        self.gridLayout.addWidget(self.result_pane)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)   
+        self.tabWidget.addTab(self.tab, "")
+        self.tab_count = 0
+        self.tabs = self.tabWidget
+        self.tabBar = self.tabs.tabBar()
+        self.tabBar.tabCloseRequested.connect(self.CloseTab)
+        self.setCentralWidget(self.centralwidget)
+        self.setAcceptDrops(True)
+
+        self.show()
 
         # Currently, it doesn't make sense to use a loop here, but we keep it, until we decide how to implement the ToC
         for pane in [self.result_pane]:
@@ -546,6 +553,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             Should the tableview be cleared?
 
         """
+  
+        self.Add_tab()
         # When reset is True, reset the view; when reset is False, initialize
         self.table_view.setModel(None)
         if not reset:
@@ -755,6 +764,30 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """Print the data briefly to GUI output pane
         """
         self.print_data(brief=True)
+       
+    def Add_tab(self): 
+        self.tabWidget.setTabVisible(0, False)
+        self.tab_data = QtWidgets.QWidget()
+        self.splitter = QtWidgets.QSplitter(self.tab_data)
+        self.gridLayout = QtWidgets.QGridLayout(self.tab_data)
+        self.gridLayout.addWidget(self.splitter)   
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)  
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.table_view = QtWidgets.QTableView(self.splitter)
+        self.table_view.horizontalHeader().setStretchLastSection(True)
+        self.table_view.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignLeft)
+        self.table_view.horizontalHeader().setTextElideMode(QtCore.Qt.ElideRight)
+        self.result_pane = QtWidgets.QTextBrowser(self.splitter) 
+        self.splitter.setStretchFactor(0, 2)
+        self.splitter.setStretchFactor(1, 4)
+        self.tab_count += 1
+        self.tabWidget.addTab(self.tab_data,  (self.active_data.import_source[1] if self.active_data.import_source[1] else ''))      
+        self.index_tab = self.tabs.indexOf(self.tab_data)
+        self.tabs.setCurrentIndex(self.index_tab)  
+        self.tabBar.setTabsClosable(True)
+
+    def CloseTab(self, index):
+        self.tabWidget.removeTab(index)   
 
     ### Analysis menu methods ###
 
