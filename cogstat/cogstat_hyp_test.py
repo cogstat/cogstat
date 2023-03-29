@@ -525,7 +525,81 @@ def multiple_regression_hyp_tests(data, result, predictors, normality, homosceda
     # Pingouin doesn't use t-tests and doesn't give test statistics.
 
     return output
+  
+  
+def ordered_logistic_regression_hyp_tests(data, result, predictors, multicollinearity):
+    """Hypothesis tests for model and regressor slopes in ordinal logistic regression with multiple variable.
 
+    Parameters
+    ----------
+    data : pandas dataframe
+    result : statsmodels regression result object
+        The result of the multiple regression analysis.
+    predictors : list of str
+        List of explanatory variable names.
+    multicollinearity : bool or None
+        True when multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
+
+    Returns
+    -------
+    str
+        html text
+    """
+
+    if not multicollinearity:
+        output = '<decision>' + ('Interval variables. More than two variables.') + ' ' + \
+                 ('No multicollinearity.') + ' >> ' + '\n' + \
+                 '\n</decision>'
+
+    elif multicollinearity is None:
+        output = '<decision>' + ('Interval variables. More than two variables.') + ' ' \
+                             + (
+            'Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
+                             '\n</decision>'
+
+    else:
+        violations = ''
+        if multicollinearity:
+            violations += ('Multicollinearity suspected.') + ' '
+
+        output = '<decision>' + ('Interval variables.') + ' ' + violations + ' >> ' + \
+                 ('Hypothesis tests may be inaccurate.') 
+
+
+    output += ('Regressor slopes:') + '\n'
+    for predictor in predictors:
+        output += predictor + ': <i>t</i>(%d) = %0.*f, %s' % (len(data) - len(predictors) - 1, non_data_dim_precision,
+                                                              result.tvalues[predictor],
+                                                              print_p(result.pvalues[predictor])) + '\n'
+
+    # TODO hypothesis tests for partial correlation coefficients.
+    #  Pingouin doesn't use t-tests and doesn't give test statistics.
+
+    return output
+  
+  
+def ordered_regression_model_fit(data, predictors, y, result, multicollinearity=None, sample=True):
+    
+        orderedreg_model_fit = ''
+
+
+    # Calculate effect sizes for sample or population
+        pdf_model_result_fit = pd.DataFrame(columns=[('Loglikelihood') , ('Chi-Square'), ('Degrees of freedom'), ('P value')])  
+        
+        pdf_model_result_fit.loc[("Model with intercept")] = \
+            ['%0.3f' % result.llnull, '','','']
+        
+        pdf_model_result_fit.loc[('Full model')] = ['%0.3f' % result.llf, '%0.3f' % result.llr , '%0.3f' % result.df_model, '%0.3f' % result.llr_pvalue]
+        #orderedreg_model_fit += cs_stat._format_html_table(pdf_model_result_fit.to_html(bold_rows=False, escape=False,
+                                                                                       #classes='table_cs_pd')) + '\n'
+
+
+
+        orderedreg_model_fit += pdf_model_result_fit.to_html(bold_rows=False, escape=False).replace('\n', '')
+
+        return orderedreg_model_fit
+      
+      
 ### Reliability analyses ###
 
 def reliability_interrater_assumptions(data, data_long, var_names, meas_lev):
