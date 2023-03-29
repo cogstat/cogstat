@@ -661,6 +661,60 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
     return regression_coefficients
 
 
+def variable_pair_ordered_logistic_regression_coefficients(predictors, meas_lev, multicollinearity=None, result=None):
+    """
+    Calculate point and interval estimates of regression parameters (slopes) in ordered logistic regression analysis.
+
+    Parameters
+    ----------
+    predictors : list of str
+        List of explanatory variable names.
+    meas_lev : str
+        Measurement level of the regressors
+    multicollinearity : bool or None
+        True if multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
+    result: statsmodels regression result object
+        The result of the multiple regression analysis.
+
+    Returns
+    -------
+    str
+        Table of the point and interval estimations as html text
+    """
+    result = OrderedModel(dataset[regressor], dataset[regressors_other], distr='logit').fit(method='bfgs', disp=False)
+    
+    if meas_lev == "int":
+        regression_coefficients = ''
+        pdf_result = pd.DataFrame(columns=[('Point estimation'), ('Standard error'), ('95% confidence interval')])
+
+        # Warnings based on the results of the assumption tests
+
+        if len(predictors) > 1:
+            if multicollinearity is None:
+                regression_coefficients += '\n' + '<decision>' + ('Multicollinearity could not be calculated.') + \
+                                           ' ' + ('Point estimates and CIs may be inaccurate.') + '</decision>'
+            elif multicollinearity:
+                regression_coefficients += '\n' + '<decision>' \
+                                           + ('Multicollinearity suspected.') + ' ' + \
+                                           ('Point estimates and CIs may be inaccurate.') + '</decision>'
+            else:
+                regression_coefficients += '\n' + '<decision>' + ('Assumption of multicollinearity for'
+                                                                   ' CI calculations met.') + '</decision>'
+
+        # Gather point estimates and CIs into table
+        cis = result.conf_int(alpha=0.05)
+        for predictor in predictors:
+            pdf_result.loc['Slope for %s' % predictor] = ['%0.3f' % (result.params[predictor]), '%0.3f' % (result.bse[predictor]) , '[%0.3f, %0.3f]' %
+                                                          (cis.loc[predictor, 0], cis.loc[predictor, 1])]
+    else:
+        regression_coefficients = None
+
+    if regression_coefficients:
+        regression_coefficients += pdf_result.to_html(bold_rows=False, escape=False).replace('\n', '')
+
+    return regression_coefficients
+
+
 def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=None, homoscedasticity=None):
     """Calculate standardized effect size measures.
     (Some stats are also calculated elsewhere, making the analysis slower, but separation is a priority.)
@@ -747,6 +801,68 @@ def variable_pair_standard_effect_size(data, meas_lev, sample=True, normality=No
             missing_pdf_result = True
     if not missing_pdf_result:
         standardized_effect_size_result += pdf_result.to_html(bold_rows=False, escape=False).replace('\n', '')
+    return standardized_effect_size_result
+
+
+def ordered_logistic_regression_variable_pair_standard_effect_size(data, meas_lev, sample=True):
+    """Calculate standardized effect size measures.
+    (Some stats are also calculated elsewhere, making the analysis slower, but separation is a priority.)
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_lev : str
+        Measurement level of variables.
+    sample : bool
+        True for sample descriptives, False for population estimations.
+
+
+    Returns
+    -------
+    html text
+    """
+    standardized_effect_size_result = ''
+    missing_pdf_result = False
+    if sample:
+        pdf_result = pd.DataFrame()
+        if meas_lev in ['int', 'unk']:
+            pdf_result.loc[("Pearson's correlation"), ('Value')] = \
+                '<i>r</i> = %0.3f' % stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])[0]
+            pdf_result.loc[("Spearman's rank-order correlation"), ('Value')] = \
+                '<i>r<sub>s</sub></i> = %0.3f' % stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])[0]
+        elif meas_lev == 'ord':
+            pdf_result.loc[("Spearman's rank-order correlation"), ('Value')] = \
+                '<i>r<sub>s</sub></i> = %0.3f' % stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])[0]
+        elif meas_lev == 'nom':
+            try:
+                cramersv = pingouin.chi2_independence(data, data.columns[0], data.columns[1])[2].loc[0, 'cramer']
+                # TODO this should be faster when minimum scipy can be 1.7:
+                # cramersv = stats.contingency.association(data.iloc[:, 0:1], method='cramer')) # new in scipy 1.7
+                pdf_result.loc[("Cramér's V measure of association"), ('Value')] = \
+                    '&phi;<i><sub>c</sub></i> = %.3f' % cramersv
+            except ZeroDivisionError:  # TODO could this be avoided?
+                pdf_result.loc[("Cramér's V measure of association"), ('Value')] = \
+                    'cannot be computed (division by zero)'
+    else:  # population estimations
+        pdf_result = pd.DataFrame(columns=[('Point estimation'), ('95% confidence interval')])
+        if meas_lev in ['int', 'unk']:
+            df = len(data) - 2
+            r, p = stats.pearsonr(data.iloc[:, 0], data.iloc[:, 1])
+            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
+            pdf_result.loc[("Pearson's correlation") + ', <i>r</i>'] = \
+                ['%0.3f' % r, '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+
+        if meas_lev in ['int', 'unk', 'ord']:
+            df = len(data) - 2
+            r, p = stats.spearmanr(data.iloc[:, 0], data.iloc[:, 1])
+            r_ci_low, r_ci_high = cs_stat_num.corr_ci(r, df + 2)
+            pdf_result.loc[("Spearman's rank-order correlation") + ', <i>r<sub>s</sub></i>'] = \
+                ['%0.3f' % (r), '[%0.3f, %0.3f]' % (r_ci_low, r_ci_high)]
+        elif meas_lev == 'nom':
+            missing_pdf_result = True
+    if not missing_pdf_result:
+        standardized_effect_size_result += pdf_result.to_html(bold_rows=False, escape=False).replace('\n', '')
+        
     return standardized_effect_size_result
 
 
@@ -853,6 +969,75 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
     return standardized_effect_size_result
 
 
+def ordered_logistic_regression_multiple_variables_standard_effect_size(data, predictors, y, result, multicollinearity=None, sample=True):
+    """Calculate standardized effect size measures for ordered regression with multiple variables.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    predictors : list of str
+        Name of the explanatory variables.
+    y : list of str
+        Name of the dependent variable.
+    result : statsmodels regression result object
+        The result of the ordinal regression analyses.
+    multicollinearity : bool or None
+        True if possible multicollinearity was detected (VIF>10). None if the parameter was not specified.
+    sample : bool
+        True for sample descriptives, False for population estimations.
+
+    Returns
+    -------
+    html text
+    """
+    # TODO validate
+
+    standardized_effect_size_result = ''
+
+
+    if multicollinearity is None:
+        standardized_effect_size_result += '\n' + '<decision>' + ('Multicollinearity could not be calculated.') + \
+                                           ' ' + ('CIs may be biased.') + '</decision>'
+    elif not multicollinearity:
+        standardized_effect_size_result += '\n' + '<decision>' \
+                                           + ('Assumption of multicollinearity violated.') + ' ' + \
+                                           ('CIs may be biased.') + '</decision>'
+    else:
+        standardized_effect_size_result += '\n' + '<decision>' + ('Assumption of multicollinearity met.') + '</decision>'
+
+    # Calculate effect sizes for sample or population
+        pdf_result_model = pd.DataFrame(columns=[('Point estimation') , ('95% confidence interval')])
+        pdf_result_corr = pd.DataFrame(columns=[('Point estimation'), ('95% confidence interval')])
+        
+        ci = cs_stat_num.calc_r2_ci(result.prsquared, len(predictors), len(data))
+        pdf_result_model.loc[_("McFadden's pseudo <i>R<sup>2</sup></i>")] = \
+            ['%0.3f' % result.prsquared, '[%0.3f, %0.3f]' % (ci[0], ci[1])]
+
+
+        pdf_result_model.loc[('Log-likelihood')] = ['%0.3f' % result.llf, '']
+        pdf_result_model.loc[('AIC')] = ['%0.3f' % result.aic, '']
+        pdf_result_model.loc[('BIC')] = ['%0.3f' % result.bic, '']
+        standardized_effect_size_result += pdf_result_model.to_html(bold_rows=False,escape=False).replace('\n', '') + \
+                                           '\n'
+
+    standardized_effect_size_result += '\n' + ("Pearson's partial correlations")
+
+    for predictor in predictors:
+        predictors_other = predictors.copy()
+        predictors_other.remove(predictor)
+        
+        pdf_result_corr = pd.DataFrame(columns=[('Point estimation'), ('95% confidence interval')])
+
+        partial_result = pingouin.partial_corr(data, predictor, y[0], predictors_other)
+        pdf_result_corr.loc[predictor + ', <i>r</i>'] = \
+            ['%0.3f' % (partial_result['r']), '[%0.3f, %0.3f]' % (partial_result['CI95%'][0][0],
+                                                                  partial_result['CI95%'][0][1])]
+
+    standardized_effect_size_result += pdf_result_corr.to_html(bold_rows=False, escape=False).replace('\n', '')
+
+    return standardized_effect_size_result
+
+
 def correlation_matrix(data, predictors):
     """Create Pearson's correlation matrix for assessment of multicollinearity.
 
@@ -911,6 +1096,49 @@ def vif_table(data, var_names):
             table += _('Beta weights when regressing %s on all other regressors') % regressor + '.'
             slopes = pd.DataFrame(OLS(data[regressor], add_constant(data[regressors_other])).fit().params,
                                   columns=[_('Slope on %s') % regressor]).round(3)
+            table += slopes.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
+    return table, multicollinearity
+
+
+def ordered_logistic_regression_vif_table(data, var_names):
+    """Calculate and display Variance Inflation Factors. Raises warning and displays corresponding
+    auxiliary regression weights in case of suspected multicollineearity (VIF>10).
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    var_names : list of str
+        list of explanatory variable names
+
+    Returns
+    -------
+    html text, bool
+        Html text with variance inflation factors (VIFs) and beta weights from auxiliary regression in case of VIF > 10.
+        Boolean is True when any VIF is greater than 10. False otherwise.
+    """
+
+    from statsmodels.stats.outliers_influence import variance_inflation_factor
+    from statsmodels.api import add_constant
+    from statsmodels.miscmodels.ordinal_model import OrderedModel
+
+
+    regressors = add_constant(data[var_names])
+    table = ('Variance inflation factors of explanatory variables and constant')
+    vifs = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
+                         for i in range(regressors.shape[1])], index=regressors.columns, columns=[('VIF')])
+    table += vifs.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
+
+    multicollinearity = False
+    for regressor in var_names:
+        if vifs.loc[regressor, ('VIF')] > 10:
+            multicollinearity = True
+            table += '\n' + '<decision>' + _('VIF > 10 in variable %s ') % regressor + '\n' + \
+                     ('Possible multicollinearity.') + '\n</decision>'
+            regressors_other = var_names.copy()
+            regressors_other.remove(regressor)
+            table += ('Beta weights when regressing %s on all other regressors.' % regressor)
+            slopes = pd.DataFrame(OrderedModel(dataset[regressor], dataset[regressors_other], distr='logit').fit(method='bfgs', disp=False).params,
+                                  columns=[('Slope on %s') % regressor])
             table += slopes.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
     return table, multicollinearity
 
