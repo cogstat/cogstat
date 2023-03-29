@@ -1243,9 +1243,15 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         self.init_langs()
         self.init_themes()
 
+        # Init image format
         image_formats = ['png', 'svg']
         self.image_combo_box.addItems(image_formats)
         self.image_combo_box.setCurrentIndex(image_formats.index(csc.image_format))
+
+        # Init detailed error message
+        error_messages = [_('Off'), _('On')]
+        self.error_combo_box.addItems(error_messages)
+        self.error_combo_box.setCurrentIndex(error_messages.index(error_messages[csc.detailed_error_message]))
 
     def init_langs(self):
         """Set the available languages.
@@ -1276,7 +1282,7 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
                       'ro': 'Română (Romanian)', 'ru': 'Русский (Russian)', 'sk': 'Slovenčina (Slovak)',
                       'th': 'ไทย (Thai)', 'tr': 'Türkçe (Turkish)', 'zh': '汉语 (Chinese)'}
         lang_names_sorted = sorted([lang_names[lang] for lang in langs])
-        self.lang_codes = {lang_name:lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
+        self.lang_codes = {lang_name: lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
 
         self.langComboBox.clear()
         for lang_name in lang_names_sorted:
@@ -1300,4 +1306,5 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         csc.save('language', self.lang_codes[str(self.langComboBox.currentText())])
         csc.save('theme', str(self.themeComboBox.currentText()))
         csc.save('image_format', str(self.image_combo_box.currentText()))
+        csc.save('detailed_error_message', str(bool(self.error_combo_box.currentIndex())))
         self.accept()

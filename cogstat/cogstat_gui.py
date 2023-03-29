@@ -612,9 +612,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 result = attrgetter(function_rest_levels)(locals()[function_highest_level])(**parameters)
             self.analysis_results[-1].add_output(result)
         except Exception as e:
-            # TODO consider adding the Python error message to the results pane (maybe optional, set in Preferences)
-            # _('Error code') + ': %s' % e
-            self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title]))
+            if csc.detailed_error_message:
+                error_message = '\n' + '<cs_warning>' + _('Detailed error message') + \
+                                ' (%s) :</cs_warning>\n' % 'you can turn this off in Preferences' + traceback.format_exc()
+            else:
+                error_message = ''
+            self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title, error_message]))
             if title == _('Data'):  # Data import-specific error message
                 data = parameters['data']
                 try:
@@ -623,7 +626,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 except:
                     file_content = ''
                 self.analysis_results[-1].add_output(cs_util.convert_output(
-                    [_('Data to be imported') + ':<br>%s<br>%s' % (data, file_content)]))
+                    ['<cs_warning>' + _('Data to be imported') + ':</cs_warning><br>%s<br>%s' % (data, file_content)]))
                 self._display_data(reset=True)
             traceback.print_exc()
             successful_run = False

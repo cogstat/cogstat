@@ -78,6 +78,8 @@ fig_size_y = 6  # in inch
 graph_font_size = 'medium'
 graph_title_size = 'medium'
 image_format = config['Preferences']['image_format']
+
+detailed_error_message = bool(config['Preferences']['detailed_error_message'])
 versions = {}  # To be modified from cogstat.py
 
 
