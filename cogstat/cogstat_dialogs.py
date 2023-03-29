@@ -1266,7 +1266,7 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         langs = sorted(['en']+available_langs(domain='cogstat', localedir=os.path.dirname(os.path.abspath(__file__)) +
                                                                           '/locale'))
         # local language names based on https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-        lang_names = {'ar': 'اَلْعَرَبِيَّةُ (Arabic)', 'bg': 'Български (Bulgarian)', 'de': 'Deutsch (German)',
+        lang_names = {'ar': ' (Arabic) العربية', 'bg': 'Български (Bulgarian)', 'de': 'Deutsch (German)',
                       'en': 'English', 'el': 'Ελληνικά (Greek)', 'es': 'Español (Spanish)',
                       'et': 'Eesti (Estonian)', 'fa': 'فارسی (Persian)',
                       'fr': 'Français (French)', 'he': 'עברית (Hebrew)',
