@@ -47,6 +47,7 @@ Upcoming release (2023)
 - New localization
   - Chinese (Xiaomeng Zhu)
   - Malay (Nur Hidayati Miza binti Junaidi)
+  - Arabic (Rahmeh Albursan)
 
 ## Fixes
 - :warning: In outlier filtering, the cases with the limit value will be included and not excluded

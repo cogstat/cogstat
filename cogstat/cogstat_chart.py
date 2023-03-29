@@ -664,12 +664,6 @@ def create_residual_chart(data, meas_lev, x, y):
     """
 
     if meas_lev == 'int':
-        val_count = data.value_counts()
-        # TODO FIXME this will not change the current plot but some other plots
-        #if max(val_count) > 1:
-        #    plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count),
-        #                 x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
-
         import statsmodels.regression
         import statsmodels.tools
         residuals = statsmodels.regression.linear_model.OLS(data[y],statsmodels.tools.add_constant(data[x]))\
@@ -682,7 +676,15 @@ def create_residual_chart(data, meas_lev, x, y):
         ax_hist = fig.add_subplot(gs[0, 2], sharey=ax_res_plot)
 
         # Residual plot (scatter of x vs. residuals)
-        ax_res_plot.scatter(data[x], residuals, s=20)  # TODO size should be proportional to frequency
+        # Prepare frequencies
+        res_df = pd.DataFrame(np.array([data[x], residuals]).T)
+        max_freq = np.max(res_df.value_counts())
+        val_count = _value_count(res_df, max_freq)
+        if max_freq > 1:
+            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count), x=0.9, y=0.025,
+                         horizontalalignment='right', fontsize=10)
+
+        ax_res_plot.scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
         ax_res_plot.axhline(y=0)
         ax_res_plot.set_title(_plt("Residual plot"))
         ax_res_plot.set_xlabel(x)
@@ -867,7 +869,14 @@ def create_scatter_matrix(data, meas_lev):
     if meas_lev == 'int':
         fig, ax = plt.subplots(len(data.columns), len(data.columns), tight_layout=True)
         fig.suptitle(_plt('Scatterplot matrix of variables'))
+        # Preparing frequencies
         global_max_freq = 1
+        for i in range(len(data.columns)):
+            for j in range(len(data.columns)):
+                if i != j:
+                    local_max = np.max(data.iloc[:, [i, j]].value_counts())
+                    global_max_freq = np.max([global_max_freq, local_max])
+        # Draw plots
         for i in range(0, len(data.columns)):
             ax[i, 0].set_ylabel(data.columns[i])
             ax[len(data.columns) - 1, i].set_xlabel(data.columns[i])
@@ -876,9 +885,7 @@ def create_scatter_matrix(data, meas_lev):
                     ax[i, j].hist(data.iloc[:, i])
                 else:
                     val_count = _value_count(data.iloc[:, [i, j]], global_max_freq)
-                    if max(val_count.values) > global_max_freq:
-                        global_max_freq = max(val_count.values)
-                    ax[i, j].scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
+                    ax[i, j].scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
         if global_max_freq > 1:
             fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,
                      horizontalalignment='right', fontsize=10)
@@ -917,7 +924,10 @@ def part_regress_plots(data, predicted, predictors):
 
     fig = plt.figure(tight_layout=True)
     fig.suptitle(_plt('Partial regression plots'))
+
+    # Calculate residuals
     global_max_freq = 1
+    residuals = []
     for index, predictor in enumerate(predictors):
         predictors_other = predictors.copy()
         predictors_other.remove(predictor)
@@ -926,7 +936,15 @@ def part_regress_plots(data, predicted, predictors):
         # Calculating the residuals from regressing the chosen explanatory variable on the remaining
         # explanatory variables
         resid_x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
+        residuals += [[resid_dependent, resid_x_i]]
 
+        # Preparing frequencies
+        local_max = np.max(pd.DataFrame([resid_dependent, resid_x_i]).value_counts())
+        global_max_freq = np.max([global_max_freq, local_max])
+
+    # Make plots
+    for index, predictor in enumerate(predictors):
+        resid_dependent, resid_x_i = residuals[index][0], residuals[index][1]
         val_count = _value_count(pd.concat([resid_x_i, resid_dependent], axis=1), global_max_freq)
         ax = plt.subplot(nrows, ncols, index+1)
         ax.scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
