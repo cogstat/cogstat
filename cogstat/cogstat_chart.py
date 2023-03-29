@@ -27,66 +27,75 @@ from . import cogstat_util as cs_util
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
-### Set matplotlib styles ###
-# Set the styles
-# User ini file includes a single theme name (unless it is freshly created based on the default ini file.
-# Default ini files includes several theme names so that preferred themes with different names in various matplotlib
-#  versions can be used.
-theme_is_set = False  # Can we set the theme?
-for theme in csc.theme if type(csc.theme) is list else [csc.theme]:
-    try:
-        plt.style.use(theme)
-        theme_is_set = True
-        # if csc.theme is a list, then overwrite the theme in csc.theme and in cogstat.ini with the first available theme
-        if type(csc.theme) is list:  # list is used only in the default file, and it means that the ini file has just
-                                     # been created
-            csc.theme = theme
-            csc.save('theme', theme)
-        break
-    except IOError:  # if the given theme is not available, try the next one
-        continue
-if not theme_is_set:  # If the theme couldn't be set based on preferences/ini, set the first available theme
-    csc.theme = sorted(plt.style.available)[0]
+def set_matplotlib_theme():
+    """Function to set the matplotlib theme. This is in a function so that the theme can be changed right after it is
+    set in Preferences.
+    """
+    global theme_colors
+
+    # Set the styles
+    # User ini file includes a single theme name (unless it is freshly created based on the default ini file.
+    # Default ini files includes several theme names so that preferred themes with different names in various matplotlib
+    #  versions can be used.
+    theme_is_set = False  # Can we set the theme?
+    for theme in csc.theme if type(csc.theme) is list else [csc.theme]:
+        try:
+            plt.style.use(theme)
+            theme_is_set = True
+            # if csc.theme is a list, then overwrite the theme in csc.theme and in cogstat.ini with the first available theme
+            if type(csc.theme) is list:  # list is used only in the default file, and it means that the ini file has just
+                                         # been created
+                csc.theme = theme
+                csc.save('theme', theme)
+            break
+        except IOError:  # if the given theme is not available, try the next one
+            continue
+    if not theme_is_set:  # If the theme couldn't be set based on preferences/ini, set the first available theme
+        csc.theme = sorted(plt.style.available)[0]
+        plt.style.use(csc.theme)
+        csc.save('theme', csc.theme)
+
     plt.style.use(csc.theme)
-    csc.save('theme', csc.theme)
+    #print(plt.style.available)
+    #style_num = 15
+    #print(plt.style.available[style_num])
+    #plt.style.use(plt.style.available[style_num])
+    theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]  # set module variable
+    #print(theme_colors)
+    # this is a workaround, as 'C0' notation does not seem to work
 
-#print(plt.style.available)
-#style_num = 15
-#print(plt.style.available[style_num])
-#plt.style.use(plt.style.available[style_num])
-theme_colors = [col['color'] for col in list(plt.rcParams['axes.prop_cycle'])]
-#print(theme_colors)
-# this is a workaround, as 'C0' notation does not seem to work
+    # store the first matplotlib theme color in cogstat config for the GUI-specific html heading styles
+    csc.mpl_theme_color = theme_colors[0]
 
-# store the first matplotlib theme color in cogstat config for the GUI-specific html heading styles
-csc.mpl_theme_color = theme_colors[0]
+    # Overwrite style parameters when needed
+    # https://matplotlib.org/tutorials/introductory/customizing.html
+    # Some dashed and dotted axes styles (which are simply line styles) are hard to differentiate, so we overwrite the style
+    #print(matplotlib.rcParams['lines.dashed_pattern'], matplotlib.rcParams['lines.dotted_pattern'])
+    matplotlib.rcParams['lines.dashed_pattern'] = [6.0, 6.0]
+    matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
+    #print(matplotlib.rcParams['axes.spines.left'])
+    #print(matplotlib.rcParams['font.size'], matplotlib.rcParams['font.serif'], matplotlib.rcParams['font.sans-serif'])
+    if csc.language == 'th':
+        matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
+    if csc.language == 'ko':
+        matplotlib.rcParams['font.sans-serif'][0:0] = ['NanumGothic', 'NanumMyeongjo']
+    if csc.language == 'zh':
+        matplotlib.rcParams['font.sans-serif'][0:0] = ['SimHei', 'Heiti TC', 'WenQuanYi Zen Hei', 'SimSun']
+    #print(matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize'])
+    matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
+    matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axis
+    #print(matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize'])
+    #print(matplotlib.rcParams['figure.facecolor'])
+    # Make sure that the axes are visible
+    #print(matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor'])
+    if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == \
+            matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
+        #print(matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']))
+        matplotlib.rcParams['axes.edgecolor'] = \
+            'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']) == (0, 0, 0, 0) else 'k'
 
-# Overwrite style parameters when needed
-# https://matplotlib.org/tutorials/introductory/customizing.html
-# Some dashed and dotted axes styles (which are simply line styles) are hard to differentiate, so we overwrite the style
-#print(matplotlib.rcParams['lines.dashed_pattern'], matplotlib.rcParams['lines.dotted_pattern'])
-matplotlib.rcParams['lines.dashed_pattern'] = [6.0, 6.0]
-matplotlib.rcParams['lines.dotted_pattern'] = [1.0, 3.0]
-#print(matplotlib.rcParams['axes.spines.left'])
-#print(matplotlib.rcParams['font.size'], matplotlib.rcParams['font.serif'], matplotlib.rcParams['font.sans-serif'])
-if csc.language == 'th':
-    matplotlib.rcParams['font.sans-serif'][0:0] = ['Umpush', 'Loma', 'Laksaman', 'KoHo', 'Garuda']
-if csc.language == 'ko':
-    matplotlib.rcParams['font.sans-serif'][0:0] = ['NanumGothic', 'NanumMyeongjo']
-if csc.language == 'zh':
-    matplotlib.rcParams['font.sans-serif'][0:0] = ['SimHei', 'Heiti TC', 'WenQuanYi Zen Hei', 'SimSun']
-#print(matplotlib.rcParams['axes.titlesize'], matplotlib.rcParams['axes.labelsize'])
-matplotlib.rcParams['axes.titlesize'] = csc.graph_title_size  # title of the charts
-matplotlib.rcParams['axes.labelsize'] = csc.graph_font_size  # labels of the axis
-#print(matplotlib.rcParams['xtick.labelsize'], matplotlib.rcParams['ytick.labelsize'])
-#print(matplotlib.rcParams['figure.facecolor'])
-# Make sure that the axes are visible
-#print(matplotlib.rcParams['axes.facecolor'], matplotlib.rcParams['axes.edgecolor'])
-if matplotlib.colors.to_rgba(matplotlib.rcParams['figure.facecolor']) == \
-        matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']):
-    #print(matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']))
-    matplotlib.rcParams['axes.edgecolor'] = \
-        'w' if matplotlib.colors.to_rgba(matplotlib.rcParams['axes.edgecolor']) == (0, 0, 0, 0) else 'k'
+theme_colors = None
+set_matplotlib_theme()
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext

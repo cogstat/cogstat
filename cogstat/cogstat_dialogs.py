@@ -1237,7 +1237,7 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         QtWidgets.QDialog.__init__(self, parent)
         self.setupUi(self)
         self.setModal(True)
-        self.buttonBox.accepted.connect(self.write_settings)
+        self.buttonBox.accepted.connect(self.write_and_apply_settings)
         self.buttonBox.rejected.connect(self.reject)
     
         self.init_langs()
@@ -1300,11 +1300,22 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
             self.themeComboBox.addItem(theme)
         self.themeComboBox.setCurrentIndex(themes.index(csc.theme))
 
-    def write_settings(self):
-        """Save the settings when OK is pressed.
+    def write_and_apply_settings(self):
+        """Save the settings when OK is pressed. Apply the settings so that restart is not needed.
         """
+        from . import cogstat_chart as cs_chart
+
+        # Language
         csc.save('language', self.lang_codes[str(self.langComboBox.currentText())])
-        csc.save('theme', str(self.themeComboBox.currentText()))
-        csc.save('image_format', str(self.image_combo_box.currentText()))
-        csc.save('detailed_error_message', str(bool(self.error_combo_box.currentIndex())))
+        # Theme
+        csc.theme = str(self.themeComboBox.currentText())
+        cs_chart.set_matplotlib_theme()
+        csc.save('theme', csc.theme)
+        # Image format
+        csc.image_format = str(self.image_combo_box.currentText())
+        csc.save('image_format', csc.image_format)
+        # Detailed error message
+        csc.detailed_error_message = bool(self.error_combo_box.currentIndex())
+        csc.save('detailed_error_message', str(csc.detailed_error_message))
+
         self.accept()

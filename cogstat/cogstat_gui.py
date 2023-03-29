@@ -614,7 +614,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             if csc.detailed_error_message:
                 error_message = '\n' + '<cs_warning>' + _('Detailed error message') + \
-                                ' (%s) :</cs_warning>\n' % 'you can turn this off in Preferences' + traceback.format_exc()
+                                ' (%s):</cs_warning>\n' % 'you can turn this off in Preferences' + traceback.format_exc()
             else:
                 error_message = ''
             self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title, error_message]))

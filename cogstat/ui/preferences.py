@@ -52,9 +52,9 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setItalic(True)
         self.label_6.setFont(font)
-        self.label_6.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 9, 0, 1, 2)
+        self.gridLayout.addWidget(self.label_6, 1, 0, 1, 2)
         self.label_3.setBuddy(self.themeComboBox)
         self.label_5.setBuddy(self.image_combo_box)
         self.label.setBuddy(self.langComboBox)
@@ -71,7 +71,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Detailed error message"))
         self.label_5.setText(_translate("Dialog", "Image format"))
         self.label.setText(_translate("Dialog", "Language"))
-        self.label_6.setText(_translate("Dialog", "Restart CogStat to use the new settings"))
+        self.label_6.setText(_translate("Dialog", "Restart CogStat to use the new language settings"))
 
 
 if __name__ == "__main__":

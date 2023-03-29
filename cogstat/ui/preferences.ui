@@ -86,7 +86,7 @@
    <item row="4" column="1">
     <widget class="QComboBox" name="error_combo_box"/>
    </item>
-   <item row="9" column="0" colspan="2">
+   <item row="1" column="0" colspan="2">
     <widget class="QLabel" name="label_6">
      <property name="font">
       <font>
@@ -94,10 +94,10 @@
       </font>
      </property>
      <property name="text">
-      <string>Restart CogStat to use the new settings</string>
+      <string>Restart CogStat to use the new language settings</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
