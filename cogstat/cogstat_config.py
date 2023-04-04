@@ -1,6 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Settings
+""" Settings for CogStat.
+
+The module includes the elements for configuring the behavior of CogStat.
+
+All settings that can be set from the Preferences in the GUI, are included in the .ini file.
 """
 
 import os
@@ -9,15 +11,15 @@ import configparser
 
 import appdirs  # The module handles the OS-specific user config dirs
 
-# Settings not handled in cogstat.ini
+# 0. General settings
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui' any other
-# code will leave the output (e.g., for testing)
-# All other settings values are stored in the cogstat.ini file
+versions = {}  # To be modified from cogstat.py
 
+# 1. Settings from the .ini file
 # Handle cogstat.ini file in user config dirs
 dirs = appdirs.AppDirs('cogstat')
 
-# If there is no cogstat-ini file for the user, create one with the default values
+# If there is no cogstat.ini file for the user, create one with the default values
 if not os.path.isfile(dirs.user_config_dir + '/cogstat.ini'):
     if not os.path.exists(dirs.user_config_dir):
         os.makedirs(dirs.user_config_dir)
@@ -42,14 +44,20 @@ for key in default_config['Preferences'].keys():
             config.write(configfile)
 
 # Read the setting values from cogstat.ini
-
-# UI language
 language = config['Preferences']['language']
+try:
+    # because configparser cannot handle multiple values for a single key, split the values
+    theme = config['Preferences']['theme'].split(',')
+except KeyError:
+    theme = ''
+image_format = config['Preferences']['image_format']
+detailed_error_message = bool(config['Preferences']['detailed_error_message'])
 
-# Output styles
+
+# 2. Other settings
+# Output settings
 default_font = 'arial'
 default_font_size = 9.5
-
 # Define cs specific tags as html tags
 cs_tags = {'<cs_h1>': '<h2>',
            '</cs_h1>': '</h2>',
@@ -65,22 +73,12 @@ cs_tags = {'<cs_h1>': '<h2>',
            '</cs_warning>': '</font>',
            '<cs_fix_width_font>': '<font style="font-family: courier">',
            '</cs_fix_width_font>': '</font>'}
-
-# Graph parameters
-try:
-    # because configparser cannot handle multiple values for a single key, split the values
-    theme = config['Preferences']['theme'].split(',')
-except KeyError:
-    theme = ''
+# Other chart parameters
 fig_size_x = 8  # in inch
 fig_size_y = 6  # in inch
 # graph size will not give nice graphs with too small values - it is a matplotlib issue
 graph_font_size = 'medium'
 graph_title_size = 'medium'
-image_format = config['Preferences']['image_format']
-
-detailed_error_message = bool(config['Preferences']['detailed_error_message'])
-versions = {}  # To be modified from cogstat.py
 
 
 def save(config_key, value):
