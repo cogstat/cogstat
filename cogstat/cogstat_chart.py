@@ -52,9 +52,11 @@ def set_matplotlib_theme():
             continue
     if not theme_is_set:  # If the theme couldn't be set based on preferences/ini, set the first available theme
         csc.theme = sorted(plt.style.available)[0]
-        plt.style.use(csc.theme)
         csc.save('theme', csc.theme)
 
+    # Set the style to default first, so that if a property is not set in a style, then not the arbitrary property of
+    #  the previous style is used
+    plt.style.use('default')
     plt.style.use(csc.theme)
     #print(plt.style.available)
     #style_num = 15
