@@ -199,7 +199,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  'Ctrl+P', 'self.compare_variables', True, True],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
                                  'self.compare_groups', True, True],
-                                ['/icons8-combo-chart-50.png', _('Compare repeated &measures variables and groups')+'...',
+                                ['/icons8-combo-chart-100.png', _('Compare repeated &measures variables and groups')+'...',
                                  'Ctrl+M', 'self.compare_variables_groups', True, True],
                                 ['separator'],
                                 ['toolbar separator'],
