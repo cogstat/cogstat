@@ -51,7 +51,7 @@ try:
 except KeyError:
     theme = ''
 image_format = config['Preferences']['image_format']
-detailed_error_message = bool(config['Preferences']['detailed_error_message'])
+detailed_error_message = False if config['Preferences']['detailed_error_message'] == 'False' else True
 
 
 # 2. Other settings

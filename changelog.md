@@ -44,6 +44,7 @@ Upcoming release (2023)
 - Output handling
   - Save results into html file instead of pdf file (Róbert Fodor)
   - Ability to use png or svg image formats for charts
+- Possibility to print detailed Python error messages to results pane 
 - New localization
   - Chinese (Xiaomeng Zhu)
   - Malay (Nur Hidayati Miza binti Junaidi)
@@ -53,6 +54,7 @@ Upcoming release (2023)
 - :warning: In outlier filtering, the cases with the limit value will be included and not excluded
 - :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed
 - Extended calculation validations (thanks to Eszter Miklós)
+- Most settings in Preferences are applied without the need to restart
 - Various GUI, and output fixes
 
 2.3.0 (23 July 2022)
