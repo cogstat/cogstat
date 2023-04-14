@@ -692,8 +692,8 @@ def create_residual_chart(data, meas_lev, x, y):
         max_freq = np.max(res_df.value_counts())
         val_count = _value_count(res_df, max_freq)
         if max_freq > 1:
-            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases.') % max(val_count), x=0.9, y=0.025,
-                         horizontalalignment='right', fontsize=10)
+            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
         ax_res_plot.scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
         ax_res_plot.axhline(y=0)

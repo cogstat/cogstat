@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-14 13:19+0200\n"
+"POT-Creation-Date: 2023-04-14 13:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2060,6 +2060,7 @@ msgid "Frequency"
 msgstr ""
 
 #: .././cogstat_chart.py:506 .././cogstat_chart.py:580
+#: .././cogstat_chart.py:695
 #, python-format
 msgid "Largest tick on the x-axes displays %d cases"
 msgstr ""
@@ -2099,11 +2100,6 @@ msgstr ""
 
 #: .././cogstat_chart.py:649
 msgid "Median value"
-msgstr ""
-
-#: .././cogstat_chart.py:695
-#, python-format
-msgid "Largest tick on the x-axes displays %d cases."
 msgstr ""
 
 #: .././cogstat_chart.py:700
