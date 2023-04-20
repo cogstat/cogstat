@@ -14,6 +14,7 @@ import appdirs  # The module handles the OS-specific user config dirs
 # 0. General settings
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui' any other
 versions = {}  # To be modified from cogstat.py
+test_functions = False  # features can be switched on and off with this
 
 # 1. Settings from the .ini file
 # Handle cogstat.ini file in user config dirs

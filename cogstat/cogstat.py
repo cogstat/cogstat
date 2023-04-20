@@ -1606,9 +1606,14 @@ class CogStatData:
         result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
-        return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
-                                       sample_graph, sample_graph_new, population_result, population_estimation,
-                                       population_effect_size, population_graph, population_graph_new, result_ht])
+        if csc.test_functions:
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
+                                           sample_graph, sample_graph_new, population_result, population_estimation,
+                                           population_effect_size, population_graph, population_graph_new, result_ht])
+        else:
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result,
+                                           sample_graph_new, population_result, population_estimation,
+                                           population_effect_size, population_graph_new, result_ht])
 
     def compare_groups(self, var_name,
                        grouping_variables=None, display_groups=None,
@@ -1809,9 +1814,14 @@ class CogStatData:
             result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                         cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, grouping_variables)
 
-        return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
-                                       sample_graph, sample_graph_new, population_result, population_estimation,
-                                       population_effect_size, population_graph, population_graph_new, result_ht])
+        if csc.test_functions:
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
+                                           sample_graph, sample_graph_new, population_result, population_estimation,
+                                           population_effect_size, population_graph, population_graph_new, result_ht])
+        else:
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result,
+                                           sample_graph_new, population_result, population_estimation,
+                                           population_effect_size, population_graph_new, result_ht])
 
     def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
                           single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
