@@ -9,34 +9,36 @@ msgstr ""
 
 #: .././cogstat_hyp_test.py:38
 msgid "The properties of the variables are not set. Set them in your data source."
-msgstr "Sifat pembolehubah tidak ditetapkan. Sila tetapkan pembolehubah dalam sumber data."
+msgstr "Sifat pembolehubah tidak ditetapkan. Sila tetapkan pembolehubah dalam sumber data anda."
 
-#: .././cogstat_stat.py:123
+#: .././cogstat_stat.py:117
 msgid "Sorry, string variables cannot be used in Pivot table."
 msgstr "Maaf, pembolehubah rentatan tersebut tidak boleh digunakan dalam tabel Pivot. "
 
-#: .././cogstat_stat.py:129
+#: .././cogstat_stat.py:123
 msgid "Independent variable(s) - Pages: "
 msgstr "Pembolehubah bebas - Muka surat:"
 
-#: .././cogstat_stat.py:131
+#: .././cogstat_stat.py:125
 msgid "Independent variable(s) - Columns: "
 msgstr "Pembolehubah bebas - Lajur:"
 
-#: .././cogstat_stat.py:133
+#: .././cogstat_stat.py:127
 msgid "Independent variable(s) - Rows: "
 msgstr "Pembolehubah bebas - Baris:"
 
-#: .././cogstat_stat.py:134
+#: .././cogstat_stat.py:128
 msgid "Function: "
 msgstr "Fungsi"
 
-#: .././cogstat_stat.py:328 .././cogstat_stat.py:330 .././cogstat_stat.py:639
-#: .././cogstat_stat.py:641 .././cogstat_stat.py:644 .././cogstat_stat.py:651
-#: .././cogstat_stat.py:654 .././cogstat_stat.py:834 .././cogstat_stat.py:836
-#: .././cogstat_stat.py:961 .././cogstat_stat.py:963 .././cogstat_stat.py:976
-#: .././cogstat_stat.py:979 .././cogstat_stat.py:1009 .././cogstat_chart.py:795
-#: .././cogstat_chart.py:856
+#: .././cogstat_stat.py:377 .././cogstat_stat.py:379 .././cogstat_stat.py:691
+#: .././cogstat_stat.py:693 .././cogstat_stat.py:696 .././cogstat_stat.py:703
+#: .././cogstat_stat.py:706 .././cogstat_stat.py:843 .././cogstat_stat.py:1045
+#: .././cogstat_stat.py:1047 .././cogstat_stat.py:1166
+#: .././cogstat_stat.py:1173 .././cogstat_stat.py:1176
+#: .././cogstat_stat.py:1190 .././cogstat_stat.py:1193
+#: .././cogstat_stat.py:1225 .././cogstat_chart.py:1040
+#: .././cogstat_chart.py:1100 .././cogstat_chart.py:1762
 msgid "Value"
 msgstr "Nilai"
 
@@ -45,15 +47,15 @@ msgstr "Nilai"
 msgid "Largest tick on the x axes displays %d cases."
 msgstr "Tanda terbesar pada paksi x memaparkan %d kes."
 
-#: .././cogstat_chart.py:392
+#: .././cogstat_chart.py:523
 msgid "Histogram with individual data and boxplot"
 msgstr "Histogram dengan data individu and plot kotak"
 
-#: .././cogstat_chart.py:332 .././cogstat_chart.py:398
+#: .././cogstat_chart.py:463 .././cogstat_chart.py:529
 msgid "Frequency"
 msgstr "Frekuensi"
 
-#: .././cogstat_chart.py:329
+#: .././cogstat_chart.py:460
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -61,23 +63,23 @@ msgstr "Histogram"
 msgid "N of valid cases: %g"
 msgstr "N kes yang sah: %g"
 
-#: .././cogstat.py:752
+#: .././cogstat.py:925
 msgid "Median: %0.*f"
 msgstr "Median: %0.*f"
 
-#: .././cogstat_hyp_test.py:134
+#: .././cogstat_hyp_test.py:133
 msgid "Normality can be checked only for interval variables."
 msgstr "Normaliti boleh disemak hanya untuk pembolehubah interval."
 
-#: .././cogstat_chart.py:460
+#: .././cogstat_chart.py:591
 msgid "Histogram with individual data and normal distribution"
 msgstr "Histogram dengan data individu dan distribusi normal."
 
-#: .././cogstat_chart.py:467
+#: .././cogstat_chart.py:598
 msgid "Normalized relative frequency"
 msgstr "Frekuensi relatif yang dinormalisasi"
 
-#: .././cogstat_chart.py:483
+#: .././cogstat_chart.py:614
 msgid "Quantile-quantile plot"
 msgstr "Kuantil-kuantill plot"
 
@@ -90,15 +92,15 @@ msgstr "Ujian-t satu sampel tidak boleh dilaksanakan untuk pembolehubah tetap. "
 msgid "One sample t-test against %g"
 msgstr "Ujian-t satu sampel terhadap %g"
 
-#: .././cogstat_chart.py:514
+#: .././cogstat_chart.py:645
 msgid "Mean value with 95% confidence interval"
-msgstr "Nilai min dengan selang keyakinan 95% "
+msgstr "Nilai min dengan interval keyakinan 95% "
 
 #: .././cogstat_hyp_test.py:232
 msgid "One sample t-test is computed only for interval variables."
-msgstr "Ujian-t satu sampel hanya digunakan untuk mengira pembolehubah interval. "
+msgstr "Ujian-t satu sampel hanya digunakan untuk mengira pembolehubah interval."
 
-#: .././cogstat_chart.py:518
+#: .././cogstat_chart.py:649
 msgid "Median value"
 msgstr "Nilai median"
 
@@ -106,66 +108,68 @@ msgstr "Nilai median"
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "Ujian Wilcoxon signed-rank hanya digunakan untuk mengira pembolehubah interval dan ordinal."
 
-#: .././cogstat_stat.py:124 .././cogstat_stat.py:394 .././cogstat_stat.py:489
-#: .././cogstat_stat.py:490 .././cogstat_stat.py:491 ../ui/pivot.py:170
+#: .././cogstat_stat.py:118 .././cogstat_stat.py:444 .././cogstat_stat.py:537
+#: .././cogstat_stat.py:538 .././cogstat_stat.py:539 .././cogstat_chart.py:1426
+#: ../ui/pivot.py:171
 msgid "Mean"
 msgstr "Min"
 
-#: .././cogstat_stat.py:124 .././cogstat_stat.py:395 .././cogstat_stat.py:498
-#: .././cogstat_stat.py:499 .././cogstat_stat.py:500 .././cogstat.py:1080
-#: ../ui/pivot.py:171
+#: .././cogstat_stat.py:118 .././cogstat_stat.py:445 .././cogstat_stat.py:546
+#: .././cogstat_stat.py:547 .././cogstat_stat.py:548 .././cogstat.py:1580
+#: .././cogstat_chart.py:1427 ../ui/pivot.py:172
 msgid "Median"
 msgstr "Median"
 
-#: .././cogstat_chart.py:851
+#: .././cogstat_chart.py:1095
 msgid "Medians for the variables"
 msgstr "Median pembolehubah"
 
-#: .././cogstat_chart.py:1051
+#: .././cogstat_chart.py:1287
 msgid "Medians for the groups"
 msgstr "Median kelompok"
 
-#: .././cogstat_stat.py:461 .././cogstat_stat.py:463
+#: .././cogstat_stat.py:507 .././cogstat_stat.py:509
 msgid "No data"
 msgstr "Tiada data"
 
-#: .././cogstat_chart.py:643
+#: .././cogstat_chart.py:397 .././cogstat_chart.py:777
+#: .././cogstat_chart.py:901 .././cogstat_chart.py:966
 msgid "Largest sign on the graph displays %d cases."
 msgstr "Tanda terbesar di atas graf memaparkan %d kes. "
 
-#: .././cogstat_chart.py:652
+#: .././cogstat_chart.py:786
 msgid "Scatterplot of the variables"
 msgstr "Plot taburan pembolehubah"
 
-#: .././cogstat_chart.py:723 .././cogstat_chart.py:815
+#: .././cogstat_chart.py:857 .././cogstat_chart.py:1059
 msgid "Mosaic plot of the variables"
-msgstr "Mosaic plot pembolehubah"
+msgstr "Plot Mosaic pembolehubah"
 
-#: .././cogstat_chart.py:781
+#: .././cogstat_chart.py:1026 .././cogstat_chart.py:1653
 msgid "Thickest line displays %d cases."
 msgstr "Garisan paling tebal memaparkan %d kes."
 
-#: .././cogstat_chart.py:844
+#: .././cogstat_chart.py:1088
 msgid "Means and 95% confidence intervals for the variables"
-msgstr "Min dan 95% selang keyakinan untuk pembolehubah"
+msgstr "Min dan 95% interval keyakinan untuk pembolehubah"
 
-#: .././cogstat_hyp_test.py:634
+#: .././cogstat_hyp_test.py:751
 msgid "Paired t-test requires two variables."
 msgstr "Ujian-t berpasangan memerlukan dua pembolehubah"
 
-#: .././cogstat_hyp_test.py:655
+#: .././cogstat_hyp_test.py:772
 msgid "Result of paired samples t-test"
 msgstr "Keputusan ujian-t sampel berpasangan"
 
-#: .././cogstat_hyp_test.py:682
+#: .././cogstat_hyp_test.py:799
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "Ujian Wilcoxon berpasangan memerlukan dua pembolehubah"
 
-#: .././cogstat_hyp_test.py:817
+#: .././cogstat_hyp_test.py:935
 msgid "Friedman test requires at least two variables."
 msgstr "Ujian Friedman memerlukan sekurang-kurangnya dua pembolehubah"
 
-#: .././cogstat_hyp_test.py:823
+#: .././cogstat_hyp_test.py:941
 msgid "Result of the Friedman test: "
 msgstr "Keputusan ujian Friedman:"
 
@@ -173,63 +177,63 @@ msgstr "Keputusan ujian Friedman:"
 msgid "Boxplot and individual data of the groups"
 msgstr "Boxplot dan data individu kelompok"
 
-#: .././cogstat_chart.py:1006
+#: .././cogstat_chart.py:1242
 msgid "Mosaic plot of the groups"
 msgstr "Plot Mosaic kelompok"
 
-#: .././cogstat_chart.py:1042
+#: .././cogstat_chart.py:1278
 msgid "Means and 95% confidence intervals for the groups"
-msgstr "Min dan 95% selang keyakinan untuk kelompok"
+msgstr "Min dan 95% interval keyakinan untuk kelompok"
 
-#: .././cogstat_hyp_test.py:1027
+#: .././cogstat_hyp_test.py:1144
 msgid "Levene test"
 msgstr "Ujian Levene"
 
-#: .././cogstat_stat.py:919
+#: .././cogstat_stat.py:1130
 msgid "Difference between the two groups:"
 msgstr "Perbezaan antara dua kelompok: "
 
 #: .././cogstat_hyp_test.py:693
 msgid "95%% confidence interval [%0.*f, %0.*f]"
-msgstr "95%% selang keyakinan [%0.*f, %0.*f]"
+msgstr "95%% interval keyakinan [%0.*f, %0.*f]"
 
-#: .././cogstat_hyp_test.py:1059
+#: .././cogstat_hyp_test.py:1176
 msgid "Result of independent samples t-test:"
-msgstr "Keputusan ujian-t sampel tak bersandar"
+msgstr "Keputusan ujian-t sampel bebas:"
 
-#: .././cogstat_hyp_test.py:1095
+#: .././cogstat_hyp_test.py:1212
 msgid "One of the groups should include only a single data."
-msgstr "Salah satu kelompok perlu masukkan hanya satu data"
+msgstr "Salah satu kelompok perlu mengandungi hanya satu data."
 
-#: .././cogstat_hyp_test.py:1092
+#: .././cogstat_hyp_test.py:1209
 msgid "Result of the modified independent samples t-test:"
-msgstr "Keputusan ujian-t sampel tak bersandar yang telah diubah suai"
+msgstr "Keputusan ujian-t sampel bebas yang telah diubah suai: "
 
-#: .././cogstat_hyp_test.py:1196
+#: .././cogstat_hyp_test.py:1318
 msgid "Result of one-way ANOVA: "
 msgstr "Keputusan ANOVA sehala:"
 
-#: .././cogstat_hyp_test.py:1204 .././cogstat_hyp_test.py:1308
+#: .././cogstat_hyp_test.py:1326 .././cogstat_hyp_test.py:1430
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "Kelompok berbeza. Ujian post-hoc min."
 
-#: .././cogstat_gui.py:153
+#: .././cogstat_gui.py:174
 msgid "&Data"
 msgstr "&Data"
 
-#: .././cogstat_gui.py:154
+#: .././cogstat_gui.py:175
 msgid "&Open data file"
 msgstr "&Buka fail data"
 
-#: .././cogstat_gui.py:154
+#: .././cogstat_gui.py:175
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:181
 msgid "&Paste data"
 msgstr "&Tampal data"
 
-#: .././cogstat_gui.py:158
+#: .././cogstat_gui.py:181
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
@@ -237,7 +241,7 @@ msgstr "Ctrl+V"
 msgid "&Display data"
 msgstr "&Paparan data"
 
-#: .././cogstat_gui.py:163
+#: .././cogstat_gui.py:187
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
 
@@ -245,80 +249,76 @@ msgstr "Ctrl+D"
 msgid "Display data &briefly"
 msgstr "Paparan data dan secara ringkas "
 
-#: .././cogstat_gui.py:168
+#: .././cogstat_gui.py:191
 msgid "&Analysis"
 msgstr "&Analisis"
 
-#: .././cogstat_gui.py:170
+#: .././cogstat_gui.py:193
 msgid "Ctrl+1"
 msgstr "Ctrl+1"
 
-#: .././cogstat_gui.py:172
+#: .././cogstat_gui.py:195
 msgid "Ctrl+2"
 msgstr "Ctrl+2"
 
-#: .././cogstat_gui.py:178 .././cogstat_gui.py:222
+#: .././cogstat_gui.py:212
 msgid "Pivot &table"
 msgstr "Pivot & tabel"
 
-#: .././cogstat_gui.py:175 .././cogstat_gui.py:225
+#: .././cogstat_gui.py:200
 msgid "Compare &groups"
 msgstr "Bandingan &kelompok"
 
-#: .././cogstat_gui.py:792 .././cogstat_gui.py:806 .././cogstat.py:1131
-#: ../ui/compare_groups.py:108
+#: .././cogstat_gui.py:946 .././cogstat.py:1642 .././cogstat.py:1854
+#: ../ui/compare_groups.py:109
 msgid "Compare groups"
 msgstr "Membandingkan kelompok"
 
-#: .././cogstat_gui.py:183
+#: .././cogstat_gui.py:222
 msgid "&Results"
 msgstr "&Keputusan"
 
-#: .././cogstat_gui.py:184
+#: .././cogstat_gui.py:223
 msgid "&Clear results"
 msgstr "&Keputusan jelas"
 
-#: .././cogstat_gui.py:195
-msgid "Ctrl+P"
-msgstr "Ctrl+P"
-
-#: .././cogstat_gui.py:200
+#: .././cogstat_gui.py:241
 msgid "&CogStat"
 msgstr "&CogStat"
 
-#: .././cogstat_gui.py:201
+#: .././cogstat_gui.py:242
 msgid "&Help"
 msgstr "&Bantuan"
 
-#: .././cogstat_gui.py:201
+#: .././cogstat_gui.py:242
 msgid "F1"
 msgstr "F1"
 
-#: .././cogstat_gui.py:202
+#: .././cogstat_gui.py:243
 msgid "&Preferences"
 msgstr "&Pilihan paling gemar"
 
-#: .././cogstat_gui.py:204
+#: .././cogstat_gui.py:245
 msgid "Request a &feature"
 msgstr "Minta & ciri"
 
-#: .././cogstat_gui.py:210
+#: .././cogstat_gui.py:251
 msgid "&Report a problem"
 msgstr "&Lapor masalah"
 
-#: .././cogstat_gui.py:212
+#: .././cogstat_gui.py:253
 msgid "&Diagnosis information"
 msgstr "&Diagnosis informasi"
 
-#: .././cogstat_gui.py:215
+#: .././cogstat_gui.py:256
 msgid "&About"
 msgstr "&Tentang"
 
-#: .././cogstat_gui.py:217
+#: .././cogstat_gui.py:258
 msgid "&Exit"
 msgstr "&Keluar"
 
-#: .././cogstat_gui.py:217
+#: .././cogstat_gui.py:258
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -336,134 +336,132 @@ msgstr "&Membandingkan kelompok dan pembolehubah"
 
 #: .././cogstat_gui.py:485
 msgid "Import error"
-msgstr "Import ralat"
+msgstr "Ralat import"
 
 #: .././cogstat_gui.py:485
 msgid "Data could not be loaded."
-msgstr "Data tidak boleh dimuat naik"
+msgstr "Data tidak dapat dimuatkan. "
 
-#: .././cogstat_gui.py:630 .././cogstat_gui.py:748
+#: .././cogstat.py:1453
 msgid "At least two variables should be set."
-msgstr "Sekurang-kurangnya dua pembolehubah perlu ditetapkan"
+msgstr "Sekurang-kurangnya dua pembolehubah perlu ditetapkan."
 
-#: .././cogstat_gui.py:675 .././cogstat_gui.py:682 .././cogstat.py:933
-#: ../ui/pivot.py:161
+#: .././cogstat_gui.py:876 .././cogstat.py:1365 ../ui/pivot.py:162
 msgid "Pivot table"
 msgstr "Tabel Pivot"
 
 #: .././cogstat_gui.py:676
 msgid "The dependent variable and at least one grouping variable should be given."
-msgstr "Pembolehubah bersandar and sekurang-kurangnya satu pembolehubah kelompok perlu diberikan. "
+msgstr "Pembolehubah terikat and sekurang-kurangnya satu pembolehubah kelompok perlu diberikan. "
 
 #: .././cogstat_gui.py:747
 msgid "Both the dependent and the grouping variables should be set."
-msgstr "Kedua-dua pembolehubah bersandar dan kelompok perlu ditetapkan. "
+msgstr "Kedua-dua pembolehubah terikat dan kelompok perlu ditetapkan. "
 
-#: .././cogstat_gui.py:813
+#: .././cogstat_gui.py:1025
 msgid "Clear output"
 msgstr "Kosongkan output"
 
-#: .././cogstat_gui.py:814
+#: .././cogstat_gui.py:1026
 msgid "Are you sure you want to delete the output?"
 msgstr "Adakah anda pasti mahu memadam output tersebut?"
 
-#: .././cogstat_gui.py:884
+#: .././cogstat_gui.py:1096
 msgid "About CogStat "
 msgstr "Tentang CogStat"
 
-#: .././cogstat_gui.py:898
+#: .././cogstat_gui.py:1105 .././cogstat_util.py:102
 msgid "System components"
 msgstr "Komponen sistem"
 
-#: .././cogstat_gui.py:911
+#: .././cogstat_gui.py:1115
 msgid "Save output"
 msgstr "Simpan output"
 
-#: .././cogstat_gui.py:912
+#: .././cogstat_gui.py:1116
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr "Terdapat output yang tidak disimpan. Adakan anda mahu menyimpan output tersebut? "
 
-#: .././cogstat_gui.py:499 .././cogstat.py:463
+#: .././cogstat_gui.py:621 .././cogstat_gui.py:715 .././cogstat_gui.py:755
+#: .././cogstat.py:451 .././cogstat.py:481 .././cogstat.py:552
 msgid "Data"
 msgstr "Data"
 
-#: .././cogstat.py:464
+#: .././cogstat.py:553
 msgid "Source: "
 msgstr "Sumber:"
 
-#: .././cogstat.py:465
+#: .././cogstat.py:555
 msgid " variables and "
 msgstr "pembolehubah dan"
 
-#: .././cogstat.py:466
+#: .././cogstat.py:556
 msgid " cases"
 msgstr "kes"
 
-#: .././cogstat.py:479
+#: .././cogstat.py:568
 msgid " further cases are not displayed..."
 msgstr "kes selanjutnya tidak dipaparkan"
 
-#: .././cogstat_hyp_test.py:877 .././cogstat_hyp_test.py:924
-#: .././cogstat_hyp_test.py:998 .././cogstat.py:735
+#: .././cogstat_hyp_test.py:994 .././cogstat_hyp_test.py:1041
+#: .././cogstat_hyp_test.py:1115 .././cogstat.py:908
 msgid "Interval variable."
 msgstr "Pembolehubah interval"
 
-#: .././cogstat_hyp_test.py:911 .././cogstat_hyp_test.py:961
-#: .././cogstat_hyp_test.py:1003 .././cogstat.py:758
+#: .././cogstat_hyp_test.py:1028 .././cogstat_hyp_test.py:1078
+#: .././cogstat_hyp_test.py:1120 .././cogstat.py:931
 msgid "Ordinal variable."
 msgstr "Pembolehubah ordinal"
 
-#: .././cogstat_gui.py:592 .././cogstat_gui.py:604 .././cogstat.py:647
+#: .././cogstat_gui.py:786 .././cogstat.py:815 .././cogstat.py:820
 msgid "Explore variable"
 msgstr "Periksa pembolehubah"
 
-#: .././cogstat.py:648
+#: .././cogstat.py:821
 msgid "Exploring variable: "
 msgstr "Memeriksa pembolehubah: "
 
-#: .././cogstat.py:671
+#: .././cogstat.py:843
 msgid "Frequencies"
 msgstr "Frekuensi"
 
-#: .././cogstat.py:699
+#: .././cogstat.py:872
 msgid "Normality"
 msgstr "Normaliti"
 
 #: .././cogstat.py:801
 msgid "Exploring variable pair: "
-msgstr "Meneliti pasangan pembolehubah"
+msgstr "Memeriksa pasangan pembolehubah"
 
-#: .././cogstat_hyp_test.py:424 .././cogstat_hyp_test.py:444
-#: .././cogstat_hyp_test.py:471 .././cogstat_hyp_test.py:534
-#: .././cogstat_hyp_test.py:571
+#: .././cogstat_hyp_test.py:651 .././cogstat_hyp_test.py:688
 msgid "Interval variables."
-msgstr "Selang pembolehubah"
+msgstr "Pembolehubah interval"
 
-#: .././cogstat_hyp_test.py:426 .././cogstat_hyp_test.py:446
+#: .././cogstat_hyp_test.py:397 .././cogstat_hyp_test.py:417
 msgid "Running Pearson's and Spearman's correlation."
 msgstr "Melaksanakan korelasi Pearson dan Spearman"
 
-#: .././cogstat_hyp_test.py:429 .././cogstat_hyp_test.py:449
-#: .././cogstat_stat.py:639 .././cogstat_stat.py:663
+#: .././cogstat_hyp_test.py:392 .././cogstat_hyp_test.py:413
+#: .././cogstat_stat.py:691 .././cogstat_stat.py:714
 msgid "Pearson's correlation"
 msgstr "Korelasi Pearson"
 
-#: .././cogstat.py:856
+#: .././cogstat.py:1200 .././cogstat.py:1209
 msgid "Linear regression"
 msgstr "Linear regresi"
 
-#: .././cogstat_hyp_test.py:439 .././cogstat_hyp_test.py:459
-#: .././cogstat_hyp_test.py:475 .././cogstat_hyp_test.py:486
-#: .././cogstat_stat.py:641 .././cogstat_stat.py:644 .././cogstat_stat.py:693
+#: .././cogstat_hyp_test.py:402 .././cogstat_hyp_test.py:423
+#: .././cogstat_hyp_test.py:439 .././cogstat_hyp_test.py:449
+#: .././cogstat_stat.py:693 .././cogstat_stat.py:696 .././cogstat_stat.py:744
 msgid "Spearman's rank-order correlation"
 msgstr "Korelasi Spearman rank-order"
 
-#: .././cogstat_hyp_test.py:482 .././cogstat_hyp_test.py:556
-#: .././cogstat_hyp_test.py:592
+#: .././cogstat_hyp_test.py:445 .././cogstat_hyp_test.py:673
+#: .././cogstat_hyp_test.py:709
 msgid "Ordinal variables."
 msgstr "Pembolehubah ordinal"
 
-#: .././cogstat_hyp_test.py:472 .././cogstat_hyp_test.py:482
+#: .././cogstat_hyp_test.py:445
 msgid "Running Spearman's correlation."
 msgstr "Melaksanakan korelasi Spearman"
 
@@ -471,101 +469,101 @@ msgstr "Melaksanakan korelasi Spearman"
 msgid "Not all variables are nominal. Consider comparing groups."
 msgstr "Bukan semua pembolehubah adalah nominal. Sila pertimbangkan untuk membandingkan kelompok."
 
-#: .././cogstat_hyp_test.py:496
+#: .././cogstat_hyp_test.py:458
 msgid "Nominal variables."
 msgstr "Pembolehubah nominal"
 
-#: .././cogstat_hyp_test.py:496
+#: .././cogstat_hyp_test.py:458
 msgid "Running Cramér's V."
 msgstr "Melaksanakan Cramer V"
 
-#: .././cogstat.py:992
+#: .././cogstat.py:1469 .././cogstat.py:1872 .././cogstat.py:1897
 msgid "Variables to compare: "
 msgstr "Pembolehubah untuk dibanding:"
 
-#: .././cogstat.py:1013
+#: .././cogstat.py:1471 .././cogstat.py:1874
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
-msgstr "Maaf, anda tidak boleh membanding pembolehubah dengan taraf pengukuran yang lain. Anda boleh menurunkan taraf pengukuran yang lebih tinggi kepada yang lebih rendah untuk mempunyai taraf pengukuran yang sama."
+msgstr "Maaf, anda tidak boleh membanding pembolehubah dengan tahap pengukuran yang lain. Anda boleh menurunkan tahap pengukuran yang lebih tinggi kepada yang lebih rendah untuk mempunyai tahap pengukuran yang sama."
 
-#: .././cogstat_hyp_test.py:529
+#: .././cogstat_hyp_test.py:646
 msgid "At least two variables required."
 msgstr "Sekurang-kurangnya dua pembolehubah diperlukan."
 
-#: .././cogstat_hyp_test.py:531
+#: .././cogstat_hyp_test.py:648
 msgid "Two variables. "
 msgstr "Dua pembolehubah"
 
-#: .././cogstat_hyp_test.py:537 .././cogstat_hyp_test.py:575
-#: .././cogstat_hyp_test.py:861 .././cogstat_hyp_test.py:880
-#: .././cogstat_hyp_test.py:928 .././cogstat.py:738
+#: .././cogstat_hyp_test.py:654 .././cogstat_hyp_test.py:692
+#: .././cogstat_hyp_test.py:978 .././cogstat_hyp_test.py:997
+#: .././cogstat_hyp_test.py:1045 .././cogstat.py:911
 msgid "Checking for normality."
 msgstr "Menyemak normaliti."
 
-#: .././cogstat_hyp_test.py:867
+#: .././cogstat_hyp_test.py:984
 msgid "Normality is violated in variable "
 msgstr "Normaliti dilanggar dalam pembolehubah"
 
-#: .././cogstat_hyp_test.py:549
+#: .././cogstat_hyp_test.py:666
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "Normaliti tidak dilanggar. >> Melaksanakan ujian-t berpasangan. "
 
-#: .././cogstat_hyp_test.py:553 .././cogstat_hyp_test.py:557
+#: .././cogstat_hyp_test.py:670 .././cogstat_hyp_test.py:674
 msgid "Running paired Wilcoxon test."
 msgstr "Melaksanakan ujian Wilcoxon berpasangan"
 
-#: .././cogstat_hyp_test.py:567 .././cogstat_hyp_test.py:603
-#: .././cogstat_hyp_test.py:612 .././cogstat_hyp_test.py:615
-#: .././cogstat_hyp_test.py:1004 .././cogstat_hyp_test.py:1007
-#: .././cogstat.py:764
+#: .././cogstat_hyp_test.py:684 .././cogstat_hyp_test.py:720
+#: .././cogstat_hyp_test.py:729 .././cogstat_hyp_test.py:732
+#: .././cogstat_hyp_test.py:1121 .././cogstat_hyp_test.py:1124
+#: .././cogstat.py:937 .././cogstat.py:2065
 msgid "Sorry, not implemented yet."
 msgstr "Maaf, belum dilaksanakan lagi. "
 
-#: .././cogstat_hyp_test.py:569
+#: .././cogstat_hyp_test.py:686
 msgid "More than two variables. "
-msgstr "Lebih dari dua pembolehubah. "
+msgstr "Lebih daripada dua pembolehubah. "
 
-#: .././cogstat_hyp_test.py:589 .././cogstat_hyp_test.py:593
+#: .././cogstat_hyp_test.py:706 .././cogstat_hyp_test.py:710
 msgid "Running Friedman test."
 msgstr "Melaksanakan ujian Friedman"
 
-#: .././cogstat_stat.py:134 .././cogstat.py:1134
+#: .././cogstat_stat.py:128 .././cogstat.py:1666 .././cogstat.py:1895
 msgid "Dependent variable: "
-msgstr "Pembolehubah bersandar:"
+msgstr "Pembolehubah terikat:"
 
 #: .././cogstat.py:1135
 msgid "Group(s): "
-msgstr "Kelompok"
+msgstr "Kelompok:"
 
-#: .././cogstat_hyp_test.py:849
+#: .././cogstat_hyp_test.py:966
 msgid "One grouping variable. "
 msgstr "Satu pembolehubah kelompok"
 
-#: .././cogstat_hyp_test.py:851
+#: .././cogstat_hyp_test.py:968
 msgid "There is only one group. At least two groups required."
 msgstr "Terdapat hanya satu kelompok. Sekurang-kurangnya dua kelompok diperlukan. "
 
-#: .././cogstat_hyp_test.py:855
+#: .././cogstat_hyp_test.py:972
 msgid "Two groups. "
 msgstr "Dua kelompok."
 
-#: .././cogstat_hyp_test.py:859
+#: .././cogstat_hyp_test.py:976
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr "Satu kelompok hanya boleh mempunyai satu kes. >> Memilih ujian-t yang dimodifikasi. ."
 
-#: .././cogstat_hyp_test.py:868
+#: .././cogstat_hyp_test.py:985
 msgid "group "
 msgstr "kelompok"
 
-#: .././cogstat_hyp_test.py:872
+#: .././cogstat_hyp_test.py:989
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "Normaliti tidak dilanggar. >> Melaksanakan ujian-t yang dimodifikasi. "
 
-#: .././cogstat_hyp_test.py:915 .././cogstat_hyp_test.py:965
-#: .././cogstat_hyp_test.py:1006
+#: .././cogstat_hyp_test.py:1032 .././cogstat_hyp_test.py:1082
+#: .././cogstat_hyp_test.py:1123
 msgid "Nominal variable."
 msgstr "Pembolehubah nominal."
 
-#: .././cogstat_hyp_test.py:922
+#: .././cogstat_hyp_test.py:1039
 msgid "More than two groups."
 msgstr "Lebih daripada dua kelompok."
 
@@ -581,27 +579,28 @@ msgstr "Buka fail data"
 msgid "Save result file"
 msgstr "Simpan fail keputusan"
 
-#: .././cogstat_gui.py:169 .././cogstat_gui.py:223
+#: .././cogstat_gui.py:192
 msgid "&Explore variable"
 msgstr "&Periksa pembolehubah"
 
-#: .././cogstat_gui.py:484 .././cogstat.py:423
+#: .././cogstat_gui.py:688 .././cogstat.py:450 .././cogstat.py:452
+#: .././cogstat.py:480 .././cogstat.py:481
 msgid "Import failed"
 msgstr "Import gagal"
 
-#: .././cogstat_stat.py:329 .././cogstat_stat.py:332
+#: .././cogstat_stat.py:378 .././cogstat_stat.py:381
 msgid "Freq"
 msgstr "Frekuensi"
 
-#: .././cogstat_stat.py:333 .././cogstat_stat.py:335 .././cogstat_stat.py:336
+#: .././cogstat_stat.py:382 .././cogstat_stat.py:384 .././cogstat_stat.py:385
 msgid "Rel freq"
 msgstr "Frek rel"
 
-#: .././cogstat_stat.py:332
+#: .././cogstat_stat.py:381
 msgid "Cum freq"
 msgstr "Frek kum"
 
-#: .././cogstat_stat.py:335 .././cogstat_stat.py:337
+#: .././cogstat_stat.py:384 .././cogstat_stat.py:385
 msgid "Cum rel freq"
 msgstr "Frek kum rel"
 
@@ -611,7 +610,7 @@ msgstr "Ukuran perkaitan Cramer V tidak boleh dikira (bahagi dengan kosong). "
 
 #: .././cogstat.py:123 .././cogstat.py:131
 msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
-msgstr "Bilangan taraf pengukuran tidak sepadan dengan bilangan pembolehubah. Spesifikasi taraf pengukuran diabaikan."
+msgstr "Bilangan tahap pengukuran tidak sepadan dengan bilangan pembolehubah. Spesifikasi tahap pengukuran diabaikan."
 
 #: .././cogstat.py:299
 msgid "pandas dataframe"
@@ -621,15 +620,15 @@ msgstr "pandas dataframe"
 msgid "clipboard"
 msgstr "papan klip"
 
-#: .././cogstat.py:475
+#: .././cogstat_gui.py:570 .././cogstat.py:565
 msgid "Type"
 msgstr "Jenis"
 
-#: .././cogstat.py:475
+#: .././cogstat_gui.py:570 .././cogstat.py:565
 msgid "Level"
-msgstr "Taraf"
+msgstr "Tahap"
 
-#: .././cogstat.py:522
+#: .././cogstat.py:622
 msgid "Filtering is switched off."
 msgstr "Penapisan dimatikan "
 
@@ -641,17 +640,17 @@ msgstr "Penapisan berdasarkan %s"
 #: .././cogstat.py:524
 msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
 ""
-msgstr "Kes di luar rentang akan diabaikan: %0.*f -- %0.*f"
+msgstr "Kes diluar rentang akan dikecualikan: %0.*f -- %0.*f"
 
 #: .././cogstat.py:565
 msgid "The following cases will be excluded: "
-msgstr "Kes-kes berikut akan diabaikan:"
+msgstr "Kes-kes berikut akan dikecualikan:"
 
-#: .././cogstat.py:572
+#: .././cogstat.py:672
 msgid "No cases were excluded."
-msgstr "Tiada kes yang diabaikan. "
+msgstr "Tiada kes yang dikecualikan. "
 
-#: .././cogstat_hyp_test.py:888 .././cogstat_hyp_test.py:936
+#: .././cogstat_hyp_test.py:1005 .././cogstat_hyp_test.py:1053
 msgid "Checking for homogeneity of variance across groups."
 msgstr " Menyemak kehomogenan varians merentas kelompok."
 
@@ -664,32 +663,32 @@ msgid "Normality cannot be checked for constant variable in %s%s.\n"
 ""
 msgstr "Normaliti tidak boleh disemak untuk pembolehubah tetap dalam %s%s. "
 
-#: .././cogstat_hyp_test.py:159 .././cogstat_hyp_test.py:378
+#: .././cogstat_hyp_test.py:159
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
 msgstr "Sampel terlalu kecil untuk menguji normaliti dalam pembolehubah %s%s."
 
-#: .././cogstat_hyp_test.py:698
+#: .././cogstat_hyp_test.py:815
 msgid "Result of the McNemar test"
 msgstr "Keputusan ujian McNemas"
 
-#: .././cogstat_hyp_test.py:705
+#: .././cogstat_hyp_test.py:822
 msgid "Result of Cochran's Q test"
 msgstr "Keputusan ujian Cochran Q"
 
-#: .././cogstat_hyp_test.py:727
+#: .././cogstat_hyp_test.py:846
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "Keputusan ujian Mauchly untuk menyemak sphericity. "
 
-#: .././cogstat_hyp_test.py:734
+#: .././cogstat_hyp_test.py:853
 msgid "Sphericity is violated."
 msgstr "Sphericity dilanggar."
 
-#: .././cogstat_hyp_test.py:736 .././cogstat_hyp_test.py:742
+#: .././cogstat_hyp_test.py:855 .././cogstat_hyp_test.py:861
 msgid "Result of repeated measures ANOVA"
 msgstr "Keputusan pengukuran berulang ANOVA."
 
-#: .././cogstat_hyp_test.py:741
+#: .././cogstat_hyp_test.py:860
 msgid "Sphericity is not violated. "
 msgstr "Sphericity tidak dilanggar. "
 
@@ -697,47 +696,47 @@ msgstr "Sphericity tidak dilanggar. "
 msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
 msgstr "Membanding pembolehubah pairwise dengan pembetulan Holm-Bonferroni. "
 
-#: .././cogstat_hyp_test.py:1130
+#: .././cogstat_hyp_test.py:1247
 msgid "Result of Welch's unequal variances t-test:"
 msgstr "Keputusan ujian-t varians Welch yang tidak setaraf. "
 
-#: .././cogstat_hyp_test.py:535
+#: .././cogstat_hyp_test.py:652
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "Memilih ujian-t berpasangan atau ujian Wilcoxon berpasangan berdasarkan andaian. "
 
-#: .././cogstat_hyp_test.py:552 .././cogstat_hyp_test.py:588
+#: .././cogstat_hyp_test.py:669 .././cogstat_hyp_test.py:705
 msgid "Normality is violated in variable(s): %s."
 msgstr "Normaliti dilanggar dalam pembolehubah:%s. "
 
-#: .././cogstat_hyp_test.py:561 .././cogstat_hyp_test.py:597
+#: .././cogstat_hyp_test.py:678 .././cogstat_hyp_test.py:714
 msgid "Nominal dichotomous variables."
 msgstr "Pembolehubah nominal dikotomi. "
 
-#: .././cogstat_hyp_test.py:562
+#: .././cogstat_hyp_test.py:679
 msgid "Running McNemar test."
 msgstr "Melaksanakan ujian McNemar."
 
-#: .././cogstat_hyp_test.py:566 .././cogstat_hyp_test.py:602
+#: .././cogstat_hyp_test.py:683 .././cogstat_hyp_test.py:719
 msgid "Nominal non dichotomous variables."
 msgstr "Pembolehubah nominal bukan dikotomi."
 
-#: .././cogstat_hyp_test.py:572
+#: .././cogstat_hyp_test.py:689
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "Memilih pengukuran berulang ANOVA atau ujian Friedman berdasarkan andaian. "
 
-#: .././cogstat_hyp_test.py:598
+#: .././cogstat_hyp_test.py:715
 msgid "Running Cochran's Q test."
 msgstr "Melaksanakan ujian Cochran Q."
 
 #: .././cogstat_hyp_test.py:514
 msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
-msgstr "Memilih antara dua ujian-t sampel, ujian Mann-Whitney dan ujian-t Welch berdasarkan andaian. "
+msgstr "Memilih antara ujian-t dua sampel, ujian Mann-Whitney atau ujian-t Welch berdasarkan andaian. "
 
-#: .././cogstat_hyp_test.py:901
+#: .././cogstat_hyp_test.py:1018
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "Normaliti dilanggar dalam pembolehubah %s, kelompok %s. "
 
-#: .././cogstat_hyp_test.py:907
+#: .././cogstat_hyp_test.py:1024
 msgid "Running Welch's t-test."
 msgstr "Melaksanakan ujian-t Welch. "
 
@@ -745,7 +744,7 @@ msgstr "Melaksanakan ujian-t Welch. "
 msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
 msgstr "Memilih ANOVA sehala atau ujian Kruskal-Wallis berdasarkan andaian. "
 
-#: .././cogstat_hyp_test.py:951
+#: .././cogstat_hyp_test.py:1068
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr "Normaliti dilanggar dalam pembolehubah %s, kelompok%s. "
 
@@ -753,43 +752,41 @@ msgstr "Normaliti dilanggar dalam pembolehubah %s, kelompok%s. "
 msgid "Homeogeneity of variance violated in variable %s. "
 msgstr "Kehomogenan varians dilanggar dalam pembolehubah %s."
 
-#: .././cogstat_hyp_test.py:584 .././cogstat.py:743
+#: .././cogstat_hyp_test.py:701 .././cogstat.py:916
 msgid "Normality is not violated."
 msgstr "Normaliti tidak dilanggar. "
 
-#: .././cogstat_hyp_test.py:585
+#: .././cogstat_hyp_test.py:702
 msgid "Running repeated measures one-way ANOVA."
 msgstr "Melaksanakan pengukuran berulang ANOVA sehala. "
-
-#: .././cogstat_gui.py:164
-msgid "Ctrl+B"
-msgstr "Ctrl+B"
 
 #: .././cogstat_gui.py:413
 msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
 msgstr "Buka data. Oops, terdapat masalah, Cogstat tidak dapat membuka data tersebut. Anda boleh melaporkan isu ini. "
 
-#: .././cogstat.py:659
+#: .././cogstat.py:829
 msgid "N of missing cases: %g"
 msgstr "N kes hilang: %g"
 
-#: .././cogstat_chart.py:310 .././cogstat_chart.py:405
-#: .././cogstat_chart.py:706 .././cogstat_chart.py:707
-#: .././cogstat_chart.py:950
+#: .././cogstat_chart.py:441 .././cogstat_chart.py:536
+#: .././cogstat_chart.py:840 .././cogstat_chart.py:841
+#: .././cogstat_chart.py:1191 .././cogstat_chart.py:1764
 msgid "Rank of %s"
-msgstr "Pangkat %s. "
+msgstr "Taraf %s. "
 
-#: .././cogstat_hyp_test.py:268 .././cogstat_hyp_test.py:686
+#: .././cogstat_hyp_test.py:268 .././cogstat_hyp_test.py:803
 msgid "Result of Wilcoxon signed-rank test"
 msgstr "Keputusan ujian Wilcoxon signed-rank. "
 
-#: .././cogstat.py:653 .././cogstat.py:808 .././cogstat.py:1022
-#: .././cogstat.py:1145 .././cogstat_chart.py:312
+#: .././cogstat.py:825 .././cogstat.py:983 .././cogstat.py:1036
+#: .././cogstat.py:1161 .././cogstat.py:1510 .././cogstat.py:1681
+#: .././cogstat.py:1926 .././cogstat_chart.py:443
 msgid "Raw data"
 msgstr "Data mentah"
 
-#: .././cogstat.py:667 .././cogstat.py:822 .././cogstat.py:1043
-#: .././cogstat.py:1191
+#: .././cogstat.py:839 .././cogstat.py:991 .././cogstat.py:1054
+#: .././cogstat.py:1179 .././cogstat.py:1533 .././cogstat.py:1728
+#: .././cogstat.py:1987
 msgid "Sample properties"
 msgstr "Ciri-ciri sampel"
 
@@ -797,128 +794,132 @@ msgstr "Ciri-ciri sampel"
 msgid "Population parameter estimations and tests"
 msgstr "Anggaran dan ujian parameter populasi."
 
-#: .././cogstat.py:726
+#: .././cogstat.py:899
 msgid "Testing if mean deviates from the value %s."
 msgstr "Melaksanakan ujian untuk melihat jika min menyimpang dari nilai %s. "
 
-#: .././cogstat.py:729
+#: .././cogstat.py:902
 msgid "Testing if median deviates from the value %s."
 msgstr "Melaksanakan ujian untuk melihat jika median menyimpang dari nilai %s"
 
-#: .././cogstat.py:736
+#: .././cogstat.py:909
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
 msgstr "Memilih ujian-t satu sampel atau ujian Wilcoxon signed-rank berdasarkan andaian. "
 
-#: .././cogstat.py:744
+#: .././cogstat.py:917
 msgid "Running one-sample t-test."
 msgstr "Melaksanakan ujian-t satu sampel."
 
-#: .././cogstat.py:750
+#: .././cogstat.py:923
 msgid "Normality is violated."
 msgstr "Normaliti dilanggar. "
 
-#: .././cogstat.py:751 .././cogstat.py:758
+#: .././cogstat.py:924 .././cogstat.py:931
 msgid "Running Wilcoxon signed-rank test."
 msgstr "Melaksanakan ujian Wilcoxon signed-rank. "
 
-#: .././cogstat.py:695 .././cogstat.py:880 .././cogstat.py:1068
-#: .././cogstat.py:1231
+#: .././cogstat.py:868 .././cogstat.py:997 .././cogstat.py:1059
+#: .././cogstat.py:1256 .././cogstat.py:1569 .././cogstat.py:1767
+#: .././cogstat.py:2023
 msgid "Population properties"
 msgstr "Ciri-ciri populasi"
 
-#: .././cogstat_hyp_test.py:420 .././cogstat_hyp_test.py:481
+#: .././cogstat_hyp_test.py:391 .././cogstat_hyp_test.py:451
 msgid "Testing if correlation differs from 0."
 msgstr "Menguji jika korelasi berbeza daripada 0."
 
-#: .././cogstat_hyp_test.py:491
+#: .././cogstat_hyp_test.py:460
 msgid "Testing if variables are independent."
-msgstr "Menguji jika pembolehubah adalah tidak bersandar. "
+msgstr "Menguji jika pembolehubah adalah bebas.  "
 
-#: .././cogstat_hyp_test.py:522 .././cogstat_hyp_test.py:843
-#: .././cogstat_hyp_test.py:989
+#: .././cogstat_hyp_test.py:639 .././cogstat_hyp_test.py:960
+#: .././cogstat_hyp_test.py:1106
 msgid "Testing if the means are the same."
 msgstr "Menguji jika semua min adalah sama. "
 
-#: .././cogstat_hyp_test.py:524 .././cogstat_hyp_test.py:845
-#: .././cogstat_hyp_test.py:991
+#: .././cogstat_hyp_test.py:641 .././cogstat_hyp_test.py:962
+#: .././cogstat_hyp_test.py:1108
 msgid "Testing if the medians are the same."
 msgstr "Menguji jika semua median adalah sama. "
 
-#: .././cogstat_hyp_test.py:526 .././cogstat_hyp_test.py:847
-#: .././cogstat_hyp_test.py:993
+#: .././cogstat_hyp_test.py:643 .././cogstat_hyp_test.py:964
+#: .././cogstat_hyp_test.py:1110
 msgid "Testing if the distributions are the same."
 msgstr "Menguji untuk melihat sama ada distribusi adalah sama. "
 
-#: .././cogstat_hyp_test.py:897
+#: .././cogstat_hyp_test.py:1014
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
 msgstr "Normaliti dan kehomogenan varians tidak dilanggar.  >> Melaksanakan ujian-t dua sampel. "
 
-#: .././cogstat_hyp_test.py:945
+#: .././cogstat_hyp_test.py:1062
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
 msgstr "Normaliti dan kehomogenan varians tidak dilanggar.  >> Melaksanakan ANOVA satu hala. "
 
-#: .././cogstat_gui.py:887
+#: .././cogstat_gui.py:1099
 msgid "Simple automatic data analysis software"
 msgstr "Perisian data analisis automatik yang mudah. "
 
-#: .././cogstat_gui.py:888
+#: .././cogstat_gui.py:1100
 msgid "Visit CogStat website"
 msgstr "Layari laman web CogStat"
 
-#: .././cogstat_gui.py:299
+#: .././cogstat_gui.py:360
 msgid "Welcome to CogStat!"
 msgstr "Selamat datang ke CogStat!"
 
-#: .././cogstat_gui.py:300
+#: .././cogstat_gui.py:361
 msgid "CogStat makes statistical analysis more simple and efficient."
 msgstr "CogStat menjadikan analisis statistik lebih mudah dan efisien. "
 
-#: .././cogstat_gui.py:301
+#: .././cogstat_gui.py:362 .././cogstat_gui.py:366
 msgid "To start working open a data file or paste your data from a spreadsheet."
 msgstr "Untuk bermula, sila buka satu fail data atau tampal data anda daripada spreadsheet.  "
 
-#: .././cogstat_chart.py:309
+#: .././cogstat_chart.py:440
 msgid "Rank of the raw data"
-msgstr "Pangkat data mentah. "
+msgstr "Taraf data mentah. "
 
-#: .././cogstat_chart.py:390
+#: .././cogstat_chart.py:521
 msgid "Histogram of rank data with individual data and boxplot"
-msgstr "Histogram data mentah dengan data individu dan boxplot. "
+msgstr "Histogram taraf data dengan data individu dan boxplot. "
 
-#: .././cogstat_chart.py:705
+#: .././cogstat_chart.py:839
 msgid "Scatterplot of the rank of the variables"
-msgstr "Plot taburan pangkat pembolehubah. "
+msgstr "Plot taburan taraf pembolehubah. "
 
-#: .././cogstat_chart.py:762
+#: .././cogstat_chart.py:1006
 msgid "Individual data of the variables"
 msgstr "Data individu pembolehubah"
 
-#: .././cogstat_chart.py:952
+#: .././cogstat_chart.py:1193
 msgid "Individual data of the rank data of the groups"
-msgstr "Data individu dari data pangkat kelompok. \n"
+msgstr "Data individu dari taraf data kelompok. \n"
 ""
 
 #: .././cogstat_stat.py:1109
 msgid "Boxplot and individual data of the rank data of the groups"
-msgstr "Boxplot dan data individu dari data pangkat kelompok. "
+msgstr "Boxplot dan data individu dari taraf data kelompok. "
 
-#: .././cogstat_chart.py:968
+#: .././cogstat_chart.py:1204
 msgid "Individual data of the groups"
 msgstr "Data individu kelompok"
 
-#: .././cogstat_stat.py:489 .././cogstat_stat.py:498 .././cogstat_stat.py:562
-#: .././cogstat_stat.py:658 .././cogstat_stat.py:795 .././cogstat_stat.py:802
-#: .././cogstat_stat.py:846 .././cogstat_stat.py:896 .././cogstat_stat.py:922
-#: .././cogstat_stat.py:987
+#: .././cogstat_stat.py:537 .././cogstat_stat.py:546 .././cogstat_stat.py:613
+#: .././cogstat_stat.py:709 .././cogstat_stat.py:1006 .././cogstat_stat.py:1013
+#: .././cogstat_stat.py:1057 .././cogstat_stat.py:1107
+#: .././cogstat_stat.py:1133 .././cogstat_stat.py:1201
+#: .././cogstat_stat.py:1335 .././cogstat.py:999 .././cogstat_chart.py:1544
 msgid "Point estimation"
-msgstr "Estimasi titik"
+msgstr "Titik estimasi"
 
-#: .././cogstat_stat.py:562 .././cogstat_stat.py:658
+#: .././cogstat_stat.py:613 .././cogstat_stat.py:709 .././cogstat_stat.py:823
+#: .././cogstat_stat.py:824 .././cogstat_stat.py:1268 .././cogstat_stat.py:1269
+#: .././cogstat_stat.py:1335 .././cogstat.py:999
 msgid "95% confidence interval"
-msgstr "95% selang keyakinan"
+msgstr "95% interval keyakinan"
 
-#: .././cogstat_stat.py:126 .././cogstat_stat.py:396 .././cogstat_stat.py:496
-#: ../ui/pivot.py:174
+#: .././cogstat_stat.py:120 .././cogstat_stat.py:446 .././cogstat_stat.py:544
+#: .././cogstat_chart.py:1428 ../ui/pivot.py:175
 msgid "Standard deviation"
 msgstr "Simpangan baku"
 
@@ -926,68 +927,71 @@ msgstr "Simpangan baku"
 msgid "N of valid cases"
 msgstr "N kes yang "
 
-#: .././cogstat_gui.py:128
+#: .././cogstat_gui.py:148
 msgid "Update available"
 msgstr "Kemas kini tersedia."
 
-#: .././cogstat_gui.py:129
+#: .././cogstat_gui.py:149
 msgid "New version is available."
 msgstr "Versi baru tersedia."
 
-#: .././cogstat_gui.py:130
+#: .././cogstat_gui.py:150
 msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
-msgstr "Anda aboleh muat turun versi bary <br> dari <a href=\"%s\">CogStat download page</a>."
+msgstr "Anda boleh muat turun versi baru <br> dari <a href=\"%s\">CogStat download page</a>."
 
-#: .././cogstat_gui.py:171 .././cogstat_gui.py:224
+#: .././cogstat_gui.py:194
 msgid "Explore relation of variable &pair"
 msgstr "Memeriksa hubungan antara pembolehubah dan pasangan"
 
 #: .././cogstat_gui.py:173 .././cogstat_gui.py:225
 msgid "Compare repeated measures va&riables"
-msgstr "Membandingkan pengukuran berulang pembolehubah"
+msgstr "Membandingkan pengukuran berulang va&riables"
 
-#: .././cogstat_stat.py:397
+#: .././cogstat_stat.py:447 .././cogstat_chart.py:1429
 msgid "Minimum"
 msgstr "Minimum"
 
-#: .././cogstat_stat.py:398
+#: .././cogstat_stat.py:448 .././cogstat_chart.py:1430
 msgid "Maximum"
 msgstr "Maximum"
 
-#: .././cogstat_stat.py:125 .././cogstat_stat.py:401 ../ui/pivot.py:173
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:451 .././cogstat_chart.py:1433
+#: ../ui/pivot.py:174
 msgid "Upper quartile"
 msgstr "Kuartil atas"
 
-#: .././cogstat_stat.py:429
+#: .././cogstat.py:1536 .././cogstat.py:1989
 msgid "Descriptives for the variables"
 msgstr "Deskriptif untuk pembolehubah"
 
-#: .././cogstat_stat.py:446
+#: .././cogstat.py:1731
 msgid "Descriptives for the groups"
 msgstr "Deskriptif untuk kelompok"
 
-#: .././cogstat_stat.py:731 .././cogstat_stat.py:742 .././cogstat_stat.py:756
+#: .././cogstat_stat.py:946 .././cogstat_stat.py:956 .././cogstat_stat.py:969
 msgid "Contingency table"
 msgstr "Tabel kontingensi"
 
-#: .././cogstat_hyp_test.py:1246
+#: .././cogstat_hyp_test.py:1368
 msgid "Main effect of %s: "
 msgstr "Kesan utama adalah %s:"
 
-#: .././cogstat_gui.py:629 .././cogstat_gui.py:648 .././cogstat.py:798
+#: .././cogstat_gui.py:817 .././cogstat.py:1144
 msgid "Explore relation of variable pair"
 msgstr "Memeriksa hubungan pasangan pembolehubah"
 
-#: .././cogstat_gui.py:747 .././cogstat_gui.py:754 .././cogstat_gui.py:763
-#: .././cogstat.py:990 ../ui/compare_vars.py:86
+#: .././cogstat_gui.py:922 .././cogstat.py:1455 .././cogstat.py:1856
+#: ../ui/compare_vars.py:86
 msgid "Compare repeated measures variables"
 msgstr "Menbandingkan pengukuran berulang pembolehubah"
 
-#: .././cogstat.py:1029 .././cogstat.py:1167
+#: .././cogstat.py:831 .././cogstat.py:987 .././cogstat.py:1041
+#: .././cogstat.py:1518 .././cogstat.py:1703 .././cogstat.py:1937
+#: .././cogstat.py:1955
 msgid "N of missing cases"
 msgstr "N kes hilang"
 
-#: .././cogstat_hyp_test.py:999
+#: .././cogstat_hyp_test.py:1116
 msgid "Choosing factorial ANOVA."
 msgstr "Memilih faktorial ANOVA"
 
@@ -995,7 +999,7 @@ msgstr "Memilih faktorial ANOVA"
 msgid "N of valid pairs"
 msgstr "N pasangan sah"
 
-#: .././cogstat.py:815
+#: .././cogstat.py:1168
 msgid "N of missing pairs"
 msgstr "N pasangan hilang"
 
@@ -1003,54 +1007,54 @@ msgstr "N pasangan hilang"
 msgid "N of missing group cases"
 msgstr "N kes kelompok yang hilang"
 
-#: .././cogstat.py:1183
+#: .././cogstat.py:1714 .././cogstat.py:1967
 msgid "N of missing grouping variable in %s"
 msgstr "N kelompok pembolehubah yang hilang dalam %s"
 
-#: .././cogstat_stat.py:402
+#: .././cogstat_stat.py:452 .././cogstat_chart.py:1434
 msgid "Skewness"
 msgstr "Kemencengan "
 
-#: .././cogstat_stat.py:403
+#: .././cogstat_stat.py:453 .././cogstat_chart.py:1435
 msgid "Kurtosis"
 msgstr "Kurtosis"
 
-#: .././cogstat_stat.py:399
+#: .././cogstat_stat.py:449 .././cogstat_chart.py:1431
 msgid "Range"
 msgstr "Rentang"
 
-#: .././cogstat_stat.py:430
+#: .././cogstat.py:847
 msgid "Descriptives for the variable"
 msgstr "Deskriptif untuk pembolehubah"
 
-#: .././cogstat.py:41
+#: .././cogstat.py:47
 msgid "The measurement levels of the variables are not set. Set them in your data source."
-msgstr "Taraf pengukuran pembolehubah tidak ditetap. Sila tetapkan taraf pengukuran dalam sumber data anda. "
+msgstr "Tahap pengukuran pembolehubah tidak ditetapkan. Sila tetapkan tahap pengukuran dalam sumber data anda. "
 
-#: .././cogstat_gui.py:56 .././cogstat_gui.py:502
+#: .././cogstat_gui.py:69
 msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
 msgstr "Baca lebih lanjut tentang cara melaporkan isu <a href = \"%s\">di sini</a>."
 
-#: .././cogstat_gui.py:302
+#: .././cogstat_gui.py:363
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
 msgstr "Untuk mengetahui lebih lanjut tentang CogStat,  sila layari  <a href = \"https://www.cogstat.org\">webpage</a> atau baca <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
 
-#: .././cogstat_hyp_test.py:39 .././cogstat.py:42 .././cogstat.py:236
-#: .././cogstat.py:245 .././cogstat.py:277 .././cogstat.py:288
+#: .././cogstat_hyp_test.py:39 .././cogstat.py:48 .././cogstat.py:280
+#: .././cogstat.py:289 .././cogstat.py:324 .././cogstat.py:335
 msgid "Read more about this issue <a href = \"%s\">here</a>."
 msgstr "Baca lebih lanjut tentang isu <a href = \"%s\">here</a>."
 
-#: .././cogstat_hyp_test.py:1109
+#: .././cogstat_hyp_test.py:1226
 msgid "Result of slope test with %s:"
 msgstr "Keputusan ujian kemiringan dengan %s:"
 
-#: .././cogstat.py:232
+#: .././cogstat.py:276
 msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
-msgstr "Pembolehubah rentetan tidak boleh mengandungi pembolehubah selang atau ordinal dalam CogStat. Pembolehubah tersebut ditetapkan sebagai nominal secara automatik: "
+msgstr "Pembolehubah rentetan tidak boleh mengandungi pembolehubah interval atau ordinal dalam CogStat. Pembolehubah tersebut ditetapkan sebagai nominal secara automatik: "
 
-#: .././cogstat.py:243
+#: .././cogstat.py:287
 msgid "The measurement level was not set for all variables."
-msgstr "Taraf pengukuran tidak ditetapkan untuk semua pembolehubah. "
+msgstr "Tahap pengukuran tidak ditetapkan untuk semua pembolehubah. "
 
 #: .././cogstat.py:242
 msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
@@ -1060,112 +1064,119 @@ msgstr "Beberapa nama pembolehubah mengandungi aksara bukan Bahasa Inggeris, yan
 msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
 msgstr "Beberapa pembolehubah mengandungi aksara bukan Bahasa Inggeris, yang akan menyebabkan masalah dalam beberapa analisasi: %s."
 
-#: .././cogstat_gui.py:156
+#: .././cogstat_gui.py:177
 msgid "Open d&emo data file"
 msgstr "Buka d%emo fail data"
 
-#: .././cogstat_gui.py:156
+#: .././cogstat_gui.py:177
 msgid "Ctrl+E"
 msgstr "Ctrl+E"
 
-#: .././cogstat_gui.py:187
+#: .././cogstat_gui.py:227
 msgid "&Increase text size"
 msgstr "&Besarkan saiz teks"
 
-#: .././cogstat_gui.py:187
+#: .././cogstat_gui.py:227
 msgid "Ctrl++"
 msgstr "Ctrl++"
 
-#: .././cogstat_gui.py:188
+#: .././cogstat_gui.py:229
 msgid "&Decrease text size"
 msgstr "&Kecilkan saiz teks"
 
-#: .././cogstat_gui.py:188
+#: .././cogstat_gui.py:229
 msgid "Ctrl+-"
 msgstr "Ctrl+-"
 
-#: .././cogstat_gui.py:195
+#: .././cogstat_gui.py:236
 msgid "&Save results"
 msgstr "&Simpan keputusan"
 
-#: .././cogstat_gui.py:196
+#: .././cogstat_gui.py:237
 msgid "Save results &as"
 msgstr "Simpan keputusan &sebagai"
 
-#: .././cogstat_chart.py:764
+#: .././cogstat_chart.py:1008
 msgid "Boxplots and individual data of the variables"
 msgstr "Boxplot dan data individu pembolehubah"
 
-#: .././cogstat_chart.py:941
+#: .././cogstat_chart.py:1182 .././cogstat_chart.py:1666
 msgid "Largest individual sign displays %d cases."
 msgstr "Tanda individu terbesar memaparkan %d kes."
 
-#: .././cogstat_chart.py:954
+#: .././cogstat_chart.py:1195
 msgid "Boxplots and individual data of the rank data of the groups"
-msgstr "Boxplot dan data individu dari data pangkat kelompok. "
+msgstr "Boxplot dan data individu dari taraf data kelompok. "
 
-#: .././cogstat_chart.py:970
+#: .././cogstat_chart.py:1206
 msgid "Boxplots and individual data of the groups"
 msgstr "Boxplot dan data individu dari data kelompok. "
 
-#: .././cogstat_stat.py:799 .././cogstat_stat.py:804 .././cogstat_stat.py:846
-#: .././cogstat_stat.py:899 .././cogstat_stat.py:927 .././cogstat_stat.py:987
+#: .././cogstat_stat.py:1010 .././cogstat_stat.py:1015
+#: .././cogstat_stat.py:1057 .././cogstat_stat.py:1110
+#: .././cogstat_stat.py:1138 .././cogstat_stat.py:1201
+#: .././cogstat_chart.py:1544
 msgid "95% CI (low)"
 msgstr "95% CI (rendah)"
 
-#: .././cogstat_stat.py:800 .././cogstat_stat.py:804 .././cogstat_stat.py:846
-#: .././cogstat_stat.py:900 .././cogstat_stat.py:928 .././cogstat_stat.py:987
+#: .././cogstat_stat.py:1011 .././cogstat_stat.py:1015
+#: .././cogstat_stat.py:1057 .././cogstat_stat.py:1111
+#: .././cogstat_stat.py:1139 .././cogstat_stat.py:1201
+#: .././cogstat_chart.py:1544
 msgid "95% CI (high)"
-msgstr "95% Ci (tinggi)"
+msgstr "95% CI (tinggi)"
 
-#: .././cogstat_hyp_test.py:1309
+#: .././cogstat_hyp_test.py:1431
 msgid "Results of Dunn's test (p values)."
-msgstr "Keputusan ujian Dunn (nilai p)."
+msgstr "Keputusan ujian Dunn (nilai-nilai p)."
 
-#: .././cogstat.py:1073 .././cogstat.py:1234
+#: .././cogstat.py:1574 .././cogstat.py:1785
 msgid "Present confidence interval values suppose normality."
-msgstr "Nilai selang keyakinan semasa membayangkan normaliti. "
+msgstr "Nilai-nilai interval keyakinan semasa membayangkan normaliti. "
 
-#: .././cogstat.py:1073 .././cogstat.py:1234
+#: .././cogstat.py:1574 .././cogstat.py:1785
 msgid "Means"
 msgstr "Min"
 
-#: .././cogstat_gui.py:184
+#: .././cogstat_gui.py:223
 msgid "Ctrl+Del"
 msgstr "Ctrl+Del"
 
-#: .././cogstat_gui.py:192
+#: .././cogstat_gui.py:233
 msgid "Ctrl+Shift+E"
 msgstr "Ctrl+Shift+E"
 
-#: .././cogstat_gui.py:196
+#: .././cogstat_gui.py:243
 msgid "Ctrl+Shift+P"
 msgstr "Ctrl+Shift+P"
 
-#: .././cogstat.py:481
+#: .././cogstat.py:570
 msgid "The next %s cases will not be printed. You can check all cases in the original data source."
 msgstr "% kes seterusnya tidak akan dipaparkan. Anda boleh menyemak semua kes dalam sumber data asal. "
 
-#: ../ui/pivot.py:162 ../ui/compare_vars.py:87 ../ui/compare_groups.py:109
-#: ../ui/diffusion.py:131 ../ui/explore_var_pairs.py:84
-#: ../ui/var_properties.py:103 ../ui/filter_outlier.py:81
-#: ../ui/compare_groups_single_case_slope.py:84
+#: ../ui/reliability_interrater.py:87 ../ui/pivot.py:163
+#: ../ui/compare_vars.py:87 ../ui/compare_groups.py:110 ../ui/diffusion.py:186
+#: ../ui/regression.py:100 ../ui/explore_var_pairs.py:85
+#: ../ui/reliability_internal.py:89 ../ui/var_properties.py:103
+#: ../ui/filter_outlier.py:86 ../ui/compare_groups_single_case_slope.py:85
+#: ../ui/compare_vars_groups.py:112
 msgid "Available variables"
 msgstr "Pembolehubah tersedia"
 
-#: .././cogstat_stat.py:124 ../ui/pivot.py:168
+#: .././cogstat_stat.py:118 ../ui/pivot.py:169
 msgid "N"
 msgstr "N"
 
-#: .././cogstat_stat.py:124 ../ui/pivot.py:169
+#: .././cogstat_stat.py:118 ../ui/pivot.py:170
 msgid "Sum"
 msgstr "Jumlah"
 
-#: .././cogstat_stat.py:125 .././cogstat_stat.py:400 ../ui/pivot.py:172
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:450 .././cogstat_chart.py:1432
+#: ../ui/pivot.py:173
 msgid "Lower quartile"
 msgstr "Kuartil bawah"
 
-#: .././cogstat_stat.py:126 ../ui/pivot.py:175
+#: .././cogstat_stat.py:120 ../ui/pivot.py:176
 msgid "Variance"
 msgstr "Varians"
 
@@ -1189,19 +1200,20 @@ msgstr "Pembolehubah terikat"
 msgid "Function"
 msgstr "Fungsi"
 
-#: ../ui/compare_groups.py:110
+#: ../ui/pivot.py:167 ../ui/compare_groups.py:111
+#: ../ui/compare_vars_groups.py:115
 msgid "Dependent variable(s)"
-msgstr "Pembolehubah bersandar"
+msgstr "Pembolehubah terikat"
 
-#: ../ui/compare_groups.py:111
+#: ../ui/compare_groups.py:112 ../ui/compare_vars_groups.py:116
 msgid "Group(s)"
 msgstr "Kelompok"
 
-#: ../ui/preferences.py:60
+#: ../ui/preferences.py:69
 msgid "Preferences"
 msgstr "Pilihan paling gemar"
 
-#: ../ui/preferences.py:62
+#: ../ui/preferences.py:73
 msgid "Language"
 msgstr "Bahasa"
 
@@ -1209,7 +1221,7 @@ msgstr "Bahasa"
 msgid "You should restart CogStat to use the new language"
 msgstr "Anda perlu memulakan semula CogStat untuk mengguna bahasa baharu"
 
-#: ../ui/preferences.py:63
+#: ../ui/preferences.py:70
 msgid "Chart theme"
 msgstr "Tema carta"
 
@@ -1217,15 +1229,15 @@ msgstr "Tema carta"
 msgid "You should restart CogStat to use the new theme"
 msgstr "Anda perlu memulakan semula CogStat untuk mengguna bahasa baharu"
 
-#: ../ui/compare_groups_single_case_slope.py:83
+#: ../ui/compare_groups_single_case_slope.py:84
 msgid "Compare groups - Single case slope"
 msgstr "Membandingkan kelompok -  Satu kes kemiringan "
 
-#: ../ui/compare_groups_single_case_slope.py:85
+#: ../ui/compare_groups_single_case_slope.py:86
 msgid "Slope SE variable"
 msgstr "Kemiringan pembolehubah SE"
 
-#: ../ui/compare_groups_single_case_slope.py:86
+#: .././cogstat_stat.py:301
 msgid "Number of trials"
 msgstr "Bilangan percubaan"
 
@@ -1233,8 +1245,8 @@ msgstr "Bilangan percubaan"
 msgid "Explore variables"
 msgstr "Memeriksa pembolehubah"
 
-#: ../ui/compare_vars.py:88 ../ui/explore_var_pairs.py:85
-#: ../ui/var_properties.py:104 ../ui/filter_outlier.py:82
+#: ../ui/reliability_interrater.py:88 ../ui/compare_vars.py:88
+#: ../ui/explore_var_pairs.py:86 ../ui/reliability_internal.py:90
 msgid "Selected variables"
 msgstr "Pembolehubah yang dipilih"
 
@@ -1246,742 +1258,1505 @@ msgstr "Statistik"
 msgid "0"
 msgstr "0"
 
-#: ../ui/explore_var_pairs.py:83
+#: ../ui/regression.py:99 ../ui/explore_var_pairs.py:84
 msgid "Explore relation of variable pairs"
 msgstr "Memeriksa hubungan pasangan pembolehubah"
 
-#: .././cogstat_gui.py:160 .././cogstat_gui.py:222
+#: .././cogstat_gui.py:184
 msgid "&Filter outliers"
-msgstr "Tapis nilai ekstrim"
+msgstr "&Penapis outlier"
 
-#: .././cogstat_gui.py:160
+#: .././cogstat_gui.py:184
 msgid "Ctrl+L"
 msgstr "Ctrl + L"
 
-#: .././cogstat_gui.py:192
+#: .././cogstat_gui.py:233
 msgid "Text is &editable"
-msgstr ""
+msgstr "Text adalah & boleh disunting"
 
-#: .././cogstat_gui.py:202
-msgid "Ctrl+Shift+R"
-msgstr ""
-
-#: .././cogstat_hyp_test.py:792
+#: .././cogstat_hyp_test.py:910
 msgid "Main effect of %s"
-msgstr ""
+msgstr "Kesan utama %s"
 
-#: .././cogstat_hyp_test.py:794
+#: .././cogstat_hyp_test.py:912
 msgid "Interaction of factors %s"
-msgstr ""
+msgstr "Interaksi faktor-faktor %s"
 
-#: .././cogstat.py:529
+#: .././cogstat.py:630
 msgid "Only interval variables can be used for filtering. Ignoring variable %s."
-msgstr ""
+msgstr "Hanya pembolehubah interval boleh digunakan untuk penapisan. Abaikan pembolehubah %s. "
 
 #: .././cogstat.py:995
 msgid "Factors (number of levels): "
-msgstr ""
+msgstr "Faktor-faktor ( bilangan tahap):"
 
-#: .././cogstat_hyp_test.py:606
+#: .././cogstat_hyp_test.py:723
 msgid "Interval variables with several factors."
-msgstr ""
+msgstr "Pembolehubah interval bersama beberapa faktor."
 
-#: .././cogstat_hyp_test.py:607
+#: .././cogstat_hyp_test.py:724
 msgid "Choosing repeated measures ANOVA."
-msgstr ""
+msgstr "Memilih pengukuran berulang ANOVA."
 
-#: .././cogstat_hyp_test.py:611
+#: .././cogstat_hyp_test.py:728
 msgid "Ordinal variables with several factors."
-msgstr ""
+msgstr "Pembolehubah ordinal dengan beberapa faktor. "
 
-#: .././cogstat_hyp_test.py:614
+#: .././cogstat_hyp_test.py:731
 msgid "Nominal variables with several factors."
-msgstr ""
+msgstr "Pembolehubah nominal dengan beberapa faktor. "
 
-#: ../ui/filter_outlier.py:80
+#: ../ui/filter_outlier.py:84
 msgid "Filter outlier"
-msgstr ""
+msgstr "Penapis outlier"
 
-#: ../ui/factors.py:49
+#: ../ui/factors.py:50
 msgid "Factors"
-msgstr ""
+msgstr "Faktor-faktor "
 
-#: ../ui/factors.py:51
+#: ../ui/factors.py:52
 msgid "Alt+A"
-msgstr ""
+msgstr "Alt+A"
 
-#: ../ui/factors.py:53
+#: ../ui/factors.py:54
 msgid "Alt+M"
-msgstr ""
+msgstr "Alt+M"
 
-#: ../ui/factors.py:55
+#: ../ui/factors.py:56
 msgid "Alt+R"
-msgstr ""
+msgstr "Alt+R"
 
-#: ../ui/compare_vars.py:90
+#: ../ui/compare_vars.py:90 ../ui/compare_vars_groups.py:118
 msgid "Alt+F"
-msgstr ""
-
-#: ../ui/factor.py:53
-msgid "Set factor"
-msgstr ""
+msgstr "Alt+F"
 
 #: ../ui/factor.py:54
-msgid "Name of the factor"
-msgstr ""
+msgid "Set factor"
+msgstr "Tetapkan faktor"
 
 #: ../ui/factor.py:55
+msgid "Name of the factor"
+msgstr "Nama faktor"
+
+#: ../ui/factor.py:56
 msgid "Number of levels"
-msgstr ""
+msgstr "Bilangan tahap"
 
-#: ../ui/filter_outlier.py:83
+#: ../ui/filter_outlier.py:87
 msgid "Only interval variables are available"
-msgstr ""
+msgstr "Hanya pembolehubah interval yang tersedia"
 
-#: .././cogstat_gui.py:179 .././cogstat_gui.py:223
+#: .././cogstat_gui.py:214
 msgid "Behavioral data &diffusion analysis"
-msgstr ""
+msgstr "Data tingkah laku & analisis resapan"
 
-#: .././cogstat_gui.py:185
+#: .././cogstat_gui.py:225
 msgid "Ctrl+F"
-msgstr ""
+msgstr "Ctrl+F"
 
-#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:645
-#: .././cogstat_hyp_test.py:1051
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:762
+#: .././cogstat_hyp_test.py:1168
 msgid "d"
-msgstr ""
+msgstr "d"
 
-#: .././cogstat_hyp_test.py:1174
+#: .././cogstat_hyp_test.py:1292
 msgid "f"
-msgstr ""
+msgstr "f"
 
-#: .././cogstat_hyp_test.py:1242
+#: .././cogstat_hyp_test.py:1364
 msgid "Result of multi-way ANOVA"
-msgstr ""
+msgstr "Keputusan "
 
-#: .././cogstat_hyp_test.py:1252
+#: .././cogstat_hyp_test.py:1374
 msgid "Interaction of %s: "
-msgstr ""
+msgstr "Interaksi %s:"
 
-#: .././cogstat_hyp_test.py:1339
+#: .././cogstat_hyp_test.py:1460
 msgid "w"
-msgstr ""
+msgstr "w"
 
-#: .././cogstat_chart.py:484
+#: .././cogstat_chart.py:615
 msgid "Normal theoretical quantiles"
-msgstr ""
+msgstr "Kuantil teori normal"
 
-#: .././cogstat_chart.py:485
+#: .././cogstat_chart.py:616
 msgid "Sample quantiles"
-msgstr ""
+msgstr "Sampel kuantil"
 
-#: .././cogstat_stat.py:218
+#: .././cogstat_stat.py:243
 msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
-msgstr ""
+msgstr "Ralat: %s, Masa tindak balas: %s, Peserta: %s, Syarat-syarat: %s"
 
-#: .././cogstat_stat.py:255
+#: .././cogstat_stat.py:302
 msgid "Mean percent correct with edge correction"
-msgstr ""
+msgstr "Min peratus betul dengan pembetulan tepi"
 
-#: .././cogstat_stat.py:257
+#: .././cogstat_stat.py:304
 msgid "Mean correct reaction time"
-msgstr ""
+msgstr "Min masa tindak balas yang betul"
 
-#: .././cogstat_stat.py:259
+#: .././cogstat_stat.py:306
 msgid "Correct reaction time variance"
-msgstr ""
+msgstr "Varians masa tindak balas yang betul"
 
-#: .././cogstat_stat.py:278
+#: .././cogstat_stat.py:327
 msgid "Drift rate"
-msgstr ""
+msgstr "Kadar drift"
 
-#: .././cogstat_stat.py:279
+#: .././cogstat_stat.py:328
 msgid "Threshold"
-msgstr ""
+msgstr "Ambang"
 
-#: .././cogstat_stat.py:280
+#: .././cogstat_stat.py:329
 msgid "Nondecision time"
-msgstr ""
+msgstr "Masa bukan keputusan"
 
-#: .././cogstat_stat.py:360 .././cogstat_stat.py:754
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:967
 msgid "low"
-msgstr ""
+msgstr "rendah"
 
-#: .././cogstat_stat.py:360 .././cogstat_stat.py:754
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:967
 msgid "high"
-msgstr ""
+msgstr "tinggi"
 
-#: .././cogstat_stat.py:361
+#: .././cogstat_stat.py:409
 msgid "Relative frequencies"
-msgstr ""
+msgstr "Frekuensi relatif"
 
-#: .././cogstat_stat.py:361 .././cogstat_stat.py:757
+#: .././cogstat_stat.py:409 .././cogstat_stat.py:970
 msgid "95% confidence interval (multinomial proportions)"
-msgstr ""
+msgstr "95% interval keyakinan (perkadaran multinominal)"
 
-#: .././cogstat_stat.py:404
+#: .././cogstat_stat.py:454 .././cogstat_chart.py:1436
 msgid "Variation ratio"
-msgstr ""
+msgstr "Nisbah variasi"
 
-#: .././cogstat_stat.py:488
+#: .././cogstat_stat.py:536
 msgid "Present confidence interval values for the mean suppose normality."
-msgstr ""
+msgstr "Nilai-nilai interval keyakinan sekarang untuk min mengandaikan normaliti. "
 
-#: .././cogstat_stat.py:491 .././cogstat_stat.py:500
+#: .././cogstat_stat.py:539 .././cogstat_stat.py:548
 msgid "95% confidence interval (high)"
-msgstr ""
+msgstr "95% interval keyakinan (tinggi)"
 
-#: .././cogstat_stat.py:490 .././cogstat_stat.py:499
+#: .././cogstat_stat.py:538 .././cogstat_stat.py:547
 msgid "95% confidence interval (low)"
-msgstr ""
+msgstr "95% interval keyakinan (rendah)"
 
-#: .././cogstat_stat.py:502 .././cogstat_stat.py:805 .././cogstat_stat.py:930
+#: .././cogstat_stat.py:550 .././cogstat_stat.py:1016 .././cogstat_stat.py:1141
 msgid "Out of the data range"
-msgstr ""
+msgstr "Diluar rentang data. "
 
-#: .././cogstat_stat.py:651 .././cogstat_stat.py:654 .././cogstat_stat.py:976
-#: .././cogstat_stat.py:979
+#: .././cogstat_stat.py:703 .././cogstat_stat.py:706 .././cogstat_stat.py:1190
+#: .././cogstat_stat.py:1193
 msgid "Cramér's V measure of association"
-msgstr ""
+msgstr "Ukuran perkaitan Cramer V"
 
-#: .././cogstat_stat.py:730 .././cogstat_stat.py:739
+#: .././cogstat_stat.py:945 .././cogstat_stat.py:953
 msgid "Total"
-msgstr ""
+msgstr "Jumlah"
 
-#: .././cogstat_stat.py:731
+#: .././cogstat_stat.py:946
 msgid "Case count"
-msgstr ""
+msgstr "Bilangan kes"
 
-#: .././cogstat_stat.py:742
+#: .././cogstat_stat.py:956
 msgid "Percentage"
-msgstr ""
+msgstr "Peratus"
 
-#: .././cogstat_stat.py:834 .././cogstat_stat.py:961
+#: .././cogstat_stat.py:1045 .././cogstat_stat.py:1173
 msgid "Cohen's d"
-msgstr ""
+msgstr "Cohen's d"
 
-#: .././cogstat_stat.py:836 .././cogstat_stat.py:963
+#: .././cogstat_stat.py:1047 .././cogstat_stat.py:1176
 msgid "Eta-squared"
-msgstr ""
+msgstr "Eta-kuasa dua"
 
-#: .././cogstat_stat.py:854 .././cogstat_stat.py:996
+#: .././cogstat_stat.py:1065 .././cogstat_stat.py:1212
 msgid "Hedges' g"
-msgstr ""
+msgstr "Hedges' g"
 
-#: .././cogstat.py:714 .././cogstat.py:881 .././cogstat.py:1071
-#: .././cogstat.py:1232
+#: .././cogstat.py:887 .././cogstat.py:1257 .././cogstat.py:1572
+#: .././cogstat.py:1770 .././cogstat.py:2026
 msgid "Population parameter estimations"
-msgstr ""
-
-#: ../ui/find_text.py:56
-msgid "Find text"
-msgstr ""
+msgstr "Anggaran parameter populasi"
 
 #: ../ui/find_text.py:57
-msgid "Text to find"
-msgstr ""
+msgid "Find text"
+msgstr "Cari text"
 
 #: ../ui/find_text.py:58
-msgid "Find next"
-msgstr ""
+msgid "Text to find"
+msgstr "Text untuk dicari"
 
 #: ../ui/find_text.py:59
+msgid "Find next"
+msgstr "Cari seterusnya"
+
+#: ../ui/find_text.py:60
 msgid "Find previous"
-msgstr ""
+msgstr "Cari sebelumnya"
 
-#: .././cogstat_gui.py:710 .././cogstat_gui.py:716 .././cogstat.py:962
-#: ../ui/diffusion.py:130
+#: .././cogstat_gui.py:899 .././cogstat.py:1415 ../ui/diffusion.py:185
 msgid "Behavioral data diffusion analysis"
-msgstr ""
+msgstr "Cari seterusnya"
 
-#: .././cogstat_stat.py:229 .././cogstat_stat.py:230 ../ui/diffusion.py:134
+#: .././cogstat_stat.py:263 .././cogstat_stat.py:264 ../ui/diffusion.py:189
 msgid "Participant"
-msgstr ""
+msgstr "Peserta"
 
 #: ../ui/diffusion.py:132
 msgid "Error"
-msgstr ""
+msgstr "Ralat"
 
 #: ../ui/diffusion.py:133
 msgid "Reaction time (in sec)"
-msgstr ""
+msgstr "Masa tindak balas (dalam saat)"
 
-#: ../ui/diffusion.py:135
+#: ../ui/diffusion.py:190
 msgid "Condition(s)"
-msgstr ""
+msgstr "Syarat-syarat"
 
-#: ../ui/xylims.py:69 ../ui/ylims.py:50
+#: ../ui/xylims.py:70
 msgid "Options"
-msgstr ""
+msgstr "Pilihan"
 
 #: ../ui/xylims.py:71
 msgid "Minimum of x axis"
-msgstr ""
+msgstr "Minimum paksi x"
 
 #: ../ui/xylims.py:70
 msgid "Maximum of x axis"
-msgstr ""
+msgstr "Maximum paksi x"
 
 #: ../ui/xylims.py:72 ../ui/ylims.py:52
 msgid "Minimum of y axis"
-msgstr ""
+msgstr "Minimum paksi y"
 
 #: ../ui/xylims.py:73 ../ui/ylims.py:51
 msgid "Maximum of y axis"
-msgstr ""
+msgstr "Maximum paksi y"
 
 #: .././cogstat_gui.py:711
 msgid "At least the reaction time and the error variables should be given."
-msgstr ""
+msgstr "Sekurang-kurangnya masa tindak balas dan pembolehubah ralat harus diberikan. "
 
-#: .././cogstat_hyp_test.py:995
+#: .././cogstat_hyp_test.py:1112
 msgid "At least two grouping variables."
-msgstr ""
+msgstr "Sekurang-kurangnya dua pembolehubah kelompok."
 
-#: .././cogstat_hyp_test.py:419 .././cogstat_hyp_test.py:480
-#: .././cogstat_hyp_test.py:490 .././cogstat_hyp_test.py:520
-#: .././cogstat_hyp_test.py:841 .././cogstat_hyp_test.py:987
-#: .././cogstat.py:724
+#: .././cogstat_hyp_test.py:590 .././cogstat.py:897 .././cogstat.py:1316
+#: .././cogstat.py:1606 .././cogstat.py:1804 .././cogstat.py:1809
+#: .././cogstat.py:2051
 msgid "Hypothesis tests"
-msgstr ""
+msgstr "Ujian hipotesis "
 
-#: .././cogstat.py:1236
+#: .././cogstat.py:1787 .././cogstat_chart.py:1728
 msgid "Medians"
-msgstr ""
+msgstr "Median"
 
 #: .././cogstat_dialogs.py:36 .././cogstat_dialogs.py:53
 msgid "All importable data files"
-msgstr ""
+msgstr "Semua fail data yang boleh diimport"
 
 #: .././cogstat_dialogs.py:37 .././cogstat_dialogs.py:54
 msgid "Spreadsheet files"
-msgstr ""
+msgstr "Fail spreadsheet"
 
 #: .././cogstat_dialogs.py:37 .././cogstat_dialogs.py:54
 msgid "Text files"
-msgstr ""
+msgstr "Fail text"
 
 #: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:55
 msgid "SPSS data files"
-msgstr ""
+msgstr "Fail data SPSS"
 
 #: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:55
 msgid "jamovi data files"
-msgstr ""
+msgstr "Fail data jamovi"
 
 #: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:56
 msgid "JASP data files"
-msgstr ""
+msgstr "Fail data JASP"
 
 #: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:56
 msgid "SAS data files"
-msgstr ""
+msgstr "Fail data SAS"
 
 #: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:57
 msgid "STATA data files"
-msgstr ""
+msgstr "Fail data STATA"
 
 #: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:57
 msgid "R data files"
-msgstr ""
+msgstr "Fail data R"
 
-#: .././cogstat_stat.py:366 .././cogstat_stat.py:764
+#: .././cogstat_stat.py:413 .././cogstat_stat.py:975
 msgid "Some of the cells do not include at least 5 cases, so the confidence intervals may be invalid."
-msgstr ""
+msgstr "Sesetengah sel tidak mengandungi sekurang-kurangnya 5 kes. Oleh itu,  interval keyakinan mungkin tidak sah. "
 
-#: .././cogstat_stat.py:1009
+#: .././cogstat_stat.py:1225
 msgid "Omega-squared"
-msgstr ""
+msgstr "Omega-kuasa dua"
 
-#: .././cogstat_gui.py:495
+#: .././cogstat_gui.py:624
 msgid "Data file content"
-msgstr ""
+msgstr "Kandungan fail data"
 
 #: .././cogstat_gui.py:500
 msgid "Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
-msgstr ""
+msgstr "Oops, terdapat masalah, Cogstat tidak dapat membuka data tersebut. Anda boleh melaporkan isu ini. "
 
 #: .././cogstat_gui.py:504
 msgid "Error code"
-msgstr ""
+msgstr "Kod ralat"
 
-#: .././cogstat_gui.py:505
+#: .././cogstat_gui.py:629
 msgid "Data to be imported"
-msgstr ""
+msgstr "Data untuk diimport"
 
-#: .././cogstat.py:219
+#: .././cogstat.py:263
 msgid "Number of measurement levels do not match the number of variables. You may want to correct the number of measurement levels."
-msgstr ""
+msgstr "Bilangan tahap pengukuran tidak sepadan dengan bilangan pembolehubah. Anda mungkin mahu membetulkan bilangan tahap pengukuran."
 
 #: .././cogstat_hyp_test.py:163
 msgid "Shapiro–Wilk normality test in variable %s%s"
-msgstr ""
+msgstr "Ujian normaliti Shapiro-Wilk dalam pembolehubah %s%s"
 
-#: .././cogstat_hyp_test.py:735
+#: .././cogstat_hyp_test.py:854
 msgid "Using Greenhouse–Geisser correction."
-msgstr ""
+msgstr "Menggunakan pembetulan Greenhouse–Geisser."
 
-#: .././cogstat_hyp_test.py:749
+#: .././cogstat_hyp_test.py:868
 msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
-msgstr ""
+msgstr "Membanding pembolehubah pairwise dengan pembetulan Holm-Bonferroni. "
 
-#: .././cogstat_hyp_test.py:869 .././cogstat_hyp_test.py:903
-#: .././cogstat_hyp_test.py:912
+#: .././cogstat_hyp_test.py:986 .././cogstat_hyp_test.py:1020
+#: .././cogstat_hyp_test.py:1029
 msgid "Running Mann–Whitney test."
-msgstr ""
+msgstr "Melaksanakan ujian Mann-Whitney."
 
-#: .././cogstat_hyp_test.py:878
+#: .././cogstat_hyp_test.py:995
 msgid "Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on assumptions."
-msgstr ""
+msgstr "Memilih ujian-t dua sampel, ujian Mann-Whitney atau ujian-t Welch berdasarkan andaian. "
 
-#: .././cogstat_hyp_test.py:906 .././cogstat_hyp_test.py:954
+#: .././cogstat_hyp_test.py:1023 .././cogstat_hyp_test.py:1071
 msgid "Homogeneity of variance violated in variable %s."
-msgstr ""
+msgstr "Kehomogenan varians dilanggar dalam pembolehubah %s. "
 
-#: .././cogstat_hyp_test.py:916 .././cogstat_hyp_test.py:965
+#: .././cogstat_hyp_test.py:1033 .././cogstat_hyp_test.py:1082
 msgid "Running chi-squared test."
-msgstr ""
+msgstr "Melaksanakan ujian khi kuasa dua."
 
-#: .././cogstat_hyp_test.py:925
+#: .././cogstat_hyp_test.py:1042
 msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
-msgstr ""
+msgstr "Memilih ANOVA sehala atau ujian Kruskal–Wallis berdasarkan andaian."
 
-#: .././cogstat_hyp_test.py:957 .././cogstat_hyp_test.py:961
+#: .././cogstat_hyp_test.py:1074 .././cogstat_hyp_test.py:1078
 msgid "Running Kruskal–Wallis test."
-msgstr ""
+msgstr "Melaksanakan ujian Kruskal–Wallis."
 
-#: .././cogstat_hyp_test.py:1147
+#: .././cogstat_hyp_test.py:1265
 msgid "Result of independent samples Mann–Whitney rank test: "
-msgstr ""
+msgstr "Keputusan ujian Mann–Whitney rank sampel bebas:"
 
-#: .././cogstat_hyp_test.py:1304 .././cogstat_hyp_test.py:1315
+#: .././cogstat_hyp_test.py:1426 .././cogstat_hyp_test.py:1436
 msgid "Result of the Kruskal–Wallis test: "
-msgstr ""
+msgstr "Keputusan ujian Kruskal–Wallis:"
 
-#: .././cogstat_hyp_test.py:1346
+#: .././cogstat_hyp_test.py:1467
 msgid "Result of the Pearson's chi-squared test: "
-msgstr ""
-
-#: .././cogstat.py:332
-msgid "Spreadsheet file"
-msgstr ""
-
-#: .././cogstat.py:374
-msgid "SPSS/SAS/STATA file"
-msgstr ""
+msgstr "Keputusan ujian khi kuasa dua Pearson: "
 
 #: .././cogstat.py:382
+msgid "Spreadsheet file"
+msgstr "Fail spreadsheet"
+
+#: .././cogstat.py:424
+msgid "SPSS/SAS/STATA file"
+msgstr "Fail SPSS/SAS/STATA "
+
+#: .././cogstat.py:432
 msgid "R file"
-msgstr ""
+msgstr "Fail R"
 
-#: .././cogstat.py:389
+#: .././cogstat.py:439
 msgid "JASP file"
-msgstr ""
+msgstr "Fail JASP"
 
-#: .././cogstat.py:396
+#: .././cogstat.py:446
 msgid "jamovi file"
-msgstr ""
+msgstr "Fail jamovi"
 
-#: .././cogstat.py:320
+#: .././cogstat.py:370
 msgid "Text file"
-msgstr ""
+msgstr "Fail text"
 
-#: .././cogstat_gui.py:185
+#: .././cogstat_gui.py:225
 msgid "&Find text..."
-msgstr ""
+msgstr "&Cari text"
 
-#: .././cogstat_stat.py:215
+#: .././cogstat_stat.py:238
 msgid "Specify the minimum required parameters (reaction time and error)."
-msgstr ""
+msgstr "Tentukan parameter minimum yang diperlukan (masa tindak balas dan ralat). "
 
-#: .././cogstat_stat.py:219 .././cogstat_stat.py:220
+#: .././cogstat_stat.py:244 .././cogstat_stat.py:245
 msgid "None"
-msgstr ""
+msgstr "Tiada"
 
-#: .././cogstat_stat.py:226 .././cogstat_stat.py:227
+#: .././cogstat_stat.py:260 .././cogstat_stat.py:261
 msgid "Condition"
-msgstr ""
+msgstr "Syarat"
 
-#: .././cogstat_stat.py:226
+#: .././cogstat_stat.py:260
 msgid "single condition"
-msgstr ""
+msgstr "Satu syarat"
 
-#: .././cogstat_stat.py:229
+#: .././cogstat_stat.py:263
 msgid "single participant"
-msgstr ""
+msgstr "Satu peserta "
 
-#: .././cogstat.py:40 .././cogstat.py:242
+#: .././cogstat.py:46 .././cogstat.py:286
 msgid "Measurement level warning"
-msgstr ""
+msgstr "Amaran tahap pengukuran"
 
-#: .././cogstat.py:231
+#: .././cogstat.py:275
 msgid "String variable conversion warning"
-msgstr ""
+msgstr "Amaran penukaran pembolehubah rentetan"
 
-#: .././cogstat.py:235 .././cogstat.py:244
+#: .././cogstat.py:279 .././cogstat.py:288
 msgid "You can fix this issue in your data source."
-msgstr ""
+msgstr "Anda boleh membaiki isu tersebut dalam sumber data anda. "
 
-#: .././cogstat.py:270
+#: .././cogstat.py:317
 msgid "Recommended characters in variable names warning"
-msgstr ""
+msgstr "Aksara yang dicadangkan dalam amaran nama pembolehubah"
 
-#: .././cogstat.py:276 .././cogstat.py:287
+#: .././cogstat.py:323 .././cogstat.py:334
 msgid "If some analyses cannot be run, fix this in your data source."
-msgstr ""
+msgstr "Jikalau sesetengah analisis tidak dapat dilaksanakan, anda boleh membaiki isu ini dalam sumber data anda. "
 
-#: .././cogstat.py:281
+#: .././cogstat.py:328
 msgid "Recommended characters in data values warning"
-msgstr ""
+msgstr "Aksara yang dicadangkan dalam amaran nilai-nilai data"
 
-#: ../ui/factors.py:50
+#: ../ui/factors.py:51
 msgid "&Add factor"
-msgstr ""
+msgstr "&Tambah faktor"
 
-#: ../ui/factors.py:52
+#: ../ui/factors.py:53
 msgid "&Modify factor"
-msgstr ""
+msgstr "&Mengubah suai faktor"
 
-#: ../ui/factors.py:54
+#: ../ui/factors.py:55
 msgid "&Remove factor"
-msgstr ""
+msgstr "&Keluarkan faktor"
 
-#: ../ui/compare_vars.py:89
+#: ../ui/compare_vars.py:89 ../ui/compare_vars_groups.py:117
 msgid "&Factors..."
-msgstr ""
+msgstr "&Faktor-faktor"
 
 #: ../ui/compare_vars.py:91 ../ui/compare_groups.py:112
 #: ../ui/explore_var_pairs.py:86
 msgid "O&ptions..."
-msgstr ""
+msgstr "O&ptions"
 
-#: ../ui/compare_groups.py:113
+#: ../ui/compare_groups.py:114 ../ui/compare_vars_groups.py:120
 msgid "Single case &slope..."
-msgstr ""
+msgstr "Satu kes&kemiringan"
 
 #: ../ui/var_properties.py:105
 msgid "&Frequencies"
-msgstr ""
+msgstr "&Frekuensi"
 
 #: ../ui/var_properties.py:106
 msgid "Central tendency &test value"
-msgstr ""
+msgstr "Pusat kecenderungan & nilai ujian"
 
-#: .././cogstat.py:272
+#: .././cogstat.py:319
 msgid "Some variable name(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
-msgstr ""
+msgstr "Sesetengah nama pembolehubah termasuk aksara selain daripada huruf Inggeris, nombor ataupun garis bawah. Ini boleh menyebabkan masalah dalam beberapa analisis: %s."
 
-#: .././cogstat.py:283
+#: .././cogstat.py:330
 msgid "Some string variable(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
-msgstr ""
+msgstr "Sesetengah pembolehubah rentetan termasuk aksara selain daripada huruf Inggeris, nombor ataupun garis bawah. Ini boleh menyebabkan masalah dalam beberapa analisis: %s."
 
-#: .././cogstat_gui.py:55
+#: .././cogstat_gui.py:68
 msgid "Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
-msgstr ""
+msgstr "Oops, terdapat masalah, Cogstat tidak dapat melaksanakan analisasi tersebut. Anda boleh melaporkan isu ini. "
 
-#: .././cogstat_gui.py:542 .././cogstat.py:515
+#: .././cogstat_gui.py:739 .././cogstat.py:614
 msgid "Filter outliers"
-msgstr ""
+msgstr "Penapis outlier"
 
-#: .././cogstat_gui.py:593
+#: .././cogstat.py:816
 msgid "At least one variable should be set."
-msgstr ""
+msgstr "Sekurang-kurangnya satu pembolehubah harus ditetapkan. "
 
-#: .././cogstat_gui.py:755
+#: .././cogstat.py:1464
 msgid "A variable should be assigned to each level of the factors."
-msgstr ""
+msgstr "Pembolehubah harus diberikan kepada setiap tahap faktor."
 
 #: .././cogstat_hyp_test.py:94
 msgid "Sensitivity power could not be calculated."
-msgstr ""
+msgstr "Kuasa sensitiviti tidak boleh dikira. "
 
-#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:645
-#: .././cogstat_hyp_test.py:1051 .././cogstat_hyp_test.py:1174
-#: .././cogstat_hyp_test.py:1187 .././cogstat_hyp_test.py:1339
+#: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:762
+#: .././cogstat_hyp_test.py:1168 .././cogstat_hyp_test.py:1292
+#: .././cogstat_hyp_test.py:1309 .././cogstat_hyp_test.py:1460
 msgid "Minimal effect size in %s"
-msgstr ""
+msgstr "Saiz kesan minimum dalam %s "
 
-#: .././cogstat_hyp_test.py:1187
+#: .././cogstat_hyp_test.py:1309
 msgid "eta-square"
-msgstr ""
+msgstr "eta-kuasa dua"
 
 #: .././cogstat_gui.py:793
 msgid "Both the dependent variable and at least one grouping variable should be set."
-msgstr ""
+msgstr "Kedua-dua pembolehubah terikat dan sekurang-kurangnya satu pembolehubah kelompok harus ditetapkan."
 
 #: .././cogstat_hyp_test.py:91
 msgid "Sensitivity power analysis. Minimal effect size to reach 95% power with the present sample size for the present hypothesis test."
-msgstr ""
+msgstr "Analisis kuasa sensitiviti. Saiz kesan minimum untuk mencapai kuasa 95% dengan saiz sampel sekarang untuk ujian hipotesis sekarang. "
 
 #: .././cogstat_hyp_test.py:228
 msgid "Result of the Bayesian one sample t-test"
-msgstr ""
+msgstr "Keputusan ujian-t satu sampel Bayesian"
 
-#: .././cogstat_hyp_test.py:309
+#: .././cogstat_hyp_test.py:299
 msgid "Homoscedasticity cannot be checked for constant variable in %s%s."
-msgstr ""
+msgstr "Homosedastisitas tidak boleh disemak untuk pembolehubah tetap dalam %s%s. "
 
-#: .././cogstat_hyp_test.py:313
+#: .././cogstat_hyp_test.py:302
 msgid "Too small sample to test homoscedasticity in variable %s%s.\n"
 ""
-msgstr ""
+msgstr "Sampel terlalu kecil untuk menguji homosedastisitas dalam pembolehubah %s%s.  "
 
-#: .././cogstat_hyp_test.py:337
+#: .././cogstat_hyp_test.py:317
 msgid "Koenker's studentized score test"
-msgstr ""
+msgstr "Ujian Koenker's studentized score"
 
-#: .././cogstat_hyp_test.py:339
+#: .././cogstat_hyp_test.py:319
 msgid "White's test"
-msgstr ""
+msgstr "Ujian White\n"
+""
 
 #: .././cogstat_hyp_test.py:384
 msgid "Henze-Zirkler test of multivariate normality in variables %s%s"
-msgstr ""
+msgstr "Ujian Henze-Zirkler normaliti multivariat dalam pembolehubah %s%s"
 
-#: .././cogstat_hyp_test.py:424
+#: .././cogstat_hyp_test.py:395
 msgid "Normality not violated."
-msgstr ""
+msgstr "Normaliti tidak dilanggar."
 
-#: .././cogstat_hyp_test.py:434 .././cogstat_hyp_test.py:454
+#: .././cogstat_hyp_test.py:397 .././cogstat_hyp_test.py:418
 msgid "Bayes Factor for Pearson correlation"
-msgstr ""
+msgstr "Faktor Bayes untuk korelasi Pearson"
 
-#: .././cogstat_hyp_test.py:467
+#: .././cogstat_hyp_test.py:438 .././cogstat_hyp_test.py:513
 msgid "Normality violated."
-msgstr ""
+msgstr "Normaliti dilanggar."
 
-#: .././cogstat_hyp_test.py:659
+#: .././cogstat_hyp_test.py:776
 msgid "Result of the Bayesian paired two-samples t-test"
-msgstr ""
+msgstr "Keputusan ujian-t dua sampel berpasangan Bayesian"
 
-#: .././cogstat_hyp_test.py:827
+#: .././cogstat_hyp_test.py:945
 msgid "Variables differ. Running post-hoc pairwise comparison."
-msgstr ""
+msgstr "Pembolehubah berbeza. Melaksanakan perbandingan post-hoc pairwise. "
 
-#: .././cogstat_hyp_test.py:828
+#: .././cogstat_hyp_test.py:946
 msgid "Results of Durbin-Conover test (p values)."
-msgstr ""
+msgstr "Keputusan ujian Durbin-Conover (nilai-nilai p). "
 
-#: .././cogstat_hyp_test.py:1063
+#: .././cogstat_hyp_test.py:1180
 msgid "Result of the Bayesian independent two-samples t-test"
-msgstr ""
+msgstr "Keputusan ujian-t dua sampel bebas Bayesian"
 
-#: .././cogstat_stat.py:561
+#: .././cogstat.py:1287
 msgid "Regression coefficients"
-msgstr ""
+msgstr "Koefisien regresi "
 
-#: .././cogstat_stat.py:566 .././cogstat_stat.py:668
+#: .././cogstat_stat.py:617 .././cogstat_stat.py:719 .././cogstat_stat.py:786
 msgid "Normality could not be calculated."
-msgstr ""
+msgstr "Normaliti tidak dapat dikira. "
 
-#: .././cogstat_stat.py:567 .././cogstat_stat.py:571 .././cogstat_stat.py:578
-#: .././cogstat_stat.py:582 .././cogstat_stat.py:669 .././cogstat_stat.py:673
-#: .././cogstat_stat.py:680 .././cogstat_stat.py:684
+#: .././cogstat_stat.py:731
 msgid "CIs may be biased."
-msgstr ""
+msgstr "CI mungkin bias. "
 
 #: .././cogstat_stat.py:570 .././cogstat_stat.py:672
 msgid "Assumption of normality violated for CI calculations."
-msgstr ""
+msgstr "Andaian normaliti dilanggar untuk pengiraan CI."
 
 #: .././cogstat_stat.py:573 .././cogstat_stat.py:676
 msgid "Assumption of normality for CI calculations met."
-msgstr ""
+msgstr "Andaian normaliti untuk pengiraan CI dipenuhi. "
 
-#: .././cogstat_stat.py:577 .././cogstat_stat.py:679
+#: .././cogstat_stat.py:628 .././cogstat_stat.py:730 .././cogstat_stat.py:797
 msgid "Homoscedasticity could not be calculated."
-msgstr ""
+msgstr "Homosedastisitas tidak boleh dikira. "
 
 #: .././cogstat_stat.py:581 .././cogstat_stat.py:683
 msgid "Assumption of homoscedasticity violated for CI calculations."
-msgstr ""
+msgstr "Andaian homoskedastisitas dilanggar untuk pengiraan CI."
 
 #: .././cogstat_stat.py:584 .././cogstat_stat.py:686
 msgid "Assumption of homoscedasticity for CI calculations met."
-msgstr ""
+msgstr "Andaian homoskedastisitas untuk pengiraan CI dipenuhi."
 
 #: .././cogstat_stat.py:598
 msgid "Slope"
-msgstr ""
+msgstr "Kemiringan"
 
-#: .././cogstat_stat.py:601
+#: .././cogstat_stat.py:650
 msgid "Intercept"
-msgstr ""
+msgstr "Intercept"
 
-#: .././cogstat_stat.py:637 .././cogstat_stat.py:657 .././cogstat_stat.py:827
-#: .././cogstat_stat.py:952
+#: .././cogstat.py:1214 .././cogstat.py:1219 .././cogstat.py:1304
+#: .././cogstat.py:1310 .././cogstat.py:1552 .././cogstat.py:1603
+#: .././cogstat.py:1747 .././cogstat.py:1798 .././cogstat.py:2020
+#: .././cogstat.py:2048
 msgid "Standardized effect sizes"
-msgstr ""
+msgstr "Saiz-saiz kesan standard"
 
-#: .././cogstat.py:512
+#: .././cogstat.py:608 .././cogstat.py:749
 msgid "Mean ± 2 SD"
-msgstr ""
+msgstr "Min ± 2 SD"
 
-#: .././cogstat.py:513
+#: .././cogstat.py:609 .././cogstat.py:750
 msgid "Median ± 2.5 MAD"
-msgstr ""
+msgstr "Median ± 2.5 MAD"
 
-#: .././cogstat.py:557
+#: .././cogstat.py:656
 msgid "Cases outside of the range will be excluded:"
-msgstr ""
+msgstr "Kes diluar rentang akan dikecualikan: "
 
-#: .././cogstat.py:833
+#: .././cogstat.py:1060 .././cogstat.py:1270
 msgid "Checking assumptions of inferential methods"
-msgstr ""
+msgstr "Menyemak andaian kaedah-kaedah inferens."
 
-#: .././cogstat.py:834
+#: .././cogstat.py:1271
 msgid "Testing multivariate normality of variables"
-msgstr ""
+msgstr "Menguji normaliti multivariat pembolehubah"
 
-#: .././cogstat.py:850
+#: .././cogstat.py:1276
 msgid "Testing homoscedasticity"
-msgstr ""
+msgstr "Menguji homoskedastisitas "
 
-#: .././cogstat.py:869
+#: .././cogstat.py:1231
 msgid "Residual analysis"
-msgstr ""
+msgstr "Analisis residual"
 
-#: .././cogstat_chart.py:266
+#: .././cogstat_chart.py:329
 msgid "Included and excluded cases with exclusion criteria"
-msgstr ""
+msgstr "Kes termasuk dan kes yang dikecualikan dengan kriteria pengecualian  "
 
-#: .././cogstat_chart.py:566
+#: .././cogstat_chart.py:700
 msgid "Residual plot"
-msgstr ""
+msgstr "Plot residual"
 
-#: .././cogstat_chart.py:568
+#: .././cogstat_chart.py:702
 msgid "Residuals"
-msgstr ""
+msgstr "Residual-residual"
 
-#: .././cogstat_chart.py:574
+#: .././cogstat_chart.py:708
 msgid "Histogram of residuals"
-msgstr ""
+msgstr "Histogram residual"
 
-#: .././cogstat_chart.py:666
+#: .././cogstat_chart.py:800
 msgid "Linear regression line with 95% CI"
-msgstr ""
+msgstr "Garisan linear regresi dengan 95% CI"
 
-#: .././cogstat_chart.py:679
+#: .././cogstat_chart.py:813
 msgid "Scatter plot with linear regression line"
-msgstr ""
+msgstr "Plot taburan dengan garisan linear regresi"
 
-#: .././cogstat_hyp_test.py:136
+#: .././cogstat_hyp_test.py:135
 msgid "Normality cannot be checked for constant variable in %s%s."
-msgstr ""
+msgstr "Normaliti tidak boleh disemak untuk pembolehubah tetap dalam %s%s."
 
-#: .././cogstat_hyp_test.py:425
+#: .././cogstat_hyp_test.py:396
 msgid "Homoscedasticity not violated."
-msgstr ""
+msgstr "Homoskedastisitas tidak dilanggar."
 
-#: .././cogstat_hyp_test.py:445
+#: .././cogstat_hyp_test.py:416 .././cogstat_hyp_test.py:505
 msgid "Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate."
-msgstr ""
+msgstr "Andaian ujian hipotesis tidak dapat diuji. Ujian hipotesis mungkin tidak tepat. "
 
-#: .././cogstat_hyp_test.py:469
+#: .././cogstat_hyp_test.py:440 .././cogstat_hyp_test.py:515
 msgid "Homoscedasticity violated."
+msgstr "Homoskedastisitas dilanggar."
+
+#: .././cogstat.py:755
+msgid "Filtering is on:"
+msgstr "Penapisan dihidupkan: "
+
+#: .././cogstat_gui.py:179 .././cogstat_gui.py:695 .././cogstat_gui.py:696
+#: .././cogstat_gui.py:698 .././cogstat_gui.py:699
+msgid "Re&load actual data file"
 msgstr ""
 
-#: .././cogstat.py:586
-msgid "Filtering is on:"
+#: .././cogstat_gui.py:179
+msgid "Ctrl+Shift+L"
+msgstr ""
+
+#: .././cogstat_gui.py:187
+msgid "Display &data briefly"
+msgstr ""
+
+#: .././cogstat_gui.py:196
+msgid "Explore &relation of variables"
+msgstr ""
+
+#: .././cogstat_gui.py:197
+msgid "Ctrl+R"
+msgstr ""
+
+#: .././cogstat_gui.py:198
+msgid "Compare re&peated measures variables"
+msgstr ""
+
+#: .././cogstat_gui.py:202
+msgid "Compare repeated &measures variables and groups"
+msgstr ""
+
+#: .././cogstat_gui.py:206
+msgid "Internal &consistency reliability analysis"
+msgstr ""
+
+#: .././cogstat_gui.py:208
+msgid "&Interrater reliability analysis"
+msgstr ""
+
+#: .././cogstat_gui.py:218
+msgid "Rerun all analyses"
+msgstr ""
+
+#: .././cogstat_gui.py:236
+msgid "Ctrl+S"
+msgstr ""
+
+#: .././cogstat_gui.py:237
+msgid "Ctrl+Shift+S"
+msgstr ""
+
+#: .././cogstat_gui.py:365
+msgid "Data view"
+msgstr ""
+
+#: .././cogstat_gui.py:672
+msgid "Reload data"
+msgstr ""
+
+#: .././cogstat_gui.py:851 .././cogstat.py:1114 .././cogstat.py:1146
+msgid "Explore relation of variables"
+msgstr ""
+
+#: .././cogstat_gui.py:898
+msgid "sec"
+msgstr ""
+
+#: .././cogstat_gui.py:969 .././cogstat.py:1858
+#: ../ui/compare_vars_groups.py:111
+msgid "Compare repeated measures variables and groups"
+msgstr ""
+
+#: .././cogstat_gui.py:984
+msgid "Internal consistency reliability analysis"
+msgstr ""
+
+#: .././cogstat_gui.py:998
+msgid "Interrater reliability analysis"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:350
+msgid "Henze-Zirkler test of multivariate normality in variables %s"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:514
+msgid "Model F-test"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:612
+msgid "F-test for %s"
+msgstr ""
+
+#: .././cogstat_stat.py:823 .././cogstat_stat.py:824
+msgid "Point estimate"
+msgstr ""
+
+#: .././cogstat_stat.py:830
+msgid "Log-likelihood"
+msgstr ""
+
+#: .././cogstat_stat.py:831
+msgid "AIC"
+msgstr ""
+
+#: .././cogstat_stat.py:832
+msgid "BIC"
+msgstr ""
+
+#: .././cogstat_stat.py:836
+msgid "Pearson's partial correlations"
+msgstr ""
+
+#: .././cogstat_stat.py:871
+msgid "Pearson correlation matrix of explanatory variables"
+msgstr ""
+
+#: .././cogstat_stat.py:898
+msgid "Variance inflation factors of explanatory variables and constant"
+msgstr ""
+
+#: .././cogstat_stat.py:900 .././cogstat_stat.py:905
+msgid "VIF"
+msgstr ""
+
+#: .././cogstat_stat.py:913
+msgid "Slope on %s"
+msgstr ""
+
+#: .././cogstat_stat.py:1265 .././cogstat_stat.py:1267
+msgid "Item"
+msgstr ""
+
+#: .././cogstat_stat.py:1265 .././cogstat_stat.py:1267
+msgid "Cronbach's alpha when removed"
+msgstr ""
+
+#: .././cogstat_stat.py:1265 .././cogstat_stat.py:1268
+msgid "Item-rest correlation"
+msgstr ""
+
+#: .././cogstat_stat.py:1266
+msgid "Value range"
+msgstr ""
+
+#: .././cogstat_stat.py:1327
+msgid "ICC(k)"
+msgstr ""
+
+#: .././cogstat_stat.py:1327
+msgid "ICC(A,k)"
+msgstr ""
+
+#: .././cogstat_stat.py:1327
+msgid "ICC(C,k)"
+msgstr ""
+
+#: .././cogstat_stat.py:1328
+msgid "ICC(1)"
+msgstr ""
+
+#: .././cogstat_stat.py:1328
+msgid "ICC(A,1)"
+msgstr ""
+
+#: .././cogstat_stat.py:1328
+msgid "ICC(C,1)"
+msgstr ""
+
+#: .././cogstat_dialogs.py:819 .././cogstat_dialogs.py:1109
+#: .././cogstat.py:1480 .././cogstat.py:1883 .././cogstat_chart.py:1755
+msgid "Unnamed factor"
+msgstr ""
+
+#: .././cogstat.py:476
+msgid "Clipboard"
+msgstr ""
+
+#: .././cogstat.py:520
+msgid "Reload actual data file"
+msgstr ""
+
+#: .././cogstat.py:610 .././cogstat.py:751
+msgid "MMCD Mahalanobis distance with .05 chi squared cut-off"
+msgstr ""
+
+#: .././cogstat.py:968 ../ui/reliability_internal.py:88
+msgid "Internal consistency reliability"
+msgstr ""
+
+#: .././cogstat.py:829 .././cogstat.py:986 .././cogstat.py:1040
+#: .././cogstat.py:1517 .././cogstat.py:1700 .././cogstat.py:1936
+#: .././cogstat.py:1952
+msgid "N of observed cases"
+msgstr ""
+
+#: .././cogstat.py:994 .././cogstat.py:1000
+msgid "Cronbach's alpha"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:597 .././cogstat.py:1069
+msgid "Assumption of normality violated in variable(s) %s"
+msgstr ""
+
+#: .././cogstat.py:1081
+msgid "Parameter estimates"
+msgstr ""
+
+#: .././cogstat.py:1150
+msgid "Exploring variable pair"
+msgstr ""
+
+#: .././cogstat.py:1153
+msgid "Predictors"
+msgstr ""
+
+#: .././cogstat.py:1155
+msgid "Predicted"
+msgstr ""
+
+#: .././cogstat.py:1167
+msgid "N of observed pairs"
+msgstr ""
+
+#: .././cogstat.py:1283
+msgid "Testing multicollinearity"
+msgstr ""
+
+#: .././cogstat_chart.py:327
+msgid "Included and excluded cases"
+msgstr ""
+
+#: .././cogstat_chart.py:365
+msgid "Scatterplots of item scores and total scores with item-removal"
+msgstr ""
+
+#: .././cogstat_chart.py:393
+msgid "Total (rest)"
+msgstr ""
+
+#: .././cogstat_chart.py:882
+msgid "Scatterplot matrix of variables"
+msgstr ""
+
+#: .././cogstat_chart.py:937
+msgid "Partial regression plots"
+msgstr ""
+
+#: .././cogstat_chart.py:1716
+msgid "Individual data"
+msgstr ""
+
+#: .././cogstat_chart.py:1718
+msgid "Individual rank data"
+msgstr ""
+
+#: .././cogstat_chart.py:1721
+msgid "Boxplots and individual data"
+msgstr ""
+
+#: .././cogstat_chart.py:1723
+msgid "Boxplots and individual rank data"
+msgstr ""
+
+#: .././cogstat_chart.py:1726
+msgid "Means and 95% confidence intervals"
+msgstr ""
+
+#: .././cogstat_chart.py:1764
+msgid "Rank value"
+msgstr ""
+
+#: .././cogstat.py:1031 ../ui/reliability_interrater.py:86
+msgid "Interrater reliability"
+msgstr ""
+
+#: ../ui/reliability_interrater.py:89
+msgid "&Ratings are averaged"
+msgstr ""
+
+#: ../ui/preferences.py:72
+msgid "Image format"
+msgstr ""
+
+#: ../ui/pivot.py:164
+msgid "Page(s)"
+msgstr ""
+
+#: ../ui/pivot.py:165
+msgid "Column(s)"
+msgstr ""
+
+#: ../ui/pivot.py:166
+msgid "Row(s)"
+msgstr ""
+
+#: ../ui/compare_vars.py:91 ../ui/compare_groups.py:113 ../ui/regression.py:101
+#: ../ui/explore_var_pairs.py:87 ../ui/compare_vars_groups.py:119
+msgid "&Display options..."
+msgstr ""
+
+#: ../ui/diffusion.py:187
+msgid "Reaction time"
+msgstr ""
+
+#: ../ui/diffusion.py:188
+msgid "Response correctness"
+msgstr ""
+
+#: ../ui/diffusion.py:193
+msgid "Reaction &time in"
+msgstr ""
+
+#: ../ui/diffusion.py:194
+msgid "&Response coding"
+msgstr ""
+
+#: ../ui/diffusion.py:195
+msgid "0 - Correct 1 - Incorect"
+msgstr ""
+
+#: ../ui/diffusion.py:196
+msgid "1 - Correct 0 - Incorrect"
+msgstr ""
+
+#: ../ui/diffusion.py:197
+msgid "&Scaling parameter"
+msgstr ""
+
+#: ../ui/diffusion.py:198
+msgid "0.1"
+msgstr ""
+
+#: ../ui/diffusion.py:199
+msgid "1"
+msgstr ""
+
+#: ../ui/xylims.py:71
+msgid "Maximum of x-axis"
+msgstr ""
+
+#: ../ui/xylims.py:72
+msgid "Minimum of x-axis"
+msgstr ""
+
+#: ../ui/xylims.py:73 ../ui/display_options_groups.py:125
+#: ../ui/display_options_repeated.py:106
+msgid "Minimum of y-axis"
+msgstr ""
+
+#: ../ui/xylims.py:74 ../ui/display_options_groups.py:126
+#: ../ui/display_options_repeated.py:107
+msgid "Maximum of y-axis"
+msgstr ""
+
+#: ../ui/display_options_groups.py:121 ../ui/display_options_repeated.py:101
+msgid "Display options"
+msgstr ""
+
+#: ../ui/display_options_groups.py:122
+msgid "Group(s) displayed with colors"
+msgstr ""
+
+#: ../ui/display_options_groups.py:123
+msgid "Group(s) displayed in panels"
+msgstr ""
+
+#: ../ui/display_options_groups.py:124
+msgid "Group(s) displayed in x-axis"
+msgstr ""
+
+#: ../ui/display_options_groups.py:127 ../ui/display_options_groups.py:128
+#: ../ui/display_options_groups.py:129 ../ui/display_options_groups.py:130
+#: ../ui/regression.py:102 ../ui/regression.py:103
+#: ../ui/display_options_repeated.py:102 ../ui/display_options_repeated.py:103
+#: ../ui/compare_vars_groups.py:113 ../ui/compare_vars_groups.py:114
+msgid "..."
+msgstr ""
+
+#: ../ui/regression.py:104
+msgid "Predicted variable"
+msgstr ""
+
+#: ../ui/regression.py:105
+msgid "Predictor variable(s)"
+msgstr ""
+
+#: ../ui/reliability_internal.py:91
+msgid "Check the reversed items"
+msgstr ""
+
+#: ../ui/display_options_repeated.py:104
+msgid "Factor(s) displayed in x-axis"
+msgstr ""
+
+#: ../ui/display_options_repeated.py:105
+msgid "Factor(s) displayed with colors"
+msgstr ""
+
+#: ../ui/var_properties.py:104 ../ui/filter_outlier.py:85
+msgid "Selected variable(s)"
+msgstr ""
+
+#: ../ui/filter_outlier.py:88
+msgid "&Multivariate outliers"
+msgstr ""
+
+#: ../ui/compare_groups_single_case_slope.py:87
+msgid "Number of &trials"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:383 .././cogstat_hyp_test.py:444
+msgid "Testing if correlation differs from 0"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:387 .././cogstat_hyp_test.py:407
+#: .././cogstat_hyp_test.py:435 .././cogstat_hyp_test.py:490
+#: .././cogstat_hyp_test.py:495 .././cogstat_hyp_test.py:510
+msgid "Interval variables"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:387
+msgid "Normality not violated"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:388
+msgid "Homoscedasticity not violated"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:389 .././cogstat_hyp_test.py:410
+msgid "Running Pearson's and Spearman's correlation"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:408 .././cogstat_hyp_test.py:496
+msgid "Assumptions of hypothesis tests could not be tested"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:409 .././cogstat_hyp_test.py:497
+#: .././cogstat_hyp_test.py:511 .././cogstat_hyp_test.py:606
+msgid "Hypothesis tests may be inaccurate"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:431 .././cogstat_hyp_test.py:504
+msgid "Normality violated"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:433 .././cogstat_hyp_test.py:506
+msgid "Homoscedasticity violated"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:436
+msgid "Running Spearman's correlation"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:453
+msgid "Testing if variables are independent"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:490 .././cogstat_hyp_test.py:495
+msgid "More than two variables"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:491
+msgid "Normality met"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:491
+msgid "Homoscedasticity met"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:491
+msgid "No multicollinearity"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:492 .././cogstat_hyp_test.py:498
+#: .././cogstat_hyp_test.py:512
+msgid "Running model F-test and tests for regressor slopes"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:508 .././cogstat_stat.py:643
+#: .././cogstat_stat.py:812
+msgid "Multicollinearity suspected"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:518
+msgid "Regressor slopes"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:591
+msgid "Testing if ICC differs from 0"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:594 .././cogstat_stat.py:624
+#: .././cogstat_stat.py:727 .././cogstat_stat.py:794 .././cogstat.py:1067
+msgid "Assumption of normality met"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:600 .././cogstat.py:1075 .././cogstat.py:1077
+msgid "Assumption of homogeneity of variances violated"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:603 .././cogstat.py:1079
+msgid "Assumption of homogeneity of variances met"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:610
+msgid "Running F-tests"
+msgstr ""
+
+#: .././cogstat_stat.py:827
+msgid "Adjusted"
+msgstr ""
+
+#: .././cogstat.py:452
+msgid "File type is not supported"
+msgstr ""
+
+#: .././cogstat.py:524
+msgid "The file was successfully reloaded"
+msgstr ""
+
+#: .././cogstat.py:529
+msgid "The data was not imported from a file"
+msgstr ""
+
+#: .././cogstat.py:529
+msgid "It cannot be reloaded"
+msgstr ""
+
+#: .././cogstat.py:655 .././cogstat.py:708
+msgid "Cases with missing data will also be excluded"
+msgstr ""
+
+#: .././cogstat.py:706
+msgid "Multivariate filtering based on the variables: %s (%s)"
+msgstr ""
+
+#: .././cogstat.py:710
+msgid "Cases above the cutoff Mahalanobis distance will be excluded"
+msgstr ""
+
+#: .././cogstat.py:665 .././cogstat.py:719
+msgid "Excluded cases (%s cases)"
+msgstr ""
+
+#: .././cogstat.py:673 .././cogstat.py:729
+msgid "No cases were excluded"
+msgstr ""
+
+#: .././cogstat.py:757
+msgid "Filtering is on"
+msgstr ""
+
+#: .././cogstat.py:969
+msgid "Reliability of items"
+msgstr ""
+
+#: .././cogstat.py:980
+msgid "Reverse coded item(s)"
+msgstr ""
+
+#: .././cogstat.py:1032
+msgid "Reliability calculated from variables"
+msgstr ""
+
+#: .././cogstat.py:1061
+msgid "Testing normality"
+msgstr ""
+
+#: .././cogstat_stat.py:621 .././cogstat_stat.py:723 .././cogstat_stat.py:790
+#: .././cogstat.py:1071
+msgid "Assumption of normality violated"
+msgstr ""
+
+#: .././cogstat.py:1072
+msgid "Testing homogeneity of variances"
+msgstr ""
+
+#: .././cogstat.py:1083
+msgid "CIs may be inaccurate"
+msgstr ""
+
+#: .././cogstat.py:1085
+msgid "Assumptions met"
+msgstr ""
+
+#: .././cogstat.py:1117
+msgid "At least one predictor variable should be set"
+msgstr ""
+
+#: .././cogstat.py:1120
+msgid "The predicted variable should be set"
+msgstr ""
+
+#: .././cogstat_stat.py:243
+msgid "Used variables"
+msgstr ""
+
+#: .././cogstat_stat.py:269
+msgid "Number of trials excluded because of missing data"
+msgstr ""
+
+#: .././cogstat_stat.py:617 .././cogstat_stat.py:719 .././cogstat_stat.py:786
+msgid "Normality could not be calculated"
+msgstr ""
+
+#: .././cogstat_stat.py:618 .././cogstat_stat.py:622 .././cogstat_stat.py:629
+#: .././cogstat_stat.py:633 .././cogstat_stat.py:720 .././cogstat_stat.py:724
+#: .././cogstat_stat.py:735 .././cogstat_stat.py:787 .././cogstat_stat.py:791
+#: .././cogstat_stat.py:798 .././cogstat_stat.py:802 .././cogstat_stat.py:809
+#: .././cogstat_stat.py:813
+msgid "CIs may be biased"
+msgstr ""
+
+#: .././cogstat_stat.py:628 .././cogstat_stat.py:730 .././cogstat_stat.py:797
+msgid "Homoscedasticity could not be calculated"
+msgstr ""
+
+#: .././cogstat_stat.py:632 .././cogstat_stat.py:734 .././cogstat_stat.py:801
+msgid "Assumption of homoscedasticity violated"
+msgstr ""
+
+#: .././cogstat_stat.py:635 .././cogstat_stat.py:737 .././cogstat_stat.py:804
+msgid "Assumption of homoscedasticity met"
+msgstr ""
+
+#: .././cogstat_stat.py:639 .././cogstat_stat.py:808
+msgid "Multicollinearity could not be calculated"
+msgstr ""
+
+#: .././cogstat_stat.py:640 .././cogstat_stat.py:644
+msgid "Point estimates and CIs may be inaccurate"
+msgstr ""
+
+#: .././cogstat_stat.py:646 .././cogstat_stat.py:815
+msgid "Multicollinearity not detected"
+msgstr ""
+
+#: .././cogstat_stat.py:907
+msgid "VIF > 10 in variable %s"
+msgstr ""
+
+#: .././cogstat_stat.py:908
+msgid "Possible multicollinearity"
+msgstr ""
+
+#: .././cogstat_stat.py:911
+msgid "Beta weights when regressing %s on all other regressors"
+msgstr ""
+
+#: .././cogstat.py:482
+msgid "Invalid data source"
+msgstr ""
+
+#: .././cogstat.py:654
+msgid "Filtering based on %s"
+msgstr ""
+
+#: .././cogstat.py:657
+msgid "Cases outside of the range will be excluded"
+msgstr ""
+
+#: .././cogstat.py:1667 .././cogstat.py:1912
+msgid "Grouping variable(s)"
+msgstr ""
+
+#: .././cogstat_stat.py:275
+msgid "Number of trials excluded because reaction time was larger than %s seconds"
+msgstr ""
+
+#: .././cogstat.py:684
+msgid "Only interval variables can be used for filtering"
+msgstr ""
+
+#: .././cogstat.py:685
+msgid "Ignoring variable(s) %s"
+msgstr ""
+
+#: .././cogstat.py:1368 .././cogstat.py:1648
+msgid "The dependent variable should be set"
+msgstr ""
+
+#: .././cogstat.py:1371 .././cogstat.py:1651
+msgid "At least one grouping variable should be set"
+msgstr ""
+
+#: .././cogstat.py:1418
+msgid "The reaction time should be given"
+msgstr ""
+
+#: .././cogstat.py:1421
+msgid "The error variables should be given"
+msgstr ""
+
+#: .././cogstat.py:1461
+msgid "At least two variables should be set"
+msgstr ""
+
+#: .././cogstat.py:1486
+msgid "Variables to compare"
+msgstr ""
+
+#: .././cogstat.py:1488 .././cogstat.py:1899
+msgid "Factor(s) (number of levels)"
+msgstr ""
+
+#: .././cogstat.py:1864
+msgid "At least one dependent variable should be set"
+msgstr ""
+
+#: .././cogstat.py:1867
+msgid "A variable should be assigned to each level of the factors"
+msgstr ""
+
+#: .././cogstat_chart.py:506 .././cogstat_chart.py:580
+#: .././cogstat_chart.py:695
+msgid "Largest tick on the x-axes displays %d cases"
+msgstr ""
+
+#: .././cogstat_chart.py:962 .././cogstat_chart.py:963
+msgid "other predictors"
+msgstr ""
+
+#: ../ui/pivot.py:168
+msgid "&Function"
+msgstr ""
+
+#: ../ui/diffusion.py:191
+msgid "s"
+msgstr ""
+
+#: ../ui/diffusion.py:192
+msgid "ms"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:198
+msgid "One sample t-test cannot be run for constant variable"
+msgstr ""
+
+#: .././cogstat.py:1497 .././cogstat.py:1908
+msgid "Factor level combinations and assigned variables"
+msgstr ""
+
+#: .././cogstat_gui.py:616 ../ui/preferences.py:71
+msgid "Detailed error message"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:298
+msgid "Too small sample to test homoscedasticity in variables: %s"
+msgstr ""
+
+#: .././cogstat_hyp_test.py:347
+msgid "Too small sample to test normality in variables: %s"
+msgstr ""
+
+#: .././cogstat_dialogs.py:1252
+msgid "Off"
+msgstr ""
+
+#: .././cogstat_dialogs.py:1252
+msgid "On"
+msgstr ""
+
+#: .././cogstat.py:1127
+msgid "Analysis cannot be run for constant variable(s): %s"
+msgstr ""
+
+#: ../ui/preferences.py:74
+msgid "Restart CogStat to use the new language settings"
 msgstr ""
 
