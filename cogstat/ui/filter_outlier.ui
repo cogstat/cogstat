@@ -14,6 +14,40 @@
    <string>Filter outlier</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Selected variable(s)</string>
+       </property>
+       <property name="buddy">
+        <cstring>selected_listWidget</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="selected_listWidget">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
@@ -79,30 +113,6 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="2">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Selected variables</string>
-       </property>
-       <property name="buddy">
-        <cstring>selected_listWidget</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="selected_listWidget">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::ExtendedSelection</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_3">
      <property name="font">
@@ -118,13 +128,10 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="multivariate_outliers">
+     <property name="text">
+      <string>&amp;Multivariate outliers</string>
      </property>
     </widget>
    </item>

@@ -35,10 +35,10 @@ run_power_analysis = True  # should the power analyses be run?
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
-warn_unknown_variable = '<warning>'+_('The properties of the variables are not set. Set them in your data source.') \
+warn_unknown_variable = '<cs_warning>'+_('The properties of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
                         % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
-                        + '\n</warning>'  # TODO maybe this shouldn't be repeated, it's enough to show it at import
+                        + '\n</cs_warning>'  # TODO maybe this shouldn't be repeated, it's enough to show it at import
 
 non_data_dim_precision = 2
 
@@ -124,14 +124,13 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
         QQ plot
     """
     text_result = ''
-
     if group_name:
         data = pdf[pdf[group_name] == group_value][var_name].dropna()
     else:
         data = pdf[var_name]
 
     if data_measlevs[var_name] in ['nom', 'ord']:
-        return False, '<decision>' + _('Normality can be checked only for interval variables.') + '\n</decision>'
+        return False, '<cs_decision>' + _('Normality can be checked only for interval variables.') + '\n</cs_decision>'
     if len(set(data)) == 1:
         return False, _('Normality cannot be checked for constant variable in %s%s.') % \
                (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
@@ -156,6 +155,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     # text_result += _('Testing normality with the Kolmogorov–Smirnov test')+': <i>D</i> = %0.3g, <i>p</i> = %0.3f \n' %
     #               stats.kstest(data, 'norm')
     if len(data) < 3:
+        # translators: the first %s includes the name of the variable, the second %s includes the optional grouping variable and level names in parentheses
         return False, _('Too small sample to test normality in variable %s%s.\n' %
                         (var_name, ' (%s: %s)' % (group_name, group_value) if group_name else ''))
     else:
@@ -195,7 +195,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         if data_measlevs[var_name] == 'unk':
             text_result += warn_unknown_variable
         if len(set(data)) == 1:
-            return _('One sample t-test cannot be run for constant variable.\n'), None
+            return _('One sample t-test cannot be run for constant variable') + '.\n', None
 
         descr = DescrStatsW(data)
         t, p, df = descr.ttest_mean(float(test_value))
@@ -274,21 +274,16 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
 ### Variable pair ###
 
-def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
+def homoscedasticity(data, predictors, predicted):
     """Check homoscedasticity
 
     Parameters
     ----------
-    pdf : pandas dataframe
-    var_names : list of str
-        Name of the variables to be checked.
-    residual : array
-        Residuals from the regression analysis.
-    group_name : str
-        Name of the grouping variable if part of var_name should be
-        checked. Otherwise ''.
-    group_value : str
-        Name of the group in group_name, if grouping is used.
+    data : pandas dataframe
+    predictors : list of str
+        Names of the predictor variables.
+    predicted : str
+        Name of the predicted or dependent variable.
 
     Returns
     -------
@@ -299,40 +294,25 @@ def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
     """
 
     text_result = ''
-
-    if group_name:
-        data = pdf[pdf[group_name] == group_value][var_names]
-    else:
-        data = pdf[var_names]
-
-    if len(set(data)) == 1:
-        return None, _('Homoscedasticity cannot be checked for constant variable in %s%s.') %  \
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') +'\n'
-
     if len(data) < 3:
-        return None, _('Too small sample to test homoscedasticity in variable %s%s.\n') % \
-                        (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '') + '\n'
+        return None, _('Too small sample to test homoscedasticity in variables: %s') % ', '.join(predictors + [predicted]) + '.\n'
     else:
-        X = data[var_names[0]]
-        X = sm.add_constant(X)
-        Y = data[var_names[1]]
+        x = sm.add_constant(data[predictors])
+        y = data[predicted]
 
-        # The resid variable is ordered according to X, which leads to White's test producing a result that
-        # is different than the R function white_lm(). Accordingly we fit the model again, without ordering, and use
-        # these residuals for White's test
-        model = sm.regression.linear_model.OLS(Y,X)
-        result = model.fit()
-        residual_unsorted = result.resid
+        # With one predictor x is sorted in the main analysis which produces erroneous results in the tests below,
+        # so here we run the regression model again with unsorted x.
+        residual_unsorted = sm.regression.linear_model.OLS(y, x).fit().resid
 
-        koenker = sm.stats.diagnostic.het_breuschpagan(sorted(residual), X, robust=True) # Need sorted() to have same result as R
+        koenker = sm.stats.diagnostic.het_breuschpagan(residual_unsorted, x, robust=True)
         lm_koenker = koenker[0]
         p_koenker = koenker[1]
 
-        white = sm.stats.diagnostic.het_white(residual_unsorted, X)
+        white = sm.stats.diagnostic.het_white(residual_unsorted, x)
         lm_white = white[0]
         p_white = white[1]
 
-        homoscedasticity = False if p_koenker<0.05 or p_white<0.05 else True
+        homoscedasticity = False if p_koenker < 0.05 or p_white < 0.05 else True
 
         text_result += _("Koenker's studentized score test") \
                        + ": <i>LM</i> = %0.*f, %s\n" % (non_data_dim_precision, lm_koenker, print_p(p_koenker)) \
@@ -342,19 +322,15 @@ def homoscedasticity(pdf, var_names, residual, group_name='', group_value=''):
         return homoscedasticity, text_result
 
 
-def multivariate_normality(pdf, var_names, group_name='', group_value=''):
+def multivariate_normality(data, var_names):
     """Henze-Zirkler test of multivariate normality.
 
         Parameters
         ----------
-        pdf : pandas dataframe
+        data : pandas dataframe
             It is sufficient to include only the relevant variables. It is assumed that nans are dropped.
-        var_names : str
-            Name of the variables to test.
-        group_name : str
-            Name of grouping variable if part of var_name should be checked. Otherwise ''.
-        group_value : str
-            Name of the group in group_name, if grouping is used.
+        var_names : list of str
+            Names of the variables to test.
 
         Returns
         -------
@@ -367,22 +343,11 @@ def multivariate_normality(pdf, var_names, group_name='', group_value=''):
 
     text_result = ''
 
-    if group_name:
-        data = pdf[pdf[group_name] == group_value][var_names]
-    else:
-        data = pdf[var_names]
-    if len(set(data)) == 1:
-        return None, _('Normality cannot be checked for constant variable in %s%s.\n') % \
-               (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
     if len(data) < 3:
-        return None, _('Too small sample to test normality in variable %s%s.\n') % \
-                       (var_names, ' (%s: %s)' % (group_name, group_value) if group_name else '')
-
+        return None, _('Too small sample to test normality in variables: %s') % ', '.join(var_names) + '.\n'
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
-        var_names_str = ', '.join(var_names)
-        text_result += _('Henze-Zirkler test of multivariate normality in variables %s%s') % \
-                       (var_names_str, ' (%s: %s)' % (group_name, group_value) if group_name else '') + \
+        text_result += _('Henze-Zirkler test of multivariate normality in variables %s') % ', '.join(var_names) + \
                        ': <i>W</i> = %0.*f, %s\n' % (non_data_dim_precision, hz, print_p(p))
 
     return sig, text_result
@@ -414,16 +379,14 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
     str
         Hypothesis test results in html format
     """
-    population_result = ''
     if meas_lev == 'int':
-        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                             _('Testing if correlation differs from 0.') + '</decision>\n'
+        population_result = '<cs_decision>' + _('Testing if correlation differs from 0') + '.</cs_decision>\n'
         df = len(data) - 2
 
         if normality and homoscedasticity:
-            population_result += '<decision>'+_('Interval variables.') + ' ' + _('Normality not violated.') + \
-                                 ' ' + _('Homoscedasticity not violated.') + ' >> ' + \
-                                 _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
+            population_result += '<cs_decision>'+_('Interval variables') + '. ' + _('Normality not violated') + \
+                                 '. ' + _('Homoscedasticity not violated') + '. >> ' + \
+                                 _("Running Pearson's and Spearman's correlation") + '.\n</cs_decision>'
 
             r, p = stats.pearsonr(data[x], data[y])
             population_result += _("Pearson's correlation") + \
@@ -441,9 +404,10 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  (df, non_data_dim_precision, r, print_p(p))
 
         elif normality is None or homoscedasticity is None:
-            population_result += '<decision>'+_('Interval variables.') + ' ' \
-                                 + _('Assumptions of hypothesis tests could not be tested. Hypothesis tests may be inaccurate.') + ' >> ' \
-                                 + _("Running Pearson's and Spearman's correlation.") + '\n</decision>'
+            population_result += '<cs_decision>'+_('Interval variables') + '. ' \
+                                 + _('Assumptions of hypothesis tests could not be tested') + '. ' + \
+                                 _('Hypothesis tests may be inaccurate') + '. >> ' + \
+                                 _("Running Pearson's and Spearman's correlation") + '.\n</cs_decision>'
 
             r, p = stats.pearsonr(data[x], data[y])
             population_result += _("Pearson's correlation") + \
@@ -464,12 +428,12 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
             violations = ''
 
             if not normality:
-                violations += _('Normality violated.') + ' '
+                violations += _('Normality violated') + '. '
             if not homoscedasticity:
-                violations += _('Homoscedasticity violated.') +' '
+                violations += _('Homoscedasticity violated') + '. '
 
-            population_result += '<decision>'+_('Interval variables.') + ' ' + _(violations) + ' >> ' + \
-                                 _("Running Spearman's correlation.") + '\n</decision>'
+            population_result += '<cs_decision>'+_('Interval variables') + '. ' + _(violations) + ' >> ' + \
+                                 _("Running Spearman's correlation") + '.\n</cs_decision>'
 
             r, p = stats.spearmanr(data[x], data[y])
             population_result += _("Spearman's rank-order correlation") + \
@@ -477,26 +441,179 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
                                  (df, non_data_dim_precision, r, print_p(p))
 
     elif meas_lev == 'ord':
-        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                             _('Testing if correlation differs from 0.') + '</decision>\n'
-        population_result += '<decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
-                             '\n</decision>'
+        population_result = '<cs_decision>' + _('Testing if correlation differs from 0') + '.</cs_decision>\n'
+        population_result += '<cs_decision>'+_('Ordinal variables.')+' >> '+_("Running Spearman's correlation.") + \
+                             '\n</cs_decision>'
         df = len(data) - 2
         r, p = stats.spearmanr(data[x], data[y])
         population_result += _("Spearman's rank-order correlation") + \
                              ': <i>r<sub>s</sub></i>(%d) = %0.*f, %s' % \
                              (df, non_data_dim_precision, r, print_p(p))
     elif meas_lev == 'nom':
-        population_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>' + \
-                             _('Testing if variables are independent.') + '</decision>\n'
+        population_result = '<cs_decision>' + _('Testing if variables are independent') + '.</cs_decision>\n'
         # TODO enable the following warning
         #if not(self.data_measlevs[x] == 'nom' and self.data_measlevs[y] == 'nom'):
-        #    population_result += '<warning>' + _('Not all variables are nominal. Consider comparing groups.') + \
-        #                         '</warning>\n'
-        population_result += '<decision>' + _('Nominal variables.') + ' >> ' + _('Running Cramér\'s V.') + \
-                             '\n</decision>'
+        #    population_result += '<cs_warning>' + _('Not all variables are nominal. Consider comparing groups.') + \
+        #                         '</cs_warning>\n'
+        population_result += '<cs_decision>' + _('Nominal variables.') + ' >> ' + _('Running Cramér\'s V.') + \
+                             '\n</cs_decision>'
         population_result += chi_squared_test(data, x, y)
     return population_result
+
+
+def multiple_regression_hyp_tests(data, result, predictors, normality, homoscedasticity, multicollinearity):
+    """Hypothesis tests for model and regressor slopes in multiple linear regression.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    result : statsmodels regression result object
+        The result of the multiple regression analysis.
+    predictors : list of str
+        List of explanatory variable names.
+    normality : bool or None
+        True when variables follow a multivariate normal distribution, False otherwise. None if normality couldn't be
+        calculated or if the parameter was not specified.
+    homoscedasticity : bool or None
+        True when homoscedasticity is true, False otherwise. None if homoscedasticity could not be calculated or if
+        the parameter was not specified.
+    multicollinearity : bool or None
+        True when multicollinearity is suspected (VIF>10), False otherwise. None if the parameter was not specified.
+
+    Returns
+    -------
+    str
+        html text
+    """
+
+    if normality and homoscedasticity and not multicollinearity:
+        output = '<cs_decision>' + _('Interval variables') + '. ' + _('More than two variables') + '. ' + \
+                 _('Normality met') + '. ' + _('Homoscedasticity met') + '. ' + _('No multicollinearity') + '. >> ' + \
+                 _('Running model F-test and tests for regressor slopes') + '.\n</cs_decision>'
+
+    elif normality is None or homoscedasticity is None or multicollinearity is None:
+        output = '<cs_decision>' + _('Interval variables') + '. ' + _('More than two variables') + '. ' + \
+                 _('Assumptions of hypothesis tests could not be tested') + '. ' + \
+                 _('Hypothesis tests may be inaccurate') + '. >> ' \
+                 + _('Running model F-test and tests for regressor slopes') + '.\n</cs_decision>'
+
+    else:
+        violations = ''
+
+        if not normality:
+            violations += _('Normality violated') + '. '
+        if not homoscedasticity:
+            violations += _('Homoscedasticity violated') + '. '
+        if multicollinearity:
+            violations += _('Multicollinearity suspected') + '. '
+
+        output = '<cs_decision>' + _('Interval variables') + '. ' + violations + ' >> ' + \
+                 _('Hypothesis tests may be inaccurate') + '. ' + \
+                 _('Running model F-test and tests for regressor slopes') + '.\n</cs_decision>'
+
+    output += _('Model F-test') + \
+                         ': <i>F</i>(%d,%d) = %0.*f, %s' % \
+                         (result.df_model, result.df_resid, non_data_dim_precision, result.fvalue,
+                          print_p(result.f_pvalue)) + '\n'
+    output += _('Regressor slopes') + ':\n'
+    for predictor in predictors:
+        output += predictor + ': <i>t</i>(%d) = %0.*f, %s' % (len(data) - len(predictors) - 1, non_data_dim_precision,
+                                                              result.tvalues[predictor],
+                                                              print_p(result.pvalues[predictor])) + '\n'
+
+    # TODO hypothesis tests for partial correlation coefficients.
+    # Pingouin doesn't use t-tests and doesn't give test statistics.
+
+    return output
+
+### Reliability analyses ###
+
+def reliability_interrater_assumptions(data, data_long, var_names, meas_lev):
+    """
+    Testing assumptions of ICC calculations in interrater relability analysis.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+        Original wide format data.
+    data_long : pandas dataframe
+        Long format data.
+    var_names : list of str
+        Names of variables to be analysed.
+    meas_lev : list of str
+        Measurement levels of variables.
+
+    Returns
+    -------
+    list of str
+        List of variables in which normality is violated.
+    str
+        HTML text summary of normality test.
+    float
+        P-value of Levene test.
+    str
+        HTML text summary of homoscedasticity test.
+    """
+
+    non_normal_vars = []
+    norm_text = ''
+    for var_name in var_names:
+        norm, text_result = normality_test(data, data_measlevs=meas_lev, var_name=var_name)
+        norm_text += text_result
+        if not norm:
+            non_normal_vars.append(var_name)
+    var_hom_p, var_text_result = levene_test(data_long, var_name='value', group_name='variable')
+
+    return non_normal_vars, norm_text, var_hom_p, var_text_result
+
+def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
+    """
+    Hypothesis test output for ICC values with warnings in case of violated assumptions. Testing against 0.
+
+    Parameters
+    ----------
+    hyp_test_table : pandas dataframe
+        Three rows with the three ICC tests
+        Columns are df1, df2, F, p
+    non_normal_vars : list of str
+        List of variables where normality has been violated.
+    var_hom_p : float
+        P-value of Levene test of heteroscedasticity.
+
+    Returns
+    -------
+    str
+        HTML text
+    """
+
+    # TODO is it useful to test an intraclass correlation against 0? What test value should be used?
+    hypothesis_test_result = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
+    hypothesis_test_result += '<cs_decision>' + _('Testing if ICC differs from 0') + '.</cs_decision>' + '\n'
+
+    if not non_normal_vars:
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of normality met') + '.</cs_decision>'
+    else:
+        hypothesis_test_result += '<cs_decision>' + \
+                                  _('Assumption of normality violated in variable(s) %s'
+                                    % ', ' .join(non_normal_vars)) + '.</cs_decision>'
+    if var_hom_p < 0.05:
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated') + \
+                                  '.</cs_decision>'
+    else:
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances met') + '.</cs_decision>'
+
+    if (var_hom_p < 0.05) or (len(non_normal_vars) != 0):
+        hypothesis_test_result += '<cs_decision>' + _('Hypothesis tests may be inaccurate') + '.</cs_decision>' + '\n'
+    else:
+        hypothesis_test_result += '\n'
+
+    hypothesis_test_result += '<cs_decision>' + _('Running F-tests') + '.</cs_decision>' + '\n'
+    for hyp_test_index, hyp_test_row in hyp_test_table.iterrows():
+        hypothesis_test_result += _('F-test for %s') % hyp_test_index + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
+                                  % (hyp_test_row['df1'], hyp_test_row['df2'], non_data_dim_precision,
+                                     hyp_test_row['F'], print_p(hyp_test_row['pval']))
+
+    return hypothesis_test_result
 
 
 ### Compare variables ###
@@ -517,24 +634,24 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
     -------
 
     """
-    result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
+    result_ht = '<cs_decision>'
     if meas_level in ['int', 'unk']:
-        result_ht += _('Testing if the means are the same.') + '</decision>\n'
+        result_ht += _('Testing if the means are the same.') + '</cs_decision>\n'
     elif meas_level == 'ord':
-        result_ht += _('Testing if the medians are the same.') + '</decision>\n'
+        result_ht += _('Testing if the medians are the same.') + '</cs_decision>\n'
     elif meas_level == 'nom':
-        result_ht += _('Testing if the distributions are the same.') + '</decision>\n'
-    if not factors:  # one-way comparison
+        result_ht += _('Testing if the distributions are the same.') + '</cs_decision>\n'
+    if len(factors) == 1:  # one-way comparison
         if len(var_names) < 2:
             result_ht += _('At least two variables required.')
         elif len(var_names) == 2:
-            result_ht += '<decision>' + _('Two variables. ') + '</decision>'
+            result_ht += '<cs_decision>' + _('Two variables. ') + '</cs_decision>'
 
             if meas_level == 'int':
-                result_ht += '<decision>' + _('Interval variables.') + ' >> ' + _(
-                    'Choosing paired t-test or paired Wilcoxon test depending on the assumptions.') + '\n</decision>'
+                result_ht += '<cs_decision>' + _('Interval variables.') + ' >> ' + _(
+                    'Choosing paired t-test or paired Wilcoxon test depending on the assumptions.') + '\n</cs_decision>'
 
-                result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
+                result_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
                 non_normal_vars = []
                 # TODO is this variable name localizable? If not, any other solution to localize it?
                 temp_diff_var_name = 'Difference of %s and %s' % tuple(var_names)
@@ -545,34 +662,34 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
                     non_normal_vars.append(temp_diff_var_name)
 
                 if not non_normal_vars:
-                    result_ht += '<decision>' + _(
-                        'Normality is not violated. >> Running paired t-test.') + '\n</decision>'
+                    result_ht += '<cs_decision>' + _(
+                        'Normality is not violated. >> Running paired t-test.') + '\n</cs_decision>'
                     result_ht += paired_t_test(data, var_names)
                 else:  # TODO should the descriptive be the mean or the median?
-                    result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
-                        join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.') + '\n</decision>'
+                    result_ht += '<cs_decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
+                        join(non_normal_vars) + ' >> ' + _('Running paired Wilcoxon test.') + '\n</cs_decision>'
                     result_ht += paired_wilcox_test(data, var_names)
             elif meas_level == 'ord':
-                result_ht += '<decision>' + _('Ordinal variables.') + ' >> ' + _(
-                    'Running paired Wilcoxon test.') + '\n</decision>'
+                result_ht += '<cs_decision>' + _('Ordinal variables.') + ' >> ' + _(
+                    'Running paired Wilcoxon test.') + '\n</cs_decision>'
                 result_ht += paired_wilcox_test(data, var_names)
             else:  # nominal variables
                 if len(set(data.values.ravel())) == 2:
-                    result_ht += '<decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
+                    result_ht += '<cs_decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
                         'Running McNemar test.') \
-                                 + '\n</decision>'
+                                 + '\n</cs_decision>'
                     result_ht += mcnemar_test(data, var_names)
                 else:
-                    result_ht += '<decision>' + _('Nominal non dichotomous variables.') + ' >> ' + \
-                                 _('Sorry, not implemented yet.') + '\n</decision>'
+                    result_ht += '<cs_decision>' + _('Nominal non dichotomous variables.') + ' >> ' + \
+                                 _('Sorry, not implemented yet.') + '\n</cs_decision>'
         else:
-            result_ht += '<decision>' + _('More than two variables. ') + '</decision>'
+            result_ht += '<cs_decision>' + _('More than two variables. ') + '</cs_decision>'
             if meas_level in ['int', 'unk']:
-                result_ht += '<decision>' + _('Interval variables.') + ' >> ' + \
+                result_ht += '<cs_decision>' + _('Interval variables.') + ' >> ' + \
                              _('Choosing repeated measures ANOVA or Friedman test depending on the assumptions.') + \
-                             '\n</decision>'
+                             '\n</cs_decision>'
 
-                result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
+                result_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
                 non_normal_vars = []
                 for var_name in var_names:
                     norm, text_result = normality_test(data, data_measlevs, var_name)
@@ -581,38 +698,38 @@ def decision_repeated_measures(data, meas_level, factors, var_names, data_measle
                         non_normal_vars.append(var_name)
 
                 if not non_normal_vars:
-                    result_ht += '<decision>' + _('Normality is not violated.') + ' >> ' + \
-                                 _('Running repeated measures one-way ANOVA.') + '\n</decision>'
-                    result_ht += repeated_measures_anova(data, var_names)
+                    result_ht += '<cs_decision>' + _('Normality is not violated.') + ' >> ' + \
+                                 _('Running repeated measures one-way ANOVA.') + '\n</cs_decision>'
+                    result_ht += repeated_measures_anova(data, var_names, factors)
                 else:
-                    result_ht += '<decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
-                        join(non_normal_vars) + ' >> ' + _('Running Friedman test.') + '\n</decision>'
+                    result_ht += '<cs_decision>' + _('Normality is violated in variable(s): %s.') % ', '. \
+                        join(non_normal_vars) + ' >> ' + _('Running Friedman test.') + '\n</cs_decision>'
                     result_ht += friedman_test(data, var_names)
             elif meas_level == 'ord':
-                result_ht += '<decision>' + _('Ordinal variables.') + ' >> ' + _(
-                    'Running Friedman test.') + '\n</decision>'
+                result_ht += '<cs_decision>' + _('Ordinal variables.') + ' >> ' + _(
+                    'Running Friedman test.') + '\n</cs_decision>'
                 result_ht += friedman_test(data, var_names)
             else:
                 if len(set(data.values.ravel())) == 2:
-                    result_ht += '<decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
+                    result_ht += '<cs_decision>' + _('Nominal dichotomous variables.') + ' >> ' + _(
                         "Running Cochran's Q test.") + \
-                                 '\n</decision>'
+                                 '\n</cs_decision>'
                     result_ht += cochran_q_test(data, var_names)
                 else:
-                    result_ht += '<decision>' + _('Nominal non dichotomous variables.') + ' >> ' \
-                                 + _('Sorry, not implemented yet.') + '\n</decision>'
+                    result_ht += '<cs_decision>' + _('Nominal non dichotomous variables.') + ' >> ' \
+                                 + _('Sorry, not implemented yet.') + '\n</cs_decision>'
     else:  # two- or more-ways comparison
         if meas_level in ['int', 'unk']:
-            result_ht += '<decision>' + _('Interval variables with several factors.') + ' >> ' + \
+            result_ht += '<cs_decision>' + _('Interval variables with several factors.') + ' >> ' + \
                          _('Choosing repeated measures ANOVA.') + \
-                         '\n</decision>'
+                         '\n</cs_decision>'
             result_ht += repeated_measures_anova(data, var_names, factors)
         elif meas_level == 'ord':
-            result_ht += '<decision>' + _('Ordinal variables with several factors.') + ' >> ' \
-                         + _('Sorry, not implemented yet.') + '\n</decision>'
+            result_ht += '<cs_decision>' + _('Ordinal variables with several factors.') + ' >> ' \
+                         + _('Sorry, not implemented yet.') + '\n</cs_decision>'
         elif meas_level == 'nom':
-            result_ht += '<decision>' + _('Nominal variables with several factors.') + ' >> ' \
-                         + _('Sorry, not implemented yet.') + '\n</decision>'
+            result_ht += '<cs_decision>' + _('Nominal variables with several factors.') + ' >> ' \
+                         + _('Sorry, not implemented yet.') + '\n</cs_decision>'
     return result_ht
 
 
@@ -706,7 +823,7 @@ def cochran_q_test(pdf, var_names):
            (df, len(pdf[var_names[0]]), non_data_dim_precision, q, print_p(p))
 
 
-def repeated_measures_anova(pdf, var_names, factors=[]):
+def repeated_measures_anova(pdf, var_names, factors=None):
     """
 
     Parameters
@@ -721,7 +838,9 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
 
     """
 
-    if not factors:  # one-way comparison
+    if factors is None:
+        factors = []
+    if len(factors) == 1:  # one-way comparison
         # Mauchly's test for sphericity
         spher, w, chisq, dof, wp = pingouin.sphericity(pdf[var_names])
         text_result = _("Result of Mauchly's test to check sphericity") + \
@@ -731,14 +850,14 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
         aov = pingouin.rm_anova(pdf[var_names], correction=True)
         if wp < 0.05:  # sphericity is violated
             p = aov.loc[0, 'p-GG-corr']
-            text_result += '\n<decision>'+_('Sphericity is violated.') + ' >> ' \
-                           + _('Using Greenhouse–Geisser correction.') + '\n</decision>' + \
+            text_result += '\n<cs_decision>'+_('Sphericity is violated.') + ' >> ' \
+                           + _('Using Greenhouse–Geisser correction.') + '\n</cs_decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.*f, %s\n' \
                            % (aov.loc[0, 'ddof1'] * aov.loc[0, 'eps'], aov.loc[0, 'ddof2'] * aov.loc[0, 'eps'],
                               non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p-GG-corr']))
         else:  # sphericity is not violated
             p = aov.loc[0, 'p-unc']
-            text_result += '\n<decision>'+_('Sphericity is not violated. ') + '\n</decision>' + \
+            text_result += '\n<cs_decision>'+_('Sphericity is not violated. ') + '\n</cs_decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
                            % (aov.loc[0, 'ddof1'], aov.loc[0, 'ddof2'],
                               non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p-unc']))
@@ -752,8 +871,7 @@ def repeated_measures_anova(pdf, var_names, factors=[]):
                                               (non_data_dim_precision, x['t'], print_p(x['p (Holm)'])), axis=1)
 
             pht_text = pht[['text']]
-            text_result += cs_stat._format_html_table(pht_text.to_html(bold_rows=True, classes="table_cs_pd",
-                                                                       escape=False, header=False))
+            text_result += pht_text.to_html(bold_rows=True, escape=False, header=False).replace('\n', '')
 
             # Or we can print them in a matrix
             #pht_text = pht[['text']].unstack()
@@ -827,8 +945,7 @@ def friedman_test(pdf, var_names):
         text_result += '\n' + _('Variables differ. Running post-hoc pairwise comparison.') + '\n'
         text_result += _("Results of Durbin-Conover test (p values).") + '\n'
         posthoc_result = scikit_posthocs.posthoc_durbin(variables)
-        text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
-                                                                         float_format=lambda x: '%.3f' % x))
+        text_result += posthoc_result.to_html(float_format=lambda x: '%.3f' % x).replace('\n', '')
 
     return text_result
 
@@ -838,46 +955,46 @@ def friedman_test(pdf, var_names):
 
 def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels,
                                    single_case_slope_SE, single_case_slope_trial_n):
-    result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
+    result_ht = '<cs_decision>'
     if meas_level in ['int', 'unk']:
-        result_ht += _('Testing if the means are the same.') + '</decision>\n'
+        result_ht += _('Testing if the means are the same.') + '</cs_decision>\n'
     elif meas_level == 'ord':
-        result_ht += _('Testing if the medians are the same.') + '</decision>\n'
+        result_ht += _('Testing if the medians are the same.') + '</cs_decision>\n'
     elif meas_level == 'nom':
-        result_ht += _('Testing if the distributions are the same.') + '</decision>\n'
+        result_ht += _('Testing if the distributions are the same.') + '</cs_decision>\n'
 
-    result_ht += '<decision>' + _('One grouping variable. ') + '</decision>'
+    result_ht += '<cs_decision>' + _('One grouping variable. ') + '</cs_decision>'
     if len(group_levels) == 1:
-        result_ht += _('There is only one group. At least two groups required.') + '\n</decision>'
+        result_ht += _('There is only one group. At least two groups required.') + '\n</cs_decision>'
 
     # Compare two groups
     elif len(group_levels) == 2:
-        result_ht += '<decision>' + _('Two groups. ') + '</decision>'
+        result_ht += '<cs_decision>' + _('Two groups. ') + '</cs_decision>'
         if meas_level == 'int':
             group_levels, [var1, var2] = cs_stat._split_into_groups(df, var_names[0], groups)
             if len(var1) == 1 or len(var2) == 1:  # Single case vs control group
-                result_ht += '<decision>' + _('One group contains only one case. >> Choosing modified t-test.') + \
-                             '\n</decision>'
-                result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
+                result_ht += '<cs_decision>' + _('One group contains only one case. >> Choosing modified t-test.') + \
+                             '\n</cs_decision>'
+                result_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
                 group = group_levels[1] if len(var1) == 1 else group_levels[0]
                 norm, text_result = normality_test(df, data_measlevs, var_names[0], group_name=groups[0],
                                                    group_value=group[0])
                 result_ht += text_result
                 if not norm:
-                    result_ht += '<decision>' + _('Normality is violated in variable ') + var_names[0] + ', ' + \
-                                 _('group ') + str(group) + '.\n</decision>'
-                    result_ht += '<decision>>> ' + _('Running Mann–Whitney test.') + '\n</decision>'
+                    result_ht += '<cs_decision>' + _('Normality is violated in variable ') + var_names[0] + ', ' + \
+                                 _('group ') + str(group) + '.\n</cs_decision>'
+                    result_ht += '<cs_decision>>> ' + _('Running Mann–Whitney test.') + '\n</cs_decision>'
                     result_ht += mann_whitney_test(df, var_names[0], groups[0])
                 else:
-                    result_ht += '<decision>' + _('Normality is not violated. >> Running modified t-test.') + \
-                                 '\n</decision>'
+                    result_ht += '<cs_decision>' + _('Normality is not violated. >> Running modified t-test.') + \
+                                 '\n</cs_decision>'
                     result_ht += single_case_task_extremity(df, var_names[0], groups[0], single_case_slope_SE if
                                  single_case_slope_SE else None, single_case_slope_trial_n)
             else:
-                result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
+                result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
                              _("Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on "
-                               "assumptions.") + '\n</decision>'
-                result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
+                               "assumptions.") + '\n</cs_decision>'
+                result_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
                 non_normal_groups = []
                 for group in group_levels:
                     norm, text_result = normality_test(df, data_measlevs, var_names[0], group_name=groups[0],
@@ -885,7 +1002,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                     result_ht += text_result
                     if not norm:
                         non_normal_groups.append(group)
-                result_ht += '<decision>' + _('Checking for homogeneity of variance across groups.') + '\n</decision>'
+                result_ht += '<cs_decision>' + _('Checking for homogeneity of variance across groups.') + '\n</cs_decision>'
                 homogeneity_vars = True
                 p, text_result = levene_test(df, var_names[0], groups[0])
                 result_ht += text_result
@@ -893,39 +1010,39 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                     homogeneity_vars = False
 
                 if not (non_normal_groups) and homogeneity_vars:
-                    result_ht += '<decision>' + \
+                    result_ht += '<cs_decision>' + \
                                  _('Normality and homogeneity of variance are not violated. >> Running two sample '
-                                   't-test.') + '\n</decision>'
+                                   't-test.') + '\n</cs_decision>'
                     result_ht += independent_t_test(df, var_names[0], groups[0])
                 elif non_normal_groups:
-                    result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s.') % \
+                    result_ht += '<cs_decision>' + _('Normality is violated in variable %s, group(s) %s.') % \
                                  (var_names[0], ', '.join(map(str, non_normal_groups))) + ' >> ' + \
-                                 _('Running Mann–Whitney test.') + '\n</decision>'
+                                 _('Running Mann–Whitney test.') + '\n</cs_decision>'
                     result_ht += mann_whitney_test(df, var_names[0], groups[0])
                 elif not homogeneity_vars:
-                    result_ht += '<decision>' + _('Homogeneity of variance violated in variable %s.') % \
-                                 var_names[0] + ' >> ' + _("Running Welch's t-test.") + '\n</decision>'
+                    result_ht += '<cs_decision>' + _('Homogeneity of variance violated in variable %s.') % \
+                                 var_names[0] + ' >> ' + _("Running Welch's t-test.") + '\n</cs_decision>'
                     result_ht += welch_t_test(df, var_names[0], groups[0])
 
         elif meas_level == 'ord':
-            result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + _(
-                'Running Mann–Whitney test.') + '</decision>\n'
+            result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + _(
+                'Running Mann–Whitney test.') + '</cs_decision>\n'
             result_ht += mann_whitney_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
-            result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _(
-                'Running chi-squared test.') + ' ' + '</decision>\n'
+            result_ht += '<cs_decision>' + _('Nominal variable.') + ' >> ' + _(
+                'Running chi-squared test.') + ' ' + '</cs_decision>\n'
             chi_result = chi_squared_test(df, var_names[0], groups[0])
             result_ht += chi_result
 
     # Compare more than two groups
     elif len(group_levels) > 2:
-        result_ht += '<decision>' + _('More than two groups.') + ' </decision>'
+        result_ht += '<cs_decision>' + _('More than two groups.') + ' </cs_decision>'
         if meas_level == 'int':
-            result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
+            result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
                          _('Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions.') + \
-                         '</decision>' + '\n'
+                         '</cs_decision>\n'
 
-            result_ht += '<decision>' + _('Checking for normality.') + '\n</decision>'
+            result_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
             non_normal_groups = []
             for group in group_levels:
                 norm, text_result = normality_test(df, data_measlevs, var_names[0], group_name=groups[0],
@@ -933,7 +1050,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 result_ht += text_result
                 if not norm:
                     non_normal_groups.append(group)
-            result_ht += '<decision>' + _('Checking for homogeneity of variance across groups.') + '\n</decision>'
+            result_ht += '<cs_decision>' + _('Checking for homogeneity of variance across groups.') + '\n</cs_decision>'
             homogeneity_vars = True
             p, text_result = levene_test(df, var_names[0], groups[0])
             result_ht += text_result
@@ -941,29 +1058,29 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 homogeneity_vars = False
 
             if not (non_normal_groups) and homogeneity_vars:
-                result_ht += '<decision>' + \
+                result_ht += '<cs_decision>' + \
                              _('Normality and homogeneity of variance are not violated. >> Running one-way ANOVA.') \
-                             + '\n</decision>'
+                             + '\n</cs_decision>'
                 anova_result = one_way_anova(df, var_names[0], groups[0])
                 result_ht += anova_result
 
             if non_normal_groups:
-                result_ht += '<decision>' + _('Normality is violated in variable %s, group(s) %s. ') % \
-                             (var_names[0], ', '.join(map(str, non_normal_groups))) + '</decision>'
+                result_ht += '<cs_decision>' + _('Normality is violated in variable %s, group(s) %s. ') % \
+                             (var_names[0], ', '.join(map(str, non_normal_groups))) + '</cs_decision>'
             if not homogeneity_vars:
-                result_ht += '<decision>' + _('Homogeneity of variance violated in variable %s.') % var_names[0] + \
-                             '</decision>'
+                result_ht += '<cs_decision>' + _('Homogeneity of variance violated in variable %s.') % var_names[0] + \
+                             '</cs_decision>'
             if non_normal_groups or (not homogeneity_vars):
-                result_ht += '<decision>' + '>> ' + _('Running Kruskal–Wallis test.') + '\n</decision>'
+                result_ht += '<cs_decision>' + '>> ' + _('Running Kruskal–Wallis test.') + '\n</cs_decision>'
                 result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
 
         elif meas_level == 'ord':
-            result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + _('Running Kruskal–Wallis test.') + \
-                         '</decision>\n'
+            result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + _('Running Kruskal–Wallis test.') + \
+                         '</cs_decision>\n'
             result_ht += kruskal_wallis_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
-            result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + _('Running chi-squared test.') + \
-                         '</decision>\n'
+            result_ht += '<cs_decision>' + _('Nominal variable.') + ' >> ' + _('Running chi-squared test.') + \
+                         '</cs_decision>\n'
             chi_result = chi_squared_test(df, var_names[0], groups[0])
             result_ht += chi_result
     return result_ht
@@ -984,27 +1101,27 @@ def decision_several_grouping_variables(df, meas_level, var_names, groups):
     -------
 
     """
-    result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>\n' + '<decision>'
+    result_ht = '<cs_decision>'
     if meas_level in ['int', 'unk']:
-        result_ht += _('Testing if the means are the same.') + '</decision>\n'
+        result_ht += _('Testing if the means are the same.') + '</cs_decision>\n'
     elif meas_level == 'ord':
-        result_ht += _('Testing if the medians are the same.') + '</decision>\n'
+        result_ht += _('Testing if the medians are the same.') + '</cs_decision>\n'
     elif meas_level == 'nom':
-        result_ht += _('Testing if the distributions are the same.') + '</decision>\n'
+        result_ht += _('Testing if the distributions are the same.') + '</cs_decision>\n'
 
-    result_ht += '<decision>' + _('At least two grouping variables.') + ' </decision>'
+    result_ht += '<cs_decision>' + _('At least two grouping variables.') + ' </cs_decision>'
     if meas_level == 'int':
         #group_levels, vars = cs_stat._split_into_groups(df, var_names[0], groups)
-        result_ht += '<decision>' + _('Interval variable.') + ' >> ' + \
-                     _("Choosing factorial ANOVA.") + '\n</decision>'
+        result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
+                     _("Choosing factorial ANOVA.") + '\n</cs_decision>'
         result_ht += multi_way_anova(df, var_names[0], groups)
 
     elif meas_level == 'ord':
-        result_ht += '<decision>' + _('Ordinal variable.') + ' >> ' + \
-                     _('Sorry, not implemented yet.') + '</decision>\n'
+        result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + \
+                     _('Sorry, not implemented yet.') + '</cs_decision>\n'
     elif meas_level == 'nom':
-        result_ht += '<decision>' + _('Nominal variable.') + ' >> ' + \
-                     _('Sorry, not implemented yet.') + ' ' + '</decision>\n'
+        result_ht += '<cs_decision>' + _('Nominal variable.') + ' >> ' + \
+                     _('Sorry, not implemented yet.') + ' ' + '</cs_decision>\n'
     return result_ht
 
 
@@ -1143,7 +1260,8 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     # Not available in statsmodels
 
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
-    u, p = stats.mannwhitneyu(var1, var2, alternative='two-sided')
+    # convert pandas Float64 to float
+    u, p = stats.mannwhitneyu(var1.astype(float), var2.astype(float), alternative='two-sided')
     text_result = _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.*f, %s\n' % \
                    (non_data_dim_precision, u, print_p(p))
 
@@ -1179,8 +1297,12 @@ def one_way_anova(pdf, var_name, grouping_name):
 
         # 2. Calculate effect size in eta-square
         # pingouin may fail in calculating the effect size, see its API documentation
-        eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
-                                          k=len(set(data[grouping_name])))
+        try:
+            eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
+                                              k=len(set(data[grouping_name])))
+        except TypeError:  # in pingouin 0.5.2 eta was renamed to eta_squared
+            eta_square = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.95,
+                                              k=len(set(data[grouping_name])))
         if np.isnan(eta_square):
             eta_square_effect_size = ''
         else:
@@ -1202,7 +1324,7 @@ def one_way_anova(pdf, var_name, grouping_name):
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
-        text_result += ('<fix_width_font>%s\n</fix_width_font>' % post_hoc_res).replace(' ', '\u00a0')
+        text_result += ('<cs_fix_width_font>%s\n</cs_fix_width_font>' % post_hoc_res).replace(' ', '\u00a0')
         ''' # TODO create our own output
         http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
         These are the original data:
@@ -1268,7 +1390,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n' + _(u'Groups differ. Post-hoc test of the means.') + '\n'
-        text_result += ('<fix_width_font>%s\n</fix_width_font>' % post_hoc_res).replace(' ', u'\u00a0')
+        text_result += ('<cs_fix_width_font>%s\n</cs_fix_width_font>' % post_hoc_res).replace(' ', u'\u00a0')
         ''' # TODO create our own output
         http://statsmodels.sourceforge.net/devel/generated/statsmodels.sandbox.stats.multicomp.TukeyHSDResults.html#statsmodels.sandbox.stats.multicomp.TukeyHSDResults
         These are the original data:
@@ -1308,8 +1430,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
             text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
             text_result += _("Results of Dunn's test (p values).") + '\n'
             posthoc_result = scikit_posthocs.posthoc_dunn(pdf, val_col=var_name, group_col=grouping_name)
-            text_result += cs_stat._format_html_table(posthoc_result.to_html(classes="table_cs_pd",
-                                                                             float_format=lambda x: '%.3f' % x))
+            text_result += posthoc_result.to_html(float_format=lambda x: '%.3f' % x).replace('\n', '')
 
     except Exception as e:
         text_result += _('Result of the Kruskal–Wallis test: ')+str(e)

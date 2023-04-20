@@ -108,7 +108,7 @@
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Number of trials</string>
+          <string>Number of &amp;trials</string>
          </property>
          <property name="buddy">
           <cstring>spinBox</cstring>
