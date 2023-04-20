@@ -1789,9 +1789,15 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     results_list = []
     # TODO remove _html versions for the stable release
     if descriptives_table:
-        results_list.append([descriptives_table_html, descriptives_table_styler])
+        if csc.test_functions:
+            results_list.append([descriptives_table_html, descriptives_table_styler])
+        else:
+            results_list.append([descriptives_table_styler])
     if estimation_table:
-        results_list.append([estimation_table_html, estimation_table_styler])
+        if csc.test_functions:
+            results_list.append([estimation_table_html, estimation_table_styler])
+        else:
+            results_list.append([estimation_table_styler])
     results_list.append(graphs)
 
     return results_list

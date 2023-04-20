@@ -1574,17 +1574,20 @@ class CogStatData:
             population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(data[var_names[0]]) + 1
-            population_result += mean_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
-                .replace('\n', '')
+            if csc.test_functions:
+                population_result += mean_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
+                    .replace('\n', '')
         elif meas_level == 'ord':
             population_result += _('Median')
             median_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(data[var_names[0]]) + 1
-            population_result += median_estimations.to_html(bold_rows=False,float_format=lambda x: '%0.*f' % (prec, x))\
-                .replace('\n', '')
+            if csc.test_functions:
+                population_result += median_estimations.to_html(bold_rows=False,float_format=lambda x: '%0.*f' % (prec, x))\
+                    .replace('\n', '')
         elif meas_level == 'nom':
             for var_pair in itertools.combinations(var_names, 2):
-                population_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], ci=True)
+                if csc.test_functions:
+                    population_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], ci=True)
         population_result += '\n'
 
         population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
@@ -1791,10 +1794,12 @@ class CogStatData:
             elif meas_level == 'ord':
                 population_result += _('Medians')
             prec = cs_util.precision(data[var_names[0]]) + 1
-            population_result += group_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
-                .replace('\n', '')
+            if csc.test_functions:
+                population_result += group_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
+                    .replace('\n', '')
         if meas_level == 'nom':
-            population_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names, ci=True)
+            if csc.test_functions:
+                population_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names, ci=True)
 
         # 3b. Effect size
         population_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables,
