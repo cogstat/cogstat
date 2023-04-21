@@ -1260,8 +1260,7 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     # Not available in statsmodels
 
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
-    # convert pandas Float64 to float
-    u, p = stats.mannwhitneyu(var1.astype(float), var2.astype(float), alternative='two-sided')
+    u, p = stats.mannwhitneyu(var1, var2, alternative='two-sided')
     text_result = _('Result of independent samples Mann–Whitney rank test: ') + '<i>U</i> = %0.*f, %s\n' % \
                    (non_data_dim_precision, u, print_p(p))
 

@@ -174,12 +174,13 @@ class CogStatData:
                     pass
 
         def _convert_dtypes():
-            """Convert dtypes.
+            """Convert dtypes in self.data_frame.
 
             1. CogStat does not know boolean variables, so they are converted to strings.
               This solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
             2. Some analyses do not handle Int types, but int types
             3. Some analyses do not handle category types
+            4. Some analyses (e.g., in scipy.stats, pingouin) do not handle Float
 
             Returns
             -------
@@ -188,7 +189,8 @@ class CogStatData:
             convert_dtypes = [['bool', 'object'],  # although 'string' type is recommended, patsy cannot handle it
                               ['Int32', 'int32'],
                               ['Int64', 'int64'], ['Int64', 'float64'],
-                              ['category', 'object']]
+                              ['category', 'object'],
+                              ['Float64', 'float64']]
             for old_dtype, new_dtype in convert_dtypes:
                 try:
                     self.data_frame[self.data_frame.select_dtypes(include=[old_dtype]).columns] = \
