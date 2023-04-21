@@ -1,8 +1,8 @@
 numpy
 scipy >=1.9
 matplotlib >=1.5.0, !=2.0.1, !=2.0.2, !=3.6.*
-pandas >=1.1.0
-statsmodels >=0.12.2
+pandas >=1.4.0
+statsmodels >=0.13.0
 pingouin >=0.3.8
 scikit-posthocs
 pyreadstat
@@ -15,5 +15,5 @@ python-bidi
 IPython
 Jupyter
 PyQt5
-sklearn
+scikit-learn
 svgutils
