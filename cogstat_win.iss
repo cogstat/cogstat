@@ -32,7 +32,9 @@ WizardImageBackColor=clWhite
 
 [Languages]
 ; There are some unofficial language files, download them from http://www.jrsoftware.org/files/istrans/
+Name: "arabic"; MessagesFile: "compiler:Languages\Arabic.isl"
 Name: "bulgarian"; MessagesFile: "compiler:Languages\Bulgarian.isl"
+Name: "chinese"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
 Name: "croatian"; MessagesFile: "compiler:Languages\Croatian.isl"
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "estonian"; MessagesFile: "compiler:Languages\Estonian.isl"
@@ -45,6 +47,7 @@ Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl"
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 Name: "kazakh"; MessagesFile: "compiler:Languages\Kazakh.isl"
 Name: "korean"; MessagesFile: "compiler:Languages\Korean.isl"
+Name: "malay"; MessagesFile: "compiler:Languages\Malaysian.isl"
 Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
 Name: "romanian"; MessagesFile: "compiler:Languages\Romanian.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
