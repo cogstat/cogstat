@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-Upcoming release (2023)
+2.4 beta (21 April 2023)
 =======================
 ## New features
 - Data handling
