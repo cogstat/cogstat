@@ -524,8 +524,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     #print('SVG svgutils size', sys.getsizeof(html_img))
                 pane.append(html_img)
             elif isinstance(output, pd.io.formats.style.Styler):
-                from . import cogstat_stat as cs_stat
-                pane.append(output.to_html().replace('\n', ''))
+                # make row headers left aligned
+                # headers use None formatter resulting in a format used in DataFrame.to_html() for floats
+                pane.append(output.set_table_styles([{'selector': 'th.row_heading', 'props': 'text-align: left;'}]).
+                            format_index(formatter='{}', axis=0).format_index(formatter='{}', axis=1).
+                            to_html().replace('\n', ''))
             elif output is None:
                 pass  # We don't do anything with None-s
             else:

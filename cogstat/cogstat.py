@@ -1402,8 +1402,8 @@ class CogStatData:
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        list of str and pandas Stylers
+            Analysis results in HTML format and tables
         """
         if condition_names is None:
             condition_names = []
@@ -1419,9 +1419,9 @@ class CogStatData:
         if not preconditions:
             return cs_util.convert_output([title])
 
-        pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
-                                         correct_coding, reaction_time_in, scaling_parameter)
-        return cs_util.convert_output([title, pivot_result])
+        diffusion_results = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
+                                              correct_coding, reaction_time_in, scaling_parameter)
+        return cs_util.convert_output([title, diffusion_results])
 
     def compare_variables(self, var_names, factors=None, display_factors=None, ylims=[None, None]):
         """
