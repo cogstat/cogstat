@@ -307,9 +307,14 @@ class CogStatTestCase(unittest.TestCase):
         # Point estimates: Jamovi 2.2.5, CIs: cor.test() in stats 4.1.3 in R 4.1.3 run on residuals from respective tests
         # e.g. for partial correlation of r and h: cor.test(resid(lm(h ~ s + g, data)), resid(lm(r ~ s + g, data)))
         # CIs don't exactly match between R stats and python pingouin, but are very close
-        self.assertTrue('<td>r, <i>r</i></td>      <td>-0.330</td>      <td>[-0.630, 0.050]</td>' in result[10])  # r = -0.330 [-0.6171, 0.0341]
-        self.assertTrue('<td>s, <i>r</i></td>      <td>0.357</td>      <td>[-0.020, 0.640]</td>' in result[10])  # r = 0.357 [-0.00365, 0.63559]
-        self.assertTrue('<td>g, <i>r</i></td>      <td>0.187</td>      <td>[-0.200, 0.520]</td>' in result[10])  # r = 0.187 [-0.186. 0.513]
+        # pingouin changed the calculation in 0.4.0, and uses the R ppcor package's method
+          # https://pingouin-stats.org/build/html/changelog.html#v0-4-0-august-2021
+        # pingouin 0.3.8: <td>-0.330</td>      <td>[-0.620, 0.030]</td>  # r = -0.330 [-0.6171, 0.0341]
+        self.assertTrue('<td>r, <i>r</i></td>      <td>-0.330</td>      <td>[-0.630, 0.050]</td>' in result[10])
+        # pingouin 0.3.8: <td>0.357</td>      <td>[-0.000, 0.640]</td>  # r = 0.357 [-0.00365, 0.63559]
+        self.assertTrue('<td>s, <i>r</i></td>      <td>0.357</td>      <td>[-0.020, 0.640]</td>' in result[10])
+        # pingouin 0.3.8: <td>0.187</td>      <td>[-0.190, 0.510]</td>  # r = 0.187 [-0.186. 0.513]
+        self.assertTrue('<td>g, <i>r</i></td>      <td>0.187</td>      <td>[-0.200, 0.520]</td>' in result[10])
         # Hypothesis tests
         # lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3, F-statistic: 1.607, DFs: 3 and 26,  p-value: 0.2119
         self.assertTrue('Model F-test: <i>F</i>(3,26) = 1.61, <i>p</i> = .212' in result[11])
