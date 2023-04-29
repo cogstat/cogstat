@@ -1197,18 +1197,12 @@ class CogStatData:
                 model = statsmodels.regression.linear_model.OLS(data[predicted], add_constant(data[predictors]))
             result = model.fit()
 
-            if len(predictors) == 1:
-                # TODO output with the right precision of the results
-                sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
-            else:
-                import string
-                # Shift constant to the end of the list
-                params = [x for x in list(result.params) if x != result.params[0]] + [result.params[0]]
-                # Pair up parameter estimates with variable names and unpack the resulting pairs to a non-nested tuple
-                content = tuple(c for b in zip(params, predictors+['']) for c in b)
-                # Get string to format
-                structure = ' + '.join(['%0.3f%s' for i in range(len(params))])
-                sample_result += _('Linear regression')+': %s = ' % predicted + structure % content
+            # TODO output with the right precision of the results
+            # display: y = a1x1 + a2x2 + anxn + b
+            sample_result += _('Linear regression') + ': %s = ' % predicted + \
+                             ''.join(['%0.3f × %s + ' % (weight, predictor) for weight, predictor
+                                      in zip(result.params[1:], predictors)]) + \
+                             '%0.3f' % result.params[0]
 
         sample_result += '\n'
 
