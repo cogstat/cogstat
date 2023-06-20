@@ -655,16 +655,17 @@ def create_variable_population_chart(data, var_name, stat, ci=None):
 ### Charts for Explore variable pairs ###
 #########################################
 
-def create_residual_chart(data, meas_lev, x, y):
-    """Draw a chart with residual plot and histogram of residuals
+def create_residual_chart(data, meas_lev, predictors, y):
+    """Draw a chart with residuals vs. explanatory variable, and histogram of residuals.
+    Draw a matrix of plots in case of multiple explanatory variables.
 
     Parameters
     ----------
     data : pandas dataframe
     meas_lev : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the variables
-    x : str
-        Name of the x variable.
+    predictors : list of str
+        Names of the predictor variables.
     y : str
         Name of the x variable.
 
@@ -675,43 +676,64 @@ def create_residual_chart(data, meas_lev, x, y):
     """
 
     if meas_lev == 'int':
+        import math
         import statsmodels.regression
         import statsmodels.tools
-        residuals = statsmodels.regression.linear_model.OLS(data[y],statsmodels.tools.add_constant(data[x]))\
+
+        nrows = math.ceil(len(predictors) / 2)
+        ncols = 3 if len(predictors) == 1 else 7
+        plot_cols = [[0, 3]] if len(predictors) == 1 else [[0, 3], [4, 7]]
+
+        residuals = statsmodels.regression.linear_model.OLS(data[y],statsmodels.tools.add_constant(data[predictors]))\
             .fit().resid
+
+        # Calculate maximum frequency
+        global_max_freq = 1
+        for predictor in predictors:
+            res_df = pd.DataFrame(np.array([data[predictor], residuals]).T)
+            local_max = np.max(res_df.value_counts())
+            global_max_freq = np.max([global_max_freq, local_max])
 
         # Two third on left for residual plot, one third on right for histogram of residuals
         fig = plt.figure()
-        gs = plt.GridSpec(1, 3, figure=fig)
-        ax_res_plot = fig.add_subplot(gs[0, :2])
-        ax_hist = fig.add_subplot(gs[0, 2], sharey=ax_res_plot)
+        gs = plt.GridSpec(nrows, ncols, figure=fig)
+        i = 0
+        for row in range(nrows):
+            for col_1, col_2 in plot_cols:
+                ax_res_plot = fig.add_subplot(gs[row, col_1:col_2-1])
+                ax_hist = fig.add_subplot(gs[row, col_2-1], sharey=ax_res_plot)
 
-        # Residual plot (scatter of x vs. residuals)
-        # Prepare frequencies
-        res_df = pd.DataFrame(np.array([data[x], residuals]).T)
-        max_freq = np.max(res_df.value_counts())
-        val_count = _value_count(res_df, max_freq)
-        if max_freq > 1:
-            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
-                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
+                # Preparing frequencies
+                res_df = pd.DataFrame(np.array([data[predictors[i]], residuals]).T)
+                val_count = _value_count(res_df, global_max_freq)
+                if global_max_freq > 1:
+                    plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+                                 x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
-        ax_res_plot.scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
-        ax_res_plot.axhline(y=0)
-        ax_res_plot.set_title(_plt("Residual plot"))
-        ax_res_plot.set_xlabel(x)
-        ax_res_plot.set_ylabel(_plt("Residuals"))
+                # Residual plot (scatter of x vs. residuals)
+                ax_res_plot.scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
+                ax_res_plot.axhline(y=0)
+                ax_res_plot.set_xlabel(predictors[i])
+                ax_res_plot.set_ylabel(_plt("Residuals"))
 
-        # Histogram of residuals
-        n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
-        normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
-        ax_hist.plot(normal_distribution, bins, "--")
-        ax_hist.set_title(_plt("Histogram of residuals"))
-        # ax_hist.set_xlabel("Frequency")
+                # Histogram of residuals
+                n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
+                normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
+                ax_hist.plot(normal_distribution, bins, "--")
+                # ax_hist.set_title(_plt("Histogram of residuals"))
+                ax_hist.set_xlabel("Freq")
 
-        plt.setp(ax_hist.get_yticklabels(), visible=False)
-        plt.setp(ax_hist.get_yticklabels(minor=True), visible=False)
-        plt.setp(ax_hist.get_xticklabels(), visible=False)
-        plt.setp(ax_hist.get_xticklabels(minor=True), visible=False)
+                # Set histogram axis ticks invisible
+                plt.setp(ax_hist.get_yticklabels(), visible=False)
+                plt.setp(ax_hist.get_yticklabels(minor=True), visible=False)
+                plt.setp(ax_hist.get_xticklabels(), visible=False)
+                plt.setp(ax_hist.get_xticklabels(minor=True), visible=False)
+
+                i += 1
+                if i+1 > len(predictors):
+                    break
+
+        fig.suptitle("Residual plot and histogram of residuals")
         fig.tight_layout()
         fig.subplots_adjust(wspace=0.05)
         graph = plt.gcf()
