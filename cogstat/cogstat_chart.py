@@ -928,8 +928,18 @@ def create_scatter_matrix(data, meas_lev):
         return None
 
 
-def part_regress_plots(data, predicted, predictors):
-    """Draw a matrix of partial regression plots.
+def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
+    """Draw a matrix of scatterplots with regression lines or partial regression plots to visualize multiple regression.
+    Scatterplots:
+    Scatterplots of all explanatory variables vs. the dependent variable are shown. Regression lines are derived from
+    the multiple regression equation by using the intercept and the appropriate slope for each explanatory variable.
+
+    Partial regression plots:
+    For all explanatory variables, the function plots the residuals from the regression of the dependent variable
+    and the other explanatory variables against the residuals from the regression of the chosen explanatory variable
+    and all other explanatory variables. Plots for all explanatory variables shown in a matrix.
+    This allows the visualization of the bivariate relationships while factoring out all other explanatory variables.
+    Regression lines are derived from the regression of the residuals plotted.
 
     Parameters
     ----------
@@ -939,14 +949,15 @@ def part_regress_plots(data, predicted, predictors):
         Name of the dependent variable.
     predictors : list of str
         Names of the explanatory variables.
+    partial : bool
+        Display partial regression plots if True, scatterplots with regression lines if False. Default is True.
+    params : pandas series
+        Model parameters from statsmodels. Series index has to contain the variable names. Default None.
 
     Returns
     -------
     matplotlib chart
-        For all explanatory variables, the function plots the residuals from the regression of the dependent variable
-        and the other explanatory variables against the residuals from the regression of the chosen explanatory variable
-        and all other explanatory variables. Plots for all explanatory variables shown in a matrix.
-        This allows the visualization of the bivariate relationships while factoring out all other explanatory variables.
+
     """
 
     import math
@@ -956,33 +967,56 @@ def part_regress_plots(data, predicted, predictors):
     nrows = round(1 / (1 + np.exp(-len(predictors) + 2.5))) + 1 if len(predictors) < 7 else math.ceil(len(predictors) / 3)
 
     fig = plt.figure(tight_layout=True)
-    fig.suptitle(_plt('Partial regression plots'))
+    if partial:
+        fig.suptitle(_plt('Partial regression plots'))
+    else:
+        fig.suptitle(_plt('Sample scatterplots with model fitted lines'))
 
     # Calculate residuals
     global_max_freq = 1
     residuals = []
     for index, predictor in enumerate(predictors):
-        predictors_other = predictors.copy()
-        predictors_other.remove(predictor)
-        # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
-        resid_dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
-        # Calculating the residuals from regressing the chosen explanatory variable on the remaining
-        # explanatory variables
-        resid_x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
-        residuals += [[resid_dependent, resid_x_i]]
+        if partial:
+            predictors_other = predictors.copy()
+            predictors_other.remove(predictor)
+            # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
+            dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
+            # Calculating the residuals and fitted values from regressing the chosen explanatory variable on the remaining
+            # explanatory variables
+            x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
+            fitted_x_i = sm.OLS(dependent, sm.add_constant(x_i)).fit().predict()
+            residuals += [[dependent, x_i, fitted_x_i]]
+        else:
+            dependent, x_i = predicted, predictor
 
         # Preparing frequencies
-        local_max = np.max(pd.DataFrame([resid_dependent, resid_x_i]).value_counts())
+        local_max = np.max(pd.DataFrame([dependent, x_i]).value_counts())
         global_max_freq = np.max([global_max_freq, local_max])
 
     # Make plots
     for index, predictor in enumerate(predictors):
-        resid_dependent, resid_x_i = residuals[index][0], residuals[index][1]
-        val_count = _value_count(pd.concat([resid_x_i, resid_dependent], axis=1), global_max_freq)
         ax = plt.subplot(nrows, ncols, index+1)
+
+        if partial:
+            dependent, x_i, fitted_x_i = residuals[index][0], residuals[index][1], residuals[index][2]
+        else:
+            dependent, x_i = data[predicted], data[predictor]
+
+        val_count = _value_count(pd.concat([x_i, dependent], axis=1), global_max_freq)
         ax.scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
-        ax.set_xlabel(predictor + ' | ' + _plt('other predictors'))
-        ax.set_ylabel(predicted + ' | ' + _plt('other predictors'))
+
+        if partial:
+            ax.plot(x_i, fitted_x_i, color=theme_colors[0])  # Partial regression line
+            ax.set_xlabel(predictor + _plt(' residuals'))
+            ax.set_ylabel(predicted + _plt(' residuals'))
+        else:
+            x_vals = np.array(ax.get_xlim())
+            y_vals = params[0] + params[predictor] * x_vals
+            ax.plot(x_vals, y_vals, color=theme_colors[0])
+            ax.set_xlabel(predictor)
+            ax.set_ylabel(predicted)
+
+
 
     if global_max_freq > 1:
         fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,

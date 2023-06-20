@@ -1235,11 +1235,10 @@ class CogStatData:
                 sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
                                                                    regression=True, CI=False, xlims=xlims, ylims=ylims)
             else:
-                # TODO scatter plot with fitted line
-                sample_graph = None
+                sample_graph = cs_chart.multi_regress_plots(data, predicted, predictors, partial=False, params=result.params)
 
             if len(predictors) > 1:
-                regression_plot = cs_chart.part_regress_plots(data, predicted, predictors)
+                regression_plot = cs_chart.multi_regress_plots(data, predicted, predictors)
             else:
                 regression_plot = None
         else:
