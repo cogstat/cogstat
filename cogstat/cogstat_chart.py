@@ -719,6 +719,7 @@ def create_residual_chart(data, meas_lev, predictors, y):
                 # Histogram of residuals
                 n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
                 normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
+                # TODO histograms are the same for every variable, should we only display them once?
                 ax_hist.plot(normal_distribution, bins, "--")
                 # ax_hist.set_title(_plt("Histogram of residuals"))
                 ax_hist.set_xlabel("Freq")
@@ -968,7 +969,7 @@ def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
 
     fig = plt.figure(tight_layout=True)
     if partial:
-        fig.suptitle(_plt('Partial regression plots'))
+        fig.suptitle(_plt('Partial regression plots with regression lines'))
     else:
         fig.suptitle(_plt('Sample scatterplots with model fitted lines'))
 
@@ -981,8 +982,8 @@ def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
             predictors_other.remove(predictor)
             # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
             dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
-            # Calculating the residuals and fitted values from regressing the chosen explanatory variable on the remaining
-            # explanatory variables
+            # Calculating the residuals and fitted values from regressing the chosen explanatory variable on the
+            # remaining explanatory variables
             x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
             fitted_x_i = sm.OLS(dependent, sm.add_constant(x_i)).fit().predict()
             residuals += [[dependent, x_i, fitted_x_i]]
