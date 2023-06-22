@@ -16,8 +16,8 @@ OPTIONS = {
         'CFBundleDisplayName': APP_NAME,
         'CFBundleGetInfoString': "Simple statistics for researchers.",
         'CFBundleIdentifier': "com.cogstat.org.cogstat",
-        'CFBundleVersion': "2.3rc",
-        'CFBundleShortVersionString': "2.3rc",
+        'CFBundleVersion': "2.4beta",
+        'CFBundleShortVersionString': "2.4beta",
         'CFBundleIconFile': "cogstat.icns",
         'NSHumanReadableCopyright': "GNU GPL 3",
         'NSRequiresAquaSystemAppearance': 'YES',
@@ -28,7 +28,7 @@ OPTIONS = {
     , 'packages': ['numpy', 'scipy', 'matplotlib',
                         'pandas', 'pandas_flavor', 'statsmodels',
                         'pyreadstat',  'xlrd', 'openpyxl', 'pyreadr',
-                        'configobj',  'IPython', 'Jupyter',
+                        'configobj',  'chardet', 'IPython', 'Jupyter',
                         'pingouin', 'python-bidi', 'odfpy', 'scikit-posthocs',
                         ]
 }
@@ -38,7 +38,7 @@ setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    version='2.3rc',
+    version='2.4beta',
     description='Simple statistics for researchers.',
     url='https://www.cogstat.org',
     author='Attila Krajcsi',
