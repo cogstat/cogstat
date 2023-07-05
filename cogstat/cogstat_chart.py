@@ -655,16 +655,17 @@ def create_variable_population_chart(data, var_name, stat, ci=None):
 ### Charts for Explore variable pairs ###
 #########################################
 
-def create_residual_chart(data, meas_lev, x, y):
-    """Draw a chart with residual plot and histogram of residuals
+def create_residual_chart(data, meas_lev, predictors, y):
+    """Draw a chart with residuals vs. explanatory variable, and histogram of residuals.
+    Draw a matrix of plots in case of multiple explanatory variables.
 
     Parameters
     ----------
     data : pandas dataframe
     meas_lev : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the variables
-    x : str
-        Name of the x variable.
+    predictors : list of str
+        Names of the predictor variables.
     y : str
         Name of the x variable.
 
@@ -675,43 +676,65 @@ def create_residual_chart(data, meas_lev, x, y):
     """
 
     if meas_lev == 'int':
+        import math
         import statsmodels.regression
         import statsmodels.tools
-        residuals = statsmodels.regression.linear_model.OLS(data[y],statsmodels.tools.add_constant(data[x]))\
+
+        nrows = math.ceil(len(predictors) / 2)
+        ncols = 3 if len(predictors) == 1 else 7
+        plot_cols = [[0, 3]] if len(predictors) == 1 else [[0, 3], [4, 7]]
+
+        residuals = statsmodels.regression.linear_model.OLS(data[y],statsmodels.tools.add_constant(data[predictors]))\
             .fit().resid
+
+        # Calculate maximum frequency
+        global_max_freq = 1
+        for predictor in predictors:
+            res_df = pd.DataFrame(np.array([data[predictor], residuals]).T)
+            local_max = np.max(res_df.value_counts())
+            global_max_freq = np.max([global_max_freq, local_max])
 
         # Two third on left for residual plot, one third on right for histogram of residuals
         fig = plt.figure()
-        gs = plt.GridSpec(1, 3, figure=fig)
-        ax_res_plot = fig.add_subplot(gs[0, :2])
-        ax_hist = fig.add_subplot(gs[0, 2], sharey=ax_res_plot)
+        gs = plt.GridSpec(nrows, ncols, figure=fig)
+        i = 0
+        for row in range(nrows):
+            for col_1, col_2 in plot_cols:
+                ax_res_plot = fig.add_subplot(gs[row, col_1:col_2-1])
+                ax_hist = fig.add_subplot(gs[row, col_2-1], sharey=ax_res_plot)
 
-        # Residual plot (scatter of x vs. residuals)
-        # Prepare frequencies
-        res_df = pd.DataFrame(np.array([data[x], residuals]).T)
-        max_freq = np.max(res_df.value_counts())
-        val_count = _value_count(res_df, max_freq)
-        if max_freq > 1:
-            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
-                         x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
+                # Preparing frequencies
+                res_df = pd.DataFrame(np.array([data[predictors[i]], residuals]).T)
+                val_count = _value_count(res_df, global_max_freq)
+                if global_max_freq > 1:
+                    plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+                                 x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
-        ax_res_plot.scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
-        ax_res_plot.axhline(y=0)
-        ax_res_plot.set_title(_plt("Residual plot"))
-        ax_res_plot.set_xlabel(x)
-        ax_res_plot.set_ylabel(_plt("Residuals"))
+                # Residual plot (scatter of x vs. residuals)
+                ax_res_plot.scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
+                ax_res_plot.axhline(y=0)
+                ax_res_plot.set_xlabel(predictors[i])
+                ax_res_plot.set_ylabel(_plt("Residuals"))
 
-        # Histogram of residuals
-        n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
-        normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
-        ax_hist.plot(normal_distribution, bins, "--")
-        ax_hist.set_title(_plt("Histogram of residuals"))
-        # ax_hist.set_xlabel("Frequency")
+                # Histogram of residuals
+                n, bins, patches = ax_hist.hist(residuals, density=True, orientation='horizontal')
+                normal_distribution = stats.norm.pdf(bins, np.mean(residuals), np.std(residuals))
+                # TODO histograms are the same for every variable, should we only display them once?
+                ax_hist.plot(normal_distribution, bins, "--")
+                # ax_hist.set_title(_plt("Histogram of residuals"))
+                ax_hist.set_xlabel("Freq")
 
-        plt.setp(ax_hist.get_yticklabels(), visible=False)
-        plt.setp(ax_hist.get_yticklabels(minor=True), visible=False)
-        plt.setp(ax_hist.get_xticklabels(), visible=False)
-        plt.setp(ax_hist.get_xticklabels(minor=True), visible=False)
+                # Set histogram axis ticks invisible
+                plt.setp(ax_hist.get_yticklabels(), visible=False)
+                plt.setp(ax_hist.get_yticklabels(minor=True), visible=False)
+                plt.setp(ax_hist.get_xticklabels(), visible=False)
+                plt.setp(ax_hist.get_xticklabels(minor=True), visible=False)
+
+                i += 1
+                if i+1 > len(predictors):
+                    break
+
+        fig.suptitle("Residual plot and histogram of residuals")
         fig.tight_layout()
         fig.subplots_adjust(wspace=0.05)
         graph = plt.gcf()
@@ -906,8 +929,18 @@ def create_scatter_matrix(data, meas_lev):
         return None
 
 
-def part_regress_plots(data, predicted, predictors):
-    """Draw a matrix of partial regression plots.
+def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
+    """Draw a matrix of scatterplots with regression lines or partial regression plots to visualize multiple regression.
+    Scatterplots:
+    Scatterplots of all explanatory variables vs. the dependent variable are shown. Regression lines are derived from
+    the multiple regression equation by using the intercept and the appropriate slope for each explanatory variable.
+
+    Partial regression plots:
+    For all explanatory variables, the function plots the residuals from the regression of the dependent variable
+    and the other explanatory variables against the residuals from the regression of the chosen explanatory variable
+    and all other explanatory variables. Plots for all explanatory variables shown in a matrix.
+    This allows the visualization of the bivariate relationships while factoring out all other explanatory variables.
+    Regression lines are derived from the regression of the residuals plotted.
 
     Parameters
     ----------
@@ -917,14 +950,15 @@ def part_regress_plots(data, predicted, predictors):
         Name of the dependent variable.
     predictors : list of str
         Names of the explanatory variables.
+    partial : bool
+        Display partial regression plots if True, scatterplots with regression lines if False. Default is True.
+    params : pandas series
+        Model parameters from statsmodels. Series index has to contain the variable names. Default None.
 
     Returns
     -------
     matplotlib chart
-        For all explanatory variables, the function plots the residuals from the regression of the dependent variable
-        and the other explanatory variables against the residuals from the regression of the chosen explanatory variable
-        and all other explanatory variables. Plots for all explanatory variables shown in a matrix.
-        This allows the visualization of the bivariate relationships while factoring out all other explanatory variables.
+
     """
 
     import math
@@ -934,33 +968,56 @@ def part_regress_plots(data, predicted, predictors):
     nrows = round(1 / (1 + np.exp(-len(predictors) + 2.5))) + 1 if len(predictors) < 7 else math.ceil(len(predictors) / 3)
 
     fig = plt.figure(tight_layout=True)
-    fig.suptitle(_plt('Partial regression plots'))
+    if partial:
+        fig.suptitle(_plt('Partial regression plots with regression lines'))
+    else:
+        fig.suptitle(_plt('Sample scatterplots with model fitted lines'))
 
     # Calculate residuals
     global_max_freq = 1
     residuals = []
     for index, predictor in enumerate(predictors):
-        predictors_other = predictors.copy()
-        predictors_other.remove(predictor)
-        # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
-        resid_dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
-        # Calculating the residuals from regressing the chosen explanatory variable on the remaining
-        # explanatory variables
-        resid_x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
-        residuals += [[resid_dependent, resid_x_i]]
+        if partial:
+            predictors_other = predictors.copy()
+            predictors_other.remove(predictor)
+            # Calculating residuals from regressing the dependent variable on the remaining explanatory variables
+            dependent = sm.OLS(data[predicted], sm.add_constant(data[predictors_other])).fit().resid
+            # Calculating the residuals and fitted values from regressing the chosen explanatory variable on the
+            # remaining explanatory variables
+            x_i = sm.OLS(data[predictor], sm.add_constant(data[predictors_other])).fit().resid
+            fitted_x_i = sm.OLS(dependent, sm.add_constant(x_i)).fit().predict()
+            residuals += [[dependent, x_i, fitted_x_i]]
+        else:
+            dependent, x_i = predicted, predictor
 
         # Preparing frequencies
-        local_max = np.max(pd.DataFrame([resid_dependent, resid_x_i]).value_counts())
+        local_max = np.max(pd.DataFrame([dependent, x_i]).value_counts())
         global_max_freq = np.max([global_max_freq, local_max])
 
     # Make plots
     for index, predictor in enumerate(predictors):
-        resid_dependent, resid_x_i = residuals[index][0], residuals[index][1]
-        val_count = _value_count(pd.concat([resid_x_i, resid_dependent], axis=1), global_max_freq)
         ax = plt.subplot(nrows, ncols, index+1)
+
+        if partial:
+            dependent, x_i, fitted_x_i = residuals[index][0], residuals[index][1], residuals[index][2]
+        else:
+            dependent, x_i = data[predicted], data[predictor]
+
+        val_count = _value_count(pd.concat([x_i, dependent], axis=1), global_max_freq)
         ax.scatter(*zip(*val_count.index), val_count.values*20, color=theme_colors[0], marker='o')
-        ax.set_xlabel(predictor + ' | ' + _plt('other predictors'))
-        ax.set_ylabel(predicted + ' | ' + _plt('other predictors'))
+
+        if partial:
+            ax.plot(x_i, fitted_x_i, color=theme_colors[0])  # Partial regression line
+            ax.set_xlabel(predictor + _plt(' residuals'))
+            ax.set_ylabel(predicted + _plt(' residuals'))
+        else:
+            x_vals = np.array(ax.get_xlim())
+            y_vals = params[0] + params[predictor] * x_vals
+            ax.plot(x_vals, y_vals, color=theme_colors[0])
+            ax.set_xlabel(predictor)
+            ax.set_ylabel(predicted)
+
+
 
     if global_max_freq > 1:
         fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,

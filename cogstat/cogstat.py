@@ -1227,24 +1227,18 @@ class CogStatData:
         if meas_lev == 'int':
 
             # Residual analysis
-            if len(predictors) == 1:
-                residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
-                residual_graph = cs_chart.create_residual_chart(data, meas_lev, x, y)
-            else:
-                # TODO multivariate residuals
-                residual_title = None
-                residual_graph = None
+            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
+            residual_graph = cs_chart.create_residual_chart(data, meas_lev, predictors, predicted)
 
             # Sample scatter plot with regression line
             if len(predictors) == 1:
                 sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
                                                                    regression=True, CI=False, xlims=xlims, ylims=ylims)
             else:
-                # TODO scatter plot with fitted line
-                sample_graph = None
+                sample_graph = cs_chart.multi_regress_plots(data, predicted, predictors, partial=False, params=result.params)
 
             if len(predictors) > 1:
-                regression_plot = cs_chart.part_regress_plots(data, predicted, predictors)
+                regression_plot = cs_chart.multi_regress_plots(data, predicted, predictors)
             else:
                 regression_plot = None
         else:
