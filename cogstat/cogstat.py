@@ -350,7 +350,6 @@ class CogStatData:
             # flatten multiindex column names, if columns is MultiIndex
             if isinstance(self.data_frame.columns, pd.MultiIndex):
                 self.data_frame.columns = [' | '.join(list(map(str, col))) for col in self.data_frame.columns.values]
-
             self.import_source[0] = 'Pandas dataframe'  # intentionally, we don't localize this term
 
         # 2. Import from file

@@ -50,7 +50,7 @@ Trivial changes when a new feature is added are not denoted.
     - Malay (Nur Hidayati Miza binti Junaidi)
     - Arabic (Rahmeh Albursan)
 - Python package (features added after v2.4beta)
-    - Pandas DatFrames with MultiIndex columns can be imported
+    - Pandas DataFrames with MultiIndex columns can be imported
     - Diffusion analysis results are returned as pandas Stylers
 
 ## Fixes

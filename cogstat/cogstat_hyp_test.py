@@ -591,16 +591,16 @@ def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
     hypothesis_test_result += '<cs_decision>' + _('Testing if ICC differs from 0') + '.</cs_decision>' + '\n'
 
     if not non_normal_vars:
-        hypothesis_test_result += '<cs_decision>' + _('Assumption of normality met') + '.</cs_decision>'
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of normality met') + '. </cs_decision>'
     else:
         hypothesis_test_result += '<cs_decision>' + \
                                   _('Assumption of normality violated in variable(s) %s'
-                                    % ', ' .join(non_normal_vars)) + '.</cs_decision>'
+                                    % ', ' .join(non_normal_vars)) + '. </cs_decision>'
     if var_hom_p < 0.05:
         hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated') + \
-                                  '.</cs_decision>'
+                                  '. </cs_decision>'
     else:
-        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances met') + '.</cs_decision>'
+        hypothesis_test_result += '<cs_decision>' + _('Assumption of homogeneity of variances met') + '. </cs_decision>'
 
     if (var_hom_p < 0.05) or (len(non_normal_vars) != 0):
         hypothesis_test_result += '<cs_decision>' + _('Hypothesis tests may be inaccurate') + '.</cs_decision>' + '\n'
