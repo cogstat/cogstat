@@ -96,7 +96,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Explore relation of variable pairs"))
+        Dialog.setWindowTitle(_translate("Dialog", "Explore relation of variables"))
         self.label.setText(_translate("Dialog", "Available variables"))
         self.pushButton.setText(_translate("Dialog", "&Display options..."))
         self.addPredictor.setText(_translate("Dialog", "..."))

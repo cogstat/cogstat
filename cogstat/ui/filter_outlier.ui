@@ -131,7 +131,7 @@
    <item row="3" column="0">
     <widget class="QCheckBox" name="multivariate_outliers">
      <property name="text">
-      <string>&amp;Multivariate outliers</string>
+      <string>&amp;Multivariate outliers filtering</string>
      </property>
     </widget>
    </item>

@@ -19,7 +19,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.4dev'
+__version__ = '2.4beta'
 
 import matplotlib
 matplotlib.use("qt5agg")
@@ -174,12 +174,13 @@ class CogStatData:
                     pass
 
         def _convert_dtypes():
-            """Convert dtypes.
+            """Convert dtypes in self.data_frame.
 
             1. CogStat does not know boolean variables, so they are converted to strings.
               This solution changes upper and lower cases: independent of the text, it will be 'True' and 'False'
             2. Some analyses do not handle Int types, but int types
             3. Some analyses do not handle category types
+            4. Some analyses (e.g., in scipy.stats, pingouin) do not handle Float
 
             Returns
             -------
@@ -188,7 +189,8 @@ class CogStatData:
             convert_dtypes = [['bool', 'object'],  # although 'string' type is recommended, patsy cannot handle it
                               ['Int32', 'int32'],
                               ['Int64', 'int64'], ['Int64', 'float64'],
-                              ['category', 'object']]
+                              ['category', 'object'],
+                              ['Float64', 'float64']]
             for old_dtype, new_dtype in convert_dtypes:
                 try:
                     self.data_frame[self.data_frame.select_dtypes(include=[old_dtype]).columns] = \
@@ -344,7 +346,10 @@ class CogStatData:
 
         # 1. Import from pandas DataFrame
         if isinstance(data, pd.DataFrame):
-            self.data_frame = data
+            self.data_frame = data.copy(deep=True)
+            # flatten multiindex column names, if columns is MultiIndex
+            if isinstance(self.data_frame.columns, pd.MultiIndex):
+                self.data_frame.columns = [' | '.join(list(map(str, col))) for col in self.data_frame.columns.values]
             self.import_source[0] = 'Pandas dataframe'  # intentionally, we don't localize this term
 
         # 2. Import from file
@@ -1195,18 +1200,12 @@ class CogStatData:
                 model = statsmodels.regression.linear_model.OLS(data[predicted], add_constant(data[predictors]))
             result = model.fit()
 
-            if len(predictors) == 1:
-                # TODO output with the right precision of the results
-                sample_result += _('Linear regression')+': y = %0.3fx + %0.3f' % (result.params[1], result.params[0])
-            else:
-                import string
-                # Shift constant to the end of the list
-                params = [x for x in list(result.params) if x != result.params[0]] + [result.params[0]]
-                # Pair up parameter estimates with variable names and unpack the resulting pairs to a non-nested tuple
-                content = tuple(c for b in zip(params, predictors+['']) for c in b)
-                # Get string to format
-                structure = ' + '.join(['%0.3f%s' for i in range(len(params))])
-                sample_result += _('Linear regression')+': %s = ' % predicted + structure % content
+            # TODO output with the right precision of the results
+            # display: y = a1x1 + a2x2 + anxn + b
+            sample_result += _('Linear regression') + ': %s = ' % predicted + \
+                             ''.join(['%0.3f × %s + ' % (weight, predictor) for weight, predictor
+                                      in zip(result.params[1:], predictors)]) + \
+                             '%0.3f' % result.params[0]
 
         sample_result += '\n'
 
@@ -1400,8 +1399,8 @@ class CogStatData:
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        list of str and pandas Stylers
+            Analysis results in HTML format and tables
         """
         if condition_names is None:
             condition_names = []
@@ -1417,9 +1416,9 @@ class CogStatData:
         if not preconditions:
             return cs_util.convert_output([title])
 
-        pivot_result = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
-                                         correct_coding, reaction_time_in, scaling_parameter)
-        return cs_util.convert_output([title, pivot_result])
+        diffusion_results = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
+                                              correct_coding, reaction_time_in, scaling_parameter)
+        return cs_util.convert_output([title, diffusion_results])
 
     def compare_variables(self, var_names, factors=None, display_factors=None, ylims=[None, None]):
         """

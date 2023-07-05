@@ -228,6 +228,7 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
 
     Returns
     -------
+    list of str and pandas Stylers
 
     """
 
@@ -295,16 +296,15 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
             var_correct_RT_table.sort_index(inplace=True, key=lambda x: x.str.lower())
             mean_percent_correct_table.sort_index(inplace=True, key=lambda x: x.str.lower())
 
-    # Display RT and error rate statistics
-    previous_precision = pd.get_option('display.precision')
-    pd.set_option('display.precision', 3)  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
-    result += '\n\n' + _('Number of trials') + n_table.to_html(bold_rows=False).replace('\n', '')
-    result += '\n\n' + _('Mean percent correct with edge correction') + \
-              mean_percent_correct_table.to_html(bold_rows=False).replace('\n', '')
-    result += '\n\n' + _('Mean correct reaction time') + \
-              mean_correct_RT_table.to_html(bold_rows=False).replace('\n', '')
-    result += '\n\n' + _('Correct reaction time variance') + \
-              var_correct_RT_table.to_html(bold_rows=False).replace('\n', '')
+    # Display N, RT, and error rate statistics
+    precision = 3  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
+    n_table_styler = n_table.style.set_caption(_('Number of trials')).format(precision=precision)
+    mean_percent_correct_styler = mean_percent_correct_table.style.\
+        set_caption(_('Mean percent correct with edge correction')).format(precision=precision)
+    mean_correct_RT_styler = mean_correct_RT_table.style.set_caption(_('Mean correct reaction time')).\
+        format(precision=precision)
+    var_correct_RT_styler = var_correct_RT_table.style.set_caption(_('Correct reaction time variance')).\
+        format(precision=precision)
 
     # 3. Recover diffusion parameters
     original_index = mean_percent_correct_table.index  # to recover index order later
@@ -324,12 +324,14 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     nondecision_time_table = nondecision_time_table.reindex(index=original_index, columns=original_columns)
 
     # Display diffusion parameters
-    result += '\n\n' + _('Drift rate') + drift_rate_table.to_html(bold_rows=False).replace('\n', '')
-    result += '\n\n' + _('Threshold') + threshold_table.to_html(bold_rows=False).replace('\n', '')
-    result += '\n\n' + _('Nondecision time') + nondecision_time_table.to_html(bold_rows=False).replace('\n', '')
-    pd.set_option('display.precision', previous_precision)
+    drift_rate_styler = drift_rate_table.style.set_caption(_('Drift rate')).format(precision=precision)
+    threshold_styler = threshold_table.style.set_caption(_('Threshold')).format(precision=precision)
+    nondecision_time_styler = nondecision_time_table.style.set_caption(_('Nondecision time')).\
+        format(precision=precision)
 
-    return result
+    return [result,
+            n_table_styler, mean_percent_correct_styler, mean_correct_RT_styler, var_correct_RT_styler,
+            drift_rate_styler, threshold_styler, nondecision_time_styler]
 
 
 def safe_var_names(names):  # TODO not used at the moment. maybe could be deleted.
@@ -1169,12 +1171,11 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
-                    # convert pandas Float64 to float
                     pdf_result.loc[_("Cohen's d"), _('Value')] = \
-                        pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                        pingouin.compute_effsize(grouped_data[0], grouped_data[1],
                                                  paired=False, eftype='cohen')
                     pdf_result.loc[_("Eta-squared"), _('Value')] = \
-                        pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                        pingouin.compute_effsize(grouped_data[0], grouped_data[1],
                                                  paired=False, eftype='eta-square')
                 else:
                     standardized_effect_size_result = None
@@ -1204,8 +1205,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                 group_levels = sorted(set(pdf[groups + [dependent_var_name[0]]][groups[0]]))
                 if len(group_levels) == 2:
                     groups, grouped_data = _split_into_groups(pdf, dependent_var_name[0], groups)
-                    # convert pandas Float64 to float
-                    hedges = pingouin.compute_effsize(grouped_data[0].astype(float), grouped_data[1].astype(float),
+                    hedges = pingouin.compute_effsize(grouped_data[0], grouped_data[1],
                                                       paired=False, eftype='hedges')
                     hedges_ci = pingouin.compute_esci(stat=hedges, nx=len(grouped_data[0]), ny=len(grouped_data[0]),
                                                       paired=False, eftype='cohen', confidence=0.95, decimals=3)

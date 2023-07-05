@@ -9,7 +9,7 @@ OPTIONS = {
     'optimize': 2,
     'semi_standalone': 'False',
     'argv_emulation': 'False',
-    'site_packages': 'True',
+    'site_packages': 'False',
     'qt_plugins': ['sqldrivers'],
     'plist': {
         'CFBundleName': APP_NAME,

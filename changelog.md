@@ -1,54 +1,57 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-Upcoming release (2023)
+2.4 beta (21 April 2023)
 =======================
 ## New features
 - Data handling
-  - New data view to see the data together with the results (thanks to Belma Bumin)
-  - Reload actual data file
-  - Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
-  - New demo data files https://learningstatisticswithcogstat.com/ (Róbert Fodor)
+    - New data view to see the data together with the results (thanks to Belma Bumin)
+    - Reload actual data file
+    - Multivariate outlier filtering with Mahalanobis distance (Tamás Szűcs)
+    - New demo data files https://learningstatisticswithcogstat.com/ (Róbert Fodor)
 - Ability to rerun the analyses in the Results pane
 - Multiple linear regression analysis (Tamás Szűcs)
-  - Model fit metrics
-  - Partial correlation
-  - Partial regression plots
-  - Scatterplot matrix of raw data
-  - Analysis of multicollinearity
-  - Hypothesis tests
+    - Model fit metrics
+    - Partial correlation
+    - Partial regression plots
+    - Scatterplot matrix of raw data
+    - Analysis of multicollinearity
+    - Hypothesis tests
 - Reliability analyses (Tamás Szűcs)
-  - Internal consistency reliability analysis
-    - Item-total scatter plots
-    - Cronbach's alpha with and without items and their CIs
-    - Item-rest correlation and their CIs
-  - Interrater reliability analysis
-    - Chart showing scores from different raters
-    - ICC values and their CIs
-    - Assumption checks for inferential statistics
-    - Hypothesis tests whether ICC is 0
+    - Internal consistency reliability analysis
+        - Item-total scatter plots
+        - Cronbach's alpha with and without items and their CIs
+        - Item-rest correlation and their CIs
+    - Interrater reliability analysis
+        - Chart showing scores from different raters
+        - ICC values and their CIs
+        - Assumption checks for inferential statistics
+        - Hypothesis tests whether ICC is 0
 - Displaying groups and factors
-  - In comparing groups, display groups not only on x-axes but also with colors or in panels
-  - In comparing repeated measures variables, display conditions not only on x-axes but also with colors
-    - Rearrange the factors flexibly
-  - For ordinal repeated measures variables, display the rank of the values
+    - In comparing groups, display groups not only on x-axes but also with colors or in panels
+    - In comparing repeated measures variables, display conditions not only on x-axes but also with colors
+        - Rearrange the factors flexibly
+    - For ordinal repeated measures variables, display the rank of the values
 - Comparing variables and groups in mixed design
-  - Raw data
-  - Descriptives and related charts
-  - Parameter estimations and related charts
+    - Raw data
+    - Descriptives and related charts
+    - Parameter estimations and related charts
 - Behavioral data diffusion analysis
-  - The time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
-  - Slow trials are filtered before the analysis is run
-  - Display the number of filtered (missing and slow outlier) trials
-  - Number of included trials per conditions are displayed
+    - The time unit (sec or msec), error coding (1 or 0), and scaling parameter (0.1 or 1) can be set
+    - Slow trials are filtered before the analysis is run
+    - Display the number of filtered (missing and slow outlier) trials
+    - Number of included trials per conditions are displayed
 - Output handling
-  - Save results into html file instead of pdf file (Róbert Fodor)
-  - Ability to use png or svg image formats for charts
+    - Save results into html file instead of pdf file (Róbert Fodor)
+    - Ability to use png or svg image formats for charts
 - Possibility to print detailed Python error messages to results pane 
 - New localization
-  - Chinese (Xiaomeng Zhu)
-  - Malay (Nur Hidayati Miza binti Junaidi)
-  - Arabic (Rahmeh Albursan)
+    - Chinese (Xiaomeng Zhu)
+    - Malay (Nur Hidayati Miza binti Junaidi)
+    - Arabic (Rahmeh Albursan)
+- Python package (features added after v2.4beta)
+    - Pandas DataFrames with MultiIndex columns can be imported
+    - Diffusion analysis results are returned as pandas Stylers
 
 ## Fixes
 - :warning: In outlier filtering, the cases with the limit value will be included and not excluded
@@ -71,7 +74,7 @@ Upcoming release (2023)
     - Confidence intervals for regression parameters
     - Population plot with confidence band of regression line
     - :warning: Henze-Zirkler test for assumption of multivariate normality
-    - :warning: White's test and Koenker's test for assumption of homoscedasticity
+    - White's test and Koenker's test for assumption of homoscedasticity
 - Display the filtered cases when filtering outliers
 - Post hoc Durbin-Conover test after significant Friedman test
 - New localization
@@ -79,6 +82,7 @@ Upcoming release (2023)
 
 
 ## Fixes
+- :warning: Sensitivity power analysis for Chi-squared test now uses the correct df and makes sure to use w as effect size
 - Various GUI, data import, analysis, and output fixes
 - Extended calculation validations (thanks to Dóra Hatvani)
 - Run from source more simply (thanks to Oliver Lindemann)

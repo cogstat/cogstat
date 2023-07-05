@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-14 13:33+0200\n"
+"POT-Creation-Date: 2023-04-21 09:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -346,17 +346,17 @@ msgstr ""
 msgid "Behavioral data diffusion analysis"
 msgstr ""
 
-#: .././cogstat_gui.py:922 .././cogstat.py:1455 .././cogstat.py:1856
+#: .././cogstat_gui.py:922 .././cogstat.py:1455 .././cogstat.py:1871
 #: ../ui/compare_vars.py:86
 msgid "Compare repeated measures variables"
 msgstr ""
 
-#: .././cogstat_gui.py:946 .././cogstat.py:1642 .././cogstat.py:1854
+#: .././cogstat_gui.py:946 .././cogstat.py:1650 .././cogstat.py:1869
 #: ../ui/compare_groups.py:109
 msgid "Compare groups"
 msgstr ""
 
-#: .././cogstat_gui.py:969 .././cogstat.py:1858
+#: .././cogstat_gui.py:969 .././cogstat.py:1873
 #: ../ui/compare_vars_groups.py:111
 msgid "Compare repeated measures variables and groups"
 msgstr ""
@@ -448,7 +448,7 @@ msgstr ""
 
 #: .././cogstat_hyp_test.py:215 .././cogstat_hyp_test.py:762
 #: .././cogstat_hyp_test.py:1168 .././cogstat_hyp_test.py:1292
-#: .././cogstat_hyp_test.py:1309 .././cogstat_hyp_test.py:1460
+#: .././cogstat_hyp_test.py:1309 .././cogstat_hyp_test.py:1468
 #, python-format
 msgid "Minimal effect size in %s"
 msgstr ""
@@ -617,8 +617,8 @@ msgid "Regressor slopes"
 msgstr ""
 
 #: .././cogstat_hyp_test.py:590 .././cogstat.py:897 .././cogstat.py:1316
-#: .././cogstat.py:1606 .././cogstat.py:1804 .././cogstat.py:1809
-#: .././cogstat.py:2051
+#: .././cogstat.py:1609 .././cogstat.py:1814 .././cogstat.py:1819
+#: .././cogstat.py:2066
 msgid "Hypothesis tests"
 msgstr ""
 
@@ -719,7 +719,7 @@ msgstr ""
 #: .././cogstat_hyp_test.py:684 .././cogstat_hyp_test.py:720
 #: .././cogstat_hyp_test.py:729 .././cogstat_hyp_test.py:732
 #: .././cogstat_hyp_test.py:1121 .././cogstat_hyp_test.py:1124
-#: .././cogstat.py:937 .././cogstat.py:2065
+#: .././cogstat.py:937 .././cogstat.py:2080
 msgid "Sorry, not implemented yet."
 msgstr ""
 
@@ -1024,11 +1024,11 @@ msgstr ""
 msgid "Results of Dunn's test (p values)."
 msgstr ""
 
-#: .././cogstat_hyp_test.py:1460
+#: .././cogstat_hyp_test.py:1468
 msgid "w"
 msgstr ""
 
-#: .././cogstat_hyp_test.py:1467
+#: .././cogstat_hyp_test.py:1487
 msgid "Result of the Pearson's chi-squared test: "
 msgstr ""
 
@@ -1051,7 +1051,7 @@ msgid "Mean"
 msgstr ""
 
 #: .././cogstat_stat.py:118 .././cogstat_stat.py:445 .././cogstat_stat.py:546
-#: .././cogstat_stat.py:547 .././cogstat_stat.py:548 .././cogstat.py:1580
+#: .././cogstat_stat.py:547 .././cogstat_stat.py:548 .././cogstat.py:1581
 #: .././cogstat_chart.py:1427 ../ui/pivot.py:172
 msgid "Median"
 msgstr ""
@@ -1087,7 +1087,7 @@ msgstr ""
 msgid "Independent variable(s) - Rows: "
 msgstr ""
 
-#: .././cogstat_stat.py:128 .././cogstat.py:1666 .././cogstat.py:1895
+#: .././cogstat_stat.py:128 .././cogstat.py:1674 .././cogstat.py:1910
 msgid "Dependent variable: "
 msgstr ""
 
@@ -1521,7 +1521,7 @@ msgid "Save result file"
 msgstr ""
 
 #: .././cogstat_dialogs.py:819 .././cogstat_dialogs.py:1109
-#: .././cogstat.py:1480 .././cogstat.py:1883 .././cogstat_chart.py:1755
+#: .././cogstat.py:1480 .././cogstat.py:1898 .././cogstat_chart.py:1755
 msgid "Unnamed factor"
 msgstr ""
 
@@ -1743,26 +1743,26 @@ msgid "Exploring variable: "
 msgstr ""
 
 #: .././cogstat.py:825 .././cogstat.py:983 .././cogstat.py:1036
-#: .././cogstat.py:1161 .././cogstat.py:1510 .././cogstat.py:1681
-#: .././cogstat.py:1926 .././cogstat_chart.py:443
+#: .././cogstat.py:1161 .././cogstat.py:1510 .././cogstat.py:1689
+#: .././cogstat.py:1941 .././cogstat_chart.py:443
 msgid "Raw data"
 msgstr ""
 
 #: .././cogstat.py:829 .././cogstat.py:986 .././cogstat.py:1040
-#: .././cogstat.py:1517 .././cogstat.py:1700 .././cogstat.py:1936
-#: .././cogstat.py:1952
+#: .././cogstat.py:1517 .././cogstat.py:1708 .././cogstat.py:1951
+#: .././cogstat.py:1967
 msgid "N of observed cases"
 msgstr ""
 
 #: .././cogstat.py:831 .././cogstat.py:987 .././cogstat.py:1041
-#: .././cogstat.py:1518 .././cogstat.py:1703 .././cogstat.py:1937
-#: .././cogstat.py:1955
+#: .././cogstat.py:1518 .././cogstat.py:1711 .././cogstat.py:1952
+#: .././cogstat.py:1970
 msgid "N of missing cases"
 msgstr ""
 
 #: .././cogstat.py:839 .././cogstat.py:991 .././cogstat.py:1054
-#: .././cogstat.py:1179 .././cogstat.py:1533 .././cogstat.py:1728
-#: .././cogstat.py:1987
+#: .././cogstat.py:1179 .././cogstat.py:1533 .././cogstat.py:1736
+#: .././cogstat.py:2002
 msgid "Sample properties"
 msgstr ""
 
@@ -1775,8 +1775,8 @@ msgid "Descriptives for the variable"
 msgstr ""
 
 #: .././cogstat.py:868 .././cogstat.py:997 .././cogstat.py:1059
-#: .././cogstat.py:1256 .././cogstat.py:1569 .././cogstat.py:1767
-#: .././cogstat.py:2023
+#: .././cogstat.py:1256 .././cogstat.py:1569 .././cogstat.py:1775
+#: .././cogstat.py:2038
 msgid "Population properties"
 msgstr ""
 
@@ -1785,7 +1785,7 @@ msgid "Normality"
 msgstr ""
 
 #: .././cogstat.py:887 .././cogstat.py:1257 .././cogstat.py:1572
-#: .././cogstat.py:1770 .././cogstat.py:2026
+#: .././cogstat.py:1778 .././cogstat.py:2041
 msgid "Population parameter estimations"
 msgstr ""
 
@@ -1908,9 +1908,9 @@ msgid "Linear regression"
 msgstr ""
 
 #: .././cogstat.py:1214 .././cogstat.py:1219 .././cogstat.py:1304
-#: .././cogstat.py:1310 .././cogstat.py:1552 .././cogstat.py:1603
-#: .././cogstat.py:1747 .././cogstat.py:1798 .././cogstat.py:2020
-#: .././cogstat.py:2048
+#: .././cogstat.py:1310 .././cogstat.py:1552 .././cogstat.py:1606
+#: .././cogstat.py:1755 .././cogstat.py:1808 .././cogstat.py:2035
+#: .././cogstat.py:2063
 msgid "Standardized effect sizes"
 msgstr ""
 
@@ -1934,11 +1934,11 @@ msgstr ""
 msgid "Regression coefficients"
 msgstr ""
 
-#: .././cogstat.py:1368 .././cogstat.py:1648
+#: .././cogstat.py:1368 .././cogstat.py:1656
 msgid "The dependent variable should be set"
 msgstr ""
 
-#: .././cogstat.py:1371 .././cogstat.py:1651
+#: .././cogstat.py:1371 .././cogstat.py:1659
 msgid "At least one grouping variable should be set"
 msgstr ""
 
@@ -1958,11 +1958,11 @@ msgstr ""
 msgid "A variable should be assigned to each level of the factors."
 msgstr ""
 
-#: .././cogstat.py:1469 .././cogstat.py:1872 .././cogstat.py:1897
+#: .././cogstat.py:1469 .././cogstat.py:1887 .././cogstat.py:1912
 msgid "Variables to compare: "
 msgstr ""
 
-#: .././cogstat.py:1471 .././cogstat.py:1874
+#: .././cogstat.py:1471 .././cogstat.py:1889
 msgid ""
 "Sorry, you can't compare variables with different measurement levels. You "
 "could downgrade higher measurement levels to lowers to have the same "
@@ -1973,48 +1973,48 @@ msgstr ""
 msgid "Variables to compare"
 msgstr ""
 
-#: .././cogstat.py:1488 .././cogstat.py:1899
+#: .././cogstat.py:1488 .././cogstat.py:1914
 msgid "Factor(s) (number of levels)"
 msgstr ""
 
-#: .././cogstat.py:1497 .././cogstat.py:1908
+#: .././cogstat.py:1497 .././cogstat.py:1923
 msgid "Factor level combinations and assigned variables"
 msgstr ""
 
-#: .././cogstat.py:1536 .././cogstat.py:1989
+#: .././cogstat.py:1536 .././cogstat.py:2004
 msgid "Descriptives for the variables"
 msgstr ""
 
-#: .././cogstat.py:1574 .././cogstat.py:1785
+#: .././cogstat.py:1574 .././cogstat.py:1793
 msgid "Means"
 msgstr ""
 
-#: .././cogstat.py:1574 .././cogstat.py:1785
+#: .././cogstat.py:1574 .././cogstat.py:1793
 msgid "Present confidence interval values suppose normality."
 msgstr ""
 
-#: .././cogstat.py:1667 .././cogstat.py:1912
+#: .././cogstat.py:1675 .././cogstat.py:1927
 msgid "Grouping variable(s)"
 msgstr ""
 
-#: .././cogstat.py:1714 .././cogstat.py:1967
+#: .././cogstat.py:1722 .././cogstat.py:1982
 #, python-format
 msgid "N of missing grouping variable in %s"
 msgstr ""
 
-#: .././cogstat.py:1731
+#: .././cogstat.py:1739
 msgid "Descriptives for the groups"
 msgstr ""
 
-#: .././cogstat.py:1787 .././cogstat_chart.py:1728
+#: .././cogstat.py:1795 .././cogstat_chart.py:1728
 msgid "Medians"
 msgstr ""
 
-#: .././cogstat.py:1864
+#: .././cogstat.py:1879
 msgid "At least one dependent variable should be set"
 msgstr ""
 
-#: .././cogstat.py:1867
+#: .././cogstat.py:1882
 msgid "A variable should be assigned to each level of the factors"
 msgstr ""
 
@@ -2514,7 +2514,7 @@ msgid "Only interval variables are available"
 msgstr ""
 
 #: ../ui/filter_outlier.py:88
-msgid "&Multivariate outliers"
+msgid "&Multivariate outliers filtering"
 msgstr ""
 
 #: ../ui/compare_groups_single_case_slope.py:84
