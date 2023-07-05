@@ -820,7 +820,11 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
     # Calculate effect sizes for sample or population
     if sample:
         pdf_result_corr = pd.DataFrame()
-        standardized_effect_size_result += '\n<i>R<sup>2</sup></i> = %0.3f\n' % result.rsquared
+        pdf_result_model = pd.DataFrame(columns=['Value'])
+        pdf_result_model.loc[_('<i>R<sup>2</sup></i>')] = ['%0.3f' % result.rsquared]
+        pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % result.llf]
+        pdf_result_model.loc[_('AIC')] = ['%0.3f' % result.aic]
+        pdf_result_model.loc[_('BIC')] = ['%0.3f' % result.bic]
     else:  # population
         pdf_result_model = pd.DataFrame(columns=[_('Point estimate'), _('95% confidence interval')])
         pdf_result_corr = pd.DataFrame(columns=[_('Point estimate'), _('95% confidence interval')])
@@ -829,13 +833,9 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
         pdf_result_model.loc[_('Adjusted') + ' <i>R<sup>2</sup></i>'] = \
             ['%0.3f' % result.rsquared_adj, '[%0.3f, %0.3f]' % (ci[0], ci[1])]
 
-        pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % result.llf, '']
-        pdf_result_model.loc[_('AIC')] = ['%0.3f' % result.aic, '']
-        pdf_result_model.loc[_('BIC')] = ['%0.3f' % result.bic, '']
-        standardized_effect_size_result += pdf_result_model.to_html(bold_rows=False,escape=False).replace('\n', '') + \
-                                           '\n'
 
-    standardized_effect_size_result += '\n' + _("Pearson's partial correlations")
+    standardized_effect_size_result += pdf_result_model.to_html(bold_rows=False,escape=False).replace('\n', '') + '\n'
+    standardized_effect_size_result += '\n' + _("Pearson's partial correlations with %s") % predicted
 
     for predictor in predictors:
         predictors_other = predictors.copy()

@@ -105,6 +105,8 @@ def stddev_ci(stddev, n, confidence=0.95):
 
 def calc_r2_ci(r2, k, n, alpha=0.95):
     """Calculate confidence interval of R-squared estimate.
+    # TODO is it correct to use this for adjusted R-squared?
+    # TODO formula is undefined when R-squared is negative. Is this okay?
 
     Parameters
     ----------
@@ -133,7 +135,7 @@ def calc_r2_ci(r2, k, n, alpha=0.95):
     list
     """
 
-    numerator = 4 * r2 * ((1 - r2) ** 2) * ((n - k - 1) **2 )
+    numerator = 4 * r2 * ((1 - r2) ** 2) * ((n - k - 1) ** 2)
     denominator = ((n ** 2) - 1) * (3 + n)
     se_r2 = (numerator/denominator) ** 0.5
 

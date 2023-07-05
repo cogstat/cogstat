@@ -23,13 +23,14 @@ OPTIONS = {
         'NSRequiresAquaSystemAppearance': 'YES',
         "LSApplicationCategoryType": 'public.app-category.education',
         "NSPrincipalClass": 'NSApplication',
-        "NSHighResolutionCapable": True,
-        'NSAppleScriptEnabled': False,
-    },
-    'packages': ['pyreadstat', 'pandas_flavor', 
-                'appdirs', 'xlrd', 'pyreadr', 
-                'configobj', 'ipython_genutils', 
-                'odf', 'bidi', 'seaborn'],
+        "NSHighResolutionCapable": 'True',
+    }
+    , 'packages': ['numpy', 'scipy', 'matplotlib',
+                        'pandas', 'pandas_flavor', 'statsmodels',
+                        'pyreadstat',  'xlrd', 'openpyxl', 'pyreadr',
+                        'configobj',  'chardet', 'IPython', 'Jupyter',
+                        'pingouin', 'python-bidi', 'odfpy', 'scikit-posthocs',
+                        ]
 }
 
 setup(
