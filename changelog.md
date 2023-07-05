@@ -11,11 +11,19 @@ Trivial changes when a new feature is added are not denoted.
     - New demo data files https://learningstatisticswithcogstat.com/ (Róbert Fodor)
 - Ability to rerun the analyses in the Results pane
 - Multiple linear regression analysis (Tamás Szűcs)
-    - Model fit metrics
-    - Partial correlation
-    - Partial regression plots
     - Scatterplot matrix of raw data
-    - Analysis of multicollinearity
+    - Linear regression function
+    - Scatterplot with regression line (feature added after v2.4beta)
+    - Partial regression plots
+       - With regression lines (feature added after v2.4beta)
+    - Model fit metrics
+    - Partial correlations
+    - Residual plot and histogram of residuals (feature added after v2.4beta)
+    - Assumptions of inferential statistics
+      - Multivariate normality
+      - Homoscedasticity
+      - Analysis of multicollinearity
+    - Population parameter point and interval estimations (including standardized effect sizes)
     - Hypothesis tests
 - Reliability analyses (Tamás Szűcs)
     - Internal consistency reliability analysis
