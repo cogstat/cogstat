@@ -951,8 +951,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def add_group(self):
-        if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
-            _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+        _add_to_list_widget(self.source_listWidget, self.group_listWidget)
     def remove_group(self):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 

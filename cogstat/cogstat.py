@@ -1752,14 +1752,16 @@ class CogStatData:
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
                                                                        level_combinations, ylims=ylims)
-            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+            sample_result_new, *sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                               dep_names=[var_name],
                                                                               indep_x=display_groups[0],
                                                                               indep_color=display_groups[1],
                                                                               indep_panel=display_groups[2],
                                                                               ylims=ylims,
                                                                               raw_data=True,
-                                                                              box_plots=True)
+                                                                              box_plots=True,
+                                                                              descriptives_table=True,
+                                                                              statistics=statistics[meas_level])
         else:
             sample_graph = None
             sample_graph_new = None
@@ -1773,13 +1775,14 @@ class CogStatData:
         group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, grouping_variables)
         population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, grouping_variables,
                                                                            level_combinations, ylims=ylims)
-        population_estimation, *population_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
-                                                                              dep_names=[var_name],
-                                                                              indep_x=display_groups[0],
-                                                                              indep_color=display_groups[1],
-                                                                              indep_panel=display_groups[2],
-                                                                              estimations=True, ylims=ylims,
-                                                                              estimation_table=True)
+        population_estimation, *population_graph_new = cs_chart.\
+            create_repeated_measures_groups_chart(data, meas_level,
+                                                  dep_names=[var_name],
+                                                  indep_x=display_groups[0],
+                                                  indep_color=display_groups[1],
+                                                  indep_panel=display_groups[2],
+                                                  estimations=True, ylims=ylims,
+                                                  estimation_table=True)
 
         if meas_level in ['int', 'unk', 'ord']:
             if meas_level in ['int', 'unk']:
@@ -1814,6 +1817,7 @@ class CogStatData:
 
         if csc.test_functions:
             return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
+                                           sample_result_new,
                                            sample_graph, sample_graph_new, population_result, population_estimation,
                                            population_effect_size, population_graph, population_graph_new, result_ht])
         else:
