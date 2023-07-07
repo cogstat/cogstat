@@ -37,7 +37,7 @@ _ = t.gettext
 
 warn_unknown_variable = '<cs_warning>'+_('The properties of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                        % 'https://doc.cogstat.org/Handling-data' \
                         + '\n</cs_warning>'  # TODO maybe this shouldn't be repeated, it's enough to show it at import
 
 non_data_dim_precision = 2

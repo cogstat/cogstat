@@ -363,7 +363,7 @@ Trivial changes when a new feature is added are not denoted.
 1.3.0 (4 September 2015)
 ===============
 ## New features
-- IPython Notebook integration - see https://github.com/cogstat/cogstat/wiki/IPython-Notebook
+- IPython Notebook integration - see https://doc.cogstat.org/IPython-Notebook
     - All CogStat functions are available in IPython Notebook
     - Import pandas data frame (only in IP NB mode)
 - Filtering based on single variable outlier (only in IP NB mode at the moment)

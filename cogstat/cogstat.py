@@ -46,7 +46,7 @@ pd.options.display.html.border = 0
 warn_unknown_variable = '<cs_warning><b>' + _('Measurement level warning') + '</b> ' + \
                         _('The measurement levels of the variables are not set. Set them in your data source.') \
                         + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                        % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                        % 'https://doc.cogstat.org/Handling-data' \
                         + '</cs_warning>'
                         # TODO it might not be necessary to repeat this warning in the analyses, use only at import?
 
@@ -280,7 +280,7 @@ class CogStatData:
                                 + '<i>' + ', '.join('%s' % var_name for var_name in invalid_var_names) + \
                                 '</i>. ' + _('You can fix this issue in your data source.') \
                                 + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                % 'https://doc.cogstat.org/Handling-data' \
                                 + '</cs_warning>'
 
             # Warn when any measurement levels are not set
@@ -289,7 +289,7 @@ class CogStatData:
                                        _('The measurement level was not set for all variables.') + ' '\
                                        + _('You can fix this issue in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                       % 'https://doc.cogstat.org/Handling-data' \
                                        + '</cs_warning>'
         # end of set_measurement_level()
 
@@ -324,7 +324,7 @@ class CogStatData:
                     '%s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '</i>')\
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                       % 'https://doc.cogstat.org/Handling-data' \
                                        + '</cs_warning>'
             if non_ascii_vars:
                 warning_text += '\n<cs_warning><b>' + _('Recommended characters in data values warning') + \
@@ -335,7 +335,7 @@ class CogStatData:
                                           '</i>')\
                                        + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
                                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                       % 'https://github.com/cogstat/cogstat/wiki/Handling-data' \
+                                       % 'https://doc.cogstat.org/Handling-data' \
                                        + '</cs_warning>'
 
         self.import_message = ''
