@@ -821,7 +821,7 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
     if sample:
         pdf_result_corr = pd.DataFrame()
         pdf_result_model = pd.DataFrame(columns=['Value'])
-        pdf_result_model.loc[_('<i>R<sup>2</sup></i>')] = ['%0.3f' % result.rsquared]
+        pdf_result_model.loc[('<i>R<sup>2</sup></i>')] = ['%0.3f' % result.rsquared]
         pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % result.llf]
         pdf_result_model.loc[_('AIC')] = ['%0.3f' % result.aic]
         pdf_result_model.loc[_('BIC')] = ['%0.3f' % result.bic]

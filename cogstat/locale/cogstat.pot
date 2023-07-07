@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-07 13:33+0200\n"
+"POT-Creation-Date: 2023-07-07 13:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1333,10 +1333,6 @@ msgstr ""
 msgid "CIs may be biased."
 msgstr ""
 
-#: .././cogstat_stat.py:824
-msgid "<i>R<sup>2</sup></i>"
-msgstr ""
-
 #: .././cogstat_stat.py:825
 msgid "Log-likelihood"
 msgstr ""
@@ -2146,7 +2142,7 @@ msgid "Sample scatterplots with model fitted lines"
 msgstr ""
 
 #: .././cogstat_chart.py:1011 .././cogstat_chart.py:1012
-msgid " residuals"
+msgid "residuals"
 msgstr ""
 
 #: .././cogstat_chart.py:1063

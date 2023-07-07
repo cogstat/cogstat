@@ -1008,8 +1008,8 @@ def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
 
         if partial:
             ax.plot(x_i, fitted_x_i, color=theme_colors[0])  # Partial regression line
-            ax.set_xlabel(predictor + _plt(' residuals'))
-            ax.set_ylabel(predicted + _plt(' residuals'))
+            ax.set_xlabel(predictor + ' ' + _plt('residuals'))
+            ax.set_ylabel(predicted + ' ' + _plt('residuals'))
         else:
             x_vals = np.array(ax.get_xlim())
             y_vals = params[0] + params[predictor] * x_vals
