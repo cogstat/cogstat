@@ -24,6 +24,7 @@ import statsmodels.api as sm
 from . import cogstat_config as csc
 from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
+from . import cogstat_stat_num as cs_stat_num
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
@@ -1569,9 +1570,16 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         long_stat_data = pd.concat([means, cis], axis=1, keys=['means', 'cis'], names=['cogstat statistics'])
     elif dep_meas_level == 'ord':
         medians = long_raw_data.pivot_table(values=dep_name,
-                                            index=(indep_names if indep_names else dep_name),
+                                            index=(indep_names if indep_names else 'all_raw_rows'),
                                             aggfunc=np.median)  # sort=False - in pandas 1.3
-        long_stat_data = pd.concat([medians], axis=1, keys=['medians'], names=['cogstat statistics'])
+        cis_low = long_raw_data.pivot_table(values=dep_name,
+                                        index=(indep_names if indep_names else 'all_raw_rows'),
+                                        aggfunc=lambda x: cs_stat_num.quantile_ci(x)[0])
+        cis_high = long_raw_data.pivot_table(values=dep_name,
+                                        index=(indep_names if indep_names else 'all_raw_rows'),
+                                        aggfunc=lambda x: cs_stat_num.quantile_ci(x)[1])
+        long_stat_data = pd.concat([medians, cis_low, cis_high], axis=1, keys=['medians', 'cis_low', 'cis_high'],
+                                   names=['cogstat statistics'])
     elif dep_meas_level == 'nom':
         pass  # TODO
         return ([pd.DataFrame()] if estimation_table else []) + [None]
@@ -1604,21 +1612,18 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
     # Create estimations table
     # For interval variables: mean, and 95% CI ranges
-    # For ordinal variables: median
+    # For ordinal variables: median and 95% CI ranges
     if estimation_table:
-        if dep_meas_level in ['int', 'unk']:
-            estimation_table_df = pd.concat([long_stat_data['means'],
-                                             long_stat_data['means'] - long_stat_data['cis'],
-                                             long_stat_data['means'] + long_stat_data['cis']],
-                                            axis=1)
+        if dep_meas_level in ['int', 'unk', 'ord']:
+            if dep_meas_level == 'ord':
+                estimation_table_df = pd.concat([long_stat_data['medians'], long_stat_data['cis_low'],
+                                                 long_stat_data['cis_high']], axis=1)
+            else:
+                estimation_table_df = pd.concat([long_stat_data['means'],
+                                                 long_stat_data['means'] - long_stat_data['cis'],
+                                                 long_stat_data['means'] + long_stat_data['cis']],
+                                                axis=1)
             estimation_table_df.columns = [_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')]
-            estimation_table_df.index = estimation_table_df.index.droplevel('all_stat_rows')
-            prec = cs_util.precision(long_raw_data[dep_name]) + 1
-            estimation_table_styler = estimation_table_df.style.format('{:.%sf}' % prec)
-        elif dep_meas_level == 'ord':
-            # TODO CI
-            estimation_table_df = pd.DataFrame(long_stat_data['medians'])
-            estimation_table_df.columns = [_('Point estimation')]
             estimation_table_df.index = estimation_table_df.index.droplevel('all_stat_rows')
             prec = cs_util.precision(long_raw_data[dep_name]) + 1
             estimation_table_styler = estimation_table_df.style.format('{:.%sf}' % prec)

@@ -548,7 +548,7 @@ def variable_estimation(data, statistics=None):
             pdf_result.loc[_('Median'), _('Point estimation')] = np.median(data)
             pdf_result.loc[_('Median'), _('95% confidence interval (low)')], \
             pdf_result.loc[_('Median'), _('95% confidence interval (high)')] = \
-                cs_stat_num.quantile_ci(pd.DataFrame(data))
+                cs_stat_num.quantile_ci(data)
     pdf_result = pdf_result.fillna(_('Out of the data range'))
     prec = cs_util.precision(data) + 1
     population_param_text += pdf_result.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x)).\
