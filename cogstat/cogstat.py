@@ -1513,7 +1513,7 @@ class CogStatData:
         # Plot the individual raw data
         raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=True,
                                                                    ylims=ylims)
-        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
+        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i + 1) for i in range(factor[1])] for factor in factors],
                                                                                   names=[factor[0] for factor in factors]))
         raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                                        dep_names=var_names,
@@ -1548,13 +1548,15 @@ class CogStatData:
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
-            sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+            sample_result_new, *sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                                               dep_names=var_names,
                                                                               factor_info=factor_info,
                                                                               indep_x=display_factors[0],
                                                                               indep_color=display_factors[1],
-                                                                              ylims=ylims, raw_data=True, box_plots=True)
+                                                                              ylims=ylims, raw_data=True, box_plots=True,
+                                                                              descriptives_table=True, statistics=statistics[meas_level])
         else:
+            sample_result_new = None
             sample_graph = None
             sample_graph_new = None
 
@@ -1603,7 +1605,7 @@ class CogStatData:
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
         if csc.test_functions:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result, sample_result_new,
                                            sample_graph, sample_graph_new, population_result, population_estimation,
                                            population_effect_size, population_graph, population_graph_new, result_ht])
         else:
@@ -1980,7 +1982,7 @@ class CogStatData:
 
         factor_info = pd.DataFrame([var_names],
                                    columns=pd.MultiIndex.from_product(
-                                       [['%s %s' % (factor[0], i) for i in range(factor[1])] for factor in factors],
+                                       [['%s %s' % (factor[0], i + 1) for i in range(factor[1])] for factor in factors],
                                        names=[factor[0] for factor in factors]))
 
         #print('cs.py first call:', var_names, factors, grouping_variables, display_factors)

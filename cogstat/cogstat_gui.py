@@ -524,10 +524,19 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     #print('SVG svgutils size', sys.getsizeof(html_img))
                 pane.append(html_img)
             elif isinstance(output, pd.io.formats.style.Styler):
-                # make row headers left aligned
-                # headers use None formatter resulting in a format used in DataFrame.to_html() for floats
+                # Styler may have pipe_func attribute, which should be a function, which will be run right before
+                # converting the Styler to html
+                if hasattr(output, 'pipe_func'):
+                    pipe_func = output.pipe_func
+                else:
+                    pipe_func = lambda x: x
+                # 1. make row headers left aligned
+                # 2. headers use None formatter resulting in a format used in DataFrame.to_html() for floats
+                # 3. call pipe_func if availabe
+                # 4. convert to html, and remove \n-s
                 pane.append(output.set_table_styles([{'selector': 'th.row_heading', 'props': 'text-align: left;'}]).
                             format_index(formatter='{}', axis=0).format_index(formatter='{}', axis=1).
+                            pipe(pipe_func).
                             to_html().replace('\n', ''))
             elif output is None:
                 pass  # We don't do anything with None-s
