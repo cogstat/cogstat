@@ -504,7 +504,7 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         # Prepare the frequencies for the plot
         val_count = data.value_counts()
         if max(val_count) > 1:
-            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+            plt.suptitle(_plt('Largest tick on the x-axis displays %d cases') % max(val_count) + '.',
                          x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         val_count = (val_count * (max(freq) / max(val_count))) / 20.0
 
@@ -578,7 +578,7 @@ def create_normality_chart(pdf, var_name):
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
     n, bins, patches = plt.hist(data.values, density=True, color=theme_colors[0])
     if max(val_count) > 1:
-        plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+        plt.suptitle(_plt('Largest tick on the x-axis displays %d cases') % max(val_count) + '.',
                      x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     val_count = (val_count * (max(n) / max(val_count))) / 20.0
 
@@ -708,7 +708,7 @@ def create_residual_chart(data, meas_lev, predictors, y):
                 res_df = pd.DataFrame(np.array([data[predictors[i]], residuals]).T)
                 val_count = _value_count(res_df, global_max_freq)
                 if global_max_freq > 1:
-                    plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+                    plt.suptitle(_plt('Largest tick on the x-axis displays %d cases') % max(val_count) + '.',
                                  x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
                 # Residual plot (scatter of x vs. residuals)
