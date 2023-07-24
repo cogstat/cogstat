@@ -1548,13 +1548,15 @@ class CogStatData:
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
             sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
-            sample_result_new, *sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+            sample_result_new, *sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data,
+                                                                              dep_meas_level=meas_level,
                                                                               dep_names=var_names,
                                                                               factor_info=factor_info,
                                                                               indep_x=display_factors[0],
                                                                               indep_color=display_factors[1],
                                                                               ylims=ylims, raw_data=True, box_plots=True,
-                                                                              descriptives_table=True, statistics=statistics[meas_level])
+                                                                              descriptives_table=True,
+                                                                              statistics=statistics[meas_level])
         else:
             sample_result_new = None
             sample_graph = None
@@ -1605,11 +1607,12 @@ class CogStatData:
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
         if csc.test_functions:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result, sample_result_new,
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new,
+                                           sample_result, sample_result_new,
                                            sample_graph, sample_graph_new, population_result, population_estimation,
                                            population_effect_size, population_graph, population_graph_new, result_ht])
         else:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result,
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result_new,
                                            sample_graph_new, population_result, population_estimation,
                                            population_effect_size, population_graph_new, result_ht])
 
@@ -1767,6 +1770,7 @@ class CogStatData:
         else:
             sample_graph = None
             sample_graph_new = None
+            sample_result_new = None
 
         # 3. Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
@@ -1823,12 +1827,12 @@ class CogStatData:
                                            sample_graph, sample_graph_new, population_result, population_estimation,
                                            population_effect_size, population_graph, population_graph_new, result_ht])
         else:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result,
+            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result_new,
                                            sample_graph_new, population_result, population_estimation,
                                            population_effect_size, population_graph_new, result_ht])
 
     def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
-                          single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+                                 single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
         """ Compare mixed-design (repeated measures and groups) data.
 
         Parameters
@@ -1888,6 +1892,8 @@ class CogStatData:
             title += _("Sorry, you can't compare variables with different measurement levels."
                        " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
                      + '\n'
+        if meas_levels == 'nom':
+            title += _('Sorry, not implemented yet.')
         if not preconditions:
             return cs_util.convert_output([title])
 

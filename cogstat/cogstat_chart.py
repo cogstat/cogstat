@@ -1377,7 +1377,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     Parameters
     ----------
     data : pandas DataFrame that include the table with all the relevant data
-    dep_meas_level : str
+    dep_meas_level : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the dependent variable
     dep_names : list of str
         Name(s) of the dependent variable(s). If there are more than one variable, set factor_info too.
@@ -1450,11 +1450,10 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     tables can be displayed if cs_config.test_functions is set to True.
     """
 
-    # TODO charts for nominal variables
+    # TODO nominal variable
     # TODO what if only the tables are needed?
     # TODO should we drop missing data? Or is it the job of the caller? Either the missing data should be dropped or
     #  it should be checked if there are missing data
-    # TODO nominal
 
     # 0. Check parameter constraints and find dependent and independent variables
     if (raw_data + box_plots + descriptives + estimations) == 0:
@@ -1492,6 +1491,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     # Currently, at least one independent variable should be given
     if len(within_indep_names + between_indep_names) == 0:
         raise RuntimeError('At least one independent variable should be used')
+    # Currently, nominal variables are not handled yet
+    if dep_meas_level == 'nom':
+        raise RuntimeError('Nominal variable handling is not implemented yet')
 
     # Available statistics
     # Used for descriptives tables
@@ -1670,10 +1672,11 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
     if raw_data:
         # Find most frequent value when data are split by all independent variable levels.
-        #  The max_freq_global stores the maximum frequency of a value in the whole analysis (note that this could be
-        #  smaller in some panels or other subgroups).
-        #  Global is used to set the size of the signs, so that they are comparable across panels. Panel version (see
-        #  below) is used for the notes to add to charts.
+        # TODO this is needed only for interval and ordinal (but not nominal) variables
+        # The max_freq_global stores the maximum frequency of a value in the whole analysis (note that maximum
+        #   frequency could be smaller in some panels or other subgroups).
+        # Global is used to set the size of the signs, so that they are comparable across panels. Panel version (see
+        # below) is used for the notes to add to charts.
         # This is relevant only when there are multiple panels.
         if indep_names:  # there are independent variables
             max_freq_global = max([max(long_raw_data_subset[1][dep_name].value_counts(), default=0) for
@@ -1681,17 +1684,23 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
             # default=0 parameter is needed when a group level combination does not include any cases
         else:  # single variable
             max_freq_global = max(long_raw_data[dep_name].value_counts())
-        if raw_data and (set(indep_x) - set(between_indep_names)):  # all x-axes independent variables are repeated
-                                                                    # measures TODO fix this
+        if raw_data and (set(indep_x) - set(between_indep_names)):  # at least one x-axes independent variable
+                                                                    #  is repeated measures
             # This is used for a mixed design, when different panels are groups.
-            # TODO This works only if all indep_x is repeated measures
+            # Repeated measures factors in indep_x
+            within_indep_x = list(set(indep_x) - set(between_indep_names))
+            between_indep_x = list(set(indep_x) - set(within_indep_x))
             # TODO this could be faster with loops (saving time for repeated pivot())?
-            max_freq_global_connec = max([max(long_raw_data_subset[1].pivot(columns=indep_x, values=dep_name).iloc[:, [c_i, c_i + 1]].value_counts(), default=0)
+            max_freq_global_connec = max([max(long_raw_data_subset[1].
+                                              pivot(columns=within_indep_x, values=dep_name).
+                                              iloc[:, [column_i, column_i + 1]].value_counts(), default=0)
                                           for long_raw_data_subset
-                                          in long_raw_data.groupby(by=indep_panel + indep_color if indep_panel + indep_color else 'all_raw_rows')
-                                          for c_i
-                                          in range(len(long_raw_data_subset[1].pivot(columns=indep_x, values=dep_name).columns) - 1)
-                                          ])
+                                          in long_raw_data.groupby(by=indep_panel + indep_color + between_indep_x if
+                                                                   indep_panel + indep_color + between_indep_x
+                                                                   else 'all_raw_rows')
+                                          for column_i
+                                          in range(len(long_raw_data_subset[1].
+                                                       pivot(columns=within_indep_x, values=dep_name).columns) - 1)])
 
     # A. Panels level
     # (1) Create new dataframe for all separate panels (technically, panels are charts) and (2) add title
@@ -1735,19 +1744,22 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 #  connected.
                 # TODO connect color conditions too; within a single x value, the neighboring colors could be connected;
                 #  this would change max_freq_global_connec;
-                # TODO handle mixed design when not all indep_color are repeated measures factors
-                if raw_data and (set(indep_x) - set(between_indep_names)):  # at least one x-axes independent variable is repeated-measure
+                if raw_data and (set(indep_x) - set(between_indep_names)):  # at least one x-axes independent variable
+                                                                            #  is repeated measures
                     # Find the value among all variables with the largest frequency
                     data_con = color_raw_group.pivot(columns=indep_x, values=dep_name).sort_index(axis=1)
                     # max_freq_panel_connec is the specific maximum frequency for the connected items per panel
                     max_freq_panel_connec = 1
                     individual_line_color = cs_util.change_color(theme_colors[i], saturation=0.4, brightness=1.3)
-                    for c_i in range(len(data_con.columns) - 1):  # for all x level pairs
-                        xy_set_freq = _value_count(data_con.iloc[:, [c_i, c_i + 1]], max_freq=max_freq_global_connec)
+                    for column_i in range(len(data_con.columns) - 1):  # for all x level pairs
+                        xy_set_freq = _value_count(data_con.iloc[:, [column_i, column_i + 1]],
+                                                   max_freq=max_freq_global_connec)
                         for index, value in xy_set_freq.items():
-                            plt.plot([c_i + 1 + i/(color_n+1), c_i + 2 + i/(color_n+1)], [index[0], index[1]],
+                            plt.plot([column_i + 1 + i/(color_n+1), column_i + 2 + i/(color_n+1)], [index[0], index[1]],
                                      '-', color=individual_line_color, lw=value, solid_capstyle='round', zorder=0)
-                        max_freq_panel_connec = max(max_freq_panel_connec, max(xy_set_freq.values, default=0))
+                        max_freq_panel_connec = max(max_freq_panel_connec,
+                                                    max(data_con.iloc[:, [column_i, column_i + 1]].value_counts().values,
+                                                        default=0))
                     if max_freq_panel_connec > 1:
                         suptitle_text_line = _plt('Thickest line displays %d cases.') % max_freq_panel_connec + ' '
 
@@ -1848,7 +1860,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 # Find the appropriate names for the factor level combinations
                 var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
                 # Add the original variable names (var_names) to the xtick_labels
-                xtick_labels = [xtick_label + ('(' + var_name + ')', ) for xtick_label, var_name in zip(xtick_labels, var_names)]
+                xtick_labels = [(xtick_label + ('(' + var_name + ')', )) if isinstance(xtick_label, tuple)  # else str
+                                else (xtick_label + ' (' + var_name + ')')
+                                for xtick_label, var_name in zip(xtick_labels, var_names)]
             xtick_labels_formatted = [(' : '.join(map(str, group_level)) if isinstance(group_level, tuple)
                                        else group_level) for group_level in xtick_labels]
             plt.xticks(np.arange(len(xtick_labels)) + 1 + ((color_n - 1) / 2 / (color_n + 1)),
