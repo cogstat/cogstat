@@ -254,55 +254,56 @@ class CogStatTestCase(unittest.TestCase):
 
         # Sample effect sizes
         # R2: Jamovi 2.2.5 R2 = 0.156, lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3 R2 = 0.1564
-        self.assertTrue('<i>R<sup>2</sup></i> = 0.156' in result[5])
+        self.assertTrue('<i>R<sup>2</sup></i></td>      <td>0.156' in result[6])
         # Partial pearson correlations: Jamovi 2.2.5
-        self.assertTrue('<td>r</td>      <td><i>r</i> = -0.330</td>' in result[5])  # r = -0.330
-        self.assertTrue('<td>s</td>      <td><i>r</i> = 0.357</td>' in result[5])  # r = 0.357
-        self.assertTrue('<td>g</td>      <td><i>r</i> = 0.187</td>' in result[5])  # r = 0.187
+        self.assertTrue('<td>r</td>      <td><i>r</i> = -0.330</td>' in result[6])  # r = -0.330
+        self.assertTrue('<td>s</td>      <td><i>r</i> = 0.357</td>' in result[6])  # r = 0.357
+        self.assertTrue('<td>g</td>      <td><i>r</i> = 0.187</td>' in result[6])  # r = 0.187
+        # Standardized effect size
+        self.assertTrue('<td>Log-likelihood</td>      <td>-95.332</td>' in result[6])  # logLik(model) in stats 4.1.3 in R: -95.33197 (df=5)
+        self.assertTrue('<td>AIC</td>      <td>198.664</td>' in result[6])  # Jamovi 2.2.5 AIC = 201
+        self.assertTrue('<td>BIC</td>      <td>204.269</td>' in result[6])  # Jamovi 2.2.5 BIC = 208
         # Population properties
         # Assumption tests
         # Multivariate normality: MVN 5.9 using R 4.1.3 statistic 1.079154 p 0.002746894
-        self.assertTrue('<i>W</i> = 1.08, <i>p</i> = .003' in result[7])
+        self.assertTrue('<i>W</i> = 1.08, <i>p</i> = .003' in result[10])
         # Homoscedasticity
         # Koenker's test: bptest(h ~ g + s + r, data=data, studentize=TRUE) in skedastic 1.0.4 using R 4.1.3,
         # BP = 2.8965, df = 3, p-value = 0.4079
-        self.assertTrue('<i>LM</i> = 2.90, <i>p</i> = .408' in result[7])
+        self.assertTrue('<i>LM</i> = 2.90, <i>p</i> = .408' in result[10])
         # White's test: white_lm(model, interactions=TRUE, statonly = FALSE) in skedastic 1.0.4 using R 4.1.3,
         # statistic 7.71 p-value 0.564
-        self.assertTrue('<i>LM</i> = 7.71, <i>p</i> = .564' in result[7])
+        self.assertTrue('<i>LM</i> = 7.71, <i>p</i> = .564' in result[10])
         # Multicollinearity
         # VIFs: Jamovi 2.2.5 VIF(r) = 16.43, VIF(s) = 16.11, VIF(g) = 1.10
-        self.assertTrue('<td>const</td>      <td>5.608</td>' in result[7])
-        self.assertTrue('<td>r</td>      <td>16.434</td>' in result[7])
-        self.assertTrue('<td>s</td>      <td>16.113</td>' in result[7])
-        self.assertTrue('<td>g</td>      <td>1.104</td>' in result[7])
+        self.assertTrue('<td>const</td>      <td>5.608</td>' in result[10])
+        self.assertTrue('<td>r</td>      <td>16.434</td>' in result[10])
+        self.assertTrue('<td>s</td>      <td>16.113</td>' in result[10])
+        self.assertTrue('<td>g</td>      <td>1.104</td>' in result[10])
         # Beta weights when regressing r on all other regressors Jamovi 2.2.5
-        self.assertTrue('<td>const</td>      <td>-0.058</td>' in result[7])  # Intercept: -0.0581
-        self.assertTrue('<td>s</td>      <td>0.045</td>' in result[7])  # s: 0.0453
-        self.assertTrue('<td>g</td>      <td>0.051</td>' in result[7])  # g: 0.0512
+        self.assertTrue('<td>const</td>      <td>-0.058</td>' in result[10])  # Intercept: -0.0581
+        self.assertTrue('<td>s</td>      <td>0.045</td>' in result[10])  # s: 0.0453
+        self.assertTrue('<td>g</td>      <td>0.051</td>' in result[10])  # g: 0.0512
         # Beta weights when regressing s on all other regressors Jamovi 2.2.5
-        self.assertTrue('<td>const</td>      <td>6.275</td>' in result[7])  # Intercept: 6.275
-        self.assertTrue('<td>r</td>      <td>20.599</td>' in result[7])  # r: 20.599
-        self.assertTrue('<td>g</td>      <td>-0.634</td>' in result[7])  # g: -0.634
+        self.assertTrue('<td>const</td>      <td>6.275</td>' in result[10])  # Intercept: 6.275
+        self.assertTrue('<td>r</td>      <td>20.599</td>' in result[10])  # r: 20.599
+        self.assertTrue('<td>g</td>      <td>-0.634</td>' in result[10])  # g: -0.634
         # Correlation matrix of predictors: Jamovi 2.2.5
         # 1.000     0.968       0.292
         # 0.968     1.000       0.259
         # 0.292     0.259       1.000
-        self.assertTrue('<td>r</td>      <td>1.000</td>      <td>0.968</td>      <td>0.292</td>' in result[7])
-        self.assertTrue('<td>s</td>      <td>0.968</td>      <td>1.000</td>      <td>0.259</td>' in result[7])
-        self.assertTrue('<td>g</td>      <td>0.292</td>      <td>0.259</td>      <td>1.000</td>' in result[7])
+        self.assertTrue('<td>r</td>      <td>1.000</td>      <td>0.968</td>      <td>0.292</td>' in result[10])
+        self.assertTrue('<td>s</td>      <td>0.968</td>      <td>1.000</td>      <td>0.259</td>' in result[10])
+        self.assertTrue('<td>g</td>      <td>0.292</td>      <td>0.259</td>      <td>1.000</td>' in result[10])
         # Regression model parameters: lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3, CIs from gamlj 2.6.1 in Jamovi 2.2.5
         # Intercept = 3.40612 [-2.13583, 8.948], r = -2.32205 [-4.99767, 0.354], s = 0.11901 [-0.00649, 0.245], g = 0.37823 [-0.42342, 1.180]
-        self.assertTrue('<td>Intercept</td>      <td>3.406</td>      <td>[-2.136, 8.948]</td>' in result[9])
-        self.assertTrue('<td>Slope for r</td>      <td>-2.322</td>      <td>[-4.998, 0.354]</td>' in result[9])
-        self.assertTrue('<td>Slope for s</td>      <td>0.119</td>      <td>[-0.006, 0.245]</td>' in result[9])
-        self.assertTrue('<td>Slope for g</td>      <td>0.378</td>      <td>[-0.423, 1.180]</td>' in result[9])
+        self.assertTrue('<td>Intercept</td>      <td>3.406</td>      <td>[-2.136, 8.948]</td>' in result[12])
+        self.assertTrue('<td>Slope for r</td>      <td>-2.322</td>      <td>[-4.998, 0.354]</td>' in result[12])
+        self.assertTrue('<td>Slope for s</td>      <td>0.119</td>      <td>[-0.006, 0.245]</td>' in result[12])
+        self.assertTrue('<td>Slope for g</td>      <td>0.378</td>      <td>[-0.423, 1.180]</td>' in result[12])
         # Standardized effect size estimates
         # Model metrics: lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3, Adjusted r2 = 0.05906
-        self.assertTrue('<td>Adjusted <i>R<sup>2</sup></i></td>      <td>0.059</td>      <td>[-0.083, 0.201]</td>' in result[10])
-        self.assertTrue('<td>Log-likelihood</td>      <td>-95.332</td>' in result[10])  # logLik(model) in stats 4.1.3 in R: -95.33197 (df=5)
-        self.assertTrue('<td>AIC</td>      <td>198.664</td>' in result[10])  # Jamovi 2.2.5 AIC = 201
-        self.assertTrue('<td>BIC</td>      <td>204.269</td>' in result[10])  # Jamovi 2.2.5 BIC = 208
+        self.assertTrue('<td>Adjusted <i>R<sup>2</sup></i></td>      <td>0.059</td>      <td>[-0.083, 0.201]</td>' in result[13])
         # Partial correlations TODO validate CIs
         # Point estimates: Jamovi 2.2.5, CIs: cor.test() in stats 4.1.3 in R 4.1.3 run on residuals from respective tests
         # e.g. for partial correlation of r and h: cor.test(resid(lm(h ~ s + g, data)), resid(lm(r ~ s + g, data)))
@@ -310,18 +311,18 @@ class CogStatTestCase(unittest.TestCase):
         # pingouin changed the calculation in 0.4.0, and uses the R ppcor package's method
           # https://pingouin-stats.org/build/html/changelog.html#v0-4-0-august-2021
         # pingouin 0.3.8: <td>-0.330</td>      <td>[-0.620, 0.030]</td>  # r = -0.330 [-0.6171, 0.0341]
-        self.assertTrue('<td>r, <i>r</i></td>      <td>-0.330</td>      <td>[-0.630, 0.050]</td>' in result[10])
+        self.assertTrue('<td>r, <i>r</i></td>      <td>-0.330</td>      <td>[-0.630, 0.050]</td>' in result[13])
         # pingouin 0.3.8: <td>0.357</td>      <td>[-0.000, 0.640]</td>  # r = 0.357 [-0.00365, 0.63559]
-        self.assertTrue('<td>s, <i>r</i></td>      <td>0.357</td>      <td>[-0.020, 0.640]</td>' in result[10])
+        self.assertTrue('<td>s, <i>r</i></td>      <td>0.357</td>      <td>[-0.020, 0.640]</td>' in result[13])
         # pingouin 0.3.8: <td>0.187</td>      <td>[-0.190, 0.510]</td>  # r = 0.187 [-0.186. 0.513]
-        self.assertTrue('<td>g, <i>r</i></td>      <td>0.187</td>      <td>[-0.200, 0.520]</td>' in result[10])
+        self.assertTrue('<td>g, <i>r</i></td>      <td>0.187</td>      <td>[-0.200, 0.520]</td>' in result[13])
         # Hypothesis tests
         # lm(h ~ g + s + r) in lmtest 0.9-40 using R 4.1.3, F-statistic: 1.607, DFs: 3 and 26,  p-value: 0.2119
-        self.assertTrue('Model F-test: <i>F</i>(3,26) = 1.61, <i>p</i> = .212' in result[11])
+        self.assertTrue('Model F-test: <i>F</i>(3,26) = 1.61, <i>p</i> = .212' in result[14])
         # Jamovi 2.2.5:
-        self.assertTrue('r: <i>t</i>(26) = -1.78, <i>p</i> = .086' in result[11])  # t = -1.784 p = 0.086
-        self.assertTrue('s: <i>t</i>(26) = 1.95, <i>p</i> = .062' in result[11])  # t = 1.949 p = 0.062
-        self.assertTrue('g: <i>t</i>(26) = 0.97, <i>p</i> = .341' in result[11])  # t = 0.970 p = 0.341
+        self.assertTrue('r: <i>t</i>(26) = -1.78, <i>p</i> = .086' in result[14])  # t = -1.784 p = 0.086
+        self.assertTrue('s: <i>t</i>(26) = 1.95, <i>p</i> = .062' in result[14])  # t = 1.949 p = 0.062
+        self.assertTrue('g: <i>t</i>(26) = 0.97, <i>p</i> = .341' in result[14])  # t = 0.970 p = 0.341
 
 
         # Ord variables
@@ -378,12 +379,12 @@ class CogStatTestCase(unittest.TestCase):
             # Based on the formula, calculated in LO Calc 6.4: 0.030004573510063
             # jamovi v1.2.19.0: 0.0202; formula: https://github.com/jamovi/jmv/blob/master/R/ttestps.b.R#L54-L66
             # jasp 0.16.1   0.020 TODO With more decimals 0.02017
-        self.assertTrue("<td>Cohen's d</td>      <td>0.030</td>" in result[4])
+        self.assertTrue("<td>Cohen's d</td>      <td>0.030</td>" in result[5])
         # eta-squared
             # CS formula: https://pingouin-stats.org/generated/pingouin.convert_effsize.html
             # Based on the formula, calculated in LO Calc 6.4: 0.0002250179634
             # jamovi v1.2.19.0: 0.000
-        self.assertTrue('<td>Eta-squared</td>      <td>0.000</td>' in result[4])
+        self.assertTrue('<td>Eta-squared</td>      <td>0.000</td>' in result[5])
         # Sample means
             # jamovi 2.0.0.0 3.14, 3.05
             # jasp 0.16.1   3.144, 3.050
@@ -394,33 +395,33 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the latter (CI) method has changed in v0.3.5 https://pingouin-stats.org/changelog.html
             # Based on the formula, calculated in LO Calc 7.0: 0.029614903724218, -0.34445335392457, 0.403683161373007
             # Note that the last value is 0.404 in LO, not .403 as in pingouin TODO
-        self.assertTrue("<td>Hedges' g</td>      <td>0.030</td>      <td>-0.344</td>      <td>0.403</td>" in result[8])
+        self.assertTrue("<td>Hedges' g</td>      <td>0.030</td>      <td>-0.344</td>      <td>0.403</td>" in result[9])
             # jamovi 2.0.0.0 0.954 0.215
             # jasp 0.16.1   0.954   0.215
-        self.assertTrue('<i>W</i> = 0.95, <i>p</i> = .215' in result[10])  # <i>W</i> = 0.954
+        self.assertTrue('<i>W</i> = 0.95, <i>p</i> = .215' in result[11])  # <i>W</i> = 0.954
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681
-        self.assertTrue('effect size in d: 0.68' in result[10])
+        self.assertTrue('effect size in d: 0.68' in result[11])
         # Paired samples t-test
             # jamovi v1.2.19.0: t, df, p: 0.110, 29.0, 0.913
             # jasp 0.16.1   t:0.110, df:29, p:0.913
-        self.assertTrue('<i>t</i>(29) = 0.11, <i>p</i> = .913' in result[10])
+        self.assertTrue('<i>t</i>(29) = 0.11, <i>p</i> = .913' in result[11])
         # Bayesian paired samples t-test
             # JASP 0.16 BF10: 0.196, BF01: 5.115
-        self.assertTrue('BF<sub>10</sub> = 0.20, BF<sub>01</sub> = 5.11' in result[10])
+        self.assertTrue('BF<sub>10</sub> = 0.20, BF<sub>01</sub> = 5.11' in result[11])
 
         # 2 Int variables - non-normal
         result = data.compare_variables(['e', 'f'])
             # jamovi 2.0.0.0 0.915, 0.019
             # jasp 0.16.1   W:0.915 p:0.019     with more decimals W:0.91451
-        self.assertTrue('<i>W</i> = 0.91, <i>p</i> = .019' in result[10])  # <i>W</i> = 0.915
+        self.assertTrue('<i>W</i> = 0.91, <i>p</i> = .019' in result[11])  # <i>W</i> = 0.915
         # Wilcoxon signed-rank test
             # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision)
             # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
             # jasp 0.16.1   110, 0.011
         #print(result[7])
-        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result[10])
+        self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result[11])
 
         # 3 Int variables
         result = data.compare_variables(['a', 'e', 'g'])
@@ -524,17 +525,17 @@ class CogStatTestCase(unittest.TestCase):
              # JASP 0.15.0.0    0, 4, 9, 13
              # JASP 0.15.0.0    1, 9, 8, 17
              # jasp 0.16.1      4, 9, 13; 9, 8, 17
-        self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>      <td>13</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[3])  # TODO more cells
+        self.assertTrue('<td>0.0</td>      <td>4</td>      <td>9</td>      <td>13</td>    </tr>    <tr>      <td>1.0</td>      <td>9</td>' in result[4])  # TODO more cells
         # McNemar
             # jamovi 2.0.0.0 0.00, 1.000 TODO https://github.com/cogstat/cogstat/issues/55
-        self.assertTrue('&chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.06, <i>p</i> = .814' in result[5])  # &chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.0556
+        self.assertTrue('&chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.06, <i>p</i> = .814' in result[6])  # &chi;<sup>2</sup>(1, <i>N</i> = 30) = 0.0556
 
         # 3 Nom variables
         result = data.compare_variables(['i', 'j', 'k'])
         # Cochran's Q
             # TODO validate
             # not available in JASP and jamovi?
-        self.assertTrue('<i>Q</i>(2, <i>N</i> = 30) = 0.78, <i>p</i> = .676' in result[5])  # <i>Q</i>(2, <i>N</i> = 30) = 0.783
+        self.assertTrue('<i>Q</i>(2, <i>N</i> = 30) = 0.78, <i>p</i> = .676' in result[8])  # <i>Q</i>(2, <i>N</i> = 30) = 0.783
 
     def test_compare_groups(self):
         """Test compare groups"""
@@ -652,20 +653,20 @@ class CogStatTestCase(unittest.TestCase):
         # Cramer's V
             # jamovi 2.0.0.0 0.222 # This is without continuity correction
             # jasp 0.16.1   0.222 TODO
-        self.assertTrue('&phi;<i><sub>c</sub></i> = 0.154' in result[3])
+        self.assertTrue('&phi;<i><sub>c</sub></i> = 0.154' in result[4])
             # jamovi 2.0.0.0 continuity corection 0.710, 0.399
             # jasp 0.16.1   0.710, 0.399
-        self.assertTrue('&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.71, <i>p</i> = .399' in result[5])  # &chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.710
+        self.assertTrue('&chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.71, <i>p</i> = .399' in result[6])  # &chi;<sup>2</sup></i>(1, <i>N</i> = 30) = 0.710
 
         # 3 Nom groups
         result = data.compare_groups('i', ['c'])
             # jamovi 2.0.0.0 0.00899
             # jasp 0.16.1 0.009
-        self.assertTrue('&phi;<i><sub>c</sub></i> = 0.009' in result[3])
+        self.assertTrue('&phi;<i><sub>c</sub></i> = 0.009' in result[4])
         # Chi-squared test
             # jamovi 2.0.0.0 0.00242, 0.999
             # jasp 0.16.1   0.002, 0.999
-        self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.00, <i>p</i> = .999' in result[5])  # TODO validate  # &chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002
+        self.assertTrue('&chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.00, <i>p</i> = .999' in result[6])  # TODO validate  # &chi;<sup>2</sup></i>(2, <i>N</i> = 30) = 0.002
 
         # 3 × 3 Int groups
         result = data.compare_groups('a', ['c', 'd'])

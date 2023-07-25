@@ -1460,7 +1460,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     #  it should be checked if there are missing data
 
     # 0. Check parameter constraints and find dependent and independent variables
-    if (raw_data + box_plots + descriptives + estimations) == 0:
+    # Check if at least one chart or table is asked for
+    if (raw_data + box_plots + descriptives + estimations + descriptives_table + estimation_table) == 0:
         return None
     # Check if dep_names and factor_info are coherent. It is assumed that factor_info includes information about all
     # dep_names if dep_names includes more than 1 variable
@@ -1855,7 +1856,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
             xtick_labels = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).groups.keys()
             # If all repeated measures factors are included, then display the variable names too, and not only the
             # factor levels
-            if all(within_indep_name in indep_x for within_indep_name in within_indep_names):
+            if all(within_indep_name in indep_x for within_indep_name in within_indep_names) and within_indep_names:
                 # Select the repeated measures independent factors in the order specified in indep_x
                 within_indep_x = [indep_x_item for indep_x_item in indep_x if indep_x_item in within_indep_names]
                 # Select the factor level combinations that include within-subject variables
