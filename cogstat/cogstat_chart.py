@@ -5,6 +5,8 @@ This module contains functions for creating charts.
 Functions get the raw data (as pandas dataframe or as pandas series), and the variable name(s). Optionally, use further
 necessary parameters, but try to solve everything inside the chart to minimize the number of needed additional
 parameters. The functions return one or several graphs.
+
+One exception is the create_repeated_measures_groups_chart function that returns pandas DataFrame too.
 """
 
 import gettext
@@ -1362,7 +1364,7 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
 
 def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, factor_info=None,
                                           indep_x=None, indep_color=None, indep_panel=None,
-                                          ylims=[None, None],
+                                          ylims=[None, None], show_factor_names_on_x_axis=True,
                                           raw_data=False, box_plots=False, descriptives=False, estimations=False,
                                           descriptives_table=False, estimation_table=False, statistics=None):
     """Create repeated measures and group data charts. Return related results in numerical format, too.
@@ -1395,6 +1397,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         Independent variables to be displayed on different panels. Only grouping variables can be used here.
     ylims : list of two floats
         Minimum and maximum values of the y-axes
+    show_factor_names_on_x_axis : bool
+        Should the factor names and original variable names shown on x-axis, or only the original names
     raw_data : bool
         Should the raw data chart displayed?
     box_plots : bool
@@ -1859,10 +1863,14 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 factor_level_combinations.sort_index(axis='columns', level=within_indep_names, inplace=True)
                 # Find the appropriate names for the factor level combinations
                 var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
-                # Add the original variable names (var_names) to the xtick_labels
-                xtick_labels = [(xtick_label + ('(' + var_name + ')', )) if isinstance(xtick_label, tuple)  # else str
-                                else (xtick_label + ' (' + var_name + ')')
-                                for xtick_label, var_name in zip(xtick_labels, var_names)]
+                if show_factor_names_on_x_axis:
+                    # Add the original variable names (var_names) to the xtick_labels
+                    xtick_labels = [(xtick_label + ('(' + var_name + ')', )) if isinstance(xtick_label, tuple)  # else str
+                                    else (xtick_label + ' (' + var_name + ')')
+                                    for xtick_label, var_name in zip(xtick_labels, var_names)]
+                else:
+                    # Show only the original variable names on xtick_labels
+                    xtick_labels = [var_name for xtick_label, var_name in zip(xtick_labels, var_names)]
             xtick_labels_formatted = [(' : '.join(map(str, group_level)) if isinstance(group_level, tuple)
                                        else group_level) for group_level in xtick_labels]
             plt.xticks(np.arange(len(xtick_labels)) + 1 + ((color_n - 1) / 2 / (color_n + 1)),

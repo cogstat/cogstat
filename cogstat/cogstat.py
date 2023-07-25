@@ -1047,6 +1047,15 @@ class CogStatData:
 
         raw_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
                                                                   raw_data_only=True, ylims=ylims)
+        factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s' % var_name for var_name in
+                                                                                     var_names]], names=['']))
+        raw_plot_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level='int',
+                                                                      dep_names=var_names,
+                                                                      factor_info=factor_info,
+                                                                      show_factor_names_on_x_axis=False,
+                                                                      indep_x=[''],
+                                                                      raw_data=True,
+                                                                      ylims=ylims)
 
         # Analysis
         data_copy = data.reset_index()
@@ -1059,6 +1068,13 @@ class CogStatData:
         sample_title = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         sample_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
                                                                      raw_data_only=False, ylims=ylims)
+        sample_plot_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level='int',
+                                                                      dep_names=var_names,
+                                                                      factor_info=factor_info,
+                                                                      show_factor_names_on_x_axis=False,
+                                                                      indep_x=[''],
+                                                                      raw_data=True, box_plots=True,
+                                                                      ylims=ylims)
 
         # Population properties
         population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
@@ -1091,9 +1107,14 @@ class CogStatData:
 
         hypothesis_tests = cs_hyp_test.reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p)
 
-        return cs_util.convert_output([title, raw_title, raw_plot, sample_title, sample_plot,
-                                       sample_result_table, population_result, warnings, population_result_table,
-                                       hypothesis_tests])
+        if csc.test_functions:
+            return cs_util.convert_output([title, raw_title, raw_plot, raw_plot_new, sample_title,
+                                           sample_plot, sample_plot_new, sample_result_table, population_result,
+                                           warnings, population_result_table, hypothesis_tests])
+        else:
+            return cs_util.convert_output([title, raw_title, raw_plot_new, sample_title,
+                                           sample_plot_new, sample_result_table, population_result,
+                                           warnings, population_result_table, hypothesis_tests])
 
 
     def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
