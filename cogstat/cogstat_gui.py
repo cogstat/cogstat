@@ -456,7 +456,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
-    def _print_to_pane(self, pane=None, output_list=None):
+    def _print_to_pane(self, pane=None, output_list=None, scroll_to_analysis=True):
         """Print a GuiResultPackage to the output or data pane.
 
         The pane should have a pane.welcome_message_on property.
@@ -467,6 +467,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             The pane the message should be printed to.
         output_list : list of str (html) or matplotlib figure or pandas dataframe styler
             Flat list of items to display
+        scroll_to_analysis : bool
+            Should the pane scroll to the beginning of the analysis?
 
         Returns
         -------
@@ -543,7 +545,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
-        pane.scrollToAnchor(anchor)
+        if scroll_to_analysis:
+            pane.scrollToAnchor(anchor)
         plt.close('all')  # free memory after everything is displayed
         #pane.moveCursor(QtGui.QTextCursor.End)
 
@@ -587,7 +590,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.table_view.setColumnHidden(model.columnCount() - 1, True)
             self.table_view.show()
 
-    def _run_analysis(self, title, function_name, parameters=None):
+    def _run_analysis(self, title, function_name, parameters=None, scroll_to_analysis=True):
         """Run an analysis by calling the function with the parameters.
         If it fails, provide an error message with the title as heading.
 
@@ -599,6 +602,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             Name of the function or method that implements the analysis
         parameters : dict
             Optional parameters
+        scroll_to_analysis : bool
+            Should the pane scroll to the beginning of the analysis?
 
         Returns
         -------
@@ -642,7 +647,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self._display_data(reset=True)
             traceback.print_exc()
             successful_run = False
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output)
+        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output,
+                            scroll_to_analysis=scroll_to_analysis)
         self._busy_signal(False)
         return successful_run
 
@@ -794,9 +800,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
             else:
                 return
-        for var_name in var_names:
+        for i, var_name in enumerate(var_names):
             self._run_analysis(title=_('Explore variable'), function_name='self.active_data.explore_variable',
-                               parameters={'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value})
+                               parameters={'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value},
+                               scroll_to_analysis=not i)
 
     def explore_variable_pair(self, var_names=None, xlims=[None, None], ylims=[None, None]):
         """Explore variable pairs.
@@ -822,13 +829,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         if len(var_names) < 2:
             var_names = (var_names + [None, None])[:2]  # regression() method handles the missing variables
+        scroll_to_analysis = True
         for x in var_names:
             pass_diag = False
             for y in var_names:
                 if pass_diag:
                     self._run_analysis(title=_('Explore relation of variable pair'),
                                        function_name='self.active_data.regression',
-                                       parameters={'predictors': [x], 'predicted': y, 'xlims': xlims, 'ylims': ylims})
+                                       parameters={'predictors': [x], 'predicted': y, 'xlims': xlims, 'ylims': ylims},
+                                       scroll_to_analysis=scroll_to_analysis)
+                    scroll_to_analysis = False
                 if x == y:
                     pass_diag = True
             if x is None:  # with [None, None] var_names regression() is called only once
@@ -954,12 +964,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     var_names = [None]  # compare_groups() method handles the missing parameters
             else:
                 return
-        for var_name in var_names:
+        for i, var_name in enumerate(var_names):
             self._run_analysis(title=_('Compare groups'), function_name='self.active_data.compare_groups',
                                parameters={'var_name': var_name, 'grouping_variables': groups,
                                            'display_groups': display_groups,
                                            'single_case_slope_SE': single_case_slope_SE,
-                                           'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
+                                           'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims},
+                               scroll_to_analysis=not i)
 
     def compare_variables_groups(self, var_names=None, groups=None, factors=None, display_factors=None,
                                  single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
