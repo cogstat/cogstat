@@ -548,7 +548,7 @@ def variable_estimation(data, statistics=None):
             pdf_result.loc[_('Median'), _('Point estimation')] = np.median(data)
             pdf_result.loc[_('Median'), _('95% confidence interval (low)')], \
             pdf_result.loc[_('Median'), _('95% confidence interval (high)')] = \
-                cs_stat_num.quantile_ci(pd.DataFrame(data))
+                cs_stat_num.quantile_ci(data)
     pdf_result = pdf_result.fillna(_('Out of the data range'))
     prec = cs_util.precision(data) + 1
     population_param_text += pdf_result.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x)).\
@@ -821,7 +821,7 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
     if sample:
         pdf_result_corr = pd.DataFrame()
         pdf_result_model = pd.DataFrame(columns=['Value'])
-        pdf_result_model.loc[_('<i>R<sup>2</sup></i>')] = ['%0.3f' % result.rsquared]
+        pdf_result_model.loc[('<i>R<sup>2</sup></i>')] = ['%0.3f' % result.rsquared]
         pdf_result_model.loc[_('Log-likelihood')] = ['%0.3f' % result.llf]
         pdf_result_model.loc[_('AIC')] = ['%0.3f' % result.aic]
         pdf_result_model.loc[_('BIC')] = ['%0.3f' % result.bic]

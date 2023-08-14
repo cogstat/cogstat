@@ -951,8 +951,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def add_group(self):
-        if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
-            _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+        _add_to_list_widget(self.source_listWidget, self.group_listWidget)
     def remove_group(self):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
@@ -971,6 +970,48 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())],
                 self.displayfactors,
                 self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims)
+
+
+from .ui import display_options_mixed
+class display_options_mixed_dialog(QtWidgets.QDialog, display_options_mixed.Ui_Dialog):
+    def __init__(self, parent=None):
+        QtWidgets.QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.doubleClicked.connect(self.remove_color)
+        self.factor_panel_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.factor_panel_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_panel_listWidget.doubleClicked.connect(self.remove_panel)
+        self.add_color_button.clicked.connect(self.add_color)
+        self.remove_color_button.clicked.connect(self.remove_color)
+        self.add_panel_button.clicked.connect(self.add_panel)
+        self.remove_panel_button.clicked.connect(self.remove_panel)
+
+    def set_factors(self, factors=None):
+        self.factors = factors
+        _prepare_list_widgets(self.factor_x_listWidget, self.factors, [self.factor_color_listWidget, self.factor_panel_listWidget])
+    def add_color(self):
+        _add_to_list_widget(self.factor_x_listWidget, self.factor_color_listWidget)
+    def remove_color(self):
+        _remove_item_from_list_widget(self.factor_x_listWidget, self.factor_color_listWidget, self.factors)
+    def add_panel(self):
+        _add_to_list_widget(self.factor_x_listWidget, self.factor_panel_listWidget)
+    def remove_panel(self):
+        _remove_item_from_list_widget(self.factor_x_listWidget, self.factor_panel_listWidget, self.factors)
+    def read_parameters(self):
+        return ([[str(self.factor_x_listWidget.item(i).text()) for i in range(self.factor_x_listWidget.count())] if
+                self.factor_x_listWidget.count() else [],
+                [str(self.factor_color_listWidget.item(i).text()) for i in range(self.factor_color_listWidget.count())] if
+                self.factor_color_listWidget.count() else [],
+                [str(self.factor_panel_listWidget.item(i).text()) for i in range(self.factor_panel_listWidget.count())] if
+                self.factor_panel_listWidget.count() else []],
+                [_float_or_none(self.minimum_y.text()), _float_or_none(self.maximum_y.text())])
 
 
 from .ui import compare_vars_groups
@@ -1000,7 +1041,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
         self.slope_dialog = compare_groups_single_case_slope_dialog(self)
         self.factors_dialog = factors_dialog(self)
-        self.display_options_groups_dialog = display_options_groups_dialog(self)
+        self.display_options_mixed_dialog = display_options_mixed_dialog(self)
         self.factors = []
         self.displayfactors = [[], []]
         self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
@@ -1074,11 +1115,11 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                 self.show_factors()
                 # modify self.displayfactors too because the user possibly changed the factors without changing the
                 #  display options (where self.displayfactors are set)
-                self.display_options_groups_dialog. \
+                self.display_options_mixed_dialog. \
                     set_factors(factors=[str(self.group_listWidget.item(i).text())
                                          for i in range(self.group_listWidget.count())] +
                                         [factor[0] for factor in self.factors])
-                self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
+                self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
             else:  # remove the factor levels if there is no explicit factor level
                 previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
@@ -1109,12 +1150,12 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             self.factors = [[_('Unnamed factor'), self.selected_listWidget.count()]]
             restore_factors = True  # if Display option is cancelled, then remove Unnamed factor
             default_factor_added = True
-        self.display_options_groups_dialog.\
+        self.display_options_mixed_dialog.\
             set_factors(factors=[str(self.group_listWidget.item(i).text())
                                  for i in range(self.group_listWidget.count())] +
                                 [factor[0] for factor in self.factors])
-        if self.display_options_groups_dialog.exec_():
-            self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
+        if self.display_options_mixed_dialog.exec_():
+            self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
             self.show_factors()
         else:  # if Display option is cancelled, then remove Unnamed factor
             if default_factor_added:  # do not remove Unnamed factor if dialog is Cancelled but factor was added

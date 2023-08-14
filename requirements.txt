@@ -1,10 +1,10 @@
 numpy
 scipy >=1.9
 matplotlib >=1.5.0, !=2.0.1, !=2.0.2, !=3.6.*
-pandas >=1.4.0
+pandas >=1.5.0
 statsmodels >=0.13.0
-pingouin >=0.3.8
-scikit-posthocs
+pingouin >=0.3.12
+scikit-posthocs >= 0.7.0
 pyreadstat
 odfpy
 xlrd

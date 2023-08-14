@@ -5,6 +5,8 @@ This module contains functions for creating charts.
 Functions get the raw data (as pandas dataframe or as pandas series), and the variable name(s). Optionally, use further
 necessary parameters, but try to solve everything inside the chart to minimize the number of needed additional
 parameters. The functions return one or several graphs.
+
+One exception is the create_repeated_measures_groups_chart function that returns pandas DataFrame too.
 """
 
 import gettext
@@ -24,6 +26,7 @@ import statsmodels.api as sm
 from . import cogstat_config as csc
 from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
+from . import cogstat_stat_num as cs_stat_num
 
 matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
@@ -503,7 +506,7 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         # Prepare the frequencies for the plot
         val_count = data.value_counts()
         if max(val_count) > 1:
-            plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+            plt.suptitle(_plt('Largest tick on the x-axis displays %d cases') % max(val_count) + '.',
                          x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
         val_count = (val_count * (max(freq) / max(val_count))) / 20.0
 
@@ -577,7 +580,7 @@ def create_normality_chart(pdf, var_name):
     plt.figure()  # Otherwise the next plt.hist will modify the actual (previously created) graph
     n, bins, patches = plt.hist(data.values, density=True, color=theme_colors[0])
     if max(val_count) > 1:
-        plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+        plt.suptitle(_plt('Largest tick on the x-axis displays %d cases') % max(val_count) + '.',
                      x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
     val_count = (val_count * (max(n) / max(val_count))) / 20.0
 
@@ -707,7 +710,7 @@ def create_residual_chart(data, meas_lev, predictors, y):
                 res_df = pd.DataFrame(np.array([data[predictors[i]], residuals]).T)
                 val_count = _value_count(res_df, global_max_freq)
                 if global_max_freq > 1:
-                    plt.suptitle(_plt('Largest tick on the x-axes displays %d cases') % max(val_count) + '.',
+                    plt.suptitle(_plt('Largest tick on the x-axis displays %d cases') % max(val_count) + '.',
                                  x=0.9, y=0.025, horizontalalignment='right', fontsize=10)
 
                 # Residual plot (scatter of x vs. residuals)
@@ -1008,8 +1011,8 @@ def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
 
         if partial:
             ax.plot(x_i, fitted_x_i, color=theme_colors[0])  # Partial regression line
-            ax.set_xlabel(predictor + _plt(' residuals'))
-            ax.set_ylabel(predicted + _plt(' residuals'))
+            ax.set_xlabel(predictor + ' ' + _plt('residuals'))
+            ax.set_ylabel(predicted + ' ' + _plt('residuals'))
         else:
             x_vals = np.array(ax.get_xlim())
             y_vals = params[0] + params[predictor] * x_vals
@@ -1361,28 +1364,31 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
 
 def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, factor_info=None,
                                           indep_x=None, indep_color=None, indep_panel=None,
-                                          ylims=[None, None],
+                                          ylims=[None, None], show_factor_names_on_x_axis=True,
                                           raw_data=False, box_plots=False, descriptives=False, estimations=False,
                                           descriptives_table=False, estimation_table=False, statistics=None):
-    """Function to create repeated measures and group data charts. Return related results in numerical format, too.
+    """Create repeated measures and group data charts. Return related results in numerical format, too.
 
-    Overall, when calling the function, provide the dataframe (data), the dependent variables (in dep_names; and
-    optionally in factor_info if there are repeated measures factors), the (optional) independent variables specific
-    to the display methods (either grouping names or factors in factor_info or both or none), and the information
-    that should be displayed (raw_data, box_plots, etc.)
+    Overall, when calling the function, provide
+    - the dataframe (data),
+    - the dependent variables (in dep_names; and optionally in factor_info, if there are repeated measures factors),
+    - the (optional) independent variables that are specific to the display methods (either grouping names or factors
+    in factor_info or both or none) (all independent variables should be given in indep_x, indep_color, or indep_panel),
+    - and the information that should be displayed (raw_data, box_plots, etc.)
 
     Parameters
     ----------
-    data : pandas DataFrame that include the table with all the data
-    dep_meas_level : str
+    data : pandas DataFrame that include the table with all the relevant data
+    dep_meas_level : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the dependent variable
     dep_names : list of str
-        Name(s) of the dependent variable(s)
+        Name(s) of the dependent variable(s). If there are more than one variable, set factor_info too.
     factor_info : multiindex pandas DataFrame
         Repeated measures design info
-        Use this if there are multiple variables in dep_names.
+        Use this if there are multiple variables in dep_names. factor_info should information about all dep_names.
         Indexes are the names of the levels, and values are the names of the variables (i.e., indexes include the
-        repeated measures independent factors and their level names).
+        repeated measures independent factors (name of the indexes) and their level names (index levels)).
+        Add all factors to either indep_x, indep_color, or indep_panel.
     indep_x : list of str
         Independent variables to be displayed on the x-axes
     indep_color : list of str
@@ -1391,14 +1397,16 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         Independent variables to be displayed on different panels. Only grouping variables can be used here.
     ylims : list of two floats
         Minimum and maximum values of the y-axes
+    show_factor_names_on_x_axis : bool
+        Should the factor names and original variable names shown on x-axis, or only the original names
     raw_data : bool
-        Should the raw data displayed?
+        Should the raw data chart displayed?
     box_plots : bool
-        Should box plots displayed?
+        Should box plots chart displayed?
     descriptives : bool
-        Should the descriptives displayed?
+        Should the descriptives chart displayed?
     estimations : bool
-        Should the parameter estimations displayed?
+        Should the parameter estimations chart displayed?
     descriptives_table : bool
         Should we add a table of the descriptives?
     estimation_table : bool
@@ -1421,14 +1429,15 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     variables shouldn't be changed, but only the repeated measures within-subject variables.
 
     The function should handle all of these cases technically: TODO check these ones more systematically
-    - no independent variables, only between, only within, mixed
+    - no independent variables (TODO not implemented yet), between-subject, within-subject, and mixed designs
     - any of the independent variables have one or more levels
-    - missing cells for multiple factors for some factor level combinations
+    - missing cells for multiple factors/groups for some factor level combinations
     - in any independent variables display dimensions (panel, color, x) there could be 0, 1, or multiple factors/groups
     
     In the descriptive or estimation tables, the arrangement follows the display dimensions in the sense that 
-    multiindex follows the panel, color, x order. On the other hand, we don't follow strictly the charts (e.g., separate
-    tables for separate panels) because that leads to hard to read/review tables.
+    multiindex follows the panel, x, color order (panel is the top, color is the bottom in columns/heading). 
+    On the other hand, we don't follow strictly the charts in the sense that separate tables are not used for separate 
+    panels, because that leads to hard to read/review tables.
     
     Handling tables in this module is not an entirely coherent solution, however, it makes maintaining the code more
     reasonable.
@@ -1442,42 +1451,57 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     specified, then the ordering parts should be adjusted.
     
     TODO For the testing period (until the beta/RC), both this function's and the older parallel functions' charts and 
-    tables will be displayed.
+    tables can be displayed if cs_config.test_functions is set to True.
     """
 
-    # 0. Check parameter constraints and find dependent and independent variables
-
-    # TODO charts for nominal variables
-
+    # TODO nominal variable
     # TODO what if only the tables are needed?
-    if (raw_data + box_plots + descriptives + estimations) == 0:
-        return None
+    # TODO should we drop missing data? Or is it the job of the caller? Either the missing data should be dropped or
+    #  it should be checked if there are missing data
 
-    # Check if dep_names and factor_info are coherent
-    if factor_info is not None:
+    # 0. Check parameter constraints and find dependent and independent variables
+    # Check if at least one chart or table is asked for
+    if (raw_data + box_plots + descriptives + estimations + descriptives_table + estimation_table) == 0:
+        return None
+    # Check if dep_names and factor_info are coherent. It is assumed that factor_info includes information about all
+    # dep_names if dep_names includes more than 1 variable
+    if len(dep_names) > 1:
         if sorted(dep_names) != sorted(factor_info.values[0]):
             raise RuntimeError('The variables in dep_names and factor_info do not match')
-
-    # Independent variable(s)
+    # Independent variable(s) for displaying/calculating the results
     if indep_x is None:
         indep_x = []
     if indep_color is None:
         indep_color = []
     if indep_panel is None:
         indep_panel = []
-    # All independent variable names
-    indep_names = indep_x + indep_color + indep_panel
+    # All independent variable names for displaying/calculating the results
+    # The order is relevant in descriptive tables: panel, x, then color is the hierarchy that matches the charts
+    indep_names = indep_panel + indep_x + indep_color
+    # All independent variables can be used only in a single display option
     if len(set(indep_names)) != len(indep_names):
         raise RuntimeError('Some of the independent variables are used in several dimensions')
+    # Check if all repeated measures factors are included in either indep_x, indep_color, or indep_panel
+    if factor_info is not None:
+        if not(all(var in indep_names for var in factor_info.columns.names)):
+            raise RuntimeError('Some repeated measures factors were not specified as independent variable')
     # Within-subject (repeated measures) independent variables (they are the same as the factor names)
     within_indep_names = factor_info.columns.names if (factor_info is not None) else []
     # All independent variables that are not within-subject variables are between-subject variables (grouping variables)
     # Between-subject independent variables
     between_indep_names = list(set(indep_names) - set(within_indep_names))
+    # Only grouping variables can be user in panels
     if len(set(indep_panel) - set(between_indep_names)) != 0:
         raise RuntimeError('Only grouping variables can be used in panels')
+    # Currently, at least one independent variable should be given
+    if len(within_indep_names + between_indep_names) == 0:
+        raise RuntimeError('At least one independent variable should be used')
+    # Currently, nominal variables are not handled yet
+    if dep_meas_level == 'nom':
+        raise RuntimeError('Nominal variable handling is not implemented yet')
 
     # Available statistics
+    # Used for descriptives tables
     if statistics is None:
         statistics = []
     stat_names = {'mean': _('Mean'),
@@ -1508,7 +1532,6 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                       }
 
     # 1a. Prepare raw data: Create long format raw data
-    # TODO should we drop missing data? Or is it the job of the caller?
     # For a unified handling of both within-subject and between-subject variables, we transform the original data into
     #  a long format table, so that all independent variables will be separate columns, and the dependent variable will
     #  be a single column.
@@ -1517,7 +1540,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     # variables included in the data. So we do this first separately.
     if factor_info is not None:  # if there are within-subject factors
         # Rename the dependent variables (dep_names) to the factor levels (factor_info.columns)
-        # TODO what is the explicit policy, when to use the original name of the variable and when to use the factor levels?
+        # TODO what should be the policy: when to use the original name of the variable and when to use the factor levels?
         long_raw_data.columns = factor_info.columns
         # Change the data into long format so that all independent variables will be a separate column.
         # The ignore_index keeps the original indexes when several new rows are created for a previously single row in
@@ -1525,7 +1548,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         #  joined on indexes).
         long_raw_data = long_raw_data.melt(ignore_index=False, value_name='repeated_measures_dependent')
         # This will be the name of the dependent variable in the dataframe. Therefore, dep_name variable can be used
-        #  not only in between-subject design, but in design including within-subject design (including mixed design)
+        #  not only in between-subject design, but in design including within-subject variables (including mixed design)
         dep_name = 'repeated_measures_dependent'
     else:
         dep_name = dep_names[0]
@@ -1545,8 +1568,6 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
     # TODO add a solution when this is not calculated when not needed
 
-    # TODO descriptives
-    # TODO nominal
     if dep_meas_level in ['int', 'unk']:
         means = long_raw_data.pivot_table(values=dep_name,
                                           index=(indep_names if indep_names else 'all_raw_rows'),
@@ -1559,11 +1580,18 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         long_stat_data = pd.concat([means, cis], axis=1, keys=['means', 'cis'], names=['cogstat statistics'])
     elif dep_meas_level == 'ord':
         medians = long_raw_data.pivot_table(values=dep_name,
-                                            index=(indep_names if indep_names else dep_name),
+                                            index=(indep_names if indep_names else 'all_raw_rows'),
                                             aggfunc=np.median)  # sort=False - in pandas 1.3
-        long_stat_data = pd.concat([medians], axis=1, keys=['medians'], names=['cogstat statistics'])
+        cis_low = long_raw_data.pivot_table(values=dep_name,
+                                            index=(indep_names if indep_names else 'all_raw_rows'),
+                                            aggfunc=lambda x: cs_stat_num.quantile_ci(x)[0][0])
+        cis_high = long_raw_data.pivot_table(values=dep_name,
+                                             index=(indep_names if indep_names else 'all_raw_rows'),
+                                             aggfunc=lambda x: cs_stat_num.quantile_ci(x)[1][0])
+        long_stat_data = pd.concat([medians, cis_low, cis_high], axis=1, keys=['medians', 'cis_low', 'cis_high'],
+                                   names=['cogstat statistics'])
     elif dep_meas_level == 'nom':
-        pass # TODO
+        pass  # TODO
         return ([pd.DataFrame()] if estimation_table else []) + [None]
 
     long_stat_data = long_stat_data.stack('cogstat statistics', dropna=False)
@@ -1571,10 +1599,12 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     long_stat_data = long_stat_data.squeeze()
     # add new index level
     long_stat_data = pd.concat([long_stat_data], keys=[1], names=['all_stat_rows'])
+    # The order of the independent variables is relevant in tables: panel, x, then color is the hierarchy that matches
+    #  the charts
     long_stat_data = long_stat_data.reorder_levels(['cogstat statistics'] +
-                                           indep_panel + indep_color + indep_x +
-                                           ([] if indep_names else ['all_raw_rows']) +
-                                           ['all_stat_rows'])
+                                                   indep_panel + indep_x + indep_color +
+                                                   ([] if indep_names else ['all_raw_rows']) +
+                                                   ['all_stat_rows'])
     long_stat_data.sort_index(inplace=True)
 
 
@@ -1585,32 +1615,51 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                                         index=(indep_names if indep_names else 'all_raw_rows'),
                                         aggfunc=[stat_functions[statistic] for statistic in statistics])
         descriptives_table_df.columns = [stat_names[statistic] for statistic in statistics]
+        # If there is/are repeated measures variables, add the variable name to the table (not only the factor names
+        # with the levels)
+        if factor_info is not None:
+            # Select the index axes that include within-subject variables
+            factor_level_combinations = descriptives_table_df.index.to_frame()[factor_info.columns.names]
+            # Find the appropriate names for the factor level combinations
+            var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
+            # Add the original variable names (var_names) to the multiindex
+            descriptives_table_df['(' + _('Original variable name') + ')'] = var_names
+            descriptives_table_df.set_index('(' + _('Original variable name') + ')', append=True, inplace=True)
         prec = cs_util.precision(long_raw_data[dep_name]) + 1
         # TODO use different precision for variation ratio; this should be done row-wise
         #formatters = ['%0.{}f'.format(2 if stat_names[statistic] == 'variation ratio' else prec) for statistic in statistics]
         descriptives_table_styler = descriptives_table_df.T.style.format('{:.%sf}' % prec)
-        descriptives_table_html = descriptives_table_df.T.to_html(float_format='%0.{}f'.format(prec)).replace('\n', '')
 
-    # Create estimations table with mean, and 95% CI ranges
+    # Create estimations table
+    # For interval variables: mean, and 95% CI ranges
+    # For ordinal variables: median and 95% CI ranges
     if estimation_table:
-        if dep_meas_level in ['int', 'unk']:
-            estimation_table_df = pd.concat([long_stat_data['means'],
-                                             long_stat_data['means'] - long_stat_data['cis'],
-                                             long_stat_data['means'] + long_stat_data['cis']],
-                                            axis=1)
+        if dep_meas_level in ['int', 'unk', 'ord']:
+            if dep_meas_level in ['int', 'unk']:
+                estimation_table_df = pd.concat([long_stat_data['means'],
+                                                 long_stat_data['means'] - long_stat_data['cis'],
+                                                 long_stat_data['means'] + long_stat_data['cis']],
+                                                axis=1)
+            else:  # ordinal
+                estimation_table_df = pd.concat([long_stat_data['medians'], long_stat_data['cis_low'],
+                                                 long_stat_data['cis_high']], axis=1)
+
             estimation_table_df.columns = [_('Point estimation'), _('95% CI (low)'), _('95% CI (high)')]
             estimation_table_df.index = estimation_table_df.index.droplevel('all_stat_rows')
             prec = cs_util.precision(long_raw_data[dep_name]) + 1
-            estimation_table_html = estimation_table_df.to_html(bold_rows=False,
-                                                                float_format=lambda x: '%0.*f' % (prec, x)).\
-                replace('\n', '')
+            # If there is/are repeated measures variables, add the variable name to the table (not only the factor names
+            # with the levels)
+            if factor_info is not None:
+                # Select the index axes that include within-subject variables
+                factor_level_combinations = estimation_table_df.index.to_frame()[factor_info.columns.names]
+                # Find the appropriate names for the factor level combinations
+                var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
+                # Add the original variable names (var_names) to the multiindex
+                estimation_table_df['(' + _('Original variable name') + ')'] = var_names
+                estimation_table_df.set_index('(' + _('Original variable name') + ')', append=True, inplace=True)
             estimation_table_styler = estimation_table_df.style.format('{:.%sf}' % prec)
-        elif dep_meas_level == 'ord':
-            estimation_table_html = ''
-            estimation_table_df = pd.DataFrame()
-            prec = cs_util.precision(long_raw_data[dep_name]) + 1
-            estimation_table_styler = estimation_table_df.style.format('{:.%sf}' % prec)
-            # TODO
+            if dep_meas_level == 'ord':
+                estimation_table_styler.pipe_func = lambda x: x.data.replace(np.nan, _('Out of the data range'))
 
     # 3. Create charts
     graphs = []
@@ -1628,10 +1677,11 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
     if raw_data:
         # Find most frequent value when data are split by all independent variable levels.
-        #  The max_freq_global stores the maximum frequency of a value in the whole analysis (note that this could be
-        #  smaller in some panels or other subgroups).
-        #  Global is used to set the size of the signs, so that they are comparable across panels. Panel version (see
-        #  below) is used for the notes to add to charts.
+        # TODO this is needed only for interval and ordinal (but not nominal) variables
+        # The max_freq_global stores the maximum frequency of a value in the whole analysis (note that maximum
+        #   frequency could be smaller in some panels or other subgroups).
+        # Global is used to set the size of the signs, so that they are comparable across panels. Panel version (see
+        # below) is used for the notes to add to charts.
         # This is relevant only when there are multiple panels.
         if indep_names:  # there are independent variables
             max_freq_global = max([max(long_raw_data_subset[1][dep_name].value_counts(), default=0) for
@@ -1639,17 +1689,23 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
             # default=0 parameter is needed when a group level combination does not include any cases
         else:  # single variable
             max_freq_global = max(long_raw_data[dep_name].value_counts())
-        if raw_data and (set(indep_x) - set(between_indep_names)):  # all x-axes independent variables are repeated
-                                                                    # measures TODO fix this
+        if raw_data and (set(indep_x) - set(between_indep_names)):  # at least one x-axes independent variable
+                                                                    #  is repeated measures
             # This is used for a mixed design, when different panels are groups.
-            # TODO This works only if all indep_x is repeated measures
+            # Repeated measures factors in indep_x
+            within_indep_x = list(set(indep_x) - set(between_indep_names))
+            between_indep_x = list(set(indep_x) - set(within_indep_x))
             # TODO this could be faster with loops (saving time for repeated pivot())?
-            max_freq_global_connec = max([max(long_raw_data_subset[1].pivot(columns=indep_x, values=dep_name).iloc[:, [c_i, c_i + 1]].value_counts(), default=0)
+            max_freq_global_connec = max([max(long_raw_data_subset[1].
+                                              pivot(columns=within_indep_x, values=dep_name).
+                                              iloc[:, [column_i, column_i + 1]].value_counts(), default=0)
                                           for long_raw_data_subset
-                                          in long_raw_data.groupby(by=indep_panel + indep_color if indep_panel + indep_color else 'all_raw_rows')
-                                          for c_i
-                                          in range(len(long_raw_data_subset[1].pivot(columns=indep_x, values=dep_name).columns) - 1)
-                                          ])
+                                          in long_raw_data.groupby(by=indep_panel + indep_color + between_indep_x if
+                                                                   indep_panel + indep_color + between_indep_x
+                                                                   else 'all_raw_rows')
+                                          for column_i
+                                          in range(len(long_raw_data_subset[1].
+                                                       pivot(columns=within_indep_x, values=dep_name).columns) - 1)])
 
     # A. Panels level
     # (1) Create new dataframe for all separate panels (technically, panels are charts) and (2) add title
@@ -1693,19 +1749,22 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 #  connected.
                 # TODO connect color conditions too; within a single x value, the neighboring colors could be connected;
                 #  this would change max_freq_global_connec;
-                # TODO handle mixed design when not all indep_color are repeated measures factors
-                if raw_data and (set(indep_x) - set(between_indep_names)):  # at least one x-axes independent variable is repeated-measure
+                if raw_data and (set(indep_x) - set(between_indep_names)):  # at least one x-axes independent variable
+                                                                            #  is repeated measures
                     # Find the value among all variables with the largest frequency
                     data_con = color_raw_group.pivot(columns=indep_x, values=dep_name).sort_index(axis=1)
                     # max_freq_panel_connec is the specific maximum frequency for the connected items per panel
                     max_freq_panel_connec = 1
                     individual_line_color = cs_util.change_color(theme_colors[i], saturation=0.4, brightness=1.3)
-                    for c_i in range(len(data_con.columns) - 1):  # for all x level pairs
-                        xy_set_freq = _value_count(data_con.iloc[:, [c_i, c_i + 1]], max_freq=max_freq_global_connec)
+                    for column_i in range(len(data_con.columns) - 1):  # for all x level pairs
+                        xy_set_freq = _value_count(data_con.iloc[:, [column_i, column_i + 1]],
+                                                   max_freq=max_freq_global_connec)
                         for index, value in xy_set_freq.items():
-                            plt.plot([c_i + 1 + i/(color_n+1), c_i + 2 + i/(color_n+1)], [index[0], index[1]],
+                            plt.plot([column_i + 1 + i/(color_n+1), column_i + 2 + i/(color_n+1)], [index[0], index[1]],
                                      '-', color=individual_line_color, lw=value, solid_capstyle='round', zorder=0)
-                        max_freq_panel_connec = max(max_freq_panel_connec, max(xy_set_freq.values, default=0))
+                        max_freq_panel_connec = max(max_freq_panel_connec,
+                                                    max(data_con.iloc[:, [column_i, column_i + 1]].value_counts().values,
+                                                        default=0))
                     if max_freq_panel_connec > 1:
                         suptitle_text_line = _plt('Thickest line displays %d cases.') % max_freq_panel_connec + ' '
 
@@ -1713,7 +1772,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                         enumerate(color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows'))):
                     if raw_data:
                         val_count = _value_count(x_raw_group[dep_name], max_freq_global)
-                        # size parameter must be float, not int
+                        # size parameter must be a float, not an int
                         ax.scatter(np.ones(len(val_count)) + j + i/(color_n+1),
                                    val_count.index, val_count.values.astype(float) * 5,
                                    color=theme_colors[i % len(theme_colors)], marker='o',
@@ -1795,18 +1854,26 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         # set x ticks and x label
         if indep_x:
             xtick_labels = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).groups.keys()
-            # If all factors are repeated measures, then display the variable names, and not the factor levels
-            #   TODO we may reconsider this solution
-            # TODO does this work when not all repeated measures factors are on x-axis?
-            if set(indep_x) - set(between_indep_names) == set(indep_x):  # all independent variables are within-subject
-                xtick_labels_formatted = [factor_info[group_level].iloc[0, 0] if isinstance(group_level, str)
-                                          else factor_info[group_level].iloc[0] for group_level in xtick_labels]
-            elif set(indep_x).issubset(set(between_indep_names)):  # all independent variables are between-subject
-                xtick_labels_formatted = [(' : '.join(map(str, group_level)) if isinstance(group_level, tuple)
-                                           else group_level) for group_level in xtick_labels]
-            else:  # TODO handle mixed within-subjects and between-subjects design
-                xtick_labels_formatted = [(' : '.join(map(str, group_level))) for group_level in xtick_labels]
-
+            # If all repeated measures factors are included, then display the variable names too, and not only the
+            # factor levels
+            if all(within_indep_name in indep_x for within_indep_name in within_indep_names) and within_indep_names:
+                # Select the repeated measures independent factors in the order specified in indep_x
+                within_indep_x = [indep_x_item for indep_x_item in indep_x if indep_x_item in within_indep_names]
+                # Select the factor level combinations that include within-subject variables
+                factor_level_combinations = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).dtypes.index.to_frame()[within_indep_x]
+                factor_level_combinations.sort_index(axis='columns', level=within_indep_names, inplace=True)
+                # Find the appropriate names for the factor level combinations
+                var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
+                if show_factor_names_on_x_axis:
+                    # Add the original variable names (var_names) to the xtick_labels
+                    xtick_labels = [(xtick_label + ('(' + var_name + ')', )) if isinstance(xtick_label, tuple)  # else str
+                                    else (xtick_label + ' (' + var_name + ')')
+                                    for xtick_label, var_name in zip(xtick_labels, var_names)]
+                else:
+                    # Show only the original variable names on xtick_labels
+                    xtick_labels = [var_name for xtick_label, var_name in zip(xtick_labels, var_names)]
+            xtick_labels_formatted = [(' : '.join(map(str, group_level)) if isinstance(group_level, tuple)
+                                       else group_level) for group_level in xtick_labels]
             plt.xticks(np.arange(len(xtick_labels)) + 1 + ((color_n - 1) / 2 / (color_n + 1)),
                        _wrap_labels(xtick_labels_formatted))
             if indep_x[0] != _('Unnamed factor'):
@@ -1844,17 +1911,10 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         graphs.append(fig)
 
     results_list = []
-    # TODO remove _html versions for the stable release
     if descriptives_table:
-        if csc.test_functions:
-            results_list.append([descriptives_table_html, descriptives_table_styler])
-        else:
-            results_list.append([descriptives_table_styler])
+        results_list.append([descriptives_table_styler])
     if estimation_table:
-        if csc.test_functions:
-            results_list.append([estimation_table_html, estimation_table_styler])
-        else:
-            results_list.append([estimation_table_styler])
+        results_list.append([estimation_table_styler])
     results_list.append(graphs)
 
     return results_list

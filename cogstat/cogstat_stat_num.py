@@ -30,7 +30,7 @@ def quantile_ci(data, quantile=0.5):
 
     Parameters
     ----------
-    data : pandas.DataFrame
+    data : pandas.DataFrame or pandas.Series
     quantile : float
         Quantile for which CI will be calculated. The default value is median (0.5).
 
@@ -41,10 +41,12 @@ def quantile_ci(data, quantile=0.5):
 
     """
     n = len(data)
+    data_df = pd.DataFrame(data)  # make sure that our data is Dataframe, even if Series was given
     lower_limit = (n * quantile) - (1.96 * np.sqrt(n * quantile * (1 - quantile)))
     upper_limit = 1 + (n * quantile) + (1.96 * np.sqrt(n * quantile * (1 - quantile)))
-    quantile_ci_np = np.sort(data, axis=0)[[max(0, int(np.round(lower_limit-1))),
-                                          min(n-1, int(np.round(upper_limit-1)))], :]
+    quantile_ci_np = np.sort(data_df, axis=0)[[max(0, int(np.round(lower_limit-1))),
+                                            min(n-1, int(np.round(upper_limit-1)))], :]
+    # If the rank of the lower or higher limit is beyond the dataset, set the CI as nan
     if lower_limit < 1:
         quantile_ci_np[0] = np.nan
     if upper_limit > n + 1:

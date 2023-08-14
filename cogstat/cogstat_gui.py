@@ -67,7 +67,7 @@ rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
 broken_analysis = '<cs_h1>%s</cs_h1>' + \
                   _('Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
-                  % 'https://github.com/cogstat/cogstat/wiki/Report-a-bug'
+                  % 'https://doc.cogstat.org/Report-a-bug'
 
 
 class StatMainWindow(QtWidgets.QMainWindow):
@@ -90,7 +90,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.critical(self, 'Incomplete installation', 'Install missing component(s): ' +
                                            ''.join([x+', ' for x in
                                                     missing_required_components+missing_recommended_components])[:-2] +
-                                           '.<br><br>' + '<a href = "https://github.com/cogstat/cogstat/wiki/'
+                                           '.<br><br>' + '<a href = "https://doc.cogstat.org/'
                                                          'Installation">Visit the installation help page</a> to see how '
                                                          'to complete the installation.', QtWidgets.QMessageBox.Ok)
             if missing_required_components:
@@ -360,7 +360,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  ('<cs_h1>', _('Welcome to CogStat!'), '</cs_h1>',
                                  _('CogStat makes statistical analysis more simple and efficient.'),
                                  _('To start working open a data file or paste your data from a spreadsheet.'),
-                                 _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial">quick start tutorial.</a>'))
+                                 _('Find more information about CogStat on its <a href = "https://www.cogstat.org">webpage</a> or read the <a href="https://doc.cogstat.org/Quick-Start-Tutorial">quick start tutorial.</a>'))
         data_welcome_message = '%s%s%s%s<br>' % \
                                ('<cs_h1>', _('Data view'), '</cs_h1>',
                                _('To start working open a data file or paste your data from a spreadsheet.'))
@@ -524,10 +524,19 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     #print('SVG svgutils size', sys.getsizeof(html_img))
                 pane.append(html_img)
             elif isinstance(output, pd.io.formats.style.Styler):
-                # make row headers left aligned
-                # headers use None formatter resulting in a format used in DataFrame.to_html() for floats
+                # Styler may have pipe_func attribute, which should be a function, which will be run right before
+                # converting the Styler to html
+                if hasattr(output, 'pipe_func'):
+                    pipe_func = output.pipe_func
+                else:
+                    pipe_func = lambda x: x
+                # 1. make row headers left aligned
+                # 2. headers use None formatter resulting in a format used in DataFrame.to_html() for floats
+                # 3. call pipe_func if availabe
+                # 4. convert to html, and remove \n-s
                 pane.append(output.set_table_styles([{'selector': 'th.row_heading', 'props': 'text-align: left;'}]).
                             format_index(formatter='{}', axis=0).format_index(formatter='{}', axis=1).
+                            pipe(pipe_func).
                             to_html().replace('\n', ''))
             elif output is None:
                 pass  # We don't do anything with None-s
@@ -1084,16 +1093,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     ### Cogstat menu methods ###
     def _open_help_webpage(self):
-        webbrowser.open('https://github.com/cogstat/cogstat/wiki/Documentation-for-users')
+        webbrowser.open('https://doc.cogstat.org/')
         
     def _show_preferences(self):
         self.dial_pref.exec_()
     
     def _open_reqfeat_webpage(self):
-        webbrowser.open('https://github.com/cogstat/cogstat/wiki/Suggest-a-new-feature')
+        webbrowser.open('https://doc.cogstat.org/Suggest-a-new-feature')
         
     def _open_reportbug_webpage(self):
-        webbrowser.open('https://github.com/cogstat/cogstat/wiki/Report-a-bug')
+        webbrowser.open('https://doc.cogstat.org/Report-a-bug')
         
     def _show_about(self):
         QtWidgets.QMessageBox.about(self, _('About CogStat ') + csc.versions['cogstat'], 'CogStat ' +

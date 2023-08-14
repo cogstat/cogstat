@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-2.4 beta (21 April 2023)
+2.4 rc (July 2023)
 =======================
 ## New features
 - Data handling
@@ -11,11 +11,19 @@ Trivial changes when a new feature is added are not denoted.
     - New demo data files https://learningstatisticswithcogstat.com/ (Róbert Fodor)
 - Ability to rerun the analyses in the Results pane
 - Multiple linear regression analysis (Tamás Szűcs)
-    - Model fit metrics
-    - Partial correlation
-    - Partial regression plots
     - Scatterplot matrix of raw data
-    - Analysis of multicollinearity
+    - Linear regression function
+    - Scatterplot with regression line (feature added after v2.4beta)
+    - Partial regression plots
+       - With regression lines (feature added after v2.4beta)
+    - Model fit metrics
+    - Partial correlations
+    - Residual plot and histogram of residuals (feature added after v2.4beta)
+    - Assumptions of inferential statistics
+      - Multivariate normality
+      - Homoscedasticity
+      - Analysis of multicollinearity
+    - Population parameter point and interval estimations (including standardized effect sizes)
     - Hypothesis tests
 - Reliability analyses (Tamás Szűcs)
     - Internal consistency reliability analysis
@@ -355,7 +363,7 @@ Trivial changes when a new feature is added are not denoted.
 1.3.0 (4 September 2015)
 ===============
 ## New features
-- IPython Notebook integration - see https://github.com/cogstat/cogstat/wiki/IPython-Notebook
+- IPython Notebook integration - see https://doc.cogstat.org/IPython-Notebook
     - All CogStat functions are available in IPython Notebook
     - Import pandas data frame (only in IP NB mode)
 - Filtering based on single variable outlier (only in IP NB mode at the moment)
