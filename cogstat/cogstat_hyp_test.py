@@ -345,6 +345,11 @@ def multivariate_normality(data, var_names):
 
     if len(data) < 3:
         return None, _('Too small sample to test normality in variables: %s') % ', '.join(var_names) + '.\n'
+    if len(data) > 1000:
+        # this is a limitation of the pingouin module; calculation would require too much memory
+        # https://github.com/raphaelvallat/pingouin/issues/121
+        return None, _('Currently, testing normality in variables (%s) is not possible with more than 1000 cases') % \
+                     ', '.join(var_names) + '.\n'
     else:
         hz, p, sig = pingouin.multivariate_normality(data, alpha=.05)
         text_result += _('Henze-Zirkler test of multivariate normality in variables %s') % ', '.join(var_names) + \
