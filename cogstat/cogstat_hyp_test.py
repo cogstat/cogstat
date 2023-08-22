@@ -308,16 +308,23 @@ def homoscedasticity(data, predictors, predicted):
         lm_koenker = koenker[0]
         p_koenker = koenker[1]
 
-        white = sm.stats.diagnostic.het_white(residual_unsorted, x)
-        lm_white = white[0]
-        p_white = white[1]
+        try:
+            white = sm.stats.diagnostic.het_white(residual_unsorted, x)
+            lm_white = white[0]
+            p_white = white[1]
+        except AssertionError:
+            lm_white = None
+            p_white = None
 
         homoscedasticity = False if p_koenker < 0.05 or p_white < 0.05 else True
 
         text_result += _("Koenker's studentized score test") \
-                       + ": <i>LM</i> = %0.*f, %s\n" % (non_data_dim_precision, lm_koenker, print_p(p_koenker)) \
-                       + _("White's test") \
-                       + ': <i>LM</i> = %0.*f, %s\n' % (non_data_dim_precision, lm_white, print_p(p_white))
+                       + ": <i>LM</i> = %0.*f, %s\n" % (non_data_dim_precision, lm_koenker, print_p(p_koenker))
+        if lm_white:
+            text_result += _("White's test") \
+                           + ': <i>LM</i> = %0.*f, %s\n' % (non_data_dim_precision, lm_white, print_p(p_white))
+        else:
+            text_result += _("White's test could not be run") + '.'
 
         return homoscedasticity, text_result
 
