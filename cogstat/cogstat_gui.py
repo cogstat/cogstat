@@ -917,7 +917,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             else:
                 return
         # use the original term in the function call, not the translated one
-        reaction_time_in = 'sec' if reaction_time_in == _('sec') else 'msec'
+        reaction_time_in = 'sec' if reaction_time_in == _('s') else 'msec'
         self._run_analysis(title=_('Behavioral data diffusion analysis'), function_name='self.active_data.diffusion',
                            parameters={'error_name': error_name, 'RT_name': RT_name,
                                        'participant_name': participant_name, 'condition_names': condition_names,
