@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-2.4 rc (July 2023)
+2.4 (12 September 2023)
 =======================
 ## New features
 - Data handling
@@ -51,7 +51,7 @@ Trivial changes when a new feature is added are not denoted.
     - Number of included trials per conditions are displayed
 - Output handling
     - Save results into html file instead of pdf file (Róbert Fodor)
-    - Ability to use png or svg image formats for charts
+    - Ability to use png or svg image formats for charts (experimental svg support)
 - Possibility to print detailed Python error messages to results pane 
 - New localization
     - Chinese (Xiaomeng Zhu)
