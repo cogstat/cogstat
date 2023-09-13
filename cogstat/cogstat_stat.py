@@ -469,7 +469,10 @@ def print_var_stats(pdf, var_names, meas_levs, grouping_variables=None, statisti
                       'skewness': lambda x: stats.skew(x, bias=False),
                       # with the bias=False it gives the same value as SPSS
                       'kurtosis': lambda x: stats.kurtosis(x, bias=False),
-                      'variation ratio': lambda x: 1 - (sum(x == stats.mode(x)[0][0]) / len(x))
+                      # for mode, use pandas.Series.mode() instead of scipy.stats.mode() because from scipy 1.11 only
+                      # numeric values are considered
+                      # TODO When there are several modes, only the first one is considered. Is this OK?
+                      'variation ratio': lambda x: 1 - (sum(x == x.mode()[0]) / len(x))
                       }
 
     text_result = ''
