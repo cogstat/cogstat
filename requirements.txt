@@ -8,7 +8,7 @@ scikit-posthocs >= 0.7.0
 pyreadstat
 odfpy
 xlrd
-openpyxl
+openpyxl >=3.0.7
 pyreadr
 appdirs
 python-bidi
