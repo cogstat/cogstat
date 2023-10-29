@@ -1,6 +1,12 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
+2.4.1 (29 October 2023)
+=======================
+
+## Fixes
+- Data import fixes 
+
 2.4 (12 September 2023)
 =======================
 ## New features
