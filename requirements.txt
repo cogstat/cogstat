@@ -5,11 +5,11 @@ pandas >=1.5.0
 statsmodels >=0.13.0
 pingouin >=0.3.12
 scikit-posthocs >= 0.7.0
-pyreadstat
+pyreadstat >=1.1.5
 odfpy
 xlrd
 openpyxl >=3.0.7
-pyreadr
+pyreadr >=0.4.5
 appdirs
 python-bidi
 IPython
