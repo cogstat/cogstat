@@ -2,6 +2,7 @@
 
 import gettext
 import os
+import webbrowser
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
@@ -265,6 +266,7 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.sourceListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.sourceListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addRows.clicked.connect(self.add_rows)
@@ -292,6 +294,9 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         self.names = names
         _prepare_list_widgets(self.sourceListWidget, names, [self.pagesListWidget, self.columnsListWidget,
                                                              self.rowsListWidget, self.dependentListWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Pivot-table')
 
     def add_rows(self):
         _add_to_list_widget(self.sourceListWidget, self.rowsListWidget)
@@ -330,6 +335,7 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.sourceListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.sourceListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.addRT.clicked.connect(self.add_RT)
@@ -366,6 +372,9 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
             _enable_adding_var(self.addParticipant, self.participantListWidget, True)
 
     # TODO enable and disable relevant elements after drag and drop too
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Behavioral-data-diffusion-analysis')
 
     def add_RT(self):
         if _add_to_list_widget(self.sourceListWidget, self.RTListWidget):
@@ -422,6 +431,7 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -434,6 +444,9 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Filter-outliers')
 
     def add_var(self):
         _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
@@ -454,6 +467,7 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -466,6 +480,10 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Explore-variable')
+
     def add_var(self):
         _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
@@ -484,6 +502,10 @@ class xylims_dialog(QtWidgets.QDialog, xylims.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Explore-relation-of-variable-pair')
 
     def read_parameters(self):
         return [_float_or_none(self.lineEdit.text()), _float_or_none(self.lineEdit_2.text())], \
@@ -498,6 +520,7 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -515,6 +538,10 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Explore-relation-of-variable-pair')
+
     def add_var(self):
         _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
     def remove_var(self):
@@ -537,6 +564,7 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.predicted_listWidget.doubleClicked.connect(self.remove_predicted)
@@ -563,6 +591,9 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
             _enable_adding_var(self.addPredicted, self.predicted_listWidget, True)
 
     # TODO enable and disable relevant elements after drag and drop too
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Explore-relation-of-variables')
 
     def add_predicted(self):
         if _add_to_list_widget(self.source_listWidget, self.predicted_listWidget):
@@ -597,6 +628,10 @@ class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables')
 
     def set_parameters(self, lineEdit='', spinBox=None):
         if lineEdit:
@@ -618,12 +653,16 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.listWidget.doubleClicked.connect(self.modifyButton_clicked)
         self.pushButton.clicked.connect(self.addButton_clicked)
         self.pushButton_2.clicked.connect(self.modifyButton_clicked)
         self.pushButton_3.clicked.connect(self.removeButton_clicked)
 
         self.factor_dialog = factor_dialog(self)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables')
 
     def init_factors(self, factors):
         """Add factors and level values to the list.
@@ -676,6 +715,7 @@ class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeate
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.factor_x_listWidget.doubleClicked.connect(self.add_color)
@@ -684,6 +724,9 @@ class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeate
         self.factor_color_listWidget.doubleClicked.connect(self.remove_color)
         self.add_color_button.clicked.connect(self.add_color)
         self.remove_color_button.clicked.connect(self.remove_color)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables')
 
     def set_factors(self, factors=None):
         self.factors = factors
@@ -708,6 +751,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -729,6 +773,9 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables')
 
     def add_var(self):
         if self.factors:
@@ -843,6 +890,7 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -855,6 +903,9 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Single-case-analyses')
 
     def add_var(self):
         if self.selected_listWidget.count() == 0:  # allow only if the list is empty
@@ -877,6 +928,7 @@ class display_options_groups_dialog(QtWidgets.QDialog, display_options_groups.Ui
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
@@ -889,6 +941,9 @@ class display_options_groups_dialog(QtWidgets.QDialog, display_options_groups.Ui
         self.remove_color_button.clicked.connect(self.remove_color)
         self.add_panel_button.clicked.connect(self.add_panel)
         self.remove_panel_button.clicked.connect(self.remove_panel)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-groups')
 
     def set_factors(self, factors=None):
         self.factors = factors
@@ -919,6 +974,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
@@ -944,6 +1000,9 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-groups')
 
     def add_var(self):
         _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
@@ -980,6 +1039,7 @@ class display_options_mixed_dialog(QtWidgets.QDialog, display_options_mixed.Ui_D
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
@@ -992,6 +1052,9 @@ class display_options_mixed_dialog(QtWidgets.QDialog, display_options_mixed.Ui_D
         self.remove_color_button.clicked.connect(self.remove_color)
         self.add_panel_button.clicked.connect(self.add_panel)
         self.remove_panel_button.clicked.connect(self.remove_panel)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables-and-groups')
 
     def set_factors(self, factors=None):
         self.factors = factors
@@ -1022,6 +1085,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
@@ -1051,6 +1115,9 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
         self.slope_dialog.init_vars(names)
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables-and-groups')
 
     def add_var(self):
         if self.factors:
@@ -1189,6 +1256,7 @@ class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dia
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -1201,6 +1269,9 @@ class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dia
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Internal-consistency-reliability-analysis')
 
     def add_var(self):
         _add_to_list_widget(self.source_listWidget, self.selected_listWidget, checkable=True)
@@ -1228,6 +1299,7 @@ class reliability_interrater_dialog(QtWidgets.QDialog, reliability_interrater.Ui
         self.setModal(True)
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
         self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
@@ -1240,6 +1312,9 @@ class reliability_interrater_dialog(QtWidgets.QDialog, reliability_interrater.Ui
     def init_vars(self, names):
         self.names = names
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Interrater-reliability-analysis')
 
     def add_var(self):
         _add_to_list_widget(self.source_listWidget, self.selected_listWidget)
@@ -1262,8 +1337,12 @@ class find_text_dialog(QtWidgets.QDialog, find_text.Ui_Dialog):
         self.pushButton_next.clicked.connect(self.find_forward_text)
         self.pushButton_previous.clicked.connect(self.find_backward_text)
         self.buttonBox.button(QtWidgets.QDialogButtonBox.Close).clicked.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
         self.lineEdit.setFocus()
         self.show()
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Handling-output')
 
     def find_forward_text(self):
         self.output_pane.find(self.lineEdit.text())
@@ -1280,6 +1359,7 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         self.setModal(True)
         self.buttonBox.accepted.connect(self.write_and_apply_settings)
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.helpRequested.connect(self.help)
     
         self.init_langs()
         self.init_themes()
@@ -1293,6 +1373,9 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         error_messages = [_('Off'), _('On')]
         self.error_combo_box.addItems(error_messages)
         self.error_combo_box.setCurrentIndex(error_messages.index(error_messages[csc.detailed_error_message]))
+
+    def help(self):
+        webbrowser.open('https://doc.cogstat.org/Preferences')
 
     def init_langs(self):
         """Set the available languages.
