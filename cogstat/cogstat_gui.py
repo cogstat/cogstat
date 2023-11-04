@@ -215,8 +215,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  '...', 'Ctrl+Shift+D', 'self.diffusion', True, True],
                                 ['separator'],
                                 ['toolbar separator'],
-                                ['/icons8-reboot-100.png', _('Rerun all analyses') +
-                                 '...', 'Ctrl+Shift+R', 'self.rerun_analyses', True, True],
+                                ['/icons8-reboot-100.png', _('Rerun all analyses'), 'Ctrl+Shift+R',
+                                 'self.rerun_analyses', True, True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
