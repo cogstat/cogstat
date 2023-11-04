@@ -1,7 +1,13 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-2.4 rc (July 2023)
+2.4.1 (29 October 2023)
+=======================
+
+## Fixes
+- Data import fixes 
+
+2.4 (12 September 2023)
 =======================
 ## New features
 - Data handling
@@ -13,12 +19,11 @@ Trivial changes when a new feature is added are not denoted.
 - Multiple linear regression analysis (Tamás Szűcs)
     - Scatterplot matrix of raw data
     - Linear regression function
-    - Scatterplot with regression line (feature added after v2.4beta)
-    - Partial regression plots
-       - With regression lines (feature added after v2.4beta)
+    - Scatterplot with regression line
+    - Partial regression plots with regression lines
     - Model fit metrics
     - Partial correlations
-    - Residual plot and histogram of residuals (feature added after v2.4beta)
+    - Residual plot and histogram of residuals
     - Assumptions of inferential statistics
       - Multivariate normality
       - Homoscedasticity
@@ -51,13 +56,13 @@ Trivial changes when a new feature is added are not denoted.
     - Number of included trials per conditions are displayed
 - Output handling
     - Save results into html file instead of pdf file (Róbert Fodor)
-    - Ability to use png or svg image formats for charts
+    - Ability to use png or svg image formats for charts (experimental svg support)
 - Possibility to print detailed Python error messages to results pane 
 - New localization
     - Chinese (Xiaomeng Zhu)
     - Malay (Nur Hidayati Miza binti Junaidi)
     - Arabic (Rahmeh Albursan)
-- Python package (features added after v2.4beta)
+- Python package
     - Pandas DataFrames with MultiIndex columns can be imported
     - Diffusion analysis results are returned as pandas Stylers
 

@@ -44,6 +44,11 @@ def set_matplotlib_theme():
     for theme in csc.theme if type(csc.theme) is list else [csc.theme]:
         try:
             plt.style.use(theme)
+            if ('seaborn' in theme) and (theme not in plt.style.available):
+                theme = theme.replace('seaborn', 'seaborn-v0_8')
+                # this is needed if the ini file includes the old theme name, but the matplotlib version changed
+                # from <3.6 to >=3.6
+                plt.style.use(theme)
             theme_is_set = True
             # if csc.theme is a list, then overwrite the theme in csc.theme and in cogstat.ini with the first available theme
             if type(csc.theme) is list:  # list is used only in the default file, and it means that the ini file has just

@@ -41,6 +41,7 @@ the result incorrectly) fix the bug. After a calculation bug is fixed, always ad
     - In JASP, decimals cannot be used as ordinal numbers. To validate related calculations, you may multiply the values 
     by 1000 so that they'll be round numbers but the order information is kept.
 
+See also the JASP verification project: https://jasp-stats.github.io/jasp-verification-project/index.html
 """
 
 # TODO Check the documentation to see if all calculations to be tested are tested and validated
