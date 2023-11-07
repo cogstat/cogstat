@@ -1147,7 +1147,7 @@ class CogStatData:
             preconditions = False
         constant_vars = []
         for var in predictors + [predicted]:
-            if len(set(self.data_frame[var])) == 1:
+            if (var is not None) and (len(set(self.data_frame[var])) == 1):
                 constant_vars += [var]
         if len(constant_vars) > 0:
             title += _('Analysis cannot be run for constant variable(s): %s') % ', '.join(constant_vars) + '\n'
