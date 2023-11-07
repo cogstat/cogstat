@@ -17,6 +17,10 @@ class Ui_Dialog(object):
         Dialog.resize(588, 325)
         self.gridLayout_3 = QtWidgets.QGridLayout(Dialog)
         self.gridLayout_3.setObjectName("gridLayout_3")
+        self.ratings_averaged_check_box = QtWidgets.QCheckBox(Dialog)
+        self.ratings_averaged_check_box.setChecked(True)
+        self.ratings_averaged_check_box.setObjectName("ratings_averaged_check_box")
+        self.gridLayout_3.addWidget(self.ratings_averaged_check_box, 1, 1, 1, 1)
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
@@ -57,9 +61,11 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.selected_listWidget)
         self.gridLayout_2.addLayout(self.verticalLayout, 0, 2, 1, 1)
         self.gridLayout_3.addLayout(self.gridLayout_2, 0, 0, 1, 4)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem2, 1, 2, 1, 1)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
@@ -68,13 +74,7 @@ class Ui_Dialog(object):
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Help|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setCenterButtons(False)
         self.buttonBox.setObjectName("buttonBox")
-        self.gridLayout_3.addWidget(self.buttonBox, 1, 3, 1, 1)
-        self.ratings_averaged_check_box = QtWidgets.QCheckBox(Dialog)
-        self.ratings_averaged_check_box.setChecked(True)
-        self.ratings_averaged_check_box.setObjectName("ratings_averaged_check_box")
-        self.gridLayout_3.addWidget(self.ratings_averaged_check_box, 1, 1, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem2, 1, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.buttonBox, 2, 1, 1, 2)
         self.label.setBuddy(self.source_listWidget)
         self.label_2.setBuddy(self.selected_listWidget)
 
@@ -88,9 +88,9 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Interrater reliability"))
+        self.ratings_averaged_check_box.setText(_translate("Dialog", "&Ratings are averaged"))
         self.label.setText(_translate("Dialog", "Available variables"))
         self.label_2.setText(_translate("Dialog", "Selected variables"))
-        self.ratings_averaged_check_box.setText(_translate("Dialog", "&Ratings are averaged"))
 
 
 if __name__ == "__main__":
