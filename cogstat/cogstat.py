@@ -491,6 +491,9 @@ class CogStatData:
 
         # Convert some values and data types
         self.data_frame.columns = self.data_frame.columns.astype('str')  # variable names can only be strings
+        # index should be integers (they may be stored as string, too)
+        # TODO handle non-numerical index, too
+        self.data_frame.index = self.data_frame.index.astype('int')
         _percent2float()
         _special_values_to_nan()
         _convert_dtypes()
