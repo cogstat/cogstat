@@ -371,7 +371,6 @@ def create_item_total_matrix(data, regression=True):
         from statsmodels.stats.outliers_influence import summary_table
     fig = plt.figure(tight_layout=True)
     fig.suptitle(_plt('Scatterplots of item scores and total scores with item-removal'))
-    index = 1
     ncols = len(data.columns.tolist()) if len(data.columns.tolist()) < 4 else 3
     import math
     nrows = math.ceil(len(data.columns.tolist())/3)
@@ -384,8 +383,8 @@ def create_item_total_matrix(data, regression=True):
     data_temp_all_vars = pd.concat([data, total_scores_df], axis=1)
     global_max_freq = max([max(data_temp_all_vars[[var, var+'_total']].value_counts()) for var in items_list])
 
-    for item in items_list:
-        ax = plt.subplot(nrows, ncols, index)
+    for index, item in enumerate(items_list):
+        ax = plt.subplot(nrows, ncols, index + 1)
 
         # Prepare the frequencies for the plot
         data_temp = data_temp_all_vars[[item, item+'_total']]
@@ -400,7 +399,6 @@ def create_item_total_matrix(data, regression=True):
 
         ax.set_ylabel(_plt('Total (rest)'))
         ax.set_xlabel(item)
-        index += 1
     if global_max_freq > 1:
         fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,
                  horizontalalignment='right', fontsize=10)
