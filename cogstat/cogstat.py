@@ -1466,7 +1466,7 @@ class CogStatData:
         list of str and pandas Stylers
             Analysis results in HTML format and tables
         """
-        results = {key: None for key in ['analysis info', 'warning', 'diffusion table']}
+        results = {key: None for key in ['analysis info', 'warning', 'N', 'drift rate', 'threshold', 'nondecision time']}
 
         if condition_names is None:
             condition_names = []
@@ -1485,9 +1485,11 @@ class CogStatData:
         else:
             results['warning'] = None
 
-        results['diffusion table'] = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name,
-                                                       condition_names, correct_coding, reaction_time_in,
-                                                       scaling_parameter)
+        additional_analysis_info, results['N'], results['drift rate'], results['threshold'], \
+        results['nondecision time'] = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name,
+                                                        condition_names, correct_coding, reaction_time_in,
+                                                        scaling_parameter)
+        results['analysis info'] += additional_analysis_info
         return cs_util.convert_output(results)
 
     def compare_variables(self, var_names, factors=None, display_factors=None, ylims=[None, None]):
