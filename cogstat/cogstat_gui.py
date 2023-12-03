@@ -640,7 +640,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ' (%s):</cs_warning>\n' % 'you can turn this off in Preferences' + traceback.format_exc()
             else:
                 error_message = ''
-            self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title, error_message]))
+            self.analysis_results[-1].add_output(cs_util.convert_output({'warning': (broken_analysis % title) +
+                                                                                    error_message}))
             if title == _('Data'):  # Data import-specific error message
                 data = parameters['data']
                 try:
@@ -649,7 +650,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 except:
                     file_content = ''
                 self.analysis_results[-1].add_output(cs_util.convert_output(
-                    ['<cs_warning>' + _('Data to be imported') + ':</cs_warning><br>%s<br>%s' % (data, file_content)]))
+                    {'warning 2': '<cs_warning>' + _('Data to be imported') +
+                                ':</cs_warning><br>%s<br>%s' % (data, file_content)}))
                 self._display_data(reset=True)
             traceback.print_exc()
             successful_run = False
@@ -1231,24 +1233,25 @@ class GuiResultPackage():
 
     Result object includes:
     - self.command: Command to run. List of str (command) and optional dict (parameters)
-        e.g., ['self.active_data.explore_variable', {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}]
+        e.g., ['self.active_data.explore_variable',
+               {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}]
     - self.output:
-        - list of strings (html) or matplotlib figures or Nones
+        - dict of strings (html) or matplotlib figures or pandas Stylers
     """
 
     def __init__(self):
         self.command = []
-        self.output = []
+        self.output = {}
 
     def add_command(self, command):
         self.command.extend(command)
 
     def add_output(self, output):
-        """Add output to the self.output
+        """Add new output dict to the self.output dict
 
         :param output: result dictionary to add
         """
-        self.output = output
+        self.output.update(output)
 
 def main():
     splash_screen.close()
