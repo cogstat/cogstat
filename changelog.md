@@ -5,6 +5,7 @@ Upcoming version
 ================
 ## New features
 - Help buttons on dialogs
+- Python package: results are returned in a dictionary
 
 ## Fixes
 - Localization and GUI fixes

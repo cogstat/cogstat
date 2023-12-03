@@ -115,7 +115,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.regression(['a'], 'b')
 #        self.regression(['b', 'f', 'g'], 'a')
-#        self.pivot([u'X'], row_names=[], col_names=[], page_names=['CONDITION', 'TIME3'], function='N')
+#        self.pivot('X', row_names=[], col_names=[], page_names=['CONDITION', 'TIME3'], function='N')
 #        self.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name', condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['a', 'e', 'g'])
@@ -456,7 +456,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
-    def _print_to_pane(self, pane=None, output_list=None, scroll_to_analysis=True):
+    def _print_to_pane(self, pane=None, output_dict=None, scroll_to_analysis=True):
         """Print a GuiResultPackage to the output or data pane.
 
         The pane should have a pane.welcome_message_on property.
@@ -465,8 +465,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         ----------
         pane : QtWidgets.QTextBrowser object
             The pane the message should be printed to.
-        output_list : list of str (html) or matplotlib figure or pandas dataframe styler
-            Flat list of items to display
+        output_dict : dict including str (html) or matplotlib figure or pandas dataframe styler or list of these in the
+                      values
         scroll_to_analysis : bool
             Should the pane scroll to the beginning of the analysis?
 
@@ -475,8 +475,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
 
-        if output_list is None:
-            output_list = []
         if pane.welcome_message_on:
             pane.clear()
             #pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
@@ -489,6 +487,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # TODO we may remove it for other panes
         anchor = str(random.random())
         pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
+
+        # convert dict values to list
+        output_list = []
+        for value in output_dict.values():
+            if isinstance(value, list):
+                output_list.extend([item for item in value])
+            else:
+                output_list.extend([value])
 
         for output in output_list:
             if isinstance(output, str):
@@ -540,8 +546,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             format_index(formatter='{}', axis=0).format_index(formatter='{}', axis=1).
                             pipe(pipe_func).
                             to_html().replace('\n', ''))
-            elif output is None:
-                pass  # We don't do anything with None-s
             else:
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
@@ -649,7 +653,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self._display_data(reset=True)
             traceback.print_exc()
             successful_run = False
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output,
+        self._print_to_pane(pane=self.result_pane, output_dict=self.analysis_results[-1].output,
                             scroll_to_analysis=scroll_to_analysis)
         self._busy_signal(False)
         return successful_run
@@ -718,7 +722,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self.menu_commands[_('Re&load actual data file')].setEnabled(False)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
         self._display_data()
-        return cs_util.convert_output([self.active_data.import_message])
+        return cs_util.convert_output({'imported data': self.active_data.import_message})
 
     def _open_data(self, data):
         """Open all kind of data. It calls _open_data_core() that opens the data and returns the output message.
@@ -1242,14 +1246,9 @@ class GuiResultPackage():
     def add_output(self, output):
         """Add output to the self.output
 
-        :param output: item or list of items to add
+        :param output: result dictionary to add
         """
-        if isinstance(output, list):
-            for outp in output:
-                self.output.append(outp)
-        else:
-            self.output.append(output)
-
+        self.output = output
 
 def main():
     splash_screen.close()
