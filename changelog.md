@@ -5,6 +5,7 @@ Upcoming version
 ================
 ## New features
 - Help buttons on dialogs
+- Simplified diffusion analysis report
 - Python package: results are returned in a dictionary
 
 ## Fixes
