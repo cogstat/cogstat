@@ -9,7 +9,7 @@ Upcoming version
 - Python package: results are returned in a dictionary
 
 ## Fixes
-- Localization and GUI fixes
+- Output, localization, and GUI fixes
 
 2.4.1 (29 October 2023)
 =======================

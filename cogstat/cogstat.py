@@ -9,6 +9,8 @@ and they compile the appropriate statistics for the main analysis pipelines.
 """
 For the analyses, headings (<cs_hx>) are included in this module.
 
+Display the filtering status for each analysis.
+
 The analyses return a dictionary.
 - The key is the name of the subsection, and the value is the output. 
 - Only the values will be displayed in the order as it is stored in the dictionary.
@@ -1018,6 +1020,9 @@ class CogStatData:
             results['analysis info'] += ('\n' + _('Reverse coded item(s)') + ': ' +
                                          ', '.join('%s' % var for var in reverse_items))
 
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
+
         # Raw data
         results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
@@ -1076,6 +1081,9 @@ class CogStatData:
         results['analysis info'] = '<cs_h1>' + _('Interrater reliability') + '</cs_h1>'
         results['analysis info'] += (_('Reliability calculated from variables') + ': ' +
                                      ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)))
+
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
 
         # Raw data
         results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
@@ -1432,6 +1440,9 @@ class CogStatData:
         else:
             results['warning'] = None
 
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
+
         results['pivot table'] = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
         return cs_util.convert_output(results)
 
@@ -1484,6 +1495,9 @@ class CogStatData:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
+
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
 
         additional_analysis_info, results['N'], results['drift rate'], results['threshold'], \
         results['nondecision time'] = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name,
