@@ -859,6 +859,8 @@ class CogStatData:
                                          'estimation info', 'estimation table', 'estimation chart', 'hypothesis test']}
 
         results['analysis info'] = '<cs_h1>' + _('Explore variable') + '</cs_h1>'
+
+        # Check preconditions
         if not var_name:
             results['warning'] = _('At least one variable should be set.')
             return cs_util.convert_output(results)
@@ -1006,12 +1008,10 @@ class CogStatData:
         results['analysis info'] = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
 
         # Check the preconditions
-        preconditions = True
         results['warning'] = ''
         if len(var_names) < 3:
             results['warning'] += _('At least three variables should be set') + '.\n'
-            preconditions = False
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
@@ -1091,12 +1091,10 @@ class CogStatData:
         results['analysis info'] = '<cs_h1>' + _('Interrater reliability') + '</cs_h1>'
 
         # Check the preconditions
-        preconditions = True
         results['warning'] = ''
         if len(var_names) < 2:
             results['warning'] += _('At least two variables should be set') + '.\n'
-            preconditions = False
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
@@ -1224,23 +1222,21 @@ class CogStatData:
                                          'hypothesis test']}
 
         results['analysis info'] = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
-        preconditions = True
+
+        # Check preconditions
         results['warning'] = ''
         if (predictors is None) or (predictors == [None]) or not predictors:
             results['warning'] += _('At least one predictor variable should be set') + '.\n'
-            preconditions = False
         if predicted is None:
             results['warning'] += _('The predicted variable should be set') + '.'
-            preconditions = False
         constant_vars = []
         for var in predictors + [predicted]:
             if (var is not None) and (len(set(self.data_frame[var])) == 1):
                 constant_vars += [var]
         if len(constant_vars) > 0:
             results['warning'] += _('Analysis cannot be run for constant variable(s): %s') % ', '.join(constant_vars) + '\n'
-            preconditions = False
 
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
@@ -1453,15 +1449,12 @@ class CogStatData:
         results['analysis info'] = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
 
         # Check the preconditions
-        preconditions = True
         results['warning'] = ''
         if not depend_name:
             results['warning'] += _('The dependent variable should be set') + '.\n'
-            preconditions = False
         if not (row_names or col_names or page_names):
             results['warning'] += _('At least one grouping variable should be set') + '\n'
-            preconditions = False
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
@@ -1509,15 +1502,14 @@ class CogStatData:
             condition_names = []
         # TODO return pandas DataFrame
         results['analysis info'] = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
-        preconditions = True
+
+        # Check preconditions
         results['warning'] = ''
         if not RT_name:
             results['warning'] += _('The reaction time should be given') + '.\n'
-            preconditions = False
         if not error_name:
             results['warning'] += _('The error variables should be given') + '.'
-            preconditions = False
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
@@ -1568,14 +1560,11 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         # Check preconditions
-        preconditions = True
         results ['warning'] = ''
         if len(var_names) < 2:
             results['warning'] += _('At least two variables should be set') + '.\n'
-            preconditions = False
         if '' in var_names:
             results['warning'] += _('A variable should be assigned to each level of the factors.') + '\n'
-            preconditions = False
         # Check if the variables have the same measurement levels
         # int and unk can be used together, since unk is taken as int by default
         if (len(set(meas_levels)) > 1) and ('ord' in meas_levels or 'nom' in meas_levels):
@@ -1584,8 +1573,7 @@ class CogStatData:
             results['analysis info'] += _("Sorry, you can't compare variables with different measurement levels."
                        " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
                      + '\n'
-            preconditions = False
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
@@ -1783,15 +1771,12 @@ class CogStatData:
 
         # Check preconditions
         # TODO check if there is only one dep.var.
-        preconditions = True
         results['warning'] = ''
         if not var_name or (var_name is None):
             results['warning'] += _('The dependent variable should be set') + '.\n'
-            preconditions = False
         if (grouping_variables is None) or grouping_variables == []:
             results['warning'] += _('At least one grouping variable should be set') + '.\n'
-            preconditions = False
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
@@ -2029,14 +2014,11 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         # Check preconditions
-        preconditions = True
         results['warning'] = ''
         if len(var_names) < 1:
             results['warning'] += _('At least one dependent variable should be set') + '.\n'
-            preconditions = False
         if '' in var_names:
             results['warning'] = _('A variable should be assigned to each level of the factors') + '.\n'
-            preconditions = False
         # Check if the repeated measures variables have the same measurement levels
         # int and unk can be used together, since unk is taken as int by default
         if (len(set(meas_levels)) > 1) and ('ord' in meas_levels or 'nom' in meas_levels):
@@ -2045,11 +2027,9 @@ class CogStatData:
             results['analysis info'] += _("Sorry, you can't compare variables with different measurement levels."
                        " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
                      + '\n'
-            preconditions = False
         if meas_levels == 'nom':
             results['warning'] += _('Sorry, not implemented yet.')
-            preconditions = False
-        if not preconditions:
+        if results['warning']:
             return cs_util.convert_output(results)
         else:
             results['warning'] = None
