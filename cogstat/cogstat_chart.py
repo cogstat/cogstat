@@ -1689,8 +1689,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         # below) is used for the notes to add to charts.
         # This is relevant only when there are multiple panels.
         if indep_names:  # there are independent variables
+            indep_names_for_groupby = indep_names if len(indep_names) >1 else indep_names[0]
             max_freq_global = max([max(long_raw_data_subset[1][dep_name].value_counts(), default=0) for
-                                   long_raw_data_subset in long_raw_data.groupby(by=indep_names)])
+                                   long_raw_data_subset in long_raw_data.groupby(by=indep_names_for_groupby)])
             # default=0 parameter is needed when a group level combination does not include any cases
         else:  # single variable
             max_freq_global = max(long_raw_data[dep_name].value_counts())
@@ -1725,8 +1726,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
         # Calculate the max value specifically for this panel
         if indep_names:  # there are independent variables
+            indep_names_for_groupby = indep_names if len(indep_names) > 1 else indep_names[0]
             max_freq_panel = max([max(long_raw_data_subset[1][dep_name].value_counts(), default=0) for
-                                  long_raw_data_subset in panel_raw_group.groupby(by=indep_names)])
+                                  long_raw_data_subset in panel_raw_group.groupby(by=indep_names_for_groupby)])
             # default=0 parameter is needed when a group level combination does not include any cases
         else:  # single variable
             max_freq_panel = max(panel_raw_group[dep_name].value_counts())
@@ -1772,9 +1774,15 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                                                         default=0))
                     if max_freq_panel_connec > 1:
                         suptitle_text_line = _plt('Thickest line displays %d cases.') % max_freq_panel_connec + ' '
-
+                if indep_x:
+                    if len(indep_x) > 1:
+                        indep_x_for_groupby = indep_x
+                    else:
+                        indep_x_for_groupby = indep_x[0]
+                else:
+                    indep_x_for_groupby = 'all_raw_rows'
                 for j, (x_raw_name, x_raw_group) in \
-                        enumerate(color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows'))):
+                        enumerate(color_raw_group.groupby(by=indep_x_for_groupby)):
                     if raw_data:
                         val_count = _value_count(x_raw_group[dep_name], max_freq_global)
                         # size parameter must be a float, not an int

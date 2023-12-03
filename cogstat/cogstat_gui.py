@@ -103,14 +103,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.check_for_update()
 
         # Only for testing
-        self.open_file('cogstat/demo_data/dummy data/example_data.csv'); #self.compare_groups()
+#        self.open_file('cogstat/demo_data/dummy data/example_data.csv'); #self.compare_groups()
 #        self.open_file('cogstat/test/data/VA_test.csv')
 #        self.open_file('cogstat/test/data/test2.csv')
 #        self.open_file('cogstat/test/data/diffusion.csv')
 #        self.open_clipboard()
 #        self.print_data()
 #        self.filter_outlier(['before', 'after'], True)
-        self.explore_variable(['X'])
+#        self.explore_variable(['X'])
 #        self.explore_variable(['a'], freq=False)
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.regression(['a'], 'b')
