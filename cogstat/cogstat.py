@@ -1003,9 +1003,21 @@ class CogStatData:
                                          'sample info', 'descriptives chart', 'descriptives', 'descriptives table',
                                          'population info', 'estimation info', 'estimation table']}
 
+        results['analysis info'] = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
+
+        # Check the preconditions
+        preconditions = True
+        results['warning'] = ''
+        if len(var_names) < 3:
+            results['warning'] += _('At least three variables should be set') + '.\n'
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
+
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
-        results['analysis info'] = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
         results['analysis info'] += (_('Reliability of items') + ': ' +
                                      ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)))
 
@@ -1076,9 +1088,21 @@ class CogStatData:
                                          'population info', 'assumption', 'estimation info',
                                          'estimation table', 'hypothesis test']}
 
-        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
-
         results['analysis info'] = '<cs_h1>' + _('Interrater reliability') + '</cs_h1>'
+
+        # Check the preconditions
+        preconditions = True
+        results['warning'] = ''
+        if len(var_names) < 2:
+            results['warning'] += _('At least two variables should be set') + '.\n'
+            preconditions = False
+        if not preconditions:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
+
+
+        meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
         results['analysis info'] += (_('Reliability calculated from variables') + ': ' +
                                      ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)))
 
@@ -1427,6 +1451,8 @@ class CogStatData:
             row_names = []
 
         results['analysis info'] = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
+
+        # Check the preconditions
         preconditions = True
         results['warning'] = ''
         if not depend_name:
@@ -1562,7 +1588,7 @@ class CogStatData:
         if not preconditions:
             return cs_util.convert_output(results)
         else:
-            results[''] = None
+            results['warning'] = None
 
         # Prepare missing parameters
         # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
