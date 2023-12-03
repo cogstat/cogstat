@@ -364,7 +364,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         data_welcome_message = '%s%s%s%s<br>' % \
                                ('<cs_h1>', _('Data view'), '</cs_h1>',
                                _('To start working open a data file or paste your data from a spreadsheet.'))
-        self.result_pane.setText(cs_util.convert_output([output_welcome_message])[0])
+        self.result_pane.setText(cs_util.convert_output({'info': output_welcome_message})['info'])
         # We add these extra properties to track if the welcome message  is still on
         self.result_pane.welcome_message_on = True
 
