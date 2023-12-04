@@ -6,6 +6,7 @@ Upcoming version
 ## New features
 - Help buttons on dialogs
 - Simplified diffusion analysis report
+- Continuing support for Spanish localization (Mabel Galai)
 - Python package: results are returned in a dictionary
 
 ## Fixes
