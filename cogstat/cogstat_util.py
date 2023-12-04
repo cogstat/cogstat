@@ -133,7 +133,7 @@ def print_versions(main_window):
 #    for param in os.environ.keys():
 #        text_output += u'%s %s' % (param,os.environ[param]) + '\n'
 
-    return cs_util.convert_output([text_output])
+    return cs_util.convert_output({'info': text_output})
 
 
 def precision(data):
