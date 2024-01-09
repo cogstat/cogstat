@@ -376,10 +376,10 @@ def create_item_total_matrix(data, regression=True):
     nrows = math.ceil(len(data.columns.tolist())/3)
 
     items_list = data.columns.tolist()
-    total_scores = [[sum(data[data.columns.difference([var])].iloc[i, :]) for i in range(len(data))]
-                    for var in items_list]  # Total scores with item-removal
+    total_scores = [data[data.columns.difference([var])].sum(axis=1) for var in items_list]  # Total scores with item-removal
     total_scores_df = pd.DataFrame(total_scores).T
     total_scores_df.columns = ["%s_total" % var for var in items_list]
+
     data_temp_all_vars = pd.concat([data, total_scores_df], axis=1)
     global_max_freq = max([max(data_temp_all_vars[[var, var+'_total']].value_counts()) for var in items_list])
 
