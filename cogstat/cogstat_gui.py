@@ -1083,12 +1083,23 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if self.output_filename == '':
             self.save_result_as()
         else:
-            html_file = self.result_pane.toHtml()
-            html_file = html_file.replace(' ', '&nbsp;')  # replace non-breaking spaces with html code for nbsp
-            with open(self.output_filename, 'w') as f:
-                f.write(html_file)
-            self.unsaved_output = False
-            
+            try:
+                html_file = self.result_pane.toHtml()
+                # replace non-breaking spaces with html code for nbsp
+                html_file = html_file.replace(' ', '&nbsp;')
+                with open(self.output_filename, 'w') as f:
+                    f.write(html_file)
+                self.unsaved_output = False
+            except:
+                if csc.detailed_error_message:
+                    error_message = '\n' + '<cs_warning>' + _('Detailed error message') + \
+                                    ' (%s):</cs_warning>\n' % 'you can turn this off in Preferences' + \
+                                     traceback.format_exc()
+                else:
+                    error_message = ''
+                self.result_pane.append(cs_util.convert_output({'warning': ((broken_analysis % _('Saving the results'))
+                                                                            + error_message)})['warning'])
+
     def save_result_as(self, filename=None):
         """Save the results pane to an html file.
 
