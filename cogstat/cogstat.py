@@ -659,7 +659,7 @@ class CogStatData:
 
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
-            results['analysis info'] = _('Filtering is switched off.')
+            results['analysis info'] += _('Filtering is switched off.')
         else:  # Create a filtered dataframe based on the variable(s)
             remaining_cases_indexes = []
             if mode in ['2sd', '2.5mad']:
