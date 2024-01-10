@@ -1,0 +1,13 @@
+"CASE"	"TIME"	"TIME3"	"CONDITION"	"CONDITION2"	"CONDITION3"	"X"	"Y"	"Z"	"ZZ"
+1	"day"	"a"	"A"	"A"	"A"	102	123	32	45
+2	"day"	"a"	"B"	"A"	"B"	70	76	76	345
+3	"night"	"a"	"A"	"A"	"B"	27	67	34	3
+4	"night"	"a"	"B"	"B"	"B"	38	87	345	43
+5	"day"	"a"	"A"	"B"	"A"	67	76	356	345
+6	"day"	"a"	"B"	"B"	"A"	127	75	657	43
+7	"night"	"s"	"A"	"B"	"A"	68	76	659	34
+8	"night"	"s"	"B"	"B"	"B"	49	46	758	534
+9	"day"	"d"	"A"	"A"	"A"	57	75	67	543
+10	"day"	"d"	"B"	"B"	"B"	71	75	7	534
+11	"night"	"d"	"A"	"A"	"A"	40	65	76	5
+12	"night"	"d"	"B"	"B"	"B"	84	76	87	435

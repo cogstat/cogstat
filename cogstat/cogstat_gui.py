@@ -103,7 +103,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.check_for_update()
 
         # Only for testing
-#        self.open_file('cogstat/demo_data/dummy data/example_data.csv'); #self.compare_groups()
+#        self.open_file('cogstat/test/dummy data/example_data.csv'); #self.compare_groups()
 #        self.open_file('cogstat/test/data/VA_test.csv')
 #        self.open_file('cogstat/test/data/test2.csv')
 #        self.open_file('cogstat/test/data/diffusion.csv')
