@@ -7,10 +7,6 @@ and they compile the appropriate statistics for the main analysis pipelines.
 """
 
 """
-For the analyses, headings (<cs_hx>) are included in this module.
-
-Display the filtering status for each analysis.
-
 The analyses return a dictionary.
 - The key is the name of the subsection, and the value is the output. 
 - Only the values will be displayed in the order as it is stored in the dictionary.
@@ -33,6 +29,14 @@ orthogonally, you may add what type of information is included
 - table: results in table/numerical format
 - chart: results in charts
 - or no information type is added 
+
+For the analyses, headings (<cs_hx>) are included in this module.
+
+Display the filtering status for each analysis.
+
+Right after the main heading, check the preconditions of the analyses, for example,
+- Number of variables, missing variables
+- Measurement levels of the variables, the consistency of the measurement levels
 """
 
 # if CS is used with GUI, start the splash screen
@@ -562,7 +566,7 @@ class CogStatData:
             if self.filtering_status[0]:
                 self.filter_outlier(var_names=self.filtering_status[0], mode=self.filtering_status[1])
         else:
-            results['analysis info'] += _('The data was not imported from a file') + '. ' + _('It cannot be reloaded') + '.\n'
+            results['warning'] = _('The data was not imported from a file') + '. ' + _('It cannot be reloaded') + '.\n'
             # or do we assume that this method is not called when the actual file was not imported from a file?
 
         return cs_util.convert_output(results)
@@ -583,12 +587,13 @@ class CogStatData:
         str
             HTML string showing the data.
         """
-        results = {key: None for key in ['analysis info', 'warning']}
+        results = {key: None for key in ['analysis info']}
 
         results['analysis info'] = ''
         if show_heading:
             results['analysis info'] += '<cs_h1>' + _('Data') + '</cs_h1>'
-        results['analysis info'] += _('Source: ') + self.import_source[0] + (self.import_source[1] if self.import_source[1] else '') + '\n'
+        results['analysis info'] += (_('Source: ') + self.import_source[0] +
+                                     (self.import_source[1] if self.import_source[1] else '') + '\n')
         results['analysis info'] += (str(len(self.data_frame.columns)) + _(' variables and ') +
                                      str(len(self.data_frame.index)) + _(' cases') + '\n')
         results['analysis info'] += self._filtering_status()
@@ -605,8 +610,9 @@ class CogStatData:
             results['analysis info'] += (str(len(self.data_frame.index)-10) + _(' further cases are not displayed...') +
                                          '\n')
         elif len(self.data_frame.index) > 999:
-            results['analysis info'] += _('The next %s cases will not be printed. You can check all cases in the original data source.') \
-                      % (len(self.data_frame.index)-1000) + '\n'
+            results['analysis info'] += \
+                _('The next %s cases will not be printed. You can check all cases in the original data source.') \
+                % (len(self.data_frame.index)-1000) + '\n'
 
         return cs_util.convert_output(results)
 
@@ -625,6 +631,7 @@ class CogStatData:
         ----------
         var_names : None or list of str
             Names of the variables the exclusion is based on or None to include all cases.
+            Variables must be interval (or unknown) measurement level variables.
         mode : {'2.5mad', '2sd', 'mahalanobis'}
             Mode of the exclusion:
                 2.5mad: median +- 2.5 * MAD
@@ -653,6 +660,12 @@ class CogStatData:
 
         results['analysis info'] = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
+        # Check preconditions
+        # Run analysis only if variables are interval (or unkown) variables
+        if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'ord', 'nom'}):
+            results['warning'] = _('Only interval variables can be used for filtering') + '.'
+            return cs_util.convert_output(results)
+
         results['sample chart'] = []
 
         # Filtering should be done on the original data, so use self.orig_data_frame
@@ -664,11 +677,6 @@ class CogStatData:
             remaining_cases_indexes = []
             if mode in ['2sd', '2.5mad']:
                 for var_name in var_names:
-                    # Check if the variable is 'int'
-                    if self.data_measlevs[var_name] in ['ord', 'nom']:
-                        results['analysis info'] += _('Only interval variables can be used for filtering. Ignoring variable %s.') % \
-                                                    var_name + '\n'
-                        continue
                     # Find the lower and upper limit
                     if mode == '2sd':
                         mean = np.mean(self.orig_data_frame[var_name].dropna())
@@ -716,26 +724,17 @@ class CogStatData:
             elif mode == 'mahalanobis':
                 # Based on the robust Mahalanobis distance in Leys et al., 2017 and Rousseeuw, 1999
                 # Removing non-interval variables
-                valid_var_names = var_names[:]
-                for var_name in valid_var_names:
-                    if self.data_measlevs[var_name] in ['ord', 'nom']:
-                        valid_var_names.remove(var_name)
-                if len(var_names) > len(valid_var_names):
-                    results['analysis info'] += (_('Only interval variables can be used for filtering') + '.' +
-                                                 _('Ignoring variable(s) %s') %
-                                                 ', '.join(set(var_names) - set(valid_var_names)) + '.\n')
 
                 # Calculating the robust Mahalanobis distances
                 from sklearn import covariance
-                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[valid_var_names].
-                                                                          dropna())
+                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[var_names].dropna())
 
                 # Custom filtering criteria based on Leys et al. (2017)
                 # Appropriate cut-off point based on chi2
-                limit = stats.chi2.ppf(0.95, len(self.orig_data_frame[valid_var_names].columns))
+                limit = stats.chi2.ppf(0.95, len(self.orig_data_frame[var_names].columns))
                 # Get robust Mahalanobis distances from model object
-                distances = cov.mahalanobis(self.orig_data_frame[valid_var_names].dropna())
-                filtering_data_frame = self.orig_data_frame.dropna(subset=valid_var_names).copy()
+                distances = cov.mahalanobis(self.orig_data_frame[var_names].dropna())
+                filtering_data_frame = self.orig_data_frame.dropna(subset=var_names).copy()
                 filtering_data_frame['mahalanobis'] = distances
 
                 # Find the cases to be kept
@@ -744,7 +743,7 @@ class CogStatData:
 
                 # Display filtering information
                 results['analysis info'] += (_('Multivariate filtering based on the variables: %s (%s)') %
-                                             (', '.join(valid_var_names), mode_names[mode]) + '.\n')
+                                             (', '.join(var_names), mode_names[mode]) + '.\n')
                 results['analysis info'] += _('Cases with missing data will also be excluded') + '.\n'
                 prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1  # TODO we should set this to a constant value
                 results['analysis info'] += (_('Cases above the cutoff Mahalanobis distance will be excluded') +
@@ -752,7 +751,7 @@ class CogStatData:
 
                 # Display the excluded cases
                 excluded_cases = \
-                    self.orig_data_frame.dropna(subset=valid_var_names).drop(remaining_cases_indexes[-1])
+                    self.orig_data_frame.dropna(subset=var_names).drop(remaining_cases_indexes[-1])
                 # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
@@ -760,13 +759,13 @@ class CogStatData:
                     # Change indexes to be in line with the data view numbering
                     excluded_cases.index = excluded_cases.index + 1
                     results['analysis info'] += excluded_cases.to_html(bold_rows=False).replace('\n', '') + '\n'
-                    for var_name in valid_var_names:
+                    for var_name in var_names:
                         results['sample chart'].append(cs_chart.create_filtered_cases_chart(
-                            self.orig_data_frame.dropna(subset=valid_var_names).loc[remaining_cases_indexes[-1]]
+                            self.orig_data_frame.dropna(subset=var_names).loc[remaining_cases_indexes[-1]]
                             [var_name], excluded_cases[var_name], var_name))
 
                 else:
-                    results['analysis info'] += _('No cases were excluded') +'.'
+                    results['analysis info'] += _('No cases were excluded') + '.'
             else:
                 raise ValueError('Invalid mode parameter was given')
 
@@ -1011,6 +1010,8 @@ class CogStatData:
         results['warning'] = ''
         if len(var_names) < 3:
             results['warning'] += _('At least three variables should be set') + '.\n'
+        if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'nom'}):
+            results['warning'] += _('Nominal variables cannot be used for the reliability analysis') + '.\n'
         if results['warning']:
             return cs_util.convert_output(results)
         else:
@@ -1094,6 +1095,8 @@ class CogStatData:
         results['warning'] = ''
         if len(var_names) < 2:
             results['warning'] += _('At least two variables should be set') + '.\n'
+        if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'nom'}):
+            results['warning'] += _('Nominal variables cannot be used for the reliability analysis') + '.\n'
         if results['warning']:
             return cs_util.convert_output(results)
         else:
