@@ -83,6 +83,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.last_file_dir = os.path.dirname(csc.__file__)
         self.last_demo_file_dir = os.path.join(os.path.dirname(csc.__file__), 'demo_data')
 
+        self.watched_file = QtCore.QFileSystemWatcher()
+        self.watched_file.fileChanged.connect(self.reload_file)
+
         # Check if all required components are installed
         # TODO Maybe all these checking can be removed
         missing_required_components, missing_recommended_components = self._check_installed_components()
@@ -178,6 +181,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  'self.open_demo_file', True, False],
                                 ['/icons8-folder-reload.svg', _('Re&load actual data file'), _('Ctrl+Shift+L'),
                                  'self.reload_file', True, True],
+                                ['/icons8-folder-link.svg', _('Reload data file when &changed'), _('Ctrl+Alt+L'),
+                                 'self.watch_file', False, True],
                                 ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True,
                                  False],
                                 ['separator'],
@@ -291,7 +296,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
                         self.active_menu_with_data.append(menu_item[1])
 
         self.menus[2].actions()[5].setCheckable(True)  # _('&Text is editable') menu is a checkbox
-                                                       # # see also text_editable()
+                                                       # see also text_editable()
+        self.menus[0].actions()[3].setCheckable(True)  # _('&Text is editable') menu is a checkbox
+                                                       # see also text_editable()
         #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and
                                                         # the toolbar works independently
         #self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
@@ -693,6 +700,28 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.last_demo_file_dir = os.path.normpath(os.path.dirname(path))
             self._open_data(path)
 
+    def watch_file(self):
+        """Add and remove files to/from the file watcher.
+
+        Action depends on whether the current data comes from a file and whether automatic file reload is on.
+
+        Call this, when (a) a data is loaded or reloaded (since this may mean that the file is changed and in some
+        systems/settings, the file is created; therefore, the file is removed from the watcher) or (b) automatic data
+        reload setting is changed.
+
+        Returns
+        -------
+        Changes the files in the file watcher
+        """
+
+        # If the current data comes from a file and if the automatic data file reload is on, watch the file.
+        # Otherwise, don't watch anything.
+        if self.active_data.import_source[1] and self.menus[0].actions()[3].isChecked():
+            self.watched_file.addPath(self.active_data.import_source[1])
+        else:
+            self.watched_file.removePaths(self.watched_file.files())
+
+
     def reload_file(self):
         """Reload data file."""
         successful = self._run_analysis(title=_('Reload data'), function_name='self.active_data.reload_data')
@@ -700,6 +729,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self._display_data()
         else:
             self._display_data(reset=True)
+        self.watch_file()
 
     def open_clipboard(self):
         """Open data copied to clipboard."""
@@ -720,10 +750,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if self.active_data.import_source[1]:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(True)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(True)
+                self.menu_commands[_('Reload data file when &changed')].setEnabled(True)
             else:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(False)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
+                self.menu_commands[_('Reload data file when &changed')].setEnabled(False)
         self._display_data()
+        self.watch_file()
         return cs_util.convert_output({'imported data': self.active_data.import_message})
 
     def _open_data(self, data):
@@ -1073,7 +1106,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.result_pane.zoomOut(1)
 
     def text_editable(self):
-        self.result_pane.setReadOnly(not(self.menus[2].actions()[5].isChecked()))  # see also _init_UI
+        self.result_pane.setReadOnly(not (self.menus[2].actions()[5].isChecked()))  # see also _init_UI
         #self.output_pane.setReadOnly(not(self.toolbar.actions()[15].isChecked()))
         # TODO if the position of this menu is changed, then this function will not work
         # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
