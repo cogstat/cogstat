@@ -37,6 +37,7 @@ import matplotlib.figure
 import matplotlib.pyplot as plt
 import os
 import sys
+import time
 import traceback
 from urllib.request import urlopen
 import webbrowser
@@ -181,7 +182,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  'self.open_demo_file', True, False],
                                 ['/icons8-folder-reload.svg', _('Re&load actual data file'), _('Ctrl+Shift+L'),
                                  'self.reload_file', True, True],
-                                ['/icons8-folder-link.svg', _('Reload data file when &changed'), _('Ctrl+Alt+L'),
+                                ['/icons8-folder-link.svg', _('Reload data file automatically when &changed'), _('Ctrl+Shift+Alt+L'),
                                  'self.watch_file', False, True],
                                 ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True,
                                  False],
@@ -601,9 +602,15 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.table_view.setModel(model)
             # Hide the filtering column
             self.table_view.setColumnHidden(model.columnCount() - 1, True)
-            self.table_view.show()
+            # For automatic data file reload, provide visual feedback
+            if self.menus[0].actions()[3].isChecked():
+                self.table_view.setGridStyle(QtCore.Qt.NoPen)
+                self.table_view.repaint()
+                time.sleep(0.2)
+                self.table_view.setGridStyle(QtCore.Qt.SolidLine)
+            self.table_view.show()  # TODO do we need this?
 
-    def _run_analysis(self, title, function_name, parameters=None, scroll_to_analysis=True):
+    def _run_analysis(self, title, function_name, parameters=None, scroll_to_analysis=True, store_in_results=True):
         """Run an analysis by calling the function with the parameters.
         If it fails, provide an error message with the title as heading.
 
@@ -617,6 +624,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             Optional parameters
         scroll_to_analysis : bool
             Should the pane scroll to the beginning of the analysis?
+        store_in_results : bool
+            Should the command and the output stored in analysis_results (for later reanalysis)?
 
         Returns
         -------
@@ -629,8 +638,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         #print(title, function_name, parameters)
 
         self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command([title, function_name, parameters])
+        if store_in_results:
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command([title, function_name, parameters])
         result = None
         successful_run = True
         try:
@@ -640,8 +650,15 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 result = attrgetter(function_rest_levels)(locals()[function_highest_level])()
             else:  # there are parameters stored in a dict
                 result = attrgetter(function_rest_levels)(locals()[function_highest_level])(**parameters)
-            self.analysis_results[-1].add_output(result)
+            if store_in_results:
+                self.analysis_results[-1].add_output(result)
+                self._print_to_pane(pane=self.result_pane, output_dict=self.analysis_results[-1].output,
+                                    scroll_to_analysis=scroll_to_analysis)
         except Exception as e:
+            if not store_in_results:  # if analyses was not intended to be stored, but exception happened, and the
+                                      # error message should be displayed
+                self.analysis_results.append(GuiResultPackage())
+                self.analysis_results[-1].add_command([title, function_name, parameters])
             if csc.detailed_error_message:
                 error_message = '\n' + '<cs_warning>' + _('Detailed error message') + \
                                 ' (%s):</cs_warning>\n' % 'you can turn this off in Preferences' + traceback.format_exc()
@@ -662,8 +679,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 self._display_data(reset=True)
             traceback.print_exc()
             successful_run = False
-        self._print_to_pane(pane=self.result_pane, output_dict=self.analysis_results[-1].output,
-                            scroll_to_analysis=scroll_to_analysis)
+            self._print_to_pane(pane=self.result_pane, output_dict=self.analysis_results[-1].output,
+                                scroll_to_analysis=scroll_to_analysis)
         self._busy_signal(False)
         return successful_run
 
@@ -724,7 +741,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def reload_file(self):
         """Reload data file."""
-        successful = self._run_analysis(title=_('Reload data'), function_name='self.active_data.reload_data')
+
+        store_in_results = not self.menus[0].actions()[3].isChecked()
+        successful = self._run_analysis(title=_('Reload data'), function_name='self.active_data.reload_data',
+                                        store_in_results=store_in_results)
         if successful:
             self._display_data()
         else:
@@ -750,11 +770,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if self.active_data.import_source[1]:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(True)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(True)
-                self.menu_commands[_('Reload data file when &changed')].setEnabled(True)
+                self.menu_commands[_('Reload data file automatically when &changed')].setEnabled(True)
             else:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(False)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
-                self.menu_commands[_('Reload data file when &changed')].setEnabled(False)
+                self.menu_commands[_('Reload data file automatically when &changed')].setEnabled(False)
         self._display_data()
         self.watch_file()
         return cs_util.convert_output({'imported data': self.active_data.import_message})
