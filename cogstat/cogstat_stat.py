@@ -469,7 +469,7 @@ def print_var_stats(pdf, var_names, meas_levs, grouping_variables=None, statisti
                       'kurtosis': lambda x: stats.kurtosis(x, bias=False),
                       # for mode, use pandas.Series.mode() instead of scipy.stats.mode() because from scipy 1.11 only
                       # numeric values are considered
-                      # TODO When there are several modes, only the first one is considered. Is this OK?
+                      # When there are several modes, use only the first one. See #268
                       'variation ratio': lambda x: 1 - (sum(x == x.mode()[0]) / len(x))
                       }
 
