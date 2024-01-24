@@ -182,7 +182,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  'self.open_demo_file', True, False],
                                 ['/icons8-folder-reload.svg', _('Re&load actual data file'), _('Ctrl+Shift+L'),
                                  'self.reload_file', True, True],
-                                ['/icons8-folder-link.svg', _('Reload data file automatically when &changed'), _('Ctrl+Shift+Alt+L'),
+                                ['/icons8-folder-link.svg', _('Reload data file when &changed'), _('Ctrl+Shift+Alt+L'),
                                  'self.watch_file', False, True],
                                 ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True,
                                  False],
@@ -195,21 +195,21 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                 ['toolbar separator']
                             ],
                             [_('&Analysis'),
-                                ['/icons8-normal-distribution-histogram.svg', _('&Explore variable')+'...',
+                                ['/icons8-normal-distribution-histogram.svg', _('Explore &variable')+'...',
                                  _('Ctrl+1'), 'self.explore_variable', True, True],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
                                  _('Ctrl+2'), 'self.explore_variable_pair', True, True],
                                 ['/icons8-heat-map-100.png', _('Explore &relation of variables')+'...',
                                  _('Ctrl+R'), 'self.regression', True, True],
-                                ['/icons8-combo-chart.svg', _('Compare re&peated measures variables')+'...',
+                                ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
                                  'Ctrl+P', 'self.compare_variables', True, True],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
                                  'self.compare_groups', True, True],
-                                ['/icons8-combo-chart-100.png', _('Compare repeated &measures variables and groups')+'...',
+                                ['/icons8-combo-chart-100.png', _('&Compare repeated measures variables and groups')+'...',
                                  'Ctrl+M', 'self.compare_variables_groups', True, True],
                                 ['separator'],
                                 ['toolbar separator'],
-                                ['/icons8-goal-100.png', _('Internal &consistency reliability analysis')+'...',
+                                ['/icons8-goal-100.png', _('Internal consistenc&y reliability analysis')+'...',
                                  'Ctrl+Shift+C', 'self.reliability_internal', True, True],
                                 ['/icons8-collect-100.png', _('&Interrater reliability analysis')+'...',
                                  'Ctrl+Shift+I', 'self.reliability_interrater', True, True],
@@ -221,8 +221,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  '...', 'Ctrl+Shift+D', 'self.diffusion', True, True],
                                 ['separator'],
                                 ['toolbar separator'],
-                                ['/icons8-reboot-100.png', _('Rerun all analyses'), 'Ctrl+Shift+R',
+                                ['/icons8-reboot-100.png', _('Rerun all &analyses'), 'Ctrl+Shift+R',
                                  'self.rerun_analyses', True, True],
+                                ['/icons8-reboot-link-100.png', _('Rerun all analyses when &file reloaded'),
+                                 'Ctrl+Shift+Alt+R', 'self._pass', False, True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
@@ -296,9 +298,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     if menu_item[5]:  # the menu should be enabled only when data are loaded
                         self.active_menu_with_data.append(menu_item[1])
 
+        self.menus[0].actions()[3].setCheckable(True)  # _('Reload data file when &changed') menu is
+                                                       # a checkbox
+        self.menus[1].actions()[14].setCheckable(True)  # _('Rerun all analyses when &file reloaded') menu is a checkbox
         self.menus[2].actions()[5].setCheckable(True)  # _('&Text is editable') menu is a checkbox
-                                                       # see also text_editable()
-        self.menus[0].actions()[3].setCheckable(True)  # _('&Text is editable') menu is a checkbox
                                                        # see also text_editable()
         #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and
                                                         # the toolbar works independently
@@ -415,6 +418,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # print 'Dropped Text: ', event.mimeData().text()
             self._open_data(data=str(event.mimeData().text()))
         
+
+    def _pass(self):
+        pass
+
     def _check_installed_components(self):
         """
         Check if all required and recommended components are installed.
@@ -751,6 +758,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self._display_data(reset=True)
         self.watch_file()
 
+        if self.menus[1].actions()[14].isChecked():  # rerun all analyses when file is reloaded
+            self.rerun_analyses()
+
     def open_clipboard(self):
         """Open data copied to clipboard."""
         clipboard = QtWidgets.QApplication.clipboard()
@@ -770,11 +780,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if self.active_data.import_source[1]:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(True)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(True)
-                self.menu_commands[_('Reload data file automatically when &changed')].setEnabled(True)
+                self.menu_commands[_('Reload data file when &changed')].setEnabled(True)
             else:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(False)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
-                self.menu_commands[_('Reload data file automatically when &changed')].setEnabled(False)
+                self.menu_commands[_('Reload data file when &changed')].setEnabled(False)
         self._display_data()
         self.watch_file()
         return cs_util.convert_output({'imported data': self.active_data.import_message})
