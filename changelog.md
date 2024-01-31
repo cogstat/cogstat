@@ -4,8 +4,10 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming version
 ================
 ## New features
+- Use Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
 - Help buttons on dialogs
 - Optionally reload data files automatically when file is changed
+- Optionally rerun analyses when file is reloaded
 - Simplified diffusion analysis report
 - Continuing support for Spanish localization (Mabel Galai)
 - Python package: results are returned in a dictionary

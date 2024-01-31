@@ -591,7 +591,9 @@ class CogStatTestCase(unittest.TestCase):
         # Mann-Whitney
             # jamovi 2.0.0.0 51.0, 0.010 TODO
             # jasp 0.16.1   51.000 0.010 TODO with more decimals p 0.00987
-        self.assertTrue('<i>U</i> = 51.00, <i>p</i> = .011' in result['hypothesis test'])
+        #self.assertTrue('<i>U</i> = 51.00, <i>p</i> = .011' in result['hypothesis test'])
+        # Brunner-Munzel
+        self.assertTrue('<i>W</i> = 3.13, <i>p</i> = .004' in result['hypothesis test'])
 
         # Heteroscedastic groups
         result = data.compare_groups('p', ['m'])
@@ -638,7 +640,10 @@ class CogStatTestCase(unittest.TestCase):
         # Mann-Whitney
             # jamovi 2.0.0.0 51.0, 0.010 TODO
             # jasp 0.16.1 51.0, 0.010 TODO
-        self.assertTrue('<i>U</i> = 51.00, <i>p</i> = .011' in result['hypothesis test'])
+        #self.assertTrue('<i>U</i> = 51.00, <i>p</i> = .011' in result['hypothesis test'])
+        # Brunner-Munzel
+        self.assertTrue('<i>W</i> = 3.13, <i>p</i> = .004' in result['hypothesis test'])
+
 
         # 3 Ord groups
         data.data_measlevs['o'] = 'ord'
