@@ -362,11 +362,11 @@ class CogStatTestCase(unittest.TestCase):
         result = data_diffusion.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name',
                                           condition_names=['Num1', 'Num2'])
         # Drift rate
-        self.assertTrue('<th>zsiraf</th>      <td>0.190</td>      <td>0.276</td>      <td>0.197</td>      <td>0.235</td>      <td>0.213</td>' in result['diffusion table'][5].data.to_html(float_format='{:.3f}'.format).replace('\n', ''))
+        self.assertTrue('<th>zsiraf</th>      <td>0.190</td>      <td>0.276</td>      <td>0.197</td>      <td>0.235</td>      <td>0.213</td>' in result['drift rate'].data.to_html(float_format='{:.3f}'.format).replace('\n', ''))
         # Threshold
-        self.assertTrue('<th>zsiraf</th>      <td>0.178</td>      <td>0.096</td>      <td>0.171</td>      <td>0.112</td>      <td>0.088</td>' in result['diffusion table'][6].data.to_html(float_format='{:.3f}'.format).replace('\n', ''))
+        self.assertTrue('<th>zsiraf</th>      <td>0.178</td>      <td>0.096</td>      <td>0.171</td>      <td>0.112</td>      <td>0.088</td>' in result['threshold'].data.to_html(float_format='{:.3f}'.format).replace('\n', ''))
         # Nondecision time
-        self.assertTrue('<th>zsiraf</th>      <td>0.481</td>      <td>0.590</td>      <td>0.483</td>      <td>0.561</td>      <td>0.522</td>' in result['diffusion table'][7].data.to_html(float_format='{:.3f}'.format).replace('\n', ''))
+        self.assertTrue('<th>zsiraf</th>      <td>0.481</td>      <td>0.590</td>      <td>0.483</td>      <td>0.561</td>      <td>0.522</td>' in result['nondecision time'].data.to_html(float_format='{:.3f}'.format).replace('\n', ''))
 
     def test_compare_variables(self):
         """Test compare variables"""
