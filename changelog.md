@@ -5,12 +5,13 @@ Upcoming version
 ================
 ## New features
 - Use Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
-- Help buttons on dialogs
-- Optionally reload data files automatically when file is changed
-- Optionally rerun analyses when file is reloaded
+- Effect size for 80% power is displayed beyond the 95% power version (thanks to Maja Lebeničnik)
 - Simplified diffusion analysis report
-- Continuing support for Spanish localization (Mabel Galai)
+- Help buttons on dialogs
+- Ability to reload data files automatically when file is changed
+- Ability to rerun analyses when file is reloaded
 - Python package: results are returned in a dictionary
+- Continuing support for Spanish localization (Mabel Galai)
 
 ## Fixes
 - Output, localization, and GUI fixes
