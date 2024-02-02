@@ -30,8 +30,6 @@ from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
 
-run_power_analysis = True  # should the power analyses be run?
-
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
@@ -207,19 +205,18 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         text_result = ''
 
         # Sensitivity power analysis
-        if run_power_analysis:
-            # statsmodels may fail, see its API documentation
-            try:
-                from statsmodels.stats.power import TTestPower
-                power_analysis = TTestPower()
-                d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
-                                power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
-                                                           alternative='two-sided')
-            except ValueError:
-                d_effect_size = ''
-            text_result += print_sensitivity_effect_sizes([d_effect_size])
+        # statsmodels may fail, see its API documentation
+        try:
+            from statsmodels.stats.power import TTestPower
+            power_analysis = TTestPower()
+            d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
+                            power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
+                                                       alternative='two-sided')
+        except ValueError:
+            d_effect_size = ''
+        text_result += print_sensitivity_effect_sizes([d_effect_size])
 
-                # d: (mean divided by the standard deviation)
+            # d: (mean divided by the standard deviation)
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value) + ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
@@ -766,18 +763,17 @@ def paired_t_test(pdf, var_names):
     text_result = ''
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        # statsmodels may fail, see its API documentation
-        try:
-            from statsmodels.stats.power import TTestPower
-            power_analysis = TTestPower()
-            d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
-                            power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
-                                                       alternative='two-sided')
-        except ValueError:
-            d_effect_size = ''
-        text_result += print_sensitivity_effect_sizes([d_effect_size])
-        # d: (mean divided by the standard deviation of the differences)
+    # statsmodels may fail, see its API documentation
+    try:
+        from statsmodels.stats.power import TTestPower
+        power_analysis = TTestPower()
+        d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
+                        power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
+                                                   alternative='two-sided')
+    except ValueError:
+        d_effect_size = ''
+    text_result += print_sensitivity_effect_sizes([d_effect_size])
+    # d: (mean divided by the standard deviation of the differences)
 
     df = len(variables) - 1
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
@@ -1172,18 +1168,17 @@ def independent_t_test(pdf, var_name, grouping_name):
     t, p, df = ttest_ind(var1, var2)
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        try:
-            # statsmodels may fail, see its API documentation
-            from statsmodels.stats.power import TTestIndPower
-            power_analysis = TTestIndPower()
-            d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
-                            power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
-                                                       ratio=len(var2) / len(var1), alternative='two-sided')
-        except ValueError:
-            d_effect_size = ''
-        text_result += print_sensitivity_effect_sizes([d_effect_size])
-        # d: (difference between the two means divided by the standard deviation)
+    try:
+        # statsmodels may fail, see its API documentation
+        from statsmodels.stats.power import TTestIndPower
+        power_analysis = TTestIndPower()
+        d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
+                        power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
+                                                   ratio=len(var2) / len(var1), alternative='two-sided')
+    except ValueError:
+        d_effect_size = ''
+    text_result += print_sensitivity_effect_sizes([d_effect_size])
+    # d: (difference between the two means divided by the standard deviation)
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.*f, %s\n' % \
                    (df, non_data_dim_precision, t, print_p(p))
@@ -1321,33 +1316,32 @@ def one_way_anova(pdf, var_name, grouping_name):
     data = pdf[[var_name] + [grouping_name]]
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        # 1. Calculate effect size in F
-        # statsmodels may fail, see its API documentation
-        try:
-            from statsmodels.stats.power import FTestAnovaPower
-            power_analysis = FTestAnovaPower()
-            F_effect_size = _('Minimal effect size in %s') % _('f') + ': %0.2f. ' % \
-                                     power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05,
-                                                                power=0.95, k_groups=len(set(data[grouping_name])))
-        except ValueError:
-            F_effect_size = ''
+    # 1. Calculate effect size in F
+    # statsmodels may fail, see its API documentation
+    try:
+        from statsmodels.stats.power import FTestAnovaPower
+        power_analysis = FTestAnovaPower()
+        F_effect_size = _('Minimal effect size in %s') % _('f') + ': %0.2f. ' % \
+                                 power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05,
+                                                            power=0.95, k_groups=len(set(data[grouping_name])))
+    except ValueError:
+        F_effect_size = ''
 
-        # 2. Calculate effect size in eta-square
-        # pingouin may fail in calculating the effect size, see its API documentation
-        try:
-            eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
-                                              k=len(set(data[grouping_name])))
-        except TypeError:  # in pingouin 0.5.2 eta was renamed to eta_squared
-            eta_square = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.95,
-                                              k=len(set(data[grouping_name])))
-        if np.isnan(eta_square):
-            eta_square_effect_size = ''
-        else:
-            eta_square_effect_size = _('Minimal effect size in %s') % _('eta-square') + ': %0.2f. ' % eta_square
+    # 2. Calculate effect size in eta-square
+    # pingouin may fail in calculating the effect size, see its API documentation
+    try:
+        eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
+                                          k=len(set(data[grouping_name])))
+    except TypeError:  # in pingouin 0.5.2 eta was renamed to eta_squared
+        eta_square = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.95,
+                                          k=len(set(data[grouping_name])))
+    if np.isnan(eta_square):
+        eta_square_effect_size = ''
+    else:
+        eta_square_effect_size = _('Minimal effect size in %s') % _('eta-square') + ': %0.2f. ' % eta_square
 
-        # 3. Create output text
-        text_result += print_sensitivity_effect_sizes([F_effect_size, eta_square_effect_size])
+    # 3. Create output text
+    text_result += print_sensitivity_effect_sizes([F_effect_size, eta_square_effect_size])
 
     # FIXME https://github.com/cogstat/cogstat/issues/136
     anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (var_name, grouping_name)), data=data).fit()
@@ -1498,27 +1492,26 @@ def chi_squared_test(pdf, var_name, grouping_name):
     cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        # statsmodels may fail, see its API documentation # TODO after changing to pingouin, do we still need "try:"?
-        try:
-            # For a test of independence, df = (Rows − 1)×(Cols − 1)
-            # https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test#Definition
-            w_effect_size = _('Minimal effect size in %s') % _('w') + ': %0.2f. ' % \
-                            pingouin.power_chi2(dof=(cont_table_data.shape[0] - 1) * (cont_table_data.shape[1] - 1),
-                                                w=None, n=cont_table_data.values.sum(), power=0.95, alpha=0.05)
+    # statsmodels may fail, see its API documentation # TODO after changing to pingouin, do we still need "try:"?
+    try:
+        # For a test of independence, df = (Rows − 1)×(Cols − 1)
+        # https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test#Definition
+        w_effect_size = _('Minimal effect size in %s') % _('w') + ': %0.2f. ' % \
+                        pingouin.power_chi2(dof=(cont_table_data.shape[0] - 1) * (cont_table_data.shape[1] - 1),
+                                            w=None, n=cont_table_data.values.sum(), power=0.95, alpha=0.05)
 
-            """An alternative method is to use statsmodels' solution, but its result is not consistent with the G*Power
-            result and with pingouin's solution. See https://github.com/cogstat/cogstat/issues/207. 
-            
-            from statsmodels.stats.power import GofChisquarePower
-            power_analysis = GofChisquarePower()
-            print(power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
-                                                       alpha=0.05, power=0.95,
-                                                       n_bins=(cont_table_data.shape[0] - 1) *
-                                                              (cont_table_data.shape[1] - 1) + 1))"""
-        except ValueError:
-            w_effect_size = ''
-        text_result += print_sensitivity_effect_sizes([w_effect_size])
+        """An alternative method is to use statsmodels' solution, but its result is not consistent with the G*Power
+        result and with pingouin's solution. See https://github.com/cogstat/cogstat/issues/207. 
+        
+        from statsmodels.stats.power import GofChisquarePower
+        power_analysis = GofChisquarePower()
+        print(power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
+                                                   alpha=0.05, power=0.95,
+                                                   n_bins=(cont_table_data.shape[0] - 1) *
+                                                          (cont_table_data.shape[1] - 1) + 1))"""
+    except ValueError:
+        w_effect_size = ''
+    text_result += print_sensitivity_effect_sizes([w_effect_size])
 
     # Hypothesis test
     chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
