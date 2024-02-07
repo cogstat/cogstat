@@ -77,17 +77,17 @@ def get_versions():
         # csc.versions['pyqtstyle'] = None
 
     # R components
-    '''
     try:
         import rpy2.robjects as robjects
         csc.versions['r'] = robjects.r('version')[12][0]
-    except:
+    except (ModuleNotFoundError, NameError):
         csc.versions['r'] = None
     try:
         import rpy2
         csc.versions['rpy2'] = rpy2.__version__
-    except:
+    except (ModuleNotFoundError, NameError):
         csc.versions['rpy2'] = None
+    '''
     try:
         from rpy2.robjects.packages import importr
         importr('car')
@@ -124,8 +124,8 @@ def print_versions(main_window):
     text_output += 'PyQt: %s\n' % csc.versions['pyqt']
     text_output += 'PyQt QStyle:%s\n' % \
                    main_window.style().metaObject().className()
-    # text_output += 'R: %s\n' % csc.versions['r']
-    # text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
+    text_output += 'R: %s\n' % csc.versions['r']
+    text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
 
 #    import os
 #    text_output += '\n'
