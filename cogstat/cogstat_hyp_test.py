@@ -28,7 +28,6 @@ import pingouin
 from . import cogstat_config as csc
 from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
-from . import cogstat_util as cs_util
 
 if csc.versions['r']:
     import rpy2.robjects as robjects
@@ -175,7 +174,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     # A, p = sm.stats.normal_ad(data)
     # text_result += _('Anderson–Darling normality test in variable %s%s') %(var_name, ' (%s: %s)' %
     #               (group_name, group_value) if group_name else '') + ': <i>A<sup>2</sup></i> =
-    #               %0.3g, %s\n' %(A, cs_util.print_p(p))
+    #               %0.3g, %s\n' %(A, print_p(p))
     # text_result += _('Testing normality with the Anderson–Darling test: <i>A<sup>2</sup></i> = %0.3g,
     #                critical values: %r, sig_levels: %r \n') %stats.anderson(data, dist='norm')
     # text_result += _("Testing normality with the D'Agostin and Pearson method")+': <i>k2</i> = %0.3g, <i>p</i> =
@@ -288,7 +287,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
             r_test = robjects.r('wilcox.test')
             r_result = r_test(r_data, mu=float(value))
             v, p = r_result[0][0], r_result[2][0]
-            text_result += _('Result of Wilcoxon signed-rank test')+': <i>W</i> = %0.3g, %s\n' % (v, cs_util.print_p(p))
+            text_result += _('Result of Wilcoxon signed-rank test')+': <i>W</i> = %0.3g, %s\n' % (v, print_p(p))
         '''
         T, p = stats.wilcoxon(np.array(pdf[var_name] - float(value)), correction=True)
         # we need to convert the pandas dataframe to numpy array because pdf cannot be always handled
