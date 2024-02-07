@@ -10,7 +10,6 @@ import gettext
 import numpy as np
 
 from . import cogstat_config as csc
-from . import cogstat_util as cs_util
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -133,7 +132,7 @@ def print_versions(main_window):
 #    for param in os.environ.keys():
 #        text_output += u'%s %s' % (param,os.environ[param]) + '\n'
 
-    return cs_util.convert_output({'info': text_output})
+    return convert_output({'info': text_output})
 
 
 def precision(data):
