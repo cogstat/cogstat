@@ -4,7 +4,8 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming version
 ================
 ## New features
-- Use Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
+- Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
+- Mixed design ANOVA
 - Effect size for 80% power is displayed beyond the 95% power version (thanks to Maja Lebeničnik)
 - Simplified diffusion analysis report
 - Help buttons on dialogs

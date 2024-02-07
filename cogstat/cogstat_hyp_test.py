@@ -30,6 +30,11 @@ from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
 
+if csc.versions['r']:
+    import rpy2.robjects as robjects
+    from rpy2.robjects import pandas2ri
+    from rpy2.robjects.packages import importr
+
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
@@ -1560,3 +1565,108 @@ def chi_squared_test(pdf, var_name, grouping_name):
                   (dof, cont_table_data.values.sum(), non_data_dim_precision, chi2, print_p(p))
 
     return text_result
+
+
+def decision_mixed_design(data, meas_level, var_names, factors, grouping_variables):
+    """
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_level :
+    var_names :
+    factors :
+    grouping_variables : list of str
+
+    Returns
+    -------
+
+    """
+
+    result_ht = '<cs_decision>'
+    if meas_level in ['int', 'unk']:
+        result_ht += _('Testing if the means are the same.') + '</cs_decision>\n'
+    elif meas_level == 'ord':
+        result_ht += _('Testing if the medians are the same.') + '</cs_decision>\n'
+    elif meas_level == 'nom':
+        result_ht += _('Testing if the distributions are the same.') + '</cs_decision>\n'
+
+    result_ht += '<cs_decision>' + _('Repeated measures and grouping variables.') + ' </cs_decision>'
+    if meas_level == 'int':
+        result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
+                     _("Choosing mixed ANOVA.") + '\n</cs_decision>'
+        result_ht += mixed_anova(data, var_names, factors, grouping_variables)
+    elif meas_level == 'ord':
+        result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + \
+                     _('Sorry, not implemented yet.') + '</cs_decision>\n'
+    elif meas_level == 'nom':
+        result_ht += '<cs_decision>' + _('Nominal variable.') + ' >> ' + \
+                     _('Sorry, not implemented yet.') + ' ' + '</cs_decision>\n'
+    return result_ht
+
+
+def mixed_anova(pdf, var_names, factors, grouping_variables):
+    """
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_names :
+    factors :
+    grouping_variables : list of str
+
+    Returns
+    -------
+
+    """
+
+    # at the moment, not available in Python (pingouin can run 2-way ANOVA, statsmodels cannot run mixed ANOVA)
+    if csc.versions['r']:
+        pandas2ri.activate()
+        base = importr('base')
+        ez = importr('ez')
+
+        # Prepare the dataset for the ANOVA
+        # new temporary names are needed to set the independent factors in the long format
+        # (alternatively, one might set it later in the long format directly)
+        temp_var_names = ['']
+        for factor in factors:
+            # TODO this will not work if the factor name includes the current separator (_)
+            temp_var_names = [previous_var_name + '_' + factor[0] + str(i)
+                              for previous_var_name in temp_var_names for i in range(factor[1])]
+        temp_var_names = [temp_var_name[1:] for temp_var_name in temp_var_names]
+        # print(temp_var_names)
+
+        pdf_temp = pdf[var_names]
+        pdf_temp.columns = temp_var_names
+        pdf_temp = pdf_temp.assign(ID=pdf_temp.index)
+        pdf_long = pd.melt(pdf_temp, id_vars='ID', value_vars=temp_var_names)
+        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_', expand=True).
+                             rename(columns={i: factors[i][0] for i in range(len(factors))})], axis=1)
+        pdf_long = pdf_long.join(pdf[grouping_variables], on='ID')
+        # replace spaces for R
+        pdf_long.columns = [column.replace(' ', '_') for column in pdf_long.columns]
+        rdf_long = pandas2ri.py2rpy(pdf_long)
+
+        # Run ANOVA
+        anova_r = ez.ezANOVA(data=rdf_long, dv=base.as_symbol('value'), wid=base.as_symbol('ID'),
+                             within=base.as_symbol(robjects.StrVector([factor[0].replace(' ', '_')
+                                                                       for factor in factors])),
+                             between=base.as_symbol(robjects.StrVector(grouping_variables)), type=3)
+        anova_table = pandas2ri.rpy2py_dataframe(anova_r[0]).reset_index(drop=True)
+        #sphericity_check_table = pandas2ri.rpy2py_dataframe(anova_r[1])
+        #sphericity_correction_table = pandas2ri.rpy2py_dataframe(anova_r[2])
+
+        # TODO reverse _s to spaces
+        text_result = _('Result of multi-way ANOVA') + ':\n'
+        for index, effect in anova_table.iterrows():
+            if index < len(factors) + len(grouping_variables):  # Main effects
+                text_result += _('Main effect of %s: ' % effect['Effect'])
+            else:  # Interaction effects
+                text_result += _('Interaction of %s: ') % (' and '.join(effect['Effect'].split(':')))
+            text_result += '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
+                           (effect['DFn'], effect['DFd'], non_data_dim_precision, effect['F'], print_p(effect['p']))
+
+        return text_result
+    else:
+        return _('Sorry, R is not available to run %.') % _('mixed ANOVA')

@@ -62,11 +62,11 @@ from scipy import stats
 
 from . import cogstat_config as csc
 csc.versions['cogstat'] = __version__
+from . import cogstat_util as cs_util
+cs_util.get_versions()
 from . import cogstat_stat as cs_stat
 from . import cogstat_hyp_test as cs_hyp_test
-from . import cogstat_util as cs_util
 from . import cogstat_chart as cs_chart
-cs_util.get_versions()
 
 logging.root.setLevel(logging.INFO)
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
@@ -2229,7 +2229,8 @@ class CogStatData:
                                                                                               var_names,
                                                                                               grouping_variables)
         else:  # mixed design
-            results['hypothesis test'] += _('Sorry, not implemented yet.')
+            results['hypothesis test'] += cs_hyp_test.decision_mixed_design(data, meas_level, var_names, factors,
+                                                                            grouping_variables)
 
         return cs_util.convert_output(results)
 

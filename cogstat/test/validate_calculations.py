@@ -716,6 +716,20 @@ Control	0.538	0.107''')
         result = data.compare_groups('slope', ['group'])
         self.assertTrue('<i>t</i>(5) = -5.05, <i>p</i> = .004' in result['hypothesis test'])
 
+    def test_compare_variables_groups(self):
+        """Test compare groups"""
+
+        # 2 Int groups
+        result = data.compare_variables_groups(var_names=['a', 'e', 'f'], grouping_variables=['i'],
+                                               display_factors=[['i', ('Unnamed factor')], [], []])
+            # jamovi 2.4.11 2.92, 0.099; 4.546, 0.015; 0.281, 0.756
+            # SPSS gives more similar result for the main within subject effect
+        self.assertTrue('Main effect of i: <i>F</i>(1, 28) = 2.92, <i>p</i> = .099' in result['hypothesis test'])
+        self.assertTrue('Main effect of Unnamed_factor: <i>F</i>(2, 56) = 3.10, <i>p</i> = .053' in
+                        result['hypothesis test'])
+        self.assertTrue('Interaction of i and Unnamed_factor: <i>F</i>(2, 56) = 0.28, <i>p</i> = .756' in
+                        result['hypothesis test'])
+
     def test_data_filtering(self):
 
         data = cs.CogStatData(data='''data dummy
