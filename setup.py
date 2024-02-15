@@ -15,5 +15,5 @@ setup(name='cogstat',
                         'appdirs', 'python-bidi', 'IPython', 'Jupyter', 'scikit-learn', 'svgutils'],
       python_requires='>=3.6',
       entry_points={'console_scripts': ['cogstat=cogstat.cogstat_gui:main']},
-      extras_requires={'GUI': ['PyQt5']}
+      extras_requires={'GUI': ['PyQt6']}
 )

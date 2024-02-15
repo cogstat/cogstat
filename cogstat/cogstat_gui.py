@@ -13,21 +13,21 @@ The GUI includes
 # Splash screen
 import os
 import sys
-import random
 
-import importlib
-from PyQt5 import QtGui, QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt6 import QtGui, QtWidgets
+from PyQt6.QtCore import Qt
 
 app = QtWidgets.QApplication(sys.argv)
-app.setAttribute(Qt.AA_UseHighDpiPixmaps)
+#app.setAttribute(Qt.AA_UseHighDpiPixmaps)  # TODO we don't need this anymore?
 pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources',
                                     'CogStat splash screen.png'), 'PNG')
 splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
-splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
+splash_screen.showMessage('', Qt.AlignmentFlag.AlignBottom, Qt.GlobalColor.white)  # TODO find something else to make the splash visible
 
 # go on with regular imports, etc.
+import random
+import importlib
 import base64
 from distutils.version import LooseVersion
 import gettext
@@ -44,7 +44,7 @@ import webbrowser
 import pandas as pd
 from operator import attrgetter
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 from . import cogstat
 from . import cogstat_dialogs
@@ -167,7 +167,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + '/resources/CogStat.ico'))
 
         if rtl_lang:
-            self.setLayoutDirection(QtCore.Qt.RightToLeft)
+            self.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
 
         # Menus and commands
         # The list will be used to construct the menus
@@ -284,13 +284,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 elif menu_item[0] == 'toolbar separator':
                     self.toolbar.addSeparator()
                 else:
-                    self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]),
+                    self.menu_commands[menu_item[1]] = QtGui.QAction(QtGui.QIcon(icon_path + menu_item[0]),
                                                                          menu_item[1], self)
                     self.menu_commands[menu_item[1]].setShortcut(menu_item[2])
                     self.menu_commands[menu_item[1]].triggered.connect(eval(menu_item[3]))
                     self.menus[-1].addAction(self.menu_commands[menu_item[1]])
                     if menu_item[4]:  # if the menu item should be added to the toolbar
-                        self.toolbar_actions[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]),
+                        self.toolbar_actions[menu_item[1]] = QtGui.QAction(QtGui.QIcon(icon_path + menu_item[0]),
                                                                                menu_item[1] + ' (' + menu_item[2] + ')',
                                                                                self)
                         self.toolbar_actions[menu_item[1]].triggered.connect(eval(menu_item[3]))
@@ -329,10 +329,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
         self.table_view = QtWidgets.QTableView(self.splitter)
         self.table_view.horizontalHeader().setStretchLastSection(True)
-        self.table_view.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignLeft)
-        self.table_view.horizontalHeader().setTextElideMode(QtCore.Qt.ElideRight)
+        self.table_view.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.table_view.horizontalHeader().setTextElideMode(QtCore.Qt.TextElideMode.ElideRight)
         self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
-        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 4)
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -461,7 +461,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # http://qt-project.org/doc/qt-4.7/qt.html see CursorShape
         # http://qt-project.org/doc/qt-4.7/qapplication.html#id-19f00dae-ec43-493e-824c-ef07ce96d4c6
         if on:
-            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.CursorShape.WaitCursor))
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.BusyCursor))
         else:
             while QtWidgets.QApplication.overrideCursor() is not None:
@@ -611,10 +611,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.table_view.setColumnHidden(model.columnCount() - 1, True)
             # For automatic data file reload, provide visual feedback
             if self.menus[0].actions()[3].isChecked():
-                self.table_view.setGridStyle(QtCore.Qt.NoPen)
+                self.table_view.setGridStyle(QtCore.Qt.PenStyle.NoPen)
                 self.table_view.repaint()
                 time.sleep(0.2)
-                self.table_view.setGridStyle(QtCore.Qt.SolidLine)
+                self.table_view.setGridStyle(QtCore.Qt.PenStyle.SolidLine)
             self.table_view.show()  # TODO do we need this?
 
     def _run_analysis(self, title, function_name, parameters=None, scroll_to_analysis=True, store_in_results=True):
@@ -821,7 +821,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name]
                                                                               in ['int', 'unk'])]
             self.dial_filter.init_vars(names=names)
-            if self.dial_filter.exec_():
+            if self.dial_filter.exec():
                 var_names, multivariate_outliers = self.dial_filter.read_parameters()
             else:
                 return
@@ -865,7 +865,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not var_names:
             self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_var_prop.exec_():
+            if self.dial_var_prop.exec():
                 var_names, freq, loc_test_value = self.dial_var_prop.read_parameters()
                 if not var_names:
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
@@ -894,7 +894,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not var_names:
             self.dial_var_pair.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_var_pair.exec_():
+            if self.dial_var_pair.exec():
                 var_names, xlims, ylims = self.dial_var_pair.read_parameters()
             else:
                 return
@@ -934,7 +934,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not predicted:
             self.dial_regression.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_regression.exec_():
+            if self.dial_regression.exec():
                 predicted, predictors, xlims, ylims = self.dial_regression.read_parameters()
                 if predicted == []:  # regression() method handles missing parameters
                     predicted = [None]
@@ -962,7 +962,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             row_names = []
         if not depend_name:
             self.dial_pivot.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_pivot.exec_():
+            if self.dial_pivot.exec():
                 row_names, col_names, page_names, depend_name, function = self.dial_pivot.read_parameters()
             else:
                 return
@@ -982,7 +982,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             condition_names = []
         if not RT_name:
             self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_diffusion.exec_():
+            if self.dial_diffusion.exec():
                 error_name, RT_name, participant_name, condition_names, correct_coding, reaction_time_in, \
                 scaling_parameter = self.dial_diffusion.read_parameters()
             else:
@@ -1007,7 +1007,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
             self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_comp_var.exec_():
+            if self.dial_comp_var.exec():
                 var_names, factors, display_factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
                                                                                   # appropriate
             else:
@@ -1028,7 +1028,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not var_names:
             self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_comp_grp.exec_():
+            if self.dial_comp_grp.exec():
                 var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = \
                     self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
                 if var_names == []:
@@ -1055,7 +1055,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
             self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_comp_var_groups.exec_():
+            if self.dial_comp_var_groups.exec():
                 var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
                     self.dial_comp_var_groups.read_parameters()
             else:
@@ -1069,7 +1069,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def reliability_internal(self, var_names=None, reversed_names=None):
         if not var_names:
             self.dial_rel_internal.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_rel_internal.exec_():
+            if self.dial_rel_internal.exec():
                 var_names, reversed_names = self.dial_rel_internal.read_parameters()
                 if not var_names:
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
@@ -1082,7 +1082,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def reliability_interrater(self, var_names=None, ratings_averaged=True):
         if not var_names:
             self.dial_rel_interrater.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_rel_interrater.exec_():
+            if self.dial_rel_interrater.exec():
                 var_names, ratings_averaged = self.dial_rel_interrater.read_parameters()
                 if not var_names:
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
@@ -1127,7 +1127,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def find_text(self):
         self.dial_find_text = cogstat_dialogs.find_text_dialog(output_pane=self.result_pane)
-        self.dial_find_text.exec_()
+        self.dial_find_text.exec()
 
     def zoom_in(self):
         self.result_pane.zoomIn(1)
@@ -1189,7 +1189,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         webbrowser.open('https://doc.cogstat.org/')
         
     def _show_preferences(self):
-        self.dial_pref.exec_()
+        self.dial_pref.exec()
     
     def _open_reqfeat_webpage(self):
         webbrowser.open('https://doc.cogstat.org/Suggest-a-new-feature')
@@ -1271,33 +1271,31 @@ class PandasModel(QtCore.QAbstractTableModel):
         if not index.isValid():
             return None
 
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return str(self._dataframe.iloc[index.row(), index.column()])
 
         # Filtered data have different background
-        if role == Qt.ForegroundRole and not(index.row() in [0, 1]):  # don't change the measurement level row (row 0)
+        if role == Qt.ItemDataRole.ForegroundRole and not(index.row() in [0, 1]):  # don't change the measurement level row (row 0)
             if self._dataframe['cogstat_filtered_cases'].iloc[index.row()]:
                 return QtGui.QColor('lightGray')
 
         # Use different background for the data type and measurement level
-        if role == Qt.BackgroundRole:
+        if role == Qt.ItemDataRole.BackgroundRole:
             if index.row() in [0, 1]:
                 return QtGui.QColor('lightGray')
 
         return None
 
-    def headerData(
-        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
-    ):
+    def headerData(self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole):
         """Override method from QAbstractTableModel
 
         Return dataframe index as vertical header data and columns as horizontal header data.
         """
-        if role == Qt.DisplayRole:
-            if orientation == Qt.Horizontal:
+        if role == Qt.ItemDataRole.DisplayRole:
+            if orientation == Qt.Orientation.Horizontal:
                 return str(self._dataframe.columns[section])
 
-            if orientation == Qt.Vertical:
+            if orientation == Qt.Orientation.Vertical:
                 return str(self._dataframe.index[section])
 
         return None
@@ -1330,4 +1328,4 @@ class GuiResultPackage():
 def main():
     splash_screen.close()
     ex = StatMainWindow()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

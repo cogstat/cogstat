@@ -4,7 +4,7 @@ import gettext
 import os
 import webbrowser
 
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt6 import QtWidgets, QtCore, QtGui
 
 from . import cogstat_config as csc
 
@@ -267,31 +267,31 @@ class pivot_dialog(QtWidgets.QDialog, pivot.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.sourceListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.sourceListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.sourceListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addRows.clicked.connect(self.add_rows)
         self.removeRows.clicked.connect(self.remove_rows)
         self.rowsListWidget.doubleClicked.connect(self.remove_rows)
         self.rowsListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.rowsListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.rowsListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addColumns.clicked.connect(self.add_columns)
         self.removeColumns.clicked.connect(self.remove_columns)
         self.columnsListWidget.doubleClicked.connect(self.remove_columns)
         self.columnsListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.columnsListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.columnsListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addPages.clicked.connect(self.add_pages)
         self.removePages.clicked.connect(self.remove_pages)
         self.pagesListWidget.doubleClicked.connect(self.remove_pages)
         self.pagesListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.pagesListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.pagesListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addDependent.clicked.connect(self.add_dependent)
         self.removeDependent.clicked.connect(self.remove_dependent)
         self.dependentListWidget.doubleClicked.connect(self.remove_dependent)
         self.dependentListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.dependentListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.dependentListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
 
     def init_vars(self, names):
         self.names = names
@@ -339,31 +339,31 @@ class diffusion_dialog(QtWidgets.QDialog, diffusion.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.sourceListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.sourceListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.sourceListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addRT.clicked.connect(self.add_RT)
         self.removeRT.clicked.connect(self.remove_RT)
         self.RTListWidget.doubleClicked.connect(self.remove_RT)
         self.RTListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.RTListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.RTListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addError.clicked.connect(self.add_error)
         self.removeError.clicked.connect(self.remove_error)
         self.errorListWidget.doubleClicked.connect(self.remove_error)
         self.errorListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.errorListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.errorListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addParticipant.clicked.connect(self.add_participant)
         self.removeParticipant.clicked.connect(self.remove_participant)
         self.participantListWidget.doubleClicked.connect(self.remove_participant)
         self.participantListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.participantListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.participantListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addCondition.clicked.connect(self.add_condition)
         self.removeCondition.clicked.connect(self.remove_condition)
         self.conditionListWidget.doubleClicked.connect(self.remove_condition)
         self.conditionListWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.conditionListWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.conditionListWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
 
     def init_vars(self, names):
         self.names = names
@@ -438,15 +438,15 @@ class filter_outlier(QtWidgets.QDialog, filter_outlier.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -477,15 +477,15 @@ class explore_var_dialog(QtWidgets.QDialog, var_properties.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -515,9 +515,9 @@ class xylims_dialog(QtWidgets.QDialog, xylims.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
 
     def help(self):
         webbrowser.open('https://doc.cogstat.org/Explore-relation-of-variable-pair')
@@ -536,15 +536,15 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.optionsButton_clicked)
@@ -566,7 +566,7 @@ class explore_var_pairs_dialog(QtWidgets.QDialog, explore_var_pairs.Ui_Dialog):
         _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def optionsButton_clicked(self):
-        if self.xylims_dialog.exec_():
+        if self.xylims_dialog.exec():
             self.xlims, self.ylims = self.xylims_dialog.read_parameters()
 
     def read_parameters(self):
@@ -583,19 +583,20 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.predicted_listWidget.doubleClicked.connect(self.remove_predicted)
         self.predicted_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.predicted_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.predicted_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addPredicted.clicked.connect(self.add_predicted)
         self.removePredicted.clicked.connect(self.remove_predicted)
         self.predictor_listWidget.doubleClicked.connect(self.remove_predictor)
         self.predictor_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.predictor_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.predictor_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addPredictor.clicked.connect(self.add_predictor)
         self.removePredictor.clicked.connect(self.remove_predictor)
         self.pushButton.clicked.connect(self.optionsButton_clicked)
@@ -630,7 +631,7 @@ class regression_dialog(QtWidgets.QDialog, regression.Ui_Dialog):
         _remove_item_from_list_widget(self.source_listWidget, self.predictor_listWidget, self.names)
 
     def optionsButton_clicked(self):
-        if self.xylims_dialog.exec_():
+        if self.xylims_dialog.exec():
             self.xlims, self.ylims = self.xylims_dialog.read_parameters()
 
     def read_parameters(self):
@@ -650,9 +651,9 @@ class factor_dialog(QtWidgets.QDialog, factor.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
 
     def help(self):
         webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables')
@@ -682,9 +683,9 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
         self.pushButton.clicked.connect(self.addButton_clicked)
         self.pushButton_2.clicked.connect(self.modifyButton_clicked)
         self.pushButton_3.clicked.connect(self.removeButton_clicked)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
 
         self.factor_dialog = factor_dialog(self)
 
@@ -710,7 +711,7 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
 
     def addButton_clicked(self):
         self.factor_dialog.lineEdit.setFocus()
-        if self.factor_dialog.exec_():
+        if self.factor_dialog.exec():
             factor_name, level_n = self.factor_dialog.read_parameters()
             self.listWidget.addItem(QString('%s (%d)' % (factor_name, level_n)))
 
@@ -721,7 +722,7 @@ class factors_dialog(QtWidgets.QDialog, factors.Ui_Dialog):
             text_to_modify = t[:t.rfind(' (')]
             value_to_modify = int(t[t.rfind('(')+1:t.rfind(')')])
             self.factor_dialog.set_parameters(text_to_modify, value_to_modify)
-            if self.factor_dialog.exec_():
+            if self.factor_dialog.exec():
                 factor_name, level_n = self.factor_dialog.read_parameters()
                 item.setText(QString('%s (%d)' % (factor_name, level_n)))
 
@@ -743,14 +744,14 @@ class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeate
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_x_listWidget.doubleClicked.connect(self.add_color)
         self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_color_listWidget.doubleClicked.connect(self.remove_color)
         self.add_color_button.clicked.connect(self.add_color)
         self.remove_color_button.clicked.connect(self.remove_color)
@@ -782,16 +783,16 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         # TODO drag and drop and moving should handle factor names
         #self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        #self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        #self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.pushButton.clicked.connect(self.factorsButton_clicked)
@@ -857,7 +858,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
     def factorsButton_clicked(self):
         self.factors_dialog.init_factors(self.factors)
-        if self.factors_dialog.exec_():
+        if self.factors_dialog.exec():
             factor_list = self.factors_dialog.read_parameters()
             #print(factor_list)
             # factor list is a list of str, where a str has a 'factorname (x)'format, where x is the number of levels
@@ -899,7 +900,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             self.factors = [[_('Unnamed factor'), self.selected_listWidget.count()]]
             default_factor_added = True
         self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
-        if self.display_options_repeated_dialog.exec_():
+        if self.display_options_repeated_dialog.exec():
             self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
             self.show_factors()
         else:  # if Display option is cancelled, then remove Unnamed factor
@@ -924,15 +925,15 @@ class compare_groups_single_case_slope_dialog(QtWidgets.QDialog, compare_groups_
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -965,16 +966,16 @@ class display_options_groups_dialog(QtWidgets.QDialog, display_options_groups.Ui
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_color_listWidget.doubleClicked.connect(self.remove_color)
         self.factor_panel_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_panel_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_panel_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_panel_listWidget.doubleClicked.connect(self.remove_panel)
         self.add_color_button.clicked.connect(self.add_color)
         self.remove_color_button.clicked.connect(self.remove_color)
@@ -1014,17 +1015,17 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.group_listWidget.doubleClicked.connect(self.remove_group)
         self.group_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.group_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.group_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.add_group_button.clicked.connect(self.add_group)
@@ -1057,13 +1058,13 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
     def on_slopeButton_clicked(self):
-        if self.slope_dialog.exec_():
+        if self.slope_dialog.exec():
             self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
     def display_options_button_clicked(self):
         self.display_options_groups_dialog.\
             set_factors(factors=[str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
-        if self.display_options_groups_dialog.exec_():
+        if self.display_options_groups_dialog.exec():
             self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
 
     def read_parameters(self):
@@ -1082,16 +1083,16 @@ class display_options_mixed_dialog(QtWidgets.QDialog, display_options_mixed.Ui_D
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.factor_x_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_x_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_color_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_color_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_color_listWidget.doubleClicked.connect(self.remove_color)
         self.factor_panel_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.factor_panel_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.factor_panel_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.factor_panel_listWidget.doubleClicked.connect(self.remove_panel)
         self.add_color_button.clicked.connect(self.add_color)
         self.remove_color_button.clicked.connect(self.remove_color)
@@ -1131,18 +1132,18 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         # TODO drag and drop and moving should handle factor names
         #self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        #self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        #self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.group_listWidget.doubleClicked.connect(self.remove_group)
         self.group_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.group_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.group_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
         self.add_group_button.clicked.connect(self.add_group)
@@ -1220,7 +1221,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
     def factorsButton_clicked(self):
         self.factors_dialog.init_factors(self.factors)
-        if self.factors_dialog.exec_():
+        if self.factors_dialog.exec():
             factor_list = self.factors_dialog.read_parameters()
             #print(factor_list)
             # factor list is a list of str, where a str has a 'factorname (x)'format, where x is the number of levels
@@ -1269,7 +1270,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             set_factors(factors=[str(self.group_listWidget.item(i).text())
                                  for i in range(self.group_listWidget.count())] +
                                 [factor[0] for factor in self.factors])
-        if self.display_options_mixed_dialog.exec_():
+        if self.display_options_mixed_dialog.exec():
             self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
             self.show_factors()
         else:  # if Display option is cancelled, then remove Unnamed factor
@@ -1278,7 +1279,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                 self.factors = []
 
     def on_slopeButton_clicked(self):
-        if self.slope_dialog.exec_():
+        if self.slope_dialog.exec():
             self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
     def read_parameters(self):
@@ -1305,15 +1306,15 @@ class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dia
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -1351,15 +1352,15 @@ class reliability_interrater_dialog(QtWidgets.QDialog, reliability_interrater.Ui
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
         self.source_listWidget.doubleClicked.connect(self.add_var)
         self.source_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.source_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.source_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.selected_listWidget.doubleClicked.connect(self.remove_var)
         self.selected_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
+        self.selected_listWidget.setDefaultDropAction(QtCore.Qt.DropAction.MoveAction)
         self.addVar.clicked.connect(self.add_var)
         self.removeVar.clicked.connect(self.remove_var)
 
@@ -1419,9 +1420,9 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         self.buttonBox.accepted.connect(self.write_and_apply_settings)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setText(_('OK'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText(_('Cancel'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setText(_('OK'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Cancel).setText(_('Cancel'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
 
         self.init_langs()
         self.init_themes()
