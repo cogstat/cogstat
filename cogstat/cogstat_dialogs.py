@@ -142,9 +142,9 @@ def _add_to_list_widget(source_list_widget, target_list_widget, checkable=False)
         target_list_widget.addItem(QString(item.text()))
         if checkable:
             #temp_item = QtWidgets.QListWidgetItem(QString(item.text()))
-            #temp_item.setCheckState(QtCore.Qt.Unchecked)
+            #temp_item.setCheckState(QtCore.Qt.CheckState.Unchecked)
             #target_list_widget.addItem(temp_item)
-            target_list_widget.findItems(item.text(), QtCore.Qt.MatchExactly)[0].setCheckState(QtCore.Qt.Unchecked)
+            target_list_widget.findItems(item.text(), QtCore.Qt.MatchFlag.MatchExactly)[0].setCheckState(QtCore.Qt.CheckState.Unchecked)
         source_list_widget.takeItem(source_list_widget.row(item))
     return number_of_items
 
@@ -179,7 +179,7 @@ def _find_previous_item_position(list_widget, names, text_item):
                                                         # otherwise return zero
         for item in reversed(names[:names.index(text_item)]):
             try:  # if the item is in the list_widget, then return its position
-                return list_widget.row(list_widget.findItems(item, QtCore.Qt.MatchExactly)[0])+1
+                return list_widget.row(list_widget.findItems(item, QtCore.Qt.MatchFlag.MatchExactly)[0])+1
             except:  # otherwise look further for next variable names
                 pass
     return 0  # if no earlier variables were found on list_widget (or the text_item is the first in the variable list)
@@ -852,7 +852,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             if i < len(previously_used_vars):
                 self.selected_listWidget.addItem(QString(factor_combination + previously_used_vars[i]))
                 self.source_listWidget.takeItem(self.source_listWidget.row(
-                    self.source_listWidget.findItems(previously_used_vars[i], QtCore.Qt.MatchExactly)[0]))
+                    self.source_listWidget.findItems(previously_used_vars[i], QtCore.Qt.MatchFlag.MatchExactly)[0]))
             else:
                 self.selected_listWidget.addItem(QString(factor_combination))
 
@@ -890,7 +890,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                         previously_used_vars.append(item.text())
                 for previously_used_var in previously_used_vars:
                     self.selected_listWidget.addItem(QString(previously_used_var))
-                    self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchExactly)[0]))
+                    self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchFlag.MatchExactly)[0]))
 
     def display_options_button_clicked(self):
         # If there are several variables but no factors are given, then create a default factor name that can be used in
@@ -1215,7 +1215,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             if i < len(previously_used_vars):
                 self.selected_listWidget.addItem(QString(factor_combination + previously_used_vars[i]))
                 self.source_listWidget.takeItem(self.source_listWidget.row(
-                    self.source_listWidget.findItems(previously_used_vars[i], QtCore.Qt.MatchExactly)[0]))
+                    self.source_listWidget.findItems(previously_used_vars[i], QtCore.Qt.MatchFlag.MatchExactly)[0]))
             else:
                 self.selected_listWidget.addItem(QString(factor_combination))
 
@@ -1256,7 +1256,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                         previously_used_vars.append(item.text())
                 for previously_used_var in previously_used_vars:
                     self.selected_listWidget.addItem(QString(previously_used_var))
-                    self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchExactly)[0]))
+                    self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchFlag.MatchExactly)[0]))
 
     def display_options_button_clicked(self):
         # If there are several variables but no factors are given, then create a default factor name that can be used in
@@ -1334,7 +1334,7 @@ class reliability_internal_dialog(QtWidgets.QDialog, reliability_internal.Ui_Dia
     def read_parameters(self):
         return ([str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())],
                 [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())
-                 if self.selected_listWidget.item(i).checkState() == QtCore.Qt.Checked])
+                 if self.selected_listWidget.item(i).checkState() == QtCore.Qt.CheckState.Checked])
 
 
 from .ui import reliability_interrater
