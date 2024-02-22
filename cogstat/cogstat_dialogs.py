@@ -1162,7 +1162,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
     def init_vars(self, names):
         self.names = names
-        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
+        _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
 
     def help(self):
