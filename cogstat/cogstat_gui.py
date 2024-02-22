@@ -96,7 +96,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                     missing_required_components+missing_recommended_components])[:-2] +
                                            '.<br><br>' + '<a href = "https://doc.cogstat.org/'
                                                          'Installation">Visit the installation help page</a> to see how '
-                                                         'to complete the installation.', QtWidgets.QMessageBox.Ok)
+                                                         'to complete the installation.', QtWidgets.QMessageBox.StandardButton.Ok)
             if missing_required_components:
                 sys.exit()
         
@@ -1118,9 +1118,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def delete_output(self):
         reply = QtWidgets.QMessageBox.question(self, _('Clear output'),
                                                _('Are you sure you want to delete the output?'),
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                               QtWidgets.QMessageBox.No)
-        if reply == QtWidgets.QMessageBox.Yes:
+                                               QtWidgets.QMessageBox.StandardButton.Yes |
+                                               QtWidgets.QMessageBox.StandardButton.No,
+                                               QtWidgets.QMessageBox.StandardButton.No)
+        if reply == QtWidgets.QMessageBox.StandardButton.Yes:
             self.result_pane.clear()
             self.analysis_results = []
             self.unsaved_output = False  # Not necessary to save the empty output
@@ -1218,17 +1219,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
         tosave = True
         while self.unsaved_output and tosave:
             reply = QtWidgets.QMessageBox.question(self, _('Save output'),
-                    _('Output has unsaved results. Do you want to save it?'), QtWidgets.QMessageBox.Yes |
-                                                   QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.Yes)
-            if reply == QtWidgets.QMessageBox.Yes:
+                    _('Output has unsaved results. Do you want to save it?'), QtWidgets.QMessageBox.StandardButton.Yes |
+                                                   QtWidgets.QMessageBox.StandardButton.No,
+                                                   QtWidgets.QMessageBox.StandardButton.Yes)
+            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
                 self.save_result()
             else:
                 tosave = False
 
         """
         reply = QtGui.QMessageBox.question(self, _('Confirm exit'), 
-            _('Are you sure you want to exit the program?'), QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
+            _('Are you sure you want to exit the program?'), QtGui.QMessageBox.StandardButton.Yes, QtGui.QMessageBox.StandardButton.No)
+        if reply == QtGui.QMessageBox.StandardButton.Yes:
             QtGui.qApp.quit()
         else:
             event.ignore()
