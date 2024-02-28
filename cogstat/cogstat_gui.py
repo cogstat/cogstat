@@ -743,7 +743,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if self.active_data.import_source[1] and self.menus[0].actions()[3].isChecked():
             self.watched_file.addPath(self.active_data.import_source[1])
         else:
-            self.watched_file.removePaths(self.watched_file.files())
+            # unless the list of the watched files is already empty, remove the files
+            if self.watched_file.files():
+                self.watched_file.removePaths(self.watched_file.files())
 
 
     def reload_file(self):
