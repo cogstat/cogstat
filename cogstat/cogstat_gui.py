@@ -590,7 +590,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # By default, all cases are excluded.
             data_to_display['cogstat_filtered_cases'] = 1
             # Modify the included cases.
-            data_to_display['cogstat_filtered_cases'][self.active_data.data_frame.index] = 0
+            data_to_display.loc[self.active_data.data_frame.index, 'cogstat_filtered_cases'] = 0
             # Start row numbers from 1, instead of 0, if it starts with 0 (as in default index).
             # Otherwise, keep the original index.
             if data_to_display.index[0] == 0:
