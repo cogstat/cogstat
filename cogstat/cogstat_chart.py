@@ -279,6 +279,9 @@ def _create_default_mosaic_properties(data):
 
 def _mosaic_labelizer(crosstab_data, l, separator='\n'):
     """Custom labelizer function for statsmodel mosaic function
+
+    Nominal variable might be coded as integers, floats or interval/ordinal numerical variable can be used with
+    nominal variable in a pair, which values cannot be handled by statsmodels mosaic
     """
     def isfloat(value):
         try:
@@ -287,13 +290,17 @@ def _mosaic_labelizer(crosstab_data, l, separator='\n'):
         except ValueError:
             return False
 
-    try:
-        return separator.join(l) if crosstab_data[l] != 0 else ""
-    except KeyError:
-        # nominal variable might be coded as integers or interval/ordinal numerical variable can be used with nominal
-        # variable in a pair, which values cannot be handled by statsmodels mosaic
-        ll = tuple([int(float(l_x)) if isfloat(l_x) else l_x for l_x in l])
-        return separator.join(l) if crosstab_data[ll] != 0 else ""
+    # l is a tuple of string, but crosstab_data potentially has numerical index, so first we convert strings to
+    # numerical if needed
+    l_new = []
+    for lx in l:
+        if isfloat(lx):
+            l_new.append(float(lx))
+        elif lx.isdigit():
+            l_new.append(int(lx))
+        else:
+            l_new.append(lx)
+    return separator.join(l) if crosstab_data[tuple(l_new)] != 0 else ""
 
 
 ############################
