@@ -1627,7 +1627,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     if descriptives_table:
         descriptives_table_df = long_raw_data.pivot_table(values=dep_name,
                                         index=(indep_names if indep_names else 'all_raw_rows'),
-                                        aggfunc=[stat_functions[statistic] for statistic in statistics])
+                                        aggfunc=[stat_functions[statistic] for statistic in statistics], dropna=False)
+        # dropna=False is needed (keeping columns with nans), otherwise, the column names and the calculated columns
+        # may not match
         descriptives_table_df.columns = [stat_names[statistic] for statistic in statistics]
         # If there is/are repeated measures variables, add the variable name to the table (not only the factor names
         # with the levels)
