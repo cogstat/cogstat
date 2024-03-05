@@ -622,7 +622,11 @@ def create_normality_chart(pdf, var_name):
     # 2. QQ plot
     sm.graphics.qqplot(data, line='s', ax=ax2, color=theme_colors[0])
     # Change the red line color (otherwise we should separately call the sm.qqline() function)
-    lines = fig.findobj(lambda x: hasattr(x, 'get_color') and x.get_color() == 'r')
+    def to_python_bool(value):
+        """Return the value itself, if it is a Python boolean,
+        otherwise, it is a numpy boolean array, and any() is returned"""
+        return value if isinstance(value, bool) else value.any()
+    lines = fig.findobj(lambda x: hasattr(x, 'get_color') and to_python_bool(x.get_color() == 'r'))
     [d.set_color(theme_colors[1]) for d in lines]
     ax2.set_title(_plt('Quantile-quantile plot'))
     ax2.set_xlabel(_plt('Normal theoretical quantiles'))
