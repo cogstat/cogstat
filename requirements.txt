@@ -17,3 +17,5 @@ Jupyter
 PyQt6
 scikit-learn
 svgutils
+rpy2
+# R packages: ez

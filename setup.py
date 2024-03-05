@@ -12,7 +12,8 @@ setup(name='cogstat',
       install_requires=['numpy', 'scipy >=1.9, !=1.10', 'matplotlib >=1.5.0, !=2.0.1, !=2.0.2',
                         'pandas >=1.5.0', 'statsmodels >=0.13.0', 'pingouin >=0.3.12', 'scikit-posthocs >= 0.7.0',
                         'pyreadstat >=1.1.5', 'odfpy', 'xlrd', 'openpyxl >=3.0.7', 'pyreadr >=0.4.5',
-                        'appdirs', 'python-bidi', 'IPython', 'Jupyter', 'scikit-learn', 'svgutils'],
+                        'appdirs', 'python-bidi', 'IPython', 'Jupyter', 'scikit-learn', 'svgutils', 'rpy2'],
+      # R packages: ez
       python_requires='>=3.6',
       entry_points={'console_scripts': ['cogstat=cogstat.cogstat_gui:main']},
       extras_requires={'GUI': ['PyQt6']}
