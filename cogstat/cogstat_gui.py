@@ -49,12 +49,9 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from . import cogstat
 from . import cogstat_dialogs
 from . import cogstat_config as csc
-csc.versions['cogstat'] = cogstat.__version__
 from . import cogstat_util as cs_util
 
-cs_util.app_devicePixelRatio = app.devicePixelRatio()
-
-cs_util.get_versions()
+csc.app_devicePixelRatio = app.devicePixelRatio()
 
 logging.root.setLevel(logging.INFO)
 

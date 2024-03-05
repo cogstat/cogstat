@@ -59,7 +59,6 @@ from scipy import stats
 from . import cogstat_config as csc
 csc.versions['cogstat'] = __version__
 from . import cogstat_util as cs_util
-cs_util.get_versions()
 from . import cogstat_stat as cs_stat
 from . import cogstat_hyp_test as cs_hyp_test
 from . import cogstat_chart as cs_chart

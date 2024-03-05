@@ -14,94 +14,11 @@ from . import cogstat_config as csc
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
-app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
-
-
-def get_versions():
-    """
-    Find the versions of the different components.
-    Used for diagnostic and for version specific codes.
-    """
-    import platform
-
-    csc.versions['platform'] = platform.platform()
-
-    # Python components
-    csc.versions['python'] = sys.version
-    try:
-        import numpy
-        csc.versions['numpy'] = numpy.__version__
-    except (ModuleNotFoundError, NameError):
-        csc.versions['numpy'] = None
-    try:
-        import pandas
-        csc.versions['pandas'] = pandas.__version__
-        # csc.versions['pandas'] = pandas.version.version
-    except (ModuleNotFoundError, NameError):
-        csc.versions['pandas'] = None
-    try:
-        import scipy.stats
-        csc.versions['scipy'] = scipy.version.version
-    except (ModuleNotFoundError, NameError):
-        csc.versions['scipy'] = None
-    try:
-        import statsmodels
-        csc.versions['statsmodels'] = statsmodels.version.version
-    except (ModuleNotFoundError, NameError, AttributeError):
-        try:
-            csc.versions['statsmodels'] = statsmodels.__version__
-        except NameError:
-            csc.versions['statsmodels'] = None
-    try:
-        import pingouin
-        csc.versions['pingouin'] = pingouin.__version__
-    except (ModuleNotFoundError, NameError):
-        csc.versions['pingouin'] = None
-    try:
-        import matplotlib
-        csc.versions['matplotlib'] = matplotlib.__version__
-        csc.versions['matplotlib_backend'] = matplotlib.get_backend()
-    except (ModuleNotFoundError, NameError):
-        csc.versions['matplotlib'] = None
-        csc.versions['matplotlib_backend'] = None
-    try:
-        from PyQt6.QtCore import PYQT_VERSION_STR
-        csc.versions['pyqt'] = PYQT_VERSION_STR
-        # PyQt style can be checked only if the window is open and the object
-        # is available
-        # It is GUI specific
-        # csc.versions['pyqtstyle'] =
-        # main_window.style().metaObject().className()
-    except (ModuleNotFoundError, NameError):
-        csc.versions['pyqt'] = None
-        # csc.versions['pyqtstyle'] = None
-
-    # R components
-    try:
-        import rpy2.robjects as robjects
-        csc.versions['r'] = robjects.r('version')[12][0]
-    except (ModuleNotFoundError, NameError):
-        csc.versions['r'] = None
-    try:
-        import rpy2
-        csc.versions['rpy2'] = rpy2.__version__
-    except (ModuleNotFoundError, NameError):
-        csc.versions['rpy2'] = None
-    '''
-    try:
-        from rpy2.robjects.packages import importr
-        importr('car')
-        csc.versions['car'] = True
-    except:
-        csc.versions['car'] = None
-    '''
-
 
 def print_versions(main_window):
     text_output = '<cs_h1>' + _('System components') + '</cs_h1>'
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
-    text_output += 'CogStat path: %s\n' % \
-                   os.path.dirname(os.path.abspath(__file__))
+    text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
     text_output += 'Platform: %s\n' % csc.versions['platform']
     text_output += 'Python: %s\n' % csc.versions['python']
     text_output += 'Python interpreter path: %s\n' % sys.executable
@@ -110,8 +27,7 @@ def print_versions(main_window):
     except:  # TODO add exception type
         pass
         # with pythonw stdout is not available
-    text_output += 'Filesystem encoding: %s\n' % \
-                   str(sys.getfilesystemencoding())
+    text_output += 'Filesystem encoding: %s\n' % str(sys.getfilesystemencoding())
     text_output += 'Language: %s\n' % csc.language
     text_output += 'Numpy: %s\n' % csc.versions['numpy']
     text_output += 'Scipy: %s\n' % csc.versions['scipy']
@@ -119,15 +35,12 @@ def print_versions(main_window):
     text_output += 'Statsmodels: %s\n' % csc.versions['statsmodels']
     text_output += 'Pingouin: %s\n' % csc.versions['pingouin']
     text_output += 'Matplotlib: %s\n' % csc.versions['matplotlib']
-    text_output += 'Matplotlib backend: %s\n' % \
-                   csc.versions['matplotlib_backend']
+    text_output += 'Matplotlib backend: %s\n' % csc.versions['matplotlib_backend']
     text_output += 'PyQt: %s\n' % csc.versions['pyqt']
-    text_output += 'PyQt QStyle:%s\n' % \
-                   main_window.style().metaObject().className()
+    text_output += 'PyQt QStyle:%s\n' % main_window.style().metaObject().className()
     text_output += 'R: %s\n' % csc.versions['r']
     text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
 
-#    import os
 #    text_output += '\n'
 #    for param in os.environ.keys():
 #        text_output += u'%s %s' % (param,os.environ[param]) + '\n'
