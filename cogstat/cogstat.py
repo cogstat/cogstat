@@ -39,10 +39,6 @@ Right after the main heading, check the preconditions of the analyses, for examp
 - Measurement levels of the variables, the consistency of the measurement levels
 """
 
-# if CS is used with GUI, start the splash screen
-QString = str
-
-# go on with regular importing, etc.
 import gettext
 import itertools
 import logging
@@ -540,6 +536,7 @@ class CogStatData:
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
         # TODO do we still need this?
+        QString = str
         for var_name in self.data_frame.columns:
             self.data_measlevs[QString(var_name)] = self.data_measlevs[var_name]
 
