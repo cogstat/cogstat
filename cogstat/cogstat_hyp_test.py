@@ -110,13 +110,13 @@ def print_sensitivity_effect_sizes(effect_sizes_95=None, effect_sizes_80=None):
                                    effect_sizes_80[effect_size_name]
 
     if effect_sizes_95_str or effect_sizes_80_str:
-        text_result = _('Sensitivity power analysis.') + '\n'
+        text_result = _('Sensitivity power analysis') + '.\n'
         if effect_sizes_95_str:
             text_result += _('Minimal effect size to reach 95% power with the present '
-                           'sample size for the present hypothesis test.') + ' ' + effect_sizes_95_str + '\n'
+                           'sample size for the present hypothesis test') + '. ' + effect_sizes_95_str + '\n'
         if effect_sizes_80_str:
             text_result += _('Minimal effect size to reach 80% power with the present '
-                             'sample size for the present hypothesis test.') + ' ' + effect_sizes_80_str + '\n'
+                             'sample size for the present hypothesis test') + '. ' + effect_sizes_80_str + '\n'
     else:
         text_result = _('Sensitivity power could not be calculated.') + '\n'
     return text_result
@@ -1023,7 +1023,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 if not norm:
                     result_ht += '<cs_decision>' + _('Normality is violated in variable ') + var_names[0] + ', ' + \
                                  _('group ') + str(group) + '.\n</cs_decision>'
-                    result_ht += '<cs_decision>>> ' + _('Running Brunner–Munzel test.') + '\n</cs_decision>'
+                    result_ht += '<cs_decision>>> ' + _('Running Brunner–Munzel test') + '-\n</cs_decision>'
                     result_ht += brunner_munzel_test(df, var_names[0], groups[0])
                 else:
                     result_ht += '<cs_decision>' + _('Normality is not violated. >> Running modified t-test.') + \
@@ -1032,8 +1032,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                                  single_case_slope_SE else None, single_case_slope_trial_n)
             else:
                 result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
-                             _("Choosing two sample t-test, Brunner-Munzel test or Welch's t-test depending on "
-                               "assumptions.") + '\n</cs_decision>'
+                             _("Choosing two sample t-test, Brunner–Munzel test or Welch's t-test depending on "
+                               "assumptions") + '.\n</cs_decision>'
                 result_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
                 non_normal_groups = []
                 for group in group_levels:
@@ -1057,7 +1057,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 elif non_normal_groups:
                     result_ht += '<cs_decision>' + _('Normality is violated in variable %s, group(s) %s.') % \
                                  (var_names[0], ', '.join(map(str, non_normal_groups))) + ' >> ' + \
-                                 _('Running Brunner-Munzel test.') + '\n</cs_decision>'
+                                 _('Running Brunner–Munzel test') + '.\n</cs_decision>'
                     result_ht += brunner_munzel_test(df, var_names[0], groups[0])
                 elif not homogeneity_vars:
                     result_ht += '<cs_decision>' + _('Homogeneity of variance violated in variable %s.') % \
@@ -1066,7 +1066,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
 
         elif meas_level == 'ord':
             result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + _(
-                'Running Bruner-Munzel test.') + '</cs_decision>\n'
+                'Running Brunner–Munzel test') + '.</cs_decision>\n'
             result_ht += brunner_munzel_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
             result_ht += '<cs_decision>' + _('Nominal variable.') + ' >> ' + _(
@@ -1331,7 +1331,7 @@ def brunner_munzel_test(pdf, var_name, grouping_name):
 
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
     w, p = stats.brunnermunzel(var1, var2, alternative='two-sided')
-    text_result = _('Result of the Brunner-Munzel test: ') + '<i>W</i> = %0.*f, %s\n' % \
+    text_result = _('Result of the Brunner–Munzel test') + ': <i>W</i> = %0.*f, %s\n' % \
                    (non_data_dim_precision, w, print_p(p))
     return text_result
 
@@ -1590,10 +1590,10 @@ def decision_mixed_design(data, meas_level, var_names, factors, grouping_variabl
     elif meas_level == 'nom':
         result_ht += _('Testing if the distributions are the same.') + '</cs_decision>\n'
 
-    result_ht += '<cs_decision>' + _('Repeated measures and grouping variables.') + ' </cs_decision>'
+    result_ht += '<cs_decision>' + _('Repeated measures and grouping variables') + '.</cs_decision>'
     if meas_level == 'int':
         result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
-                     _("Choosing mixed ANOVA.") + '\n</cs_decision>'
+                     _('Choosing mixed ANOVA') + '.\n</cs_decision>'
         result_ht += mixed_anova(data, var_names, factors, grouping_variables)
     elif meas_level == 'ord':
         result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + \
@@ -1668,4 +1668,4 @@ def mixed_anova(pdf, var_names, factors, grouping_variables):
 
         return text_result
     else:
-        return _('Sorry, R is not available to run %.') % _('mixed ANOVA')
+        return _('Sorry, R is not available to run %s') % _('mixed ANOVA') + '.'
