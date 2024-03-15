@@ -79,9 +79,34 @@ except (ModuleNotFoundError, NameError):
 
 # R components
 try:
-    import rpy2.robjects as robjects
-    versions['r'] = robjects.r('version')[12][0]
-except (ModuleNotFoundError, NameError):
+    # rpy2 tries to find R in PATH or in R_HOME https://rpy2.github.io/doc/v3.5.x/html/rinterface.html
+    # "If calling initr() returns an error stating that R_HOME is not defined, you should either have the R executable
+    # in your path (PATH on unix-alikes, or Path on Microsoft Windows) or have the environment variable R_HOME defined."
+    #
+    # First, let's check if CS is used from an application version where R is also copied next to Python and CS, and
+    # R can be reached with the appropriate relative path. If this is the case, set R_HOME to that path.
+    if os.path.exists('R'):  # in an installed/application version, R is included in this relative path
+        os.environ['R_HOME'] = 'R'
+    # Otherwise, use PATH or R_HOME which was set either by the R installation, or by the user
+    # (e.g., if they want to specify the version to use among several installed versions).
+    # Note that R_HOME may not be set in Windows after installation. https://github.com/rpy2/rpy2/issues/796
+
+    # It is not trivial to check if R is available. We want to avoid Fatal error, and use exception instead. Also, what
+    # works on Linux, does not work on Windows, and the other way around. Specifically:
+    # - In Linux, robjects causes Fatal error, but rpy2.rinterface.initr() raises an exception.
+    # - In Windows, rpy2.rinterface.initr() raises _csv.Error even if the path is correct. So we can't use it in
+    # Windows. However, when the R_HOME is incorrect, robjects raises OSError exception, so it can be used.
+    # Note that initr() cannot be run multiple times, so this cannot be used repeatedly to check R availability.
+    if sys.platform.startswith('linux'):
+        import rpy2.rinterface
+        rpy2.rinterface.initr()
+        import rpy2.robjects as robjects
+        versions['r'] = robjects.r('version')[-2][0]
+    elif sys.platform == 'win32':
+        import rpy2.robjects as robjects
+        versions['r'] = robjects.r('version')[-2][0]
+    # TODO solution for Mac
+except (ModuleNotFoundError, NameError, FileNotFoundError, OSError):
     versions['r'] = None
 try:
     import rpy2
