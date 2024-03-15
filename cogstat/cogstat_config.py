@@ -6,6 +6,8 @@ All settings that can be set from the Preferences in the GUI, are included in th
 """
 
 import os
+import sys
+import platform
 import shutil
 import configparser
 
@@ -16,6 +18,7 @@ output_type = 'ipnb'  # if run from GUI, this is switched to 'gui' any other
 test_functions = False  # features can be switched on and off with this
 # TODO do we need this anymore?
 app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
+os.environ['OUTDATED_IGNORE'] = '1'  # otherwise, old pingouin version warning is shown
 
 # 1. versions
 # Find the versions of the different components.
@@ -23,11 +26,9 @@ app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is
 
 versions = {}  # To be modified from cogstat.py
 
-import platform
 versions['platform'] = platform.platform()
 
 # Python components
-import sys
 versions['python'] = sys.version
 try:
     import numpy
@@ -37,7 +38,7 @@ except (ModuleNotFoundError, NameError):
 try:
     import pandas
     versions['pandas'] = pandas.__version__
-    # csc.versions['pandas'] = pandas.version.version
+    # versions['pandas'] = pandas.version.version
 except (ModuleNotFoundError, NameError):
     versions['pandas'] = None
 try:
@@ -71,11 +72,11 @@ try:
     # PyQt style can be checked only if the window is open and the object
     # is available
     # It is GUI specific
-    # csc.versions['pyqtstyle'] =
+    # versions['pyqtstyle'] =
     # main_window.style().metaObject().className()
 except (ModuleNotFoundError, NameError):
     versions['pyqt'] = None
-    # csc.versions['pyqtstyle'] = None
+    # versions['pyqtstyle'] = None
 
 # R components
 try:
