@@ -8,6 +8,10 @@ print(sys.path)
 from pathlib import Path
 import numpy as np
 import pandas as pd
+
+if os.name == 'nt':
+    os.environ['R_HOME'] = 'C:/Program Files/R/R-4.3.3/'
+
 from cogstat import cogstat as cs
 
 print(cs.__file__)
