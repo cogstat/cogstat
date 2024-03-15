@@ -64,6 +64,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "{#MySource}run_cogstat_gui.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySource}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Attila\AppData\Local\Programs\Python\Python38\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Program Files\R\R-4.3.3\*"; DestDir: "{app}\R\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
