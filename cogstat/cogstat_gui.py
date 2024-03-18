@@ -181,6 +181,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                  'self.reload_file', True, True],
                                 ['/icons8-folder-link.svg', _('Reload data file when &changed'), _('Ctrl+Shift+Alt+L'),
                                  'self.watch_file', False, True],
+                                ['/icons8-edit-folder-100.png', _('Open data file with e&xternal editor'),
+                                 _('Ctrl+Shift+O'), 'self.open_file_with_editor', True, True],
                                 ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True,
                                  False],
                                 ['separator'],
@@ -759,6 +761,19 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         if self.menus[1].actions()[14].isChecked():  # rerun all analyses when file is reloaded
             self.rerun_analyses()
+
+    def open_file_with_editor(self):
+        """ Open current data file with external editor.
+        """
+        import subprocess
+        import platform
+        if self.active_data.import_source[1]:  # If the current data comes from a file
+            if platform.system() == 'Darwin':  # macOS
+                subprocess.call(('open', self.active_data.import_source[1]))
+            elif platform.system() == 'Windows':  # Windows
+                os.startfile(self.active_data.import_source[1])
+            else:  # linux variants
+                subprocess.call(('xdg-open', self.active_data.import_source[1]))
 
     def open_clipboard(self):
         """Open data copied to clipboard."""

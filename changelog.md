@@ -9,8 +9,9 @@ Upcoming version
 - Effect size for 80% power is displayed beyond the 95% power version (thanks to Maja Lebeničnik)
 - Simplified diffusion analysis report
 - Help buttons on dialogs
-- Ability to reload data files automatically when file is changed
+- Ability to reload data file automatically when file is changed
 - Ability to rerun analyses when file is reloaded
+- Ability to open data file with external editor
 - Python package: results are returned in a dictionary
 - Continuing support for Spanish localization (Mabel Galai)
 
