@@ -86,8 +86,10 @@ try:
     #
     # First, let's check if CS is used from an application version where R is also copied next to Python and CS, and
     # R can be reached with the appropriate relative path. If this is the case, set R_HOME to that path.
-    if os.path.exists('R'):  # in an installed/application version, R is included in this relative path
-        os.environ['R_HOME'] = 'R'
+    if os.path.exists('R_CS'):  # in an installed/application version, R is included in this relative path; this
+                                # specific name (unlike R) is unlikely to exist in any directory the script is started
+                                # from
+        os.environ['R_HOME'] = 'R_CS'
     # Otherwise, use PATH or R_HOME which was set either by the R installation, or by the user
     # (e.g., if they want to specify the version to use among several installed versions).
     # Note that R_HOME may not be set in Windows after installation. https://github.com/rpy2/rpy2/issues/796
