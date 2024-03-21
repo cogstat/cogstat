@@ -2174,7 +2174,7 @@ class CogStatData:
             sample_effect_size = None
             # TODO
         if sample_effect_size:
-            results['sample effect size'] += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
+            results['sample effect size'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
                                              sample_effect_size
 
         # 3. Population properties
@@ -2204,7 +2204,7 @@ class CogStatData:
             population_effect_size = None
             # TODO
         if population_effect_size:
-            results['population effect size'] += ('<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' +
+            results['population effect size'] = ('<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' +
                                                   population_effect_size)
 
         # 3d. Hypothesis tests
