@@ -924,8 +924,8 @@ def repeated_measures_anova(pdf, var_names, factors=None):
         # (alternatively, one might set it later in the long format directly)
         temp_var_names = ['']
         for factor in factors:
-            # TODO this will not work if the factor name includes the current separator (_)
-            temp_var_names = [previous_var_name+'_'+factor[0]+str(i)
+            # # this will not work if the factor name includes the current separator (_!ß_) - but who would us it?
+            temp_var_names = [previous_var_name+'_!ß_'+factor[0]+str(i)
                               for previous_var_name in temp_var_names for i in range(factor[1])]
         temp_var_names = [temp_var_name[1:] for temp_var_name in temp_var_names]
         #print(temp_var_names)
@@ -934,7 +934,7 @@ def repeated_measures_anova(pdf, var_names, factors=None):
         pdf_temp.columns = temp_var_names
         pdf_temp = pdf_temp.assign(ID=pdf_temp.index)
         pdf_long = pd.melt(pdf_temp, id_vars='ID', value_vars=temp_var_names)
-        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_', expand=True).
+        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_!ß_', expand=True).
                              rename(columns={i: factors[i][0] for i in range(len(factors))})], axis=1)
 
         # Run ANOVA
@@ -1630,8 +1630,8 @@ def mixed_anova(pdf, var_names, factors, grouping_variables):
         # (alternatively, one might set it later in the long format directly)
         temp_var_names = ['']
         for factor in factors:
-            # TODO this will not work if the factor name includes the current separator (_)
-            temp_var_names = [previous_var_name + '_' + factor[0] + str(i)
+            # this will not work if the factor name includes the current separator (_!ß_) - but who would us it?
+            temp_var_names = [previous_var_name + '_!ß_' + factor[0] + str(i)
                               for previous_var_name in temp_var_names for i in range(factor[1])]
         temp_var_names = [temp_var_name[1:] for temp_var_name in temp_var_names]
         # print(temp_var_names)
@@ -1640,7 +1640,7 @@ def mixed_anova(pdf, var_names, factors, grouping_variables):
         pdf_temp.columns = temp_var_names
         pdf_temp = pdf_temp.assign(ID=pdf_temp.index)
         pdf_long = pd.melt(pdf_temp, id_vars='ID', value_vars=temp_var_names)
-        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_', expand=True).
+        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_!ß_', expand=True).
                              rename(columns={i: factors[i][0] for i in range(len(factors))})], axis=1)
         pdf_long = pdf_long.join(pdf[grouping_variables], on='ID')
         # replace spaces for R
