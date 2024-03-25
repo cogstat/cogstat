@@ -824,6 +824,8 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             _remove_item_from_list_widget(self.source_listWidget, self.selected_listWidget, self.names)
 
     def show_factors(self):
+        """Display factor names and the levels and the variable names
+        """
         # first, remove all items from the selected_listWidget
         previously_used_vars = []
         for i in range(self.selected_listWidget.count()):
@@ -857,6 +859,10 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                 self.selected_listWidget.addItem(QString(factor_combination))
 
     def factorsButton_clicked(self):
+        """After using the Factors dialog, refresh (a) self.factors, (b) the Dependent variable(s) list, and (c)
+        display options.
+        """
+        # Prepare the dialog: add the current factor names
         self.factors_dialog.init_factors(self.factors)
         if self.factors_dialog.exec():
             factor_list = self.factors_dialog.read_parameters()
@@ -866,10 +872,6 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             #print(self.factors)
             if self.factors:
                 self.show_factors()
-                # modify self.displayfactors too because the user possibly changed the factors without changing the
-                #  display options (where self.displayfactors are set)
-                self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
-                self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
             else:  # remove the factor levels if there is no explicit factor level
                 previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
@@ -891,6 +893,10 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                 for previously_used_var in previously_used_vars:
                     self.selected_listWidget.addItem(QString(previously_used_var))
                     self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchFlag.MatchExactly)[0]))
+            # modify self.displayfactors too because the user possibly changed the factors without changing the
+            #  display options (where self.displayfactors are set)
+            self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
+            self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
 
     def display_options_button_clicked(self):
         # If there are several variables but no factors are given, then create a default factor name that can be used in
@@ -1187,6 +1193,8 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
     def show_factors(self):
+        """Display factor names and the levels and the variable names
+        """
         # first, remove all items from the selected_listWidget
         previously_used_vars = []
         for i in range(self.selected_listWidget.count()):
@@ -1220,6 +1228,10 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                 self.selected_listWidget.addItem(QString(factor_combination))
 
     def factorsButton_clicked(self):
+        """After using the Factors dialog, refresh (a) self.factors, (b) the Dependent variable(s) list, and (c)
+        display options.
+        """
+        # Prepare the dialog: add the current factor names
         self.factors_dialog.init_factors(self.factors)
         if self.factors_dialog.exec():
             factor_list = self.factors_dialog.read_parameters()
@@ -1229,13 +1241,6 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             #print(self.factors)
             if self.factors:
                 self.show_factors()
-                # modify self.displayfactors too because the user possibly changed the factors without changing the
-                #  display options (where self.displayfactors are set)
-                self.display_options_mixed_dialog. \
-                    set_factors(factors=[str(self.group_listWidget.item(i).text())
-                                         for i in range(self.group_listWidget.count())] +
-                                        [factor[0] for factor in self.factors])
-                self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
             else:  # remove the factor levels if there is no explicit factor level
                 previously_used_vars = []
                 for i in range(self.selected_listWidget.count()):
@@ -1257,6 +1262,13 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                 for previously_used_var in previously_used_vars:
                     self.selected_listWidget.addItem(QString(previously_used_var))
                     self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchFlag.MatchExactly)[0]))
+            # modify self.displayfactors too because the user possibly changed the factors without changing the
+            #  display options (where self.displayfactors are set)
+            self.display_options_mixed_dialog. \
+                set_factors(factors=[str(self.group_listWidget.item(i).text())
+                                     for i in range(self.group_listWidget.count())] +
+                                    [factor[0] for factor in self.factors])
+            self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
 
     def display_options_button_clicked(self):
         # If there are several variables but no factors are given, then create a default factor name that can be used in
