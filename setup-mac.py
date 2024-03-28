@@ -45,6 +45,6 @@ setup(
     author_email='krajcsi@gmail.com',
     include_package_data=True,
     setup_requires=['py2app'],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     packages = find_packages(),
 )

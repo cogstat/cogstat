@@ -14,7 +14,7 @@ setup(name='cogstat',
                         'pyreadstat >=1.1.5', 'odfpy', 'xlrd', 'openpyxl >=3.0.7', 'pyreadr >=0.4.5',
                         'appdirs', 'python-bidi', 'IPython', 'Jupyter', 'scikit-learn', 'svgutils', 'rpy2'],
       # R packages: ez
-      python_requires='>=3.6',
+      python_requires='>=3.7',  # dictionaries are ordered
       entry_points={'console_scripts': ['cogstat=cogstat.cogstat_gui:main']},
       extras_requires={'GUI': ['PyQt6']}
 )

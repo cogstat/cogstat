@@ -7,10 +7,10 @@ and they compile the appropriate statistics for the main analysis pipelines.
 """
 
 """
-The analyses return a dictionary.
+The analyses return a dictionary (ordered).
 - The key is the name of the subsection, and the value is the output. 
 - Only the values will be displayed in the order as it is stored in the dictionary.
-- The values can include (html) str, pandas styler, matplotlib figure , or the list of any of these.
+- The values can include (html) str, pandas styler, matplotlib figure, or the list of any of these (but no nested list).
 
 The keys refer to the analysis section. Some typical keys, but if needed others can be used too (singular is preferred)
 - analysis
