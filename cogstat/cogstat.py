@@ -1975,8 +1975,8 @@ class CogStatData:
             Factorial combination of the factors will be generated, and variables will be assigned respectively
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
-        display_factors: list of two lists of strings
-            Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
+        display_factors: list of three lists of strings
+            Factors to be displayed on x-axis, color, and panel (but panel cannot be used for repeated measures data)
         single_case_slope_SE : str
             When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
