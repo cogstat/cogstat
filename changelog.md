@@ -12,6 +12,7 @@ Upcoming version
 - Ability to reload data file automatically when file is changed
 - Ability to rerun analyses when file is reloaded
 - Ability to open data file with external editor
+- New demo data files https://www.crumplab.com/statisticsLab/ (Evelin Haász)
 - Python package: results are returned in a dictionary
 - Continuing support for Spanish localization (Mabel Galai)
 
