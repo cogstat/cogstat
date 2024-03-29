@@ -2121,10 +2121,13 @@ class CogStatData:
                 missing_n = len(self.data_frame[grouping_variable]) - observed_n
                 results['raw data info'] += _('N of missing grouping variable in %s') % grouping_variable + ': %g\n' % missing_n
 
-        factor_info = pd.DataFrame([var_names],
-                                   columns=pd.MultiIndex.from_product(
-                                       [['%s %s' % (factor[0], i + 1) for i in range(factor[1])] for factor in factors],
+        if len(var_names) > 1:
+            factor_info = pd.DataFrame([var_names],
+                                       columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i + 1) for i in
+                                                                            range(factor[1])] for factor in factors],
                                        names=[factor[0] for factor in factors]))
+        else:
+            factor_info = None
 
         #print('cs.py first call:', var_names, factors, grouping_variables, display_factors)
         #print(factor_info)
