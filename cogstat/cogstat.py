@@ -1531,9 +1531,9 @@ class CogStatData:
         var_names: list of str
             The variable to be compared.
         factors : list of list of [str, int]
-            The factors and their levels, e.g.,
+            The factor names and their levels, e.g.,
                 [['name of the factor', number_of_the_levels],
-                ['name of the factor 2', number_of_the_levels]]
+                 ['name of the factor 2', number_of_the_levels]]
             Factorial combination of the factors will be generated, and variables will be assigned respectively
         display_factors: list of two lists of strings
             Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
@@ -1571,6 +1571,9 @@ class CogStatData:
             results['analysis info'] += _("Sorry, you can't compare variables with different measurement levels."
                        " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
                      + '\n'
+        factor_names = [factor[0] for factor in factors]
+        if len(set(factor_names)) != len(factor_names):
+            results['warning'] += _('Use unique names for each factor.')
         if results['warning']:
             return cs_util.convert_output(results)
         else:
