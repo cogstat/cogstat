@@ -1876,6 +1876,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
             plt.title(plt_title)
 
         # set x ticks and x label
+        # If there is a single factor, and it is localized 'Unnamed factor', then don't use in ticks and labels
         if indep_x:
             xtick_labels = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).groups.keys()
             # If all repeated measures factors are included, then display the variable names too, and not only the
@@ -1888,7 +1889,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 factor_level_combinations.sort_index(axis='columns', level=within_indep_names, inplace=True)
                 # Find the appropriate names for the factor level combinations
                 var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
-                if show_factor_names_on_x_axis:
+                if show_factor_names_on_x_axis and (indep_x[0] != _('Unnamed factor')):
                     # Add the original variable names (var_names) to the xtick_labels
                     xtick_labels = [(xtick_label + ('(' + var_name + ')', )) if isinstance(xtick_label, tuple)  # else str
                                     else (xtick_label + ' (' + var_name + ')')

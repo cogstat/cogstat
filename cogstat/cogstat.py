@@ -1577,7 +1577,8 @@ class CogStatData:
             results['warning'] = None
 
         # Prepare missing parameters
-        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        # if factor is not specified, use localized 'Unnamed factor' for factor name, so this can be handled by the
+        # rest of the code
         if factors is None or factors == []:
             factors = [[_('Unnamed factor'), len(var_names)]]
         # if display_factors is not specified, then all factors are displayed on the x-axis
@@ -2033,7 +2034,8 @@ class CogStatData:
             results['warning'] = None
 
         # Prepare missing parameters
-        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        # if factor is not specified, use localized 'Unnamed factor' for factor name, so this can be handled by the
+        # rest of the code
         if (factors is None or factors == []) and len(var_names) > 1:
             factors = [[_('Unnamed factor'), len(var_names)]]
         # handle if display_factors is not specified
