@@ -13,21 +13,21 @@ The GUI includes
 # Splash screen
 import os
 import sys
-import random
 
-import importlib
-from PyQt5 import QtGui, QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt6 import QtGui, QtWidgets
+from PyQt6.QtCore import Qt
 
 app = QtWidgets.QApplication(sys.argv)
-app.setAttribute(Qt.AA_UseHighDpiPixmaps)
+#app.setAttribute(Qt.AA_UseHighDpiPixmaps)  # TODO we don't need this anymore?
 pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources',
                                     'CogStat splash screen.png'), 'PNG')
 splash_screen = QtWidgets.QSplashScreen(pixmap)
 splash_screen.show()
-splash_screen.showMessage('', Qt.AlignBottom, Qt.white)  # TODO find something else to make the splash visible
+splash_screen.showMessage('', Qt.AlignmentFlag.AlignBottom, Qt.GlobalColor.white)  # TODO find something else to make the splash visible
 
 # go on with regular imports, etc.
+import random
+import importlib
 import base64
 from distutils.version import LooseVersion
 import gettext
@@ -37,23 +37,22 @@ import matplotlib.figure
 import matplotlib.pyplot as plt
 import os
 import sys
+import time
 import traceback
 from urllib.request import urlopen
 import webbrowser
 import pandas as pd
 from operator import attrgetter
+from functools import partial
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 from . import cogstat
 from . import cogstat_dialogs
 from . import cogstat_config as csc
-csc.versions['cogstat'] = cogstat.__version__
 from . import cogstat_util as cs_util
 
-cs_util.app_devicePixelRatio = app.devicePixelRatio()
-
-cs_util.get_versions()
+csc.app_devicePixelRatio = app.devicePixelRatio()
 
 logging.root.setLevel(logging.INFO)
 
@@ -83,6 +82,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.last_file_dir = os.path.dirname(csc.__file__)
         self.last_demo_file_dir = os.path.join(os.path.dirname(csc.__file__), 'demo_data')
 
+        self.watched_file = QtCore.QFileSystemWatcher()
+        self.watched_file.fileChanged.connect(self.reload_file)
+
         # Check if all required components are installed
         # TODO Maybe all these checking can be removed
         missing_required_components, missing_recommended_components = self._check_installed_components()
@@ -92,7 +94,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                                     missing_required_components+missing_recommended_components])[:-2] +
                                            '.<br><br>' + '<a href = "https://doc.cogstat.org/'
                                                          'Installation">Visit the installation help page</a> to see how '
-                                                         'to complete the installation.', QtWidgets.QMessageBox.Ok)
+                                                         'to complete the installation.', QtWidgets.QMessageBox.StandardButton.Ok)
             if missing_required_components:
                 sys.exit()
         
@@ -103,7 +105,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.check_for_update()
 
         # Only for testing
-#        self.open_file('cogstat/test/data/example_data.csv'); #self.compare_groups()
+#        self.open_file('cogstat/test/dummy data/example_data.csv'); #self.compare_groups()
 #        self.open_file('cogstat/test/data/VA_test.csv')
 #        self.open_file('cogstat/test/data/test2.csv')
 #        self.open_file('cogstat/test/data/diffusion.csv')
@@ -115,7 +117,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.explore_variable_pair(['X', 'Y'])
 #        self.regression(['a'], 'b')
 #        self.regression(['b', 'f', 'g'], 'a')
-#        self.pivot([u'X'], row_names=[], col_names=[], page_names=['CONDITION', 'TIME3'], function='N')
+#        self.pivot('X', row_names=[], col_names=[], page_names=['CONDITION', 'TIME3'], function='N')
 #        self.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name', condition_names=['Num1', 'Num2'])
 #        self.compare_variables(['X', 'Y'])
 #        self.compare_variables(['a', 'e', 'g'])
@@ -163,103 +165,113 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + '/resources/CogStat.ico'))
 
         if rtl_lang:
-            self.setLayoutDirection(QtCore.Qt.RightToLeft)
+            self.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
 
         # Menus and commands
         # The list will be used to construct the menus
-        # Items include the icon name, the menu name, the shortcuts, the function to call, whether to add it to the
-        # toolbar, whether it is active only when data is loaded
+        # Items include the icon name, the menu name, the shortcut, the function to call, whether to add it to the
+        # toolbar, whether it is active only when data is loaded, whether it is checkable
         icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'icons')
         menu_commands = [
                             [_('&Data'),
-                                ['/icons8-folder.svg', _('&Open data file')+'...', _('Ctrl+O'), 'self.open_file',
-                                 True, False],
-                                ['/icons8-folder-eye.svg', _('Open d&emo data file')+'...', _('Ctrl+E'),
-                                 'self.open_demo_file', True, False],
+                                ['/icons8-folder.svg', _('&Open data file')+'...', _('Ctrl+O'),
+                                 self.open_file, True, False, False],
+                                ['/icons8-folder-puzzle-100.png', _('Open d&emo data file')+'...', _('Ctrl+E'),
+                                 self.open_demo_file, True, False, False],
                                 ['/icons8-folder-reload.svg', _('Re&load actual data file'), _('Ctrl+Shift+L'),
-                                 'self.reload_file', True, True],
-                                ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'), 'self.open_clipboard', True,
-                                 False],
+                                 self.reload_file, True, True, False],
+                                ['/icons8-folder-play-100.png', _('Reload data file when &changed'),
+                                 _('Ctrl+Shift+Alt+L'), self.watch_file, True, True, True],
+                                ['/icons8-edit-folder-100.png', _('Open data file with e&xternal editor'),
+                                 _('Ctrl+Shift+O'), self.open_file_with_editor, True, True, False],
+                                ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'),
+                                 self.open_clipboard, True, False, False],
                                 ['separator'],
-                                ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'), 'self.filter_outlier',
-                                 True, True],
+                                ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'),
+                                 self.filter_outlier, True, True, False],
                                 ['separator'],
                                 ['/icons8-data-sheet-check.svg', _('Display &data briefly'), _('Ctrl+D'),
-                                 'self._print_data_brief', False, True],
+                                 self._print_data_brief, False, True, False],
                                 ['toolbar separator']
-                            ],
+                             ],
                             [_('&Analysis'),
-                                ['/icons8-normal-distribution-histogram.svg', _('&Explore variable')+'...',
-                                 _('Ctrl+1'), 'self.explore_variable', True, True],
+                                ['/icons8-normal-distribution-histogram.svg', _('Explore &variable')+'...',
+                                 _('Ctrl+1'), self.explore_variable, True, True, False],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
-                                 _('Ctrl+2'), 'self.explore_variable_pair', True, True],
+                                 _('Ctrl+2'), self.explore_variable_pair, True, True, False],
                                 ['/icons8-heat-map-100.png', _('Explore &relation of variables')+'...',
-                                 _('Ctrl+R'), 'self.regression', True, True],
-                                ['/icons8-combo-chart.svg', _('Compare re&peated measures variables')+'...',
-                                 'Ctrl+P', 'self.compare_variables', True, True],
+                                 _('Ctrl+R'), self.regression, True, True, False],
+                                ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
+                                 'Ctrl+P', self.compare_variables, True, True, False],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', 'Ctrl+G',
-                                 'self.compare_groups', True, True],
-                                ['/icons8-combo-chart-100.png', _('Compare repeated &measures variables and groups')+'...',
-                                 'Ctrl+M', 'self.compare_variables_groups', True, True],
+                                 self.compare_groups, True, True, False],
+                                ['/icons8-combo-chart-100.png',
+                                 _('&Compare repeated measures variables and groups')+'...', 'Ctrl+M',
+                                 self.compare_variables_groups, True, True, False],
                                 ['separator'],
                                 ['toolbar separator'],
-                                ['/icons8-goal-100.png', _('Internal &consistency reliability analysis')+'...',
-                                 'Ctrl+Shift+C', 'self.reliability_internal', True, True],
+                                ['/icons8-goal-100.png', _('Internal consistenc&y reliability analysis')+'...',
+                                 'Ctrl+Shift+C', self.reliability_internal, True, True, False],
                                 ['/icons8-collect-100.png', _('&Interrater reliability analysis')+'...',
-                                 'Ctrl+Shift+I', 'self.reliability_interrater', True, True],
+                                 'Ctrl+Shift+I', self.reliability_interrater, True, True, False],
                                 ['separator'],
                                 ['toolbar separator'],
-                                ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T', 'self.pivot', True,
-                                 True],
+                                ['/icons8-pivot-table.svg', _('Pivot &table')+'...', 'Ctrl+T',
+                                 self.pivot, True, True, False],
                                 ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
-                                 '...', 'Ctrl+Shift+D', 'self.diffusion', True, True],
+                                 '...', 'Ctrl+Shift+D', self.diffusion, True, True, False],
                                 ['separator'],
                                 ['toolbar separator'],
-                                ['/icons8-reboot-100.png', _('Rerun all analyses') +
-                                 '...', 'Ctrl+Shift+R', 'self.rerun_analyses', True, True],
+                                ['/icons8-reboot-100.png', _('Rerun all &analyses'), 'Ctrl+Shift+R',
+                                 self.rerun_analyses, True, True, False],
+                                ['/icons8-reboot-play-100.png', _('Rerun all analyses when &file reloaded'),
+                                 'Ctrl+Shift+Alt+R', self.rerun_analyses_on_reload, True, True, True],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
-                                ['/icons8-file.svg', _('&Clear results'), _('Ctrl+Del'), 'self.delete_output', True,
-                                 False],
-                                ['/icons8-search.svg', _('&Find text...'), _('Ctrl+F'), 'self.find_text', True, False],
+                                ['/icons8-file.svg', _('&Clear results'), _('Ctrl+Del'),
+                                 self.delete_output, True, False, False],
+                                ['/icons8-search.svg', _('&Find text...'), _('Ctrl+F'),
+                                 self.find_text, True, False, False],
                                 ['separator'],
-                                ['/icons8-zoom-in.svg', _('&Increase text size'), _('Ctrl++'), 'self.zoom_in', True,
-                                 False],
-                                ['/icons8-zoom-out.svg', _('&Decrease text size'), _('Ctrl+-'), 'self.zoom_out',
-                                 True, False],
+                                ['/icons8-zoom-in.svg', _('&Increase text size'), _('Ctrl++'),
+                                 self.zoom_in, True, False, False],
+                                ['/icons8-zoom-out.svg', _('&Decrease text size'), _('Ctrl+-'),
+                                 self.zoom_out, True, False, False],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
                                 ['/icons8-edit-file.svg', _('Text is &editable'), _('Ctrl+Shift+E'),
-                                 'self.text_editable', False, False],
+                                 self.text_editable, False, False, True],
                                 ['separator'],
-                                ['/icons8-document.svg', _('&Save results'), _('Ctrl+S'), 'self.save_result', False, False],
+                                ['/icons8-document.svg', _('&Save results'), _('Ctrl+S'),
+                                 self.save_result, False, False, False],
                                 ['/icons8-document-plus.svg', _('Save results &as')+'...', _('Ctrl+Shift+S'),
-                                 'self.save_result_as', False, False],
+                                 self.save_result_as, False, False, False],
                                 ['toolbar separator']
-                            ],
+                             ],
                             [_('&CogStat'),
-                                ['/icons8-help.svg', _('&Help'), _('F1'), 'self._open_help_webpage', True, False],
+                                ['/icons8-help.svg', _('&Help'), _('F1'),
+                                 self._open_help_webpage, True, False, False],
                                 ['/icons8-settings.svg', _('&Preferences')+'...', _('Ctrl+Shift+P'),
-                                 'self._show_preferences', True, False],
-                                ['/icons8-file-add.svg', _('Request a &feature'), '', 'self._open_reqfeat_webpage',
-                                 False, False],
+                                 self._show_preferences, True, False, False],
+                                ['/icons8-file-add.svg', _('Request a &feature'), '',
+                                 self._open_reqfeat_webpage, False, False, False],
                                 ['separator'],
-                                #['/icons8-toolbar.svg', _('Show the &toolbar'), '',
-                                # 'self.toolbar.toggleViewAction().trigger', False],
-                                #['separator'],
-                                ['/icons8-bug.svg', _('&Report a problem'), '', 'self._open_reportbug_webpage',
-                                 False, False],
-                                ['/icons8-system-report.svg', _('&Diagnosis information'), '', 'self.print_versions',
-                                 False, False],
+                                ['/icons8-bug.svg', _('&Report a problem'), '',
+                                 self._open_reportbug_webpage, False, False, False],
+                                ['/icons8-system-report.svg', _('&Diagnosis information'), '',
+                                 self.print_versions, False, False, False],
                                 ['separator'],
-                                ['/icons8-info.svg', _('&About'), '', 'self._show_about', False, False],
+                                ['/icons8-info.svg', _('&About'), '',
+                                 self._show_about, False, False, False],
                                 ['separator'],
-                                ['/icons8-exit.svg', _('&Exit'), _('Ctrl+Q'), 'self.close', False, False]
-                            ]
+                                ['/icons8-exit.svg', _('&Exit'), _('Ctrl+Q'),
+                                 self.close, False, False, False]
+                             ]
                         ]
 
         # Create menus and commands, create toolbar
+        # TODO find another solution for changing menus later so that not their order but their names/ids could be used
         self.menubar = self.menuBar()
         self.menus = []
         self.menu_commands = {}
@@ -276,27 +288,31 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 elif menu_item[0] == 'toolbar separator':
                     self.toolbar.addSeparator()
                 else:
-                    self.menu_commands[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]),
+                    self.menu_commands[menu_item[1]] = QtGui.QAction(QtGui.QIcon(icon_path + menu_item[0]),
                                                                          menu_item[1], self)
                     self.menu_commands[menu_item[1]].setShortcut(menu_item[2])
-                    self.menu_commands[menu_item[1]].triggered.connect(eval(menu_item[3]))
+                    if menu_item[6]:  # the item is checkable
+                        self.menu_commands[menu_item[1]].setCheckable(True)
+                        # For synchronizing toolbar and menu checkables, the methods should know the triggerer
+                        self.menu_commands[menu_item[1]].triggered.connect(partial(menu_item[3], triggerer='menu'))
+                    else:
+                        self.menu_commands[menu_item[1]].triggered.connect(menu_item[3])
                     self.menus[-1].addAction(self.menu_commands[menu_item[1]])
                     if menu_item[4]:  # if the menu item should be added to the toolbar
-                        self.toolbar_actions[menu_item[1]] = QtWidgets.QAction(QtGui.QIcon(icon_path + menu_item[0]),
+                        self.toolbar_actions[menu_item[1]] = QtGui.QAction(QtGui.QIcon(icon_path + menu_item[0]),
                                                                                menu_item[1] + ' (' + menu_item[2] + ')',
                                                                                self)
-                        self.toolbar_actions[menu_item[1]].triggered.connect(eval(menu_item[3]))
+                        if menu_item[6]:  # the item is checkable
+                            self.toolbar_actions[menu_item[1]].setCheckable(True)
+                            # For synchronizing toolbar and menu checkables, the methods should know the triggerer
+                            self.toolbar_actions[menu_item[1]].triggered.connect(partial(menu_item[3],
+                                                                                         triggerer='toolbar'))
+                        else:
+                            self.toolbar_actions[menu_item[1]].triggered.connect(menu_item[3])
                         self.toolbar.addAction(self.toolbar_actions[menu_item[1]])
                     if menu_item[5]:  # the menu should be enabled only when data are loaded
                         self.active_menu_with_data.append(menu_item[1])
 
-        self.menus[2].actions()[5].setCheckable(True)  # _('&Text is editable') menu is a checkbox
-                                                       # # see also text_editable()
-        #self.toolbar.actions()[15].setCheckable(True)  # TODO rewrite Text is editable switches, because the menu and
-                                                        # the toolbar works independently
-        #self.menus[3].actions()[4].setCheckable(True)  # Show the toolbar menu is a checkbox
-        #self.menus[3].actions()[4].setChecked(True)  # Set the default value On
-            # TODO if the position of these menus are changed, then this setting will not work
         self._show_data_menus(on=False)
 
         # Initialize dialogs
@@ -318,10 +334,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
         self.table_view = QtWidgets.QTableView(self.splitter)
         self.table_view.horizontalHeader().setStretchLastSection(True)
-        self.table_view.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignLeft)
-        self.table_view.horizontalHeader().setTextElideMode(QtCore.Qt.ElideRight)
+        self.table_view.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.table_view.horizontalHeader().setTextElideMode(QtCore.Qt.TextElideMode.ElideRight)
         self.result_pane = QtWidgets.QTextBrowser(self.splitter)  # QTextBrowser can handle links, QTextEdit cannot
-        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 4)
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -364,7 +380,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         data_welcome_message = '%s%s%s%s<br>' % \
                                ('<cs_h1>', _('Data view'), '</cs_h1>',
                                _('To start working open a data file or paste your data from a spreadsheet.'))
-        self.result_pane.setText(cs_util.convert_output([output_welcome_message])[0])
+        self.result_pane.setText(cs_util.convert_output({'info': output_welcome_message})['info'])
         # We add these extra properties to track if the welcome message  is still on
         self.result_pane.welcome_message_on = True
 
@@ -402,11 +418,12 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
     def dropEvent(self, event):
         if event.mimeData().hasFormat("text/uri-list"):
-            self.open_file(path=event.mimeData().urls()[0].toString(options=QtCore.QUrl.PreferLocalFile))
+            self.open_file(path=event.mimeData().urls()[0].toString(options=QtCore.QUrl.UrlFormattingOption.PreferLocalFile))
         elif event.mimeData().hasFormat("text/plain"):
             # print 'Dropped Text: ', event.mimeData().text()
             self._open_data(data=str(event.mimeData().text()))
         
+
     def _check_installed_components(self):
         """
         Check if all required and recommended components are installed.
@@ -446,7 +463,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # http://qt-project.org/doc/qt-4.7/qt.html see CursorShape
         # http://qt-project.org/doc/qt-4.7/qapplication.html#id-19f00dae-ec43-493e-824c-ef07ce96d4c6
         if on:
-            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+            QtWidgets.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.CursorShape.WaitCursor))
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.BusyCursor))
         else:
             while QtWidgets.QApplication.overrideCursor() is not None:
@@ -456,7 +473,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QApplication.restoreOverrideCursor()
             #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         
-    def _print_to_pane(self, pane=None, output_list=None, scroll_to_analysis=True):
+    def _print_to_pane(self, pane=None, output_dict=None, scroll_to_analysis=True):
         """Print a GuiResultPackage to the output or data pane.
 
         The pane should have a pane.welcome_message_on property.
@@ -465,8 +482,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
         ----------
         pane : QtWidgets.QTextBrowser object
             The pane the message should be printed to.
-        output_list : list of str (html) or matplotlib figure or pandas dataframe styler
-            Flat list of items to display
+        output_dict : dict including str (html) or matplotlib figure or pandas dataframe styler or list of these in the
+                      values
         scroll_to_analysis : bool
             Should the pane scroll to the beginning of the analysis?
 
@@ -475,8 +492,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         """
 
-        if output_list is None:
-            output_list = []
         if pane.welcome_message_on:
             pane.clear()
             #pane.setHtml(cs_util.convert_output(['<cs_h1>&nbsp;</cs_h1>'])[0])
@@ -489,6 +504,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # TODO we may remove it for other panes
         anchor = str(random.random())
         pane.append('<a id="%s">&nbsp;</a>' % anchor)  # nbsp is needed otherwise qt will ignore the string
+
+        # convert dict values to list
+        output_list = []
+        for value in output_dict.values():
+            if isinstance(value, list):
+                output_list.extend([item for item in value])
+            else:
+                output_list.extend([value])
 
         for output in output_list:
             if isinstance(output, str):
@@ -540,8 +563,6 @@ class StatMainWindow(QtWidgets.QMainWindow):
                             format_index(formatter='{}', axis=0).format_index(formatter='{}', axis=1).
                             pipe(pipe_func).
                             to_html().replace('\n', ''))
-            elif output is None:
-                pass  # We don't do anything with None-s
             else:
                 logging.error('Unknown output type: %s' % type(output))
         self.unsaved_output = True
@@ -571,7 +592,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # By default, all cases are excluded.
             data_to_display['cogstat_filtered_cases'] = 1
             # Modify the included cases.
-            data_to_display['cogstat_filtered_cases'][self.active_data.data_frame.index] = 0
+            data_to_display.loc[self.active_data.data_frame.index, 'cogstat_filtered_cases'] = 0
             # Start row numbers from 1, instead of 0, if it starts with 0 (as in default index).
             # Otherwise, keep the original index.
             if data_to_display.index[0] == 0:
@@ -590,9 +611,15 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.table_view.setModel(model)
             # Hide the filtering column
             self.table_view.setColumnHidden(model.columnCount() - 1, True)
-            self.table_view.show()
+            # For automatic data file reload, provide visual feedback
+            if self.menus[0].actions()[3].isChecked():
+                self.table_view.setGridStyle(QtCore.Qt.PenStyle.NoPen)
+                self.table_view.repaint()
+                time.sleep(0.2)
+                self.table_view.setGridStyle(QtCore.Qt.PenStyle.SolidLine)
+            self.table_view.show()  # TODO do we need this?
 
-    def _run_analysis(self, title, function_name, parameters=None, scroll_to_analysis=True):
+    def _run_analysis(self, title, function_name, parameters=None, scroll_to_analysis=True, store_in_results=True):
         """Run an analysis by calling the function with the parameters.
         If it fails, provide an error message with the title as heading.
 
@@ -606,6 +633,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
             Optional parameters
         scroll_to_analysis : bool
             Should the pane scroll to the beginning of the analysis?
+        store_in_results : bool
+            Should the command and the output stored in analysis_results (for later reanalysis)?
 
         Returns
         -------
@@ -618,8 +647,9 @@ class StatMainWindow(QtWidgets.QMainWindow):
         #print(title, function_name, parameters)
 
         self._busy_signal(True)
-        self.analysis_results.append(GuiResultPackage())
-        self.analysis_results[-1].add_command([title, function_name, parameters])
+        if store_in_results:
+            self.analysis_results.append(GuiResultPackage())
+            self.analysis_results[-1].add_command([title, function_name, parameters])
         result = None
         successful_run = True
         try:
@@ -629,14 +659,22 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 result = attrgetter(function_rest_levels)(locals()[function_highest_level])()
             else:  # there are parameters stored in a dict
                 result = attrgetter(function_rest_levels)(locals()[function_highest_level])(**parameters)
-            self.analysis_results[-1].add_output(result)
+            if store_in_results:
+                self.analysis_results[-1].add_output(result)
+                self._print_to_pane(pane=self.result_pane, output_dict=self.analysis_results[-1].output,
+                                    scroll_to_analysis=scroll_to_analysis)
         except Exception as e:
+            if not store_in_results:  # if analyses was not intended to be stored, but exception happened, and the
+                                      # error message should be displayed
+                self.analysis_results.append(GuiResultPackage())
+                self.analysis_results[-1].add_command([title, function_name, parameters])
             if csc.detailed_error_message:
                 error_message = '\n' + '<cs_warning>' + _('Detailed error message') + \
                                 ' (%s):</cs_warning>\n' % 'you can turn this off in Preferences' + traceback.format_exc()
             else:
                 error_message = ''
-            self.analysis_results[-1].add_output(cs_util.convert_output([broken_analysis % title, error_message]))
+            self.analysis_results[-1].add_output(cs_util.convert_output({'warning': (broken_analysis % title) +
+                                                                                    error_message}))
             if title == _('Data'):  # Data import-specific error message
                 data = parameters['data']
                 try:
@@ -645,12 +683,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 except:
                     file_content = ''
                 self.analysis_results[-1].add_output(cs_util.convert_output(
-                    ['<cs_warning>' + _('Data to be imported') + ':</cs_warning><br>%s<br>%s' % (data, file_content)]))
+                    {'warning 2': '<cs_warning>' + _('Data to be imported') +
+                                ':</cs_warning><br>%s<br>%s' % (data, file_content)}))
                 self._display_data(reset=True)
             traceback.print_exc()
             successful_run = False
-        self._print_to_pane(pane=self.result_pane, output_list=self.analysis_results[-1].output,
-                            scroll_to_analysis=scroll_to_analysis)
+            self._print_to_pane(pane=self.result_pane, output_dict=self.analysis_results[-1].output,
+                                scroll_to_analysis=scroll_to_analysis)
         self._busy_signal(False)
         return successful_run
 
@@ -687,13 +726,68 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.last_demo_file_dir = os.path.normpath(os.path.dirname(path))
             self._open_data(path)
 
+    def watch_file(self, triggerer=None):
+        """Add and remove files to/from the file watcher.
+
+        Action depends on whether the current data comes from a file and whether automatic file reload is on.
+
+        Call this, when (a) a data is loaded or reloaded (since this may mean that the file is changed and in some
+        systems/settings, the file is created; therefore, the file is removed from the watcher) or (b) automatic data
+        reload setting is changed.
+
+        Parameters
+        ----------
+        triggerer : {None, 'menu', 'toolbar'}
+            Whether the method was triggered by the menu or the toolbar, or the method was called from somewhere else
+
+        Returns
+        -------
+        Changes the files in the file watcher
+        """
+
+        # Synchronize the menu and the toolbar actions
+        if triggerer == 'menu':
+            self.toolbar.actions()[3].setChecked(self.menus[0].actions()[3].isChecked())
+        elif triggerer == 'toolbar':
+            self.menus[0].actions()[3].setChecked(self.toolbar.actions()[3].isChecked())
+
+        # If the current data comes from a file and if the automatic data file reload is on, watch the file.
+        # Otherwise, don't watch anything.
+        if self.active_data.import_source[1] and self.menus[0].actions()[3].isChecked():
+            self.watched_file.addPath(self.active_data.import_source[1])
+        else:
+            # unless the list of the watched files is already empty, remove the files
+            if self.watched_file.files():
+                self.watched_file.removePaths(self.watched_file.files())
+
+
     def reload_file(self):
         """Reload data file."""
-        successful = self._run_analysis(title=_('Reload data'), function_name='self.active_data.reload_data')
+
+        store_in_results = not self.menus[0].actions()[3].isChecked()
+        successful = self._run_analysis(title=_('Reload data'), function_name='self.active_data.reload_data',
+                                        store_in_results=store_in_results)
         if successful:
             self._display_data()
         else:
             self._display_data(reset=True)
+        self.watch_file()
+
+        if self.menus[1].actions()[14].isChecked():  # rerun all analyses when file is reloaded
+            self.rerun_analyses()
+
+    def open_file_with_editor(self):
+        """ Open current data file with external editor.
+        """
+        import subprocess
+        import platform
+        if self.active_data.import_source[1]:  # If the current data comes from a file
+            if platform.system() == 'Darwin':  # macOS
+                subprocess.call(('open', self.active_data.import_source[1]))
+            elif platform.system() == 'Windows':  # Windows
+                os.startfile(self.active_data.import_source[1])
+            else:  # linux variants
+                subprocess.call(('xdg-open', self.active_data.import_source[1]))
 
     def open_clipboard(self):
         """Open data copied to clipboard."""
@@ -714,11 +808,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
             if self.active_data.import_source[1]:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(True)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(True)
+                self.menu_commands[_('Reload data file when &changed')].setEnabled(True)
             else:
                 self.menu_commands[_('Re&load actual data file')].setEnabled(False)
                 self.toolbar_actions[_('Re&load actual data file')].setEnabled(False)
+                self.menu_commands[_('Reload data file when &changed')].setEnabled(False)
         self._display_data()
-        return cs_util.convert_output([self.active_data.import_message])
+        self.watch_file()
+        return cs_util.convert_output({'imported data': self.active_data.import_message})
 
     def _open_data(self, data):
         """Open all kind of data. It calls _open_data_core() that opens the data and returns the output message.
@@ -752,7 +849,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             names = [name for name in self.active_data.data_frame.columns if (self.active_data.data_measlevs[name]
                                                                               in ['int', 'unk'])]
             self.dial_filter.init_vars(names=names)
-            if self.dial_filter.exec_():
+            if self.dial_filter.exec():
                 var_names, multivariate_outliers = self.dial_filter.read_parameters()
             else:
                 return
@@ -796,7 +893,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not var_names:
             self.dial_var_prop.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_var_prop.exec_():
+            if self.dial_var_prop.exec():
                 var_names, freq, loc_test_value = self.dial_var_prop.read_parameters()
                 if not var_names:
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
@@ -825,7 +922,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not var_names:
             self.dial_var_pair.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_var_pair.exec_():
+            if self.dial_var_pair.exec():
                 var_names, xlims, ylims = self.dial_var_pair.read_parameters()
             else:
                 return
@@ -865,7 +962,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not predicted:
             self.dial_regression.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_regression.exec_():
+            if self.dial_regression.exec():
                 predicted, predictors, xlims, ylims = self.dial_regression.read_parameters()
                 if predicted == []:  # regression() method handles missing parameters
                     predicted = [None]
@@ -893,7 +990,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             row_names = []
         if not depend_name:
             self.dial_pivot.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_pivot.exec_():
+            if self.dial_pivot.exec():
                 row_names, col_names, page_names, depend_name, function = self.dial_pivot.read_parameters()
             else:
                 return
@@ -913,13 +1010,13 @@ class StatMainWindow(QtWidgets.QMainWindow):
             condition_names = []
         if not RT_name:
             self.dial_diffusion.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_diffusion.exec_():
+            if self.dial_diffusion.exec():
                 error_name, RT_name, participant_name, condition_names, correct_coding, reaction_time_in, \
                 scaling_parameter = self.dial_diffusion.read_parameters()
             else:
                 return
-        # use the original term in the function call, not the translated one
-        reaction_time_in = 'sec' if reaction_time_in == _('s') else 'msec'
+            # use the original term in the function call, not the translated one
+            reaction_time_in = 'sec' if reaction_time_in == _('s') else 'msec'
         self._run_analysis(title=_('Behavioral data diffusion analysis'), function_name='self.active_data.diffusion',
                            parameters={'error_name': error_name, 'RT_name': RT_name,
                                        'participant_name': participant_name, 'condition_names': condition_names,
@@ -938,7 +1035,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
             self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_comp_var.exec_():
+            if self.dial_comp_var.exec():
                 var_names, factors, display_factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
                                                                                   # appropriate
             else:
@@ -959,7 +1056,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         """
         if not var_names:
             self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_comp_grp.exec_():
+            if self.dial_comp_grp.exec():
                 var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = \
                     self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
                 if var_names == []:
@@ -986,7 +1083,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
             display_factors = [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
             self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_comp_var_groups.exec_():
+            if self.dial_comp_var_groups.exec():
                 var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
                     self.dial_comp_var_groups.read_parameters()
             else:
@@ -1000,7 +1097,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def reliability_internal(self, var_names=None, reversed_names=None):
         if not var_names:
             self.dial_rel_internal.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_rel_internal.exec_():
+            if self.dial_rel_internal.exec():
                 var_names, reversed_names = self.dial_rel_internal.read_parameters()
                 if not var_names:
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
@@ -1013,7 +1110,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def reliability_interrater(self, var_names=None, ratings_averaged=True):
         if not var_names:
             self.dial_rel_interrater.init_vars(names=self.active_data.data_frame.columns)
-            if self.dial_rel_interrater.exec_():
+            if self.dial_rel_interrater.exec():
                 var_names, ratings_averaged = self.dial_rel_interrater.read_parameters()
                 if not var_names:
                     var_names = ['']  # error message for missing variable come from the explore_variable() method
@@ -1044,21 +1141,36 @@ class StatMainWindow(QtWidgets.QMainWindow):
             # TODO refactor the data import
             self._run_analysis(*analysis_to_run)
 
+    def rerun_analyses_on_reload(self, triggerer):
+        """Synchronize menu and toolbar items.
+
+        Parameters
+        ----------
+        triggerer : {None, 'menu', 'toolbar'}
+            Whether the method was triggered by the menu or the toolbar, or the method was calloed from somewhere else
+        """
+        # Synchronize the menu and the toolbar actions
+        if triggerer == 'menu':
+            self.toolbar.actions()[22].setChecked(self.menus[1].actions()[14].isChecked())
+        elif triggerer == 'toolbar':
+            self.menus[1].actions()[14].setChecked(self.toolbar.actions()[22].isChecked())
+
 
     ### Result menu methods ###
     def delete_output(self):
         reply = QtWidgets.QMessageBox.question(self, _('Clear output'),
                                                _('Are you sure you want to delete the output?'),
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                               QtWidgets.QMessageBox.No)
-        if reply == QtWidgets.QMessageBox.Yes:
+                                               QtWidgets.QMessageBox.StandardButton.Yes |
+                                               QtWidgets.QMessageBox.StandardButton.No,
+                                               QtWidgets.QMessageBox.StandardButton.No)
+        if reply == QtWidgets.QMessageBox.StandardButton.Yes:
             self.result_pane.clear()
             self.analysis_results = []
             self.unsaved_output = False  # Not necessary to save the empty output
 
     def find_text(self):
         self.dial_find_text = cogstat_dialogs.find_text_dialog(output_pane=self.result_pane)
-        self.dial_find_text.exec_()
+        self.dial_find_text.exec()
 
     def zoom_in(self):
         self.result_pane.zoomIn(1)
@@ -1066,23 +1178,35 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def zoom_out(self):
         self.result_pane.zoomOut(1)
 
-    def text_editable(self):
-        self.result_pane.setReadOnly(not(self.menus[2].actions()[5].isChecked()))  # see also _init_UI
+    def text_editable(self, triggerer=None):
+        self.result_pane.setReadOnly(not (self.menus[2].actions()[5].isChecked()))  # see also _init_UI
         #self.output_pane.setReadOnly(not(self.toolbar.actions()[15].isChecked()))
         # TODO if the position of this menu is changed, then this function will not work
         # TODO rewrite Text is editable switches, because the menu and the toolbar works independently
+        #  (use triggerer parameter)
 
     def save_result(self):
         """Save the results pane to an html file."""
         if self.output_filename == '':
             self.save_result_as()
         else:
-            html_file = self.result_pane.toHtml()
-            html_file = html_file.replace(' ', '&nbsp;')  # replace non-breaking spaces with html code for nbsp
-            with open(self.output_filename, 'w') as f:
-                f.write(html_file)
-            self.unsaved_output = False
-            
+            try:
+                html_file = self.result_pane.toHtml()
+                # replace non-breaking spaces with html code for nbsp
+                html_file = html_file.replace(' ', '&nbsp;')
+                with open(self.output_filename, 'w') as f:
+                    f.write(html_file)
+                self.unsaved_output = False
+            except:
+                if csc.detailed_error_message:
+                    error_message = '\n' + '<cs_warning>' + _('Detailed error message') + \
+                                    ' (%s):</cs_warning>\n' % 'you can turn this off in Preferences' + \
+                                     traceback.format_exc()
+                else:
+                    error_message = ''
+                self.result_pane.append(cs_util.convert_output({'warning': ((broken_analysis % _('Saving the results'))
+                                                                            + error_message)})['warning'])
+
     def save_result_as(self, filename=None):
         """Save the results pane to an html file.
 
@@ -1109,7 +1233,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         webbrowser.open('https://doc.cogstat.org/')
         
     def _show_preferences(self):
-        self.dial_pref.exec_()
+        self.dial_pref.exec()
     
     def _open_reqfeat_webpage(self):
         webbrowser.open('https://doc.cogstat.org/Suggest-a-new-feature')
@@ -1138,17 +1262,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
         tosave = True
         while self.unsaved_output and tosave:
             reply = QtWidgets.QMessageBox.question(self, _('Save output'),
-                    _('Output has unsaved results. Do you want to save it?'), QtWidgets.QMessageBox.Yes |
-                                                   QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.Yes)
-            if reply == QtWidgets.QMessageBox.Yes:
+                    _('Output has unsaved results. Do you want to save it?'), QtWidgets.QMessageBox.StandardButton.Yes |
+                                                   QtWidgets.QMessageBox.StandardButton.No,
+                                                   QtWidgets.QMessageBox.StandardButton.Yes)
+            if reply == QtWidgets.QMessageBox.StandardButton.Yes:
                 self.save_result()
             else:
                 tosave = False
 
         """
         reply = QtGui.QMessageBox.question(self, _('Confirm exit'), 
-            _('Are you sure you want to exit the program?'), QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
+            _('Are you sure you want to exit the program?'), QtGui.QMessageBox.StandardButton.Yes, QtGui.QMessageBox.StandardButton.No)
+        if reply == QtGui.QMessageBox.StandardButton.Yes:
             QtGui.qApp.quit()
         else:
             event.ignore()
@@ -1191,33 +1316,31 @@ class PandasModel(QtCore.QAbstractTableModel):
         if not index.isValid():
             return None
 
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return str(self._dataframe.iloc[index.row(), index.column()])
 
         # Filtered data have different background
-        if role == Qt.ForegroundRole and not(index.row() in [0, 1]):  # don't change the measurement level row (row 0)
+        if role == Qt.ItemDataRole.ForegroundRole and not(index.row() in [0, 1]):  # don't change the measurement level row (row 0)
             if self._dataframe['cogstat_filtered_cases'].iloc[index.row()]:
                 return QtGui.QColor('lightGray')
 
         # Use different background for the data type and measurement level
-        if role == Qt.BackgroundRole:
+        if role == Qt.ItemDataRole.BackgroundRole:
             if index.row() in [0, 1]:
                 return QtGui.QColor('lightGray')
 
         return None
 
-    def headerData(
-        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
-    ):
+    def headerData(self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole):
         """Override method from QAbstractTableModel
 
         Return dataframe index as vertical header data and columns as horizontal header data.
         """
-        if role == Qt.DisplayRole:
-            if orientation == Qt.Horizontal:
+        if role == Qt.ItemDataRole.DisplayRole:
+            if orientation == Qt.Orientation.Horizontal:
                 return str(self._dataframe.columns[section])
 
-            if orientation == Qt.Vertical:
+            if orientation == Qt.Orientation.Vertical:
                 return str(self._dataframe.index[section])
 
         return None
@@ -1227,31 +1350,27 @@ class GuiResultPackage():
 
     Result object includes:
     - self.command: Command to run. List of str (command) and optional dict (parameters)
-        e.g., ['self.active_data.explore_variable', {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}]
+        e.g., ['self.active_data.explore_variable',
+               {'var_name': var_name, 'frequencies': freq, 'central_value': loc_test_value}]
     - self.output:
-        - list of strings (html) or matplotlib figures or Nones
+        - dict of strings (html) or matplotlib figures or pandas Stylers
     """
 
     def __init__(self):
         self.command = []
-        self.output = []
+        self.output = {}
 
     def add_command(self, command):
         self.command.extend(command)
 
     def add_output(self, output):
-        """Add output to the self.output
+        """Add new output dict to the self.output dict
 
-        :param output: item or list of items to add
+        :param output: result dictionary to add
         """
-        if isinstance(output, list):
-            for outp in output:
-                self.output.append(outp)
-        else:
-            self.output.append(output)
-
+        self.output.update(output)
 
 def main():
     splash_screen.close()
     ex = StatMainWindow()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

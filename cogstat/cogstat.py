@@ -2,16 +2,43 @@
 
 """This module is the main engine for CogStat.
 
-It includes the class for the CogStat data; initialization handles data import; methods implement some data handling
+It includes the class for the CogStat data; initialization handles data import; methods implement some data handling,
 and they compile the appropriate statistics for the main analysis pipelines.
-
-For the analyses, headings (<cs_hx>) are included in this module.
 """
 
-# if CS is used with GUI, start the splash screen
-QString = str
+"""
+The analyses return a dictionary (ordered).
+- The key is the name of the subsection, and the value is the output. 
+- Only the values will be displayed in the order as it is stored in the dictionary.
+- The values can include (html) str, pandas styler, matplotlib figure, or the list of any of these (but no nested list).
 
-# go on with regular importing, etc.
+The keys refer to the analysis section. Some typical keys, but if needed others can be used too (singular is preferred)
+- analysis
+  - warning
+- raw data
+- sample
+  - descriptives
+  - sample effect size
+- population
+  - assumption
+  - estimation
+  - population effect size
+  - hypothesis test
+orthogonally, you may add what type of information is included
+- info: includes headings and additional details of the analysis
+- table: results in table/numerical format
+- chart: results in charts
+- or no information type is added 
+
+For the analyses, headings (<cs_hx>) are included in this module.
+
+Display the filtering status for each analysis.
+
+Right after the main heading, check the preconditions of the analyses, for example,
+- Number of variables, missing variables
+- Measurement levels of the variables, the consistency of the measurement levels
+"""
+
 import gettext
 import itertools
 import logging
@@ -19,7 +46,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.4.1'
+__version__ = '2.5dev'
 
 import matplotlib
 matplotlib.use("qt5agg")
@@ -31,11 +58,10 @@ from scipy import stats
 
 from . import cogstat_config as csc
 csc.versions['cogstat'] = __version__
+from . import cogstat_util as cs_util
 from . import cogstat_stat as cs_stat
 from . import cogstat_hyp_test as cs_hyp_test
-from . import cogstat_util as cs_util
 from . import cogstat_chart as cs_chart
-cs_util.get_versions()
 
 logging.root.setLevel(logging.INFO)
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
@@ -509,12 +535,12 @@ class CogStatData:
 
         # Add keys with pyqt string form, too, because UI returns variable names in this form
         # TODO do we still need this?
-        from PyQt5 import QtCore
+        QString = str
         for var_name in self.data_frame.columns:
             self.data_measlevs[QString(var_name)] = self.data_measlevs[var_name]
 
-        self.import_message += self.print_data(show_heading=show_heading, brief=True)[0]
-        self.import_message += cs_util.convert_output([warning_text])[0]
+        self.import_message += self.print_data(show_heading=show_heading, brief=True)['analysis info']
+        self.import_message += cs_util.convert_output({'warning': warning_text})['warning']
 
     def reload_data(self):
         """Reload actual data from the path it has been read previously.
@@ -524,20 +550,21 @@ class CogStatData:
         list of a single str
             Report in HTML format
         """
+        results = {key: None for key in ['analysis info', 'warning']}
 
-        output = '<cs_h1>' + _('Reload actual data file') + '</cs_h1>'
+        results['analysis info'] = '<cs_h1>' + _('Reload actual data file') + '</cs_h1>'
 
         if self.import_source[1]:  # if the actual dataset was imported from a file, then reload it
             self._import_data(data=self.import_source[1], show_heading=False)  # measurement level should be reimported too
-            output += _('The file was successfully reloaded') + '.\n'
-            output += self.import_message
+            results['analysis info'] += _('The file was successfully reloaded') + '.\n'
+            results['analysis info'] += self.import_message
             if self.filtering_status[0]:
                 self.filter_outlier(var_names=self.filtering_status[0], mode=self.filtering_status[1])
         else:
-            output += _('The data was not imported from a file') + '. ' + _('It cannot be reloaded') + '.\n'
+            results['warning'] = _('The data was not imported from a file') + '. ' + _('It cannot be reloaded') + '.\n'
             # or do we assume that this method is not called when the actual file was not imported from a file?
 
-        return cs_util.convert_output([output])
+        return cs_util.convert_output(results)
 
     def print_data(self, show_heading=True, brief=False):
         """
@@ -555,14 +582,16 @@ class CogStatData:
         str
             HTML string showing the data.
         """
-        output = ''
+        results = {key: None for key in ['analysis info']}
+
+        results['analysis info'] = ''
         if show_heading:
-            output += '<cs_h1>' + _('Data') + '</cs_h1>'
-        output += _('Source: ') + self.import_source[0] + (self.import_source[1] if self.import_source[1] else '')\
-                  + '\n'
-        output += str(len(self.data_frame.columns)) + _(' variables and ') + \
-                  str(len(self.data_frame.index)) + _(' cases') + '\n'
-        output += self._filtering_status()
+            results['analysis info'] += '<cs_h1>' + _('Data') + '</cs_h1>'
+        results['analysis info'] += (_('Source: ') + self.import_source[0] +
+                                     (self.import_source[1] if self.import_source[1] else '') + '\n')
+        results['analysis info'] += (str(len(self.data_frame.columns)) + _(' variables and ') +
+                                     str(len(self.data_frame.index)) + _(' cases') + '\n')
+        results['analysis info'] += self._filtering_status()
 
         dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num',
                          'object': 'str', 'string': 'str', 'category': 'str', 'datetime64[ns]': 'str'}
@@ -571,14 +600,16 @@ class CogStatData:
                                  columns=self.data_frame.columns)
         data_comb = pd.concat([data_prop, self.data_frame])
         data_comb.index = [_('Type'), _('Level')]+[' ']*len(self.data_frame)
-        output += data_comb[:12 if brief else 1002].to_html(bold_rows=False).replace('\n', '')
+        results['analysis info'] += data_comb[:12 if brief else 1002].to_html(bold_rows=False).replace('\n', '')
         if brief and (len(self.data_frame.index) > 10):
-            output += str(len(self.data_frame.index)-10) + _(' further cases are not displayed...')+'\n'
+            results['analysis info'] += (str(len(self.data_frame.index)-10) + _(' further cases are not displayed...') +
+                                         '\n')
         elif len(self.data_frame.index) > 999:
-            output += _('The next %s cases will not be printed. You can check all cases in the original data source.') \
-                      % (len(self.data_frame.index)-1000) + '\n'
+            results['analysis info'] += \
+                _('The next %s cases will not be printed. You can check all cases in the original data source.') \
+                % (len(self.data_frame.index)-1000) + '\n'
 
-        return cs_util.convert_output([output])
+        return cs_util.convert_output(results)
 
     def filter_outlier(self, var_names=None, mode='2.5mad'):
         """
@@ -595,6 +626,7 @@ class CogStatData:
         ----------
         var_names : None or list of str
             Names of the variables the exclusion is based on or None to include all cases.
+            Variables must be interval (or unknown) measurement level variables.
         mode : {'2.5mad', '2sd', 'mahalanobis'}
             Mode of the exclusion:
                 2.5mad: median +- 2.5 * MAD
@@ -613,31 +645,33 @@ class CogStatData:
 
         Modifies the self.filtering_status.
         """
+        results = {key: None for key in ['analysis info', 'warning', 'sample chart']}
+
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
                       'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
 
         self.filtering_status = [var_names, mode]
 
-        title = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
+        results['analysis info'] = '<cs_h1>' + _('Filter outliers') + '</cs_h1>'
 
-        chart_results = []
+        # Check preconditions
+        # Run analysis only if variables are interval (or unkown) variables
+        if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'ord', 'nom'}):
+            results['warning'] = _('Only interval variables can be used for filtering') + '.'
+            return cs_util.convert_output(results)
+
+        results['sample chart'] = []
 
         # Filtering should be done on the original data, so use self.orig_data_frame
 
         if var_names is None or var_names == []:  # Switch off outlier filtering
             self.data_frame = self.orig_data_frame.copy()
-            text_output = _('Filtering is switched off.')
+            results['analysis info'] += _('Filtering is switched off.')
         else:  # Create a filtered dataframe based on the variable(s)
             remaining_cases_indexes = []
-            text_output = ''
             if mode in ['2sd', '2.5mad']:
                 for var_name in var_names:
-                    # Check if the variable is 'int'
-                    if self.data_measlevs[var_name] in ['ord', 'nom']:
-                        text_output += _('Only interval variables can be used for filtering. Ignoring variable %s.') % \
-                                       var_name + '\n'
-                        continue
                     # Find the lower and upper limit
                     if mode == '2sd':
                         mean = np.mean(self.orig_data_frame[var_name].dropna())
@@ -659,51 +693,43 @@ class CogStatData:
                                                        (self.orig_data_frame[var_name] <= upper_limit)].index)
 
                     # Display filtering information
-                    text_output += _('Filtering based on %s') % (var_name + ' (%s)' % mode_names[mode]) + '.\n'
-                    text_output += _('Cases with missing data will also be excluded') + '.\n'
+                    results['analysis info'] += (_('Filtering based on %s') % (var_name + ' (%s)' % mode_names[mode]) +
+                                                 '.\n')
+                    results['analysis info'] += _('Cases with missing data will also be excluded') + '.\n'
                     prec = cs_util.precision(self.orig_data_frame[var_name]) + 1
-                    text_output += _('Cases outside of the range will be excluded') + \
-                                   ': %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
+                    results['analysis info'] += _('Cases outside of the range will be excluded') + \
+                                                ': %0.*f  –  %0.*f\n' % (prec, lower_limit, prec, upper_limit)
                     # Display the excluded cases
                     excluded_cases = \
                         self.orig_data_frame.drop(remaining_cases_indexes[-1])
                     # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                     # TODO uncomment the above line after using pivot indexes in CS data
                     if len(excluded_cases):
-                        text_output += _('Excluded cases (%s cases)') % (len(excluded_cases)) + ':'
+                        results['analysis info'] += _('Excluded cases (%s cases)') % (len(excluded_cases)) + ':'
                         # Change indexes to be in line with the data view numbering
                         excluded_cases.index = excluded_cases.index + 1
-                        text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '')
-                        chart_results.append(cs_chart.create_filtered_cases_chart(
+                        results['analysis info'] += excluded_cases.to_html(bold_rows=False).replace('\n', '')
+                        results['sample chart'].append(cs_chart.create_filtered_cases_chart(
                             self.orig_data_frame.loc[remaining_cases_indexes[-1]][var_name],
                             excluded_cases[var_name], var_name, lower_limit=lower_limit, upper_limit=upper_limit))
                     else:
-                        text_output += _('No cases were excluded') + '.'
+                        results['analysis info'] += _('No cases were excluded') + '.'
                     if var_name != var_names[-1]:
-                        text_output += '\n\n'
+                        results['analysis info'] += '\n\n'
             elif mode == 'mahalanobis':
                 # Based on the robust Mahalanobis distance in Leys et al., 2017 and Rousseeuw, 1999
                 # Removing non-interval variables
-                valid_var_names = var_names[:]
-                for var_name in valid_var_names:
-                    if self.data_measlevs[var_name] in ['ord', 'nom']:
-                        valid_var_names.remove(var_name)
-                if len(var_names) > len(valid_var_names):
-                    text_output += _('Only interval variables can be used for filtering') + '.' + \
-                                   _('Ignoring variable(s) %s') % ', '.join(set(var_names) - set(valid_var_names)) + \
-                                   '.\n'
 
                 # Calculating the robust Mahalanobis distances
                 from sklearn import covariance
-                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[valid_var_names].
-                                                                          dropna())
+                cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[var_names].dropna())
 
                 # Custom filtering criteria based on Leys et al. (2017)
                 # Appropriate cut-off point based on chi2
-                limit = stats.chi2.ppf(0.95, len(self.orig_data_frame[valid_var_names].columns))
+                limit = stats.chi2.ppf(0.95, len(self.orig_data_frame[var_names].columns))
                 # Get robust Mahalanobis distances from model object
-                distances = cov.mahalanobis(self.orig_data_frame[valid_var_names].dropna())
-                filtering_data_frame = self.orig_data_frame.dropna(subset=valid_var_names).copy()
+                distances = cov.mahalanobis(self.orig_data_frame[var_names].dropna())
+                filtering_data_frame = self.orig_data_frame.dropna(subset=var_names).copy()
                 filtering_data_frame['mahalanobis'] = distances
 
                 # Find the cases to be kept
@@ -711,30 +737,30 @@ class CogStatData:
                                                index)
 
                 # Display filtering information
-                text_output += _('Multivariate filtering based on the variables: %s (%s)') % \
-                               (', '.join(valid_var_names), mode_names[mode]) + '.\n'
-                text_output += _('Cases with missing data will also be excluded') + '.\n'
+                results['analysis info'] += (_('Multivariate filtering based on the variables: %s (%s)') %
+                                             (', '.join(var_names), mode_names[mode]) + '.\n')
+                results['analysis info'] += _('Cases with missing data will also be excluded') + '.\n'
                 prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1  # TODO we should set this to a constant value
-                text_output += _('Cases above the cutoff Mahalanobis distance will be excluded') + \
-                               ': %0.*f\n' % (prec, limit)
+                results['analysis info'] += (_('Cases above the cutoff Mahalanobis distance will be excluded') +
+                                             ': %0.*f\n' % (prec, limit))
 
                 # Display the excluded cases
                 excluded_cases = \
-                    self.orig_data_frame.dropna(subset=valid_var_names).drop(remaining_cases_indexes[-1])
+                    self.orig_data_frame.dropna(subset=var_names).drop(remaining_cases_indexes[-1])
                 # excluded_cases.index = [' '] * len(excluded_cases)  # TODO can we cut the indexes from the html table?
                 # TODO uncomment the above line after using pivot indexes in CS data
                 if len(excluded_cases):
-                    text_output += _('Excluded cases (%s cases)') % (len(excluded_cases)) + ': '
+                    results['analysis info'] += _('Excluded cases (%s cases)') % (len(excluded_cases)) + ': '
                     # Change indexes to be in line with the data view numbering
                     excluded_cases.index = excluded_cases.index + 1
-                    text_output += excluded_cases.to_html(bold_rows=False).replace('\n', '') + '\n'
-                    for var_name in valid_var_names:
-                        chart_results.append(cs_chart.create_filtered_cases_chart(
-                            self.orig_data_frame.dropna(subset=valid_var_names).loc[remaining_cases_indexes[-1]]
+                    results['analysis info'] += excluded_cases.to_html(bold_rows=False).replace('\n', '') + '\n'
+                    for var_name in var_names:
+                        results['sample chart'].append(cs_chart.create_filtered_cases_chart(
+                            self.orig_data_frame.dropna(subset=var_names).loc[remaining_cases_indexes[-1]]
                             [var_name], excluded_cases[var_name], var_name))
 
                 else:
-                    text_output += _('No cases were excluded') +'.'
+                    results['analysis info'] += _('No cases were excluded') + '.'
             else:
                 raise ValueError('Invalid mode parameter was given')
 
@@ -743,7 +769,7 @@ class CogStatData:
             for remaining_cases_index in remaining_cases_indexes:
                 self.data_frame = self.data_frame.loc[self.data_frame.index.intersection(remaining_cases_index)]
 
-        return cs_util.convert_output([title, text_output, chart_results])
+        return cs_util.convert_output(results)
 
     def _filtering_status(self):
         """Create a message about the filtering status (used variables and the filtering method).
@@ -819,143 +845,141 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        results = {key: None for key in ['analysis info', 'warning',
+                                         'raw data info', 'raw data chart', 'sample info',
+                                         'frequencies info', 'frequencies table',
+                                         'descriptives info', 'descriptives table', 'descriptives chart',
+                                         'population info', 'normality info', 'normality chart',
+                                         'estimation info', 'estimation table', 'estimation chart', 'hypothesis test']}
+
+        results['analysis info'] = '<cs_h1>' + _('Explore variable') + '</cs_h1>'
+
+        # Check preconditions
         if not var_name:
-            title = '<cs_h1>' + _('Explore variable') + '</cs_h1>'
-            title += _('At least one variable should be set.')
-            return cs_util.convert_output([title])
+            results['warning'] = _('At least one variable should be set.')
+            return cs_util.convert_output(results)
+
+        result_list = []
 
         meas_level, unknown_type = self._meas_lev_vars([var_name])
-        result_list = ['<cs_h1>' + _('Explore variable') + '</cs_h1>']
-        result_list.append(_('Exploring variable: ') + var_name + ' (%s)\n' % meas_level)
-        result_list[-1] += self._filtering_status()
+        results['analysis info'] += (_('Exploring variable: ') + var_name + ' (%s)\n' % meas_level)
+        results['analysis info'] += self._filtering_status()
 
         # 1. Raw data
-        text_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         data = pd.DataFrame(self.data_frame[var_name].dropna())
 
-        text_result2 = _('N of observed cases') + ': %g' % len(data) + '\n'
+        results['raw data info'] += _('N of observed cases') + ': %g' % len(data) + '\n'
         missing_cases = len(self.data_frame[var_name])-len(data)
-        text_result2 += _('N of missing cases')  + ': %g' % missing_cases + '\n'
+        results['raw data info'] += _('N of missing cases') + ': %g' % missing_cases + '\n'
 
-        image = cs_chart.create_variable_raw_chart(data, self.data_measlevs, var_name)
-
-        result_list.append(text_result+text_result2)
-        result_list.append(image)
+        results['raw data chart'] = cs_chart.create_variable_raw_chart(data, self.data_measlevs, var_name)
 
         # 2. Sample properties
-        text_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
         # Frequencies
         if frequencies:
-            text_result += '<cs_h3>'+_('Frequencies')+'</cs_h3>'
-            text_result += cs_stat.frequencies(data, var_name, meas_level) + '\n\n'
+            results['frequencies info'] = '<cs_h3>'+_('Frequencies')+'</cs_h3>'
+            results['frequencies table'] = cs_stat.frequencies(data, var_name, meas_level) + '\n\n'
 
         # Descriptives
-        text_result += '<cs_h3>' + _('Descriptives for the variable') + '</cs_h3>'
+        results['descriptives info'] = '<cs_h3>' + _('Descriptives for the variable') + '</cs_h3>'
         if self.data_measlevs[var_name] in ['int', 'unk']:
-            text_result += cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
-                                                   statistics=['mean', 'std', 'skewness', 'kurtosis', 'range', 'max',
-                                                               'upper quartile', 'median', 'lower quartile', 'min'])
+            results['descriptives table'] = cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
+                                                                    statistics=['mean', 'std', 'skewness', 'kurtosis',
+                                                                                'range', 'max', 'upper quartile',
+                                                                                'median', 'lower quartile', 'min'])
         elif self.data_measlevs[var_name] == 'ord':
-            text_result += cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
-                                                   statistics=['max', 'upper quartile', 'median', 'lower quartile',
-                                                               'min'])
+            results['descriptives table'] = cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
+                                                                    statistics=['max', 'upper quartile', 'median',
+                                                                                'lower quartile', 'min'])
             # TODO boxplot also
         elif self.data_measlevs[var_name] == 'nom':
-            text_result += cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
-                                                   statistics=['variation ratio'])
-        result_list.append(text_result)
+            results['descriptives table'] = cs_stat.print_var_stats(data, [var_name], self.data_measlevs,
+                                                                    statistics=['variation ratio'])
 
         # Distribution
         if self.data_measlevs[var_name] != 'nom':  # histogram for nominal variable has already been shown in raw data
-            image = cs_chart.create_histogram_chart(data, self.data_measlevs, var_name)
-            result_list.append(image)
+            results['descriptives chart'] = cs_chart.create_histogram_chart(data, self.data_measlevs, var_name)
 
         # 3. Population properties
-        text_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        results['population info'] = '<cs_h2>' + _('Population properties') + '</cs_h2>'
 
         # Normality
         if meas_level in ['int', 'unk']:
-            text_result += '<cs_h3>'+_('Normality')+'</cs_h3>'
-            stat_result, text_result2 = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
-            image = cs_chart.create_normality_chart(data, var_name)
+            results['normality info'] = '<cs_h3>' + _('Normality') + '</cs_h3>'
+            stat_result, text_result = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
+            results['normality chart'] = cs_chart.create_normality_chart(data, var_name)
                 # histogram with normality and qq plot
-            text_result += text_result2
-            result_list.append(text_result)
-            if image:
-                result_list.append(image)
-        else:
-            result_list.append(text_result)
+            results['normality info'] += text_result
 
         # Population estimations
         if meas_level in ['int', 'ord', 'unk']:
             prec = cs_util.precision(data[var_name]) + 1
 
-        population_param_text = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
+        results['estimation info'] = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
-            population_param_text += cs_stat.variable_estimation(data[var_name], ['mean', 'std'])
+            results['estimation table'] = cs_stat.variable_estimation(data[var_name], ['mean', 'std'])
         elif meas_level == 'ord':
-            population_param_text += cs_stat.variable_estimation(data[var_name], ['median'])
+            results['estimation table'] = cs_stat.variable_estimation(data[var_name], ['median'])
         elif meas_level == 'nom':
-            population_param_text += cs_stat.proportions_ci(data, var_name)
-        text_result = '\n'
+            results['estimation table'] = cs_stat.proportions_ci(data, var_name)
 
         # Hypothesis tests
-        text_result += '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
+        results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if self.data_measlevs[var_name] in ['int', 'unk']:
-            text_result += '<cs_decision>' + _('Testing if mean deviates from the value %s.') % central_value +\
-                           '</cs_decision>\n'
+            results['hypothesis test'] += ('<cs_decision>' + _('Testing if mean deviates from the value %s.') %
+                                           central_value + '</cs_decision>\n')
         elif self.data_measlevs[var_name] == 'ord':
-            text_result += '<cs_decision>' + _('Testing if median deviates from the value %s.') % central_value +\
-                           '</cs_decision>\n'
+            results['hypothesis test'] += ('<cs_decision>' + _('Testing if median deviates from the value %s.') %
+                                           central_value + '</cs_decision>\n')
 
         if unknown_type:
-            text_result += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
+            results['hypothesis test'] += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
         if meas_level in ['int', 'unk']:
-            text_result += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
+            results['hypothesis test'] += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
                            _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
                            '</cs_decision>\n'
-            text_result += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
+            results['hypothesis test'] += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
             norm, text_result_norm = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
 
-            text_result += text_result_norm
+            results['hypothesis test'] += text_result_norm
             if norm:
-                text_result += '<cs_decision>' + _('Normality is not violated.') + ' >> ' + \
+                results['hypothesis test'] += '<cs_decision>' + _('Normality is not violated.') + ' >> ' + \
                                _('Running one-sample t-test.') + '</cs_decision>\n'
-                text_result2, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name,
+                text_result, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name,
                                                           test_value=central_value)
-                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'mean', ci)
+                results['hypothesis test'] += text_result
+                results['estimation chart'] = cs_chart.create_variable_population_chart(data[var_name], var_name,
+                                                                                        'mean', ci)
 
             else:
-                text_result += '<cs_decision>' + _('Normality is violated.') + ' >> ' + \
-                               _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n'
-                text_result += _('Median: %0.*f') % (prec, np.median(data[var_name])) + '\n'
-                text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
-                                                            value=central_value)
-                graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
+                results['hypothesis test'] += ('<cs_decision>' + _('Normality is violated.') + ' >> ' +
+                                               _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n')
+                results['hypothesis test'] += _('Median: %0.*f') % (prec, np.median(data[var_name])) + '\n'
+                results['hypothesis test'] += cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
+                                                                           value=central_value)
+                results['estimation chart'] = cs_chart.create_variable_population_chart(data[var_name],
+                                                                                        var_name, 'median')
 
         elif meas_level == 'ord':
-            text_result += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + _('Running Wilcoxon signed-rank test.') + \
-                           '</cs_decision>\n'
-            text_result2 = cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
-                                                        value=central_value)
-            graph = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
+            results['hypothesis test'] += ('<cs_decision>' + _('Ordinal variable.') + ' >> ' +
+                                           _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n')
+            results['hypothesis test'] += cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
+                                                                            value=central_value)
+            results['estimation chart'] = cs_chart.create_variable_population_chart(data[var_name],
+                                                                                    var_name, 'median')
         else:
-            text_result2 = '<cs_decision>' + _('Sorry, not implemented yet.') + '</cs_decision>\n'
-            graph = None
-        text_result += text_result2
+            results['hypothesis test'] += '<cs_decision>' + _('Sorry, not implemented yet.') + '</cs_decision>\n'
 
-        result_list.append(population_param_text)
-        if graph:
-            result_list.append(graph)
-        result_list.append(text_result)
-        return cs_util.convert_output(result_list)
+        return cs_util.convert_output(results)
 
 
     def reliability_internal(self, var_names=None, reverse_items=None):
         """
-        Calculate internal consistency reliability using Cronbach's alpha and it's confidence interval,
+        Calculate internal consistency reliability using Cronbach's alpha, and it's confidence interval,
         as well as item-rest correlations and their confidence intervals.
 
         Parameters
@@ -970,12 +994,28 @@ class CogStatData:
         list of str and matplotlib image
             Analysis results: str in HTML format
         """
+        results = {key: None for key in ['analysis info', 'warning',
+                                         'raw data info', 'raw data chart',
+                                         'sample info', 'descriptives chart', 'descriptives', 'descriptives table',
+                                         'population info', 'estimation info', 'estimation table']}
+
+        results['analysis info'] = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
+
+        # Check the preconditions
+        results['warning'] = ''
+        if len(var_names) < 3:
+            results['warning'] += _('At least three variables should be set') + '.\n'
+        if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'nom'}):
+            results['warning'] += _('Nominal variables cannot be used for the reliability analysis') + '.\n'
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
 
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
-        title = '<cs_h1>' + _('Internal consistency reliability') + '</cs_h1>'
-        title += _('Reliability of items') + ': ' + ', '.join('%s (%s)' % (var, meas)
-                                                         for var, meas in zip(var_names, meas_levels))
+        results['analysis info'] += (_('Reliability of items') + ': ' +
+                                     ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)))
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         # Items to be reversed will be reversed here, and all functions will get (and expect) the reversed items.
@@ -985,33 +1025,38 @@ class CogStatData:
         if reverse_items:
             for reverse_item in reverse_items:
                 data[reverse_item] = np.min(data[reverse_item]) + np.max(data[reverse_item]) - data[reverse_item]
-            title += '\n' + _('Reverse coded item(s)') + ': ' + ', '.join('%s' % var for var in reverse_items)
+            results['analysis info'] += ('\n' + _('Reverse coded item(s)') + ': ' +
+                                         ', '.join('%s' % var for var in reverse_items))
+
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
 
         # Raw data
-        raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         missing_cases = len(self.data_frame[var_names])-len(data)
-        raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
-        raw_title += _('N of missing cases') + ': %g' % missing_cases
-        raw_graph = cs_chart.create_item_total_matrix(data, regression=False)
+        results['raw data info'] += _('N of observed cases') + ': %g' % len(data) + '\n'
+        results['raw data info'] += _('N of missing cases') + ': %g' % missing_cases
+        results['raw data chart'] = cs_chart.create_item_total_matrix(data, regression=False)
 
         # Sample properties
-        sample_title = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
-        alpha, item_removed_sample = cs_stat.reliability_internal_calc(data, sample=True)
-        sample_graph = cs_chart.create_item_total_matrix(data, regression=True)
-        sample_result = '\n' + _("Cronbach's alpha") + ' = %0.3f' % alpha[0] + '\n'
+        results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        alpha, results['descriptives table'] = cs_stat.reliability_internal_calc(data, sample=True)
+        results['descriptives chart'] = cs_chart.create_item_total_matrix(data, regression=True)
+        results['descriptives'] = '\n' + _("Cronbach's alpha") + ' = %0.3f' % alpha[0] + '\n'
 
         # Population properties
-        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        results['population info'] = '<cs_h2>' + _('Population properties') + '</cs_h2>'
         alpha, item_removed_pop = cs_stat.reliability_internal_calc(data, sample=False)
         pop_result_df = pd.DataFrame(columns=[_('Point estimation'), _('95% confidence interval')])
         pop_result_df.loc[_("Cronbach's alpha")] = \
             ['%0.3f' % alpha[0], '[%0.3f, %0.3f]' % (alpha[1][0], alpha[1][1])]
-        population_result += pop_result_df.to_html(bold_rows=False, escape=False, float_format=lambda x: '%0.3f' % (x))\
-                                 .replace('\n', '') + '\n'
+        results['estimation table'] = (pop_result_df.to_html(bold_rows=False, escape=False,
+                                                             float_format=lambda x: '%0.3f' % (x)).replace('\n', '') +
+                                       '\n')
+        results['estimation table'] += item_removed_pop
 
-        return cs_util.convert_output([title, raw_title, raw_graph, sample_title, sample_graph, sample_result,
-                                       item_removed_sample, population_result, item_removed_pop])
+        return cs_util.convert_output(results)
 
 
     def reliability_interrater(self, var_names=None, ratings_averaged=True, ylims=[None, None]):
@@ -1033,91 +1078,115 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        results = {key: None for key in ['analysis info', 'warning',
+                                         'raw data info', 'raw data chart',
+                                         'sample info', 'descriptives chart', 'descriptives table',
+                                         'population info', 'assumption', 'estimation info',
+                                         'estimation table', 'hypothesis test']}
+
+        results['analysis info'] = '<cs_h1>' + _('Interrater reliability') + '</cs_h1>'
+
+        # Check the preconditions
+        results['warning'] = ''
+        if len(var_names) < 2:
+            results['warning'] += _('At least two variables should be set') + '.\n'
+        if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'nom'}):
+            results['warning'] += _('Nominal variables cannot be used for the reliability analysis') + '.\n'
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
+
 
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
+        results['analysis info'] += (_('Reliability calculated from variables') + ': ' +
+                                     ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)))
 
-        title = '<cs_h1>' + _('Interrater reliability') + '</cs_h1>'
-        title += _('Reliability calculated from variables') + ': ' + \
-                 ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels))
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
 
         # Raw data
-        raw_title = '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         data = pd.DataFrame(self.data_frame[var_names].dropna())
         missing_cases = len(self.data_frame[var_names])-len(data)
-        raw_title += _('N of observed cases') + ': %g' % len(data) + '\n'
-        raw_title += _('N of missing cases') + ': %g' % missing_cases
+        results['raw data info'] += _('N of observed cases') + ': %g' % len(data) + '\n'
+        results['raw data info'] += _('N of missing cases') + ': %g' % missing_cases
 
-        raw_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
-                                                                  raw_data_only=True, ylims=ylims)
+        if csc.test_functions:
+            results['raw data chart old'] = cs_chart.create_repeated_measures_sample_chart(data, var_names,
+                                                                                           meas_level='int',
+                                                                                           raw_data_only=True,
+                                                                                           ylims=ylims)
         factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s' % var_name for var_name in
                                                                                      var_names]], names=['']))
-        raw_plot_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level='int',
-                                                                      dep_names=var_names,
-                                                                      factor_info=factor_info,
-                                                                      show_factor_names_on_x_axis=False,
-                                                                      indep_x=[''],
-                                                                      raw_data=True,
-                                                                      ylims=ylims)
+        results['raw data chart'] = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level='int',
+                                                                                   dep_names=var_names,
+                                                                                   factor_info=factor_info,
+                                                                                   show_factor_names_on_x_axis=False,
+                                                                                   indep_x=[''],
+                                                                                   raw_data=True,
+                                                                                   ylims=ylims)[0]
 
         # Analysis
         data_copy = data.reset_index()
         data_long = pd.melt(data_copy, id_vars='index')
-        sample_result_table, population_result_table, hyp_test_table = \
+        results['descriptives table'], results['estimation table'], hyp_test_table = \
             cs_stat.reliability_interrater_calc(data_long, targets='index', raters='variable', ratings='value',
                                                 ratings_averaged=ratings_averaged)
 
         # Sample properties
-        sample_title = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
-        sample_plot = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level='int',
-                                                                     raw_data_only=False, ylims=ylims)
-        sample_plot_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level='int',
-                                                                      dep_names=var_names,
-                                                                      factor_info=factor_info,
-                                                                      show_factor_names_on_x_axis=False,
-                                                                      indep_x=[''],
-                                                                      raw_data=True, box_plots=True,
-                                                                      ylims=ylims)
+        results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        if csc.test_functions:
+            results['descriptives chart old'] = cs_chart.create_repeated_measures_sample_chart(data, var_names,
+                                                                                               meas_level='int',
+                                                                                               raw_data_only=False,
+                                                                                               ylims=ylims)
+        results['descriptives chart'] = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level='int',
+                                                                                       dep_names=var_names,
+                                                                                       factor_info=factor_info,
+                                                                                       show_factor_names_on_x_axis=False,
+                                                                                       indep_x=[''],
+                                                                                       raw_data=True, box_plots=True,
+                                                                                       ylims=ylims)[0]
 
         # Population properties
-        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
-        population_result += '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
-        population_result += '<cs_decision>' + _('Testing normality') + '.</cs_decision>'
+        results['population info'] = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        results['assumption'] = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
+        results['assumption'] += '<cs_decision>' + _('Testing normality') + '.</cs_decision>'
         non_normal_vars, normality_text, var_hom_p, var_text_result = \
             cs_hyp_test.reliability_interrater_assumptions(data, data_long, var_names, self.data_measlevs)
-        population_result += '\n' + normality_text
+        results['assumption'] += '\n' + normality_text
         warnings = ''
         if not non_normal_vars:
-            population_result += '<cs_decision>' + _('Assumption of normality met') + '.</cs_decision>' + '\n'
+            results['assumption'] += ('<cs_decision>' + _('Assumption of normality met') +
+                                      '.</cs_decision>' + '\n')
         else:
-            population_result += '<cs_decision>' + _('Assumption of normality violated in variable(s) %s' %
-                                                  ', '.join(non_normal_vars)) + '</cs_decision>' + '\n'
+            results['assumption'] += '<cs_decision>' + _('Assumption of normality violated in variable(s) %s' %
+                                                         ', '.join(non_normal_vars)) + '</cs_decision>' + '\n'
             warnings += '<cs_decision>' + _('Assumption of normality violated') + '.</cs_decision>'
-        population_result += '\n' + '<cs_decision>' + _('Testing homogeneity of variances') + '.</cs_decision>'
-        population_result += '\n' + var_text_result
+        results['assumption'] += ('\n' + '<cs_decision>' + _('Testing homogeneity of variances') +
+                                  '.</cs_decision>')
+        results['assumption'] += '\n' + var_text_result
         if var_hom_p < 0.05:
-            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances violated') + \
-                                 '.</cs_decision>'
+            results['assumption'] += ('<cs_decision>' + _('Assumption of homogeneity of variances violated') +
+                                      '.</cs_decision>')
             warnings += '<cs_decision>' + _('Assumption of homogeneity of variances violated') + '.</cs_decision>'
         else:
-            population_result += '<cs_decision>' + _('Assumption of homogeneity of variances met') + '.</cs_decision>'
+            results['assumption'] += ('<cs_decision>' + _('Assumption of homogeneity of variances met') +
+                                      '.</cs_decision>')
 
-        population_result += '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
+        results['estimation info'] = '<cs_h3>' + _('Parameter estimates') + '</cs_h3>'
         if non_normal_vars or var_hom_p < 0.05:
             warnings += '<cs_decision>' + _('CIs may be inaccurate') + '.</cs_decision>'
         else:
             warnings += '<cs_decision>' + _('Assumptions met') + '.</cs_decision>'
+        results['estimation info'] += warnings
 
-        hypothesis_tests = cs_hyp_test.reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p)
+        results['hypothesis test'] = cs_hyp_test.reliability_interrater_hyp_test(hyp_test_table, non_normal_vars,
+                                                                                 var_hom_p)
 
-        if csc.test_functions:
-            return cs_util.convert_output([title, raw_title, raw_plot, raw_plot_new, sample_title,
-                                           sample_plot, sample_plot_new, sample_result_table, population_result,
-                                           warnings, population_result_table, hypothesis_tests])
-        else:
-            return cs_util.convert_output([title, raw_title, raw_plot_new, sample_title,
-                                           sample_plot_new, sample_result_table, population_result,
-                                           warnings, population_result_table, hypothesis_tests])
+        return cs_util.convert_output(results)
 
 
     def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
@@ -1140,24 +1209,35 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
-        title = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
-        preconditions = True
+        results = {key: None for key in ['analysis info', 'warning',
+                                         'raw data info', 'raw data chart',
+                                         'sample info', 'descriptives', 'descriptives chart',
+                                         'sample effect size info', 'sample effect size table',
+                                         'residual info', 'residual chart',
+                                         'population info', 'assumption info',
+                                         'estimation info', 'estimation table', 'estimation chart',
+                                         'population effect size info', 'population effect size table',
+                                         'hypothesis test']}
+
+        results['analysis info'] = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
+
+        # Check preconditions
+        results['warning'] = ''
         if (predictors is None) or (predictors == [None]) or not predictors:
-            title += _('At least one predictor variable should be set') + '.\n'
-            preconditions = False
+            results['warning'] += _('At least one predictor variable should be set') + '.\n'
         if predicted is None:
-            title += _('The predicted variable should be set') + '.'
-            preconditions = False
+            results['warning'] += _('The predicted variable should be set') + '.'
         constant_vars = []
         for var in predictors + [predicted]:
             if (var is not None) and (len(set(self.data_frame[var])) == 1):
                 constant_vars += [var]
         if len(constant_vars) > 0:
-            title += _('Analysis cannot be run for constant variable(s): %s') % ', '.join(constant_vars) + '\n'
-            preconditions = False
+            results['warning'] += _('Analysis cannot be run for constant variable(s): %s') % ', '.join(constant_vars) + '\n'
 
-        if not preconditions:
-            return cs_util.convert_output([title])
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
 
         meas_lev, unknown_var = self._meas_lev_vars(predictors + [predicted])
 
@@ -1170,46 +1250,46 @@ class CogStatData:
 
         # Analysis output header
         if len(predictors) == 1:
-            title = '<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>'
+            results['analysis info'] = '<cs_h1>' + _('Explore relation of variable pair') + '</cs_h1>'
         else:
-            title = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
+            results['analysis info'] = '<cs_h1>' + _('Explore relation of variables') + '</cs_h1>'
 
         # 0. Analysis information
         if len(predictors) == 1:
-            raw_result = _('Exploring variable pair') + ': ' + x + ' (%s), ' % self.data_measlevs[x] \
-                         + y + ' (%s)\n' % self.data_measlevs[y]
+            results['analysis info'] += (_('Exploring variable pair') + ': ' + x + ' (%s), ' % self.data_measlevs[x]
+                                         + y + ' (%s)\n' % self.data_measlevs[y])
         else:
-            raw_result = _('Predictors') + ': ' + \
-                         ', '.join([predictor + ' (%s)' % self.data_measlevs[predictor] for predictor in predictors]) + \
-                         '\n' + _('Predicted') + ': ' + predicted + ' (%s)\n' % self.data_measlevs[predicted]
-        raw_result += self._filtering_status()
+            results['analysis info'] += (_('Predictors') + ': ' +
+                                         ', '.join([predictor + ' (%s)' % self.data_measlevs[predictor] for predictor
+                                                    in predictors]) +
+                                         '\n' + _('Predicted') + ': ' + predicted +
+                                         ' (%s)\n' % self.data_measlevs[predicted])
+        results['analysis info'] += self._filtering_status()
         if unknown_var:
-            raw_result += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
+            results['analysis info'] += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
 
         # 1. Raw data
-        raw_result += '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
         # Prepare data, drop missing data
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[predictors + [predicted]].dropna()
         observed_n = len(data)
         missing_n = len(self.data_frame[predictors + [predicted]]) - observed_n
-        raw_result += _('N of observed pairs') + ': %g' % observed_n + '\n'
-        raw_result += _('N of missing pairs') + ': %g' % missing_n + '\n'
+        results['raw data info'] += _('N of observed pairs') + ': %g' % observed_n + '\n'
+        results['raw data info'] += _('N of missing pairs') + ': %g' % missing_n + '\n'
 
         # Raw data chart
         if len(predictors) == 1:
-            raw_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
+            results['raw data chart'] = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, raw_data=True,
                                                             regression=False, CI=False, xlims=xlims, ylims=ylims)
         else:
             # display the predicted variable first
-            raw_graph = cs_chart.create_scatter_matrix(data[[predicted] + predictors], meas_lev)
+            results['raw data chart'] = cs_chart.create_scatter_matrix(data[[predicted] + predictors], meas_lev)
 
         # 2. Sample properties
-        sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
-        residual_title = None
-        residual_graph = None
+        results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
         if meas_lev == 'nom':
-            sample_result += cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
+            results['descriptives'] = cs_stat.contingency_table(data, [x], [y], count=True, percent=True, margins=True)
         elif meas_lev == 'int':
 
             # Calculate regression with statsmodels
@@ -1226,83 +1306,74 @@ class CogStatData:
 
             # TODO output with the right precision of the results
             # display: y = a1x1 + a2x2 + anxn + b
-            sample_result += _('Linear regression') + ': %s = ' % predicted + \
-                             ''.join(['%0.3f × %s + ' % (weight, predictor) for weight, predictor
-                                      in zip(result.params[1:], predictors)]) + \
-                             '%0.3f' % result.params[0]
-
-        sample_result += '\n'
+            results['descriptives'] = _('Linear regression') + ': %s = ' % predicted + \
+                                     ''.join(['%0.3f × %s + ' % (weight, predictor) for weight, predictor
+                                              in zip(result.params[1:], predictors)]) + \
+                                     '%0.3f' % result.params[0]
 
         if len(predictors) == 1:
-            standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-            standardized_effect_size_result += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=True) \
-                                               + '\n'
+            results['sample effect size info'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+            results['sample effect size table'] = cs_stat.variable_pair_standard_effect_size(data, meas_lev,
+                                                                                             sample=True)
         else:
             if meas_lev in ['int', 'unk']:
-                standardized_effect_size_result = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
-                standardized_effect_size_result += cs_stat.multiple_variables_standard_effect_size(data, predictors,
-                                                   predicted, result, sample=True) + '\n'
-            else:
-                standardized_effect_size_result = None
+                results['sample effect size info'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'
+                results['sample effect size table'] = cs_stat.multiple_variables_standard_effect_size(data, predictors,
+                                                                                                      predicted, result,
+                                                                                                      sample=True)
 
         # Make graphs
         # extra chart is needed only for int variables, otherwise the chart would just repeat the raw data
         if meas_lev == 'int':
 
             # Residual analysis
-            residual_title = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
-            residual_graph = cs_chart.create_residual_chart(data, meas_lev, predictors, predicted)
+            results['residual info'] = '<cs_h3>' + _('Residual analysis') + '</cs_h3>'
+            results['residual chart'] = cs_chart.create_residual_chart(data, meas_lev, predictors, predicted)
 
             # Sample scatter plot with regression line
             if len(predictors) == 1:
-                sample_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result, raw_data=True,
-                                                                   regression=True, CI=False, xlims=xlims, ylims=ylims)
+                results['descriptives chart'] = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result,
+                                                                                    raw_data=True, regression=True,
+                                                                                    CI=False, xlims=xlims, ylims=ylims)
             else:
-                sample_graph = cs_chart.multi_regress_plots(data, predicted, predictors, partial=False, params=result.params)
-
-            if len(predictors) > 1:
-                regression_plot = cs_chart.multi_regress_plots(data, predicted, predictors)
-            else:
-                regression_plot = None
-        else:
-            sample_graph = None
-            regression_plot = None
+                results['descriptives chart'] = [cs_chart.multi_regress_plots(data, predicted, predictors, partial=False,
+                                                                              params=result.params)]
+                # Partial regression chart
+                results['descriptives chart'].append(cs_chart.multi_regress_plots(data, predicted, predictors))
 
         # 3. Population properties
         # TODO for the estimations, do not print warning if assumption is not violated
-        population_properties_title = '<cs_h2>' + _('Population properties') + '</cs_h2>'
-        estimation_result = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
-        estimation_parameters, estimation_effect_size, population_graph = None, None, None
+        results['population info'] = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        results['estimation info'] = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
 
-        # Initilazing assumptions
+        # Initializing assumptions
         normality = None  # Do the two variables follow a multivariate normal distribution?
         homoscedasticity = None
-        assumptions_result = None
 
         if meas_lev == 'nom':
-            estimation_result += cs_stat.contingency_table(data, [x], [y], ci=True)
+            results['estimation table'] = cs_stat.contingency_table(data, [x], [y], ci=True)
         elif meas_lev == 'int':
 
             # Test of multivariate normality
-            assumptions_result = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
-            assumptions_result += '<cs_decision>' + _('Testing multivariate normality of variables') + '</cs_decision>\n'
+            results['assumption info'] = '<cs_h3>' + _('Checking assumptions of inferential methods') + '</cs_h3>'
+            results['assumption info'] += '<cs_decision>' + _('Testing multivariate normality of variables') + '</cs_decision>\n'
             normality, norm_text = cs_hyp_test.multivariate_normality(data, predictors + [predicted])
-            assumptions_result += norm_text
+            results['assumption info'] += norm_text
 
             # Test of homoscedasticity
-            assumptions_result += '<cs_decision>' + _('Testing homoscedasticity') + '</cs_decision>\n'
+            results['assumption info'] += '<cs_decision>' + _('Testing homoscedasticity') + '</cs_decision>\n'
             homoscedasticity, het_text = cs_hyp_test.homoscedasticity(data, predictors, predicted)
-            assumptions_result += het_text
+            results['assumption info'] += het_text
 
             # Test of multicollinearity
             if len(predictors) > 1:
                 vif, multicollinearity = cs_stat.vif_table(data, predictors)
-                assumptions_result += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
-                assumptions_result += vif
-                assumptions_result += "\n" + cs_stat.correlation_matrix(data, predictors)
+                results['assumption info'] += '<cs_decision>' + _('Testing multicollinearity') + '</cs_decision>\n'
+                results['assumption info'] += vif
+                results['assumption info'] += "\n" + cs_stat.correlation_matrix(data, predictors)
 
-            estimation_parameters = '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
-            estimation_parameters += cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
+            results['estimation info'] += '<cs_h4>' + _('Regression coefficients') + '</cs_h4>'
+            results['estimation table'] = cs_stat.variable_pair_regression_coefficients(predictors, meas_lev,
                                                                                    normality=normality,
                                                                                    homoscedasticity=homoscedasticity,
                                                                                    multicollinearity=multicollinearity
@@ -1310,7 +1381,7 @@ class CogStatData:
                                                                                    result=result)
 
             if len(predictors) == 1:
-                population_graph = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result,
+                results['estimation chart'] = cs_chart.create_variable_pair_chart(data, meas_lev, x, y, result=result,
                                                                        raw_data=False, regression=True, CI=True,
                                                                        xlims=[None, None], ylims=[None, None])
             else:
@@ -1318,37 +1389,29 @@ class CogStatData:
                 pass
 
         if len(predictors) == 1:
-            estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
-            estimation_effect_size += cs_stat.variable_pair_standard_effect_size(data, meas_lev, sample=False,
-                                                                                 normality=normality,
+            results['population effect size info'] = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
+            results['population effect size table'] = cs_stat.variable_pair_standard_effect_size(data, meas_lev,
+                                                                                 sample=False, normality=normality,
                                                                                  homoscedasticity=homoscedasticity)
         else:
             if meas_lev in ['int', 'unk']:
-                estimation_effect_size = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
-                estimation_effect_size += cs_stat.multiple_variables_standard_effect_size(self.data_frame, predictors,
-                                                                                          predicted, result, normality,
-                                                                                          homoscedasticity, multicollinearity,
-                                                                                          sample=False)
+                results['population effect size info'] = '<cs_h4>' + _('Standardized effect sizes') + '</cs_h4>'
+                results['population effect size table'] = cs_stat.multiple_variables_standard_effect_size(self.data_frame,
+                                                                   predictors, predicted, result, normality,
+                                                                   homoscedasticity, multicollinearity, sample=False)
 
-        population_result = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
+        results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if len(predictors) == 1:
-            population_result += cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality, homoscedasticity) \
-                                 + '\n'
+            results['hypothesis test'] += cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality,
+                                                                             homoscedasticity)
         else:
-            population_result += cs_hyp_test.multiple_regression_hyp_tests(data=self.data_frame, result=result,
-                                                                           predictors=predictors, normality=normality,
-                                                                           homoscedasticity=homoscedasticity,
-                                                                           multicollinearity=multicollinearity)
+            results['hypothesis test'] += cs_hyp_test.multiple_regression_hyp_tests(data=self.data_frame, result=result,
+                                                                                    predictors=predictors,
+                                                                                    normality=normality,
+                                                                                    homoscedasticity=homoscedasticity,
+                                                                                    multicollinearity=multicollinearity)
 
-        # TODO should we set all optional returned item to None at the beginning of the method? And in all methods
-        return cs_util.convert_output([title, raw_result, raw_graph,
-                                       sample_result, sample_graph, regression_plot,
-                                       standardized_effect_size_result,
-                                       residual_title, residual_graph,
-                                       population_properties_title, assumptions_result,
-                                       estimation_result,
-                                       estimation_parameters, population_graph, estimation_effect_size,
-                                       population_result])
+        return cs_util.convert_output(results)
 
     def pivot(self, depend_name='', row_names=None, col_names=None, page_names=None, function='Mean'):
         """
@@ -1372,6 +1435,8 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        results = {key: None for key in ['analysis info', 'warning', 'pivot table']}
+
         if page_names is None:
             page_names = []
         if col_names is None:
@@ -1379,21 +1444,24 @@ class CogStatData:
         if row_names is None:
             row_names = []
 
-        title = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
-        preconditions = True
+        results['analysis info'] = '<cs_h1>' + _('Pivot table') + '</cs_h1>'
+
+        # Check the preconditions
+        results['warning'] = ''
         if not depend_name:
-            title += _('The dependent variable should be set') + '.\n'
-            preconditions = False
+            results['warning'] += _('The dependent variable should be set') + '.\n'
         if not (row_names or col_names or page_names):
-            title += _('At least one grouping variable should be set') + '\n'
-            preconditions = False
-        if not preconditions:
-            return cs_util.convert_output([title])
+            results['warning'] += _('At least one grouping variable should be set') + '\n'
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
 
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
 
-        # TODO optionally return pandas DataFrame or Panel
-        pivot_result = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
-        return cs_util.convert_output([title, pivot_result])
+        results['pivot table'] = cs_stat.pivot(self.data_frame, row_names, col_names, page_names, depend_name, function)
+        return cs_util.convert_output(results)
 
     def diffusion(self, error_name='', RT_name='', participant_name='', condition_names=None, correct_coding='0',
                   reaction_time_in='sec', scaling_parameter=0.1):
@@ -1426,23 +1494,33 @@ class CogStatData:
         list of str and pandas Stylers
             Analysis results in HTML format and tables
         """
+        results = {key: None for key in ['analysis info', 'warning', 'N', 'drift rate', 'threshold', 'nondecision time']}
+
         if condition_names is None:
             condition_names = []
         # TODO return pandas DataFrame
-        title = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
-        preconditions = True
-        if not RT_name:
-            title += _('The reaction time should be given') + '.\n'
-            preconditions = False
-        if not error_name:
-            title += _('The error variables should be given') + '.'
-            preconditions = False
-        if not preconditions:
-            return cs_util.convert_output([title])
+        results['analysis info'] = '<cs_h1>' + _('Behavioral data diffusion analysis') + '</cs_h1>'
 
-        diffusion_results = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name, condition_names,
-                                              correct_coding, reaction_time_in, scaling_parameter)
-        return cs_util.convert_output([title, diffusion_results])
+        # Check preconditions
+        results['warning'] = ''
+        if not RT_name:
+            results['warning'] += _('The reaction time should be given') + '.\n'
+        if not error_name:
+            results['warning'] += _('The error variables should be given') + '.'
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
+
+        # Filtering status
+        results['analysis info'] += self._filtering_status()
+
+        additional_analysis_info, results['N'], results['drift rate'], results['threshold'], \
+        results['nondecision time'] = cs_stat.diffusion(self.data_frame, error_name, RT_name, participant_name,
+                                                        condition_names, correct_coding, reaction_time_in,
+                                                        scaling_parameter)
+        results['analysis info'] += additional_analysis_info
+        return cs_util.convert_output(results)
 
     def compare_variables(self, var_names, factors=None, display_factors=None, ylims=[None, None]):
         """
@@ -1453,9 +1531,9 @@ class CogStatData:
         var_names: list of str
             The variable to be compared.
         factors : list of list of [str, int]
-            The factors and their levels, e.g.,
+            The factor names and their levels, e.g.,
                 [['name of the factor', number_of_the_levels],
-                ['name of the factor 2', number_of_the_levels]]
+                 ['name of the factor 2', number_of_the_levels]]
             Factorial combination of the factors will be generated, and variables will be assigned respectively
         display_factors: list of two lists of strings
             Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
@@ -1467,32 +1545,44 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        results = {key: None for key in ['analysis info', 'warning',
+                                         'raw data info', 'raw data chart',
+                                         'sample info', 'descriptives info', 'descriptives table',
+                                         'sample effect size', 'descriptives chart',
+                                         'population info', 'estimation info', 'estimation table',
+                                         'population effect size', 'estimation chart', 'hypothesis test',
+                                         'descriptives chart old', 'descriptives table new', 'estimation chart old']}
 
         # 0. Analysis info
-        title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
+        results['analysis info'] = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         # Check preconditions
-        preconditions = True
+        results ['warning'] = ''
         if len(var_names) < 2:
-            title += _('At least two variables should be set') + '.\n'
-            preconditions = False
+            results['warning'] += _('At least two variables should be set') + '.\n'
         if '' in var_names:
-            title += _('A variable should be assigned to each level of the factors.') + '\n'
-            preconditions = False
+            results['warning'] += _('A variable should be assigned to each level of the factors.') + '\n'
         # Check if the variables have the same measurement levels
         # int and unk can be used together, since unk is taken as int by default
         if (len(set(meas_levels)) > 1) and ('ord' in meas_levels or 'nom' in meas_levels):
-            title += _('Variables to compare: ') + ', '.\
+            results['warning'] += _('Variables to compare: ') + ', '.\
             join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-            title += _("Sorry, you can't compare variables with different measurement levels."
+            results['analysis info'] += _("Sorry, you can't compare variables with different measurement levels."
                        " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
                      + '\n'
-        if not preconditions:
-            return cs_util.convert_output([title])
+        if factors:
+            factor_names = [factor[0] for factor in factors]
+            if len(set(factor_names)) != len(factor_names):
+                results['warning'] += _('Use unique names for each factor.')
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
 
         # Prepare missing parameters
-        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        # if factor is not specified, use localized 'Unnamed factor' for factor name, so this can be handled by the
+        # rest of the code
         if factors is None or factors == []:
             factors = [[_('Unnamed factor'), len(var_names)]]
         # if display_factors is not specified, then all factors are displayed on the x-axis
@@ -1500,10 +1590,11 @@ class CogStatData:
             display_factors = [[factor[0] for factor in factors], []]
 
         # Variables info
-        analysis_info = _('Variables to compare') + ': ' + \
-                        ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-        analysis_info += _('Factor(s) (number of levels)') + ': ' + ', '.\
-            join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
+        results['analysis info'] += (_('Variables to compare') + ': ' +
+                                     ', '.join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) +
+                                     '\n')
+        results['analysis info'] += (_('Factor(s) (number of levels)') + ': ' + ', '.
+                                     join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n')
         factor_combinations = ['']
         for factor in factors:
             factor_combinations = ['%s - %s %s' % (factor_combination, factor[0], level_i+1)
@@ -1511,72 +1602,75 @@ class CogStatData:
                                    for level_i in range(factor[1])]
         # remove ' - ' from the beginning of the strings
         factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-        analysis_info += _('Factor level combinations and assigned variables') + ':\n'
+        results['analysis info'] += _('Factor level combinations and assigned variables') + ':\n'
         for factor_combination, var_name in zip(factor_combinations, var_names):
-            analysis_info += '%s: %s\n' % (factor_combination, var_name)
+            results['analysis info'] += '%s: %s\n' % (factor_combination, var_name)
 
         # Filtering status
-        analysis_info += self._filtering_status()
+        results['analysis info'] += self._filtering_status()
 
         # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
-            analysis_info += '\n<cs_decision>' + warn_unknown_variable + '</cs_decision>'
+            results['analysis info'] += '\n<cs_decision>' + warn_unknown_variable + '</cs_decision>'
 
         # 1. Raw data
-        raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         # Prepare data, drop missing data, display number of observed/missing cases
         # TODO are NaNs interesting in nominal variables?
         data = self.data_frame[var_names].dropna()
         observed_n = len(data)
         missing_n = len(self.data_frame[var_names]) - observed_n
-        raw_result += _('N of observed cases') + ': %g\n' % observed_n
-        raw_result += _('N of missing cases') + ': %g\n' % missing_n
+        results['raw data info'] += _('N of observed cases') + ': %g\n' % observed_n
+        results['raw data info'] += _('N of missing cases') + ': %g\n' % missing_n
 
         # Plot the individual raw data
-        raw_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=True,
-                                                                   ylims=ylims)
+        if csc.test_functions:
+            results['raw data chart old'] = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level,
+                                                                                        raw_data_only=True, ylims=ylims)
         factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i + 1) for i in range(factor[1])] for factor in factors],
                                                                                   names=[factor[0] for factor in factors]))
         if meas_level in ['int', 'unk', 'ord']:
-            raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
-                                                                           dep_names=var_names,
-                                                                           factor_info=factor_info,
-                                                                           indep_x=display_factors[0],
-                                                                           indep_color=display_factors[1],
-                                                                           ylims=ylims, raw_data=True)
+            results['raw data chart'] = cs_chart.create_repeated_measures_groups_chart(data=data,
+                                                                                       dep_meas_level=meas_level,
+                                                                                       dep_names=var_names,
+                                                                                       factor_info=factor_info,
+                                                                                       indep_x=display_factors[0],
+                                                                                       indep_color=display_factors[1],
+                                                                                       ylims=ylims, raw_data=True)[0]
         else:
-            raw_graph_new = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level,
-                                                                           raw_data_only=True, ylims=ylims)
+            results['raw data chart'] = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level,
+                                                                                       raw_data_only=True, ylims=ylims)[0]
 
         # 2. Sample properties
-        sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
         # 2a. Descriptives
-        sample_result += '<cs_h3>' + _('Descriptives for the variables') + '</cs_h3>'
+        results['descriptives info'] = '<cs_h3>' + _('Descriptives for the variables') + '</cs_h3>'
         statistics = {'int': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'unk': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'ord': ['max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'nom': ['variation ratio']}
-        sample_result += cs_stat.print_var_stats(data, var_names, self.data_measlevs, statistics=statistics[meas_level])
+        results['descriptives table'] = cs_stat.print_var_stats(data, var_names, self.data_measlevs,
+                                                                statistics=statistics[meas_level])
         if meas_level == 'nom':
             import itertools
             for var_pair in itertools.combinations(var_names, 2):
-                sample_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], count=True,
-                                                           percent=True, margins=True)
-            sample_result += '\n'
+                results['descriptives table'] += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]],
+                                                                           count=True, percent=True, margins=True)
 
         # 2b. Effect size
         sample_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=True)
-        if sample_effect_size:
-            sample_effect_size += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
+        if sample_effect_size:  # if results were given in the previous analysis
+            results['sample effect size'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
         # 2c. Plot the individual data with box plot
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
-            sample_graph = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level, ylims=ylims)
-            sample_result_new, *sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data,
+            results['descriptives chart old'] = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level,
+                                                                                           ylims=ylims)
+            results['descriptives table new'], *results['descriptives chart'] = cs_chart.create_repeated_measures_groups_chart(data=data,
                                                                               dep_meas_level=meas_level,
                                                                               dep_names=var_names,
                                                                               factor_info=factor_info,
@@ -1585,39 +1679,37 @@ class CogStatData:
                                                                               ylims=ylims, raw_data=True, box_plots=True,
                                                                               descriptives_table=True,
                                                                               statistics=statistics[meas_level])
-        else:
-            sample_result_new = None
-            sample_graph = None
-            sample_graph_new = None
+            results['descriptives chart'] = results['descriptives chart'][0]  # TODO handle lists
 
         # 3. Population properties
-        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        results['population info'] = '<cs_h2>' + _('Population properties') + '</cs_h2>'
 
         # 3a. and 3c. Population estimations and plots
-        population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
+        results['estimation info'] = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
-            population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+            results['estimation info'] += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(data[var_names[0]]) + 1
             if csc.test_functions:
-                population_result += mean_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
+                results['estimation table old'] = mean_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
                     .replace('\n', '')
         elif meas_level == 'ord':
-            population_result += _('Median')
+            results['estimation info'] += _('Median')
             median_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(data[var_names[0]]) + 1
             if csc.test_functions:
-                population_result += median_estimations.to_html(bold_rows=False,float_format=lambda x: '%0.*f' % (prec, x))\
+                results['estimation table old'] = median_estimations.to_html(bold_rows=False,float_format=lambda x: '%0.*f' % (prec, x))\
                     .replace('\n', '')
         elif meas_level == 'nom':
             for var_pair in itertools.combinations(var_names, 2):
                 if csc.test_functions:
-                    population_result += cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]], ci=True)
-        population_result += '\n'
+                    results['estimation table old'] = cs_stat.contingency_table(data, [var_pair[1]], [var_pair[0]],
+                                                                                ci=True)
 
-        population_graph = cs_chart.create_repeated_measures_population_chart(data, var_names, meas_level, ylims=ylims)
+        results['estimation chart old'] = cs_chart.create_repeated_measures_population_chart(data, var_names,
+                                                                                             meas_level, ylims=ylims)
         if meas_level in ['int', 'unk', 'ord']:
-            population_estimation, *population_graph_new = cs_chart.\
+            results['estimation table'], *results['estimation chart'] = cs_chart.\
                 create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                       dep_names=var_names,
                                                       factor_info=factor_info,
@@ -1625,29 +1717,21 @@ class CogStatData:
                                                       indep_color=display_factors[1],
                                                       ylims=ylims, estimations=True,
                                                       estimation_table=True)
-        else:
-            population_estimation = None
-            population_graph_new = None
+            results['estimation chart'] = results['estimation chart'][0]  # TODO handle list
 
         # 3b. Effect size
         population_effect_size = cs_stat.repeated_measures_effect_size(data, var_names, factors, meas_level, sample=False)
         if population_effect_size:
-            population_effect_size += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
+            results['population effect size'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
+                                                 population_effect_size
 
         # 3d. Hypothesis tests
-        result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
+        results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                     cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
 
-        if csc.test_functions:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new,
-                                           sample_result, sample_result_new, sample_effect_size,
-                                           sample_graph, sample_graph_new, population_result, population_estimation,
-                                           population_effect_size, population_graph, population_graph_new, result_ht])
-        else:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result,
-                                           sample_effect_size,
-                                           sample_graph_new, population_result, population_estimation,
-                                           population_effect_size, population_graph_new, result_ht])
+        if not csc.test_functions:
+            del results['descriptives chart old'], results['descriptives table new'], results['estimation chart old']
+        return cs_util.convert_output(results)
 
     def compare_groups(self, var_name,
                        grouping_variables=None, display_groups=None,
@@ -1676,21 +1760,29 @@ class CogStatData:
         list of str and image
             Analysis results in HTML format
         """
+        results = {key: None for key in ['analysis info', 'warning',
+                                         'raw data info', 'raw data chart',
+                                         'sample info', 'descriptives info', 'descriptives table',
+                                         'sample effect size', 'descriptives chart',
+                                         'population info', 'estimation info', 'estimation table',
+                                         'population effect size', 'estimation chart', 'hypothesis test',
+                                         'raw data chart old', 'descriptives chart old', 'descriptives table new',
+                                         'estimation chart old']}
 
         # 0. Analysis info
-        title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
+        results['analysis info'] = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
 
         # Check preconditions
         # TODO check if there is only one dep.var.
-        preconditions = True
+        results['warning'] = ''
         if not var_name or (var_name is None):
-            title += _('The dependent variable should be set') + '.\n'
-            preconditions = False
+            results['warning'] += _('The dependent variable should be set') + '.\n'
         if (grouping_variables is None) or grouping_variables == []:
-            title += _('At least one grouping variable should be set') + '.\n'
-            preconditions = False
-        if not preconditions:
-            return cs_util.convert_output([title])
+            results['warning'] += _('At least one grouping variable should be set') + '.\n'
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
 
         var_names = [var_name]
         if grouping_variables is None:
@@ -1702,22 +1794,22 @@ class CogStatData:
             display_groups = [grouping_variables, [], []]
 
         # Variables info
-        analysis_info = _('Dependent variable: ') + '%s (%s)' % (var_name, self.data_measlevs[var_name]) + '\n' + \
+        results['analysis info'] += _('Dependent variable: ') + '%s (%s)' % (var_name, self.data_measlevs[var_name]) + '\n' + \
                      _('Grouping variable(s)') + ': ' + \
                      ', '.join('%s (%s)' % (var, meas) for var, meas
                                in zip(grouping_variables, [self.data_measlevs[group] for group in grouping_variables]))\
                      + '\n'
 
         # Filtering status
-        analysis_info += self._filtering_status()
+        results['analysis info'] += self._filtering_status()
 
         # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars([var_names[0]])
         if unknown_type:
-            analysis_info += '<cs_decision>' + warn_unknown_variable + '</cs_decision>'
+            results['analysis info'] += '<cs_decision>' + warn_unknown_variable + '</cs_decision>'
 
         # 1. Raw data
-        raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         # Prepare data, drop missing data, display number of observed/missing cases
         single_case_slope_SE_list = [single_case_slope_SE] if single_case_slope_SE else []
@@ -1744,57 +1836,63 @@ class CogStatData:
             axis=1)) - sum((data[grouping_variables] == pd.Series(
             {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)})).all(
             axis=1)) for level_combination in level_combinations]
-        raw_result += pdf_result.to_html(bold_rows=False).replace('\n', '')
-        raw_result += '\n\n'
+        results['raw data info'] += pdf_result.to_html(bold_rows=False).replace('\n', '')
+        results['raw data info'] += '\n\n'
         # display missing grouping level information
         for grouping_variable in grouping_variables:
             observed_n = len(self.data_frame[grouping_variable].dropna())
             missing_n = len(self.data_frame[grouping_variable]) - observed_n
-            raw_result += _('N of missing grouping variable in %s') % grouping_variable + ': %g\n' % missing_n
+            results['raw data info'] += _('N of missing grouping variable in %s') % grouping_variable + \
+                                         ': %g\n' % missing_n
 
         # Plot individual raw data
 
-        raw_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
+        results['raw data chart old'] = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
                                                                 level_combinations, raw_data_only=True, ylims=ylims)
         if meas_level in ['int', 'unk', 'ord']:
-            raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+            results['raw data chart'] = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                            dep_names=[var_name],
                                                                            indep_x=display_groups[0],
                                                                            indep_color=display_groups[1],
                                                                            indep_panel=display_groups[2],
                                                                            ylims=ylims, raw_data=True)
+            results['raw data chart'] = results['raw data chart'][0]
         else:
-            raw_graph_new = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
-                                                                    level_combinations, raw_data_only=True, ylims=ylims)
+            results['raw data chart'] = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names,
+                                                                                    grouping_variables,
+                                                                                    level_combinations,
+                                                                                    raw_data_only=True, ylims=ylims)
 
         # 2. Sample properties
-        sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
         # 2a. Descriptives
-        sample_result += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
+        results['sample info'] += '<cs_h3>' + _('Descriptives for the groups') + '</cs_h3>'
         statistics = {'int': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'unk': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'ord': ['max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'nom': ['variation ratio']}
-        sample_result += cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
-                                                 grouping_variables=grouping_variables,
-                                                 statistics=statistics[meas_level])
+        results['descriptives table'] = cs_stat.print_var_stats(data, [var_names[0]], self.data_measlevs,
+                                                                grouping_variables=grouping_variables,
+                                                                statistics=statistics[meas_level])
         if meas_level == 'nom':
-            sample_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names,
-                                                              count=True, percent=True, margins=True)
+            results['descriptives table'] += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names,
+                                                                              count=True, percent=True, margins=True)
 
         # 2b. Effect size
         sample_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables, meas_level,
                                                                 sample=True)
         if sample_effect_size:
-            sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
+            results['sample effect size'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
 
         # Plot the individual data with boxplots
         # There's no need to repeat the mosaic plot for the nominal variables
         if meas_level in ['int', 'unk', 'ord']:
-            sample_graph = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names, grouping_variables,
-                                                                       level_combinations, ylims=ylims)
-            sample_result_new, *sample_graph_new = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
+            results['descriptives chart old'] = cs_chart.create_compare_groups_sample_chart(data, meas_level, var_names,
+                                                                                            grouping_variables,
+                                                                                            level_combinations,
+                                                                                            ylims=ylims)
+            results['descriptives table new'], *results['descriptives chart'] = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                               dep_names=[var_name],
                                                                               indep_x=display_groups[0],
                                                                               indep_color=display_groups[1],
@@ -1804,22 +1902,19 @@ class CogStatData:
                                                                               box_plots=True,
                                                                               descriptives_table=True,
                                                                               statistics=statistics[meas_level])
-        else:
-            sample_graph = None
-            sample_graph_new = None
-            sample_result_new = None
+            results['descriptives chart'] = results['descriptives chart'][0]
 
         # 3. Population properties
-        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        results['population info'] = '<cs_h2>' + _('Population properties') + '</cs_h2>'
 
         # 3a. and c. Population estimation and plots
-        population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
+        results['estimation info'] = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
 
         group_estimations = cs_stat.comp_group_estimations(data, meas_level, var_names, grouping_variables)
-        population_graph = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, grouping_variables,
+        results['estimation chart old'] = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names, grouping_variables,
                                                                            level_combinations, ylims=ylims)
         if meas_level in ['int', 'unk', 'ord']:
-            population_estimation, *population_graph_new = cs_chart.\
+            results['estimation table'], *results['estimation chart'] = cs_chart.\
                 create_repeated_measures_groups_chart(data, meas_level,
                                                       dep_names=[var_name],
                                                       indep_x=display_groups[0],
@@ -1827,52 +1922,48 @@ class CogStatData:
                                                       indep_panel=display_groups[2],
                                                       estimations=True, ylims=ylims,
                                                       estimation_table=True)
+            results['estimation chart'] = results['estimation chart'][0]
         else:
-            population_estimation = None
-            population_graph_new = cs_chart.create_compare_groups_population_chart(data, meas_level, var_names,
-                                                                                   grouping_variables,
-                                                                                   level_combinations, ylims=ylims)
+            results['estimation chart'] = cs_chart.create_compare_groups_population_chart(data, meas_level,
+                                                                                                     var_names,
+                                                                                       grouping_variables,
+                                                                                       level_combinations, ylims=ylims)
 
         if meas_level in ['int', 'unk', 'ord']:
             if meas_level in ['int', 'unk']:
-                population_result += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+                results['estimation info'] += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
             elif meas_level == 'ord':
-                population_result += _('Medians')
+                results['estimation info'] += _('Medians')
             prec = cs_util.precision(data[var_names[0]]) + 1
             if csc.test_functions:
-                population_result += group_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
+                results['estimation info'] += group_estimations.to_html(bold_rows=False, float_format=lambda x: '%0.*f' % (prec, x))\
                     .replace('\n', '')
         if meas_level == 'nom':
             if csc.test_functions:
-                population_result += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names, ci=True)
+                results['estimation info'] += '\n' + cs_stat.contingency_table(data, grouping_variables, var_names, ci=True)
 
         # 3b. Effect size
         population_effect_size = cs_stat.compare_groups_effect_size(data, var_names, grouping_variables,
                                                                              meas_level, sample=False)
         if population_effect_size is not None:
-            population__effect_size = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
+            results['population effect size'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
                                               population_effect_size + '\n'
 
         # 3d. Hypothesis testing
         if len(grouping_variables) == 1:
             group_levels = sorted(set(data[grouping_variables[0]]))
-            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
+            results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                         cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
                                                                    var_names, grouping_variables, group_levels,
                                                                    single_case_slope_SE, single_case_slope_trial_n)
         else:
-            result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
+            results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
                         cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, grouping_variables)
 
-        if csc.test_functions:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph, raw_graph_new, sample_result,
-                                           sample_result_new,
-                                           sample_graph, sample_graph_new, population_result, population_estimation,
-                                           population_effect_size, population_graph, population_graph_new, result_ht])
-        else:
-            return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new, sample_result,
-                                           sample_graph_new, population_result, population_estimation,
-                                           population_effect_size, population_graph_new, result_ht])
+        if not csc.test_functions:
+            del results['raw data chart old'], results['descriptives chart old'], results['descriptives table new'], \
+                results['estimation chart old']
+        return cs_util.convert_output(results)
 
     def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
                                  single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
@@ -1889,8 +1980,8 @@ class CogStatData:
             Factorial combination of the factors will be generated, and variables will be assigned respectively
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
-        display_factors: list of two lists of strings
-            Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
+        display_factors: list of three lists of strings
+            Factors to be displayed on x-axis, color, and panel (but panel cannot be used for repeated measures data)
         single_case_slope_SE : str
             When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
@@ -1904,6 +1995,12 @@ class CogStatData:
             Analysis results in HTML format
 
         """
+        results = {key: None for key in ['analysis info', 'warning',
+                                         'raw data info', 'raw data chart',
+                                         'sample info', 'descriptives info', 'descriptives table',
+                                         'sample effect size', 'descriptives chart',
+                                         'population info', 'estimation info', 'estimation table',
+                                         'population effect size', 'estimation chart', 'hypothesis test']}
 
         if var_names is None:
             var_names = []
@@ -1912,36 +2009,37 @@ class CogStatData:
 
         # 0. Analysis info
         if len(var_names) == 1 and grouping_variables:
-            title = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
+            results['analysis info'] = '<cs_h1>' + _('Compare groups') + '</cs_h1>'
         elif not grouping_variables:
-            title = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
+            results['analysis info'] = '<cs_h1>' + _('Compare repeated measures variables') + '</cs_h1>'
         else:
-            title = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
+            results['analysis info'] = '<cs_h1>' + _('Compare repeated measures variables and groups') + '</cs_h1>'
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         # Check preconditions
-        preconditions = True
+        results['warning'] = ''
         if len(var_names) < 1:
-            title += _('At least one dependent variable should be set') + '.\n'
-            preconditions = False
+            results['warning'] += _('At least one dependent variable should be set') + '.\n'
         if '' in var_names:
-            title = _('A variable should be assigned to each level of the factors') + '.\n'
-            preconditions = False
+            results['warning'] = _('A variable should be assigned to each level of the factors') + '.\n'
         # Check if the repeated measures variables have the same measurement levels
         # int and unk can be used together, since unk is taken as int by default
         if (len(set(meas_levels)) > 1) and ('ord' in meas_levels or 'nom' in meas_levels):
-            title += _('Variables to compare: ') + ', '.\
+            results['warning'] += _('Variables to compare: ') + ', '.\
             join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-            title += _("Sorry, you can't compare variables with different measurement levels."
+            results['analysis info'] += _("Sorry, you can't compare variables with different measurement levels."
                        " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
                      + '\n'
         if meas_levels == 'nom':
-            title += _('Sorry, not implemented yet.')
-        if not preconditions:
-            return cs_util.convert_output([title])
+            results['warning'] += _('Sorry, not implemented yet.')
+        if results['warning']:
+            return cs_util.convert_output(results)
+        else:
+            results['warning'] = None
 
         # Prepare missing parameters
-        # if factor is not specified, use a single space for factor name, so this can be handled by the rest of the code
+        # if factor is not specified, use localized 'Unnamed factor' for factor name, so this can be handled by the
+        # rest of the code
         if (factors is None or factors == []) and len(var_names) > 1:
             factors = [[_('Unnamed factor'), len(var_names)]]
         # handle if display_factors is not specified
@@ -1955,11 +2053,11 @@ class CogStatData:
 
         # Variables info
         if len(var_names) == 1:
-            analysis_info = _('Dependent variable: ') + '%s (%s)' % (var_names[0], self.data_measlevs[var_names[0]]) + '\n'
+            results['analysis info'] += _('Dependent variable: ') + '%s (%s)' % (var_names[0], self.data_measlevs[var_names[0]]) + '\n'
         else:
-            analysis_info = _('Variables to compare: ') + ', '. \
+            results['analysis info'] += _('Variables to compare: ') + ', '. \
                 join('%s (%s)' % (var, meas) for var, meas in zip(var_names, meas_levels)) + '\n'
-            analysis_info += _('Factor(s) (number of levels)') + ': ' + ', '. \
+            results['analysis info'] += _('Factor(s) (number of levels)') + ': ' + ', '. \
                 join('%s (%d)' % (factor[0], factor[1]) for factor in factors) + '\n'
             factor_combinations = ['']
             for factor in factors:
@@ -1968,25 +2066,25 @@ class CogStatData:
                                        for level_i in range(factor[1])]
             # remove ' - ' from the beginning of the strings
             factor_combinations = [factor_combination[3:] for factor_combination in factor_combinations]
-            analysis_info += _('Factor level combinations and assigned variables') + ':\n'
+            results['analysis info'] += _('Factor level combinations and assigned variables') + ':\n'
             for factor_combination, var_name in zip(factor_combinations, var_names):
-                analysis_info += '%s: %s\n' % (factor_combination, var_name)
+                results['analysis info'] += '%s: %s\n' % (factor_combination, var_name)
         if grouping_variables:
-            analysis_info += _('Grouping variable(s)') + ': ' + \
+            results['analysis info'] += _('Grouping variable(s)') + ': ' + \
                           ', '.join('%s (%s)' % (var, meas) for var, meas
                                     in zip(grouping_variables,
                                            [self.data_measlevs[group] for group in grouping_variables])) + '\n'
 
         # Filtering status
-        analysis_info += self._filtering_status()
+        results['analysis info'] += self._filtering_status()
 
         # level of measurement of the dependent variables
         meas_level, unknown_type = self._meas_lev_vars(var_names)
         if unknown_type:
-            analysis_info += '\n<cs_decision>' + warn_unknown_variable + '</cs_decision>'
+            results['analysis info'] += '\n<cs_decision>' + warn_unknown_variable + '</cs_decision>'
 
         # 1. Raw data
-        raw_result = '<cs_h2>' + _('Raw data') + '</cs_h2>'
+        results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
         # Prepare data, drop missing data, display number of observed/missing cases
         # TODO are NaNs interesting in nominal variables?
@@ -1996,8 +2094,8 @@ class CogStatData:
         if not grouping_variables:
             observed_n = len(data)
             missing_n = len(self.data_frame[var_names]) - observed_n
-            raw_result += _('N of observed cases') + ': %g\n' % observed_n
-            raw_result += _('N of missing cases') + ': %g\n' % missing_n
+            results['raw data info'] += _('N of observed cases') + ': %g\n' % observed_n
+            results['raw data info'] += _('N of missing cases') + ': %g\n' % missing_n
         else:  # there are grouping variables
             # display the number of observed/missing cases for (a) grouping variable level combinations and (b) missing
             #  level information
@@ -2020,43 +2118,47 @@ class CogStatData:
                                                            .all(axis=1)) - sum((data[grouping_variables] == pd.Series(
                 {grouping_variable: level for grouping_variable, level in zip(grouping_variables, level_combination)}))
                                                            .all(axis=1)) for level_combination in level_combinations]
-            raw_result += pdf_result.to_html(bold_rows=False).replace('\n', '')
-            raw_result += '\n\n'
+            results['raw data info'] += pdf_result.to_html(bold_rows=False).replace('\n', '')
+            results['raw data info'] += '\n\n'
 
             # display missing grouping level information
             for grouping_variable in grouping_variables:
                 observed_n = len(self.data_frame[grouping_variable].dropna())
                 missing_n = len(self.data_frame[grouping_variable]) - observed_n
-                raw_result += _('N of missing grouping variable in %s') % grouping_variable + ': %g\n' % missing_n
+                results['raw data info'] += _('N of missing grouping variable in %s') % grouping_variable + ': %g\n' % missing_n
 
-        factor_info = pd.DataFrame([var_names],
-                                   columns=pd.MultiIndex.from_product(
-                                       [['%s %s' % (factor[0], i + 1) for i in range(factor[1])] for factor in factors],
+        if len(var_names) > 1:
+            factor_info = pd.DataFrame([var_names],
+                                       columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i + 1) for i in
+                                                                            range(factor[1])] for factor in factors],
                                        names=[factor[0] for factor in factors]))
+        else:
+            factor_info = None
 
         #print('cs.py first call:', var_names, factors, grouping_variables, display_factors)
         #print(factor_info)
 
         # Plot the individual raw data
-        raw_graph_new = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
-                                                                       dep_names=var_names,
-                                                                       factor_info=factor_info,
-                                                                       indep_x=display_factors[0],
-                                                                       indep_color=display_factors[1],
-                                                                       indep_panel=display_factors[2],
-                                                                       ylims=ylims, raw_data=True)
+        results['raw data chart'] = cs_chart.create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
+                                                                                   dep_names=var_names,
+                                                                                   factor_info=factor_info,
+                                                                                   indep_x=display_factors[0],
+                                                                                   indep_color=display_factors[1],
+                                                                                   indep_panel=display_factors[2],
+                                                                                   ylims=ylims, raw_data=True)
+        results['raw data chart'] = results['raw data chart'][0]
 
         # 2. Sample properties
-        sample_result = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
+        results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
 
-        sample_result += '<cs_h3>' + _('Descriptives for the variables') + '</cs_h3>'
+        results['sample info'] += '<cs_h3>' + _('Descriptives for the variables') + '</cs_h3>'
 
         statistics = {'int': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'unk': ['mean', 'std', 'max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'ord': ['max', 'upper quartile', 'median', 'lower quartile', 'min'],
                       'nom': ['variation ratio']}
 
-        descriptive_table, *sample_graph_new = cs_chart.\
+        results['descriptives table'], *results['descriptives chart'] = cs_chart.\
             create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                   dep_names=var_names,
                                                   factor_info=factor_info,
@@ -2065,6 +2167,7 @@ class CogStatData:
                                                   indep_panel=display_factors[2],
                                                   ylims=ylims, raw_data=True, box_plots=True,
                                                   descriptives_table=True, statistics=statistics[meas_level])
+        results['descriptives chart'] = results['descriptives chart'][0]
         #sample_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
         # TODO for nominal dependent variable include the contingency table
         #  See the variable and the group comparison solutions
@@ -2080,14 +2183,15 @@ class CogStatData:
             sample_effect_size = None
             # TODO
         if sample_effect_size:
-            sample_result += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + sample_effect_size
+            results['sample effect size'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + \
+                                             sample_effect_size
 
         # 3. Population properties
-        population_result = '<cs_h2>' + _('Population properties') + '</cs_h2>'
+        results['population info'] = '<cs_h2>' + _('Population properties') + '</cs_h2>'
 
         # 3a. and 3c. Population estimations and plots
-        population_result += '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
-        population_estimation, *population_graph_new = cs_chart.\
+        results['estimation info'] = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
+        results['estimation table'], *results['estimation chart'] = cs_chart.\
             create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
                                                   dep_names=var_names,
                                                   factor_info=factor_info,
@@ -2096,6 +2200,7 @@ class CogStatData:
                                                   indep_panel=display_factors[2],
                                                   ylims=ylims, estimations=True,
                                                   estimation_table=True)
+        results['estimation chart'] = results['estimation chart'][0]
         prec = cs_util.precision(data[var_names[0]]) + 1  # TODO which variables should be used here?
         # 3b. Effect size
         if not grouping_variables:  # no grouping variables
@@ -2108,29 +2213,30 @@ class CogStatData:
             population_effect_size = None
             # TODO
         if population_effect_size:
-            population_effect_size += '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' + population_effect_size
+            results['population effect size'] = ('<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>' +
+                                                  population_effect_size)
 
         # 3d. Hypothesis tests
-        result_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
+        results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if not grouping_variables:  # no grouping variables
-            result_ht += cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names,
-                                                                self.data_measlevs)
+            results['hypothesis test'] += cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names,
+                                                                                 self.data_measlevs)
         elif len(var_names) == 1:  # grouping variables with one dependent variable
             if len(grouping_variables) == 1:
                 group_levels = sorted(set(data[grouping_variables[0]]))
-                result_ht += cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
+                results['hypothesis test'] += cs_hyp_test.decision_one_grouping_variable(data, meas_level,
+                                                                                         self.data_measlevs,
                                                                         var_names, grouping_variables, group_levels,
                                                                         single_case_slope_SE, single_case_slope_trial_n)
             else:
-                result_ht += cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names,
-                                                                             grouping_variables)
+                results['hypothesis test'] += cs_hyp_test.decision_several_grouping_variables(data, meas_level,
+                                                                                              var_names,
+                                                                                              grouping_variables)
         else:  # mixed design
-            result_ht += _('Sorry, not implemented yet.')
+            results['hypothesis test'] += cs_hyp_test.decision_mixed_design(data, meas_level, var_names, factors,
+                                                                            grouping_variables)
 
-        return cs_util.convert_output([title, analysis_info, raw_result, raw_graph_new,
-                                       sample_result, descriptive_table, sample_graph_new,
-                                       population_result, population_estimation, population_effect_size,
-                                       population_graph_new, result_ht])
+        return cs_util.convert_output(results)
 
 
 def display(results):
@@ -2139,14 +2245,22 @@ def display(results):
 
     Parameters
     ----------
-    results : list of {str, image}
+    results : dict of {str, image, pandas styler, list}
         HTML results.
     """
     from IPython.display import display
     from IPython.display import HTML
-    for result in results:
-        if isinstance(result, str):
-            display(HTML(result))
+
+    def display_item(item):
+        if isinstance(item, str):
+            display(HTML(item))
         else:
-            display(result)
+            display(item)
+
+    for result in results.values():
+        if isinstance(result, list):
+            for result_item in result:
+                display_item(result_item)
+        else:
+            display_item(result)
     plt.close('all')  # free memory after everything is displayed

@@ -279,6 +279,9 @@ def _create_default_mosaic_properties(data):
 
 def _mosaic_labelizer(crosstab_data, l, separator='\n'):
     """Custom labelizer function for statsmodel mosaic function
+
+    Nominal variable might be coded as integers, floats or interval/ordinal numerical variable can be used with
+    nominal variable in a pair, which values cannot be handled by statsmodels mosaic
     """
     def isfloat(value):
         try:
@@ -287,13 +290,17 @@ def _mosaic_labelizer(crosstab_data, l, separator='\n'):
         except ValueError:
             return False
 
-    try:
-        return separator.join(l) if crosstab_data[l] != 0 else ""
-    except KeyError:
-        # nominal variable might be coded as integers or interval/ordinal numerical variable can be used with nominal
-        # variable in a pair, which values cannot be handled by statsmodels mosaic
-        ll = tuple([int(float(l_x)) if isfloat(l_x) else l_x for l_x in l])
-        return separator.join(l) if crosstab_data[ll] != 0 else ""
+    # l is a tuple of string, but crosstab_data potentially has numerical index, so first we convert strings to
+    # numerical if needed
+    l_new = []
+    for lx in l:
+        if isfloat(lx):
+            l_new.append(float(lx))
+        elif lx.isdigit():
+            l_new.append(int(lx))
+        else:
+            l_new.append(lx)
+    return separator.join(l) if crosstab_data[tuple(l_new)] != 0 else ""
 
 
 ############################
@@ -371,21 +378,20 @@ def create_item_total_matrix(data, regression=True):
         from statsmodels.stats.outliers_influence import summary_table
     fig = plt.figure(tight_layout=True)
     fig.suptitle(_plt('Scatterplots of item scores and total scores with item-removal'))
-    index = 1
     ncols = len(data.columns.tolist()) if len(data.columns.tolist()) < 4 else 3
     import math
     nrows = math.ceil(len(data.columns.tolist())/3)
 
     items_list = data.columns.tolist()
-    total_scores = [[sum(data[data.columns.difference([var])].iloc[i, :]) for i in range(len(data))]
-                    for var in items_list]  # Total scores with item-removal
+    total_scores = [data[data.columns.difference([var])].sum(axis=1) for var in items_list]  # Total scores with item-removal
     total_scores_df = pd.DataFrame(total_scores).T
     total_scores_df.columns = ["%s_total" % var for var in items_list]
+
     data_temp_all_vars = pd.concat([data, total_scores_df], axis=1)
     global_max_freq = max([max(data_temp_all_vars[[var, var+'_total']].value_counts()) for var in items_list])
 
-    for item in items_list:
-        ax = plt.subplot(nrows, ncols, index)
+    for index, item in enumerate(items_list):
+        ax = plt.subplot(nrows, ncols, index + 1)
 
         # Prepare the frequencies for the plot
         data_temp = data_temp_all_vars[[item, item+'_total']]
@@ -400,7 +406,6 @@ def create_item_total_matrix(data, regression=True):
 
         ax.set_ylabel(_plt('Total (rest)'))
         ax.set_xlabel(item)
-        index += 1
     if global_max_freq > 1:
         fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,
                  horizontalalignment='right', fontsize=10)
@@ -617,7 +622,11 @@ def create_normality_chart(pdf, var_name):
     # 2. QQ plot
     sm.graphics.qqplot(data, line='s', ax=ax2, color=theme_colors[0])
     # Change the red line color (otherwise we should separately call the sm.qqline() function)
-    lines = fig.findobj(lambda x: hasattr(x, 'get_color') and x.get_color() == 'r')
+    def to_python_bool(value):
+        """Return the value itself, if it is a Python boolean,
+        otherwise, it is a numpy boolean array, and any() is returned"""
+        return value if isinstance(value, bool) else value.any()
+    lines = fig.findobj(lambda x: hasattr(x, 'get_color') and to_python_bool(x.get_color() == 'r'))
     [d.set_color(theme_colors[1]) for d in lines]
     ax2.set_title(_plt('Quantile-quantile plot'))
     ax2.set_xlabel(_plt('Normal theoretical quantiles'))
@@ -1618,7 +1627,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     if descriptives_table:
         descriptives_table_df = long_raw_data.pivot_table(values=dep_name,
                                         index=(indep_names if indep_names else 'all_raw_rows'),
-                                        aggfunc=[stat_functions[statistic] for statistic in statistics])
+                                        aggfunc=[stat_functions[statistic] for statistic in statistics], dropna=False)
+        # dropna=False is needed (keeping columns with nans), otherwise, the column names and the calculated columns
+        # may not match
         descriptives_table_df.columns = [stat_names[statistic] for statistic in statistics]
         # If there is/are repeated measures variables, add the variable name to the table (not only the factor names
         # with the levels)
@@ -1689,8 +1700,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         # below) is used for the notes to add to charts.
         # This is relevant only when there are multiple panels.
         if indep_names:  # there are independent variables
+            indep_names_for_groupby = indep_names if len(indep_names) >1 else indep_names[0]
             max_freq_global = max([max(long_raw_data_subset[1][dep_name].value_counts(), default=0) for
-                                   long_raw_data_subset in long_raw_data.groupby(by=indep_names)])
+                                   long_raw_data_subset in long_raw_data.groupby(by=indep_names_for_groupby)])
             # default=0 parameter is needed when a group level combination does not include any cases
         else:  # single variable
             max_freq_global = max(long_raw_data[dep_name].value_counts())
@@ -1725,8 +1737,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
         # Calculate the max value specifically for this panel
         if indep_names:  # there are independent variables
+            indep_names_for_groupby = indep_names if len(indep_names) > 1 else indep_names[0]
             max_freq_panel = max([max(long_raw_data_subset[1][dep_name].value_counts(), default=0) for
-                                  long_raw_data_subset in panel_raw_group.groupby(by=indep_names)])
+                                  long_raw_data_subset in panel_raw_group.groupby(by=indep_names_for_groupby)])
             # default=0 parameter is needed when a group level combination does not include any cases
         else:  # single variable
             max_freq_panel = max(panel_raw_group[dep_name].value_counts())
@@ -1772,9 +1785,15 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                                                         default=0))
                     if max_freq_panel_connec > 1:
                         suptitle_text_line = _plt('Thickest line displays %d cases.') % max_freq_panel_connec + ' '
-
+                if indep_x:
+                    if len(indep_x) > 1:
+                        indep_x_for_groupby = indep_x
+                    else:
+                        indep_x_for_groupby = indep_x[0]
+                else:
+                    indep_x_for_groupby = 'all_raw_rows'
                 for j, (x_raw_name, x_raw_group) in \
-                        enumerate(color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows'))):
+                        enumerate(color_raw_group.groupby(by=indep_x_for_groupby)):
                     if raw_data:
                         val_count = _value_count(x_raw_group[dep_name], max_freq_global)
                         # size parameter must be a float, not an int
@@ -1857,6 +1876,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
             plt.title(plt_title)
 
         # set x ticks and x label
+        # If there is a single factor, and it is localized 'Unnamed factor', then don't use in ticks and labels
         if indep_x:
             xtick_labels = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).groups.keys()
             # If all repeated measures factors are included, then display the variable names too, and not only the
@@ -1869,7 +1889,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 factor_level_combinations.sort_index(axis='columns', level=within_indep_names, inplace=True)
                 # Find the appropriate names for the factor level combinations
                 var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
-                if show_factor_names_on_x_axis:
+                if show_factor_names_on_x_axis and (indep_x[0] != _('Unnamed factor')):
                     # Add the original variable names (var_names) to the xtick_labels
                     xtick_labels = [(xtick_label + ('(' + var_name + ')', )) if isinstance(xtick_label, tuple)  # else str
                                     else (xtick_label + ' (' + var_name + ')')

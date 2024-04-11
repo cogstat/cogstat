@@ -14,26 +14,17 @@
    <string>Interrater reliability</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="1" column="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="enabled">
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="ratings_averaged_check_box">
+     <property name="text">
+      <string>&amp;Ratings are averaged</string>
+     </property>
+     <property name="checked">
       <bool>true</bool>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <layout class="QGridLayout" name="gridLayout"/>
-   </item>
-   <item row="0" column="0" colspan="3">
+   <item row="0" column="0" colspan="4">
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -129,13 +120,38 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="1">
-    <widget class="QCheckBox" name="ratings_averaged_check_box">
-     <property name="text">
-      <string>&amp;Ratings are averaged</string>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="checked">
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="enabled">
       <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

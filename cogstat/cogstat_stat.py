@@ -299,12 +299,12 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     # Display N, RT, and error rate statistics
     precision = 3  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
     n_table_styler = n_table.style.set_caption(_('Number of trials')).format(precision=precision)
-    mean_percent_correct_styler = mean_percent_correct_table.style.\
-        set_caption(_('Mean percent correct with edge correction')).format(precision=precision)
-    mean_correct_RT_styler = mean_correct_RT_table.style.set_caption(_('Mean correct reaction time')).\
-        format(precision=precision)
-    var_correct_RT_styler = var_correct_RT_table.style.set_caption(_('Correct reaction time variance')).\
-        format(precision=precision)
+    #mean_percent_correct_styler = mean_percent_correct_table.style.\
+    #    set_caption(_('Mean percent correct with edge correction')).format(precision=precision)
+    #mean_correct_RT_styler = mean_correct_RT_table.style.set_caption(_('Mean correct reaction time')).\
+    #    format(precision=precision)
+    #var_correct_RT_styler = var_correct_RT_table.style.set_caption(_('Correct reaction time variance')).\
+    #    format(precision=precision)
 
     # 3. Recover diffusion parameters
     original_index = mean_percent_correct_table.index  # to recover index order later
@@ -329,9 +329,7 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     nondecision_time_styler = nondecision_time_table.style.set_caption(_('Nondecision time')).\
         format(precision=precision)
 
-    return [result,
-            n_table_styler, mean_percent_correct_styler, mean_correct_RT_styler, var_correct_RT_styler,
-            drift_rate_styler, threshold_styler, nondecision_time_styler]
+    return [result, n_table_styler, drift_rate_styler, threshold_styler, nondecision_time_styler]
 
 
 def safe_var_names(names):  # TODO not used at the moment. maybe could be deleted.
@@ -471,7 +469,7 @@ def print_var_stats(pdf, var_names, meas_levs, grouping_variables=None, statisti
                       'kurtosis': lambda x: stats.kurtosis(x, bias=False),
                       # for mode, use pandas.Series.mode() instead of scipy.stats.mode() because from scipy 1.11 only
                       # numeric values are considered
-                      # TODO When there are several modes, only the first one is considered. Is this OK?
+                      # When there are several modes, use only the first one. See #268
                       'variation ratio': lambda x: 1 - (sum(x == x.mode()[0]) / len(x))
                       }
 

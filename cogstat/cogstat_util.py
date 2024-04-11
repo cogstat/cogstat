@@ -10,99 +10,15 @@ import gettext
 import numpy as np
 
 from . import cogstat_config as csc
-from . import cogstat_util as cs_util
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
-
-app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
-
-
-def get_versions():
-    """
-    Find the versions of the different components.
-    Used for diagnostic and for version specific codes.
-    """
-    import platform
-
-    csc.versions['platform'] = platform.platform()
-
-    # Python components
-    csc.versions['python'] = sys.version
-    try:
-        import numpy
-        csc.versions['numpy'] = numpy.__version__
-    except (ModuleNotFoundError, NameError):
-        csc.versions['numpy'] = None
-    try:
-        import pandas
-        csc.versions['pandas'] = pandas.__version__
-        # csc.versions['pandas'] = pandas.version.version
-    except (ModuleNotFoundError, NameError):
-        csc.versions['pandas'] = None
-    try:
-        import scipy.stats
-        csc.versions['scipy'] = scipy.version.version
-    except (ModuleNotFoundError, NameError):
-        csc.versions['scipy'] = None
-    try:
-        import statsmodels
-        csc.versions['statsmodels'] = statsmodels.version.version
-    except (ModuleNotFoundError, NameError, AttributeError):
-        try:
-            csc.versions['statsmodels'] = statsmodels.__version__
-        except NameError:
-            csc.versions['statsmodels'] = None
-    try:
-        import pingouin
-        csc.versions['pingouin'] = pingouin.__version__
-    except (ModuleNotFoundError, NameError):
-        csc.versions['pingouin'] = None
-    try:
-        import matplotlib
-        csc.versions['matplotlib'] = matplotlib.__version__
-        csc.versions['matplotlib_backend'] = matplotlib.get_backend()
-    except (ModuleNotFoundError, NameError):
-        csc.versions['matplotlib'] = None
-        csc.versions['matplotlib_backend'] = None
-    try:
-        from PyQt5.Qt import PYQT_VERSION_STR
-        csc.versions['pyqt'] = PYQT_VERSION_STR
-        # PyQt style can be checked only if the window is open and the object
-        # is available
-        # It is GUI specific
-        # csc.versions['pyqtstyle'] =
-        # main_window.style().metaObject().className()
-    except (ModuleNotFoundError, NameError):
-        csc.versions['pyqt'] = None
-        # csc.versions['pyqtstyle'] = None
-
-    # R components
-    '''
-    try:
-        import rpy2.robjects as robjects
-        csc.versions['r'] = robjects.r('version')[12][0]
-    except:
-        csc.versions['r'] = None
-    try:
-        import rpy2
-        csc.versions['rpy2'] = rpy2.__version__
-    except:
-        csc.versions['rpy2'] = None
-    try:
-        from rpy2.robjects.packages import importr
-        importr('car')
-        csc.versions['car'] = True
-    except:
-        csc.versions['car'] = None
-    '''
 
 
 def print_versions(main_window):
     text_output = '<cs_h1>' + _('System components') + '</cs_h1>'
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
-    text_output += 'CogStat path: %s\n' % \
-                   os.path.dirname(os.path.abspath(__file__))
+    text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
     text_output += 'Platform: %s\n' % csc.versions['platform']
     text_output += 'Python: %s\n' % csc.versions['python']
     text_output += 'Python interpreter path: %s\n' % sys.executable
@@ -111,8 +27,7 @@ def print_versions(main_window):
     except:  # TODO add exception type
         pass
         # with pythonw stdout is not available
-    text_output += 'Filesystem encoding: %s\n' % \
-                   str(sys.getfilesystemencoding())
+    text_output += 'Filesystem encoding: %s\n' % str(sys.getfilesystemencoding())
     text_output += 'Language: %s\n' % csc.language
     text_output += 'Numpy: %s\n' % csc.versions['numpy']
     text_output += 'Scipy: %s\n' % csc.versions['scipy']
@@ -120,20 +35,17 @@ def print_versions(main_window):
     text_output += 'Statsmodels: %s\n' % csc.versions['statsmodels']
     text_output += 'Pingouin: %s\n' % csc.versions['pingouin']
     text_output += 'Matplotlib: %s\n' % csc.versions['matplotlib']
-    text_output += 'Matplotlib backend: %s\n' % \
-                   csc.versions['matplotlib_backend']
+    text_output += 'Matplotlib backend: %s\n' % csc.versions['matplotlib_backend']
     text_output += 'PyQt: %s\n' % csc.versions['pyqt']
-    text_output += 'PyQt QStyle:%s\n' % \
-                   main_window.style().metaObject().className()
-    # text_output += 'R: %s\n' % csc.versions['r']
-    # text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
+    text_output += 'PyQt QStyle:%s\n' % main_window.style().metaObject().className()
+    text_output += 'R: %s\n' % csc.versions['r']
+    text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
 
-#    import os
 #    text_output += '\n'
 #    for param in os.environ.keys():
 #        text_output += u'%s %s' % (param,os.environ[param]) + '\n'
 
-    return cs_util.convert_output([text_output])
+    return convert_output({'info': text_output})
 
 
 def precision(data):
@@ -198,17 +110,20 @@ def change_color(color, saturation=1.0, brightness=1.0):
 
 
 def convert_output(outputs):
-    """Convert output either to the GUI or to the IPython Notebook. Flat lists.
+    """Convert dict-based output.
+    - remove Nones
+    - convert strings
+    - check for invalid items
 
     Parameters
     ----------
-    outputs : list of str or matplotlib figures or None or similar lists
-        list of the output items
+    outputs : dict with values of str or matplotlib figures or None or list of these
+        dict of the output items
 
     Returns
     -------
-    list of str or matplotlib figures or similar list
-        converted output, list of items
+    dict with values of str or matplotlib figures or None or list of these
+        converted output, dict of output items
     """
 
     import logging
@@ -216,19 +131,34 @@ def convert_output(outputs):
     from pandas.io.formats.style import Styler
 
     if csc.output_type in ['ipnb', 'gui']:
-        # convert custom notation to html
-        new_output = []
-        for i, output in enumerate(outputs):
-            if isinstance(output, (Figure, Styler)):  # keep the matplotlib figure and pandas styler
-                new_output.append(output)
-            elif isinstance(output, str):
-                new_output.append(_reformat_string(output))
-            elif isinstance(output, list):  # flat list
-                new_output.extend(convert_output(output))
-            elif output is None:
-                pass  # drop None-s from outputs
+        def convert_item(item):
+            """Convert items, when needed
+
+            Parameters
+            ----------
+            item : item to be converted
+
+            Returns
+            -------
+            converted item
+            """
+            if isinstance(item, (Figure, Styler)):  # keep the matplotlib figure and pandas styler
+                return item
+            elif isinstance(item, str):
+                return _reformat_string(item)
+            elif item is None:  # keep None (which will be removed)
+                return None
             else:  # No other types are expected
-                logging.error('Output includes wrong type: %s' % type(output))
+                logging.error('Output includes wrong type: %s' % type(item))
+
+        new_output = {}
+        for key, value in outputs.items():
+            if isinstance(value, list):
+                new_output[key] = [convert_item(item) for item in value]
+                new_output[key] = [item for item in new_output[key] if not (item is None)]  # remove Nones
+            else:  # value is not a list
+                if value is not None:
+                    new_output[key] = convert_item(value)
         return new_output
     else:
         return outputs
@@ -256,7 +186,7 @@ def _reformat_string(string):
     for cs_tag_key in csc.cs_tags.keys():
         string = string.replace(cs_tag_key, csc.cs_tags[cs_tag_key])
 
-    # In the R output the '< ' (which is non breaking space here (\xa0) )
+    # In the R output the '< ' (which is non-breaking space here (\xa0) )
     # would be handled as html tag in cogstat, so we change it to '&lt; '
     string = string.replace('<\xa0', '&lt; ')
 

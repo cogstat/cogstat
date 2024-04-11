@@ -28,9 +28,11 @@ import pingouin
 from . import cogstat_config as csc
 from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
-from . import cogstat_util as cs_util
 
-run_power_analysis = True  # should the power analyses be run?
+if csc.versions['r']:
+    import rpy2.robjects as robjects
+    from rpy2.robjects import pandas2ri
+    from rpy2.robjects.packages import importr
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -72,26 +74,51 @@ def print_p(p, style='apa'):
             return '<i>p</i> = ' + ('%0.3f' % p).lstrip('0')
 
 
-def print_sensitivity_effect_sizes(effect_sizes):
+def print_sensitivity_effect_sizes(effect_sizes_95=None, effect_sizes_80=None):
     """
-    Print the effect sizes of the sensitivity power analysis results.
+    Print the effect sizes of the sensitivity power analysis results. Power can be 95% and 80%. Multiple effect sizes
+    can be provided in a dictionary.
 
     Parameters
     ----------
-    effect_sizes: list of strings
-        Strings displaying the effect sizes.
+    effect_sizes_95: dict
+        effect sizes for 95% power
+        keys are the effect size names, values are the effect sizes
+    effect_sizes_80: dict
+        effect sizes for 80% power
 
     Returns
     -------
     str
         String to be added to the output
     """
-    effect_sizes_string = ''.join(effect_sizes)
-    if effect_sizes_string:
-        text_result = _('Sensitivity power analysis. Minimal effect size to reach 95% power with the present '
-                         'sample size for the present hypothesis test.') + ' ' + effect_sizes_string + ('\n')
+    if effect_sizes_95 is None:
+        effect_sizes_95 = {}
+    if effect_sizes_80 is None:
+        effect_sizes_80 = {}
+
+    effect_sizes_95_str = ''
+    for effect_size_name in effect_sizes_95:
+        if effect_sizes_95[effect_size_name]:
+            effect_sizes_95_str += _('Minimal effect size in %s') % effect_size_name + ': %0.2f. ' % \
+                                   effect_sizes_95[effect_size_name]
+
+    effect_sizes_80_str = ''
+    for effect_size_name in effect_sizes_80:
+        if effect_sizes_80[effect_size_name]:
+            effect_sizes_80_str += _('Minimal effect size in %s') % effect_size_name + ': %0.2f. ' % \
+                                   effect_sizes_80[effect_size_name]
+
+    if effect_sizes_95_str or effect_sizes_80_str:
+        text_result = _('Sensitivity power analysis') + '.\n'
+        if effect_sizes_95_str:
+            text_result += _('Minimal effect size to reach 95% power with the present '
+                           'sample size for the present hypothesis test') + '. ' + effect_sizes_95_str + '\n'
+        if effect_sizes_80_str:
+            text_result += _('Minimal effect size to reach 80% power with the present '
+                             'sample size for the present hypothesis test') + '. ' + effect_sizes_80_str + '\n'
     else:
-        text_result = _('Sensitivity power could not be calculated.') + ('\n')
+        text_result = _('Sensitivity power could not be calculated.') + '\n'
     return text_result
 
 
@@ -147,7 +174,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     # A, p = sm.stats.normal_ad(data)
     # text_result += _('Anderson–Darling normality test in variable %s%s') %(var_name, ' (%s: %s)' %
     #               (group_name, group_value) if group_name else '') + ': <i>A<sup>2</sup></i> =
-    #               %0.3g, %s\n' %(A, cs_util.print_p(p))
+    #               %0.3g, %s\n' %(A, print_p(p))
     # text_result += _('Testing normality with the Anderson–Darling test: <i>A<sup>2</sup></i> = %0.3g,
     #                critical values: %r, sig_levels: %r \n') %stats.anderson(data, dist='norm')
     # text_result += _("Testing normality with the D'Agostin and Pearson method")+': <i>k2</i> = %0.3g, <i>p</i> =
@@ -207,19 +234,19 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         text_result = ''
 
         # Sensitivity power analysis
-        if run_power_analysis:
-            # statsmodels may fail, see its API documentation
-            try:
-                from statsmodels.stats.power import TTestPower
-                power_analysis = TTestPower()
-                d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
-                                power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
-                                                           alternative='two-sided')
-            except ValueError:
-                d_effect_size = ''
-            text_result += print_sensitivity_effect_sizes([d_effect_size])
-
-                # d: (mean divided by the standard deviation)
+        # statsmodels may fail, see its API documentation
+        # d: (mean divided by the standard deviation)
+        try:
+            from statsmodels.stats.power import TTestPower
+            power_analysis = TTestPower()
+            effect_size_95 = {_('d'): power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05,
+                                                                 power=0.95, alternative='two-sided')}
+            effect_size_80 = {_('d'): power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05,
+                                                                 power=0.80, alternative='two-sided')}
+        except ValueError:
+            effect_size_95 = {_('d'): None}
+            effect_size_80 = {_('d'): None}
+        text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value) + ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
@@ -260,7 +287,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
             r_test = robjects.r('wilcox.test')
             r_result = r_test(r_data, mu=float(value))
             v, p = r_result[0][0], r_result[2][0]
-            text_result += _('Result of Wilcoxon signed-rank test')+': <i>W</i> = %0.3g, %s\n' % (v, cs_util.print_p(p))
+            text_result += _('Result of Wilcoxon signed-rank test')+': <i>W</i> = %0.3g, %s\n' % (v, print_p(p))
         '''
         T, p = stats.wilcoxon(np.array(pdf[var_name] - float(value)), correction=True)
         # we need to convert the pandas dataframe to numpy array because pdf cannot be always handled
@@ -766,18 +793,19 @@ def paired_t_test(pdf, var_names):
     text_result = ''
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        # statsmodels may fail, see its API documentation
-        try:
-            from statsmodels.stats.power import TTestPower
-            power_analysis = TTestPower()
-            d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
-                            power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05, power=0.95,
-                                                       alternative='two-sided')
-        except ValueError:
-            d_effect_size = ''
-        text_result += print_sensitivity_effect_sizes([d_effect_size])
-        # d: (mean divided by the standard deviation of the differences)
+    # statsmodels may fail, see its API documentation
+    # d: (mean divided by the standard deviation of the differences)
+    try:
+        from statsmodels.stats.power import TTestPower
+        power_analysis = TTestPower()
+        effect_size_95 = {_('d'): power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05,
+                                                             power=0.95, alternative='two-sided')}
+        effect_size_80 = {_('d'): power_analysis.solve_power(effect_size=None, nobs=len(variables), alpha=0.05,
+                                                             power=0.80, alternative='two-sided')}
+    except ValueError:
+        effect_size_95 = {_('d'): None}
+        effect_size_80 = {_('d'): None}
+    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
 
     df = len(variables) - 1
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
@@ -896,8 +924,8 @@ def repeated_measures_anova(pdf, var_names, factors=None):
         # (alternatively, one might set it later in the long format directly)
         temp_var_names = ['']
         for factor in factors:
-            # TODO this will not work if the factor name includes the current separator (_)
-            temp_var_names = [previous_var_name+'_'+factor[0]+str(i)
+            # # this will not work if the factor name includes the current separator (_!ß_) - but who would us it?
+            temp_var_names = [previous_var_name+'_!ß_'+factor[0]+str(i)
                               for previous_var_name in temp_var_names for i in range(factor[1])]
         temp_var_names = [temp_var_name[1:] for temp_var_name in temp_var_names]
         #print(temp_var_names)
@@ -906,7 +934,7 @@ def repeated_measures_anova(pdf, var_names, factors=None):
         pdf_temp.columns = temp_var_names
         pdf_temp = pdf_temp.assign(ID=pdf_temp.index)
         pdf_long = pd.melt(pdf_temp, id_vars='ID', value_vars=temp_var_names)
-        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_', expand=True).
+        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_!ß_', expand=True).
                              rename(columns={i: factors[i][0] for i in range(len(factors))})], axis=1)
 
         # Run ANOVA
@@ -995,8 +1023,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 if not norm:
                     result_ht += '<cs_decision>' + _('Normality is violated in variable ') + var_names[0] + ', ' + \
                                  _('group ') + str(group) + '.\n</cs_decision>'
-                    result_ht += '<cs_decision>>> ' + _('Running Mann–Whitney test.') + '\n</cs_decision>'
-                    result_ht += mann_whitney_test(df, var_names[0], groups[0])
+                    result_ht += '<cs_decision>>> ' + _('Running Brunner–Munzel test') + '-\n</cs_decision>'
+                    result_ht += brunner_munzel_test(df, var_names[0], groups[0])
                 else:
                     result_ht += '<cs_decision>' + _('Normality is not violated. >> Running modified t-test.') + \
                                  '\n</cs_decision>'
@@ -1004,8 +1032,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                                  single_case_slope_SE else None, single_case_slope_trial_n)
             else:
                 result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
-                             _("Choosing two sample t-test, Mann–Whitney test or Welch's t-test depending on "
-                               "assumptions.") + '\n</cs_decision>'
+                             _("Choosing two sample t-test, Brunner–Munzel test or Welch's t-test depending on "
+                               "assumptions") + '.\n</cs_decision>'
                 result_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
                 non_normal_groups = []
                 for group in group_levels:
@@ -1029,8 +1057,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
                 elif non_normal_groups:
                     result_ht += '<cs_decision>' + _('Normality is violated in variable %s, group(s) %s.') % \
                                  (var_names[0], ', '.join(map(str, non_normal_groups))) + ' >> ' + \
-                                 _('Running Mann–Whitney test.') + '\n</cs_decision>'
-                    result_ht += mann_whitney_test(df, var_names[0], groups[0])
+                                 _('Running Brunner–Munzel test') + '.\n</cs_decision>'
+                    result_ht += brunner_munzel_test(df, var_names[0], groups[0])
                 elif not homogeneity_vars:
                     result_ht += '<cs_decision>' + _('Homogeneity of variance violated in variable %s.') % \
                                  var_names[0] + ' >> ' + _("Running Welch's t-test.") + '\n</cs_decision>'
@@ -1038,8 +1066,8 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
 
         elif meas_level == 'ord':
             result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + _(
-                'Running Mann–Whitney test.') + '</cs_decision>\n'
-            result_ht += mann_whitney_test(df, var_names[0], groups[0])
+                'Running Brunner–Munzel test') + '.</cs_decision>\n'
+            result_ht += brunner_munzel_test(df, var_names[0], groups[0])
         elif meas_level == 'nom':
             result_ht += '<cs_decision>' + _('Nominal variable.') + ' >> ' + _(
                 'Running chi-squared test.') + ' ' + '</cs_decision>\n'
@@ -1172,18 +1200,19 @@ def independent_t_test(pdf, var_name, grouping_name):
     t, p, df = ttest_ind(var1, var2)
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        try:
-            # statsmodels may fail, see its API documentation
-            from statsmodels.stats.power import TTestIndPower
-            power_analysis = TTestIndPower()
-            d_effect_size = _('Minimal effect size in %s') % _('d') + ': %0.2f. ' % \
-                            power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
-                                                       ratio=len(var2) / len(var1), alternative='two-sided')
-        except ValueError:
-            d_effect_size = ''
-        text_result += print_sensitivity_effect_sizes([d_effect_size])
-        # d: (difference between the two means divided by the standard deviation)
+    # d: (difference between the two means divided by the standard deviation)
+    try:
+        # statsmodels may fail, see its API documentation
+        from statsmodels.stats.power import TTestIndPower
+        power_analysis = TTestIndPower()
+        effect_size_95 = {_('d'): power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.95,
+                                                             ratio=len(var2) / len(var1), alternative='two-sided')}
+        effect_size_80 = {_('d'): power_analysis.solve_power(effect_size=None, nobs1=len(var1), alpha=0.05, power=0.80,
+                                                             ratio=len(var2) / len(var1), alternative='two-sided')}
+    except ValueError:
+        effect_size_95 = {_('d'): None}
+        effect_size_80 = {_('d'): None}
+    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.*f, %s\n' % \
                    (df, non_data_dim_precision, t, print_p(p))
@@ -1279,6 +1308,33 @@ def mann_whitney_test(pdf, var_name, grouping_name):
     return text_result
 
 
+def brunner_munzel_test(pdf, var_name, grouping_name):
+    """Brunner-Munzel test
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_name : str
+    grouping_name : str
+
+    Returns
+    -------
+    str
+        results of the test
+    """
+
+    # alternative implementation:
+    # https://www.statsmodels.org/stable/generated/statsmodels.stats.nonparametric.rank_compare_2indep.html
+
+    # TODO use the permutation Brunner-Munzel test when the sample size is smaller than 10 in any group
+    # https://github.com/trevismd/permutations-stats
+
+    dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
+    w, p = stats.brunnermunzel(var1, var2, alternative='two-sided')
+    text_result = _('Result of the Brunner–Munzel test') + ': <i>W</i> = %0.*f, %s\n' % \
+                   (non_data_dim_precision, w, print_p(p))
+    return text_result
+
 def one_way_anova(pdf, var_name, grouping_name):
     """One-way ANOVA
 
@@ -1294,33 +1350,38 @@ def one_way_anova(pdf, var_name, grouping_name):
     data = pdf[[var_name] + [grouping_name]]
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        # 1. Calculate effect size in F
-        # statsmodels may fail, see its API documentation
-        try:
-            from statsmodels.stats.power import FTestAnovaPower
-            power_analysis = FTestAnovaPower()
-            F_effect_size = _('Minimal effect size in %s') % _('f') + ': %0.2f. ' % \
-                                     power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05,
-                                                                power=0.95, k_groups=len(set(data[grouping_name])))
-        except ValueError:
-            F_effect_size = ''
+    # 1. Calculate effect size in F
+    # statsmodels may fail, see its API documentation
+    effect_size_95 = {}
+    effect_size_80 = {}
+    try:
+        from statsmodels.stats.power import FTestAnovaPower
+        power_analysis = FTestAnovaPower()
+        effect_size_95[_('f')] = power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.95,
+                                                            k_groups=len(set(data[grouping_name])))
+        effect_size_80[_('f')] = power_analysis.solve_power(effect_size=None, nobs=len(data), alpha=0.05, power=0.80,
+                                                            k_groups=len(set(data[grouping_name])))
+    except ValueError:
+        effect_size_95[_('f')] = None
+        effect_size_80[_('f')] = None
 
-        # 2. Calculate effect size in eta-square
-        # pingouin may fail in calculating the effect size, see its API documentation
-        try:
-            eta_square = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
-                                              k=len(set(data[grouping_name])))
-        except TypeError:  # in pingouin 0.5.2 eta was renamed to eta_squared
-            eta_square = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.95,
-                                              k=len(set(data[grouping_name])))
-        if np.isnan(eta_square):
-            eta_square_effect_size = ''
-        else:
-            eta_square_effect_size = _('Minimal effect size in %s') % _('eta-square') + ': %0.2f. ' % eta_square
+    # 2. Calculate effect size in eta-square
+    # pingouin may fail in calculating the effect size, see its API documentation
+    try:
+        eta_square_95 = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.95,
+                                             k=len(set(data[grouping_name])))
+        eta_square_80 = pingouin.power_anova(eta=None, n=len(data), alpha=0.05, power=0.80,
+                                             k=len(set(data[grouping_name])))
+    except TypeError:  # in pingouin 0.5.2 eta was renamed to eta_squared
+        eta_square_95 = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.95,
+                                             k=len(set(data[grouping_name])))
+        eta_square_80 = pingouin.power_anova(eta_squared=None, n=len(data), alpha=0.05, power=0.80,
+                                             k=len(set(data[grouping_name])))
+    effect_size_95[_('eta-square')] = None if np.isnan(eta_square_95) else eta_square_95
+    effect_size_80[_('eta-square')] = None if np.isnan(eta_square_80) else eta_square_80
 
-        # 3. Create output text
-        text_result += print_sensitivity_effect_sizes([F_effect_size, eta_square_effect_size])
+    # 3. Create output text
+    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
 
     # FIXME https://github.com/cogstat/cogstat/issues/136
     anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (var_name, grouping_name)), data=data).fit()
@@ -1471,27 +1532,30 @@ def chi_squared_test(pdf, var_name, grouping_name):
     cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])
 
     # Sensitivity power analysis
-    if run_power_analysis:
-        # statsmodels may fail, see its API documentation # TODO after changing to pingouin, do we still need "try:"?
-        try:
-            # For a test of independence, df = (Rows − 1)×(Cols − 1)
-            # https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test#Definition
-            w_effect_size = _('Minimal effect size in %s') % _('w') + ': %0.2f. ' % \
-                            pingouin.power_chi2(dof=(cont_table_data.shape[0] - 1) * (cont_table_data.shape[1] - 1),
-                                                w=None, n=cont_table_data.values.sum(), power=0.95, alpha=0.05)
+    # statsmodels may fail, see its API documentation # TODO after changing to pingouin, do we still need "try:"?
+    try:
+        # For a test of independence, df = (Rows − 1)×(Cols − 1)
+        # https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test#Definition
+        effect_size_95 = {_('w'): pingouin.power_chi2(dof=(cont_table_data.shape[0] - 1) *
+                                                          (cont_table_data.shape[1] - 1),
+                                                      w=None, n=cont_table_data.values.sum(), power=0.95, alpha=0.05)}
+        effect_size_80 = {_('w'): pingouin.power_chi2(dof=(cont_table_data.shape[0] - 1) *
+                                                          (cont_table_data.shape[1] - 1),
+                                                      w=None, n=cont_table_data.values.sum(), power=0.80, alpha=0.05)}
 
-            """An alternative method is to use statsmodels' solution, but its result is not consistent with the G*Power
-            result and with pingouin's solution. See https://github.com/cogstat/cogstat/issues/207. 
-            
-            from statsmodels.stats.power import GofChisquarePower
-            power_analysis = GofChisquarePower()
-            print(power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
-                                                       alpha=0.05, power=0.95,
-                                                       n_bins=(cont_table_data.shape[0] - 1) *
-                                                              (cont_table_data.shape[1] - 1) + 1))"""
-        except ValueError:
-            w_effect_size = ''
-        text_result += print_sensitivity_effect_sizes([w_effect_size])
+        """An alternative method is to use statsmodels' solution, but its result is not consistent with the G*Power
+        result and with pingouin's solution. See https://github.com/cogstat/cogstat/issues/207. 
+        
+        from statsmodels.stats.power import GofChisquarePower
+        power_analysis = GofChisquarePower()
+        print(power_analysis.solve_power(effect_size=None, nobs=cont_table_data.values.sum(),
+                                                   alpha=0.05, power=0.95,
+                                                   n_bins=(cont_table_data.shape[0] - 1) *
+                                                          (cont_table_data.shape[1] - 1) + 1))"""
+    except ValueError:
+        effect_size_95 = {_('w'): None}
+        effect_size_80 = {_('w'): None}
+    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
 
     # Hypothesis test
     chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
@@ -1500,3 +1564,108 @@ def chi_squared_test(pdf, var_name, grouping_name):
                   (dof, cont_table_data.values.sum(), non_data_dim_precision, chi2, print_p(p))
 
     return text_result
+
+
+def decision_mixed_design(data, meas_level, var_names, factors, grouping_variables):
+    """
+
+    Parameters
+    ----------
+    data : pandas dataframe
+    meas_level :
+    var_names :
+    factors :
+    grouping_variables : list of str
+
+    Returns
+    -------
+
+    """
+
+    result_ht = '<cs_decision>'
+    if meas_level in ['int', 'unk']:
+        result_ht += _('Testing if the means are the same.') + '</cs_decision>\n'
+    elif meas_level == 'ord':
+        result_ht += _('Testing if the medians are the same.') + '</cs_decision>\n'
+    elif meas_level == 'nom':
+        result_ht += _('Testing if the distributions are the same.') + '</cs_decision>\n'
+
+    result_ht += '<cs_decision>' + _('Repeated measures and grouping variables') + '.</cs_decision>'
+    if meas_level == 'int':
+        result_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
+                     _('Choosing mixed ANOVA') + '.\n</cs_decision>'
+        result_ht += mixed_anova(data, var_names, factors, grouping_variables)
+    elif meas_level == 'ord':
+        result_ht += '<cs_decision>' + _('Ordinal variable.') + ' >> ' + \
+                     _('Sorry, not implemented yet.') + '</cs_decision>\n'
+    elif meas_level == 'nom':
+        result_ht += '<cs_decision>' + _('Nominal variable.') + ' >> ' + \
+                     _('Sorry, not implemented yet.') + ' ' + '</cs_decision>\n'
+    return result_ht
+
+
+def mixed_anova(pdf, var_names, factors, grouping_variables):
+    """
+
+    Parameters
+    ----------
+    pdf : pandas dataframe
+    var_names :
+    factors :
+    grouping_variables : list of str
+
+    Returns
+    -------
+
+    """
+
+    # at the moment, not available in Python (pingouin can run 2-way ANOVA, statsmodels cannot run mixed ANOVA)
+    if csc.versions['r']:
+        pandas2ri.activate()
+        base = importr('base')
+        ez = importr('ez')
+
+        # Prepare the dataset for the ANOVA
+        # new temporary names are needed to set the independent factors in the long format
+        # (alternatively, one might set it later in the long format directly)
+        temp_var_names = ['']
+        for factor in factors:
+            # this will not work if the factor name includes the current separator (_!ß_) - but who would us it?
+            temp_var_names = [previous_var_name + '_!ß_' + factor[0] + str(i)
+                              for previous_var_name in temp_var_names for i in range(factor[1])]
+        temp_var_names = [temp_var_name[1:] for temp_var_name in temp_var_names]
+        # print(temp_var_names)
+
+        pdf_temp = pdf[var_names]
+        pdf_temp.columns = temp_var_names
+        pdf_temp = pdf_temp.assign(ID=pdf_temp.index)
+        pdf_long = pd.melt(pdf_temp, id_vars='ID', value_vars=temp_var_names)
+        pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_!ß_', expand=True).
+                             rename(columns={i: factors[i][0] for i in range(len(factors))})], axis=1)
+        pdf_long = pdf_long.join(pdf[grouping_variables], on='ID')
+        # replace spaces for R
+        pdf_long.columns = [column.replace(' ', '_') for column in pdf_long.columns]
+        rdf_long = pandas2ri.py2rpy(pdf_long)
+
+        # Run ANOVA
+        anova_r = ez.ezANOVA(data=rdf_long, dv=base.as_symbol('value'), wid=base.as_symbol('ID'),
+                             within=base.as_symbol(robjects.StrVector([factor[0].replace(' ', '_')
+                                                                       for factor in factors])),
+                             between=base.as_symbol(robjects.StrVector(grouping_variables)), type=3)
+        anova_table = pandas2ri.rpy2py_dataframe(anova_r[0]).reset_index(drop=True)
+        #sphericity_check_table = pandas2ri.rpy2py_dataframe(anova_r[1])
+        #sphericity_correction_table = pandas2ri.rpy2py_dataframe(anova_r[2])
+
+        # TODO reverse _s to spaces
+        text_result = _('Result of multi-way ANOVA') + ':\n'
+        for index, effect in anova_table.iterrows():
+            if index < len(factors) + len(grouping_variables):  # Main effects
+                text_result += _('Main effect of %s: ' % effect['Effect'])
+            else:  # Interaction effects
+                text_result += _('Interaction of %s: ') % (' and '.join(effect['Effect'].split(':')))
+            text_result += '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
+                           (effect['DFn'], effect['DFd'], non_data_dim_precision, effect['F'], print_p(effect['p']))
+
+        return text_result
+    else:
+        return _('Sorry, R is not available to run %s') % _('mixed ANOVA') + '.'

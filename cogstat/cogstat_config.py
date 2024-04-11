@@ -6,6 +6,8 @@ All settings that can be set from the Preferences in the GUI, are included in th
 """
 
 import os
+import sys
+import platform
 import shutil
 import configparser
 
@@ -13,10 +15,118 @@ import appdirs  # The module handles the OS-specific user config dirs
 
 # 0. General settings
 output_type = 'ipnb'  # if run from GUI, this is switched to 'gui' any other
-versions = {}  # To be modified from cogstat.py
 test_functions = False  # features can be switched on and off with this
+# TODO do we need this anymore?
+app_devicePixelRatio = 1.0  # this will be overwritten from cogstat_gui; this is needed for high dpi screens
+os.environ['OUTDATED_IGNORE'] = '1'  # otherwise, old pingouin version warning is shown
 
-# 1. Settings from the .ini file
+# 1. versions
+# Find the versions of the different components.
+# Used for diagnostic and for version specific codes.
+
+versions = {}  # To be modified from cogstat.py
+
+versions['platform'] = platform.platform()
+
+# Python components
+versions['python'] = sys.version
+try:
+    import numpy
+    versions['numpy'] = numpy.__version__
+except (ModuleNotFoundError, NameError):
+    versions['numpy'] = None
+try:
+    import pandas
+    versions['pandas'] = pandas.__version__
+    # versions['pandas'] = pandas.version.version
+except (ModuleNotFoundError, NameError):
+    versions['pandas'] = None
+try:
+    import scipy.stats
+    versions['scipy'] = scipy.version.version
+except (ModuleNotFoundError, NameError):
+    versions['scipy'] = None
+try:
+    import statsmodels
+    versions['statsmodels'] = statsmodels.version.version
+except (ModuleNotFoundError, NameError, AttributeError):
+    try:
+        versions['statsmodels'] = statsmodels.__version__
+    except NameError:
+        versions['statsmodels'] = None
+try:
+    import pingouin
+    versions['pingouin'] = pingouin.__version__
+except (ModuleNotFoundError, NameError):
+    versions['pingouin'] = None
+try:
+    import matplotlib
+    versions['matplotlib'] = matplotlib.__version__
+    versions['matplotlib_backend'] = matplotlib.get_backend()
+except (ModuleNotFoundError, NameError):
+    versions['matplotlib'] = None
+    versions['matplotlib_backend'] = None
+try:
+    from PyQt6.QtCore import PYQT_VERSION_STR
+    versions['pyqt'] = PYQT_VERSION_STR
+    # PyQt style can be checked only if the window is open and the object
+    # is available
+    # It is GUI specific
+    # versions['pyqtstyle'] =
+    # main_window.style().metaObject().className()
+except (ModuleNotFoundError, NameError):
+    versions['pyqt'] = None
+    # versions['pyqtstyle'] = None
+
+# R components
+try:
+    # rpy2 tries to find R in PATH or in R_HOME https://rpy2.github.io/doc/v3.5.x/html/rinterface.html
+    # "If calling initr() returns an error stating that R_HOME is not defined, you should either have the R executable
+    # in your path (PATH on unix-alikes, or Path on Microsoft Windows) or have the environment variable R_HOME defined."
+    #
+    # First, let's check if CS is used from an application version where R is also copied next to Python and CS, and
+    # R can be reached with the appropriate relative path. If this is the case, set R_HOME to that path.
+    if os.path.exists('R_CS'):  # in an installed/application version, R is included in this relative path; this
+                                # specific name (unlike R) is unlikely to exist in any directory the script is started
+                                # from
+        os.environ['R_HOME'] = 'R_CS'
+    # Otherwise, use PATH or R_HOME which was set either by the R installation, or by the user
+    # (e.g., if they want to specify the version to use among several installed versions).
+    # Note that R_HOME may not be set in Windows after installation. https://github.com/rpy2/rpy2/issues/796
+
+    # It is not trivial to check if R is available. We want to avoid Fatal error, and use exception instead. Also, what
+    # works on Linux, does not work on Windows, and the other way around. Specifically:
+    # - In Linux, robjects causes Fatal error, but rpy2.rinterface.initr() raises an exception.
+    # - In Windows, rpy2.rinterface.initr() raises _csv.Error even if the path is correct. So we can't use it in
+    # Windows. However, when the R_HOME is incorrect, robjects raises OSError exception, so it can be used.
+    # Note that initr() cannot be run multiple times, so this cannot be used repeatedly to check R availability.
+    if sys.platform.startswith('linux'):
+        import rpy2.rinterface
+        rpy2.rinterface.initr()
+        import rpy2.robjects as robjects
+        versions['r'] = robjects.r('version')[-2][0]
+    elif sys.platform == 'win32':
+        import rpy2.robjects as robjects
+        versions['r'] = robjects.r('version')[-2][0]
+    # TODO solution for Mac
+except (ModuleNotFoundError, NameError, FileNotFoundError, OSError):
+    versions['r'] = None
+try:
+    import rpy2
+    versions['rpy2'] = rpy2.__version__
+except (ModuleNotFoundError, NameError):
+    versions['rpy2'] = None
+'''
+try:
+    from rpy2.robjects.packages import importr
+    importr('car')
+    versions['car'] = True
+except:
+    versions['car'] = None
+'''
+
+
+# 2. Settings from the .ini file
 # Handle cogstat.ini file in user config dirs
 dirs = appdirs.AppDirs('cogstat')
 
@@ -55,8 +165,8 @@ image_format = config['Preferences']['image_format']
 detailed_error_message = False if config['Preferences']['detailed_error_message'] == 'False' else True
 
 
-# 2. Other settings
-# Output settings
+# 3. Other text and chart formatting settings
+# Text formatting settings
 default_font = 'arial'
 default_font_size = 9.5
 # Define cs specific tags as html tags

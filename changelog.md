@@ -1,11 +1,29 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
+Upcoming version
+================
+## New features
+- Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
+- Mixed design ANOVA
+- Effect size for 80% power is displayed beyond the 95% power version (thanks to Maja Lebeničnik)
+- Simplified diffusion analysis report
+- Help buttons on dialogs
+- Ability to reload data file automatically when file is changed
+- Ability to rerun analyses when file is reloaded
+- Ability to open data file with external editor
+- New demo data files https://www.crumplab.com/statisticsLab/ (Evelin Haász)
+- Python package: results are returned in a dictionary
+- Continuing support for Spanish localization (Mabel Galai)
+
+## Fixes
+- Output, localization, and GUI fixes
+
 2.4.1 (29 October 2023)
 =======================
 
 ## Fixes
-- Data import fixes 
+- Data import regression fixes
 
 2.4 (12 September 2023)
 =======================

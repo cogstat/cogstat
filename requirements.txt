@@ -14,6 +14,8 @@ appdirs
 python-bidi
 IPython
 Jupyter
-PyQt5
+PyQt6
 scikit-learn
 svgutils
+rpy2
+# R packages: ez
