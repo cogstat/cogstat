@@ -1571,9 +1571,10 @@ class CogStatData:
             results['analysis info'] += _("Sorry, you can't compare variables with different measurement levels."
                        " You could downgrade higher measurement levels to lowers to have the same measurement level.")\
                      + '\n'
-        factor_names = [factor[0] for factor in factors]
-        if len(set(factor_names)) != len(factor_names):
-            results['warning'] += _('Use unique names for each factor.')
+        if factors:
+            factor_names = [factor[0] for factor in factors]
+            if len(set(factor_names)) != len(factor_names):
+                results['warning'] += _('Use unique names for each factor.')
         if results['warning']:
             return cs_util.convert_output(results)
         else:
