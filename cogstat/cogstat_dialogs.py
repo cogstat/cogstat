@@ -1050,6 +1050,12 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
 
+    def update_displayfactors(self):
+        """Update self.displayfactors when groups are changed (and potentially displayfactors are not set afterward."""
+        self.display_options_groups_dialog.\
+            set_factors(factors=[str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
+        self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
+
     def help(self):
         webbrowser.open('https://doc.cogstat.org/Compare-groups')
 
@@ -1060,8 +1066,10 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
 
     def add_group(self):
         _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+        self.update_displayfactors()
     def remove_group(self):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
+        self.update_displayfactors()
 
     def on_slopeButton_clicked(self):
         if self.slope_dialog.exec():
