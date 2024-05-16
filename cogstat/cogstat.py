@@ -587,7 +587,7 @@ class CogStatData:
         results['analysis info'] = ''
         if show_heading:
             results['analysis info'] += '<cs_h1>' + _('Data') + '</cs_h1>'
-        results['analysis info'] += (_('Source: ') + self.import_source[0] +
+        results['analysis info'] += (_('Source: ') + self.import_source[0] + ' ' +
                                      (self.import_source[1] if self.import_source[1] else '') + '\n')
         results['analysis info'] += (str(len(self.data_frame.columns)) + _(' variables and ') +
                                      str(len(self.data_frame.index)) + _(' cases') + '\n')
