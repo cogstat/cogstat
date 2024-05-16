@@ -130,8 +130,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
 #        self.compare_variables(['CONDITION', 'CONDITION2', 'CONDITION3'])
 #        self.compare_groups(['slope'], ['group'],  ['slope_SE'], 25)
 #        self.compare_groups(['b'], groups=['i', 'j']),
-#        self.compare_groups(['b'], groups=['i', 'j', 'k'], display_groups=[['k', 'i'], ['j'], []]),
-#        self.compare_groups(['b'], groups=['i', 'j'], display_groups=[['i'], ['j'], []])
+#        self.compare_groups(['b'], groups=['i', 'j', 'k'], display_factors=[['k', 'i'], ['j'], []]),
+#        self.compare_groups(['b'], groups=['i', 'j'], display_factors=[['i'], ['j'], []])
 #        self.compare_groups(['X'], ['TIME', 'CONDITION'])
 #        self.compare_groups(['dep_nom'], ['g0', 'g1', 'g2', 'g3'])
 #        self.compare_variables_groups(var_names=['a', 'e', 'f'], groups=['i'], display_factors=[['i', _('Unnamed factor')], [], []])
@@ -1045,7 +1045,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                            parameters={'var_names': var_names, 'factors': factors, 'display_factors': display_factors,
                                        'ylims': ylims})
 
-    def compare_groups(self, var_names=None, groups=None, display_groups=None,
+    def compare_groups(self, var_names=None, groups=None, display_factors=None,
                        single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """Compare groups.
@@ -1057,7 +1057,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if not var_names:
             self.dial_comp_grp.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_grp.exec():
-                var_names, groups, display_groups, single_case_slope_SE, single_case_slope_trial_n, ylims = \
+                var_names, groups, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
                     self.dial_comp_grp.read_parameters()  # TODO check if settings are appropriate
                 if var_names == []:
                     var_names = [None]  # compare_groups() method handles the missing parameters
@@ -1066,7 +1066,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         for i, var_name in enumerate(var_names):
             self._run_analysis(title=_('Compare groups'), function_name='self.active_data.compare_groups',
                                parameters={'var_name': var_name, 'grouping_variables': groups,
-                                           'display_groups': display_groups,
+                                           'display_factors': display_factors,
                                            'single_case_slope_SE': single_case_slope_SE,
                                            'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims},
                                scroll_to_analysis=not i)
