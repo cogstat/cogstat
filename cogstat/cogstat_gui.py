@@ -1080,7 +1080,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if factors is None:
             factors = []
         if display_factors is None:
-            display_factors = [[factor[0] for factor in factors] if factors else [], []]
+            display_factors = groups + [[factor[0] for factor in factors] if factors else [], []]
         if not var_names:
             self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var_groups.exec():

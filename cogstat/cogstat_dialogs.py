@@ -1189,8 +1189,25 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
     def add_group(self):
         if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
             _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+
+            # modify self.displayfactors too because the user possibly changed the groups without changing the
+            #  display options (where self.displayfactors are set)
+            self.display_options_mixed_dialog. \
+                set_factors(factors=[str(self.group_listWidget.item(i).text())
+                                     for i in range(self.group_listWidget.count())] +
+                                    [factor[0] for factor in self.factors])
+            self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+
     def remove_group(self):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
+
+        # modify self.displayfactors too because the user possibly changed the groups without changing the
+        #  display options (where self.displayfactors are set)
+        self.display_options_mixed_dialog. \
+            set_factors(factors=[str(self.group_listWidget.item(i).text())
+                                 for i in range(self.group_listWidget.count())] +
+                                [factor[0] for factor in self.factors])
+        self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
 
     def show_factors(self):
         """Display factor names and the levels and the variable names
