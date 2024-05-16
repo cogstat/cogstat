@@ -1171,6 +1171,19 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
 
+    def update_displayfactors(self):
+        """Update self.displayfactors
+
+        Whenever the factors or the groups are modified, the self-displayfactors should be updated, otherwise, if the
+        user does not set displayfactor after setting the factors and groups, displayfactor will not include the
+        same factors and groups that the user set.
+        """
+        self.display_options_mixed_dialog. \
+            set_factors(factors=[str(self.group_listWidget.item(i).text())
+                                 for i in range(self.group_listWidget.count())] +
+                                [factor[0] for factor in self.factors])
+        self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+
     def help(self):
         webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables-and-groups')
 
@@ -1192,22 +1205,14 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
             # modify self.displayfactors too because the user possibly changed the groups without changing the
             #  display options (where self.displayfactors are set)
-            self.display_options_mixed_dialog. \
-                set_factors(factors=[str(self.group_listWidget.item(i).text())
-                                     for i in range(self.group_listWidget.count())] +
-                                    [factor[0] for factor in self.factors])
-            self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+            self.update_displayfactors()
 
     def remove_group(self):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
 
         # modify self.displayfactors too because the user possibly changed the groups without changing the
         #  display options (where self.displayfactors are set)
-        self.display_options_mixed_dialog. \
-            set_factors(factors=[str(self.group_listWidget.item(i).text())
-                                 for i in range(self.group_listWidget.count())] +
-                                [factor[0] for factor in self.factors])
-        self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+        self.update_displayfactors()
 
     def show_factors(self):
         """Display factor names and the levels and the variable names
@@ -1281,11 +1286,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                     self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchFlag.MatchExactly)[0]))
             # modify self.displayfactors too because the user possibly changed the factors without changing the
             #  display options (where self.displayfactors are set)
-            self.display_options_mixed_dialog. \
-                set_factors(factors=[str(self.group_listWidget.item(i).text())
-                                     for i in range(self.group_listWidget.count())] +
-                                    [factor[0] for factor in self.factors])
-            self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+            self.update_displayfactors()
 
     def display_options_button_clicked(self):
         # If there are several variables but no factors are given, then create a default factor name that can be used in
