@@ -214,7 +214,10 @@ class CogStatData:
             """
             convert_dtypes = [['bool', 'object'],  # although 'string' type is recommended, patsy cannot handle it
                               ['Int32', 'int32'],
-                              ['Int64', 'int64'], ['Int64', 'float64'],
+                              ['Int64', 'int64'],
+                              # previously we had this; why is it needed? this way it converts some integers to float
+                              # which should be avoided
+                              # ['Int64', 'float64'],
                               ['category', 'object'],
                               ['Float64', 'float64']]
             for old_dtype, new_dtype in convert_dtypes:
