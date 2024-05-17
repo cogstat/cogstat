@@ -28,7 +28,6 @@ from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
 from . import cogstat_stat_num as cs_stat_num
 
-matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
 def set_matplotlib_theme():
     """Function to set the matplotlib theme. This is in a function so that the theme can be changed right after it is
@@ -106,6 +105,8 @@ def set_matplotlib_theme():
 
 theme_colors = None
 set_matplotlib_theme()
+# Set rcParams after setting plt.style.use(), otherwise rcParams will be overwritten by the style
+matplotlib.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
