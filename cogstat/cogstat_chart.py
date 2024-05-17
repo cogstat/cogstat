@@ -471,6 +471,7 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name):
         freqs = [list(data).count(i) for i in values]
         locs = np.arange(len(values))
         plt.title(_plt('Histogram'))
+        plt.xlabel(var_name)
         plt.bar(locs, freqs, 0.9, color=theme_colors[0])
         plt.xticks(locs+0.9/2., _wrap_labels(values))
         plt.ylabel(_plt('Frequency'))
