@@ -107,6 +107,7 @@ theme_colors = None
 set_matplotlib_theme()
 # Set rcParams after setting plt.style.use(), otherwise rcParams will be overwritten by the style
 matplotlib.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
+matplotlib.rcParams['figure.autolayout'] = True  # tight layout; seems to be working better than the constrained layout
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
