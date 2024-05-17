@@ -842,7 +842,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                     except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
                         pass
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:  # variable name only (without factor name and level)  # TODO does this ever happen? can we remove this?
+            else:  # variable name only (without factor name and level); needed when factor is added
                 try:
                     self.source_listWidget.insertItem(
                         _find_previous_item_position(self.source_listWidget, self.names, item.text()),
@@ -1249,7 +1249,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                     except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
                         pass
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:  # variable name only (without factor name and level)  # TODO does this ever happen? can we remove this?
+            else:  # variable name only (without factor name and level);  needed when factor is added
                 try:
                     self.source_listWidget.insertItem(
                         _find_previous_item_position(self.source_listWidget, self.names, item.text()),
