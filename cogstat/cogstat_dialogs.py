@@ -806,6 +806,8 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
     def init_vars(self, names):
         self.names = names
+        if self.factors:
+            self.show_factors()
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def help(self):
@@ -832,16 +834,22 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             item = self.selected_listWidget.takeItem(0)
             if ' :: ' in item.text():  # factor name and level are present
                 if not item.text().endswith(' :: '):  # variable name is also present
-                    self.source_listWidget.insertItem(
-                        _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
-                        item.text().split(' :: ')[1])
-                    previously_used_vars.append(item.text().split(' :: ')[1])
+                    try:
+                        self.source_listWidget.insertItem(
+                            _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                            item.text().split(' :: ')[1])
+                        previously_used_vars.append(item.text().split(' :: ')[1])
+                    except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                        pass
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:  # variable name only (without factor name and level)
-                self.source_listWidget.insertItem(
-                    _find_previous_item_position(self.source_listWidget, self.names, item.text()),
-                    item.text())
-                previously_used_vars.append(item.text())
+            else:  # variable name only (without factor name and level)  # TODO does this ever happen? can we remove this?
+                try:
+                    self.source_listWidget.insertItem(
+                        _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                        item.text())
+                    previously_used_vars.append(item.text())
+                except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                    pass
         #print(previously_used_vars)
 
         # add new empty factor levels
@@ -1176,6 +1184,8 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
     def init_vars(self, names):
         self.names = names
+        if self.factors:
+            self.show_factors()
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
 
@@ -1231,16 +1241,22 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             item = self.selected_listWidget.takeItem(0)
             if ' :: ' in item.text():  # factor name and level are present
                 if not item.text().endswith(' :: '):  # variable name is also present
-                    self.source_listWidget.insertItem(
-                        _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
-                        item.text().split(' :: ')[1])
-                    previously_used_vars.append(item.text().split(' :: ')[1])
+                    try:
+                        self.source_listWidget.insertItem(
+                            _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                            item.text().split(' :: ')[1])
+                        previously_used_vars.append(item.text().split(' :: ')[1])
+                    except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                        pass
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:  # variable name only (without factor name and level)
-                self.source_listWidget.insertItem(
-                    _find_previous_item_position(self.source_listWidget, self.names, item.text()),
-                    item.text())
-                previously_used_vars.append(item.text())
+            else:  # variable name only (without factor name and level)  # TODO does this ever happen? can we remove this?
+                try:
+                    self.source_listWidget.insertItem(
+                        _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                        item.text())
+                    previously_used_vars.append(item.text())
+                except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                    pass
         #print(previously_used_vars)
 
         # add new empty factor levels
