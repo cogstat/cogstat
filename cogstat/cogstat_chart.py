@@ -1886,7 +1886,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 within_indep_x = [indep_x_item for indep_x_item in indep_x if indep_x_item in within_indep_names]
                 # Select the factor level combinations that include within-subject variables
                 factor_level_combinations = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).dtypes.index.to_frame()[within_indep_x]
-                factor_level_combinations.sort_index(axis='columns', level=within_indep_names, inplace=True)
+                factor_level_combinations.sort_index(axis='index', level=within_indep_names, inplace=True)  # TODO is this needed?
                 # Find the appropriate names for the factor level combinations
                 var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
                 if show_factor_names_on_x_axis and (indep_x[0] != _('Unnamed factor')):
