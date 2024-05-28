@@ -1,7 +1,7 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
-2.5 (April 2024)
+2.5 (May 2024)
 ================
 ## New features
 - Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
