@@ -4,15 +4,15 @@ Trivial changes when a new feature is added are not denoted.
 2.5 (May 2024)
 ================
 ## New features
-- Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
 - Mixed design ANOVA
-- Effect size for 80% power is displayed beyond the 95% power version (thanks to Maja Lebeničnik)
-- Simplified diffusion analysis report
-- Help buttons on dialogs
+- Effect size for 80% power is displayed in addition to the 95% power version (thanks to Maja Lebeničnik)
+- Brunner-Munzel test instead of Mann-Whitney test (thanks to Maja Lebeničnik)
+- Simplified drift-diffusion analysis report
 - Work with external editor
   - Ability to open data file with external editor
   - Ability to reload data file automatically when file is saved in the external editor
   - Ability to rerun analyses when data file is reloaded
+- Help buttons on dialogs
 - New demo data files https://www.crumplab.com/statisticsLab/ (Evelin Haász)
 - Python package
   - Results are returned in a dictionary
