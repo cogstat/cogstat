@@ -9,11 +9,14 @@ Trivial changes when a new feature is added are not denoted.
 - Effect size for 80% power is displayed beyond the 95% power version (thanks to Maja Lebeničnik)
 - Simplified diffusion analysis report
 - Help buttons on dialogs
-- Ability to reload data file automatically when file is changed
-- Ability to rerun analyses when file is reloaded
-- Ability to open data file with external editor
+- Work with external editor
+  - Ability to open data file with external editor
+  - Ability to reload data file automatically when file is saved in the external editor
+  - Ability to rerun analyses when data file is reloaded
 - New demo data files https://www.crumplab.com/statisticsLab/ (Evelin Haász)
-- Python package: results are returned in a dictionary
+- Python package
+  - Results are returned in a dictionary
+  - Table results are returned as pandas Stylers
 - Continuing support for Spanish localization (Mabel Galai)
 
 ## Fixes
