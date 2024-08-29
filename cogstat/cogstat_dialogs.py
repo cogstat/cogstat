@@ -806,6 +806,8 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
 
     def init_vars(self, names):
         self.names = names
+        if self.factors:
+            self.show_factors()
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget])
 
     def help(self):
@@ -832,16 +834,22 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             item = self.selected_listWidget.takeItem(0)
             if ' :: ' in item.text():  # factor name and level are present
                 if not item.text().endswith(' :: '):  # variable name is also present
-                    self.source_listWidget.insertItem(
-                        _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
-                        item.text().split(' :: ')[1])
-                    previously_used_vars.append(item.text().split(' :: ')[1])
+                    try:
+                        self.source_listWidget.insertItem(
+                            _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                            item.text().split(' :: ')[1])
+                        previously_used_vars.append(item.text().split(' :: ')[1])
+                    except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                        pass
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:  # variable name only (without factor name and level)
-                self.source_listWidget.insertItem(
-                    _find_previous_item_position(self.source_listWidget, self.names, item.text()),
-                    item.text())
-                previously_used_vars.append(item.text())
+            else:  # variable name only (without factor name and level); needed when factor is added
+                try:
+                    self.source_listWidget.insertItem(
+                        _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                        item.text())
+                    previously_used_vars.append(item.text())
+                except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                    pass
         #print(previously_used_vars)
 
         # add new empty factor levels
@@ -1050,6 +1058,12 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
 
+    def update_displayfactors(self):
+        """Update self.displayfactors when groups are changed (and potentially displayfactors are not set afterward."""
+        self.display_options_groups_dialog.\
+            set_factors(factors=[str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
+        self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
+
     def help(self):
         webbrowser.open('https://doc.cogstat.org/Compare-groups')
 
@@ -1060,8 +1074,10 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
 
     def add_group(self):
         _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+        self.update_displayfactors()
     def remove_group(self):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
+        self.update_displayfactors()
 
     def on_slopeButton_clicked(self):
         if self.slope_dialog.exec():
@@ -1168,8 +1184,23 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
 
     def init_vars(self, names):
         self.names = names
+        if self.factors:
+            self.show_factors()
         _prepare_list_widgets(self.source_listWidget, names, [self.selected_listWidget, self.group_listWidget])
         self.slope_dialog.init_vars(names)
+
+    def update_displayfactors(self):
+        """Update self.displayfactors
+
+        Whenever the factors or the groups are modified, the self-displayfactors should be updated, otherwise, if the
+        user does not set displayfactor after setting the factors and groups, displayfactor will not include the
+        same factors and groups that the user set.
+        """
+        self.display_options_mixed_dialog. \
+            set_factors(factors=[str(self.group_listWidget.item(i).text())
+                                 for i in range(self.group_listWidget.count())] +
+                                [factor[0] for factor in self.factors])
+        self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
 
     def help(self):
         webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables-and-groups')
@@ -1189,8 +1220,17 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
     def add_group(self):
         if self.group_listWidget.count() < 2:  # allow maximum two grouping variables
             _add_to_list_widget(self.source_listWidget, self.group_listWidget)
+
+            # modify self.displayfactors too because the user possibly changed the groups without changing the
+            #  display options (where self.displayfactors are set)
+            self.update_displayfactors()
+
     def remove_group(self):
         _remove_item_from_list_widget(self.source_listWidget, self.group_listWidget, self.names)
+
+        # modify self.displayfactors too because the user possibly changed the groups without changing the
+        #  display options (where self.displayfactors are set)
+        self.update_displayfactors()
 
     def show_factors(self):
         """Display factor names and the levels and the variable names
@@ -1201,16 +1241,22 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             item = self.selected_listWidget.takeItem(0)
             if ' :: ' in item.text():  # factor name and level are present
                 if not item.text().endswith(' :: '):  # variable name is also present
-                    self.source_listWidget.insertItem(
-                        _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
-                        item.text().split(' :: ')[1])
-                    previously_used_vars.append(item.text().split(' :: ')[1])
+                    try:
+                        self.source_listWidget.insertItem(
+                            _find_previous_item_position(self.source_listWidget, self.names, item.text().split(' :: ')[1]),
+                            item.text().split(' :: ')[1])
+                        previously_used_vars.append(item.text().split(' :: ')[1])
+                    except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                        pass
                     item.setText(item.text().split(' :: ')[0] + ' :: ')
-            else:  # variable name only (without factor name and level)
-                self.source_listWidget.insertItem(
-                    _find_previous_item_position(self.source_listWidget, self.names, item.text()),
-                    item.text())
-                previously_used_vars.append(item.text())
+            else:  # variable name only (without factor name and level);  needed when factor is added
+                try:
+                    self.source_listWidget.insertItem(
+                        _find_previous_item_position(self.source_listWidget, self.names, item.text()),
+                        item.text())
+                    previously_used_vars.append(item.text())
+                except ValueError:  # the variable has been removed from the dataset since the last call of the dialog
+                    pass
         #print(previously_used_vars)
 
         # add new empty factor levels
@@ -1264,11 +1310,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                     self.source_listWidget.takeItem(self.source_listWidget.row(self.source_listWidget.findItems(previously_used_var, QtCore.Qt.MatchFlag.MatchExactly)[0]))
             # modify self.displayfactors too because the user possibly changed the factors without changing the
             #  display options (where self.displayfactors are set)
-            self.display_options_mixed_dialog. \
-                set_factors(factors=[str(self.group_listWidget.item(i).text())
-                                     for i in range(self.group_listWidget.count())] +
-                                    [factor[0] for factor in self.factors])
-            self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+            self.update_displayfactors()
 
     def display_options_button_clicked(self):
         # If there are several variables but no factors are given, then create a default factor name that can be used in

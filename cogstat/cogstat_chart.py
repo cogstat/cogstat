@@ -28,7 +28,6 @@ from . import cogstat_stat as cs_stat
 from . import cogstat_util as cs_util
 from . import cogstat_stat_num as cs_stat_num
 
-matplotlib.pylab.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
 
 def set_matplotlib_theme():
     """Function to set the matplotlib theme. This is in a function so that the theme can be changed right after it is
@@ -106,6 +105,9 @@ def set_matplotlib_theme():
 
 theme_colors = None
 set_matplotlib_theme()
+# Set rcParams after setting plt.style.use(), otherwise rcParams will be overwritten by the style
+matplotlib.rcParams['figure.figsize'] = csc.fig_size_x, csc.fig_size_y
+matplotlib.rcParams['figure.autolayout'] = True  # tight layout; seems to be working better than the constrained layout
 
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
@@ -471,6 +473,7 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name):
         freqs = [list(data).count(i) for i in values]
         locs = np.arange(len(values))
         plt.title(_plt('Histogram'))
+        plt.xlabel(var_name)
         plt.bar(locs, freqs, 0.9, color=theme_colors[0])
         plt.xticks(locs+0.9/2., _wrap_labels(values))
         plt.ylabel(_plt('Frequency'))
@@ -1886,7 +1889,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 within_indep_x = [indep_x_item for indep_x_item in indep_x if indep_x_item in within_indep_names]
                 # Select the factor level combinations that include within-subject variables
                 factor_level_combinations = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).dtypes.index.to_frame()[within_indep_x]
-                factor_level_combinations.sort_index(axis='columns', level=within_indep_names, inplace=True)
+                factor_level_combinations.sort_index(axis='index', level=within_indep_names, inplace=True)  # TODO is this needed?
                 # Find the appropriate names for the factor level combinations
                 var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
                 if show_factor_names_on_x_axis and (indep_x[0] != _('Unnamed factor')):

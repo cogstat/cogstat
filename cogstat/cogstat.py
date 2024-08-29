@@ -46,7 +46,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.5dev'
+__version__ = '2.5'
 
 import matplotlib
 matplotlib.use("qt5agg")
@@ -214,7 +214,10 @@ class CogStatData:
             """
             convert_dtypes = [['bool', 'object'],  # although 'string' type is recommended, patsy cannot handle it
                               ['Int32', 'int32'],
-                              ['Int64', 'int64'], ['Int64', 'float64'],
+                              ['Int64', 'int64'],
+                              # previously we had this; why is it needed? this way it converts some integers to float
+                              # which should be avoided
+                              # ['Int64', 'float64'],
                               ['category', 'object'],
                               ['Float64', 'float64']]
             for old_dtype, new_dtype in convert_dtypes:
@@ -587,7 +590,7 @@ class CogStatData:
         results['analysis info'] = ''
         if show_heading:
             results['analysis info'] += '<cs_h1>' + _('Data') + '</cs_h1>'
-        results['analysis info'] += (_('Source: ') + self.import_source[0] +
+        results['analysis info'] += (_('Source: ') + self.import_source[0] + ' ' +
                                      (self.import_source[1] if self.import_source[1] else '') + '\n')
         results['analysis info'] += (str(len(self.data_frame.columns)) + _(' variables and ') +
                                      str(len(self.data_frame.index)) + _(' cases') + '\n')
@@ -1734,7 +1737,7 @@ class CogStatData:
         return cs_util.convert_output(results)
 
     def compare_groups(self, var_name,
-                       grouping_variables=None, display_groups=None,
+                       grouping_variables=None, display_factors=None,
                        single_case_slope_SE=None, single_case_slope_trial_n=None,
                        ylims=[None, None]):
         """
@@ -1746,7 +1749,7 @@ class CogStatData:
             Name of the dependent variable
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
-        display_groups : list of three list of strings
+        display_factors : list of three list of strings
             List of name(s) of grouping variable(s) displayed on x-axis, with colors, and on panels.
         single_case_slope_SE : str
             When comparing the slope between a single case and a group, variable name storing the slope SEs
@@ -1789,9 +1792,9 @@ class CogStatData:
             grouping_variables = []
 
         # Prepare missing parameters
-        # if display_groups are not specified, then all group will be displayed on x-axis
-        if (display_groups is None) or (display_groups == [[], [], []]):
-            display_groups = [grouping_variables, [], []]
+        # if display_factors are not specified, then all group will be displayed on x-axis
+        if (display_factors is None) or (display_factors == [[], [], []]):
+            display_factors = [grouping_variables, [], []]
 
         # Variables info
         results['analysis info'] += _('Dependent variable: ') + '%s (%s)' % (var_name, self.data_measlevs[var_name]) + '\n' + \
@@ -1852,9 +1855,9 @@ class CogStatData:
         if meas_level in ['int', 'unk', 'ord']:
             results['raw data chart'] = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                            dep_names=[var_name],
-                                                                           indep_x=display_groups[0],
-                                                                           indep_color=display_groups[1],
-                                                                           indep_panel=display_groups[2],
+                                                                           indep_x=display_factors[0],
+                                                                           indep_color=display_factors[1],
+                                                                           indep_panel=display_factors[2],
                                                                            ylims=ylims, raw_data=True)
             results['raw data chart'] = results['raw data chart'][0]
         else:
@@ -1894,9 +1897,9 @@ class CogStatData:
                                                                                             ylims=ylims)
             results['descriptives table new'], *results['descriptives chart'] = cs_chart.create_repeated_measures_groups_chart(data, meas_level,
                                                                               dep_names=[var_name],
-                                                                              indep_x=display_groups[0],
-                                                                              indep_color=display_groups[1],
-                                                                              indep_panel=display_groups[2],
+                                                                              indep_x=display_factors[0],
+                                                                              indep_color=display_factors[1],
+                                                                              indep_panel=display_factors[2],
                                                                               ylims=ylims,
                                                                               raw_data=True,
                                                                               box_plots=True,
@@ -1917,9 +1920,9 @@ class CogStatData:
             results['estimation table'], *results['estimation chart'] = cs_chart.\
                 create_repeated_measures_groups_chart(data, meas_level,
                                                       dep_names=[var_name],
-                                                      indep_x=display_groups[0],
-                                                      indep_color=display_groups[1],
-                                                      indep_panel=display_groups[2],
+                                                      indep_x=display_factors[0],
+                                                      indep_color=display_factors[1],
+                                                      indep_panel=display_factors[2],
                                                       estimations=True, ylims=ylims,
                                                       estimation_table=True)
             results['estimation chart'] = results['estimation chart'][0]
@@ -1981,7 +1984,8 @@ class CogStatData:
         grouping_variables : list of str
             List of name(s) of grouping variable(s).
         display_factors: list of three lists of strings
-            Factors to be displayed on x-axis, color, and panel (but panel cannot be used for repeated measures data)
+            Factors (either repeated measures or groups or both) to be displayed on x-axis, color, and panel (but panel
+             cannot be used for repeated measures data)
         single_case_slope_SE : str
             When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
