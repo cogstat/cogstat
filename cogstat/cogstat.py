@@ -199,6 +199,10 @@ class CogStatData:
                     self.data_frame[column] = self.data_frame[column].astype(float)
                 except (ValueError, TypeError):
                     pass
+            # we may want to replace pd.NA (shown as <NA> in our GUI) to np.nan (e.g., when importing R files);
+            # I'm not sure if pd.NA causes problem anywhere in the code;
+            # still, the self.data_frame.replace(pd.NA, np.nan) will not work because of a  pandas issue:
+            # https://github.com/pandas-dev/pandas/issues/45601 (involving pandas versions from 1.4 to at least 2.2.2)
 
         def _convert_dtypes():
             """Convert dtypes in self.data_frame.
