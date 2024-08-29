@@ -634,7 +634,7 @@ class CogStatData:
             Mode of the exclusion:
                 2.5mad: median +- 2.5 * MAD
                 2sd: mean +- 2 * SD
-                mahalanobis: MMCD Mahalanobis distance with .05 chi squared cut-off
+                mahalanobis: Mahalanobis-MCD distance with .05 chi squared cut-off
             CogStat uses the MAD method for single variable-based outlier, but for possible future code change, the
             previous (2sd) version is also included.
 
@@ -652,7 +652,7 @@ class CogStatData:
 
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
-                      'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
+                      'mahalanobis': _('Mahalanobis-MCD distance with .05 chi squared cut-off')}
 
         self.filtering_status = [var_names, mode]
 
@@ -720,10 +720,10 @@ class CogStatData:
                     if var_name != var_names[-1]:
                         results['analysis info'] += '\n\n'
             elif mode == 'mahalanobis':
-                # Based on the robust Mahalanobis distance in Leys et al., 2017 and Rousseeuw, 1999
+                # Based on the robust Mahalanobis-MCD distance in Leys et al., 2017 and Rousseeuw, 1999
                 # Removing non-interval variables
 
-                # Calculating the robust Mahalanobis distances
+                # Calculating the robust Mahalanobis-MCD distances
                 from sklearn import covariance
                 cov = covariance.EllipticEnvelope(contamination=0.25).fit(self.orig_data_frame[var_names].dropna())
 
@@ -744,7 +744,7 @@ class CogStatData:
                                              (', '.join(var_names), mode_names[mode]) + '.\n')
                 results['analysis info'] += _('Cases with missing data will also be excluded') + '.\n'
                 prec = cs_util.precision(filtering_data_frame['mahalanobis']) + 1  # TODO we should set this to a constant value
-                results['analysis info'] += (_('Cases above the cutoff Mahalanobis distance will be excluded') +
+                results['analysis info'] += (_('Cases above the cutoff Mahalanobis-MCD distance will be excluded') +
                                              ': %0.*f\n' % (prec, limit))
 
                 # Display the excluded cases
@@ -785,7 +785,7 @@ class CogStatData:
 
         mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
                       '2.5mad': _('Median ± 2.5 MAD'),
-                      'mahalanobis': _('MMCD Mahalanobis distance with .05 chi squared cut-off')}
+                      'mahalanobis': _('Mahalanobis-MCD distance with .05 chi squared cut-off')}
 
         if self.filtering_status[0] is None or self.filtering_status[0] == []:
             return ''
