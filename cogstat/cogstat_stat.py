@@ -298,7 +298,10 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
 
     # Display N, RT, and error rate statistics
     precision = 3  # thousandth in error, milliseconds in RT, thousandths in diffusion parameters
-    n_table_styler = n_table.style.set_caption(_('Number of trials')).format(precision=precision)
+    n_table_styler = n_table.style.set_caption(_('Number of trials')).format(precision=0)
+        # by default the data type of n_table is int (because it comes from the len function), where the precision is
+        # not used, but will be printed as integer; however, if there are missing cells, the table is floating point
+        # type, and 0 precision is needed
     #mean_percent_correct_styler = mean_percent_correct_table.style.\
     #    set_caption(_('Mean percent correct with edge correction')).format(precision=precision)
     #mean_correct_RT_styler = mean_correct_RT_table.style.set_caption(_('Mean correct reaction time')).\
