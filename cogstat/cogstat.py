@@ -1566,7 +1566,7 @@ class CogStatData:
         meas_levels = [self.data_measlevs[var_name] for var_name in var_names]
 
         # Check preconditions
-        results ['warning'] = ''
+        results['warning'] = ''
         if len(var_names) < 2:
             results['warning'] += _('At least two variables should be set') + '.\n'
         if '' in var_names:
@@ -1596,6 +1596,8 @@ class CogStatData:
         # if display_factors is not specified, then all factors are displayed on the x-axis
         if (display_factors is None) or (display_factors == [[], []]):
             display_factors = [[factor[0] for factor in factors], []]
+        # TODO check if display factors are not only partially specified (i.e., some of them were given, but not all of them)
+        # TODO check if the display factors are actual factors (e.g., they are not misspelled)
 
         # Variables info
         results['analysis info'] += (_('Variables to compare') + ': ' +
@@ -1800,6 +1802,8 @@ class CogStatData:
         # if display_factors are not specified, then all group will be displayed on x-axis
         if (display_factors is None) or (display_factors == [[], [], []]):
             display_factors = [grouping_variables, [], []]
+        # TODO check if display factors are not only partially specified (i.e., some of them were given, but not all of them)
+        # TODO check if the display factors are actual grouping variables(e.g., they are not misspelled)
 
         # Variables info
         results['analysis info'] += _('Dependent variable: ') + '%s (%s)' % (var_name, self.data_measlevs[var_name]) + '\n' + \
@@ -1982,7 +1986,7 @@ class CogStatData:
         var_names: list of str
             The variable to be compared.
         factors : list of list of [str, int]
-            The factors and their levels, e.g.,
+            The repeated measures factors and their levels, e.g.,
                 [['name of the factor', number_of_the_levels],
                 ['name of the factor 2', number_of_the_levels]]
             Factorial combination of the factors will be generated, and variables will be assigned respectively
@@ -2059,6 +2063,12 @@ class CogStatData:
                 display_factors = [[factor[0] for factor in factors], [], []]
             else:  # mixed design
                 display_factors = [grouping_variables + [factor[0] for factor in factors], [], []]
+        # check if the display factors are actual factors and/or grouping variables (e.g., they are not misspelled)
+        else:  # display_factors is specified
+            flat_display_factors = itertools.chain(*display_factors)
+            if set(flat_display_factors) != set(grouping_variables + [factor[0] for factor in factors]):
+                raise ValueError('display_factors do not match factors and grouping variables')
+        # TODO check if display factors are not only partially specified (i.e., some of them were given, but not all of them)
 
         # Variables info
         if len(var_names) == 1:

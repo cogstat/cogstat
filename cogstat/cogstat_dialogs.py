@@ -1059,7 +1059,7 @@ class compare_groups_dialog(QtWidgets.QDialog, compare_groups.Ui_Dialog):
         self.slope_dialog.init_vars(names)
 
     def update_displayfactors(self):
-        """Update self.displayfactors when groups are changed (and potentially displayfactors are not set afterward."""
+        """Update self.displayfactors when groups are changed (and potentially displayfactors are not set afterward)."""
         self.display_options_groups_dialog.\
             set_factors(factors=[str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())])
         self.displayfactors, self.ylims = self.display_options_groups_dialog.read_parameters()
@@ -1192,7 +1192,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
     def update_displayfactors(self):
         """Update self.displayfactors
 
-        Whenever the factors or the groups are modified, the self-displayfactors should be updated, otherwise, if the
+        Whenever the factors or the groups are modified, the self.displayfactors should be updated, otherwise, if the
         user does not set displayfactor after setting the factors and groups, displayfactor will not include the
         same factors and groups that the user set.
         """
@@ -1337,6 +1337,13 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             self.single_case_slope_SE, self.single_case_slope_trial_n = self.slope_dialog.read_parameters()
 
     def read_parameters(self):
+        # if variables were selected but factor was not set, add Unnamed factor (unless an error is raised when groups
+        # are also specified)
+        # TODO this is a hack, and a more general refactoring is needed
+        # TODO more generally, ensure that subdialogs are synchronized;
+        #      for within-subject vars, enable providing vars without specifying the factor
+        if not self.factors and self.selected_listWidget.count() > 1:
+            self.displayfactors[0] = self.displayfactors[0] + [_('Unnamed factor')]
         return [str(self.selected_listWidget.item(i).text().split(' :: ')[1]) for i in range(self.selected_listWidget.count())] \
                 if self.factors else [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())], \
