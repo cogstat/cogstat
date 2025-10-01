@@ -1,6 +1,11 @@
 :warning: This symbol means that CogStat will handle data differently compared to previous releases.
 Trivial changes when a new feature is added are not denoted.
 
+Upcoming release
+================
+## New features
+- Updated French localization (Csenge Magyar)
+
 2.5 (10 July 2024)
 ================
 ## New features
