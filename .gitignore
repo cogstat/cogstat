@@ -1,0 +1,28 @@
+# WARP.md - AI assistant development guidance
+WARP.md
+
+# Virtual environment
+cogstat-env/
+
+# Python compiled files
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Python distribution / packaging
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

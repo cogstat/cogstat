@@ -29,7 +29,7 @@ from . import cogstat_config as csc
 from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
 
-if csc.versions['r']:
+if csc.versions.get('r'):
     import rpy2.robjects as robjects
     from rpy2.robjects import pandas2ri
     from rpy2.robjects.packages import importr
@@ -1620,7 +1620,7 @@ def mixed_anova(pdf, var_names, factors, grouping_variables):
     """
 
     # at the moment, not available in Python (pingouin can run 2-way ANOVA, statsmodels cannot run mixed ANOVA)
-    if csc.versions['r']:
+    if csc.versions.get('r'):
         pandas2ri.activate()
         base = importr('base')
         ez = importr('ez')
