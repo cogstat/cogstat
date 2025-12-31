@@ -1,8 +1,7 @@
-# WARP.md - AI assistant development guidance
-WARP.md
-
 # Virtual environment
 cogstat-env/
+venv/
+env/
 
 # Python compiled files
 *.pyc
@@ -16,6 +15,16 @@ dist/
 build/
 *.egg
 
+# Qt Designer generated files (these are auto-generated from .ui files)
+cogstat/ui/*.py
+!cogstat/ui/__init__.py
+
+# Test outputs and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
 # IDE
 .vscode/
 .idea/
@@ -26,3 +35,10 @@ build/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local configuration or temporary data files
+*.log
+*.tmp
