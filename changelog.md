@@ -5,6 +5,8 @@ Upcoming release
 ================
 ## New features
 - Updated French localization (Csenge Magyar)
+- New localization
+    - Slovenian (Tia Križan)
 
 2.5 (10 July 2024)
 ================
