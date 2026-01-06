@@ -1697,7 +1697,7 @@ class CogStatData:
         # 3a. and 3c. Population estimations and plots
         results['estimation info'] = '<cs_h3>' + _('Population parameter estimations') + '</cs_h3>'
         if meas_level in ['int', 'unk']:
-            results['estimation info'] += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+            results['estimation info'] += _('Means') + '\n' + _('Present confidence interval values assume normality.')
             mean_estimations = cs_stat.repeated_measures_estimations(data, meas_level)
             prec = cs_util.precision(data[var_names[0]]) + 1
             if csc.test_functions:
@@ -1943,7 +1943,7 @@ class CogStatData:
 
         if meas_level in ['int', 'unk', 'ord']:
             if meas_level in ['int', 'unk']:
-                results['estimation info'] += _('Means') + '\n' + _('Present confidence interval values suppose normality.')
+                results['estimation info'] += _('Means') + '\n' + _('Present confidence interval values assume normality.')
             elif meas_level == 'ord':
                 results['estimation info'] += _('Medians')
             prec = cs_util.precision(data[var_names[0]]) + 1

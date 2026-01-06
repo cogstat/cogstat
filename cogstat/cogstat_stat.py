@@ -539,7 +539,7 @@ def variable_estimation(data, statistics=None):
     population_param_text = ''
     for statistic in statistics:
         if statistic == 'mean':
-            population_param_text += _('Present confidence interval values for the mean suppose normality.') + '\n'
+            population_param_text += _('Present confidence interval values for the mean assume normality.') + '\n'
             pdf_result.loc[_('Mean'), _('Point estimation')] = np.mean(data)
             pdf_result.loc[_('Mean'), _('95% confidence interval (low)')], \
             pdf_result.loc[_('Mean'), _('95% confidence interval (high)')] = DescrStatsW(data).tconfint_mean()
