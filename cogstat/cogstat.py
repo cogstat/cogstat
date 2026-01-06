@@ -49,8 +49,8 @@ import string
 __version__ = '2.5'
 
 import matplotlib
-matplotlib.use("qt5agg")
-#print matplotlib.get_backend()
+matplotlib.use("qtagg")
+#print(matplotlib.get_backend())
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
