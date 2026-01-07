@@ -1454,10 +1454,10 @@ class find_text_dialog(QtWidgets.QDialog, find_text.Ui_Dialog):
         self.pushButton_previous.clicked.connect(self.find_backward_text)
         self.pushButton_next.setText(_('Find next'))
         self.pushButton_previous.setText(_('Find previous'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Close).clicked.connect(self.reject)
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Close).clicked.connect(self.reject)
         self.buttonBox.helpRequested.connect(self.help)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Close).setText(_('Close'))
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Help).setText(_('Help'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Close).setText(_('Close'))
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText(_('Help'))
 
         self.lineEdit.setFocus()
         self.show()
@@ -1469,7 +1469,7 @@ class find_text_dialog(QtWidgets.QDialog, find_text.Ui_Dialog):
         self.output_pane.find(self.lineEdit.text())
 
     def find_backward_text(self):
-        self.output_pane.find(self.lineEdit.text(), QtGui.QTextDocument.FindBackward)
+        self.output_pane.find(self.lineEdit.text(), QtGui.QTextDocument.FindFlag.FindBackward)
 
 
 from .ui import preferences
