@@ -8,6 +8,9 @@ Upcoming release
 - New localization
     - Slovenian (Tia Križan)
 
+## Fixes
+- Output, localization, and GUI fixes
+
 2.5 (10 July 2024)
 ================
 ## New features
