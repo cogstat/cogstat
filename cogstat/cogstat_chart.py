@@ -453,7 +453,7 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name):
         # Add labels
         if data_measlevs[var_name] == 'ord':
             plt.title(_plt('Rank of the raw data'))
-            plt.xlabel(_('Rank of %s') % var_name)
+            plt.xlabel(_plt('Rank of %s') % var_name)
         else:
             plt.title(_plt('Raw data'))
             plt.xlabel(var_name)
@@ -549,7 +549,7 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
                            whis=[0, 100])  # .values needed, otherwise error when the first case is missing data
         plt.gca().axes.get_yaxis().set_visible(False)
         if data_measlevs[var_name] == 'ord':
-            plt.xlabel(_('Rank of %s') % var_name)
+            plt.xlabel(_plt('Rank of %s') % var_name)
         else:
             plt.xlabel(var_name)
         plt.setp(box1['boxes'], color=theme_colors[0])
@@ -611,7 +611,7 @@ def create_normality_chart(pdf, var_name):
     #    plt.plot(data, np.zeros(data.shape), 'k+', ms=10, mew=1.5)
     # individual data
     ax1.set_xlabel(var_name)
-    ax1.set_ylabel(_('Normalized relative frequency'))
+    ax1.set_ylabel(_plt('Normalized relative frequency'))
 
     # percent on y-axes http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
     def to_percent(y, position):
@@ -1114,7 +1114,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
         else:
             ax.set_xlim(0.5, len(var_names) + 0.5)
         plt.xticks(list(range(1, len(var_names) + 1)), _wrap_labels(var_names))
-        plt.ylabel(_('Value'))
+        plt.ylabel(_plt('Value'))
         # Set manual ylim values
         ax.set_ylim(ylims)  # Default None values do not change the limit
 
@@ -1265,7 +1265,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groupi
                                                                       group_level in group_levels]))
         plt.xlabel(' : '.join(grouping_variables))
         if meas_level == 'ord':
-            plt.ylabel(_('Rank of %s') % var_names[0])
+            plt.ylabel(_plt('Rank of %s') % var_names[0])
             if raw_data_only:
                 plt.title(_plt('Individual data of the rank data of the groups'))
             else:
@@ -1911,9 +1911,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
         # set y label
         if dep_meas_level in ['int', 'unk']:
-            plt.ylabel(_('Value') if factor_info is not None else dep_name)
+            plt.ylabel(_plt('Value') if factor_info is not None else dep_name)
         elif dep_meas_level == 'ord':
-            plt.ylabel(_('Rank value') if factor_info is not None else _('Rank of %s') % dep_name)
+            plt.ylabel(_plt('Rank value') if factor_info is not None else _plt('Rank of %s') % dep_name)
 
         # set y ticks
         if dep_meas_level == 'ord':
