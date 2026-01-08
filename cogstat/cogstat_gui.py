@@ -61,8 +61,6 @@ importlib.reload(sys)  # TODO why do we need this?
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
-rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
-
 broken_analysis = '<cs_h1>%s</cs_h1>' + \
                   _('Oops, something went wrong, CogStat could not run the analysis. You may want to report it.') \
                   + ' ' + _('Read more about how to report an issue <a href = "%s">here</a>.') \
@@ -164,7 +162,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # u'resources', u'CogStat splash screen.png'), 'PNG')
         self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + '/resources/CogStat.ico'))
 
-        if rtl_lang:
+        if csc.rtl_language:
             self.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
 
         # Menus and commands

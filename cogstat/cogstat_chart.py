@@ -114,8 +114,7 @@ _ = t.gettext
 
 # matplotlib does not support rtl Unicode yet (http://matplotlib.org/devel/MEP/MEP14.html),
 # so we have to handle rtl text on matplotlib plots
-rtl_lang = True if csc.language in ['he', 'fa', 'ar'] else False
-if rtl_lang:
+if csc.rtl_language:
     from bidi.algorithm import get_display
     _plt = lambda text: get_display(t.gettext(text))
 else:
