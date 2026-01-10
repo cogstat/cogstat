@@ -1021,7 +1021,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                        'correct_coding': correct_coding[0], 'reaction_time_in': reaction_time_in,
                                        'scaling_parameter': scaling_parameter})
 
-    def compare_variables(self, var_names=None, factors=None, display_factors=None, ylims=[None, None]):
+    def compare_variables(self, var_names=None, factors=None, display_factors=None, ylabel='', ylims=[None, None]):
         """Compare variables.
         
         Arguments:
@@ -1034,14 +1034,14 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if not var_names:
             self.dial_comp_var.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var.exec():
-                var_names, factors, display_factors, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
+                var_names, factors, display_factors, ylabel, ylims = self.dial_comp_var.read_parameters()  # TODO check if settings are
                                                                                   # appropriate
             else:
                 return
         self._run_analysis(title=_('Compare repeated measures variables'),
                            function_name='self.active_data.compare_variables',
                            parameters={'var_names': var_names, 'factors': factors, 'display_factors': display_factors,
-                                       'ylims': ylims})
+                                       'ylabel': ylabel, 'ylims': ylims})
 
     def compare_groups(self, var_names=None, groups=None, display_factors=None,
                        single_case_slope_SE=None, single_case_slope_trial_n=None,
@@ -1070,7 +1070,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                scroll_to_analysis=not i)
 
     def compare_variables_groups(self, var_names=None, groups=None, factors=None, display_factors=None,
-                                 single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+                                 single_case_slope_SE=None, single_case_slope_trial_n=None, ylabel='',
+                                 ylims=[None, None]):
         """Compare variables and groups.
         """
         if groups is None:
@@ -1082,15 +1083,16 @@ class StatMainWindow(QtWidgets.QMainWindow):
         if not var_names:
             self.dial_comp_var_groups.init_vars(names=self.active_data.data_frame.columns)
             if self.dial_comp_var_groups.exec():
-                var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylims = \
-                    self.dial_comp_var_groups.read_parameters()
+                (var_names, groups, factors, display_factors, single_case_slope_SE, single_case_slope_trial_n, ylabel,
+                 ylims) = self.dial_comp_var_groups.read_parameters()
             else:
                 return
         self._run_analysis(title=_('Compare repeated measures variables and groups'),
                            function_name='self.active_data.compare_variables_groups',
                            parameters={'var_names': var_names, 'factors': factors, 'grouping_variables': groups,
                                        'display_factors': display_factors, 'single_case_slope_SE': single_case_slope_SE,
-                                       'single_case_slope_trial_n': single_case_slope_trial_n, 'ylims': ylims})
+                                       'single_case_slope_trial_n': single_case_slope_trial_n, 'ylabel': ylabel,
+                                       'ylims': ylims})
 
     def reliability_internal(self, var_names=None, reversed_names=None):
         if not var_names:

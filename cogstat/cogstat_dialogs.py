@@ -771,7 +771,8 @@ class display_options_repeated_dialog(QtWidgets.QDialog, display_options_repeate
                 self.factor_x_listWidget.count() else [],
                 [str(self.factor_color_listWidget.item(i).text()) for i in range(self.factor_color_listWidget.count())] if
                 self.factor_color_listWidget.count() else []],
-                [_float_or_none(self.minimum_y.text()), _float_or_none(self.maximum_y.text())])
+                [_float_or_none(self.minimum_y.text()), _float_or_none(self.maximum_y.text())],
+                self.ylabel.text())
 
 
 from .ui import compare_vars
@@ -802,6 +803,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
         self.display_options_repeated_dialog = display_options_repeated_dialog(self)
         self.factors = []
         self.displayfactors = [[], []]
+        self.ylabel = ''
         self.ylims = [None, None]
 
     def init_vars(self, names):
@@ -904,7 +906,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             # modify self.displayfactors too because the user possibly changed the factors without changing the
             #  display options (where self.displayfactors are set)
             self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
-            self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
+            self.displayfactors, self.ylims, self.ylabel = self.display_options_repeated_dialog.read_parameters()
 
     def display_options_button_clicked(self):
         # If there are several variables but no factors are given, then create a default factor name that can be used in
@@ -915,7 +917,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
             default_factor_added = True
         self.display_options_repeated_dialog.set_factors(factors=[factor[0] for factor in self.factors])
         if self.display_options_repeated_dialog.exec():
-            self.displayfactors, self.ylims = self.display_options_repeated_dialog.read_parameters()
+            self.displayfactors, self.ylims, self.ylabel = self.display_options_repeated_dialog.read_parameters()
             self.show_factors()
         else:  # if Display option is cancelled, then remove Unnamed factor
             if default_factor_added:  # do not remove Unnamed factor if dialog is Cancelled but factor was added
@@ -927,7 +929,7 @@ class compare_vars_dialog(QtWidgets.QDialog, compare_vars.Ui_Dialog):
                 for i in range(self.selected_listWidget.count())] \
                 if self.factors else \
                 [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
-                self.factors, self.displayfactors, self.ylims
+                self.factors, self.displayfactors, self.ylabel, self.ylims
 
 
 from .ui import compare_groups_single_case_slope
@@ -1142,7 +1144,8 @@ class display_options_mixed_dialog(QtWidgets.QDialog, display_options_mixed.Ui_D
                 self.factor_color_listWidget.count() else [],
                 [str(self.factor_panel_listWidget.item(i).text()) for i in range(self.factor_panel_listWidget.count())] if
                 self.factor_panel_listWidget.count() else []],
-                [_float_or_none(self.minimum_y.text()), _float_or_none(self.maximum_y.text())])
+                [_float_or_none(self.minimum_y.text()), _float_or_none(self.maximum_y.text())],
+                self.ylabel.text())
 
 
 from .ui import compare_vars_groups
@@ -1180,6 +1183,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
         self.factors = []
         self.displayfactors = [[], []]
         self.single_case_slope_SE, self.single_case_slope_trial_n = [], 0
+        self.ylabel=''
         self.ylims = [None, None]
 
     def init_vars(self, names):
@@ -1200,7 +1204,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
             set_factors(factors=[str(self.group_listWidget.item(i).text())
                                  for i in range(self.group_listWidget.count())] +
                                 [factor[0] for factor in self.factors])
-        self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+        self.displayfactors, self.ylims, self.ylabel = self.display_options_mixed_dialog.read_parameters()
 
     def help(self):
         webbrowser.open('https://doc.cogstat.org/Compare-repeated-measures-variables-and-groups')
@@ -1325,7 +1329,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                                  for i in range(self.group_listWidget.count())] +
                                 [factor[0] for factor in self.factors])
         if self.display_options_mixed_dialog.exec():
-            self.displayfactors, self.ylims = self.display_options_mixed_dialog.read_parameters()
+            self.displayfactors, self.ylims, self.ylabel = self.display_options_mixed_dialog.read_parameters()
             self.show_factors()
         else:  # if Display option is cancelled, then remove Unnamed factor
             if default_factor_added:  # do not remove Unnamed factor if dialog is Cancelled but factor was added
@@ -1348,7 +1352,7 @@ class compare_vars_groups_dialog(QtWidgets.QDialog, compare_vars_groups.Ui_Dialo
                 if self.factors else [str(self.selected_listWidget.item(i).text()) for i in range(self.selected_listWidget.count())], \
                 [str(self.group_listWidget.item(i).text()) for i in range(self.group_listWidget.count())], \
                 self.factors, self.displayfactors, \
-                self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylims
+                self.single_case_slope_SE, int(self.single_case_slope_trial_n), self.ylabel, self.ylims
 
 
 from .ui import reliability_internal

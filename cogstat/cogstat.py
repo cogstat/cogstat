@@ -1530,7 +1530,7 @@ class CogStatData:
         results['analysis info'] += additional_analysis_info
         return cs_util.convert_output(results)
 
-    def compare_variables(self, var_names, factors=None, display_factors=None, ylims=[None, None]):
+    def compare_variables(self, var_names, factors=None, display_factors=None, ylabel='', ylims=[None, None]):
         """
         Compare repeated measures variables.
 
@@ -1545,6 +1545,8 @@ class CogStatData:
             Factorial combination of the factors will be generated, and variables will be assigned respectively
         display_factors: list of two lists of strings
             Factors to be displayed on x-axis, and color (panel cannot be used for repeated measures data).
+        ylabel : str
+            Label for the y-axis
         ylims : list of {int or float}
             Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
@@ -1638,7 +1640,8 @@ class CogStatData:
         # Plot the individual raw data
         if csc.test_functions:
             results['raw data chart old'] = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level,
-                                                                                        raw_data_only=True, ylims=ylims)
+                                                                                           raw_data_only=True,
+                                                                                           ylabel=ylabel, ylims=ylims)
         factor_info = pd.DataFrame([var_names], columns=pd.MultiIndex.from_product([['%s %s' % (factor[0], i + 1) for i in range(factor[1])] for factor in factors],
                                                                                   names=[factor[0] for factor in factors]))
         if meas_level in ['int', 'unk', 'ord']:
@@ -1648,10 +1651,12 @@ class CogStatData:
                                                                                        factor_info=factor_info,
                                                                                        indep_x=display_factors[0],
                                                                                        indep_color=display_factors[1],
-                                                                                       ylims=ylims, raw_data=True)[0]
+                                                                                       ylabel=ylabel, ylims=ylims,
+                                                                                       raw_data=True)[0]
         else:
             results['raw data chart'] = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level,
-                                                                                       raw_data_only=True, ylims=ylims)[0]
+                                                                                       raw_data_only=True,
+                                                                                       ylabel=ylabel, ylims=ylims)[0]
 
         # 2. Sample properties
         results['sample info'] = '<cs_h2>' + _('Sample properties') + '</cs_h2>'
@@ -1679,14 +1684,16 @@ class CogStatData:
         # There's no need to repeat the mosaic plot for nominal variables
         if meas_level in ['int', 'unk', 'ord']:
             results['descriptives chart old'] = cs_chart.create_repeated_measures_sample_chart(data, var_names, meas_level,
-                                                                                           ylims=ylims)
+                                                                                               ylabel=ylabel,
+                                                                                               ylims=ylims)
             results['descriptives table new'], *results['descriptives chart'] = cs_chart.create_repeated_measures_groups_chart(data=data,
                                                                               dep_meas_level=meas_level,
                                                                               dep_names=var_names,
                                                                               factor_info=factor_info,
                                                                               indep_x=display_factors[0],
                                                                               indep_color=display_factors[1],
-                                                                              ylims=ylims, raw_data=True, box_plots=True,
+                                                                              ylabel=ylabel, ylims=ylims,
+                                                                              raw_data=True, box_plots=True,
                                                                               descriptives_table=True,
                                                                               statistics=statistics[meas_level])
             results['descriptives chart'] = results['descriptives chart'][0]  # TODO handle lists
@@ -1717,7 +1724,8 @@ class CogStatData:
                                                                                 ci=True)
 
         results['estimation chart old'] = cs_chart.create_repeated_measures_population_chart(data, var_names,
-                                                                                             meas_level, ylims=ylims)
+                                                                                             meas_level, ylabel=ylabel,
+                                                                                             ylims=ylims)
         if meas_level in ['int', 'unk', 'ord']:
             results['estimation table'], *results['estimation chart'] = cs_chart.\
                 create_repeated_measures_groups_chart(data=data, dep_meas_level=meas_level,
@@ -1725,7 +1733,7 @@ class CogStatData:
                                                       factor_info=factor_info,
                                                       indep_x=display_factors[0],
                                                       indep_color=display_factors[1],
-                                                      ylims=ylims, estimations=True,
+                                                      ylabel=ylabel, ylims=ylims, estimations=True,
                                                       estimation_table=True)
             results['estimation chart'] = results['estimation chart'][0]  # TODO handle list
 
@@ -1978,7 +1986,8 @@ class CogStatData:
         return cs_util.convert_output(results)
 
     def compare_variables_groups(self, var_names=None, factors=None, grouping_variables=None, display_factors=None,
-                                 single_case_slope_SE=None, single_case_slope_trial_n=None, ylims=[None, None]):
+                                 single_case_slope_SE=None, single_case_slope_trial_n=None, ylabel='',
+                                 ylims=[None, None]):
         """ Compare mixed-design (repeated measures and groups) data.
 
         Parameters
@@ -1999,6 +2008,8 @@ class CogStatData:
             When comparing the slope between a single case and a group, variable name storing the slope SEs
         single_case_slope_trial : int
             When comparing the slope between a single case and a group, number of trials.
+        ylabel : str
+            Label for the repeated measures chart y-axis
         ylims : list of {int or float}
             Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
@@ -2164,7 +2175,8 @@ class CogStatData:
                                                                                    indep_x=display_factors[0],
                                                                                    indep_color=display_factors[1],
                                                                                    indep_panel=display_factors[2],
-                                                                                   ylims=ylims, raw_data=True)
+                                                                                   ylabel=ylabel, ylims=ylims,
+                                                                                   raw_data=True)
         results['raw data chart'] = results['raw data chart'][0]
 
         # 2. Sample properties
@@ -2184,7 +2196,7 @@ class CogStatData:
                                                   indep_x=display_factors[0],
                                                   indep_color=display_factors[1],
                                                   indep_panel=display_factors[2],
-                                                  ylims=ylims, raw_data=True, box_plots=True,
+                                                  ylabel=ylabel, ylims=ylims, raw_data=True, box_plots=True,
                                                   descriptives_table=True, statistics=statistics[meas_level])
         results['descriptives chart'] = results['descriptives chart'][0]
         #sample_graph_new = cs_chart.create_repeated_measures_groups_chart(dep_name=var_name)
@@ -2217,7 +2229,7 @@ class CogStatData:
                                                   indep_x=display_factors[0],
                                                   indep_color=display_factors[1],
                                                   indep_panel=display_factors[2],
-                                                  ylims=ylims, estimations=True,
+                                                  ylabel=ylabel, ylims=ylims, estimations=True,
                                                   estimation_table=True)
         results['estimation chart'] = results['estimation chart'][0]
         prec = cs_util.precision(data[var_names[0]]) + 1  # TODO which variables should be used here?

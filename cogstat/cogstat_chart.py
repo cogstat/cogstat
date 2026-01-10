@@ -1051,7 +1051,8 @@ def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
 #########################################
 
 
-def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=False, ylims=[None, None]):
+def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_only=False, ylabel='',
+                                          ylims=[None, None]):
     """
 
     Parameters
@@ -1064,6 +1065,8 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
         Measurement level of the variables
     raw_data_only : bool
         Only the raw data should be displayed? Or the box plots too?
+    ylabel : str
+        Label for the y-axis
     ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
@@ -1072,6 +1075,8 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
     matplotlib chart
     """
     graph = None
+    if ylabel == '':
+        ylabel = _plt('Value')
     if meas_level in ['int', 'ord', 'unk']:
         # TODO is it OK for ordinals?
         variables = np.array(data)
@@ -1113,7 +1118,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
         else:
             ax.set_xlim(0.5, len(var_names) + 0.5)
         plt.xticks(list(range(1, len(var_names) + 1)), _wrap_labels(var_names))
-        plt.ylabel(_plt('Value'))
+        plt.ylabel(ylabel)
         # Set manual ylim values
         ax.set_ylim(ylims)  # Default None values do not change the limit
 
@@ -1138,7 +1143,7 @@ def create_repeated_measures_sample_chart(data, var_names, meas_level, raw_data_
     return graph
 
 
-def create_repeated_measures_population_chart(data, var_names, meas_level, ylims=[None, None]):
+def create_repeated_measures_population_chart(data, var_names, meas_level, ylabel='', ylims=[None, None]):
     """Draw means with CI for int vars, and medians for ord vars.
 
     Parameters
@@ -1147,6 +1152,8 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
     var_names : list of str
     meas_level : {'int', 'ord', 'nom', 'unk'}
         Measurement level of the variables
+    ylabel : str
+        Label for the y-axis
     ylims : list of two floats
         List of values that may overwrite the automatic ylim values for interval and ordinal variables
 
@@ -1155,6 +1162,8 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
     matplotlib chart
     """
     graph = None
+    if ylabel == '':
+        ylabel = _plt('Value')
     if meas_level in ['int', 'unk']:
         # ord is excluded at the moment
         fig = plt.figure()
@@ -1173,7 +1182,7 @@ def create_repeated_measures_population_chart(data, var_names, meas_level, ylims
             ax.bar(list(range(len(data.columns))), medians, 0.5, align='center',
                    color=theme_colors[0], ecolor='0')
         plt.xticks(list(range(len(var_names))), _wrap_labels(var_names))
-        plt.ylabel(_plt('Value'))
+        plt.ylabel(ylabel)
         # Set manual ylim values
         ax.set_ylim(ylims)  # Default None values do not change the limit
 
@@ -1380,7 +1389,7 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
 
 def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, factor_info=None,
                                           indep_x=None, indep_color=None, indep_panel=None,
-                                          ylims=[None, None], show_factor_names_on_x_axis=True,
+                                          ylabel=_plt('Value'), ylims=[None, None], show_factor_names_on_x_axis=True,
                                           raw_data=False, box_plots=False, descriptives=False, estimations=False,
                                           descriptives_table=False, estimation_table=False, statistics=None):
     """Create repeated measures and group data charts. Return related results in numerical format, too.
@@ -1411,6 +1420,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         Independent variables to be displayed as different colors
     indep_panel : list of str
         Independent variables to be displayed on different panels. Only grouping variables can be used here.
+    ylabel : str
+        Label for the repeated measures chart y-axis
     ylims : list of two floats
         Minimum and maximum values of the y-axes
     show_factor_names_on_x_axis : bool
@@ -1469,6 +1480,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     TODO For the testing period (until the beta/RC), both this function's and the older parallel functions' charts and 
     tables can be displayed if cs_config.test_functions is set to True.
     """
+
+    if ylabel == '':
+        ylabel = _plt('Value')
 
     # TODO nominal variable
     # TODO what if only the tables are needed?
@@ -1910,7 +1924,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
 
         # set y label
         if dep_meas_level in ['int', 'unk']:
-            plt.ylabel(_plt('Value') if factor_info is not None else dep_name)
+            plt.ylabel(ylabel if factor_info is not None else dep_name)
         elif dep_meas_level == 'ord':
             plt.ylabel(_plt('Rank value') if factor_info is not None else _plt('Rank of %s') % dep_name)
 

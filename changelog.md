@@ -4,6 +4,7 @@ Trivial changes when a new feature is added are not denoted.
 Upcoming release
 ================
 ## New features
+- Custom y-axis label for repeated measures charts
 - Updated French localization (Csenge Magyar)
 - New localization
     - Slovenian (Tia Križan)
