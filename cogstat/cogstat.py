@@ -409,15 +409,15 @@ class CogStatData:
                 self.import_source = [_('Text file'), data]  # filename
 
             # Import from spreadsheet files
-            elif filetype in ['.ods', '.xls', '.xlsx']:
-                # engine should be set manually in pandas 1.0.5, later pandas version may handle this automatically
-                engine = {'.ods': 'odf', '.xls': 'xlrd', '.xlsx': 'openpyxl'}
-                self.data_frame = pd.read_excel(data, engine=engine[filetype])
+            elif filetype in ['.ods', '.xls', '.xlsx', 'xlsm', 'xlmb']:
+                # calamine engine is supported by pandas since v2.2; it is much faster than other engines, and handles
+                # all the fileformats we have supported and more
+                self.data_frame = pd.read_excel(data, engine='calamine')
                 # if there is a measurement level line, use it, and reread the spreadsheet
                 meas_row = list(map(str, list(self.data_frame.iloc[0])))
                 if {a.lower() for a in meas_row} <= {'unk', 'nom', 'ord', 'int', '', 'nan'} and set(meas_row) != {''}:
                     import_measurement_levels = meas_row
-                    self.data_frame = pd.read_excel(data, engine=engine[filetype], skiprows=[1])
+                    self.data_frame = pd.read_excel(data, engine='calamine', skiprows=[1])
                 self.import_source = [_('Spreadsheet file'), data]  # filename
 
             # Import SPSS, SAS and STATA files

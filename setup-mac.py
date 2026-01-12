@@ -27,9 +27,9 @@ OPTIONS = {
     }
     , 'packages': ['numpy', 'scipy', 'matplotlib',
                         'pandas', 'pandas_flavor', 'statsmodels',
-                        'pyreadstat',  'xlrd', 'openpyxl', 'pyreadr',
-                        'configobj',  'chardet', 'IPython', 'Jupyter',
-                        'pingouin', 'python-bidi', 'odfpy', 'scikit-posthocs',
+                        'pyreadstat', 'pyreadr', 'python-calamine',
+                        'configobj', 'chardet', 'IPython', 'Jupyter',
+                        'pingouin', 'python-bidi', 'scikit-posthocs',
                         ]
 }
 
