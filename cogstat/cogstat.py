@@ -46,7 +46,7 @@ import os
 import datetime
 import string
 
-__version__ = '2.5'
+__version__ = '2.6dev'
 
 import matplotlib
 matplotlib.use("qtagg")
