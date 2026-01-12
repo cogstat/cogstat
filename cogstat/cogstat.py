@@ -425,21 +425,21 @@ class CogStatData:
                 import pyreadstat
 
                 # Read import file
-                if filetype in ['.sav', '.zsav']:
+                if filetype in ['.sav', '.zsav']:  # SPSS
                     import_data, import_metadata = pyreadstat.read_sav(data)
                     # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
-                elif filetype == '.por':
+                elif filetype == '.por':  # SPSS
                     import_data, import_metadata = pyreadstat.read_por(data)
                     # pandas (as of v1.2) uses pyreadstat, but ignores measurement level information
-                elif filetype == '.sas7bdat':
+                elif filetype == '.sas7bdat':  # SAS
                     import_data, import_metadata = pyreadstat.read_sas7bdat(data)
                     # alternative solution in pandas:
                     # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
-                elif filetype == '.xpt':
+                elif filetype == '.xpt':  # SAS
                     import_data, import_metadata = pyreadstat.read_xport(data)
                     # alternative solution in pandas:
                     # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#sas
-                elif filetype == '.dta':
+                elif filetype == '.dta':  # STATA
                     import_data, import_metadata = pyreadstat.read_dta(data)
                     # alternative solution in pandas:
                     # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#stata
