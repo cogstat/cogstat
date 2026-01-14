@@ -14,6 +14,7 @@ Upcoming release
 ## Fixes
 - Output, localization, and GUI fixes
 - SVG images now display correctly in exported HTML files
+- SVG images now display correctly on Windows and Mac (not just Linux)
 
 2.5 (10 July 2024)
 ================

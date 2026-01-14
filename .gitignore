@@ -1,5 +1,6 @@
 # Virtual environment
 cogstat-env/
+temp/
 
 # VS Code settings
 .vscode/
