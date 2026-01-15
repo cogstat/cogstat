@@ -108,12 +108,21 @@ try:
     elif sys.platform == 'win32':
         import rpy2.robjects as robjects
         versions['r'] = robjects.r('version')[-2][0]
-    # TODO solution for Mac
+    else:
+        # For macOS and other platforms
+        versions['r'] = None
 except (ModuleNotFoundError, NameError, FileNotFoundError, OSError):
     versions['r'] = None
 try:
     import rpy2
-    versions['rpy2'] = rpy2.__version__
+    try:
+        versions['rpy2'] = rpy2.__version__
+    except AttributeError:
+        try:
+            from importlib.metadata import version
+            versions['rpy2'] = version('rpy2')
+        except:
+            versions['rpy2'] = None
 except (ModuleNotFoundError, NameError):
     versions['rpy2'] = None
 '''
