@@ -79,6 +79,7 @@ except (ModuleNotFoundError, NameError):
     # versions['pyqtstyle'] = None
 
 # R components
+versions['r'] = None
 try:
     # rpy2 tries to find R in PATH or in R_HOME https://rpy2.github.io/doc/v3.5.x/html/rinterface.html
     # "If calling initr() returns an error stating that R_HOME is not defined, you should either have the R executable
@@ -100,7 +101,7 @@ try:
     # - In Windows, rpy2.rinterface.initr() raises _csv.Error even if the path is correct. So we can't use it in
     # Windows. However, when the R_HOME is incorrect, robjects raises OSError exception, so it can be used.
     # Note that initr() cannot be run multiple times, so this cannot be used repeatedly to check R availability.
-    if sys.platform.startswith('linux'):
+    if sys.platform.startswith('linux') or sys.platform == 'darwin':
         import rpy2.rinterface
         rpy2.rinterface.initr()
         import rpy2.robjects as robjects
@@ -108,10 +109,7 @@ try:
     elif sys.platform == 'win32':
         import rpy2.robjects as robjects
         versions['r'] = robjects.r('version')[-2][0]
-    else:
-        # For macOS and other platforms
-        versions['r'] = None
-except (ModuleNotFoundError, NameError, FileNotFoundError, OSError):
+except (ModuleNotFoundError, NameError, FileNotFoundError, OSError, ImportError):
     versions['r'] = None
 try:
     import rpy2
