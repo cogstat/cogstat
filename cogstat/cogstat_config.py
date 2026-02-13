@@ -114,11 +114,11 @@ except (ModuleNotFoundError, NameError, FileNotFoundError, OSError, ImportError)
 try:
     import rpy2
     try:
-        versions['rpy2'] = rpy2.__version__
+        versions['rpy2'] = rpy2.__version__  # this solution can be used up to v3.6
     except AttributeError:
         try:
             from importlib.metadata import version
-            versions['rpy2'] = version('rpy2')
+            versions['rpy2'] = version('rpy2')  # this solution to be used from v3.6
         except:
             versions['rpy2'] = None
 except (ModuleNotFoundError, NameError):
