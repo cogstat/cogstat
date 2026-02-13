@@ -13,6 +13,7 @@ Mostly scipy.stats, statsmodels, and pingouin are used to generate the results.
 import gettext
 import os
 import re
+import math
 
 import numpy as np
 import pandas as pd
@@ -49,29 +50,40 @@ def print_p(p, style='apa'):
     """
     Make an output according to the appropriate rules.
 
-    Currently, APA rule is supported:
-
-    - if p < 0.001, then print 'p < .001'
-    - otherwise 'p = value' with 3 decimal places precision
-    - leading zero is not displayed
-
     Parameters
     ----------
     p: float
         The p value to be displayed
-    style: {'apa'}
+    style: {'apa', 'scientific'}
         The format in which the value should be displayed
+
+        APA style:
+        - if p < 0.001, then print 'p < .001'
+        - otherwise 'p = value' with 3 decimal places precision
+        - leading zero is not displayed
+
+        Scientific style:
+        - if p < 0.001, then use the scientific normalized notation, coefficient is with 2 decimal places
+        - otherwise 'p = value' with 3 decimal places precision, with leading zero displayed
 
     Returns
     -------
     str
         p value in appropriate format
     """
+
     if style == 'apa':
         if p < 0.001:
             return '<i>p</i> &lt; .001'
         else:
-            return '<i>p</i> = ' + ('%0.3f' % p).lstrip('0')
+            return f'<i>p</i> = {p:.3f}'.replace('0.', '.')
+    elif style == 'scientific':
+        if p < 0.001:  # normalized scientific notation (i.e., not the E notation)
+            exp = math.floor(math.log10(abs(p)))
+            coeff = p / (10 ** exp)
+            return f'<i>p</i> = {coeff:.2f} × 10<sup>{exp:d}</sup>'
+        else:
+            return f'<i>p</i> = {p:.3f}'
 
 
 def print_sensitivity_effect_sizes(effect_sizes_95=None, effect_sizes_80=None):
