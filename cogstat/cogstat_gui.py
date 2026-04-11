@@ -1244,7 +1244,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
     def _show_about(self):
         QtWidgets.QMessageBox.about(self, _('About CogStat ') + csc.versions['cogstat'], 'CogStat ' +
                                     csc.versions['cogstat'] + ('<br>%s<br><br>Copyright © %s-%s Attila Krajcsi and CogStat contributors<br><br>'
-                                                               '<a href = "http://www.cogstat.org">%s</a>' %
+                                                               '<a href = "https://www.cogstat.org">%s</a>' %
                                                                (_('Simple automatic data analysis software'),
                                                                 2012, 2024, _('Visit CogStat website'))))
 
