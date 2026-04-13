@@ -7,6 +7,7 @@ Upcoming release
 - Custom y-axis label for repeated measures charts
 - Support importing Excel spreadsheet .xlsm and .xlsb files
 - Faster import of spreadsheet files
+- Command menu to find appropriate menus easier
 - Updated French localization (Csenge Magyar)
 - New localization
     - Slovenian (Tia Križan)

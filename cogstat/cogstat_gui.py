@@ -72,9 +72,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
     CogStat GUI.
     """
     def __init__(self):
-        super(StatMainWindow, self).__init__()  # TOD do we need super()?
+        super(StatMainWindow, self).__init__()  # TODO do we need super()?
         self._init_UI()
 
+        self.active_data = None
         self.unsaved_output = False  # Do not want to save the output with the welcome message
         self.output_filename = ''
         self.last_file_dir = os.path.dirname(csc.__file__)
@@ -167,115 +168,136 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Menus and commands
         # The list will be used to construct the menus
-        # Items include the icon name, the menu name, the shortcut, the function to call, whether to add it to the
-        # toolbar, whether it is active only when data is loaded, whether it is checkable
+        # Items include [0] the icon name, [1] the menu name, [2] the shortcut, [3] the function to call,
+        # [4] whether to add it to the toolbar, [5] whether it is active only when data is loaded,
+        # [6] whether it is checkable, [7] keywords for the command menu
         icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'icons')
         menu_commands = [
                             [_('&Data'),
                                 ['/icons8-folder.svg', _('&Open data file')+'...', _('Ctrl+O'),
-                                 self.open_file, True, False, False],
+                                 self.open_file, True, False, False,
+                                 [_('import'), _('spreadsheet'), 'excel', 'spss', 'jamovi', 'jasp', 'sas', 'stata', 'r']],
                                 ['/icons8-folder-puzzle-100.png', _('Open d&emo data file')+'...', _('Ctrl+E'),
-                                 self.open_demo_file, True, False, False],
+                                 self.open_demo_file, True, False, False,
+                                 [_('import'), _('spreadsheet'), 'excel', 'spss', 'jamovi', 'jasp', 'sas', 'stata', 'r']],
                                 ['/icons8-folder-reload.svg', _('Re&load actual data file'), _('Ctrl+Shift+L'),
-                                 self.reload_file, True, True, False],
+                                 self.reload_file, True, True, False, []],
                                 ['/icons8-folder-play-100.png', _('Reload data file when &changed'),
-                                 _('Ctrl+Shift+Alt+L'), self.watch_file, True, True, True],
+                                 _('Ctrl+Shift+Alt+L'), self.watch_file, True, True, True, []],
                                 ['/icons8-edit-folder-100.png', _('Open data file with e&xternal editor'),
-                                 _('Ctrl+Shift+O'), self.open_file_with_editor, True, True, False],
+                                 _('Ctrl+Shift+O'), self.open_file_with_editor, True, True, False, []],
                                 ['/icons8-paste.svg', _('&Paste data'), _('Ctrl+V'),
-                                 self.open_clipboard, True, False, False],
+                                 self.open_clipboard, True, False, False, [_('clipboard')]],
                                 ['separator'],
                                 ['/icons8-filter.svg', _('&Filter outliers')+'...', _('Ctrl+L'),
-                                 self.filter_outlier, True, True, False],
+                                 self.filter_outlier, True, True, False,
+                                 [_('mad'), _('Median absolute deviation'), _('Mahalanobis Minimum Covariance Determinant'), _('Mahalanobis MCD')]],
                                 ['separator'],
                                 ['/icons8-data-sheet-check.svg', _('Display &data briefly'), _('Ctrl+D'),
-                                 self._print_data_brief, False, True, False],
+                                 self._print_data_brief, False, True, False, []],
                                 ['toolbar separator']
                              ],
                             [_('&Analysis'),
                                 ['/icons8-normal-distribution-histogram.svg', _('Explore &variable')+'...',
-                                 _('Ctrl+1'), self.explore_variable, True, True, False],
+                                 _('Ctrl+1'), self.explore_variable, True, True, False,
+                                 [_('Shapiro-Wilk test'), _('Q-Q plot'), _('Wilcoxon signed-rank test'), _('one-sample t-test'), _('sensitivity power analysis')]],
                                 ['/icons8-scatter-plot.svg', _('Explore relation of variable &pair')+'...',
-                                 _('Ctrl+2'), self.explore_variable_pair, True, True, False],
+                                 _('Ctrl+2'), self.explore_variable_pair, True, True, False,
+                                 [_('scatter plot'), _('linear regression'), _('Pearson correlation'), _('Spearmna correlation'), _('R2'), _('AIC'), _('BIC'), _("Cramér's V"), _('residual plot'), _('Henze-Zirkler test'), _("Koenker’s test"), _("White’s test"), _('Variance inflation factors'), _('VIF'), _('Contingency table'), _('Chi-squared test')]],
                                 ['/icons8-heat-map-100.png', _('Explore &relation of variables')+'...',
-                                 _('Ctrl+R'), self.regression, True, True, False],
+                                 _('Ctrl+R'), self.regression, True, True, False,
+                                 [_('scatter plot'), _('linear regression'), _('Pearson correlation'), _('Spearmna correlation'), _('R2'), _('AIC'), _('BIC'), _("Cramér's V"), _('residual plot'), _('Henze-Zirkler test'), _("Koenker’s test"), _("White’s test"), _('Variance inflation factors'), _('VIF'), _('Contingency table'), _('Chi-squared test')]],
                                 ['/icons8-combo-chart.svg', _('Compare repeated &measures variables')+'...',
-                                 _('Ctrl+P'), self.compare_variables, True, True, False],
+                                 _('Ctrl+P'), self.compare_variables, True, True, False,
+                                 [_('within subject'), _('spaghetti plot'), _('mosaic plot'), _('Cohen’s d'), _('eta-squared'), _('Shapiro-Wilk test'), _('paired t-test'), _('paired Wilcoxon test'), _('McNemar’s test'), _('repeated measures ANOVA'),_('Mauchly’s sphericity test'), _('Greenhouse-Geisser correction'), _('Holm-Bonferroni correction'), _('Friedman test'), _('Durbin-Conover test'), _('Cochran Q-test')]],
                                 ['/icons8-bar-chart.svg', _('Compare &groups')+'...', _('Ctrl+G'),
-                                 self.compare_groups, True, True, False],
+                                 self.compare_groups, True, True, False,
+                                 [_('between subject'), _('mosaic plot'), _('Cohen’s d'), _('eta-squared'), _('Cramér’s V'), _('box plot'), _("Hedges' g"), _('Shapiro-Wilk test'), _('modified t-test'), _('Mann-Whitney test'), _('Brunner-Munzel test'), _('Levene’s test'), _('two-sample t-test'), _('Welch’s t-test'), _('Chi-squared test'), _('one-way ANOVA'), _('Tukey’s HSD tests'), _('Kruskal-Wallis test'), _('Dunn’s test'), _('Two-way ANOVA')]],
                                 ['/icons8-combo-chart-100.png',
                                  _('&Compare repeated measures variables and groups')+'...', _('Ctrl+M'),
-                                 self.compare_variables_groups, True, True, False],
+                                 self.compare_variables_groups, True, True, False,
+                                 [_('within subject'), _('between subject'), _('spaghetti plot'), _('mosaic plot'), _('Cohen’s d'), _('eta-squared'), _('Shapiro-Wilk test'), _('paired t-test'), _('paired Wilcoxon test'), _('McNemar’s test'), _('repeated measures ANOVA'),_('Mauchly’s sphericity test'), _('Greenhouse-Geisser correction'), _('Holm-Bonferroni correction'), _('Friedman test'), _('Durbin-Conover test'), _('Cochran Q-test'), _('mosaic plot'), _('Cohen’s d'), _('eta-squared'), _('Cramér’s V'), _('box plot'), _("Hedges' g"), _('Shapiro-Wilk test'), _('modified t-test'), _('Mann-Whitney test'), _('Brunner-Munzel test'), _('Levene’s test'), _('two-sample t-test'), _('Welch’s t-test'), _('Chi-squared test'), _('one-way ANOVA'), _('Tukey’s HSD tests'), _('Kruskal-Wallis test'), _('Dunn’s test'), _('Two-way ANOVA')]],
                                 ['separator'],
                                 ['toolbar separator'],
                                 ['/icons8-goal-100.png', _('Internal consistenc&y reliability analysis')+'...',
-                                 _('Ctrl+Shift+C'), self.reliability_internal, True, True, False],
+                                 _('Ctrl+Shift+C'), self.reliability_internal, True, True, False,
+                                 [_('scatter plot'), _('item score'), _('total score'), _('Cronbach’s alpha'), _('item-rest correlation')]],
                                 ['/icons8-collect-100.png', _('&Interrater reliability analysis')+'...',
-                                 _('Ctrl+Shift+I'), self.reliability_interrater, True, True, False],
+                                 _('Ctrl+Shift+I'), self.reliability_interrater, True, True, False,
+                                 [_('intraclass correlation'), _('ICC'), _('Absolute agreement'), _('Realtive agreement')]],
                                 ['separator'],
                                 ['toolbar separator'],
                                 ['/icons8-pivot-table.svg', _('Pivot &table')+'...', _('Ctrl+T'),
-                                 self.pivot, True, True, False],
+                                 self.pivot, True, True, False, []],
                                 ['/icons8-electrical-threshold.svg', _('Behavioral data &diffusion analysis') +
-                                 '...', _('Ctrl+Shift+D'), self.diffusion, True, True, False],
+                                 '...', _('Ctrl+Shift+D'), self.diffusion, True, True, False, [_('DDM')]],
                                 ['separator'],
                                 ['toolbar separator'],
                                 ['/icons8-reboot-100.png', _('Rerun all &analyses'), _('Ctrl+Shift+R'),
-                                 self.rerun_analyses, True, True, False],
+                                 self.rerun_analyses, True, True, False, []],
                                 ['/icons8-reboot-play-100.png', _('Rerun all analyses when &file reloaded'),
-                                 _('Ctrl+Shift+Alt+R'), self.rerun_analyses_on_reload, True, True, True],
+                                 _('Ctrl+Shift+Alt+R'), self.rerun_analyses_on_reload, True, True, True, []],
                                 ['toolbar separator']
                              ],
                             [_('&Results'),
                                 ['/icons8-file.svg', _('&Clear results'), _('Ctrl+Del'),
-                                 self.delete_output, True, False, False],
+                                 self.delete_output, True, False, False, [_('output'), _('erase')]],
                                 ['/icons8-search.svg', _('&Find text...'), _('Ctrl+F'),
-                                 self.find_text, True, False, False],
+                                 self.find_text, True, False, False, [_('search')]],
                                 ['separator'],
                                 ['/icons8-zoom-in.svg', _('&Increase text size'), _('Ctrl++'),
-                                 self.zoom_in, True, False, False],
+                                 self.zoom_in, True, False, False, [_('output'), _('large'), _('zoom in')]],
                                 ['/icons8-zoom-out.svg', _('&Decrease text size'), _('Ctrl+-'),
-                                 self.zoom_out, True, False, False],
+                                 self.zoom_out, True, False, False, [_('output'), _('small'), _('zoom out')]],
                                 #['', _('Reset &zoom'), _('Ctrl+0'), _(''), 'self.zoom_reset'],
                                 # TODO how can we reset to 100%?
                                 ['/icons8-edit-file.svg', _('Text is &editable'), _('Ctrl+Shift+E'),
-                                 self.text_editable, False, False, True],
+                                 self.text_editable, False, False, True, [_('output')]],
                                 ['separator'],
                                 ['/icons8-document.svg', _('&Save results'), _('Ctrl+S'),
-                                 self.save_result, False, False, False],
+                                 self.save_result, False, False, False, [_('html'), _('export'), _('print')]],
                                 ['/icons8-document-plus.svg', _('Save results &as')+'...', _('Ctrl+Shift+S'),
-                                 self.save_result_as, False, False, False],
+                                 self.save_result_as, False, False, False, [_('html'), _('export'), _('print')]],
                                 ['toolbar separator']
                              ],
                             [_('&CogStat'),
                                 ['/icons8-help.svg', _('&Help'), _('F1'),
-                                 self._open_help_webpage, True, False, False],
+                                 self._open_help_webpage, True, False, False, [_('documentation')]],
+                                ['/icons8-menu-100.svg', _('&Command menu'), _('Ctrl+K'),
+                                 self._open_command_menu, True, False, False, []],
                                 ['/icons8-settings.svg', _('&Preferences')+'...', _('Ctrl+Shift+P'),
-                                 self._show_preferences, True, False, False],
+                                 self._show_preferences, True, False, False, [_('settings'), _('config'), _('options'), _('setup')]],
                                 ['/icons8-file-add.svg', _('Request a &feature'), '',
-                                 self._open_reqfeat_webpage, False, False, False],
+                                 self._open_reqfeat_webpage, False, False, False, []],
                                 ['separator'],
                                 ['/icons8-bug.svg', _('&Report a problem'), '',
-                                 self._open_reportbug_webpage, False, False, False],
+                                 self._open_reportbug_webpage, False, False, False, [_('bug')]],
                                 ['/icons8-system-report.svg', _('&Diagnosis information'), '',
-                                 self.print_versions, False, False, False],
+                                 self.print_versions, False, False, False, [_('system'), _('version')]],
                                 ['separator'],
                                 ['/icons8-info.svg', _('&About'), '',
-                                 self._show_about, False, False, False],
+                                 self._show_about, False, False, False, [_('version')],
                                 ['separator'],
                                 ['/icons8-exit.svg', _('&Exit'), _('Ctrl+Q'),
-                                 self.close, False, False, False]
+                                 self.close, False, False, False, [_('quit')]]]
                              ]
                         ]
 
         # Create menus and commands, create toolbar
         # TODO find another solution for changing menus later so that not their order but their names/ids could be used
         self.menubar = self.menuBar()
+        self.menubar.setStyleSheet("""
+            QMenu::item:disabled {
+                color: #888888; /* Explicit gray color, not fully transparent */
+                background-color: transparent;
+            }
+        """)
         self.menus = []
         self.menu_commands = {}
         self.toolbar_actions = {}
         self.toolbar = self.addToolBar('General')
         self.active_menu_with_data = []  # Enable these commands only when active_data is available
+        self.command_actions = []  # Used for the command menu
         for menu in menu_commands:
             self.menus.append(self.menubar.addMenu(menu[0]))
             for menu_item in menu:
@@ -289,6 +311,10 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     self.menu_commands[menu_item[1]] = QtGui.QAction(QtGui.QIcon(icon_path + menu_item[0]),
                                                                          menu_item[1], self)
                     self.menu_commands[menu_item[1]].setShortcut(menu_item[2])
+                    self.command_actions.append({'name': menu_item[1].replace('&', ''),
+                                                 'keywords': menu_item[7],
+                                                 'callback': menu_item[3],
+                                                 'active_with_data': menu_item[5]})
                     if menu_item[6]:  # the item is checkable
                         self.menu_commands[menu_item[1]].setCheckable(True)
                         # For synchronizing toolbar and menu checkables, the methods should know the triggerer
@@ -1229,6 +1255,15 @@ class StatMainWindow(QtWidgets.QMainWindow):
             self.save_result()
 
     ### Cogstat menu methods ###
+    def _open_command_menu(self):
+        data_available = True
+        if self.active_data is None:
+            data_available = False
+        elif self.active_data.import_source[0] == _('Import failed'):
+            data_available = False
+        palette = CommandPalette(parent=self, actions=self.command_actions, data_available=data_available)
+        palette.show()
+
     def _open_help_webpage(self):
         webbrowser.open('https://doc.cogstat.org/')
         
@@ -1344,6 +1379,85 @@ class PandasModel(QtCore.QAbstractTableModel):
                 return str(self._dataframe.index[section])
 
         return None
+
+
+class CommandPalette(QtWidgets.QDialog):
+    def __init__(self, parent=None, actions=None, data_available=None):
+        super().__init__(parent)
+        #self.setWindowTitle(_('Command menu'))
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+        self.setModal(True)
+        #self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
+        self.resize(400, 400)
+
+        self.actions = actions or []
+        self.filtered_actions = []
+
+        self.data_available = data_available
+        self.menu_active_with_data = {action['name'].lower():action['active_with_data'] for action in self.actions}
+
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        self.search_input = QtWidgets.QLineEdit()
+        self.search_input.setPlaceholderText(_('Search commands or keywords...'))
+        self.search_input.returnPressed.connect(self.execute_selected)
+        self.search_input.textChanged.connect(self.filter_actions)
+        layout.addWidget(self.search_input)
+
+        self.list_widget = QtWidgets.QListWidget()
+        self.list_widget.itemActivated.connect(self.execute_selected)
+        layout.addWidget(self.list_widget)
+
+        self.filter_actions("")
+        self.search_input.setFocus()
+
+    def filter_actions(self, text):
+        self.list_widget.clear()
+        query = text.lower().strip()
+
+        for action in self.actions:
+            name = action['name'].lower()
+            # Get keywords, default to empty list if missing
+            keywords = [k.lower() for k in action.get('keywords', [])]
+
+            # Check if query matches name OR any keyword
+            match_name = query in name
+            match_keyword = any(query in kw for kw in keywords)
+
+            if match_name or match_keyword:
+                item = QtWidgets.QListWidgetItem(action['name'])
+                # Optional: Show keywords in tooltip for user reference
+                #if keywords:
+                #    item.setToolTip(f"Keywords: {', '.join(action['keywords'])}")
+
+                item.setData(Qt.ItemDataRole.UserRole, action)
+                if not self.data_available and self.menu_active_with_data[name]:
+                    item.setForeground(QtGui.QColor("#888888"))
+                self.list_widget.addItem(item)
+
+        if self.list_widget.count() > 0:
+            self.list_widget.setCurrentRow(0)
+
+    def execute_selected(self, item=None):
+        if item is None:
+            item = self.list_widget.currentItem()
+
+        if item:
+            action_data = item.data(Qt.ItemDataRole.UserRole)
+            if action_data and 'callback' in action_data:
+                if self.data_available or not self.menu_active_with_data[item.text().lower()]:  # when item is available
+                    self.close()
+                    try:
+                        action_data['callback']()
+                    except Exception as e:
+                        print(f"Error executing action: {e}")
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape:
+            self.close()
+        else:
+            super().keyPressEvent(event)
 
 class GuiResultPackage():
     """ A class for storing a package of results.
