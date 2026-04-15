@@ -29,6 +29,7 @@ import pingouin
 from . import cogstat_config as csc
 from . import cogstat_stat_num as cs_stat_num
 from . import cogstat_stat as cs_stat
+from . import cogstat_util as cs_util
 
 if csc.versions['r']:
     import rpy2.robjects as robjects
@@ -1655,6 +1656,8 @@ def mixed_anova(pdf, var_names, factors, grouping_variables):
         pdf_long = pd.concat([pdf_long, pdf_long['variable'].str.split('_!ß_', expand=True).
                              rename(columns={i: factors[i][0] for i in range(len(factors))})], axis=1)
         pdf_long = pdf_long.join(pdf[grouping_variables], on='ID')
+        safe_names_dict, safe_names_dict_reversed = cs_util.safe_variable_names(pdf)
+        pdf_long.rename(columns=safe_names_dict, inplace=True)
         # replace spaces for R
         pdf_long.columns = [column.replace(' ', '_') for column in pdf_long.columns]
         rdf_long = pandas2ri.py2rpy(pdf_long)
@@ -1663,8 +1666,9 @@ def mixed_anova(pdf, var_names, factors, grouping_variables):
         anova_r = ez.ezANOVA(data=rdf_long, dv=base.as_symbol('value'), wid=base.as_symbol('ID'),
                              within=base.as_symbol(robjects.StrVector([factor[0].replace(' ', '_')
                                                                        for factor in factors])),
-                             between=base.as_symbol(robjects.StrVector(grouping_variables)), type=3)
+                             between=base.as_symbol(robjects.StrVector([safe_names_dict[item] for item in grouping_variables])), type=3)
         anova_table = pandas2ri.rpy2py_dataframe(anova_r[0]).reset_index(drop=True)
+        anova_table['Effect'].replace(safe_names_dict_reversed, regex=True, inplace=True)
         #sphericity_check_table = pandas2ri.rpy2py_dataframe(anova_r[1])
         #sphericity_correction_table = pandas2ri.rpy2py_dataframe(anova_r[2])
 

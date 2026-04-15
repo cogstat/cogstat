@@ -335,28 +335,6 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     return [result, n_table_styler, drift_rate_styler, threshold_styler, nondecision_time_styler]
 
 
-def safe_var_names(names):  # TODO not used at the moment. maybe could be deleted.
-    """Change the variable names for R."""
-    # TODO exclude unicode characters
-    for i in range(len(names)):
-        names[i] = str(names[i]).translate(string.maketrans(' -', '__'))  # use underscore instead of space or dash
-        if names[i][0].isdigit():  # do not start with number
-            names[i] = '_'+names[i]
-        name_changed = False
-        for j in range(i):
-            while names[i] == names[j]:
-                if not name_changed:
-                    names[i] = names[i]+'_1'
-                    name_changed = True
-                else:
-                    underscore_pos = names[i].rfind('_')
-                    names[i] = names[i][:underscore_pos]+'_'+str(int(names[i][underscore_pos+1:])+1)
-    return names    
-# test safe_var_names
-#names = ['something', '123asd', 's o m e t h i n g'] + ['something']*20
-#print names
-#print safe_var_names(names)
-
 ### Single variables ###
 
 

@@ -191,3 +191,22 @@ def _reformat_string(string):
     string = string.replace('<\xa0', '&lt; ')
 
     return string
+
+
+def safe_variable_names(data):
+    """Use safe variable names for functions that cannot handle Unicode, or have other constraints.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+
+    Returns
+    -------
+    safe_names_dict: dict
+        original name : safe name
+    safe_names_dict_reversed: dict
+        safe name : original name
+    """
+    safe_names_dict = {name: f'CS_safe_name_{i}' for i, name in enumerate(data)}
+    safe_names_dict_reversed = {value: key for key, value in safe_names_dict.items()}
+    return safe_names_dict, safe_names_dict_reversed

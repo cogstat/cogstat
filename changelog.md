@@ -8,6 +8,7 @@ Upcoming release
 - Support importing Excel spreadsheet .xlsm and .xlsb files
 - Faster import of spreadsheet files
 - Command menu to find appropriate menus easier
+- Variable names can include any Unicode characters
 - Updated French localization (Csenge Magyar)
 - New localization
     - Slovenian (Tia Križan)

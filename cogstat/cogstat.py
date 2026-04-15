@@ -333,13 +333,9 @@ class CogStatData:
 
             nonlocal warning_text
 
-            non_ascii_var_names = []
             non_ascii_vars = []
             valid_chars = string.ascii_letters + string.digits + '_'
             for variable_name in self.data_frame:
-                # check the variable name
-                if not all(char in valid_chars for char in variable_name):  # includes non-valid char
-                    non_ascii_var_names.append(variable_name)
                 # check the values
                 if self.data_frame[variable_name].dtype == 'object':  # check only string variables
                     for ind_data in self.data_frame[variable_name]:
@@ -349,17 +345,6 @@ class CogStatData:
                             if not all(char in valid_chars for char in ind_data):
                                 non_ascii_vars.append(variable_name)
                                 break  #after finding the first non-ascii data, we can skip the rest variable data
-            if non_ascii_var_names:
-                warning_text += '\n<cs_warning><b>' + _('Recommended characters in variable names warning') + \
-                                       '</b> ' + \
-                                       _('Some variable name(s) include characters other than English letters, '
-                                         'numbers, or underscore which can cause problems in some analyses: %s.') \
-                                       % ('<i>' + ', '.join(
-                    '%s' % non_ascii_var_name for non_ascii_var_name in non_ascii_var_names) + '</i>')\
-                                       + ' ' + _('If some analyses cannot be run, fix this in your data source.') \
-                                       + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                                       % 'https://doc.cogstat.org/Handling-data' \
-                                       + '</cs_warning>'
             if non_ascii_vars:
                 warning_text += '\n<cs_warning><b>' + _('Recommended characters in data values warning') + \
                                        '</b> ' + \
