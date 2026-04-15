@@ -47,7 +47,7 @@ warn_unknown_variable = '<cs_warning>'+_('The properties of the variables are no
 non_data_dim_precision = 2
 
 
-def print_p(p, style='apa'):
+def print_p(p, style=None):
     """
     Make an output according to the appropriate rules.
 
@@ -72,6 +72,8 @@ def print_p(p, style='apa'):
     str
         p value in appropriate format
     """
+    if style is None:  # if style was not provided, use the ini file value
+        style = csc.p_value_format
 
     if style == 'apa':
         if p < 0.001:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>183</height>
+    <width>476</width>
+    <height>204</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,39 +18,13 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="2" column="1">
-        <widget class="QComboBox" name="themeComboBox"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Language</string>
-         </property>
-         <property name="buddy">
-          <cstring>langComboBox</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Image format</string>
-         </property>
-         <property name="buddy">
-          <cstring>image_combo_box</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="image_combo_box"/>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Chart theme</string>
          </property>
          <property name="buddy">
-          <cstring>themeComboBox</cstring>
+          <cstring>theme_combo_box</cstring>
          </property>
         </widget>
        </item>
@@ -71,22 +45,64 @@
           <string>Restart CogStat to use the new language settings</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="langComboBox"/>
-       </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="error_combo_box"/>
-       </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Detailed error message</string>
          </property>
+         <property name="buddy">
+          <cstring>error_combo_box</cstring>
+         </property>
         </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="lang_combo_box"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="error_combo_box"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="theme_combo_box"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Image format</string>
+         </property>
+         <property name="buddy">
+          <cstring>image_combo_box</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="image_combo_box"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Language</string>
+         </property>
+         <property name="buddy">
+          <cstring>lang_combo_box</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>P value</string>
+         </property>
+         <property name="buddy">
+          <cstring>p_value_combo_box</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="p_value_combo_box"/>
        </item>
       </layout>
      </item>
@@ -99,10 +115,10 @@
         </sizepolicy>
        </property>
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+        <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Help|QDialogButtonBox::StandardButton::Ok</set>
        </property>
       </widget>
      </item>
@@ -110,6 +126,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lang_combo_box</tabstop>
+  <tabstop>theme_combo_box</tabstop>
+  <tabstop>image_combo_box</tabstop>
+  <tabstop>p_value_combo_box</tabstop>
+  <tabstop>error_combo_box</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -120,11 +143,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>257</x>
-     <y>156</y>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>203</y>
     </hint>
    </hints>
   </connection>
@@ -136,11 +159,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>325</x>
-     <y>156</y>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
-     <y>274</y>
+     <y>203</y>
     </hint>
    </hints>
   </connection>

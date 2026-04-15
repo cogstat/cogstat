@@ -9,6 +9,7 @@ Upcoming release
 - Faster import of spreadsheet files
 - Command menu to find appropriate menus easier
 - Variable names can include any Unicode characters
+- Option to display p value not only in APA but in scientific format 
 - Updated French localization (Csenge Magyar)
 - New localization
     - Slovenian (Tia Križan)

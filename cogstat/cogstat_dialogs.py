@@ -1497,6 +1497,13 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         self.image_combo_box.addItems(image_formats)
         self.image_combo_box.setCurrentIndex(image_formats.index(csc.image_format))
 
+        # Init p value format
+        self.p_value_format_ini = ['apa', 'scientific']
+        self.p_value_format_ui = [_('APA'), _('Scientific')]
+        # TODO any beter soltion than these two lists? (dict(s) seemed to be similar overall)
+        self.p_value_combo_box.addItems(self.p_value_format_ui)
+        self.p_value_combo_box.setCurrentIndex(self.p_value_format_ini.index(csc.p_value_format))
+
         # Init detailed error message
         error_messages = [_('Off'), _('On')]
         self.error_combo_box.addItems(error_messages)
@@ -1537,10 +1544,10 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         lang_names_sorted = sorted([lang_names[lang] for lang in langs])
         self.lang_codes = {lang_name: lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
 
-        self.langComboBox.clear()
+        self.lang_combo_box.clear()
         for lang_name in lang_names_sorted:
-            self.langComboBox.addItem(lang_name)
-        self.langComboBox.setCurrentIndex(lang_names_sorted.index(lang_names[csc.language]))
+            self.lang_combo_box.addItem(lang_name)
+        self.lang_combo_box.setCurrentIndex(lang_names_sorted.index(lang_names[csc.language]))
 
     def init_themes(self):
         """Set the available themes.
@@ -1548,10 +1555,10 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         import matplotlib.pyplot as plt
 
         themes = sorted(plt.style.available)
-        self.themeComboBox.clear()
+        self.theme_combo_box.clear()
         for theme in themes:
-            self.themeComboBox.addItem(theme)
-        self.themeComboBox.setCurrentIndex(themes.index(csc.theme))
+            self.theme_combo_box.addItem(theme)
+        self.theme_combo_box.setCurrentIndex(themes.index(csc.theme))
 
     def write_and_apply_settings(self):
         """Save the settings when OK is pressed. Apply the settings so that restart is not needed.
@@ -1559,14 +1566,17 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         from . import cogstat_chart as cs_chart
 
         # Language
-        csc.save('language', self.lang_codes[str(self.langComboBox.currentText())])
+        csc.save('language', self.lang_codes[str(self.lang_combo_box.currentText())])
         # Theme
-        csc.theme = str(self.themeComboBox.currentText())
+        csc.theme = str(self.theme_combo_box.currentText())
         cs_chart.set_matplotlib_theme()
         csc.save('theme', csc.theme)
         # Image format
         csc.image_format = str(self.image_combo_box.currentText())
         csc.save('image_format', csc.image_format)
+        # P value format
+        csc.p_value_format = self.p_value_format_ini[self.p_value_format_ui.index(str(self.p_value_combo_box.currentText()))]
+        csc.save('p_value_format', csc.p_value_format)
         # Detailed error message
         csc.detailed_error_message = bool(self.error_combo_box.currentIndex())
         csc.save('detailed_error_message', str(csc.detailed_error_message))

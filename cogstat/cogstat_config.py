@@ -170,6 +170,7 @@ try:
 except KeyError:
     theme = ''
 image_format = config['Preferences']['image_format']
+p_value_format = config['Preferences']['p_value_format']
 detailed_error_message = False if config['Preferences']['detailed_error_message'] == 'False' else True
 
 
