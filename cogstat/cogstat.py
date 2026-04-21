@@ -934,11 +934,11 @@ class CogStatData:
         if meas_level in ['int', 'unk']:
             results['hypothesis test'] += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
                            _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
-                           '</cs_decision>\n'
+                           '</cs_decision>\n\n'
             results['hypothesis test'] += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
             norm, text_result_norm = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
 
-            results['hypothesis test'] += text_result_norm
+            results['hypothesis test'] += text_result_norm + '\n'
             if norm:
                 results['hypothesis test'] += '<cs_decision>' + _('Normality is not violated.') + ' >> ' + \
                                _('Running one-sample t-test.') + '</cs_decision>\n'
