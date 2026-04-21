@@ -178,7 +178,7 @@ detailed_error_message = False if config['Preferences']['detailed_error_message'
 # Text formatting settings
 default_font = 'arial'
 default_font_size = 9.5
-# Define cs specific tags as html tags
+# Define cs specific tags as HTML tags
 cs_tags = {'<cs_h1>': '<h2>',
            '</cs_h1>': '</h2>',
            '<cs_h2>': '<h3>',
@@ -187,7 +187,7 @@ cs_tags = {'<cs_h1>': '<h2>',
            '</cs_h3>': '</h4>',
            '<cs_h4>': '<h5>',
            '</cs_h4>': '</h5>',
-           '<cs_decision>': '<font style="color: green">',
+           '<cs_decision>': '<font style="color: gray">',
            '</cs_decision>': '</font>',
            '<cs_warning>': '<font style="color: orange">',
            '</cs_warning>': '</font>',
