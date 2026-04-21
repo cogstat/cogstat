@@ -90,13 +90,15 @@ def print_p(p, style=None):
     return None
 
 
-def print_sensitivity_effect_sizes(effect_sizes_95=None, effect_sizes_80=None):
+def print_sensitivity_effect_sizes(test_name='', effect_sizes_95=None, effect_sizes_80=None):
     """
     Print the effect sizes of the sensitivity power analysis results. Power can be 95% and 80%. Multiple effect sizes
     can be provided in a dictionary.
 
     Parameters
     ----------
+    test_name: str
+        name of the test the power analysis is for
     effect_sizes_95: dict
         effect sizes for 95% power
         keys are the effect size names, values are the effect sizes
@@ -116,25 +118,25 @@ def print_sensitivity_effect_sizes(effect_sizes_95=None, effect_sizes_80=None):
     effect_sizes_95_str = ''
     for effect_size_name in effect_sizes_95:
         if effect_sizes_95[effect_size_name]:
-            effect_sizes_95_str += _('Minimal effect size in %s') % effect_size_name + ': %0.2f. ' % \
+            effect_sizes_95_str += _('Minimal effect size in %s for 95%% power') % effect_size_name + ': %0.2f. ' % \
                                    effect_sizes_95[effect_size_name]
 
     effect_sizes_80_str = ''
     for effect_size_name in effect_sizes_80:
         if effect_sizes_80[effect_size_name]:
-            effect_sizes_80_str += _('Minimal effect size in %s') % effect_size_name + ': %0.2f. ' % \
+            effect_sizes_80_str += _('Minimal effect size in %s for 80%% power') % effect_size_name + ': %0.2f. ' % \
                                    effect_sizes_80[effect_size_name]
 
     if effect_sizes_95_str or effect_sizes_80_str:
-        text_result = _('Sensitivity power analysis') + '.\n'
+        text_result = _('Sensitivity power analysis for %s (minimal effect size to reach the given power with the '
+                        'present sample size for the present hypothesis test)') % test_name + '. '
         if effect_sizes_95_str:
-            text_result += _('Minimal effect size to reach 95% power with the present '
-                           'sample size for the present hypothesis test') + '. ' + effect_sizes_95_str + '\n'
+            text_result += effect_sizes_95_str
         if effect_sizes_80_str:
-            text_result += _('Minimal effect size to reach 80% power with the present '
-                             'sample size for the present hypothesis test') + '. ' + effect_sizes_80_str + '\n'
+            text_result += effect_sizes_80_str
     else:
-        text_result = _('Sensitivity power could not be calculated.') + '\n'
+        text_result = _('Sensitivity power for %s could not be calculated.') % test_name
+    text_result += '\n'
     return text_result
 
 
@@ -262,7 +264,7 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
         except ValueError:
             effect_size_95 = {_('d'): None}
             effect_size_80 = {_('d'): None}
-        text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
+        text_result += print_sensitivity_effect_sizes(_('one sample t-test'), effect_size_95, effect_size_80)
 
         text_result += _('One sample t-test against %g') % \
                        float(test_value) + ': <i>t</i>(%d) = %0.*f, %s\n' % (df, non_data_dim_precision, t, print_p(p))
@@ -822,7 +824,7 @@ def paired_t_test(pdf, var_names):
     except ValueError:
         effect_size_95 = {_('d'): None}
         effect_size_80 = {_('d'): None}
-    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
+    text_result += print_sensitivity_effect_sizes(_('paired samples t-test'), effect_size_95, effect_size_80)
 
     df = len(variables) - 1
     t, p = stats.ttest_rel(variables.iloc[:, 0], variables.iloc[:, 1])
@@ -1231,7 +1233,7 @@ def independent_t_test(pdf, var_name, grouping_name):
     except ValueError:
         effect_size_95 = {_('d'): None}
         effect_size_80 = {_('d'): None}
-    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
+    text_result += print_sensitivity_effect_sizes(_('independent samples t-test'), effect_size_95, effect_size_80)
 
     text_result += _('Result of independent samples t-test:') + ' <i>t</i>(%0.3g) = %0.*f, %s\n' % \
                    (df, non_data_dim_precision, t, print_p(p))
@@ -1400,7 +1402,7 @@ def one_way_anova(pdf, var_name, grouping_name):
     effect_size_80[_('eta-square')] = None if np.isnan(eta_square_80) else eta_square_80
 
     # 3. Create output text
-    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
+    text_result += print_sensitivity_effect_sizes(_('one-way ANOVA'), effect_size_95, effect_size_80)
 
     # FIXME https://github.com/cogstat/cogstat/issues/136
     anova_model = ols(str('Q("%s") ~ C(Q("%s"))' % (var_name, grouping_name)), data=data).fit()
@@ -1574,7 +1576,7 @@ def chi_squared_test(pdf, var_name, grouping_name):
     except ValueError:
         effect_size_95 = {_('w'): None}
         effect_size_80 = {_('w'): None}
-    text_result += print_sensitivity_effect_sizes(effect_size_95, effect_size_80)
+    text_result += print_sensitivity_effect_sizes(_("Pearson's chi-squared test"), effect_size_95, effect_size_80)
 
     # Hypothesis test
     chi2, p, dof, expected = stats.chi2_contingency(cont_table_data.values)
