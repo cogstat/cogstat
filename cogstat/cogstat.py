@@ -858,6 +858,12 @@ class CogStatData:
         results['analysis info'] += (_('Exploring variable: ') + var_name + ' (%s)\n' % meas_level)
         results['analysis info'] += self._filtering_status()
 
+        if unknown_type:
+            if results['warning'] is None:
+                results['warning'] = ''
+            results['warning'] += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
+
+
         # 1. Raw data
         results['raw data info'] = '<cs_h2>' + _('Raw data') + '</cs_h2>'
 
@@ -929,8 +935,6 @@ class CogStatData:
             results['hypothesis test'] += ('<cs_decision>' + _('Testing if median deviates from the value %s.') %
                                            central_value + '</cs_decision>\n')
 
-        if unknown_type:
-            results['hypothesis test'] += '<cs_decision>' + warn_unknown_variable + '\n</cs_decision>'
         if meas_level in ['int', 'unk']:
             results['hypothesis test'] += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
                            _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
