@@ -371,14 +371,18 @@ class StatMainWindow(QtWidgets.QMainWindow):
 
         # Currently, it doesn't make sense to use a loop here, but we keep it, until we decide how to implement the ToC
         for pane in [self.result_pane]:
-            # some html styles are modified for the GUI version (but not for the Jupyter Notebook version)
-            # Because qt does not support table borders, use padding to have a more reviewable table
+            # Some HTML styles are modified for the GUI version (but not for the Jupyter Notebook version).
+            # Because qt does not support table borders, use padding to have a more reviewable table.
+            # To provide an APA style table, we need border-top and border-bottom for the heading, and border-bottom
+            # for the last row. However, in pyqt, border-bottom is not supported for a row or the table or anything
+            # else than heading cell and data cell. So currently, we cannot create APA tables.
+            # TODO https://github.com/cogstat/cogstat/issues/65
             pane.document().setDefaultStyleSheet('body {color:black;} '
                                                  'h2 {color:%s;} h3 {color:%s;} '
                                                  'h4 {color:%s;} h5 {color:%s; font-size: medium;} '
                                                  'th {font-weight:normal; white-space:nowrap; '
-                                                 'padding-right: 5px; padding-left: 5px} '
-                                                 'td {white-space:nowrap; padding-right: 5px; padding-left: 5px}' %
+                                                 'padding-right: 5px; padding-left: 5px;} '
+                                                 'td {white-space:nowrap; padding-right: 5px; padding-left: 5px;}' %
                                                  (cs_util.change_color(csc.mpl_theme_color, brightness=1.1),
                                                   cs_util.change_color(csc.mpl_theme_color, brightness=1.0),
                                                   cs_util.change_color(csc.mpl_theme_color, brightness=0.8),
