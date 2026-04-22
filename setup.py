@@ -16,5 +16,5 @@ setup(name='cogstat',
       # R packages: ez
       python_requires='>=3.7',  # dictionaries are ordered
       entry_points={'console_scripts': ['cogstat=cogstat.cogstat_gui:main']},
-      extras_requires={'GUI': ['PyQt6']}
+      extras_require={'GUI': ['PyQt6']}
 )
