@@ -91,7 +91,7 @@ data = cs.CogStatData(data=data_pd, measurement_levels=['int', 'int', 'nom', 'no
 
 # display the data so that it can be copied to validating software packages
 #pd.set_option('display.expand_frame_repr', False)
-#print (data_pd)
+#print(data_pd)
 
 class CogStatTestCase(unittest.TestCase):
     """Unit tests for CogStat."""
@@ -163,7 +163,7 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681
-        self.assertTrue('effect size in d: 0.68' in result['hypothesis test'])
+        self.assertTrue('effect size in d for 95% power: 0.68' in result['hypothesis test'])
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 1.92, 0.065
         self.assertTrue('t</i>(29) = 1.92' in result['hypothesis test'])
@@ -353,7 +353,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<sub>c</sub></i> = 0.372' in result['sample effect size table'])
         # Sensitivity power analysis
             # G*Power 3.1.9.6, "Goodness of fit test: Contingency tables", df=4: 0.7868005
-        self.assertTrue('effect size in w: 0.79' in result['hypothesis test'])
+        self.assertTrue('effect size in w for 95% power: 0.79' in result['hypothesis test'])
         # Chi-squared
             # jamovi v1.2.19.0: X2, df, p, N: 8.31, 4, 0.081, 30
             # jasp 0.16.1   x2, df, p, N: 8.312, 4, 0.081, 30
@@ -407,7 +407,7 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 0.6811825
             # jamovi v1.2.19.0, jpower 0.1.2: 0.681
-        self.assertTrue('effect size in d: 0.68' in result['hypothesis test'])
+        self.assertTrue('effect size in d for 95% power: 0.68' in result['hypothesis test'])
         # Paired samples t-test
             # jamovi v1.2.19.0: t, df, p: 0.110, 29.0, 0.913
             # jasp 0.16.1   t:0.110, df:29, p:0.913
@@ -579,7 +579,7 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # G*Power 3.1.9.6: 1.3641059
             # jamovi v1.2.19.0, jpower 0.1.2: 1.36
-        self.assertTrue('effect size in d: 1.36' in result['hypothesis test'])
+        self.assertTrue('effect size in d for 95% power: 1.36' in result['hypothesis test'])
         # independent samples t-test
             # jamovi v1.2.19.0: t, df, p: -1.93, 28.0, 0.064
             # jasp 0.16.1   t: -1.928, df: 28, p:0.064
@@ -623,8 +623,8 @@ class CogStatTestCase(unittest.TestCase):
         # Sensitivity power analysis
             # TODO eta-square; see also https://github.com/raphaelvallat/pingouin/releases/tag/v0.5.2
             # G*Power (f value) 3.1.9.6: 0.7597473
-        self.assertTrue('effect size in eta-square: 0.15' in result['hypothesis test'])
-        self.assertTrue('effect size in f: 0.76' in result['hypothesis test'])
+        self.assertTrue('effect size in eta-square for 95% power: 0.15' in result['hypothesis test'])
+        self.assertTrue('effect size in f for 95% power: 0.76' in result['hypothesis test'])
             # jamovi 2.0.0.0 4.00, 0.030
             # jasp 0.16.1   4.002, 0.030
         self.assertTrue('<i>F</i>(2, 27) = 4.00, <i>p</i> = .030' in result['hypothesis test'])
