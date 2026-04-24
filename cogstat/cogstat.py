@@ -909,7 +909,7 @@ class CogStatData:
         # Normality
         if meas_level in ['int', 'unk']:
             results['normality info'] = '<cs_h3>' + _('Normality') + '</cs_h3>'
-            stat_result, text_result = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
+            norm, text_result = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
             results['normality chart'] = cs_chart.create_normality_chart(data, var_name)
                 # histogram with normality and qq plot
             results['normality info'] += text_result
@@ -926,50 +926,20 @@ class CogStatData:
         elif meas_level == 'nom':
             results['estimation table'] = cs_stat.proportions_ci(data, var_name)
 
-        # Hypothesis tests
-        results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
-        if self.data_measlevs[var_name] in ['int', 'unk']:
-            results['hypothesis test'] += ('<cs_decision>' + _('Testing if mean deviates from the value %s.') %
-                                           central_value + '</cs_decision>\n')
-        elif self.data_measlevs[var_name] == 'ord':
-            results['hypothesis test'] += ('<cs_decision>' + _('Testing if median deviates from the value %s.') %
-                                           central_value + '</cs_decision>\n')
-
         if meas_level in ['int', 'unk']:
-            results['hypothesis test'] += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
-                           _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
-                           '</cs_decision>\n\n'
-            results['hypothesis test'] += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
-            norm, text_result_norm = cs_hyp_test.normality_test(data, self.data_measlevs, var_name)
-
-            results['hypothesis test'] += text_result_norm + '\n'
             if norm:
-                results['hypothesis test'] += '<cs_decision>' + _('Normality is not violated.') + ' >> ' + \
-                               _('Running one-sample t-test.') + '</cs_decision>\n'
-                text_result, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name,
-                                                          test_value=central_value)
-                results['hypothesis test'] += text_result
+                dummy, ci = cs_hyp_test.one_t_test(data, self.data_measlevs, var_name, test_value=central_value)
                 results['estimation chart'] = cs_chart.create_variable_population_chart(data[var_name], var_name,
                                                                                         'mean', ci)
-
             else:
-                results['hypothesis test'] += ('<cs_decision>' + _('Normality is violated.') + ' >> ' +
-                                               _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n')
-                results['hypothesis test'] += _('Median: %0.*f') % (prec, np.median(data[var_name])) + '\n'
-                results['hypothesis test'] += cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
-                                                                           value=central_value)
                 results['estimation chart'] = cs_chart.create_variable_population_chart(data[var_name],
                                                                                         var_name, 'median')
-
         elif meas_level == 'ord':
-            results['hypothesis test'] += ('<cs_decision>' + _('Ordinal variable.') + ' >> ' +
-                                           _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n')
-            results['hypothesis test'] += cs_hyp_test.wilcox_sign_test(data, self.data_measlevs, var_name,
-                                                                            value=central_value)
-            results['estimation chart'] = cs_chart.create_variable_population_chart(data[var_name],
-                                                                                    var_name, 'median')
-        else:
-            results['hypothesis test'] += '<cs_decision>' + _('Sorry, not implemented yet.') + '</cs_decision>\n'
+            results['estimation chart'] = cs_chart.create_variable_population_chart(data[var_name], var_name, 'median')
+
+        # Hypothesis tests
+        results['hypothesis test'] = cs_hyp_test.explore_variable_main(data, self.data_measlevs, meas_level, var_name,
+                                                                       test_value=central_value)
 
         return cs_util.convert_output(results)
 

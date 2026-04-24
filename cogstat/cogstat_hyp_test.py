@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-This module contains functions for hypothesis tests and for related power analyses.
+This module contains all the functions for hypothesis tests and for related power analyses.
+
+The functions that include the main decision tree and that are called from cogstat.py have a name ending _main
 
 Arguments are the pandas data frame (pdf), and parameters (among others they
 are usually variable names).
@@ -45,6 +47,9 @@ warn_unknown_variable = '<cs_warning>'+_('The properties of the variables are no
                         + '\n</cs_warning>'  # TODO maybe this shouldn't be repeated, it's enough to show it at import
 
 non_data_dim_precision = 2
+
+
+### Utils ###
 
 
 def print_p(p, style=None):
@@ -139,8 +144,7 @@ def print_sensitivity_effect_sizes(test_name='', effect_sizes_95=None, effect_si
     text_result += '\n'
     return text_result
 
-
-### Single variables ###
+### General ###
 
 
 def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
@@ -153,7 +157,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     var_name : str
         Name of the variable to be checked.
     group_name : str
-        Name of the grouping variable if part of var_name should be checked. Otherwise ''.
+        Name of the grouping variable if part of var_name should be checked. Otherwise, ''.
     group_value : str
         Name of the group in group_name, if grouping is used.
 
@@ -162,11 +166,7 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     bool
         Is the variable normal (False if normality is violated)
     str
-    html, APA format, text result
-    matplotlib image
-        histogram with normal distribution
-    matplotlib image
-        QQ plot
+        HTML, APA format, text result
     """
     text_result = ''
     if group_name:
@@ -213,6 +213,9 @@ def normality_test(pdf, data_measlevs, var_name, group_name='', group_value=''):
     norm = False if p < 0.05 else True
 
     return norm, text_result
+
+
+### Single variables ###
 
 
 def one_t_test(pdf, data_measlevs, var_name, test_value=0):
@@ -315,6 +318,43 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
     else:
         text_result += _('Wilcoxon signed-rank test is computed only for interval or ordinal variables.')
     return text_result
+
+def explore_variable_main(pdf, data_measlevs, meas_level, var_name, test_value):
+    results_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
+    if data_measlevs[var_name] in ['int', 'unk']:
+        results_ht += ('<cs_decision>' + _('Testing if mean deviates from the value %s.') %
+                                       test_value + '</cs_decision>\n')
+    elif data_measlevs[var_name] == 'ord':
+        results_ht += ('<cs_decision>' + _('Testing if median deviates from the value %s.') %
+                                       test_value + '</cs_decision>\n')
+
+    if meas_level in ['int', 'unk']:
+        results_ht += '<cs_decision>' + _('Interval variable.') + ' >> ' + \
+                                      _('Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption.') + \
+                                      '</cs_decision>\n\n'
+        results_ht += '<cs_decision>' + _('Checking for normality.') + '\n</cs_decision>'
+        norm, text_result_norm = normality_test(pdf, data_measlevs, var_name)
+
+        results_ht += text_result_norm + '\n'
+        if norm:
+            results_ht += '<cs_decision>' + _('Normality is not violated.') + ' >> ' + \
+                                          _('Running one-sample t-test.') + '</cs_decision>\n'
+            text_result, ci = one_t_test(pdf, data_measlevs, var_name, test_value=test_value)
+            results_ht += text_result
+
+        else:
+            prec = cs_util.precision(pdf[var_name]) + 1
+            results_ht += ('<cs_decision>' + _('Normality is violated.') + ' >> ' +
+                                           _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n')
+            results_ht += _('Median: %0.*f') % (prec, np.median(pdf[var_name])) + '\n'
+            results_ht += wilcox_sign_test(pdf, data_measlevs, var_name, value=test_value)
+    elif meas_level == 'ord':
+        results_ht += ('<cs_decision>' + _('Ordinal variable.') + ' >> ' +
+                                       _('Running Wilcoxon signed-rank test.') + '</cs_decision>\n')
+        results_ht += wilcox_sign_test(pdf, data_measlevs, var_name, value=test_value)
+    else:
+        results_ht += '<cs_decision>' + _('Sorry, not implemented yet.') + '</cs_decision>\n'
+    return results_ht
 
 
 ### Variable pair ###
