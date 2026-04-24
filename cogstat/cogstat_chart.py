@@ -1031,7 +1031,7 @@ def multi_regress_plots(data, predicted, predictors, partial=True, params=None):
             ax.set_ylabel(predicted + ' ' + _plt('residuals'))
         else:
             x_vals = np.array(ax.get_xlim())
-            y_vals = params[0] + params[predictor] * x_vals
+            y_vals = params['const'] + params[predictor] * x_vals
             ax.plot(x_vals, y_vals, color=theme_colors[0])
             ax.set_xlabel(predictor)
             ax.set_ylabel(predicted)
@@ -1361,7 +1361,7 @@ def create_compare_groups_population_chart(pdf, meas_level, var_names, groups, g
         pdf = pdf[[var_names[0]] + groups]
         if meas_level in ['int', 'unk']:
             plt.title(_plt('Means and 95% confidence intervals for the groups'))
-            means = pdf.groupby(groups, sort=False).aggregate(np.mean)[var_names[0]]
+            means = pdf.groupby(groups, sort=False).aggregate('mean')[var_names[0]]
             cis = pdf.groupby(groups, sort=False).aggregate(cs_stat.confidence_interval_t)[var_names[0]]
             ax.bar(list(range(len(group_levels))), means.reindex(group_levels), 0.5,
                    yerr=np.array(cis.reindex(group_levels)),
@@ -1546,9 +1546,9 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                   'kurtosis': _('Kurtosis'),
                   'variation ratio': _('Variation ratio')
                   }
-    stat_functions = {'mean': np.mean,
-                      'median': np.median,
-                      'std': np.std,
+    stat_functions = {'mean': 'mean',
+                      'median': 'median',
+                      'std': 'std',
                       'min': np.amin,
                       'max': np.amax,
                       'range': np.ptp,
@@ -1601,7 +1601,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     if dep_meas_level in ['int', 'unk']:
         means = long_raw_data.pivot_table(values=dep_name,
                                           index=(indep_names if indep_names else 'all_raw_rows'),
-                                          aggfunc=np.mean)
+                                          aggfunc='mean')
         # TODO when there is only a single case, and CI is missing, no error bar is given; this looks like an exact
         #  estimation which can be misleading
         cis = long_raw_data.pivot_table(values=dep_name,
@@ -1611,7 +1611,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
     elif dep_meas_level == 'ord':
         medians = long_raw_data.pivot_table(values=dep_name,
                                             index=(indep_names if indep_names else 'all_raw_rows'),
-                                            aggfunc=np.median)  # sort=False - in pandas 1.3
+                                            aggfunc='median')  # sort=False - in pandas 1.3
         cis_low = long_raw_data.pivot_table(values=dep_name,
                                             index=(indep_names if indep_names else 'all_raw_rows'),
                                             aggfunc=lambda x: cs_stat_num.quantile_ci(x)[0][0])

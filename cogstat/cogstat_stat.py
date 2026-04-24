@@ -632,7 +632,7 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
         # Gather point estimates and CIs into table
         cis = result.conf_int(alpha=0.05)
         pdf_result.loc[_('Intercept')] = \
-            ['%0.3f' % (result.params[0]), '[%0.3f, %0.3f]' % (cis.loc['const', 0], cis.loc['const', 1])]
+            ['%0.3f' % (result.params['const']), '[%0.3f, %0.3f]' % (cis.loc['const', 0], cis.loc['const', 1])]
         for predictor in predictors:
             pdf_result.loc['Slope for %s' % predictor] = ['%0.3f' % (result.params[predictor]), '[%0.3f, %0.3f]' %
                                                           (cis.loc[predictor, 0], cis.loc[predictor, 1])]
@@ -825,12 +825,12 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
 
         if sample:
             pdf_result_corr.loc[predictor, _('Value')] = \
-                '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, predicted, predictors_other)['r']
+                '<i>r</i> = %0.3f' % pingouin.partial_corr(data, predictor, predicted, predictors_other)['r'].iloc[0]
         else:
             partial_result = pingouin.partial_corr(data, predictor, predicted, predictors_other)
             pdf_result_corr.loc[predictor + ', <i>r</i>'] = \
-                ['%0.3f' % (partial_result['r']), '[%0.3f, %0.3f]' % (partial_result['CI95%'][0][0],
-                                                                      partial_result['CI95%'][0][1])]
+                ['%0.3f' % (partial_result['r'].iloc[0]), '[%0.3f, %0.3f]' % (partial_result['CI95%'].iloc[0][0],
+                                                                              partial_result['CI95%'].iloc[0][1])]
 
     standardized_effect_size_result += pdf_result_corr.to_html(bold_rows=False, escape=False).replace('\n', '')
 
@@ -1085,7 +1085,7 @@ def comp_group_estimations(pdf, meas_level, var_names, groups):
     group_estimations_pdf = pd.DataFrame()
     if meas_level in ['int', 'unk']:
         pdf = pdf[[var_names[0]] + groups]
-        means = pdf.groupby(groups, sort=True).aggregate(np.mean)[var_names[0]]
+        means = pdf.groupby(groups, sort=True).aggregate('mean')[var_names[0]]
         # TODO can we use directly DescrStatsW instead of confidence_interval_t? (later we only use cil and cih)
         cis = pdf.groupby(groups, sort=True).aggregate(confidence_interval_t)[var_names[0]]
         group_estimations_pdf[_('Point estimation')] = means
@@ -1114,7 +1114,7 @@ def comp_group_estimations(pdf, meas_level, var_names, groups):
             group_estimations_pdf.loc[_('Difference between the two groups:')] = [mean_diff, lci, hci]
     elif meas_level == 'ord':
         pdf = pdf[[var_names[0]] + groups]
-        group_estimations_pdf[_('Point estimation')] = pdf.groupby(groups, sort=True).aggregate(np.median)[var_names[0]]
+        group_estimations_pdf[_('Point estimation')] = pdf.groupby(groups, sort=True).aggregate('median')[var_names[0]]
         cis = pdf.groupby(groups, group_keys=False, sort=True).apply(lambda x: cs_stat_num.quantile_ci(x)[:, 0])
             # TODO this solution works, but a more reasonable code would be nicer
         # APA format, but cannot be used the numbers if copied to spreadsheet
@@ -1202,8 +1202,8 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                     # same results
                     anova_result = anova_lm(anova_model)
                     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
-                    omega2 = (anova_result['sum_sq'][0] - (anova_result['df'][0] * anova_result['mean_sq'][1])) / \
-                             ((anova_result['sum_sq'][0]+anova_result['sum_sq'][1]) + anova_result['mean_sq'][1])
+                    omega2 = (anova_result['sum_sq'].iloc[0] - (anova_result['df'].iloc[0] * anova_result['mean_sq'].iloc[1])) / \
+                             ((anova_result['sum_sq'].iloc[0]+anova_result['sum_sq'].iloc[1]) + anova_result['mean_sq'].iloc[1])
                     pdf_result.loc[_('Omega-squared'), _('Value')] = '&omega;<sup>2</sup> = %0.3g' % omega2
             else:  # More than 1 grouping variables
                 standardized_effect_size_result = None

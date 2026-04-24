@@ -1276,7 +1276,7 @@ class CogStatData:
             results['descriptives'] = _('Linear regression') + ': %s = ' % predicted + \
                                      ''.join(['%0.3f × %s + ' % (weight, predictor) for weight, predictor
                                               in zip(result.params[1:], predictors)]) + \
-                                     '%0.3f' % result.params[0]
+                                     '%0.3f' % result.params['const']
 
         if len(predictors) == 1:
             results['sample effect size info'] = '<cs_h3>' + _('Standardized effect sizes') + '</cs_h3>'

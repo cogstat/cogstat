@@ -1451,11 +1451,11 @@ def one_way_anova(pdf, var_name, grouping_name):
     # Type I is run, and we want to run type III, but for a one-way ANOVA different types give the same results
     anova_result = anova_lm(anova_model)
     text_result += _('Result of one-way ANOVA: ') + '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
-                   (anova_result['df'][0], anova_result['df'][1], non_data_dim_precision, anova_result['F'][0],
-                    print_p(anova_result['PR(>F)'][0]))
+                   (anova_result['df'].iloc[0], anova_result['df'].iloc[1], non_data_dim_precision,
+                    anova_result['F'].iloc[0], print_p(anova_result['PR(>F)'].iloc[0]))
 
     # http://statsmodels.sourceforge.net/stable/stats.html#multiple-tests-and-multiple-comparison-procedures
-    if anova_result['PR(>F)'][0] < 0.05:  # post-hoc
+    if anova_result['PR(>F)'].iloc[0] < 0.05:  # post-hoc
         post_hoc_res = sm.stats.multicomp.pairwise_tukeyhsd(np.array(data[var_name]), np.array(data[grouping_name]),
                                                             alpha=0.05)
         text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
@@ -1501,16 +1501,16 @@ def multi_way_anova(pdf, var_name, grouping_names):
     # Main effects
     for group_i, group in enumerate(grouping_names):
         text_result += _('Main effect of %s: ' % group) + '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
-                       (anova_result['df'][group_i+1], anova_result['df'][-1], non_data_dim_precision,
-                        anova_result['F'][group_i+1], print_p(anova_result['PR(>F)'][group_i + 1]))
+                       (anova_result['df'].iloc[group_i+1], anova_result['df'].iloc[-1], non_data_dim_precision,
+                        anova_result['F'].iloc[group_i+1], print_p(anova_result['PR(>F)'].iloc[group_i + 1]))
 
     # Interaction effects
     for interaction_line in range(group_i+2, len(anova_result)-1):
         text_result += _('Interaction of %s: ') % \
                        (' and '.join([a[1:-21] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
                        '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
-                       (anova_result['df'][interaction_line], anova_result['df'][-1], non_data_dim_precision,
-                        anova_result['F'][interaction_line], print_p(anova_result['PR(>F)'][interaction_line]))
+                       (anova_result['df'].iloc[interaction_line], anova_result['df'].iloc[-1], non_data_dim_precision,
+                        anova_result['F'].iloc[interaction_line], print_p(anova_result['PR(>F)'].iloc[interaction_line]))
 
     """ # TODO
     # http://en.wikipedia.org/wiki/Effect_size#Omega-squared.2C_.CF.892
