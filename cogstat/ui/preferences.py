@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(476, 204)
+        Dialog.resize(476, 212)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
@@ -96,7 +96,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Detailed error message"))
         self.label_5.setText(_translate("Dialog", "Image format"))
         self.label.setText(_translate("Dialog", "Language"))
-        self.label_4.setText(_translate("Dialog", "P value"))
+        self.label_4.setText(_translate("Dialog", "P-value"))
 
 
 if __name__ == "__main__":

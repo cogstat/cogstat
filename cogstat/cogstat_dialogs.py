@@ -1497,7 +1497,7 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         self.image_combo_box.addItems(image_formats)
         self.image_combo_box.setCurrentIndex(image_formats.index(csc.image_format))
 
-        # Init p value format
+        # Init p-value format
         self.p_value_format_ini = ['apa', 'scientific']
         self.p_value_format_ui = [_('APA'), _('Scientific')]
         # TODO any beter soltion than these two lists? (dict(s) seemed to be similar overall)
@@ -1574,7 +1574,7 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
         # Image format
         csc.image_format = str(self.image_combo_box.currentText())
         csc.save('image_format', csc.image_format)
-        # P value format
+        # P-value format
         csc.p_value_format = self.p_value_format_ini[self.p_value_format_ui.index(str(self.p_value_combo_box.currentText()))]
         csc.save('p_value_format', csc.p_value_format)
         # Detailed error message

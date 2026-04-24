@@ -9,7 +9,7 @@ Upcoming release
 - Faster import of spreadsheet files
 - Command menu to find appropriate menus easier
 - Variable names and values can include any Unicode characters
-- Option to display p value not only in APA but in scientific format 
+- Option to display p-value not only in APA but in scientific format 
 - Updated French localization (Csenge Magyar)
 - New localization
     - Slovenian (Tia Križan)
@@ -106,7 +106,7 @@ Upcoming release
 
 ## Fixes
 - :warning: In outlier filtering, the cases with the limit value will be included and not excluded
-- :warning: With the update of the scipy module, the p values of the Wilcoxon tests are fixed
+- :warning: With the update of the scipy module, the p-values of the Wilcoxon tests are fixed
 - Extended calculation validations (thanks to Eszter Miklós)
 - Most settings in Preferences are applied without the need to restart
 - Various GUI, and output fixes
@@ -153,7 +153,7 @@ Upcoming release
 ## Fixes
 - Various UI and output fixes
 - Missing cases related fixes
-    - :warning: In Explore variable, Wilcoxon signed-rank test p value is fixed when there are missing cases
+    - :warning: In Explore variable, Wilcoxon signed-rank test p-value is fixed when there are missing cases
     - :warning: In Compare repeated measures variables, Hedges'g CI is fixed when there are missing cases
     - :warning: In Compare repeated measures variables, CIs are fixed when there are missing cases for more than two nominal variables
     - :warning: In Compare groups, the mosaic plots of nominal variables do not show value combinations where other variable value is missing
@@ -164,7 +164,7 @@ Upcoming release
 ================
 
 ## Fixes
-- :warning: Multi-way between-subjects ANOVA is fixed – previous releases gave incorrect F and p values for the main effects
+- :warning: Multi-way between-subjects ANOVA is fixed – previous releases gave incorrect F and p-values for the main effects
 - :warning:  Holm-Bonferroni corrected post-hoc tests is performed with the statsmodels module (in some cases, this gives a slightly different result compared with the previous versions)
 - Resizable dialogs with shortcuts for buttons and correctly set tab orders
 - Various UI, output, and chart fixes

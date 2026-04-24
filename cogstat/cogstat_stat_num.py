@@ -168,7 +168,7 @@ def modified_t_test(ind_data, group_data):
     float, float, int
 
         - test statistics
-        - p value of the test
+        - p-value of the test
         - degrees fo freedom
     """
 
@@ -326,7 +326,7 @@ def pairwise_ttest(data, dep_var, indep_var=None, id_var=None, wide=True, paired
     Returns
     -------
     pandas.DataFrame
-        t-statistics and associated p values (corrected and uncorrected) of each pairings
+        t-statistics and associated p-values (corrected and uncorrected) of each pairings
     """
     # TODO keep the order of the dep_vars
     ### Reshaping data

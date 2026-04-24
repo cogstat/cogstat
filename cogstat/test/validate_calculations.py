@@ -176,7 +176,7 @@ class CogStatTestCase(unittest.TestCase):
         # Wilcoxon signed-rank test for non-normal interval variable
         result = data.explore_variable('b', 0, 20.0)
             # jamovi 2.0.0.0 W(!) 262, p 0.556
-            # before scipy 1.9, the p value was 0.551; with scipy 1.9 the p has the same value as in jamovi
+            # before scipy 1.9, the p-value was 0.551; with scipy 1.9 the p has the same value as in jamovi
         self.assertTrue('T</i> = 203' in result['hypothesis test'])
         self.assertTrue('p</i> = .556' in result['hypothesis test'])
 
@@ -197,7 +197,7 @@ class CogStatTestCase(unittest.TestCase):
             # Note that the test value is 2 here.
             # jamovi 2.0.0.0 W(!) 320, p 0.073
             # JASP 0.15.0.0 W(!) 320, p 0.073
-            # before scipy 1.9, the p value was 0.074; with scipy 1.9 the p has the same value as in jamovi
+            # before scipy 1.9, the p-value was 0.074; with scipy 1.9 the p has the same value as in jamovi
         self.assertTrue('T</i> = 145' in result['hypothesis test'])
         self.assertTrue('p</i> = .073' in result['hypothesis test'])
         data.data_measlevs['a'] = 'int'
@@ -423,7 +423,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<i>W</i> = 0.91, <i>p</i> = .019' in result['hypothesis test'])  # <i>W</i> = 0.915
         # Wilcoxon signed-rank test
             # jamovi 2.0.0.0 110, 0.011 (0.01060 with more precision)
-            # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
+            # before scipy 1.9, the p-value was 0.012; with scipy 1.9 the p shows the same value as jamovi
             # jasp 0.16.1   110, 0.011
         #print(result[7])
         self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result['hypothesis test'])
@@ -511,7 +511,7 @@ class CogStatTestCase(unittest.TestCase):
         self.assertTrue('<td>2.3895</td>      <td>4.2275</td>' in result['descriptives table'])
         # Wilcoxon signed-rank test
             # jamovi 2.0.0.0 110, 0.011
-            # before scipy 1.9, the p value was 0.012; with scipy 1.9 the p shows the same value as jamovi
+            # before scipy 1.9, the p-value was 0.012; with scipy 1.9 the p shows the same value as jamovi
         self.assertTrue('<i>T</i> = 110.00, <i>p</i> = .011' in result['hypothesis test'])
 
         # 3 Ord variables

@@ -59,7 +59,7 @@ def print_p(p, style=None):
     Parameters
     ----------
     p: float
-        The p value to be displayed
+        The p-value to be displayed
     style: {'apa', 'scientific'}
         The format in which the value should be displayed
 
@@ -75,7 +75,7 @@ def print_p(p, style=None):
     Returns
     -------
     str
-        p value in appropriate format
+        p-value in appropriate format
     """
     if style is None:  # if style was not provided, use the ini file value
         style = csc.p_value_format
@@ -1046,7 +1046,7 @@ def friedman_test(pdf, var_names):
     if p < 0.05:
         # Run the post hoc tests
         text_result += '\n' + _('Variables differ. Running post-hoc pairwise comparison.') + '\n'
-        text_result += _("Results of Durbin-Conover test (p values).")
+        text_result += _("Results of Durbin-Conover test (p-values).")
         posthoc_result = scikit_posthocs.posthoc_durbin(variables)
         text_result += posthoc_result.to_html(float_format=lambda x: '%.3f' % x).replace('\n', '')
 
@@ -1565,7 +1565,7 @@ def kruskal_wallis_test(pdf, var_name, grouping_name):
         if p < 0.05:
             # Run the post hoc tests
             text_result += '\n' + _('Groups differ. Post-hoc test of the means.') + '\n'
-            text_result += _("Results of Dunn's test (p values).")
+            text_result += _("Results of Dunn's test (p-values).")
             posthoc_result = scikit_posthocs.posthoc_dunn(pdf, val_col=var_name, group_col=grouping_name)
             text_result += posthoc_result.to_html(float_format=lambda x: '%.3f' % x).replace('\n', '')
 
