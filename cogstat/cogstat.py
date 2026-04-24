@@ -1150,7 +1150,7 @@ class CogStatData:
             warnings += '<cs_decision>' + _('Assumptions met') + '.</cs_decision>'
         results['estimation info'] += warnings
 
-        results['hypothesis test'] = cs_hyp_test.reliability_interrater_hyp_test(hyp_test_table, non_normal_vars,
+        results['hypothesis test'] = cs_hyp_test.reliability_interrater_main(hyp_test_table, non_normal_vars,
                                                                                  var_hom_p)
 
         return cs_util.convert_output(results)
@@ -1369,10 +1369,10 @@ class CogStatData:
 
         results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if len(predictors) == 1:
-            results['hypothesis test'] += cs_hyp_test.variable_pair_hyp_test(data, x, y, meas_lev, normality,
+            results['hypothesis test'] += cs_hyp_test.variable_pair_main(data, x, y, meas_lev, normality,
                                                                              homoscedasticity)
         else:
-            results['hypothesis test'] += cs_hyp_test.multiple_regression_hyp_tests(data=self.data_frame, result=result,
+            results['hypothesis test'] += cs_hyp_test.multiple_regression_main(data=self.data_frame, result=result,
                                                                                     predictors=predictors,
                                                                                     normality=normality,
                                                                                     homoscedasticity=homoscedasticity,
@@ -1704,7 +1704,7 @@ class CogStatData:
 
         # 3d. Hypothesis tests
         results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
-                    cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names, self.data_measlevs)
+                    cs_hyp_test.repeated_measures_main(data, meas_level, factors, var_names, self.data_measlevs)
 
         if not csc.test_functions:
             del results['descriptives chart old'], results['descriptives table new'], results['estimation chart old']
@@ -1932,12 +1932,12 @@ class CogStatData:
         if len(grouping_variables) == 1:
             group_levels = sorted(set(data[grouping_variables[0]]))
             results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
-                        cs_hyp_test.decision_one_grouping_variable(data, meas_level, self.data_measlevs,
+                        cs_hyp_test.one_grouping_variable_main(data, meas_level, self.data_measlevs,
                                                                    var_names, grouping_variables, group_levels,
                                                                    single_case_slope_SE, single_case_slope_trial_n)
         else:
             results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>' + \
-                        cs_hyp_test.decision_several_grouping_variables(data, meas_level, var_names, grouping_variables)
+                        cs_hyp_test.several_grouping_variables_main(data, meas_level, var_names, grouping_variables)
 
         if not csc.test_functions:
             del results['raw data chart old'], results['descriptives chart old'], results['descriptives table new'], \
@@ -2209,21 +2209,21 @@ class CogStatData:
         # 3d. Hypothesis tests
         results['hypothesis test'] = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
         if not grouping_variables:  # no grouping variables
-            results['hypothesis test'] += cs_hyp_test.decision_repeated_measures(data, meas_level, factors, var_names,
+            results['hypothesis test'] += cs_hyp_test.repeated_measures_main(data, meas_level, factors, var_names,
                                                                                  self.data_measlevs)
         elif len(var_names) == 1:  # grouping variables with one dependent variable
             if len(grouping_variables) == 1:
                 group_levels = sorted(set(data[grouping_variables[0]]))
-                results['hypothesis test'] += cs_hyp_test.decision_one_grouping_variable(data, meas_level,
+                results['hypothesis test'] += cs_hyp_test.one_grouping_variable_main(data, meas_level,
                                                                                          self.data_measlevs,
                                                                         var_names, grouping_variables, group_levels,
                                                                         single_case_slope_SE, single_case_slope_trial_n)
             else:
-                results['hypothesis test'] += cs_hyp_test.decision_several_grouping_variables(data, meas_level,
+                results['hypothesis test'] += cs_hyp_test.several_grouping_variables_main(data, meas_level,
                                                                                               var_names,
                                                                                               grouping_variables)
         else:  # mixed design
-            results['hypothesis test'] += cs_hyp_test.decision_mixed_design(data, meas_level, var_names, factors,
+            results['hypothesis test'] += cs_hyp_test.mixed_design_main(data, meas_level, var_names, factors,
                                                                             grouping_variables)
 
         return cs_util.convert_output(results)

@@ -144,6 +144,7 @@ def print_sensitivity_effect_sizes(test_name='', effect_sizes_95=None, effect_si
     text_result += '\n'
     return text_result
 
+
 ### General ###
 
 
@@ -319,6 +320,7 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
         text_result += _('Wilcoxon signed-rank test is computed only for interval or ordinal variables.')
     return text_result
 
+
 def explore_variable_main(pdf, data_measlevs, meas_level, var_name, test_value):
     results_ht = '<cs_h3>' + _('Hypothesis tests') + '</cs_h3>'
     if data_measlevs[var_name] in ['int', 'unk']:
@@ -373,8 +375,8 @@ def homoscedasticity(data, predictors, predicted):
     Returns
     -------
     bool or None
-        False if data is heteroscedastic, None if homoscedasticity cannot be caluclated.
-    html text
+        False if data is heteroscedastic, None if homoscedasticity cannot be calculated.
+    HTML text
         Output in APA format.
     """
 
@@ -450,7 +452,7 @@ def multivariate_normality(data, var_names):
     return sig, text_result
 
 
-def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticity=None):
+def variable_pair_main(data, x, y, meas_lev, normality=None, homoscedasticity=None):
     """
     Run relevant hypothesis tests.
 
@@ -558,7 +560,7 @@ def variable_pair_hyp_test(data, x, y, meas_lev, normality=None, homoscedasticit
     return population_result
 
 
-def multiple_regression_hyp_tests(data, result, predictors, normality, homoscedasticity, multicollinearity):
+def multiple_regression_main(data, result, predictors, normality, homoscedasticity, multicollinearity):
     """Hypothesis tests for model and regressor slopes in multiple linear regression.
 
     Parameters
@@ -580,7 +582,7 @@ def multiple_regression_hyp_tests(data, result, predictors, normality, homosceda
     Returns
     -------
     str
-        html text
+        HTML text
     """
 
     if normality and homoscedasticity and not multicollinearity:
@@ -663,7 +665,7 @@ def reliability_interrater_assumptions(data, data_long, var_names, meas_lev):
 
     return non_normal_vars, norm_text, var_hom_p, var_text_result
 
-def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
+def reliability_interrater_main(hyp_test_table, non_normal_vars, var_hom_p):
     """
     Hypothesis test output for ICC values with warnings in case of violated assumptions. Testing against 0.
 
@@ -716,7 +718,7 @@ def reliability_interrater_hyp_test(hyp_test_table, non_normal_vars, var_hom_p):
 ### Compare variables ###
 
 
-def decision_repeated_measures(data, meas_level, factors, var_names, data_measlevs):
+def repeated_measures_main(data, meas_level, factors, var_names, data_measlevs):
     """
 
     Parameters
@@ -1052,7 +1054,7 @@ def friedman_test(pdf, var_names):
 ### Compare groups ###
 
 
-def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, groups, group_levels,
+def one_grouping_variable_main(df, meas_level, data_measlevs, var_names, groups, group_levels,
                                    single_case_slope_SE, single_case_slope_trial_n):
     result_ht = '<cs_decision>'
     if meas_level in ['int', 'unk']:
@@ -1187,7 +1189,7 @@ def decision_one_grouping_variable(df, meas_level, data_measlevs, var_names, gro
     return result_ht
 
 
-def decision_several_grouping_variables(df, meas_level, var_names, groups):
+def several_grouping_variables_main(df, meas_level, var_names, groups):
     """
 
     Parameters
@@ -1336,7 +1338,7 @@ def welch_t_test(pdf, var_name, grouping_name):
     :param pdf: pandas data frame
     :param var_name: name of the dependent variable
     :param grouping_name: name of the grouping variable
-    :return: html text with APA format result
+    :return: HTML text with APA format result
     """
     dummy_groups, [var1, var2] = cs_stat._split_into_groups(pdf, var_name, grouping_name)
     t, p = stats.ttest_ind(var1.dropna(), var2.dropna(), equal_var=False)
@@ -1587,7 +1589,7 @@ def chi_squared_test(pdf, var_name, grouping_name):
     Returns
     -------
     str
-        html with the hypothesis tests and power analysis results
+        HTML with the hypothesis tests and power analysis results
     """
     text_result = ''
     cont_table_data = pd.crosstab(pdf[grouping_name], pdf[var_name])
@@ -1627,7 +1629,7 @@ def chi_squared_test(pdf, var_name, grouping_name):
     return text_result
 
 
-def decision_mixed_design(data, meas_level, var_names, factors, grouping_variables):
+def mixed_design_main(data, meas_level, var_names, factors, grouping_variables):
     """
 
     Parameters
