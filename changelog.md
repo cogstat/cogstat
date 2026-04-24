@@ -8,7 +8,7 @@ Upcoming release
 - Support importing Excel spreadsheet .xlsm and .xlsb files
 - Faster import of spreadsheet files
 - Command menu to find appropriate menus easier
-- Variable names can include any Unicode characters
+- Variable names and values can include any Unicode characters
 - Option to display p value not only in APA but in scientific format 
 - Updated French localization (Csenge Magyar)
 - New localization

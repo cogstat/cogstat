@@ -166,8 +166,8 @@ def convert_output(outputs):
 
 def _reformat_string(string):
     """Reformat the string to display
-    1. Change CogStat-specific tags to html tags.
-    2. Change various non-html compatible pieces to html pieces.
+    1. Change CogStat-specific tags to HTML tags.
+    2. Change various non-html compatible pieces to HTML pieces.
 
     Parameters
     ----------
@@ -179,15 +179,15 @@ def _reformat_string(string):
     str
         reformatted output
     """
-    # Change Python '\n' to html <br>
+    # Change Python '\n' to HTML <br>
     string = string.replace('\n', '<br>')
 
-    # Change custom cogstat tags to html tags as defined in the csc file
+    # Change custom cogstat tags to HTML tags as defined in the csc file
     for cs_tag_key in csc.cs_tags.keys():
         string = string.replace(cs_tag_key, csc.cs_tags[cs_tag_key])
 
     # In the R output the '< ' (which is non-breaking space here (\xa0) )
-    # would be handled as html tag in cogstat, so we change it to '&lt; '
+    # would be handled as HTML tag in CogStat, so we change it to '&lt; '
     string = string.replace('<\xa0', '&lt; ')
 
     return string
@@ -210,3 +210,22 @@ def safe_variable_names(data):
     safe_names_dict = {name: f'CS_safe_name_{i}' for i, name in enumerate(data)}
     safe_names_dict_reversed = {value: key for key, value in safe_names_dict.items()}
     return safe_names_dict, safe_names_dict_reversed
+
+
+def safe_numerical_data_values(data):
+    """Use safe numerical values for functions that cannot handle Unicode, or have other constraints.
+
+    Parameters
+    ----------
+    data : pandas dataframe
+
+
+    Returns
+    -------
+    pandas dataframe
+        Values are integers.
+    """
+    all_unique_values = set(data.stack().unique())
+    value_to_int = {val: idx for idx, val in enumerate(sorted(all_unique_values))}
+    data_safe_values = data.replace(value_to_int).astype(int)
+    return data_safe_values

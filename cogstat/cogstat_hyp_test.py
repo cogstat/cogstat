@@ -918,7 +918,9 @@ def mcnemar_test(pdf, var_names):
 
 
 def cochran_q_test(pdf, var_names):
-    q, p, df = cochrans_q(pdf[var_names], return_object=False)
+    # cochrans_q() can use only numerical values, so make sure that values are safe numerical values
+    pdf_safe_values = cs_util.safe_numerical_data_values(pdf[var_names])
+    q, p, df = cochrans_q(pdf_safe_values, return_object=False)
         # Note that df is not documented as of statsmodels 0.11.1
     return _("Result of Cochran's Q test") + ': <i>Q</i>(%d, <i>N</i> = %d) = %0.*f, %s\n' % \
            (df, len(pdf[var_names[0]]), non_data_dim_precision, q, print_p(p))
@@ -1507,7 +1509,7 @@ def multi_way_anova(pdf, var_name, grouping_names):
     # Interaction effects
     for interaction_line in range(group_i+2, len(anova_result)-1):
         text_result += _('Interaction of %s: ') % \
-                       (' and '.join([a[1:-21] for a in re.findall('\(.*?\)', anova_result.index[interaction_line])])) + \
+                       (' and '.join([a[1:-21] for a in re.findall(r'\(.*?\)', anova_result.index[interaction_line])])) + \
                        '<i>F</i>(%d, %d) = %0.*f, %s\n' % \
                        (anova_result['df'].iloc[interaction_line], anova_result['df'].iloc[-1], non_data_dim_precision,
                         anova_result['F'].iloc[interaction_line], print_p(anova_result['PR(>F)'].iloc[interaction_line]))
