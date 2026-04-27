@@ -917,7 +917,7 @@ def create_scatter_matrix(data, meas_lev):
     Returns
     -------
     matplotlib chart
-        A matrix plot of the variables optionally containing the raw data.
+        A scatter plot matrix of the variables with the histogram of the variables on the diagonal
     """
     if meas_lev == 'int':
         fig, ax = plt.subplots(len(data.columns), len(data.columns), tight_layout=True)
@@ -930,15 +930,17 @@ def create_scatter_matrix(data, meas_lev):
                     local_max = np.max(data.iloc[:, [i, j]].value_counts())
                     global_max_freq = np.max([global_max_freq, local_max])
         # Draw plots
-        for i in range(0, len(data.columns)):
-            ax[i, 0].set_ylabel(data.columns[i])
-            ax[len(data.columns) - 1, i].set_xlabel(data.columns[i])
-            for j in range(0, len(data.columns)):
+        for i in range(0, len(data.columns)):  # rows of the subplots
+            ax[i, 0].set_ylabel(data.columns[i])  # set row label
+            ax[len(data.columns) - 1, i].set_xlabel(data.columns[i])  # set parallel column label
+            for j in range(0, len(data.columns)):  # columns of the subplots
                 if i == j:
                     ax[i, j].hist(data.iloc[:, i])
                 else:
                     val_count = _value_count(data.iloc[:, [i, j]], global_max_freq)
-                    ax[i, j].scatter(*zip(*val_count.index), val_count.values * 20, color=theme_colors[0], marker='o')
+                    y_coords = [pair[0] for pair in val_count.index]  # i is for the rows of the subplot, so it is y for the scatter
+                    x_coords = [pair[1] for pair in val_count.index]  # j is for the columns of the subplot, so it is x for the scatter
+                    ax[i, j].scatter(x_coords, y_coords, val_count.values * 20, color=theme_colors[0], marker='o')
         if global_max_freq > 1:
             fig.text(x=0.9, y=0.005, s=_plt('Largest sign on the graph displays %d cases.') % global_max_freq,
                      horizontalalignment='right', fontsize=10)
