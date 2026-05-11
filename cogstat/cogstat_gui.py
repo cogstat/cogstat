@@ -579,7 +579,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 pane.append(html_img)
             elif isinstance(output, pd.io.formats.style.Styler):
                 # Styler may have pipe_func attribute, which should be a function, which will be run right before
-                # converting the Styler to html
+                # converting the Styler to HTML
                 if hasattr(output, 'pipe_func'):
                     pipe_func = output.pipe_func
                 else:
@@ -587,7 +587,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 # 1. make row headers left aligned
                 # 2. headers use None formatter resulting in a format used in DataFrame.to_html() for floats
                 # 3. call pipe_func if availabe
-                # 4. convert to html, and remove \n-s
+                # 4. convert to HTML, and remove \n-s
                 pane.append(output.set_table_styles([{'selector': 'th.row_heading', 'props': 'text-align: left;'}]).
                             format_index(formatter='{}', axis=0).format_index(formatter='{}', axis=1).
                             pipe(pipe_func).

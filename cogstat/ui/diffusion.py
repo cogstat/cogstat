@@ -187,7 +187,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Behavioral data diffusion analysis"))
         self.label_6.setText(_translate("Dialog", "&Response coding"))
-        self.response_coding.setItemText(0, _translate("Dialog", "0 - Correct 1 - Incorect"))
+        self.response_coding.setItemText(0, _translate("Dialog", "0 - Correct 1 - Incorrect"))
         self.response_coding.setItemText(1, _translate("Dialog", "1 - Correct 0 - Incorrect"))
         self.label.setText(_translate("Dialog", "Available variables"))
         self.label_3.setText(_translate("Dialog", "Response correctness"))
