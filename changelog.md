@@ -10,9 +10,16 @@ Upcoming release
 - Command menu to find appropriate menus easier
 - Variable names and values can include any Unicode characters
 - Option to display p-value not only in APA but in scientific format 
-- Updated French localization (Csenge Magyar)
 - New localization
+    - Macedonian (Bisera Varoshlija)
     - Slovenian (Tia Križan)
+    - Swedish (Raya Ramzi Al Nashef)
+    - Ukrainian (Olena Kosiukhno)
+    - Urdu (Maryam Shah)
+- Updated localization
+    - French (Csenge Magyar)
+    - Hebrew (Adi Sahar)
+    - Turkish (Sude Demirer)
 
 ## Fixes
 - Output, localization, and GUI fixes

@@ -163,7 +163,7 @@ for key in default_config['Preferences'].keys():
 
 # Read the setting values from cogstat.ini
 language = config['Preferences']['language']
-rtl_language = True if language in ['he', 'fa', 'ar'] else False
+rtl_language = True if language in ['he', 'fa', 'ar', 'ur'] else False
 try:
     # because configparser cannot handle multiple values for a single key, split the values
     theme = config['Preferences']['theme'].split(',')

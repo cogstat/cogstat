@@ -1536,11 +1536,12 @@ class preferences_dialog(QtWidgets.QDialog, preferences.Ui_Dialog):
                       'et': 'Eesti (Estonian)', 'fa': 'فارسی (Persian)',
                       'fr': 'Français (French)', 'he': 'עברית (Hebrew)',
                       'hr': 'Hrvatski (Croatian)', 'hu': 'Magyar (Hungarian)', 'it': 'Italiano (Italian)',
-                      'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'ms': 'Melayu (Malay)',
-                      'nb': 'Norsk Bokmål (Norvegian Bokmål)',
+                      'kk': 'Qazaqsha (Kazakh)', 'ko': '한국어 (Korean)', 'mk': 'Македонски (Macedonian)',
+                      'ms': 'Melayu (Malay)', 'nb': 'Norsk Bokmål (Norvegian Bokmål)',
                       'ro': 'Română (Romanian)', 'ru': 'Русский (Russian)', 'sk': 'Slovenčina (Slovak)',
-                      'sl': 'Slovenščina (Slovenian)', 'th': 'ไทย (Thai)', 'tr': 'Türkçe (Turkish)',
-                      'zh': '汉语 (Chinese)'}
+                      'sl': 'Slovenščina (Slovenian)', 'sv': 'Svenska (Swedish)', 'th': 'ไทย (Thai)',
+                      'tr': 'Türkçe (Turkish)',
+                      'uk': 'Українська (Ukrainian)', 'ur': 'اُرْدُو (Urdu)', 'zh': '汉语 (Chinese)'}
         lang_names_sorted = sorted([lang_names[lang] for lang in langs])
         self.lang_codes = {lang_name: lang_code for lang_code, lang_name in zip(lang_names.keys(), lang_names.values())}
 

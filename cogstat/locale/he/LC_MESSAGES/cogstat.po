@@ -7,1522 +7,2533 @@ msgstr ""
 "Project-Id-Version: CogStat\n"
 "Language: he\n"
 
-#: .././cogstat_stat.py:58
+#: .././cogstat_hyp_test.py:40
 msgid "The properties of the variables are not set. Set them in your data source."
 msgstr "ההגדרות של המשתנים אינם נקבעו. קבע אותם במאגר המידע שלך."
 
-#: .././cogstat_stat.py:122
-msgid "Sorry, only one dependent variable can be used."
-msgstr "מצטערים, רק משתנה תלוי אחד יכול להיות בשימוש."
-
-#: .././cogstat_stat.py:124
+#: .././cogstat_stat.py:117
 msgid "Sorry, string variables cannot be used in Pivot table."
 msgstr "מצטערים, משתני מחרוזת אינם יכולים להיות בשימוש בטבלת ציר."
 
-#: .././cogstat_stat.py:130
+#: .././cogstat_stat.py:123
 msgid "Independent variable(s) - Pages: "
 msgstr "משתנה(ים) בלתי תלוי(ים)- עמודים: "
 
-#: .././cogstat_stat.py:132
+#: .././cogstat_stat.py:125
 msgid "Independent variable(s) - Columns: "
 msgstr "משתנה(ים) בלתי תלוי(ים)- עמודות: "
 
-#: .././cogstat_stat.py:134
+#: .././cogstat_stat.py:127
 msgid "Independent variable(s) - Rows: "
 msgstr "משתנה(ים) בלתי תלוי(ים)- שורות: "
 
-#: .././cogstat_stat.py:135
+#: .././cogstat_stat.py:128
 msgid "Function: "
 msgstr "פונקציה: "
 
-#: .././cogstat_chart.py:484 .././cogstat_chart.py:536 .././cogstat_stat.py:270
-#: .././cogstat_stat.py:272
+#: .././cogstat_stat.py:377 .././cogstat_stat.py:379 .././cogstat_stat.py:694
+#: .././cogstat_stat.py:696 .././cogstat_stat.py:699 .././cogstat_stat.py:706
+#: .././cogstat_stat.py:709 .././cogstat_stat.py:846 .././cogstat_stat.py:1048
+#: .././cogstat_stat.py:1050 .././cogstat_stat.py:1169
+#: .././cogstat_stat.py:1175 .././cogstat_stat.py:1178
+#: .././cogstat_stat.py:1192 .././cogstat_stat.py:1195
+#: .././cogstat_stat.py:1226 .././cogstat_chart.py:1114
+#: .././cogstat_chart.py:1174 .././cogstat_chart.py:1911
 msgid "Value"
 msgstr "ערך"
 
-#: .././cogstat_chart.py:199 .././cogstat_chart.py:266
-msgid "Largest tick on the x axes displays %d cases."
-msgstr "הסימן הגדול ביותר על ציר הx מציג %d מקרים."
-
-#: .././cogstat_chart.py:216
+#: .././cogstat_chart.py:536
 msgid "Histogram with individual data and boxplot"
 msgstr "היסטוגרמה עם נתונים אישיים ותרשים קופסא"
 
-#: .././cogstat_chart.py:166 .././cogstat_chart.py:222
+#: .././cogstat_chart.py:476 .././cogstat_chart.py:542
 msgid "Frequency"
 msgstr "שכיחות"
 
-#: .././cogstat_chart.py:163
+#: .././cogstat_chart.py:473
 msgid "Histogram"
 msgstr "היסטוגרמה"
 
-#: .././cogstat_stat.py:225
-msgid "N of valid cases: %g"
-msgstr "מספר מקרים תקפים: %g"
-
-#: .././cogstat.py:533 .././cogstat.py:571
+#: .././cogstat.py:961
 msgid "Median: %0.*f"
 msgstr "חציון: %0.*f"
 
-#: .././cogstat_stat.py:315
+#: .././cogstat_hyp_test.py:160
 msgid "Normality can be checked only for interval variables."
 msgstr "נורמליות יכולה להיבדק רק עבור משתנים אינטרוולים."
 
-#: .././cogstat_stat.py:334
-msgid "Shapiro-Wilk normality test in variable %s%s"
-msgstr "מבחן נורמליות של שפירו-וילק במשתנה %s%s"
-
-#: .././cogstat_chart.py:275
+#: .././cogstat_chart.py:604
 msgid "Histogram with individual data and normal distribution"
 msgstr "היסטוגרמה עם נתונים אישיים והתפלגות נורמלית"
 
-#: .././cogstat_chart.py:282
+#: .././cogstat_chart.py:611
 msgid "Normalized relative frequency"
 msgstr "שכיחות יחסית מנורמלת"
 
-#: .././cogstat_chart.py:300
+#: .././cogstat_chart.py:631
 msgid "Quantile-quantile plot"
 msgstr "תרשים Quantile-quantile"
 
-#: .././cogstat_stat.py:365
-msgid "One sample t-test cannot be run for constant variable.\n"
-""
-msgstr "מבחן t למדגם יחיד לא יכול להתבצע עבור משתנה קבוע."
-
-#: .././cogstat_stat.py:378
-msgid "Sorry, newer statsmodels module is required for confidence interval.\n"
-""
-msgstr "מצטערים, נדרשת תוכנה חדשה של statsmodels עבור רווח בר סמך."
-
-#: .././cogstat_stat.py:379
+#: .././cogstat_hyp_test.py:251
 msgid "One sample t-test against %g"
 msgstr "מבחן t למדגם יחיד כנגד %g"
 
-#: .././cogstat_chart.py:313
+#: .././cogstat_chart.py:662
 msgid "Mean value with 95% confidence interval"
 msgstr "ערך הממוצע עם רווח בר סמך של 95%"
 
-#: .././cogstat_stat.py:384
+#: .././cogstat_hyp_test.py:259
 msgid "One sample t-test is computed only for interval variables."
 msgstr "מבחן t למדגם יחיד מחושב רק עבור משתנים אינטרוולים."
 
-#: .././cogstat_chart.py:325
+#: .././cogstat_chart.py:666
 msgid "Median value"
 msgstr "ערך החציון"
 
-#: .././cogstat_stat.py:418
+#: .././cogstat_hyp_test.py:298
 msgid "Wilcoxon signed-rank test is computed only for interval or ordinal variables."
 msgstr "מבחן Wilcoxon signed-rank מחושב רק עבור משתנים אינטרוולים או אורדינלים."
 
-#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 .././cogstat.py:558
-#: .././cogstat.py:561 ../ui/pivot.py:109
+#: .././cogstat_stat.py:118 .././cogstat_stat.py:444 .././cogstat_stat.py:540
+#: .././cogstat_stat.py:541 .././cogstat_stat.py:542 .././cogstat_chart.py:1521
+#: ../ui/pivot.py:166
 msgid "Mean"
 msgstr "ממוצע"
 
-#: .././cogstat_stat.py:125 .././cogstat_stat.py:435 ../ui/pivot.py:110
+#: .././cogstat_stat.py:118 .././cogstat_stat.py:445 .././cogstat_stat.py:549
+#: .././cogstat_stat.py:550 .././cogstat_stat.py:551 .././cogstat.py:1696
+#: .././cogstat_chart.py:1522 ../ui/pivot.py:167
 msgid "Median"
 msgstr "חציון"
 
-#: .././cogstat_chart.py:531
+#: .././cogstat_chart.py:1169
 msgid "Medians for the variables"
 msgstr "חציון של המשתנים"
 
-#: .././cogstat_chart.py:677
+#: .././cogstat_chart.py:1361
 msgid "Medians for the groups"
 msgstr "חציון הקבוצות"
 
-#: .././cogstat_stat.py:480 .././cogstat_stat.py:482
+#: .././cogstat_stat.py:510 .././cogstat_stat.py:512
 msgid "No data"
 msgstr "אין נתונים"
 
-#: .././cogstat_chart.py:362
+#: .././cogstat_chart.py:410 .././cogstat_chart.py:817
+#: .././cogstat_chart.py:941 .././cogstat_chart.py:1040
 msgid "Largest sign on the graph displays %d cases."
 msgstr "הסימן הגדול על הגרף מציג %d מקרים."
 
-#: .././cogstat_chart.py:379
+#: .././cogstat_chart.py:826
 msgid "Scatterplot of the variables"
 msgstr "תרשים פיזור של המשתנים"
 
-#: .././cogstat_chart.py:420 .././cogstat_chart.py:505
+#: .././cogstat_chart.py:897 .././cogstat_chart.py:1133
 msgid "Mosaic plot of the variables"
 msgstr "תרשים פסיפס של המשתנים"
 
-#: .././cogstat_chart.py:510
-msgid "Sorry, the mosaic plot can not be drawn with those data."
-msgstr "מצטערים, תרשים הפסיפס אינו יכול להיות מותווה עבור הנתונים האלו."
-
-#: .././cogstat_chart.py:470
+#: .././cogstat_chart.py:1100 .././cogstat_chart.py:1787
 msgid "Thickest line displays %d cases."
 msgstr "הקו העבה ביותר מציג %d מקרים."
 
-#: .././cogstat_chart.py:524
+#: .././cogstat_chart.py:1162
 msgid "Means and 95% confidence intervals for the variables"
 msgstr "ממוצעים ורווח בר סמך של 95% עבור המשתנים"
 
-#: .././cogstat_stat.py:552
+#: .././cogstat_hyp_test.py:790
 msgid "Paired t-test requires two variables."
 msgstr "מבחן t למדגמים תלויים מצריך שני משתנים."
 
-#: .././cogstat_stat.py:557
+#: .././cogstat_hyp_test.py:812
 msgid "Result of paired samples t-test"
 msgstr "תוצאה של מבחן t למדגמים תלויים"
 
-#: .././cogstat_stat.py:574
+#: .././cogstat_hyp_test.py:839
 msgid "Paired Wilcoxon test requires two variables."
 msgstr "מבחן Wilcoxon למדגמים תלויים מצריך שני משתנים."
 
-#: .././cogstat_stat.py:688
+#: .././cogstat_hyp_test.py:975
 msgid "Friedman test requires at least two variables."
 msgstr "מבחן Friedman מצריך לפחות שני משתנים."
 
-#: .././cogstat_stat.py:694
+#: .././cogstat_hyp_test.py:981
 msgid "Result of the Friedman test: "
 msgstr "תוצאה של מבחן Friedman: "
 
-#: .././cogstat_stat.py:1097
-msgid "Largest individual data display %d cases."
-msgstr "הנתונים האישיים הגדולים ביותר מציגים %d מקרים."
-
-#: .././cogstat_stat.py:1125
-msgid "Boxplot and individual data of the groups"
-msgstr "תרשים קופסא ונתונים אישיים של הקבוצות"
-
-#: .././cogstat_chart.py:644
+#: .././cogstat_chart.py:1316
 msgid "Mosaic plot of the groups"
 msgstr "תרשים פסיפס של הקבוצות"
 
-#: .././cogstat_chart.py:668
+#: .././cogstat_chart.py:1352
 msgid "Means and 95% confidence intervals for the groups"
 msgstr "ממוצעים ורווח בר סמך של 95% עבור הקבוצות"
 
-#: .././cogstat_stat.py:738
+#: .././cogstat_hyp_test.py:1184
 msgid "Levene test"
 msgstr "מבחן Levene"
 
-#: .././cogstat_stat.py:770
+#: .././cogstat_stat.py:1133
 msgid "Difference between the two groups:"
 msgstr "הבדל בין שתי הקבוצות:"
 
-#: .././cogstat_stat.py:771
-msgid "95%% confidence interval [%0.*f, %0.*f]"
-msgstr "[%0.*f, %0.*f] רווח בר סמך של 95%%"
-
-#: .././cogstat_stat.py:772
+#: .././cogstat_hyp_test.py:1217
 msgid "Result of independent samples t-test:"
 msgstr "תוצאה של מבחן t למדגמים בלתי תלויים:"
 
-#: .././cogstat_stat.py:802
+#: .././cogstat_hyp_test.py:1253
 msgid "One of the groups should include only a single data."
 msgstr "אחת מהקבוצות צריכה לכלול רק נתון יחיד."
 
-#: .././cogstat_stat.py:799
+#: .././cogstat_hyp_test.py:1250
 msgid "Result of the modified independent samples t-test:"
 msgstr "תוצאה של מבחן t המותאם למדגמים בלתי תלויים:"
 
-#: .././cogstat_stat.py:853 .././cogstat_stat.py:858 .././cogstat_stat.py:861
-msgid "Result of independent samples Mann-Whitney rank test: "
-msgstr "תוצאה של מבחן Mann-Whitney rank למדגמים בלתי תלויים: "
-
-#: .././cogstat_stat.py:887
+#: .././cogstat_hyp_test.py:1390
 msgid "Result of one-way ANOVA: "
 msgstr "תוצאה של ניתוח שונות חד כיווני: "
 
-#: .././cogstat_stat.py:893
-msgid "Effect size: "
-msgstr "גודל האפקט: "
-
-#: .././cogstat_stat.py:898 .././cogstat_stat.py:995
+#: .././cogstat_hyp_test.py:1398 .././cogstat_hyp_test.py:1502
 msgid "Groups differ. Post-hoc test of the means."
 msgstr "הבדלים בין הקבוצות מבחן Post-hoc  לממוצעים."
 
-#: .././cogstat_stat.py:991 .././cogstat_stat.py:1002
-msgid "Result of the Kruskal-Wallis test: "
-msgstr "תוצאה של מבחן Kruskal-Wallis: "
-
-#: .././cogstat_stat.py:1021
-msgid "Cramér's V measure of association: "
-msgstr "מדד הקשר V של Cramér: "
-
-#: .././cogstat_stat.py:1024
-msgid "Result of the Pearson's Chi-square test: "
-msgstr "תוצאה של מבחן חי בריבוע של Pearson: "
-
-#: .././cogstat_gui.py:130
+#: .././cogstat_gui.py:176
 msgid "&Data"
 msgstr "&נתונים"
 
-#: .././cogstat_gui.py:131
+#: .././cogstat_gui.py:177
 msgid "&Open data file"
 msgstr "&פתח קובץ נתונים"
 
-#: .././cogstat_gui.py:131
+#: .././cogstat_gui.py:177
 msgid "Ctrl+O"
 msgstr "Ctrl+O"
 
-#: .././cogstat_gui.py:133
+#: .././cogstat_gui.py:187
 msgid "&Paste data"
 msgstr "&הדבק נתונים"
 
-#: .././cogstat_gui.py:133
+#: .././cogstat_gui.py:187
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: .././cogstat_gui.py:137 .././cogstat_gui.py:180
-msgid "&Display data"
-msgstr "&הצג נתונים"
-
-#: .././cogstat_gui.py:137
+#: .././cogstat_gui.py:193
 msgid "Ctrl+D"
 msgstr "ctrl+D"
 
-#: .././cogstat_gui.py:138 .././cogstat_gui.py:180
-msgid "Display data &briefly"
-msgstr "הצג נתונים &בקצרה"
-
-#: .././cogstat_gui.py:141
+#: .././cogstat_gui.py:197
 msgid "&Analysis"
 msgstr "&ניתוח"
 
-#: .././cogstat_gui.py:142
+#: .././cogstat_gui.py:199
 msgid "Ctrl+1"
 msgstr "ctrl+1"
 
-#: .././cogstat_gui.py:143
+#: .././cogstat_gui.py:201
 msgid "Ctrl+2"
 msgstr "ctrl+2"
 
-#: .././cogstat_gui.py:145 .././cogstat_gui.py:181
+#: .././cogstat_gui.py:219
 msgid "Pivot &table"
 msgstr "טבלת &ציר"
 
-#: .././cogstat_gui.py:148 .././cogstat_gui.py:182
+#: .././cogstat_gui.py:206
 msgid "Compare &groups"
 msgstr "השווה &קבוצות"
 
-#: .././cogstat.py:906 ../ui/compare_groups.py:74
+#: .././cogstat_gui.py:1067 .././cogstat.py:1772 .././cogstat.py:2011
+#: ../ui/compare_groups.py:112
 msgid "Compare groups"
 msgstr "השווה קבוצות"
 
-#: .././cogstat_gui.py:151
+#: .././cogstat_gui.py:231
 msgid "&Results"
 msgstr "&תוצאות"
 
-#: .././cogstat_gui.py:152
+#: .././cogstat_gui.py:232
 msgid "&Clear results"
 msgstr "&נקה תוצאות"
 
-#: .././cogstat_gui.py:143 .././cogstat_gui_qt4.py:144
-msgid "Save results"
-msgstr "שמור תוצאות"
-
-#: .././cogstat_gui.py:160
-msgid "Ctrl+P"
-msgstr "ctrl+P"
-
-#: .././cogstat_gui.py:144 .././cogstat_gui_qt4.py:145
-msgid "Save results as"
-msgstr "שמור תוצאות כ"
-
-#: .././cogstat_gui.py:164
+#: .././cogstat_gui.py:252
 msgid "&CogStat"
 msgstr "&CogStat"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:253
 msgid "&Help"
 msgstr "&עזרה"
 
-#: .././cogstat_gui.py:165
+#: .././cogstat_gui.py:253
 msgid "F1"
 msgstr "F1"
 
-#: .././cogstat_gui.py:166
+#: .././cogstat_gui.py:255
 msgid "&Preferences"
 msgstr "&העדפות"
 
-#: .././cogstat_gui.py:167
+#: .././cogstat_gui.py:257
 msgid "Request a &feature"
 msgstr "בקש &צורה"
 
-#: .././cogstat_gui.py:171
+#: .././cogstat_gui.py:260
 msgid "&Report a problem"
 msgstr "&דווח על בעיה"
 
-#: .././cogstat_gui.py:172
+#: .././cogstat_gui.py:262
 msgid "&Diagnosis information"
 msgstr "&אבחון מידע"
 
-#: .././cogstat_gui.py:174
+#: .././cogstat_gui.py:265
 msgid "&About"
 msgstr "&אודות"
 
-#: .././cogstat_gui.py:176
+#: .././cogstat_gui.py:268
 msgid "&Exit"
 msgstr "&יציאה"
 
-#: .././cogstat_gui.py:176
+#: .././cogstat_gui.py:268
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: .././cogstat_gui.py:180
-msgid "&Save data"
-msgstr "&שמור נתונים"
-
-#: .././cogstat_gui.py:180
-msgid "Save data &as"
-msgstr "שמור נתונים &כ"
-
-#: .././cogstat_gui.py:183
-msgid "&Compare groups and variables"
-msgstr "&השווה קבוצות ומשתנים"
-
-#: .././cogstat_gui.py:385
-msgid "Import error"
-msgstr "שגיאת יבוא"
-
-#: .././cogstat_gui.py:385
-msgid "Data could not be loaded."
-msgstr "נתונים אינם יכולים להיטען."
-
-#: .././cogstat_gui.py:517 .././cogstat_gui.py:595
-msgid "At least two variables should be set."
-msgstr "לפחות שני משתנים צריכים להיות מוגדרים."
-
-#: .././cogstat.py:713 ../ui/pivot.py:105
+#: .././cogstat_gui.py:997 .././cogstat.py:1447 ../ui/pivot.py:160
 msgid "Pivot table"
 msgstr "טבלת ציר"
 
-#: .././cogstat_gui.py:560
-msgid "The dependent variable and at least one grouping variable should be given."
-msgstr "המשתנה התלוי ולפחות משתנה grouping אחד צריכים להינתן."
-
-#: .././cogstat_gui.py:630
-msgid "Both the dependent and the grouping variables should be set."
-msgstr "המשתנים התלויים ומשתני הgrouping צריכים להיות מוגדרים."
-
-#: .././cogstat_gui.py:648
+#: .././cogstat_gui.py:1161
 msgid "Clear output"
 msgstr "נקה פלט"
 
-#: .././cogstat_gui.py:649
+#: .././cogstat_gui.py:1162
 msgid "Are you sure you want to delete the output?"
 msgstr "האם אתה בטוח שברצונך למחוק את הפלט?"
 
-#: .././cogstat_gui.py:715
+#: .././cogstat_gui.py:1245
 msgid "About CogStat "
 msgstr "אודות CogStat "
 
-#: .././cogstat_gui.py:725
+#: .././cogstat_gui.py:1254 .././cogstat_util.py:19
 msgid "System components"
 msgstr "רכיבי המערכת"
 
-#: .././cogstat_gui.py:737
+#: .././cogstat_gui.py:1264
 msgid "Save output"
 msgstr "שמור פלט"
 
-#: .././cogstat_gui.py:738
+#: .././cogstat_gui.py:1265
 msgid "Output has unsaved results. Do you want to save it?"
 msgstr "לפלט ישנם תוצאות שלא נשמרו. האם אתה מעוניין לשמור אותם?"
 
-#: .././cogstat.py:306
+#: .././cogstat_gui.py:678 .././cogstat_gui.py:832 .././cogstat_gui.py:872
+#: .././cogstat.py:482 .././cogstat.py:512 .././cogstat.py:589
 msgid "Data"
 msgstr "נתונים"
 
-#: .././cogstat.py:307
+#: .././cogstat.py:590
 msgid "Source: "
 msgstr "מקור: "
 
-#: .././cogstat.py:308
+#: .././cogstat.py:592
 msgid " variables and "
 msgstr " משתנים ו "
 
-#: .././cogstat.py:309
+#: .././cogstat.py:593
 msgid " cases"
 msgstr " מקרים"
 
-#: .././cogstat.py:320
+#: .././cogstat.py:605
 msgid " further cases are not displayed..."
 msgstr " מקרים נוספים אינם מוצגים..."
 
-#: .././cogstat.py:546 .././cogstat.py:1012 .././cogstat.py:1059
-#: .././cogstat.py:1195
+#: .././cogstat_hyp_test.py:1034 .././cogstat_hyp_test.py:1081
+#: .././cogstat_hyp_test.py:1155 .././cogstat_hyp_test.py:1595
+#: .././cogstat.py:942
 msgid "Interval variable."
 msgstr "משתנה אינטרוולי."
 
-#: .././cogstat.py:576 .././cogstat.py:1047 .././cogstat.py:1097
-#: .././cogstat.py:1200
+#: .././cogstat_hyp_test.py:1068 .././cogstat_hyp_test.py:1118
+#: .././cogstat_hyp_test.py:1160 .././cogstat_hyp_test.py:1599
+#: .././cogstat.py:968
 msgid "Ordinal variable."
 msgstr "משתנה אורדינלי."
 
-#: .././cogstat.py:472
+#: .././cogstat_gui.py:903 .././cogstat.py:855
 msgid "Explore variable"
 msgstr "חקור משתנה"
 
-#: .././cogstat.py:473
+#: .././cogstat.py:865
 msgid "Exploring variable: "
 msgstr "חוקר משתנה: "
 
-#: .././cogstat.py:488 ../ui/var_properties.py:72
+#: .././cogstat.py:884
 msgid "Frequencies"
 msgstr "שכיחויות"
 
-#: .././cogstat.py:513
+#: .././cogstat.py:912
 msgid "Normality"
 msgstr "נורמליות"
 
-#: .././cogstat.py:602
-msgid "Exploring variable pair: "
-msgstr "חוקר את זוג המשתנה: "
-
-#: .././cogstat.py:637 .././cogstat.py:812 .././cogstat.py:845
+#: .././cogstat_hyp_test.py:690 .././cogstat_hyp_test.py:727
 msgid "Interval variables."
 msgstr "משתנים אינטרוולים."
 
-#: .././cogstat.py:638
-msgid "Running Pearson's and Spearman's correlation."
-msgstr "מבצע מתאמי Pearson ו Spearman."
-
-#: .././cogstat.py:642 .././cogstat.py:643 .././cogstat.py:644
+#: .././cogstat_hyp_test.py:431 .././cogstat_hyp_test.py:452
+#: .././cogstat_stat.py:694 .././cogstat_stat.py:717
 msgid "Pearson's correlation"
 msgstr "מתאם Pearson"
 
-#: .././cogstat.py:650
+#: .././cogstat.py:1309
 msgid "Linear regression"
 msgstr "רגרסיה לינארית"
 
-#: .././cogstat.py:654 .././cogstat.py:655 .././cogstat.py:659
-#: .././cogstat.py:670 .././cogstat.py:671 .././cogstat.py:674
+#: .././cogstat_hyp_test.py:441 .././cogstat_hyp_test.py:462
+#: .././cogstat_hyp_test.py:478 .././cogstat_hyp_test.py:488
+#: .././cogstat_stat.py:696 .././cogstat_stat.py:699 .././cogstat_stat.py:747
 msgid "Spearman's rank-order correlation"
 msgstr "מתאם Spearman's rank-order"
 
-#: .././cogstat.py:665 .././cogstat.py:832 .././cogstat.py:868
+#: .././cogstat_hyp_test.py:484 .././cogstat_hyp_test.py:712
+#: .././cogstat_hyp_test.py:748
 msgid "Ordinal variables."
 msgstr "משתנים אורדינלים."
 
-#: .././cogstat.py:665
+#: .././cogstat_hyp_test.py:484
 msgid "Running Spearman's correlation."
 msgstr "מבצע מתאם Spearman."
 
-#: .././cogstat.py:681
-msgid "Not all variables are nominal. Consider comparing groups."
-msgstr "לא כל המשתנים הינם נומינלים. תשקול להשוות בין קבוצות."
-
-#: .././cogstat.py:682
+#: .././cogstat_hyp_test.py:497
 msgid "Nominal variables."
 msgstr "משתנים נומינלים."
 
-#: .././cogstat.py:682
+#: .././cogstat_hyp_test.py:497
 msgid "Running Cramér's V."
 msgstr "בצע Cramér's V."
 
-#: .././cogstat.py:727
+#: .././cogstat.py:1569 .././cogstat.py:2027 .././cogstat.py:2057
 msgid "Variables to compare: "
 msgstr "משתנים להשוואה: "
 
-#: .././cogstat.py:744
+#: .././cogstat.py:1571 .././cogstat.py:2029
 msgid "Sorry, you can't compare variables with different measurement levels. You could downgrade higher measurement levels to lowers to have the same measurement level."
 msgstr "מצטערים, אינך יכול להשוות משתנים עם סולמות מדידה שונים. אתה יכול להוריד סולמות מדידה גבוהים לרמה נמוכה יותר על מנת שיהיו באותו סולם מדידה. "
 
-#: .././cogstat.py:807
+#: .././cogstat_hyp_test.py:685
 msgid "At least two variables required."
 msgstr "נדרשים לפחות שני משתנים."
 
-#: .././cogstat.py:809
+#: .././cogstat_hyp_test.py:687
 msgid "Two variables. "
 msgstr "שני משתנים. "
 
-#: .././cogstat.py:550 .././cogstat.py:814 .././cogstat.py:849
-#: .././cogstat.py:996 .././cogstat.py:1015 .././cogstat.py:1063
+#: .././cogstat_hyp_test.py:693 .././cogstat_hyp_test.py:731
+#: .././cogstat_hyp_test.py:1018 .././cogstat_hyp_test.py:1037
+#: .././cogstat_hyp_test.py:1085 .././cogstat.py:945
 msgid "Checking for normality."
 msgstr "בודק נורמליות."
 
-#: .././cogstat.py:1003
+#: .././cogstat_hyp_test.py:1024
 msgid "Normality is violated in variable "
 msgstr "נורמליות מופרת במשתנה "
 
-#: .././cogstat.py:825
+#: .././cogstat_hyp_test.py:705
 msgid "Normality is not violated. >> Running paired t-test."
 msgstr "נורמליות אינה מופרת. << מבצע מבחן t למדגמים תלויים."
 
-#: .././cogstat.py:829 .././cogstat.py:832
+#: .././cogstat_hyp_test.py:709 .././cogstat_hyp_test.py:713
 msgid "Running paired Wilcoxon test."
 msgstr "מבצע מבחן Wilcoxon למדגמים תלויים."
 
-#: .././cogstat.py:582 .././cogstat.py:841 .././cogstat.py:877
-#: .././cogstat.py:886 .././cogstat.py:889 .././cogstat.py:1201
-#: .././cogstat.py:1204
+#: .././cogstat_hyp_test.py:723 .././cogstat_hyp_test.py:759
+#: .././cogstat_hyp_test.py:768 .././cogstat_hyp_test.py:771
+#: .././cogstat_hyp_test.py:1161 .././cogstat_hyp_test.py:1164
+#: .././cogstat_hyp_test.py:1600 .././cogstat_hyp_test.py:1603
+#: .././cogstat.py:975 .././cogstat.py:2033
 msgid "Sorry, not implemented yet."
 msgstr "מצטערים, לא מיושם עדיין."
 
-#: .././cogstat.py:843
+#: .././cogstat_hyp_test.py:725
 msgid "More than two variables. "
 msgstr "יותר משני משתנים. "
 
-#: .././cogstat.py:865 .././cogstat.py:868
+#: .././cogstat_hyp_test.py:745 .././cogstat_hyp_test.py:749
 msgid "Running Friedman test."
 msgstr "מבצע מבחן Friedman."
 
-#: .././cogstat_stat.py:135 .././cogstat.py:909
+#: .././cogstat_stat.py:128 .././cogstat.py:1796 .././cogstat.py:2055
 msgid "Dependent variable: "
 msgstr "משתנה תלוי: "
 
-#: .././cogstat.py:910
-msgid "Group(s): "
-msgstr "קבוצה(ות): "
-
-#: .././cogstat.py:984
+#: .././cogstat_hyp_test.py:1006
 msgid "One grouping variable. "
 msgstr "משתנה grouping אחד. "
 
-#: .././cogstat.py:986
+#: .././cogstat_hyp_test.py:1008
 msgid "There is only one group. At least two groups required."
 msgstr "קיימת רק קבוצה אחת. נדרשות לפחות שתי קבוצות."
 
-#: .././cogstat.py:990
+#: .././cogstat_hyp_test.py:1012
 msgid "Two groups. "
 msgstr "שתי קבוצות. "
 
-#: .././cogstat.py:994
+#: .././cogstat_hyp_test.py:1016
 msgid "One group contains only one case. >> Choosing modified t-test."
 msgstr "קבוצה אחת מכילה רק מקרה אחד. << בוחר מבחן t מותאם."
 
-#: .././cogstat.py:1004
+#: .././cogstat_hyp_test.py:1025
 msgid "group "
 msgstr "קבוצה "
 
-#: .././cogstat.py:1005 .././cogstat.py:1039 .././cogstat.py:1047
-msgid "Running Mann-Whitney test."
-msgstr "מבצע מבחן Mann-Whitney."
-
-#: .././cogstat.py:1008
+#: .././cogstat_hyp_test.py:1029
 msgid "Normality is not violated. >> Running modified t-test."
 msgstr "נורמליות אינה מופרת. << מבצע מבחן t  מותאם."
 
-#: .././cogstat.py:1050 .././cogstat.py:1101 .././cogstat.py:1203
+#: .././cogstat_hyp_test.py:1072 .././cogstat_hyp_test.py:1122
+#: .././cogstat_hyp_test.py:1163 .././cogstat_hyp_test.py:1602
 msgid "Nominal variable."
 msgstr "משתנה נומינלי."
 
-#: .././cogstat.py:1050 .././cogstat.py:1101
-msgid "Running Chi-square test."
-msgstr "מבצע מבחן חי בריבוע."
-
-#: .././cogstat.py:1057
+#: .././cogstat_hyp_test.py:1079
 msgid "More than two groups."
 msgstr "יותר משני קבוצות."
 
-#: .././cogstat.py:1093 .././cogstat.py:1097
-msgid "Running Kruskal-Wallis test."
-msgstr "מבצע מבחן Kruskal-Wallis."
-
-#: .././cogstat.py:1207
-msgid "Several grouping variables."
-msgstr "מספר משתני grouping."
-
-#: .././cogstat_dialogs.py:23 .././cogstat_dialogs.py:27
+#: .././cogstat_dialogs.py:29 .././cogstat_dialogs.py:46
 msgid "Open data file"
 msgstr "פתח קובץ נתונים"
 
-#: .././cogstat_dialogs.py:31
+#: .././cogstat_dialogs.py:63
 msgid "Save result file"
 msgstr "שמור קובץ תוצאות"
 
-#: .././cogstat_gui.py:142 .././cogstat_gui.py:181
-msgid "&Explore variable"
-msgstr "&חקור משתנה"
-
-#: .././cogstat_gui.py:384 .././cogstat.py:251
+#: .././cogstat_gui.py:802 .././cogstat.py:481 .././cogstat.py:483
+#: .././cogstat.py:511 .././cogstat.py:512
 msgid "Import failed"
 msgstr "היבוא נכשל"
 
-#: .././cogstat_stat.py:270 .././cogstat_stat.py:272
+#: .././cogstat_stat.py:378 .././cogstat_stat.py:381
 msgid "Freq"
 msgstr "שכיחות"
 
-#: .././cogstat_stat.py:270 .././cogstat_stat.py:272 .././cogstat_stat.py:274
+#: .././cogstat_stat.py:382 .././cogstat_stat.py:384 .././cogstat_stat.py:385
 msgid "Rel freq"
 msgstr "שכיחות יחסית"
 
-#: .././cogstat_stat.py:272
+#: .././cogstat_stat.py:381
 msgid "Cum freq"
 msgstr "שכיחות מצטברת"
 
-#: .././cogstat_stat.py:272 .././cogstat_stat.py:274
+#: .././cogstat_stat.py:384 .././cogstat_stat.py:385
 msgid "Cum rel freq"
 msgstr "שכיחות יחסית מצטברת"
 
-#: .././cogstat_stat.py:1023
-msgid "Cramér's V measure of association cannot be computed (division by zero)."
-msgstr "מדד המתאם  Cramér's V אינו יכול להיות מחושב (חלוקה ב0)."
-
-#: .././cogstat.py:137 .././cogstat.py:145
-msgid "Number of measurement level do not match the number of variables. Measurement level specification is ignored."
-msgstr "מספר סולמות המדידה אינו תואם את מספר המשתנים. פירוט סולמות המדידה אינו נחשב."
-
-#: .././cogstat.py:187
-msgid "pandas dataframe"
-msgstr "מסגרת נתונים pandas"
-
-#: .././cogstat.py:213
-msgid "text file - "
-msgstr "קובץ טקסט- "
-
-#: .././cogstat.py:248
-msgid "clipboard"
-msgstr "לוח עריכה"
-
-#: .././cogstat.py:317
+#: .././cogstat_gui.py:608 .././cogstat.py:602
 msgid "Type"
 msgstr "סוג"
 
-#: .././cogstat.py:317
+#: .././cogstat_gui.py:608 .././cogstat.py:602
 msgid "Level"
 msgstr "רמה"
 
-#: .././cogstat.py:336
-msgid "Filtering"
-msgstr "סינון"
-
-#: .././cogstat.py:340
+#: .././cogstat.py:670
 msgid "Filtering is switched off."
 msgstr "הסינון אינו פועל."
 
-#: .././cogstat.py:355
-msgid "Filtering based on %s.\n"
-""
-msgstr "סינון בהתבסס על %s."
-
-#: .././cogstat.py:355 .././cogstat.py:371
-msgid " (2 SD)"
-msgstr " (2 סטיות תקן)"
-
-#: .././cogstat.py:357
-msgid "Cases outside of the range will be excluded: %0.*f  --  %0.*f\n"
-""
-msgstr "מקרים מחוץ לטווח יושמטו: %0.*f -- %0.*f"
-
-#: .././cogstat.py:364
-msgid "The following cases will be excluded: "
-msgstr "המקרים הבאים יושמטו: "
-
-#: .././cogstat.py:367
-msgid "No cases were excluded."
-msgstr "אף אחד מהמקרים לא הושמט."
-
-#: .././cogstat.py:1024 .././cogstat.py:1072
+#: .././cogstat_hyp_test.py:1045 .././cogstat_hyp_test.py:1093
 msgid "Checking for homogeneity of variance across groups."
 msgstr "בודק הומוגניות של השונות בין קבוצות."
 
-#: .././cogstat_gui.py:51
-msgid "%s Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
-msgstr "%s אופס, משהו השתבש, CogStat אינו יכול לבצע את הניתוח. יתכן ותרצה לדווח על זה."
-
-#: .././cogstat_gui.py:492
-msgid "Explore variable."
-msgstr "חקור משתנה."
-
-#: .././cogstat_gui.py:517 .././cogstat_gui.py:533
-msgid "Explore variable pair."
-msgstr "חקור את זוג המשתנה."
-
-#: .././cogstat_gui.py:560 .././cogstat_gui.py:565
-msgid "Pivot table."
-msgstr "טבלת ציר."
-
-#: .././cogstat_gui.py:595 .././cogstat_gui.py:603
-msgid "Compare variables."
-msgstr "השווה משתנים."
-
-#: .././cogstat_gui.py:630 .././cogstat_gui.py:641
-msgid "Compare groups."
-msgstr "השווה קבוצות."
-
-#: .././cogstat_stat.py:317
-msgid "Normality cannot be checked for constant variable in %s%s.\n"
-""
-msgstr "נורמליות אינה יכולה להיבדק עבור משתנה קבוע ב %s%s."
-
-#: .././cogstat_stat.py:331
+#: .././cogstat_hyp_test.py:186
 msgid "Too small sample to test normality in variable %s%s.\n"
 ""
 msgstr "מדגם קטן מדי על מנת לבדוק נורמליות במשתנה %s%s."
 
-#: .././cogstat_stat.py:587
+#: .././cogstat_hyp_test.py:855
 msgid "Result of the McNemar test"
 msgstr "תוצאה של מבחן McNemar"
 
-#: .././cogstat_stat.py:593
+#: .././cogstat_hyp_test.py:862
 msgid "Result of Cochran's Q test"
 msgstr "תוצאה של מבחן Cochran's Q."
 
-#: .././cogstat_stat.py:610
+#: .././cogstat_hyp_test.py:886
 msgid "Result of Mauchly's test to check sphericity"
 msgstr "תוצאה של מבחן Mauchly's על מנת לבחון sphericity"
 
-#: .././cogstat_stat.py:614
+#: .././cogstat_hyp_test.py:893
 msgid "Sphericity is violated."
 msgstr "יש הפרה של Sphericity."
 
-#: .././cogstat_stat.py:615
-msgid "Using Greenhouse-Geisser correction."
-msgstr "משתמש בתיקון Greenhouse-Geisser."
-
-#: .././cogstat_stat.py:616 .././cogstat_stat.py:621
+#: .././cogstat_hyp_test.py:895 .././cogstat_hyp_test.py:901
 msgid "Result of repeated measures ANOVA"
 msgstr "תוצאה של מדידות חוזרות של שונות"
 
-#: .././cogstat_stat.py:620
+#: .././cogstat_hyp_test.py:900
 msgid "Sphericity is not violated. "
 msgstr "אין הפרה של Sphericity. "
 
-#: .././cogstat_stat.py:627
-msgid "Comparing variables pairwise with the Holm-Bonferroni correction:"
-msgstr "משווה משתנים בזוגות באמצעות תיקון Holm-Bonferroni:"
-
-#: .././cogstat_stat.py:837
+#: .././cogstat_hyp_test.py:1288
 msgid "Result of Welch's unequal variances t-test:"
 msgstr "תוצאה של מבחן t של Welch unequal variances:"
 
-#: .././cogstat.py:812
+#: .././cogstat_hyp_test.py:691
 msgid "Choosing paired t-test or paired Wilcoxon test depending on the assumptions."
 msgstr "בוחר מבחן t למדגמים תלויים או מבחן Wilcoxon למדגמים תלויים כתלות בהשערות."
 
-#: .././cogstat.py:828 .././cogstat.py:864
+#: .././cogstat_hyp_test.py:708 .././cogstat_hyp_test.py:744
 msgid "Normality is violated in variable(s): %s."
 msgstr "נורמליות מופרת במשתנה(ים): %s."
 
-#: .././cogstat.py:836 .././cogstat.py:872
+#: .././cogstat_hyp_test.py:717 .././cogstat_hyp_test.py:753
 msgid "Nominal dichotomous variables."
 msgstr "משתנים נומינלים דיכוטומים."
 
-#: .././cogstat.py:836
+#: .././cogstat_hyp_test.py:718
 msgid "Running McNemar test."
 msgstr "מבצע מבחן McNemar."
 
-#: .././cogstat.py:840 .././cogstat.py:876
+#: .././cogstat_hyp_test.py:722 .././cogstat_hyp_test.py:758
 msgid "Nominal non dichotomous variables."
 msgstr "משתנים נומינלים שאינם דיכוטומים."
 
-#: .././cogstat.py:846
+#: .././cogstat_hyp_test.py:728
 msgid "Choosing repeated measures ANOVA or Friedman test depending on the assumptions."
 msgstr "בוחר מדידות חוזרות של שונות או מבחן Friedman כתלות בהשערות."
 
-#: .././cogstat.py:872
+#: .././cogstat_hyp_test.py:754
 msgid "Running Cochran's Q test."
 msgstr "מבצע מבחן Q של Cochran."
 
-#: .././cogstat.py:1013
-msgid "Choosing two sample t-test, Mann-Whitney test or Welch's t-test depending on assumptions."
-msgstr "בוחר מבחן t לשני מדגמים, מבחן Mann-Whitney או מבחן t של Welch כתלות בהשערות."
-
-#: .././cogstat.py:1037
+#: .././cogstat_hyp_test.py:1058
 msgid "Normality is violated in variable %s, group(s) %s."
 msgstr "נורמליות מופרת במשתנה %s, קבוצה(ות) %s."
 
-#: .././cogstat.py:1042
-msgid "Homeogeneity of variance violated in variable %s."
-msgstr "הומוגניות השונות מופרת במשתנה %s."
-
-#: .././cogstat.py:1043
+#: .././cogstat_hyp_test.py:1064
 msgid "Running Welch's t-test."
 msgstr "מבצע מבחן t של Welch."
 
-#: .././cogstat.py:1060
-msgid "Choosing one-way ANOVA or Kruskal-Wallis test depending on the assumptions."
-msgstr "בוחר ניתוח שונות חד כיווני או מבחן Kruskal-Wallis כתלות בהשערות."
-
-#: .././cogstat.py:1088
+#: .././cogstat_hyp_test.py:1108
 msgid "Normality is violated in variable %s, group(s) %s. "
 msgstr "נורמליות מופרת במשתנה %s, קבוצה(ות) %s. "
 
-#: .././cogstat.py:1091
-msgid "Homeogeneity of variance violated in variable %s. "
-msgstr "הומוגניות השונות מופרת במשתנה %s. "
-
-#: .././cogstat.py:555 .././cogstat.py:860
+#: .././cogstat_hyp_test.py:740 .././cogstat.py:950
 msgid "Normality is not violated."
 msgstr "נורמליות אינה מופרת."
 
-#: .././cogstat.py:861
+#: .././cogstat_hyp_test.py:741
 msgid "Running repeated measures one-way ANOVA."
 msgstr "מבצע ניתוח שונות של מדידות חוזרות- חד כיווני."
 
-#: .././cogstat_gui.py:138
-msgid "Ctrl+B"
-msgstr ""
-
-#: .././cogstat_gui.py:400
-msgid "Open data. Oops, something went wrong, CogStat could not open the data. You may want to report the issue."
-msgstr ""
-
-#: .././cogstat_stat.py:227
-msgid "N of missing cases: %g"
-msgstr ""
-
-#: .././cogstat_chart.py:144 .././cogstat_chart.py:229
-#: .././cogstat_chart.py:403 .././cogstat_chart.py:404
-#: .././cogstat_chart.py:608
+#: .././cogstat_chart.py:454 .././cogstat_chart.py:549
+#: .././cogstat_chart.py:880 .././cogstat_chart.py:881
+#: .././cogstat_chart.py:1265 .././cogstat_chart.py:1913
 msgid "Rank of %s"
-msgstr ""
+msgstr "דירוג של %s"
 
-#: .././cogstat_stat.py:414 .././cogstat_stat.py:578
+#: .././cogstat_hyp_test.py:295 .././cogstat_hyp_test.py:843
 msgid "Result of Wilcoxon signed-rank test"
-msgstr ""
+msgstr "תוצאה של מבחן וילקוקסון לדירוגים חתומים"
 
-#: .././cogstat_chart.py:146 .././cogstat.py:478 .././cogstat.py:608
-#: .././cogstat.py:751 .././cogstat.py:921 .././cogstat.py:1109
+#: .././cogstat.py:869 .././cogstat.py:1035 .././cogstat.py:1109
+#: .././cogstat.py:1272 .././cogstat.py:1617 .././cogstat.py:1811
+#: .././cogstat.py:2086 .././cogstat_chart.py:456
 msgid "Raw data"
-msgstr ""
+msgstr "נתונים גולמיים"
 
-#: .././cogstat.py:484 .././cogstat.py:624 .././cogstat.py:771
-#: .././cogstat.py:952 .././cogstat.py:1160
+#: .././cogstat.py:880 .././cogstat.py:1043 .././cogstat.py:1139
+#: .././cogstat.py:1290 .././cogstat.py:1646 .././cogstat.py:1866
+#: .././cogstat.py:2151
 msgid "Sample properties"
-msgstr ""
+msgstr "מאפייני המדגם"
 
-#: .././cogstat.py:530
-msgid "Population parameter estimations and tests"
-msgstr ""
-
-#: .././cogstat.py:537 .././cogstat.py:635 .././cogstat.py:663
-#: .././cogstat.py:678
-msgid "Hypothesis test: "
-msgstr ""
-
-#: .././cogstat.py:539
+#: .././cogstat.py:933
 msgid "Testing if mean deviates from the value %s."
-msgstr ""
+msgstr "בדיקה האם הממוצע סוטה מהערך %s."
 
-#: .././cogstat.py:541
+#: .././cogstat.py:936
 msgid "Testing if median deviates from the value %s."
-msgstr ""
+msgstr "בדיקה האם החציון סוטה מהערך %s."
 
-#: .././cogstat.py:548
+#: .././cogstat.py:943
 msgid "Choosing one-sample t-test or Wilcoxon signed-rank test depending on the assumption."
-msgstr ""
+msgstr "בחירה בין מבחן t למדגם אחד לבין מבחן וילקוקסון לדירוגים חתומים בהתאם להנחות."
 
-#: .././cogstat.py:556
+#: .././cogstat.py:951
 msgid "Running one-sample t-test."
-msgstr ""
+msgstr "הרצת מבחן t עבור מדגם אחד."
 
-#: .././cogstat.py:569
+#: .././cogstat.py:959
 msgid "Normality is violated."
-msgstr ""
+msgstr "הנחת הנורמליות הופרה."
 
-#: .././cogstat.py:570 .././cogstat.py:577
+#: .././cogstat.py:960 .././cogstat.py:969
 msgid "Running Wilcoxon signed-rank test."
-msgstr ""
+msgstr "מתבצע מבחן וילקוקסון לדירוגים חתומים."
 
-#: .././cogstat.py:509 .././cogstat.py:628 .././cogstat.py:787
-#: .././cogstat.py:970 .././cogstat.py:1180
+#: .././cogstat.py:908 .././cogstat.py:1049 .././cogstat.py:1154
+#: .././cogstat.py:1346 .././cogstat.py:1684 .././cogstat.py:1907
+#: .././cogstat.py:2189
 msgid "Population properties"
-msgstr ""
+msgstr "מאפייני האוכלוסיה"
 
-#: .././cogstat.py:635 .././cogstat.py:663
-msgid "Testing if correlation differs from 0."
-msgstr ""
-
-#: .././cogstat.py:678
-msgid "Testing if variables are independent."
-msgstr ""
-
-#: .././cogstat.py:798 .././cogstat.py:976 .././cogstat.py:1184
-msgid "Hypothesis testing: "
-msgstr ""
-
-#: .././cogstat.py:800 .././cogstat.py:978 .././cogstat.py:1186
+#: .././cogstat_hyp_test.py:678 .././cogstat_hyp_test.py:1000
+#: .././cogstat_hyp_test.py:1146 .././cogstat_hyp_test.py:1587
 msgid "Testing if the means are the same."
-msgstr ""
+msgstr "בדיקה האם הממוצעים שווים."
 
-#: .././cogstat.py:802 .././cogstat.py:980 .././cogstat.py:1188
+#: .././cogstat_hyp_test.py:680 .././cogstat_hyp_test.py:1002
+#: .././cogstat_hyp_test.py:1148 .././cogstat_hyp_test.py:1589
 msgid "Testing if the medians are the same."
-msgstr ""
+msgstr "בדיקה האם החציונים שווים."
 
-#: .././cogstat.py:804 .././cogstat.py:982 .././cogstat.py:1190
+#: .././cogstat_hyp_test.py:682 .././cogstat_hyp_test.py:1004
+#: .././cogstat_hyp_test.py:1150 .././cogstat_hyp_test.py:1591
 msgid "Testing if the distributions are the same."
-msgstr ""
+msgstr "בדיקה האם ההתפלגויות שוות."
 
-#: .././cogstat.py:1033
+#: .././cogstat_hyp_test.py:1054
 msgid "Normality and homogeneity of variance are not violated. >> Running two sample t-test."
-msgstr ""
+msgstr "הנחות הנורמליות והומוגניות השונויות לא הופרו. >> מתבצע מבחן t לשני מדגמים."
 
-#: .././cogstat.py:1081
+#: .././cogstat_hyp_test.py:1102
 msgid "Normality and homogeneity of variance are not violated. >> Running one-way ANOVA."
-msgstr ""
+msgstr "הנחות הנורמליות והומוגניות השונויות לא הופרו. >> מתבצע ניתוח שונות חד־כיווני (ANOVA)."
 
-#: .././cogstat_gui.py:715
+#: .././cogstat_gui.py:1248
 msgid "Simple automatic data analysis software"
-msgstr ""
+msgstr "תוכנה פשוטה לניתוח נתונים אוטומטי"
 
-#: .././cogstat_gui.py:715
+#: .././cogstat_gui.py:1249
 msgid "Visit CogStat website"
-msgstr ""
+msgstr "בקרו באתר של CogStat"
 
-#: .././cogstat_gui.py:223
+#: .././cogstat_gui.py:376
 msgid "Welcome to CogStat!"
-msgstr ""
+msgstr "ברוכים הבאים לCogStat!"
 
-#: .././cogstat_gui.py:223
+#: .././cogstat_gui.py:377
 msgid "CogStat makes statistical analysis more simple and efficient."
-msgstr ""
+msgstr "CogStat הופכת את הניתוח הסטטיסטי לפשוט ויעיל יותר."
 
-#: .././cogstat_gui.py:224
+#: .././cogstat_gui.py:378 .././cogstat_gui.py:382
 msgid "To start working open a data file or paste your data from a spreadsheet."
-msgstr ""
+msgstr "כדי להתחיל לעבוד פתח קובץ נתונים או הדבק את הנתונים שלך מגיליון אלקטרוני."
 
-#: .././cogstat_chart.py:143
+#: .././cogstat_chart.py:453
 msgid "Rank of the raw data"
-msgstr ""
+msgstr "דירוג הנתונים הגולמיים"
 
-#: .././cogstat_chart.py:214
+#: .././cogstat_chart.py:534
 msgid "Histogram of rank data with individual data and boxplot"
-msgstr ""
+msgstr "היסטוגרמה של נתוני הדירוג עם נתונים בודדים ותרשים קופסה"
 
-#: .././cogstat_chart.py:402
+#: .././cogstat_chart.py:879
 msgid "Scatterplot of the rank of the variables"
-msgstr ""
+msgstr "תרשים פיזור של דירוג המשתנים"
 
-#: .././cogstat_chart.py:452
+#: .././cogstat_chart.py:1080
 msgid "Individual data of the variables"
-msgstr ""
+msgstr "נתונים בודדים של  המשתנים"
 
-#: .././cogstat_chart.py:610
+#: .././cogstat_chart.py:1267
 msgid "Individual data of the rank data of the groups"
-msgstr ""
+msgstr "נתונים בודדים של נתוני הדירוג של הקבוצות"
 
-#: .././cogstat_stat.py:1109
-msgid "Boxplot and individual data of the rank data of the groups"
-msgstr ""
-
-#: .././cogstat_chart.py:626
+#: .././cogstat_chart.py:1278
 msgid "Individual data of the groups"
-msgstr ""
+msgstr "נתונים בודדים של הקבוצות"
 
-#: .././cogstat_stat.py:532 .././cogstat_stat.py:712 .././cogstat.py:557
-#: .././cogstat.py:558 .././cogstat.py:629
+#: .././cogstat_stat.py:540 .././cogstat_stat.py:549 .././cogstat_stat.py:616
+#: .././cogstat_stat.py:712 .././cogstat_stat.py:1009 .././cogstat_stat.py:1016
+#: .././cogstat_stat.py:1060 .././cogstat_stat.py:1110
+#: .././cogstat_stat.py:1136 .././cogstat_stat.py:1203
+#: .././cogstat_stat.py:1336 .././cogstat.py:1051 .././cogstat_chart.py:1663
 msgid "Point estimation"
-msgstr ""
+msgstr "אמידת נקודה"
 
-#: .././cogstat.py:557 .././cogstat.py:561 .././cogstat.py:629
+#: .././cogstat_stat.py:616 .././cogstat_stat.py:712 .././cogstat_stat.py:830
+#: .././cogstat_stat.py:831 .././cogstat_stat.py:1269 .././cogstat_stat.py:1270
+#: .././cogstat_stat.py:1336 .././cogstat.py:1051
 msgid "95% confidence interval"
-msgstr ""
+msgstr "רווח סמך של 95%"
 
-#: .././cogstat_stat.py:127 .././cogstat_stat.py:435 .././cogstat.py:562
-#: ../ui/pivot.py:113
+#: .././cogstat_stat.py:120 .././cogstat_stat.py:446 .././cogstat_stat.py:547
+#: .././cogstat_chart.py:1523 ../ui/pivot.py:170
 msgid "Standard deviation"
-msgstr ""
+msgstr "סטיית תקן"
 
-#: .././cogstat.py:757 .././cogstat.py:927 .././cogstat.py:1126
-msgid "N of valid cases"
-msgstr ""
-
-#: .././cogstat_gui.py:109
+#: .././cogstat_gui.py:150
 msgid "Update available"
-msgstr ""
+msgstr "עדכון זמין"
 
-#: .././cogstat_gui.py:110
+#: .././cogstat_gui.py:151
 msgid "New version is available."
-msgstr ""
-
-#: .././cogstat_gui.py:111
-msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
-msgstr ""
-
-#: .././cogstat_gui.py:143 .././cogstat_gui.py:182
-msgid "Explore relation of variable &pair"
-msgstr ""
-
-#: .././cogstat_gui.py:147 .././cogstat_gui.py:182
-msgid "Compare repeated measures va&riables"
-msgstr ""
-
-#: .././cogstat_stat.py:435
-msgid "Minimum"
-msgstr ""
-
-#: .././cogstat_stat.py:436
-msgid "Maximum"
-msgstr ""
-
-#: .././cogstat_stat.py:126 .././cogstat_stat.py:436 ../ui/pivot.py:112
-msgid "Upper quartile"
-msgstr ""
-
-#: .././cogstat_stat.py:454
-msgid "Descriptives for the variables"
-msgstr ""
-
-#: .././cogstat_stat.py:468
-msgid "Descriptives for the groups"
-msgstr ""
-
-#: .././cogstat_stat.py:514
-msgid "Contingency table"
-msgstr ""
-
-#: .././cogstat_stat.py:936
-msgid "Result of two-way ANOVA:\n"
-""
-msgstr ""
-
-#: .././cogstat_stat.py:939
-msgid "Main effect of %s: "
-msgstr ""
-
-#: .././cogstat_stat.py:943
-msgid "Interaction of %s and %s: "
-msgstr ""
-
-#: .././cogstat_stat.py:1027
-msgid "Sorry, at least SciPy 0.10 is required to calculate Cramér's V or Chi-Square test."
-msgstr ""
-
-#: .././cogstat.py:228
-msgid "SPSS file - "
-msgstr ""
-
-#: .././cogstat.py:601
-msgid "Explore relation of variable pair"
-msgstr ""
-
-#: .././cogstat.py:725 ../ui/compare_vars.py:65
-msgid "Compare repeated measures variables"
-msgstr ""
-
-#: .././cogstat.py:758 .././cogstat.py:928 .././cogstat.py:1129
-msgid "N of missing cases"
-msgstr ""
-
-#: .././cogstat.py:1192
-msgid "Two grouping variables. "
-msgstr ""
-
-#: .././cogstat.py:1196
-msgid "Choosing factorial ANOVA."
-msgstr ""
-
-#: .././cogstat.py:614
-msgid "N of valid pairs"
-msgstr ""
-
-#: .././cogstat.py:615
-msgid "N of missing pairs"
-msgstr ""
-
-#: .././cogstat.py:937
-msgid "N of missing group cases"
-msgstr ""
-
-#: .././cogstat.py:1144
-msgid "N of missing grouping variable in %s"
-msgstr ""
-
-#: .././cogstat_stat.py:437
-msgid "Skewness"
-msgstr ""
-
-#: .././cogstat_stat.py:437
-msgid "Kurtosis"
-msgstr ""
-
-#: .././cogstat_stat.py:437
-msgid "Range"
-msgstr ""
-
-#: .././cogstat_stat.py:454
-msgid "Descriptives for the variable"
-msgstr ""
-
-#: .././cogstat.py:49
-msgid "The measurement levels of the variables are not set. Set them in your data source."
-msgstr ""
-
-#: .././cogstat_gui.py:52 .././cogstat_gui.py:401
-msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
-msgstr ""
-
-#: .././cogstat_gui.py:225
-msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://github.com/cogstat/cogstat/wiki/Quick-Start-Tutorial\">quick start tutorial.</a>"
-msgstr ""
-
-#: .././cogstat_stat.py:59 .././cogstat.py:50 .././cogstat.py:171
-#: .././cogstat.py:179 .././cogstat.py:284 .././cogstat.py:292
-msgid "Read more about this issue <a href = \"%s\">here</a>."
-msgstr ""
-
-#: .././cogstat_stat.py:816
-msgid "Result of slope test with %s:"
-msgstr ""
-
-#: .././cogstat.py:168
-msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
-msgstr ""
-
-#: .././cogstat.py:170 .././cogstat.py:178 .././cogstat.py:283
-#: .././cogstat.py:291
-msgid "You can fix this in your data source."
-msgstr ""
-
-#: .././cogstat.py:177
-msgid "The measurement level was not set for all variables."
-msgstr ""
-
-#: .././cogstat.py:281
-msgid "Some variable name(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
-
-#: .././cogstat.py:289
-msgid "Some variable(s) include non-English characters, which will cause problems in some analyses: %s."
-msgstr ""
-
-#: .././cogstat.py:627 .././cogstat.py:656 .././cogstat.py:672
-#: .././cogstat.py:1085
-msgid "Standardized effect size:"
-msgstr ""
-
-#: .././cogstat_gui.py:132
-msgid "Open d&emo data file"
-msgstr ""
-
-#: .././cogstat_gui.py:132
-msgid "Ctrl+E"
-msgstr ""
-
-#: .././cogstat_gui.py:154
-msgid "&Increase text size"
-msgstr ""
-
-#: .././cogstat_gui.py:154
-msgid "Ctrl++"
-msgstr ""
-
-#: .././cogstat_gui.py:155
-msgid "&Decrease text size"
-msgstr ""
-
-#: .././cogstat_gui.py:155
-msgid "Ctrl+-"
-msgstr ""
-
-#: .././cogstat_gui.py:160
-msgid "&Save results"
-msgstr ""
-
-#: .././cogstat_gui.py:161
-msgid "Save results &as"
-msgstr ""
-
-#: .././cogstat_chart.py:454
-msgid "Boxplots and individual data of the variables"
-msgstr ""
-
-#: .././cogstat_chart.py:602
-msgid "Largest individual sign displays %d cases."
-msgstr ""
-
-#: .././cogstat_chart.py:612
-msgid "Boxplots and individual data of the rank data of the groups"
-msgstr ""
-
-#: .././cogstat_chart.py:628
-msgid "Boxplots and individual data of the groups"
-msgstr ""
-
-#: .././cogstat_stat.py:535 .././cogstat_stat.py:715
-msgid "95% CI (low)"
-msgstr ""
-
-#: .././cogstat_stat.py:536 .././cogstat_stat.py:716
-msgid "95% CI (high)"
-msgstr ""
-
-#: .././cogstat_stat.py:996
-msgid "Results of Dunn's test (p values)."
-msgstr ""
-
-#: .././cogstat.py:564 .././cogstat.py:792 .././cogstat.py:972
-#: .././cogstat.py:1181
-msgid "Present confidence interval values suppose normality."
-msgstr ""
-
-#: .././cogstat.py:792 .././cogstat.py:972 .././cogstat.py:1181
-msgid "Means"
-msgstr ""
+msgstr "גרסה חדשה זמינה."
 
 #: .././cogstat_gui.py:152
-msgid "Ctrl+Del"
-msgstr ""
+msgid "You can download the new version<br>from the <a href = \"%s\">CogStat download page</a>."
+msgstr "אפשר להוריד את הגרסה החדשה<br>מ<a href = \"%s\">עמוד ההורדה של CogStat</a>."
 
-#: .././cogstat_gui.py:148
-msgid "&Text is editable"
-msgstr ""
+#: .././cogstat_gui.py:200
+msgid "Explore relation of variable &pair"
+msgstr "חקירת הקשר בין זוג משתנים &pair"
 
-#: .././cogstat_gui.py:158
-msgid "Ctrl+Shift+E"
-msgstr ""
+#: .././cogstat_stat.py:447 .././cogstat_chart.py:1524
+msgid "Minimum"
+msgstr "מינימום"
 
-#: .././cogstat_gui.py:161
-msgid "Ctrl+Shift+P"
-msgstr ""
+#: .././cogstat_stat.py:448 .././cogstat_chart.py:1525
+msgid "Maximum"
+msgstr "מקסימום"
 
-#: .././cogstat.py:322
-msgid "The next %s cases will not be printed. You can check all cases in the original data source."
-msgstr ""
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:451 .././cogstat_chart.py:1528
+#: ../ui/pivot.py:169
+msgid "Upper quartile"
+msgstr "רבעון עליון"
 
-#: ../ui/pivot.py:106 ../ui/filter_outlier.py:71 ../ui/compare_groups.py:76
-#: ../ui/compare_groups_single_case_slope.py:65 ../ui/var_properties.py:69
-#: ../ui/explore_var_pairs.py:54 ../ui/compare_vars.py:67
-msgid "Available variables"
-msgstr ""
+#: .././cogstat.py:1649 .././cogstat.py:2153
+msgid "Descriptives for the variables"
+msgstr "סטטיסטיקה תיאורית עבור המשתנים"
 
-#: .././cogstat_stat.py:125 ../ui/pivot.py:107
-msgid "N"
-msgstr ""
+#: .././cogstat.py:1869
+msgid "Descriptives for the groups"
+msgstr "סטטיסטיקה תיאורית עבור הקבוצות"
 
-#: .././cogstat_stat.py:125 ../ui/pivot.py:108
-msgid "Sum"
-msgstr ""
+#: .././cogstat_stat.py:949 .././cogstat_stat.py:959 .././cogstat_stat.py:972
+msgid "Contingency table"
+msgstr "טבלת שכיחויות"
 
-#: .././cogstat_stat.py:126 ../ui/pivot.py:111
-msgid "Lower quartile"
-msgstr ""
+#: .././cogstat_hyp_test.py:1440 .././cogstat_hyp_test.py:1663
+msgid "Main effect of %s: "
+msgstr "השפעה עיקרית של %s: "
 
-#: .././cogstat_stat.py:127 ../ui/pivot.py:114
-msgid "Variance"
-msgstr ""
+#: .././cogstat_gui.py:936 .././cogstat.py:1253
+msgid "Explore relation of variable pair"
+msgstr "חקירת הקשר בין זוג משתנים"
 
-#: ../ui/pivot.py:115
-msgid "Rows"
-msgstr ""
+#: .././cogstat_gui.py:1043 .././cogstat.py:1557 .././cogstat.py:2013
+#: ../ui/compare_vars.py:89
+msgid "Compare repeated measures variables"
+msgstr "השוואת משתנים במדידות חוזרות"
 
-#: ../ui/pivot.py:116
-msgid "Columns"
-msgstr ""
+#: .././cogstat.py:875 .././cogstat.py:1039 .././cogstat.py:1114
+#: .././cogstat.py:1625 .././cogstat.py:1833 .././cogstat.py:2097
+#: .././cogstat.py:2115
+msgid "N of missing cases"
+msgstr "מספר המקרים החסרים"
 
-#: ../ui/pivot.py:117
-msgid "Pages"
-msgstr ""
+#: .././cogstat_hyp_test.py:1156
+msgid "Choosing factorial ANOVA."
+msgstr "נבחר ניתוח שונות פקטוריאלי (Factorial ANOVA)."
 
-#: ../ui/pivot.py:118
-msgid "Dependent variable"
-msgstr ""
+#: .././cogstat.py:1279
+msgid "N of missing pairs"
+msgstr "מספר הזוגות החסרים"
 
-#: ../ui/pivot.py:119
-msgid "Function"
-msgstr ""
+#: .././cogstat.py:1844 .././cogstat.py:2127
+msgid "N of missing grouping variable in %s"
+msgstr "מספר ערכי משתנה הקיבוץ החסרים ב־%s"
 
-#: ../ui/pivot.py:120 ../ui/pivot.py:123 ../ui/pivot.py:125 ../ui/pivot.py:127
-#: ../ui/filter_outlier.py:72 ../ui/compare_groups.py:75
-#: ../ui/compare_groups.py:79 ../ui/compare_groups_single_case_slope.py:64
-#: ../ui/var_properties.py:76 ../ui/explore_var_pairs.py:57
-#: ../ui/compare_vars_wiz.py:65 ../ui/compare_vars.py:68
-msgid "<="
-msgstr ""
+#: .././cogstat_stat.py:452 .././cogstat_chart.py:1529
+msgid "Skewness"
+msgstr "הטיה"
 
-#: ../ui/pivot.py:121 ../ui/pivot.py:122 ../ui/pivot.py:124 ../ui/pivot.py:126
-#: ../ui/filter_outlier.py:70 ../ui/compare_groups.py:78
-#: ../ui/compare_groups.py:81 ../ui/compare_groups_single_case_slope.py:67
-#: ../ui/var_properties.py:75 ../ui/explore_var_pairs.py:56
-#: ../ui/compare_vars_wiz.py:68 ../ui/compare_vars.py:66
-msgid "=>"
-msgstr ""
+#: .././cogstat_stat.py:453 .././cogstat_chart.py:1530
+msgid "Kurtosis"
+msgstr "קורטוזיס"
 
-#: ../ui/compare_groups.py:77
-msgid "Dependent variable(s)"
-msgstr ""
-
-#: ../ui/compare_groups.py:80
-msgid "Group(s)"
-msgstr ""
-
-#: ../ui/compare_groups.py:82
-msgid "Single case slope..."
-msgstr ""
-
-#: ../ui/preferences.py:53
-msgid "Preferences"
-msgstr ""
-
-#: ../ui/preferences.py:54
-msgid "Language"
-msgstr ""
-
-#: ../ui/preferences.py:55
-msgid "You should restart CogStat to use the new language"
-msgstr ""
-
-#: ../ui/preferences.py:56
-msgid "Chart theme"
-msgstr ""
-
-#: ../ui/preferences.py:57
-msgid "You should restart CogStat to use the new theme"
-msgstr ""
-
-#: ../ui/compare_groups_single_case_slope.py:63
-msgid "Compare groups - Single case slope"
-msgstr ""
-
-#: ../ui/compare_groups_single_case_slope.py:66
-msgid "Slope SE variable"
-msgstr ""
-
-#: ../ui/compare_groups_single_case_slope.py:68
-msgid "Number of trials"
-msgstr ""
-
-#: ../ui/var_properties.py:68
-msgid "Explore variables"
-msgstr ""
-
-#: ../ui/filter_outlier.py:73 ../ui/var_properties.py:70
-#: ../ui/explore_var_pairs.py:55 ../ui/compare_vars_wiz.py:67
-#: ../ui/compare_vars.py:69
-msgid "Selected variables"
-msgstr ""
-
-#: ../ui/var_properties.py:71
-msgid "Statistics"
-msgstr ""
-
-#: ../ui/var_properties.py:73
-msgid "0"
-msgstr ""
-
-#: ../ui/var_properties.py:74
-msgid "Central tendency test value"
-msgstr ""
-
-#: ../ui/explore_var_pairs.py:53
-msgid "Explore relation of variable pairs"
-msgstr ""
-
-#: ../ui/compare_vars_wiz.py:61
-msgid "Wizard"
-msgstr ""
-
-#: ../ui/compare_vars_wiz.py:62
-msgid "One factor"
-msgstr ""
-
-#: ../ui/compare_vars_wiz.py:63
-msgid "Several factors"
-msgstr ""
-
-#: ../ui/compare_vars_wiz.py:64
-msgid "Not implemented yet"
-msgstr ""
-
-#: ../ui/compare_vars_wiz.py:66
-msgid "Variables to choose from"
-msgstr ""
-
-#: ../ui/data_measlev.py:37
-msgid "Variable properties"
-msgstr ""
-
-#: .././cogstat_gui.py:135 .././cogstat_gui.py:180
-msgid "&Filter outliers"
-msgstr ""
-
-#: .././cogstat_gui.py:135
-msgid "Ctrl+L"
-msgstr ""
-
-#: .././cogstat_gui.py:158
-msgid "Text is &editable"
-msgstr ""
-
-#: .././cogstat_gui.py:166
-msgid "Ctrl+Shift+R"
-msgstr ""
-
-#: .././cogstat_gui.py:436
-msgid "Filter outlier."
-msgstr ""
-
-#: .././cogstat_stat.py:668
-msgid "Main effect of %s"
-msgstr ""
-
-#: .././cogstat_stat.py:670
-msgid "Interaction of factors %s"
-msgstr ""
-
-#: .././cogstat.py:347
-msgid "Only interval variables can be used for filtering. Ignoring variable %s."
-msgstr ""
-
-#: .././cogstat.py:729
-msgid "Factors (number of levels): "
-msgstr ""
-
-#: .././cogstat.py:880
-msgid "Interval variables with several factors."
-msgstr ""
-
-#: .././cogstat.py:881
-msgid "Choosing repeated measures ANOVA."
-msgstr ""
-
-#: .././cogstat.py:885
-msgid "Ordinal variables with several factors."
-msgstr ""
+#: .././cogstat_stat.py:449 .././cogstat_chart.py:1526
+msgid "Range"
+msgstr "טווח"
 
 #: .././cogstat.py:888
+msgid "Descriptives for the variable"
+msgstr "סטטיסטיקה תיאורית עבור המשתנה"
+
+#: .././cogstat.py:73
+msgid "The measurement levels of the variables are not set. Set them in your data source."
+msgstr "רמות המדידה של המשתנים אינן מוגדרות. הגדר אותן במקור הנתונים שלך."
+
+#: .././cogstat_gui.py:68
+msgid "Read more about how to report an issue <a href = \"%s\">here</a>."
+msgstr "קרא עוד כיצד לדווח על בעיה <a href = \"%s\">here</a>."
+
+#: .././cogstat_hyp_test.py:41 .././cogstat.py:74 .././cogstat.py:308
+#: .././cogstat.py:317 .././cogstat.py:352 .././cogstat.py:363
+msgid "Read more about this issue <a href = \"%s\">here</a>."
+msgstr "קרא עוד על בעיה זו <a href = \"%s\">here</a>."
+
+#: .././cogstat_hyp_test.py:1267
+msgid "Result of slope test with %s:"
+msgstr "תוצאות מבחן השיפוע עבור %s:"
+
+#: .././cogstat.py:304
+msgid "String variables cannot be interval or ordinal variables in CogStat. Those variables are automatically set to nominal: "
+msgstr "משתני טקסט אינם יכולים להיות משתנים אינטרווליים או סדריים ב-CogStat. משתנים אלו מוגדרים אוטומטית כנומינליים:"
+
+#: .././cogstat.py:315
+msgid "The measurement level was not set for all variables."
+msgstr "רמת המדידה לא הוגדרה עבור כל המשתנים."
+
+#: .././cogstat_gui.py:179
+msgid "Open d&emo data file"
+msgstr "פתח קובץ נתוני ה&דגמה"
+
+#: .././cogstat_gui.py:179
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: .././cogstat_gui.py:237
+msgid "&Increase text size"
+msgstr "ה&גדל את גודל האותיות"
+
+#: .././cogstat_gui.py:237
+msgid "Ctrl++"
+msgstr "Ctrl++"
+
+#: .././cogstat_gui.py:239
+msgid "&Decrease text size"
+msgstr "ה&קטן את גודל הטקסט"
+
+#: .././cogstat_gui.py:239
+msgid "Ctrl+-"
+msgstr "Ctrl+-"
+
+#: .././cogstat_gui.py:246
+msgid "&Save results"
+msgstr "&שמור תוצאות"
+
+#: .././cogstat_gui.py:248
+msgid "Save results &as"
+msgstr "שמור תוצאות &בשם"
+
+#: .././cogstat_chart.py:1082
+msgid "Boxplots and individual data of the variables"
+msgstr "תרשימי קופסה ונתונים בודדים של המשתנים"
+
+#: .././cogstat_chart.py:1256 .././cogstat_chart.py:1806
+msgid "Largest individual sign displays %d cases."
+msgstr "סימן הפרט הגדול ביותר מציג %d מקרים."
+
+#: .././cogstat_chart.py:1269
+msgid "Boxplots and individual data of the rank data of the groups"
+msgstr "תרשימי קופסה ונתונים בודדים של נתוני הדירוג של הקבוצות"
+
+#: .././cogstat_chart.py:1280
+msgid "Boxplots and individual data of the groups"
+msgstr "תרשימי קופסה ונתונים בודדים של הקבוצות"
+
+#: .././cogstat_stat.py:1013 .././cogstat_stat.py:1018
+#: .././cogstat_stat.py:1060 .././cogstat_stat.py:1113
+#: .././cogstat_stat.py:1141 .././cogstat_stat.py:1203
+#: .././cogstat_chart.py:1663
+msgid "95% CI (low)"
+msgstr "95% CI (נמוך)"
+
+#: .././cogstat_stat.py:1014 .././cogstat_stat.py:1018
+#: .././cogstat_stat.py:1060 .././cogstat_stat.py:1114
+#: .././cogstat_stat.py:1142 .././cogstat_stat.py:1203
+#: .././cogstat_chart.py:1663
+msgid "95% CI (high)"
+msgstr "95% CI (גבוה)"
+
+#: .././cogstat_hyp_test.py:1503
+msgid "Results of Dunn's test (p values)."
+msgstr "תוצאות מבחן Dunn (ערכי p)."
+
+#: .././cogstat.py:1689 .././cogstat.py:1933
+msgid "Present confidence interval values suppose normality."
+msgstr "הצגת ערכי רווח סמך בהנחת נורמליות."
+
+#: .././cogstat.py:1689 .././cogstat.py:1933
+msgid "Means"
+msgstr "ממוצעים"
+
+#: .././cogstat_gui.py:232
+msgid "Ctrl+Del"
+msgstr "Ctrl+Del"
+
+#: .././cogstat_gui.py:243
+msgid "Ctrl+Shift+E"
+msgstr "Ctrl+Shift+E"
+
+#: .././cogstat_gui.py:255
+msgid "Ctrl+Shift+P"
+msgstr "Ctrl+Shift+P"
+
+#: .././cogstat.py:609
+msgid "The next %s cases will not be printed. You can check all cases in the original data source."
+msgstr "%s המקרים הבאים לא יודפסו. ניתן לבדוק את כל המקרים במקור הנתונים המקורי."
+
+#: ../ui/reliability_interrater.py:90 ../ui/pivot.py:173
+#: ../ui/compare_vars.py:93 ../ui/compare_groups.py:115 ../ui/diffusion.py:192
+#: ../ui/regression.py:103 ../ui/explore_var_pairs.py:88
+#: ../ui/reliability_internal.py:89 ../ui/var_properties.py:106
+#: ../ui/filter_outlier.py:90 ../ui/compare_groups_single_case_slope.py:83
+#: ../ui/compare_vars_groups.py:115
+msgid "Available variables"
+msgstr "משתנים זמינים"
+
+#: .././cogstat_stat.py:118 ../ui/pivot.py:164
+msgid "N"
+msgstr "N"
+
+#: .././cogstat_stat.py:118 ../ui/pivot.py:165
+msgid "Sum"
+msgstr "סכום"
+
+#: .././cogstat_stat.py:119 .././cogstat_stat.py:450 .././cogstat_chart.py:1527
+#: ../ui/pivot.py:168
+msgid "Lower quartile"
+msgstr "רבעון תחתון"
+
+#: .././cogstat_stat.py:120 ../ui/pivot.py:171
+msgid "Variance"
+msgstr "שונות"
+
+#: ../ui/pivot.py:162 ../ui/compare_groups.py:116
+#: ../ui/compare_vars_groups.py:116
+msgid "Dependent variable(s)"
+msgstr "משתנה/ים תלוי/ים"
+
+#: ../ui/compare_groups.py:117 ../ui/compare_vars_groups.py:117
+msgid "Group(s)"
+msgstr "קבוצה/ות"
+
+#: ../ui/preferences.py:81
+msgid "Preferences"
+msgstr "העדפות"
+
+#: ../ui/preferences.py:82
+msgid "Language"
+msgstr "שפה"
+
+#: ../ui/preferences.py:84
+msgid "Chart theme"
+msgstr "סגנון תרשימים"
+
+#: ../ui/compare_groups_single_case_slope.py:82
+msgid "Compare groups - Single case slope"
+msgstr "השוואת קבוצות - שיפוע מקרה בודד"
+
+#: ../ui/compare_groups_single_case_slope.py:84
+msgid "Slope SE variable"
+msgstr "משתנה שגיאת התקן של השיפוע"
+
+#: .././cogstat_stat.py:301
+msgid "Number of trials"
+msgstr "מספר הרצות"
+
+#: ../ui/var_properties.py:105
+msgid "Explore variables"
+msgstr "חקירת משתנים"
+
+#: ../ui/reliability_interrater.py:91 ../ui/compare_vars.py:94
+#: ../ui/explore_var_pairs.py:90 ../ui/reliability_internal.py:90
+msgid "Selected variables"
+msgstr "משתנים נבחרים"
+
+#: ../ui/var_properties.py:110
+msgid "Statistics"
+msgstr "סטטיסטיקה"
+
+#: ../ui/var_properties.py:108
+msgid "0"
+msgstr "0"
+
+#: ../ui/explore_var_pairs.py:87
+msgid "Explore relation of variable pairs"
+msgstr "חקירת קשרים בין זוגות משתנים"
+
+#: .././cogstat_gui.py:190
+msgid "&Filter outliers"
+msgstr "&סנן ערכים חריגים"
+
+#: .././cogstat_gui.py:190
+msgid "Ctrl+L"
+msgstr "Ctrl+L"
+
+#: .././cogstat_gui.py:243
+msgid "Text is &editable"
+msgstr "הטקסט ניתן ל&עריכה"
+
+#: .././cogstat_hyp_test.py:950
+msgid "Main effect of %s"
+msgstr "ההשפעה העיקרית של %s"
+
+#: .././cogstat_hyp_test.py:952
+msgid "Interaction of factors %s"
+msgstr "אינטראקציה בין הגורמים %s"
+
+#: .././cogstat_hyp_test.py:762
+msgid "Interval variables with several factors."
+msgstr "משתנים אינטרווליים עם מספר גורמים."
+
+#: .././cogstat_hyp_test.py:763
+msgid "Choosing repeated measures ANOVA."
+msgstr "נבחר ניתוח שונות למדידות חוזרות (ANOVA)."
+
+#: .././cogstat_hyp_test.py:767
+msgid "Ordinal variables with several factors."
+msgstr "משתנים סדריים עם מספר גורמים."
+
+#: .././cogstat_hyp_test.py:770
 msgid "Nominal variables with several factors."
-msgstr ""
+msgstr "משתנים נומינליים עם מספר גורמים."
 
-#: ../ui/filter_outlier.py:69
+#: ../ui/filter_outlier.py:87
 msgid "Filter outlier"
-msgstr ""
+msgstr "סנן ערך חריג"
 
-#: ../ui/factors.py:41
+#: ../ui/factors.py:48
 msgid "Factors"
-msgstr ""
+msgstr "גורמים"
 
-#: ../ui/factors.py:42
-msgid "Add factor"
-msgstr ""
-
-#: ../ui/factors.py:43
+#: ../ui/factors.py:50
 msgid "Alt+A"
-msgstr ""
+msgstr "Alt+A"
 
-#: ../ui/factors.py:44
-msgid "Modify factor"
-msgstr ""
-
-#: ../ui/factors.py:45
+#: ../ui/factors.py:52
 msgid "Alt+M"
-msgstr ""
+msgstr "Alt+M"
 
-#: ../ui/factors.py:46
-msgid "Remove factor"
-msgstr ""
-
-#: ../ui/factors.py:47
+#: ../ui/factors.py:54
 msgid "Alt+R"
-msgstr ""
+msgstr "Alt+R"
 
-#: ../ui/compare_vars.py:70
-msgid "Factors..."
-msgstr ""
-
-#: ../ui/compare_vars.py:71
+#: ../ui/compare_vars.py:91 ../ui/compare_vars_groups.py:121
 msgid "Alt+F"
-msgstr ""
+msgstr "Alt+F"
 
-#: ../ui/factor.py:43
+#: ../ui/factor.py:52
 msgid "Set factor"
-msgstr ""
+msgstr "הגדר גורם"
 
-#: ../ui/factor.py:44
+#: ../ui/factor.py:53
 msgid "Name of the factor"
-msgstr ""
+msgstr "שם הגורם"
 
-#: ../ui/factor.py:45
+#: ../ui/factor.py:54
 msgid "Number of levels"
+msgstr "מספר רמות"
+
+#: ../ui/filter_outlier.py:88
+msgid "Only interval variables are available"
+msgstr "רק משתנים אינטרווליים זמינים"
+
+#: .././cogstat_gui.py:221
+msgid "Behavioral data &diffusion analysis"
+msgstr "נתונים התנהגותיים וניתוח &דיפוזיה"
+
+#: .././cogstat_gui.py:234
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: .././cogstat_hyp_test.py:242 .././cogstat_hyp_test.py:244
+#: .././cogstat_hyp_test.py:247 .././cogstat_hyp_test.py:248
+#: .././cogstat_hyp_test.py:801 .././cogstat_hyp_test.py:803
+#: .././cogstat_hyp_test.py:806 .././cogstat_hyp_test.py:807
+#: .././cogstat_hyp_test.py:1208 .././cogstat_hyp_test.py:1210
+#: .././cogstat_hyp_test.py:1213 .././cogstat_hyp_test.py:1214
+msgid "d"
+msgstr "d"
+
+#: .././cogstat_hyp_test.py:1360 .././cogstat_hyp_test.py:1362
+#: .././cogstat_hyp_test.py:1365 .././cogstat_hyp_test.py:1366
+msgid "f"
+msgstr "f"
+
+#: .././cogstat_hyp_test.py:1436 .././cogstat_hyp_test.py:1660
+msgid "Result of multi-way ANOVA"
+msgstr "תוצאות ניתוח שונות רב-גורמי"
+
+#: .././cogstat_hyp_test.py:1446 .././cogstat_hyp_test.py:1665
+msgid "Interaction of %s: "
+msgstr "אינטראקציה של %s: "
+
+#: .././cogstat_hyp_test.py:1539 .././cogstat_hyp_test.py:1542
+#: .././cogstat_hyp_test.py:1556 .././cogstat_hyp_test.py:1557
+msgid "w"
+msgstr "w"
+
+#: .././cogstat_chart.py:632
+msgid "Normal theoretical quantiles"
+msgstr "שברונים תאורטיים נורמליים"
+
+#: .././cogstat_chart.py:633
+msgid "Sample quantiles"
+msgstr "שברונים מדגמיים"
+
+#: .././cogstat_stat.py:244
+msgid "Error: %s, Reaction time: %s, Participant: %s, Condition(s): %s"
+msgstr "שגיאה: %s, זמן תגובה: %s, משתתף: %s, תנאי/ם: %s"
+
+#: .././cogstat_stat.py:327
+msgid "Drift rate"
+msgstr "קצב סחיפה"
+
+#: .././cogstat_stat.py:328
+msgid "Threshold"
+msgstr "סף"
+
+#: .././cogstat_stat.py:329
+msgid "Nondecision time"
+msgstr "זמן שאינו זמן החלטה"
+
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:970
+msgid "low"
+msgstr "נמוך"
+
+#: .././cogstat_stat.py:408 .././cogstat_stat.py:970
+msgid "high"
+msgstr "גבוה"
+
+#: .././cogstat_stat.py:409
+msgid "Relative frequencies"
+msgstr "שכיחויות יחסיות"
+
+#: .././cogstat_stat.py:409 .././cogstat_stat.py:973
+msgid "95% confidence interval (multinomial proportions)"
+msgstr "רווח סמך של 95% (פרופורציות מולטינומיות)"
+
+#: .././cogstat_stat.py:454 .././cogstat_chart.py:1531
+msgid "Variation ratio"
+msgstr "יחס שונות"
+
+#: .././cogstat_stat.py:539
+msgid "Present confidence interval values for the mean suppose normality."
+msgstr "הצגת ערכי רווח סמך עבור הממוצע בהנחת נורמליות."
+
+#: .././cogstat_stat.py:542 .././cogstat_stat.py:551
+msgid "95% confidence interval (high)"
+msgstr "רווח סמך של 95% (גבוה)"
+
+#: .././cogstat_stat.py:541 .././cogstat_stat.py:550
+msgid "95% confidence interval (low)"
+msgstr "רווח סמך של 95% (נמוך)"
+
+#: .././cogstat_stat.py:553 .././cogstat_stat.py:1019 .././cogstat_stat.py:1144
+#: .././cogstat_chart.py:1678
+msgid "Out of the data range"
+msgstr "מחוץ לטווח הנתונים"
+
+#: .././cogstat_stat.py:706 .././cogstat_stat.py:709 .././cogstat_stat.py:1192
+#: .././cogstat_stat.py:1195
+msgid "Cramér's V measure of association"
+msgstr "מדד הקשר V של קרמר"
+
+#: .././cogstat_stat.py:948 .././cogstat_stat.py:956
+msgid "Total"
+msgstr "סך הכל"
+
+#: .././cogstat_stat.py:949
+msgid "Case count"
+msgstr "מספר מקרים"
+
+#: .././cogstat_stat.py:959
+msgid "Percentage"
+msgstr "אחוז"
+
+#: .././cogstat_stat.py:1048 .././cogstat_stat.py:1175
+msgid "Cohen's d"
+msgstr "d של כהן"
+
+#: .././cogstat_stat.py:1050 .././cogstat_stat.py:1178
+msgid "Eta-squared"
+msgstr "אטא בריבוע"
+
+#: .././cogstat_stat.py:1068 .././cogstat_stat.py:1213
+msgid "Hedges' g"
+msgstr "g של הדג'ס"
+
+#: .././cogstat.py:922 .././cogstat.py:1347 .././cogstat.py:1687
+#: .././cogstat.py:1910 .././cogstat.py:2192
+msgid "Population parameter estimations"
+msgstr "אמידת פרמטרי אוכלוסייה"
+
+#: ../ui/find_text.py:60
+msgid "Find text"
+msgstr "חיפוש טקסט"
+
+#: ../ui/find_text.py:61
+msgid "Text to find"
+msgstr "טקסט לחיפוש"
+
+#: .././cogstat_dialogs.py:1406 ../ui/find_text.py:62
+msgid "Find next"
+msgstr "חפש הבא"
+
+#: .././cogstat_dialogs.py:1407 ../ui/find_text.py:63
+msgid "Find previous"
+msgstr "חפש הקודם"
+
+#: .././cogstat_gui.py:1020 .././cogstat.py:1502 ../ui/diffusion.py:188
+msgid "Behavioral data diffusion analysis"
+msgstr "ניתוח דיפוזיה של נתונים התנהגותיים"
+
+#: .././cogstat_stat.py:264 .././cogstat_stat.py:265 ../ui/diffusion.py:198
+msgid "Participant"
+msgstr "משתתף"
+
+#: ../ui/diffusion.py:199
+msgid "Condition(s)"
+msgstr "תנאי/ם"
+
+#: ../ui/xylims.py:68
+msgid "Options"
+msgstr "אפשרויות"
+
+#: .././cogstat_hyp_test.py:1152
+msgid "At least two grouping variables."
+msgstr "לפחות שני משתני קיבוץ."
+
+#: .././cogstat_hyp_test.py:629 .././cogstat.py:931 .././cogstat.py:1403
+#: .././cogstat.py:1728 .././cogstat.py:1954 .././cogstat.py:1959
+#: .././cogstat.py:2219
+msgid "Hypothesis tests"
+msgstr "מבחני השערות"
+
+#: .././cogstat.py:1935 .././cogstat_chart.py:1868
+msgid "Medians"
+msgstr "חציונים"
+
+#: .././cogstat_dialogs.py:37 .././cogstat_dialogs.py:54
+msgid "All importable data files"
+msgstr "כל קבצי הנתונים הנתמכים"
+
+#: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:55
+msgid "Spreadsheet files"
+msgstr "קבצי גיליון אלקטרוני"
+
+#: .././cogstat_dialogs.py:38 .././cogstat_dialogs.py:55
+msgid "Text files"
+msgstr "קבצי טקסט"
+
+#: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:56
+msgid "SPSS data files"
+msgstr "קבצי נתונים של SPSS"
+
+#: .././cogstat_dialogs.py:39 .././cogstat_dialogs.py:56
+msgid "jamovi data files"
+msgstr "קבצי נתונים של jamovi"
+
+#: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:57
+msgid "JASP data files"
+msgstr "קבצי נתונים של JASP"
+
+#: .././cogstat_dialogs.py:40 .././cogstat_dialogs.py:57
+msgid "SAS data files"
+msgstr "קבצי נתונים של SAS"
+
+#: .././cogstat_dialogs.py:41 .././cogstat_dialogs.py:58
+msgid "STATA data files"
+msgstr "קבצי נתונים של STATA"
+
+#: .././cogstat_dialogs.py:41 .././cogstat_dialogs.py:58
+msgid "R data files"
+msgstr "קבצי נתונים של R"
+
+#: .././cogstat_stat.py:413 .././cogstat_stat.py:978
+msgid "Some of the cells do not include at least 5 cases, so the confidence intervals may be invalid."
+msgstr "חלק מהתאים אינם כוללים לפחות 5 מקרים, ולכן ייתכן שרווחי הסמך אינם תקפים."
+
+#: .././cogstat_stat.py:1226
+msgid "Omega-squared"
+msgstr "אומגה בריבוע"
+
+#: .././cogstat_gui.py:681
+msgid "Data file content"
+msgstr "תוכן קובץ הנתונים"
+
+#: .././cogstat_gui.py:686
+msgid "Data to be imported"
+msgstr "נתונים לייבוא"
+
+#: .././cogstat.py:291
+msgid "Number of measurement levels do not match the number of variables. You may want to correct the number of measurement levels."
+msgstr "מספר רמות המדידה אינו תואם למספר המשתנים. ייתכן שתרצה לתקן את מספר רמות המדידה."
+
+#: .././cogstat_hyp_test.py:190
+msgid "Shapiro–Wilk normality test in variable %s%s"
+msgstr "מבחן הנורמליות של Shapiro–Wilk במשתנה %s%s"
+
+#: .././cogstat_hyp_test.py:894
+msgid "Using Greenhouse–Geisser correction."
+msgstr "מתבצע שימוש בתיקון Greenhouse–Geisser."
+
+#: .././cogstat_hyp_test.py:908
+msgid "Comparing variables pairwise with the Holm–Bonferroni correction:"
+msgstr "השוואת משתנים בזוגות עם תיקון Holm–Bonferroni:"
+
+#: .././cogstat_hyp_test.py:1063 .././cogstat_hyp_test.py:1111
+msgid "Homogeneity of variance violated in variable %s."
+msgstr "הומוגניות שונויות הופרה במשתנה %s."
+
+#: .././cogstat_hyp_test.py:1073 .././cogstat_hyp_test.py:1122
+msgid "Running chi-squared test."
+msgstr "מתבצע מבחן חי-בריבוע."
+
+#: .././cogstat_hyp_test.py:1082
+msgid "Choosing one-way ANOVA or Kruskal–Wallis test depending on the assumptions."
+msgstr "בחירה בין ניתוח שונות חד־כיווני לבין מבחן Kruskal–Wallis בהתאם להנחות."
+
+#: .././cogstat_hyp_test.py:1114 .././cogstat_hyp_test.py:1118
+msgid "Running Kruskal–Wallis test."
+msgstr "מתבצע מבחן Kruskal–Wallis."
+
+#: .././cogstat_hyp_test.py:1305
+msgid "Result of independent samples Mann–Whitney rank test: "
+msgstr "תוצאות מבחן Mann–Whitney לדירוגים עבור מדגמים בלתי תלויים: "
+
+#: .././cogstat_hyp_test.py:1498 .././cogstat_hyp_test.py:1508
+msgid "Result of the Kruskal–Wallis test: "
+msgstr "תוצאות מבחן Kruskal–Wallis: "
+
+#: .././cogstat_hyp_test.py:1562
+msgid "Result of the Pearson's chi-squared test: "
+msgstr "תוצאות מבחן חי־בריבוע של פירסון: "
+
+#: .././cogstat.py:413
+msgid "Spreadsheet file"
+msgstr "קובץ גיליון אלקטרוני"
+
+#: .././cogstat.py:455
+msgid "SPSS/SAS/STATA file"
+msgstr "קובץ SPSS/SAS/STATA"
+
+#: .././cogstat.py:463
+msgid "R file"
+msgstr "קובץ R"
+
+#: .././cogstat.py:470
+msgid "JASP file"
+msgstr "קובץ JASP"
+
+#: .././cogstat.py:477
+msgid "jamovi file"
+msgstr "קובץ jamovi"
+
+#: .././cogstat.py:401
+msgid "Text file"
+msgstr "קובץ טקסט"
+
+#: .././cogstat_gui.py:234
+msgid "&Find text..."
+msgstr "&מצא טקסט..."
+
+#: .././cogstat_stat.py:239
+msgid "Specify the minimum required parameters (reaction time and error)."
+msgstr "יש לציין את הפרמטרים המינימליים הנדרשים (זמן תגובה ושגיאה)."
+
+#: .././cogstat_stat.py:245 .././cogstat_stat.py:246
+msgid "None"
+msgstr "ללא"
+
+#: .././cogstat_stat.py:261 .././cogstat_stat.py:262
+msgid "Condition"
+msgstr "תנאי"
+
+#: .././cogstat_stat.py:261
+msgid "single condition"
+msgstr "תנאי יחיד"
+
+#: .././cogstat_stat.py:264
+msgid "single participant"
+msgstr "משתתף יחיד"
+
+#: .././cogstat.py:72 .././cogstat.py:314
+msgid "Measurement level warning"
+msgstr "אזהרת רמת מדידה"
+
+#: .././cogstat.py:303
+msgid "String variable conversion warning"
+msgstr "אזהרת המרת משתנה טקסט"
+
+#: .././cogstat.py:307 .././cogstat.py:316
+msgid "You can fix this issue in your data source."
+msgstr "ניתן לתקן בעיה זו במקור הנתונים שלכם."
+
+#: .././cogstat.py:345
+msgid "Recommended characters in variable names warning"
+msgstr "אזהרת תווים מומלצים בשמות משתנים"
+
+#: .././cogstat.py:351 .././cogstat.py:362
+msgid "If some analyses cannot be run, fix this in your data source."
+msgstr "אם חלק מהניתוחים אינם יכולים להתבצע, תקנו זאת במקור הנתונים שלכם."
+
+#: .././cogstat.py:356
+msgid "Recommended characters in data values warning"
+msgstr "אזהרת תווים מומלצים בערכי הנתונים"
+
+#: ../ui/factors.py:49
+msgid "&Add factor"
+msgstr "&הוסף גורם"
+
+#: ../ui/factors.py:51
+msgid "&Modify factor"
+msgstr "&שנה גורם"
+
+#: ../ui/factors.py:53
+msgid "&Remove factor"
+msgstr "&הסר גורם"
+
+#: ../ui/compare_vars.py:90 ../ui/compare_vars_groups.py:120
+msgid "&Factors..."
+msgstr "&גורמים..."
+
+#: ../ui/compare_groups.py:114 ../ui/compare_vars_groups.py:123
+msgid "Single case &slope..."
+msgstr "&שיפוע מקרה בודד..."
+
+#: ../ui/var_properties.py:109
+msgid "&Frequencies"
+msgstr "&שכיחויות"
+
+#: ../ui/var_properties.py:111
+msgid "Central tendency &test value"
+msgstr "נטייה מרכזית ו&ערך הבדיקה"
+
+#: .././cogstat.py:347
+msgid "Some variable name(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
+msgstr "חלק משמות המשתנים כוללים תווים שאינם אותיות באנגלית, מספרים או קו תחתון, דבר שעלול לגרום לבעיות בחלק מהניתוחים: %s."
+
+#: .././cogstat.py:358
+msgid "Some string variable(s) include characters other than English letters, numbers, or underscore which can cause problems in some analyses: %s."
+msgstr "חלק ממשתני הטקסט כוללים תווים שאינם אותיות באנגלית, מספרים או קו תחתון, דבר שעלול לגרום לבעיות בחלק מהניתוחים: %s."
+
+#: .././cogstat_gui.py:67
+msgid "Oops, something went wrong, CogStat could not run the analysis. You may want to report it."
+msgstr "אופס, משהו השתבש, CogStat לא הצליחה להריץ את הניתוח. ייתכן שתרצו לדווח על כך."
+
+#: .././cogstat_gui.py:856 .././cogstat.py:656
+msgid "Filter outliers"
+msgstr "סינון ערכים חריגים"
+
+#: .././cogstat.py:859
+msgid "At least one variable should be set."
+msgstr "יש להגדיר לפחות משתנה אחד."
+
+#: .././cogstat.py:1565
+msgid "A variable should be assigned to each level of the factors."
+msgstr "יש לשייך משתנה לכל רמה של הגורמים."
+
+#: .././cogstat_hyp_test.py:121
+msgid "Sensitivity power could not be calculated."
+msgstr "לא ניתן לחשב עוצמה של רגישות."
+
+#: .././cogstat_hyp_test.py:103 .././cogstat_hyp_test.py:109
+msgid "Minimal effect size in %s"
+msgstr "גודל האפקט המינימלי ב־%s"
+
+#: .././cogstat_hyp_test.py:1380 .././cogstat_hyp_test.py:1381
+msgid "eta-square"
+msgstr "אטא-בריבוע"
+
+#: .././cogstat_hyp_test.py:255
+msgid "Result of the Bayesian one sample t-test"
+msgstr "תוצאות מבחן t בייסיאני למדגם אחד"
+
+#: .././cogstat_hyp_test.py:348
+msgid "Koenker's studentized score test"
+msgstr "מבחן הציון המותקן של Koenker"
+
+#: .././cogstat_hyp_test.py:351
+msgid "White's test"
+msgstr "מבחן White"
+
+#: .././cogstat_hyp_test.py:436 .././cogstat_hyp_test.py:457
+msgid "Bayes Factor for Pearson correlation"
+msgstr "מקדם בייס עבור מתאם פירסון"
+
+#: .././cogstat_hyp_test.py:816
+msgid "Result of the Bayesian paired two-samples t-test"
+msgstr "תוצאות מבחן t בייסיאני למדגמים מזווגים"
+
+#: .././cogstat_hyp_test.py:985
+msgid "Variables differ. Running post-hoc pairwise comparison."
+msgstr "המשתנים שונים. מתבצעת השוואה פוסט־הוק בזוגות."
+
+#: .././cogstat_hyp_test.py:986
+msgid "Results of Durbin-Conover test (p values)."
+msgstr "תוצאות מבחן Durbin-Conover (ערכי p)."
+
+#: .././cogstat_hyp_test.py:1221
+msgid "Result of the Bayesian independent two-samples t-test"
+msgstr "תוצאות מבחן t בייסיאני לשני מדגמים בלתי תלויים"
+
+#: .././cogstat.py:1375
+msgid "Regression coefficients"
+msgstr "מקדמי רגרסיה"
+
+#: .././cogstat_stat.py:734
+msgid "CIs may be biased."
+msgstr "ייתכן שרווחי הסמך מוטים."
+
+#: .././cogstat_stat.py:653
+msgid "Intercept"
+msgstr "חיתוך"
+
+#: .././cogstat.py:1315 .././cogstat.py:1320 .././cogstat.py:1392
+#: .././cogstat.py:1398 .././cogstat.py:1665 .././cogstat.py:1724
+#: .././cogstat.py:1885 .././cogstat.py:1948 .././cogstat.py:2185
+#: .././cogstat.py:2215
+msgid "Standardized effect sizes"
+msgstr "גדלי האפקט המתוקננים"
+
+#: .././cogstat.py:650 .././cogstat.py:783
+msgid "Mean ± 2 SD"
+msgstr "ממוצע ± 2 סטיות תקן"
+
+#: .././cogstat.py:651 .././cogstat.py:784
+msgid "Median ± 2.5 MAD"
+msgstr "חציון ± 2.5 MAD"
+
+#: .././cogstat.py:1155 .././cogstat.py:1358
+msgid "Checking assumptions of inferential methods"
+msgstr "בדיקת הנחות של שיטות הסקה"
+
+#: .././cogstat.py:1359
+msgid "Testing multivariate normality of variables"
+msgstr "בדיקת נורמליות רב-משתנית של המשתנים"
+
+#: .././cogstat.py:1364
+msgid "Testing homoscedasticity"
+msgstr "בדיקת הומוסקדסטיות"
+
+#: .././cogstat.py:1330
+msgid "Residual analysis"
+msgstr "ניתוח שאריות"
+
+#: .././cogstat_chart.py:344
+msgid "Included and excluded cases with exclusion criteria"
+msgstr "מקרים שנכללו והוחרגו לפי קריטריוני ההחרגה"
+
+#: .././cogstat_chart.py:734
+msgid "Residuals"
+msgstr "שאריות"
+
+#: .././cogstat_chart.py:840
+msgid "Linear regression line with 95% CI"
+msgstr "קו רגרסיה ליניארית עם רווח סמך של 95%"
+
+#: .././cogstat_chart.py:853
+msgid "Scatter plot with linear regression line"
+msgstr "תרשים פיזור עם קו רגרסיה ליניארית"
+
+#: .././cogstat_hyp_test.py:162
+msgid "Normality cannot be checked for constant variable in %s%s."
+msgstr "לא ניתן לבדוק נורמליות עבור משתנה קבוע ב־%s%s."
+
+#: .././cogstat_gui.py:181 .././cogstat_gui.py:809 .././cogstat_gui.py:810
+#: .././cogstat_gui.py:813 .././cogstat_gui.py:814
+msgid "Re&load actual data file"
+msgstr "&טעינה מחדש של קובץ הנתונים הנוכחי"
+
+#: .././cogstat_gui.py:181
+msgid "Ctrl+Shift+L"
+msgstr "Ctrl+Shift+L"
+
+#: .././cogstat_gui.py:193
+msgid "Display &data briefly"
+msgstr "הצג &נתונים בקצרה"
+
+#: .././cogstat_gui.py:202
+msgid "Explore &relation of variables"
+msgstr "חקור &קשרים בין משתנים"
+
+#: .././cogstat_gui.py:203
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: .././cogstat_gui.py:215
+msgid "&Interrater reliability analysis"
+msgstr "ניתוח &מהימנות בין שופטים"
+
+#: .././cogstat_gui.py:246
+msgid "Ctrl+S"
+msgstr "Ctrl+S"
+
+#: .././cogstat_gui.py:248
+msgid "Ctrl+Shift+S"
+msgstr "Ctrl+Shift+S"
+
+#: .././cogstat_gui.py:381
+msgid "Data view"
+msgstr "תצוגת נתונים"
+
+#: .././cogstat_gui.py:768
+msgid "Reload data"
+msgstr "טען מחדש נתונים"
+
+#: .././cogstat_gui.py:972 .././cogstat.py:1222 .././cogstat.py:1255
+#: ../ui/regression.py:102
+msgid "Explore relation of variables"
+msgstr "חקירת קשרים בין משתנים"
+
+#: .././cogstat_gui.py:1091 .././cogstat.py:2015
+#: ../ui/compare_vars_groups.py:114
+msgid "Compare repeated measures variables and groups"
+msgstr "השוואת משתנים וקבוצות במדידות חוזרות"
+
+#: .././cogstat_gui.py:1106
+msgid "Internal consistency reliability analysis"
+msgstr "ניתוח מהימנות עקבית פנימית"
+
+#: .././cogstat_gui.py:1120
+msgid "Interrater reliability analysis"
+msgstr "ניתוח מהימנות בין שופטים"
+
+#: .././cogstat_hyp_test.py:389
+msgid "Henze-Zirkler test of multivariate normality in variables %s"
+msgstr "מבחן Henze-Zirkler לנורמליות רב־משתנית במשתנים %s"
+
+#: .././cogstat_hyp_test.py:553
+msgid "Model F-test"
+msgstr "מבחן F של המודל"
+
+#: .././cogstat_hyp_test.py:651
+msgid "F-test for %s"
+msgstr "מבחן F עבור %s"
+
+#: .././cogstat_stat.py:830 .././cogstat_stat.py:831
+msgid "Point estimate"
+msgstr "אמידת נקודה"
+
+#: .././cogstat_stat.py:826
+msgid "Log-likelihood"
+msgstr "לוג-נראות"
+
+#: .././cogstat_stat.py:827
+msgid "AIC"
+msgstr "AIC"
+
+#: .././cogstat_stat.py:828
+msgid "BIC"
+msgstr "BIC"
+
+#: .././cogstat_stat.py:874
+msgid "Pearson correlation matrix of explanatory variables"
+msgstr "מטריצת מתאמי פירסון של המשתנים המסבירים"
+
+#: .././cogstat_stat.py:901
+msgid "Variance inflation factors of explanatory variables and constant"
+msgstr "גורמי ניפוח שונות של המשתנים המסבירים והקבוע"
+
+#: .././cogstat_stat.py:903 .././cogstat_stat.py:908
+msgid "VIF"
+msgstr "VIF"
+
+#: .././cogstat_stat.py:916
+msgid "Slope on %s"
+msgstr "שיפוע עבור %s"
+
+#: .././cogstat_stat.py:1266 .././cogstat_stat.py:1268
+msgid "Item"
+msgstr "פריט"
+
+#: .././cogstat_stat.py:1266 .././cogstat_stat.py:1268
+msgid "Cronbach's alpha when removed"
+msgstr "אלפא של קרונבך כאשר הפריט מוסר"
+
+#: .././cogstat_stat.py:1266 .././cogstat_stat.py:1269
+msgid "Item-rest correlation"
+msgstr "מתאם פריט-שאר"
+
+#: .././cogstat_stat.py:1267
+msgid "Value range"
+msgstr "טווח ערכים"
+
+#: .././cogstat_stat.py:1328
+msgid "ICC(k)"
+msgstr "ICC(k)"
+
+#: .././cogstat_stat.py:1328
+msgid "ICC(A,k)"
+msgstr "ICC(A,k)"
+
+#: .././cogstat_stat.py:1328
+msgid "ICC(C,k)"
+msgstr "ICC(C,k)"
+
+#: .././cogstat_stat.py:1329
+msgid "ICC(1)"
+msgstr "ICC(1)"
+
+#: .././cogstat_stat.py:1329
+msgid "ICC(A,1)"
+msgstr "ICC(A,1)"
+
+#: .././cogstat_stat.py:1329
+msgid "ICC(C,1)"
+msgstr "ICC(C,1)"
+
+#: .././cogstat_dialogs.py:906 .././cogstat_dialogs.py:1278
+#: .././cogstat.py:1586 .././cogstat.py:2043 .././cogstat_chart.py:1892
+#: .././cogstat_chart.py:1904
+msgid "Unnamed factor"
+msgstr "גורם ללא שם"
+
+#: .././cogstat.py:507
+msgid "Clipboard"
+msgstr "לוח-גזירים"
+
+#: .././cogstat.py:555
+msgid "Reload actual data file"
+msgstr "טען מחדש את קובץ הנתונים הנוכחי"
+
+#: .././cogstat.py:652 .././cogstat.py:785
+msgid "MMCD Mahalanobis distance with .05 chi squared cut-off"
+msgstr "מרחק מהלנוביס MMCD עם סף חי־בריבוע של ‎.05"
+
+#: .././cogstat.py:1002 ../ui/reliability_internal.py:88
+msgid "Internal consistency reliability"
+msgstr "מהימנות עקבית פנימית"
+
+#: .././cogstat.py:873 .././cogstat.py:1038 .././cogstat.py:1113
+#: .././cogstat.py:1624 .././cogstat.py:1830 .././cogstat.py:2096
+#: .././cogstat.py:2112
+msgid "N of observed cases"
+msgstr "מספר המקרים הנצפים"
+
+#: .././cogstat.py:1046 .././cogstat.py:1052
+msgid "Cronbach's alpha"
+msgstr "אלפא של קרונבאך"
+
+#: .././cogstat_hyp_test.py:636 .././cogstat.py:1165
+msgid "Assumption of normality violated in variable(s) %s"
+msgstr "הנחת הנורמליות הופרה במשתנה/ים %s"
+
+#: .././cogstat.py:1179
+msgid "Parameter estimates"
+msgstr "אומדני פרמטרים"
+
+#: .././cogstat.py:1259
+msgid "Exploring variable pair"
+msgstr "חקירת זוג משתנים"
+
+#: .././cogstat.py:1262
+msgid "Predictors"
+msgstr "מנבאים"
+
+#: .././cogstat.py:1265
+msgid "Predicted"
+msgstr "חזוי"
+
+#: .././cogstat.py:1278
+msgid "N of observed pairs"
+msgstr "מספר הזוגות הנצפים"
+
+#: .././cogstat.py:1371
+msgid "Testing multicollinearity"
+msgstr "בדיקת מולטיקולינאריות"
+
+#: .././cogstat_chart.py:342
+msgid "Included and excluded cases"
+msgstr "מקרים שנכללו והוחרגו"
+
+#: .././cogstat_chart.py:380
+msgid "Scatterplots of item scores and total scores with item-removal"
+msgstr "תרשימי פיזור של ציוני פריטים וציונים כוללים עם הסרת פריט"
+
+#: .././cogstat_chart.py:407
+msgid "Total (rest)"
+msgstr "סה\"כ (שאר)"
+
+#: .././cogstat_chart.py:922
+msgid "Scatterplot matrix of variables"
+msgstr "מטריצת תרשימי פיזור של משתנים"
+
+#: .././cogstat_chart.py:1856
+msgid "Individual data"
+msgstr "נתונים בודדים"
+
+#: .././cogstat_chart.py:1858
+msgid "Individual rank data"
+msgstr "נתוני דירוג בודדים"
+
+#: .././cogstat_chart.py:1861
+msgid "Boxplots and individual data"
+msgstr "תרשימי קופסה ונתונים בודדים"
+
+#: .././cogstat_chart.py:1863
+msgid "Boxplots and individual rank data"
+msgstr "תרשימי קופסה ונתוני דירוג בודדים"
+
+#: .././cogstat_chart.py:1866
+msgid "Means and 95% confidence intervals"
+msgstr "ממוצעים ורווחי סך של 95%"
+
+#: .././cogstat_chart.py:1913
+msgid "Rank value"
+msgstr "ערך דירוג"
+
+#: .././cogstat.py:1087 ../ui/reliability_interrater.py:88
+msgid "Interrater reliability"
+msgstr "מהימנות בין-שופטים"
+
+#: ../ui/reliability_interrater.py:89
+msgid "&Ratings are averaged"
+msgstr "ה&דירוגים מחושבים כממוצע"
+
+#: ../ui/preferences.py:83
+msgid "Image format"
+msgstr "פורמט תמונה"
+
+#: ../ui/pivot.py:172
+msgid "Page(s)"
+msgstr "עמוד/ים"
+
+#: ../ui/pivot.py:174
+msgid "Column(s)"
+msgstr "עמודה/ות"
+
+#: ../ui/pivot.py:161
+msgid "Row(s)"
+msgstr "שורה/ות"
+
+#: ../ui/compare_vars.py:92 ../ui/compare_groups.py:113 ../ui/regression.py:104
+#: ../ui/explore_var_pairs.py:89 ../ui/compare_vars_groups.py:122
+msgid "&Display options..."
+msgstr "אפשרויות &תצוגה..."
+
+#: ../ui/diffusion.py:194
+msgid "Reaction time"
+msgstr "זמן תגובה"
+
+#: ../ui/diffusion.py:193
+msgid "Response correctness"
+msgstr "נכונות התגובה"
+
+#: ../ui/diffusion.py:197
+msgid "Reaction &time in"
+msgstr "&זמן תגובה ב-"
+
+#: ../ui/diffusion.py:189
+msgid "&Response coding"
+msgstr "קידוד &תגובה"
+
+#: ../ui/diffusion.py:190
+msgid "0 - Correct 1 - Incorect"
+msgstr "0 - נכון 1 - שגוי"
+
+#: ../ui/diffusion.py:191
+msgid "1 - Correct 0 - Incorrect"
+msgstr "1 - נכון 0 - שגוי"
+
+#: ../ui/diffusion.py:200
+msgid "&Scaling parameter"
+msgstr "פרמטר &קנה מידה"
+
+#: ../ui/diffusion.py:201
+msgid "0.1"
+msgstr "0.1"
+
+#: ../ui/diffusion.py:202
+msgid "1"
+msgstr "1"
+
+#: ../ui/xylims.py:69
+msgid "Maximum of x-axis"
+msgstr "מקסימום ציר x"
+
+#: ../ui/xylims.py:70
+msgid "Minimum of x-axis"
+msgstr "מינימום ציר x"
+
+#: ../ui/xylims.py:71 ../ui/display_options_groups.py:128
+#: ../ui/display_options_mixed.py:123 ../ui/display_options_repeated.py:109
+msgid "Minimum of y-axis"
+msgstr "מינימום ציר y"
+
+#: ../ui/xylims.py:72 ../ui/display_options_groups.py:129
+#: ../ui/display_options_mixed.py:124 ../ui/display_options_repeated.py:110
+msgid "Maximum of y-axis"
+msgstr "מקסימום ציר y"
+
+#: ../ui/display_options_groups.py:124 ../ui/display_options_mixed.py:119
+#: ../ui/display_options_repeated.py:104
+msgid "Display options"
+msgstr "אפשרויות תצוגה"
+
+#: ../ui/display_options_groups.py:125
+msgid "Group(s) displayed with colors"
+msgstr "קבוצה/ות מוצגות בצבעים"
+
+#: ../ui/display_options_groups.py:126 ../ui/display_options_mixed.py:121
+msgid "Group(s) displayed in panels"
+msgstr "קבוצה/ות מוצגות בפאנלים"
+
+#: ../ui/display_options_groups.py:127
+msgid "Group(s) displayed in x-axis"
+msgstr "קבוצה/ות מוצגות בציר x"
+
+#: ../ui/display_options_groups.py:130 ../ui/display_options_groups.py:131
+#: ../ui/display_options_groups.py:132 ../ui/display_options_groups.py:133
+#: ../ui/regression.py:105 ../ui/regression.py:106
+#: ../ui/display_options_mixed.py:125 ../ui/display_options_mixed.py:126
+#: ../ui/display_options_mixed.py:127 ../ui/display_options_mixed.py:128
+#: ../ui/display_options_repeated.py:105 ../ui/display_options_repeated.py:106
+#: ../ui/compare_vars_groups.py:118 ../ui/compare_vars_groups.py:119
+msgid "..."
+msgstr "..."
+
+#: ../ui/regression.py:107
+msgid "Predicted variable"
+msgstr "משתנה חזוי"
+
+#: ../ui/regression.py:108
+msgid "Predictor variable(s)"
+msgstr "משתנה/ים מנבא/ים"
+
+#: ../ui/reliability_internal.py:91
+msgid "Check the reversed items"
 msgstr ""
 
-#: ../ui/filter_outlier.py:74
-msgid "Only interval variables are available"
+#: ../ui/display_options_repeated.py:107
+msgid "Factor(s) displayed in x-axis"
+msgstr "גורם/ים מוצגים בציר x"
+
+#: ../ui/display_options_repeated.py:108
+msgid "Factor(s) displayed with colors"
+msgstr "גורם/ים מוצגים בצבעים"
+
+#: ../ui/var_properties.py:107 ../ui/filter_outlier.py:89
+msgid "Selected variable(s)"
+msgstr "משתנה/ים נבחר/ים"
+
+#: ../ui/compare_groups_single_case_slope.py:85
+msgid "Number of &trials"
+msgstr "מספר &ה"
+
+#: .././cogstat_hyp_test.py:422 .././cogstat_hyp_test.py:483
+msgid "Testing if correlation differs from 0"
+msgstr "בדיקה האם המתאם שונה מ־0"
+
+#: .././cogstat_hyp_test.py:426 .././cogstat_hyp_test.py:446
+#: .././cogstat_hyp_test.py:474 .././cogstat_hyp_test.py:529
+#: .././cogstat_hyp_test.py:534 .././cogstat_hyp_test.py:549
+msgid "Interval variables"
+msgstr "משתנים אינטרווליים"
+
+#: .././cogstat_hyp_test.py:426
+msgid "Normality not violated"
+msgstr "הנחת הנורמליות לא הופרה"
+
+#: .././cogstat_hyp_test.py:427
+msgid "Homoscedasticity not violated"
+msgstr "הומוסקדסטיות לא הופרה"
+
+#: .././cogstat_hyp_test.py:428 .././cogstat_hyp_test.py:449
+msgid "Running Pearson's and Spearman's correlation"
+msgstr "מתבצע חישוב מתאם פירסון ומתאם ספירמן"
+
+#: .././cogstat_hyp_test.py:447 .././cogstat_hyp_test.py:535
+msgid "Assumptions of hypothesis tests could not be tested"
+msgstr "לא ניתן היה לבדוק את הנחות מבחני ההשערות"
+
+#: .././cogstat_hyp_test.py:448 .././cogstat_hyp_test.py:536
+#: .././cogstat_hyp_test.py:550 .././cogstat_hyp_test.py:645
+msgid "Hypothesis tests may be inaccurate"
+msgstr "ייתכן שמבחני ההשערות אינם מדויקים"
+
+#: .././cogstat_hyp_test.py:470 .././cogstat_hyp_test.py:543
+msgid "Normality violated"
+msgstr "הנחת הנורמליות הופרה"
+
+#: .././cogstat_hyp_test.py:472 .././cogstat_hyp_test.py:545
+msgid "Homoscedasticity violated"
+msgstr "הומוסקדסטיות הופרה"
+
+#: .././cogstat_hyp_test.py:475
+msgid "Running Spearman's correlation"
+msgstr "מתבצע חישוב מתאם ספירמן"
+
+#: .././cogstat_hyp_test.py:492
+msgid "Testing if variables are independent"
+msgstr "בדיקה האם המשתנים בלתי תלויים"
+
+#: .././cogstat_hyp_test.py:529 .././cogstat_hyp_test.py:534
+msgid "More than two variables"
+msgstr "יותר משני משתנים"
+
+#: .././cogstat_hyp_test.py:530
+msgid "Normality met"
+msgstr "הנחת הנורמליות התקיימה"
+
+#: .././cogstat_hyp_test.py:530
+msgid "Homoscedasticity met"
+msgstr "הומוסקדסטיות התקיימה"
+
+#: .././cogstat_hyp_test.py:530
+msgid "No multicollinearity"
+msgstr "לא נמצא מולטיקולינאריות"
+
+#: .././cogstat_hyp_test.py:531 .././cogstat_hyp_test.py:537
+#: .././cogstat_hyp_test.py:551
+msgid "Running model F-test and tests for regressor slopes"
+msgstr "מתבצעים מבחן F של המודל ומבחנים עבור שיפועי הרגרסורים"
+
+#: .././cogstat_hyp_test.py:547 .././cogstat_stat.py:646
+#: .././cogstat_stat.py:815
+msgid "Multicollinearity suspected"
+msgstr "קיים חשד למולטיקולינאריות"
+
+#: .././cogstat_hyp_test.py:557
+msgid "Regressor slopes"
+msgstr "שיפועי רגרסורים"
+
+#: .././cogstat_hyp_test.py:630
+msgid "Testing if ICC differs from 0"
+msgstr "בדיקה האם ICC שונה מ־0"
+
+#: .././cogstat_hyp_test.py:633 .././cogstat_stat.py:627
+#: .././cogstat_stat.py:730 .././cogstat_stat.py:797 .././cogstat.py:1162
+msgid "Assumption of normality met"
+msgstr "הנחת הנורמליות התקיימה"
+
+#: .././cogstat_hyp_test.py:639 .././cogstat.py:1172 .././cogstat.py:1174
+msgid "Assumption of homogeneity of variances violated"
+msgstr "הנחת הומוגניות השונויות הופרה"
+
+#: .././cogstat_hyp_test.py:642 .././cogstat.py:1176
+msgid "Assumption of homogeneity of variances met"
+msgstr "הנחת הומוגניות השונויות התקיימה"
+
+#: .././cogstat_hyp_test.py:649
+msgid "Running F-tests"
+msgstr "מתבצעים מבחני F"
+
+#: .././cogstat_stat.py:834
+msgid "Adjusted"
+msgstr "מותאם"
+
+#: .././cogstat.py:483
+msgid "File type is not supported"
+msgstr "סוג הקובץ אינו נתמך"
+
+#: .././cogstat.py:559
+msgid "The file was successfully reloaded"
+msgstr "הקובץ נטען מחדש בהצלחה"
+
+#: .././cogstat.py:564
+msgid "The data was not imported from a file"
+msgstr "הנתונים לא יובאו מקובץ"
+
+#: .././cogstat.py:564
+msgid "It cannot be reloaded"
+msgstr "לא ניתן לטעון אותם מחדש"
+
+#: .././cogstat.py:698 .././cogstat.py:742
+msgid "Cases with missing data will also be excluded"
+msgstr "מקרים עם נתונים חסרים יוחרגו גם כן"
+
+#: .././cogstat.py:740
+msgid "Multivariate filtering based on the variables: %s (%s)"
 msgstr ""
+
+#: .././cogstat.py:744
+msgid "Cases above the cutoff Mahalanobis distance will be excluded"
+msgstr "מקרים מעל סף מרחק מהלנוביס יוחרגו"
+
+#: .././cogstat.py:708 .././cogstat.py:753
+msgid "Excluded cases (%s cases)"
+msgstr "מקרים שהוחרגו (%s מקרים)"
+
+#: .././cogstat.py:716 .././cogstat.py:763
+msgid "No cases were excluded"
+msgstr "לא הוחרגו מקרים"
+
+#: .././cogstat.py:791
+msgid "Filtering is on"
+msgstr "הסינון פועל"
+
+#: .././cogstat.py:1017
+msgid "Reliability of items"
+msgstr "מהימנות פריטים"
+
+#: .././cogstat.py:1028
+msgid "Reverse coded item(s)"
+msgstr "פריט/ים בקידוד הפוך"
+
+#: .././cogstat.py:1102
+msgid "Reliability calculated from variables"
+msgstr "מהימנות שחושבה מתוך משתנים"
+
+#: .././cogstat.py:1156
+msgid "Testing normality"
+msgstr "בדיקת נורמליות"
+
+#: .././cogstat_stat.py:624 .././cogstat_stat.py:726 .././cogstat_stat.py:793
+#: .././cogstat.py:1167
+msgid "Assumption of normality violated"
+msgstr "הנחת הנורמליות הופרה"
+
+#: .././cogstat.py:1168
+msgid "Testing homogeneity of variances"
+msgstr "בדיקת הומוגניות שונויות"
+
+#: .././cogstat.py:1181
+msgid "CIs may be inaccurate"
+msgstr "ייתכן שרווחי הסמך אינם מדויקים"
+
+#: .././cogstat.py:1183
+msgid "Assumptions met"
+msgstr "ההנחות התקיימו"
+
+#: .././cogstat.py:1227
+msgid "At least one predictor variable should be set"
+msgstr "יש להגדיר לפחות משתנה מנבא אחד"
+
+#: .././cogstat.py:1229
+msgid "The predicted variable should be set"
+msgstr "יש להגדיר את המשתנה החזוי"
+
+#: .././cogstat_stat.py:244
+msgid "Used variables"
+msgstr "משתנים בשימוש"
+
+#: .././cogstat_stat.py:270
+msgid "Number of trials excluded because of missing data"
+msgstr "מספר ההרצות שהוחרגו עקב נתונים חסרים"
+
+#: .././cogstat_stat.py:620 .././cogstat_stat.py:722 .././cogstat_stat.py:789
+msgid "Normality could not be calculated"
+msgstr "לא ניתן לחשב נורמליות"
+
+#: .././cogstat_stat.py:621 .././cogstat_stat.py:625 .././cogstat_stat.py:632
+#: .././cogstat_stat.py:636 .././cogstat_stat.py:723 .././cogstat_stat.py:727
+#: .././cogstat_stat.py:738 .././cogstat_stat.py:790 .././cogstat_stat.py:794
+#: .././cogstat_stat.py:801 .././cogstat_stat.py:805 .././cogstat_stat.py:812
+#: .././cogstat_stat.py:816
+msgid "CIs may be biased"
+msgstr "ייתכן שרווחי הסמך מוטים"
+
+#: .././cogstat_stat.py:631 .././cogstat_stat.py:733 .././cogstat_stat.py:800
+msgid "Homoscedasticity could not be calculated"
+msgstr "לא ניתן היה לחשב הומוסקדסטיות"
+
+#: .././cogstat_stat.py:635 .././cogstat_stat.py:737 .././cogstat_stat.py:804
+msgid "Assumption of homoscedasticity violated"
+msgstr "הנחת ההומוסקדסטיות הופרה"
+
+#: .././cogstat_stat.py:638 .././cogstat_stat.py:740 .././cogstat_stat.py:807
+msgid "Assumption of homoscedasticity met"
+msgstr "הנחת ההומוסקדסטיות התקיימה"
+
+#: .././cogstat_stat.py:642 .././cogstat_stat.py:811
+msgid "Multicollinearity could not be calculated"
+msgstr "לא ניתן היה לחשב מולטיקולינאריות"
+
+#: .././cogstat_stat.py:643 .././cogstat_stat.py:647
+msgid "Point estimates and CIs may be inaccurate"
+msgstr "ייתכן שאומדני הנקודה ורווחי הסמך אינם מדויקים"
+
+#: .././cogstat_stat.py:649 .././cogstat_stat.py:818
+msgid "Multicollinearity not detected"
+msgstr "לא זוהתה מולטיקולינאריות"
+
+#: .././cogstat_stat.py:910
+msgid "VIF > 10 in variable %s"
+msgstr "VIF > 10 במשתנה %s"
+
+#: .././cogstat_stat.py:911
+msgid "Possible multicollinearity"
+msgstr "מולטיקולינאריות אפשרית"
+
+#: .././cogstat_stat.py:914
+msgid "Beta weights when regressing %s on all other regressors"
+msgstr "משקלי בטא ברגרסיה של %s על כל שאר הרגרסורים"
+
+#: .././cogstat.py:513
+msgid "Invalid data source"
+msgstr "מקור נתונים לא תקין"
+
+#: .././cogstat.py:696
+msgid "Filtering based on %s"
+msgstr "סינון בהתבסס על %s"
+
+#: .././cogstat.py:700
+msgid "Cases outside of the range will be excluded"
+msgstr "מקרים מחוץ לטווח יוחרגו"
+
+#: .././cogstat.py:1797 .././cogstat.py:2072
+msgid "Grouping variable(s)"
+msgstr "משתנה/י קיבוץ"
+
+#: .././cogstat_stat.py:276
+msgid "Number of trials excluded because reaction time was larger than %s seconds"
+msgstr "מספר ההרצות שהוחרגו משום שזמן התגובה היה גדול מ־%s שניות"
+
+#: .././cogstat.py:661
+msgid "Only interval variables can be used for filtering"
+msgstr "רק משתנים אינטרווליים יכולים לשמש לסינון"
+
+#: .././cogstat.py:1452 .././cogstat.py:1778
+msgid "The dependent variable should be set"
+msgstr "יש להגדיר את המשתנה התלוי"
+
+#: .././cogstat.py:1454 .././cogstat.py:1780
+msgid "At least one grouping variable should be set"
+msgstr "יש להגדיר לפחות משנה קיבוץ אחד"
+
+#: .././cogstat.py:1507
+msgid "The reaction time should be given"
+msgstr "יש לציין את זמן התגובה"
+
+#: .././cogstat.py:1509
+msgid "The error variables should be given"
+msgstr "יש לציין את משתני השגיאה"
+
+#: .././cogstat.py:1092 .././cogstat.py:1563
+msgid "At least two variables should be set"
+msgstr "יש להגדיר לפחות שני משתנים"
+
+#: .././cogstat.py:1592
+msgid "Variables to compare"
+msgstr "משתנים להשוואה"
+
+#: .././cogstat.py:1595 .././cogstat.py:2059
+msgid "Factor(s) (number of levels)"
+msgstr "גורם/ים (מספר רמות)"
+
+#: .././cogstat.py:2021
+msgid "At least one dependent variable should be set"
+msgstr "יש להגדיר לפחות משתנה תלוי אחד"
+
+#: .././cogstat.py:2023
+msgid "A variable should be assigned to each level of the factors"
+msgstr "יש לשייך משתנה לכל רמה של הגורמים"
+
+#: .././cogstat_chart.py:519 .././cogstat_chart.py:593
+#: .././cogstat_chart.py:727
+msgid "Largest tick on the x-axis displays %d cases"
+msgstr "הסימון הגדול ביותר בציר x מציג %d מקרים"
+
+#: ../ui/pivot.py:163
+msgid "&Function"
+msgstr ""
+
+#: .././cogstat_gui.py:1019 ../ui/diffusion.py:195
+msgid "s"
+msgstr "s"
+
+#: ../ui/diffusion.py:196
+msgid "ms"
+msgstr "ms"
+
+#: .././cogstat_hyp_test.py:225
+msgid "One sample t-test cannot be run for constant variable"
+msgstr "לא ניתן לבצע מבחן t למדגם אחד עבור משתנה קבוע"
+
+#: .././cogstat.py:1604 .././cogstat.py:2068
+msgid "Factor level combinations and assigned variables"
+msgstr "שילובי רמות הגורמים והמשתנים שהוקצו"
+
+#: .././cogstat_gui.py:672 .././cogstat_gui.py:1202 ../ui/preferences.py:86
+msgid "Detailed error message"
+msgstr "הודעת שגיאה מפורטת"
+
+#: .././cogstat_hyp_test.py:325
+msgid "Too small sample to test homoscedasticity in variables: %s"
+msgstr "מדגם קטן מדי לבדיקת הומוסקדסטיות במשתנים: %s"
+
+#: .././cogstat_hyp_test.py:381
+msgid "Too small sample to test normality in variables: %s"
+msgstr "מדגם קטן מדי לבדיקת נורמליות במשתנים: %s"
+
+#: .././cogstat_dialogs.py:1448
+msgid "Off"
+msgstr "כבוי"
+
+#: .././cogstat_dialogs.py:1448
+msgid "On"
+msgstr "פועל"
+
+#: .././cogstat.py:1235
+msgid "Analysis cannot be run for constant variable(s): %s"
+msgstr "לא ניתן לבצע את הניתוח עבור משתנה/ים קבוע/ים: %s"
+
+#: ../ui/preferences.py:85
+msgid "Restart CogStat to use the new language settings"
+msgstr "הפעל מחדש את CogStat כדי להשתמש בהגדרות השפה החדשות"
+
+#: ../ui/filter_outlier.py:91
+msgid "&Multivariate outliers filtering"
+msgstr "סינון ערכים חריגים &רב־משתניים"
+
+#: .././cogstat_gui.py:379
+msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://doc.cogstat.org/Quick-Start-Tutorial\">quick start tutorial.</a>"
+msgstr "למידע נוסף על CogStat בקרו ב־<a href = \"https://www.cogstat.org\">אתר האינטרנט</a> או קראו את <a href=\"https://doc.cogstat.org/Quick-Start-Tutorial\">מדריך ההתחלה המהירה</a>."
+
+#: .././cogstat_stat.py:839
+msgid "Pearson's partial correlations with %s"
+msgstr "מתאמים חלקיים של פירסון עם %s"
+
+#: .././cogstat_chart.py:989
+msgid "Partial regression plots with regression lines"
+msgstr "תרשימי רגרסיה חלקית עם קווי רגרסיה"
+
+#: .././cogstat_chart.py:991
+msgid "Sample scatterplots with model fitted lines"
+msgstr "תרשימי פיזור מדגמיים עם קווי מודל מותאמים"
+
+#: .././cogstat_chart.py:1028 .././cogstat_chart.py:1029
+msgid "residuals"
+msgstr "שאריות"
+
+#: .././cogstat_chart.py:1642 .././cogstat_chart.py:1643
+#: .././cogstat_chart.py:1674 .././cogstat_chart.py:1675
+msgid "Original variable name"
+msgstr "שם המשתנה המקורי"
+
+#: ../ui/display_options_mixed.py:120
+msgid "Group(s) and factor(s) displayed with colors"
+msgstr "קבוצה/ות וגורם/ים מוצגים בצבעים"
+
+#: ../ui/display_options_mixed.py:122
+msgid "Group(s) and factor(s) displayed in x-axis"
+msgstr "קבוצה/ות וגורם/ים מוצגים בציר x"
+
+#: .././cogstat_hyp_test.py:354
+msgid "White's test could not be run"
+msgstr "לא ניתן היה לבצע את מבחן White"
+
+#: .././cogstat_hyp_test.py:385
+msgid "Currently, testing normality in variables (%s) is not possible with more than 1000 cases"
+msgstr "כעת, לא ניתן לבדוק נורמליות במשתנים (%s) כאשר יש יותר מ־1000 מקרים"
+
+#: .././cogstat_gui.py:183 .././cogstat_gui.py:811 .././cogstat_gui.py:815
+msgid "Reload data file when &changed"
+msgstr "&טען מחדש את קובץ הנתונים כאשר הוא משתנה"
+
+#: .././cogstat_gui.py:184
+msgid "Ctrl+Shift+Alt+L"
+msgstr "Ctrl+Shift+Alt+L"
+
+#: .././cogstat_gui.py:198
+msgid "Explore &variable"
+msgstr "חקור &משתנה"
+
+#: .././cogstat_gui.py:204
+msgid "Compare repeated &measures variables"
+msgstr "השווה משתנים במדידות &חוזרות"
+
+#: .././cogstat_gui.py:209
+msgid "&Compare repeated measures variables and groups"
+msgstr "&השווה משתנים וקבוצות במדידות חוזרות"
+
+#. Note that & denotes the shortcut in the menus and dialogs https://github.com/cogstat/cogstat/wiki/Translation#special-characters-in-the-strings
+#: .././cogstat_gui.py:213
+msgid "Internal consistenc&y reliability analysis"
+msgstr "ניתוח &מהימנות עקבית פנימית"
+
+#: .././cogstat_gui.py:225
+msgid "Rerun all &analyses"
+msgstr "הפעל מחדש את כל ה&ניתוחים"
+
+#: .././cogstat_gui.py:227
+msgid "Rerun all analyses when &file reloaded"
+msgstr "הפעל מחדש את כל הניתוחים כאשר ה&קובץ נטען מחדש"
+
+#: .././cogstat_gui.py:1207
+msgid "Saving the results"
+msgstr "שמירת התוצאות"
+
+#: .././cogstat_hyp_test.py:1671
+msgid "mixed ANOVA"
+msgstr "ANOVA מעורב"
+
+#: .././cogstat_dialogs.py:270 .././cogstat_dialogs.py:342
+#: .././cogstat_dialogs.py:441 .././cogstat_dialogs.py:480
+#: .././cogstat_dialogs.py:518 .././cogstat_dialogs.py:539
+#: .././cogstat_dialogs.py:586 .././cogstat_dialogs.py:654
+#: .././cogstat_dialogs.py:686 .././cogstat_dialogs.py:747
+#: .././cogstat_dialogs.py:786 .././cogstat_dialogs.py:934
+#: .././cogstat_dialogs.py:975 .././cogstat_dialogs.py:1024
+#: .././cogstat_dialogs.py:1092 .././cogstat_dialogs.py:1141
+#: .././cogstat_dialogs.py:1321 .././cogstat_dialogs.py:1367
+#: .././cogstat_dialogs.py:1435
+msgid "OK"
+msgstr "אישור"
+
+#: .././cogstat_dialogs.py:271 .././cogstat_dialogs.py:343
+#: .././cogstat_dialogs.py:442 .././cogstat_dialogs.py:481
+#: .././cogstat_dialogs.py:519 .././cogstat_dialogs.py:540
+#: .././cogstat_dialogs.py:587 .././cogstat_dialogs.py:588
+#: .././cogstat_dialogs.py:655 .././cogstat_dialogs.py:687
+#: .././cogstat_dialogs.py:748 .././cogstat_dialogs.py:787
+#: .././cogstat_dialogs.py:935 .././cogstat_dialogs.py:976
+#: .././cogstat_dialogs.py:1025 .././cogstat_dialogs.py:1093
+#: .././cogstat_dialogs.py:1142 .././cogstat_dialogs.py:1322
+#: .././cogstat_dialogs.py:1368 .././cogstat_dialogs.py:1436
+msgid "Cancel"
+msgstr "ביטול"
+
+#: .././cogstat_dialogs.py:272 .././cogstat_dialogs.py:344
+#: .././cogstat_dialogs.py:443 .././cogstat_dialogs.py:482
+#: .././cogstat_dialogs.py:520 .././cogstat_dialogs.py:541
+#: .././cogstat_dialogs.py:589 .././cogstat_dialogs.py:656
+#: .././cogstat_dialogs.py:688 .././cogstat_dialogs.py:749
+#: .././cogstat_dialogs.py:788 .././cogstat_dialogs.py:936
+#: .././cogstat_dialogs.py:977 .././cogstat_dialogs.py:1026
+#: .././cogstat_dialogs.py:1094 .././cogstat_dialogs.py:1143
+#: .././cogstat_dialogs.py:1323 .././cogstat_dialogs.py:1369
+#: .././cogstat_dialogs.py:1411 .././cogstat_dialogs.py:1437
+msgid "Help"
+msgstr "עזרה"
+
+#: .././cogstat_dialogs.py:1410
+msgid "Close"
+msgstr "סגור"
+
+#: .././cogstat.py:1007
+msgid "At least three variables should be set"
+msgstr "יש להגדיר לפחות שלושה משתנים"
+
+#: .././cogstat.py:1009 .././cogstat.py:1094
+msgid "Nominal variables cannot be used for the reliability analysis"
+msgstr "לא ניתן להשתמש במשתנים נומינליים לניתוח מהימנות"
+
+#: .././cogstat_hyp_test.py:113
+msgid "Sensitivity power analysis"
+msgstr "ניתוח עוצמה של רגישות"
+
+#: .././cogstat_hyp_test.py:115
+msgid "Minimal effect size to reach 95% power with the present sample size for the present hypothesis test"
+msgstr "גודל האפקט המינימלי הדרוש להשגת עוצמה של 95% עם גודל המדגם הנוכחי עבור מבחן ההשערות הנוכחי"
+
+#: .././cogstat_hyp_test.py:118
+msgid "Minimal effect size to reach 80% power with the present sample size for the present hypothesis test"
+msgstr "גודל האפקט המינימלי הדרוש להשגת עוצמה של 80% עם גודל המדגם הנוכחי עבור מבחן ההשערות הנוכחי"
+
+#: .././cogstat_hyp_test.py:1026 .././cogstat_hyp_test.py:1060
+#: .././cogstat_hyp_test.py:1069
+msgid "Running Brunner–Munzel test"
+msgstr "מתבצע מבחן Brunner–Munzel"
+
+#: .././cogstat_hyp_test.py:1334
+msgid "Result of the Brunner–Munzel test"
+msgstr "תוצאות מבחן Brunner–Munzel"
+
+#: .././cogstat_hyp_test.py:1596
+msgid "Choosing mixed ANOVA"
+msgstr "נבחר ניתוח שונות מעורב"
+
+#: .././cogstat_hyp_test.py:1593
+msgid "Repeated measures and grouping variables"
+msgstr "מדידות חוזרות ומשתני קיבוץ"
+
+#: .././cogstat_hyp_test.py:1671
+msgid "Sorry, R is not available to run %s"
+msgstr "מצטערים, R אינו זמין להרצת %s"
+
+#: .././cogstat_hyp_test.py:1035
+msgid "Choosing two sample t-test, Brunner–Munzel test or Welch's t-test depending on assumptions"
+msgstr "בחירה בין מבחן t לשני מדגמים, מבחן Brunner–Munzel או מבחן t של Welch בהתאם להנחות"
+
+#: .././cogstat_gui.py:185
+msgid "Open data file with e&xternal editor"
+msgstr "פתח קובץ נתונים עם עורך &חיצוני"
+
+#: .././cogstat_gui.py:186
+msgid "Ctrl+Shift+O"
+msgstr "Ctrl+Shift+O"
+
+#: .././cogstat.py:1576
+msgid "Use unique names for each factor."
+msgstr "השתמשו בשמות ייחודיים לכל גורם."
 
