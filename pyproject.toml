@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cogstat"
+version = "2.6dev0"
+description = "Simple statistics for researchers."
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "GNU GPL 3"}
+authors = [
+    {name = "Attila Krajcsi", email = "krajcsi@proton.me"},
+]
+urls = {Homepage = "https://www.cogstat.org"}
+dependencies = [
+    "numpy",
+    "scipy >=1.9, !=1.10",
+    "matplotlib >=1.5.0, !=2.0.1, !=2.0.2",
+    "pandas >=2.2",
+    "statsmodels >=0.13.0",
+    "pingouin >=0.3.12",
+    "scikit-posthocs >=0.7.0",
+    "pyreadstat >=1.1.5",
+    "python-calamine",
+    "pyreadr >=0.4.5",
+    "appdirs",
+    "python-bidi",
+    "IPython",
+    "Jupyter",
+    "scikit-learn",
+    "svgutils",
+    "rpy2",
+]
+
+[project.optional-dependencies]
+GUI = ["PyQt6"]
+
+[project.scripts]
+cogstat = "cogstat.cogstat_gui:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
