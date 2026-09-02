@@ -4,6 +4,7 @@ on:
   push:
     branches: [master]        # every commit to master
   pull_request:               # optional: also build PRs
+  workflow_dispatch:
 
 jobs:
   build:
