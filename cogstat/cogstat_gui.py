@@ -29,7 +29,7 @@ splash_screen.showMessage('', Qt.AlignmentFlag.AlignBottom, Qt.GlobalColor.white
 import random
 import importlib
 import base64
-from distutils.version import LooseVersion
+from packaging.version import Version
 import gettext
 import io
 import logging
@@ -145,7 +145,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         The version number is available in a plain text file, at the appropriate web address."""
         try:
             latest_version = urlopen('https://kognitiv.elte.hu/cogstat/version', timeout=3).read().decode('utf-8')
-            if LooseVersion(cogstat.__version__) < LooseVersion(latest_version):
+            if Version(cogstat.__version__) < Version(latest_version):
                 QtWidgets.QMessageBox.about(self, _('Update available'),
                                             _('New version is available.') + '<br><br>' +
                                             _('You can download the new version<br>from the <a href = "%s">CogStat '

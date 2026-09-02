@@ -25,6 +25,7 @@ dependencies = [
     "python-calamine",
     "pyreadr >=0.4.5",
     "appdirs",
+    "packaging",
     "python-bidi",
     "IPython",
     "Jupyter",
