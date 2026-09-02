@@ -2,7 +2,7 @@ name: Build package
 
 on:
   push:
-    branches: [master]        # every commit to master
+    branches: [master, devel] # every commit to master and devel branches
   pull_request:               # optional: also build PRs
   workflow_dispatch:
 
