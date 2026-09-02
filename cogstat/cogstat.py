@@ -428,7 +428,7 @@ class CogStatData:
                     import_data, import_metadata = pyreadstat.read_dta(data)
                     # alternative solution in pandas:
                     # https://pandas.pydata.org/pandas-docs/stable/reference/io.html#stata
-                self.data_frame = pd.DataFrame.from_records(import_data, columns=import_metadata.column_names)
+                self.data_frame = import_data
 
                 # Convert measurement levels from import format to CogStat
                 # We use pyreadstat variable_measure
