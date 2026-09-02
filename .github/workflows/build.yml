@@ -1,0 +1,28 @@
+name: Build package
+
+on:
+  push:
+    branches: [master]        # every commit to master
+  pull_request:               # optional: also build PRs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tool
+        run: pip install build
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
