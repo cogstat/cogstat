@@ -161,7 +161,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
         # FIXME there could be issues if the __file__ path includes Unicode chars
         # e.g., see pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)).decode('utf-8'),
         # u'resources', u'CogStat splash screen.png'), 'PNG')
-        self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + '/resources/CogStat.ico'))
+        self.setWindowIcon(QtGui.QIcon(os.path.dirname(os.path.abspath(__file__)) + '/resources/CogStat icon.svg'))
 
         if csc.rtl_language:
             self.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
