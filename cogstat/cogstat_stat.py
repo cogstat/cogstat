@@ -279,9 +279,9 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     # 2. Calculate N, RT, and error rate statistics
     n_table = pd.pivot_table(df_diff, values=error_name, index=participant_name, columns=condition_names, aggfunc=len)
     mean_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name] == 0], values=RT_name,
-                                           index=participant_name, columns=condition_names, aggfunc=np.mean)
+                                           index=participant_name, columns=condition_names, aggfunc='mean')
     var_correct_RT_table = pd.pivot_table(df_diff[df_diff[error_name] == 0], values=RT_name,
-                                          index=participant_name, columns=condition_names, aggfunc=np.var)
+                                          index=participant_name, columns=condition_names, aggfunc='var')
     # TODO for the var function do we need a ddof=1 parameter?
     mean_percent_correct_table = 1 - pd.pivot_table(df_diff, values=error_name, index=participant_name,
                                                     columns=condition_names,
@@ -312,11 +312,12 @@ def diffusion(df, error_name='', RT_name='', participant_name='', condition_name
     # 3. Recover diffusion parameters
     original_index = mean_percent_correct_table.index  # to recover index order later
     original_columns = mean_percent_correct_table.columns  # to recover column order later
-    EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names),
-                               var_correct_RT_table.stack(condition_names),
-                               mean_correct_RT_table.stack(condition_names)],
+    EZ_parameters = pd.concat([mean_percent_correct_table.stack(condition_names, future_stack=True),
+                               var_correct_RT_table.stack(condition_names, future_stack=True),
+                               mean_correct_RT_table.stack(condition_names, future_stack=True)],
                               axis=1).apply(lambda x: cs_stat_num.diffusion_get_ez_params(*x, s=scaling_parameter),
                                             axis=1, result_type='expand')
+                            # TODO does future_stack=True work correctly?
     EZ_parameters.columns = ['drift rate', 'threshold', 'nondecision time']
     drift_rate_table = EZ_parameters['drift rate'].unstack(condition_names)
     threshold_table = EZ_parameters['threshold'].unstack(condition_names)

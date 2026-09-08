@@ -1720,7 +1720,7 @@ def mixed_anova(pdf, var_names, factors, grouping_variables):
                                                                        for factor in factors])),
                              between=base.as_symbol(robjects.StrVector([safe_names_dict[item] for item in grouping_variables])), type=3)
         anova_table = pandas2ri.rpy2py_dataframe(anova_r[0]).reset_index(drop=True)
-        anova_table['Effect'].replace(safe_names_dict_reversed, regex=True, inplace=True)
+        anova_table['Effect'] = anova_table['Effect'].replace(safe_names_dict_reversed, regex=True)
         #sphericity_check_table = pandas2ri.rpy2py_dataframe(anova_r[1])
         #sphericity_correction_table = pandas2ri.rpy2py_dataframe(anova_r[2])
 

@@ -362,7 +362,7 @@ class CogStatTestCase(unittest.TestCase):
 
     def test_diffusion(self):
         """Test diffusion analysis"""
-        data_diffusion = cs.CogStatData(data=str(Path('data/diffusion.csv')))
+        data_diffusion = cs.CogStatData(data=str(Path('test_data/diffusion.csv')))
         result = data_diffusion.diffusion(error_name='Error', RT_name='RT_sec', participant_name='Name',
                                           condition_names=['Num1', 'Num2'])
         # Drift rate

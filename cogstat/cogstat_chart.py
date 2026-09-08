@@ -461,6 +461,8 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name):
         elif data_measlevs[var_name] == 'ord':
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
+            xticks = ax.get_xticks()
+            ax.set_xticks(xticks)
             ax.set_xticklabels(['%i\n(%s)' % (i, sorted(data_orig_value)[int(i)-1])
                                 if i-1 in range(len(data_orig_value)) else '%i' % i for i in ax.get_xticks()])
             _set_axis_measurement_level(ax, 'ord', 'nom')
@@ -561,6 +563,8 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         if data_measlevs[var_name] == 'ord':
             ax_low.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
+            xticks = ax_low.get_xticks()
+            ax_low.set_xticks(xticks)
             ax_low.set_xticklabels(['%i\n(%s)' % (i, sorted(data_value)[int(i - 1)])
                                     if i - 1 in range(len(data_value)) else '%i' % i for i in ax_low.get_xticks()])
             _set_axis_measurement_level(ax_low, 'ord', 'nom')
@@ -866,9 +870,13 @@ def create_variable_pair_chart(data, meas_lev, x, y, result=None, raw_data=False
             ax.set_ylim(0, len(yvalues)+1)
             ax.tick_params(top=False, right=False)
             # Create new tick labels, with the rank and the value of the corresponding rank
+            xticks = ax.get_xticks()
+            ax.set_xticks(xticks)
             ax.set_xticklabels(['%i\n(%s)' % (i, sorted(xvalues)[int(i-1)])
                                 if i-1 in range(len(xvalues)) else '%i' % i for i in ax.get_xticks()])
             try:
+                yticks = ax.get_yticks()
+                ax.set_yticks(yticks)
                 ax.set_yticklabels(['%i\n(%s)' % (i, sorted(yvalues)[int(i-1)])
                                     if i-1 in range(len(yvalues)) else '%i' % i for i in ax.get_yticks()],
                                    wrap=True)
@@ -1280,6 +1288,8 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groupi
             else:
                 plt.title(_plt('Boxplots and individual data of the rank data of the groups'))
             # Create new tick labels, with the rank and the value of the corresponding rank
+            yticks = ax.get_yticks()
+            ax.set_yticks(yticks)
             ax.set_yticklabels(['%i\n(%s)' % (i, sorted(variables_value)[int(i)-1])
                                 if i-1 in range(len(variables_value)) else '%i' % i for i in ax.get_yticks()],
                                wrap=True)
@@ -1625,7 +1635,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         pass  # TODO
         return ([pd.DataFrame()] if estimation_table else []) + [None]
 
-    long_stat_data = long_stat_data.stack('cogstat statistics', dropna=False)
+    long_stat_data = long_stat_data.stack('cogstat statistics', future_stack=True)  # TODO double-check if future_stack works correctly here
     # long_stat_data is expected to be Series in the following parts
     long_stat_data = long_stat_data.squeeze()
     # add new index level
@@ -1902,7 +1912,7 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
                 # Select the repeated measures independent factors in the order specified in indep_x
                 within_indep_x = [indep_x_item for indep_x_item in indep_x if indep_x_item in within_indep_names]
                 # Select the factor level combinations that include within-subject variables
-                factor_level_combinations = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).dtypes.index.to_frame()[within_indep_x]
+                factor_level_combinations = color_raw_group.groupby(by=(indep_x if indep_x else 'all_raw_rows')).size().index.to_frame()[within_indep_x]
                 factor_level_combinations.sort_index(axis='index', level=within_indep_names, inplace=True)  # TODO is this needed?
                 # Find the appropriate names for the factor level combinations
                 var_names = [factor_info.loc[0, tuple(row)] for index, row in factor_level_combinations.iterrows()]
@@ -1932,6 +1942,8 @@ def create_repeated_measures_groups_chart(data, dep_meas_level, dep_names=None, 
         # set y ticks
         if dep_meas_level == 'ord':
             # Create new tick labels, with the rank and the value of the corresponding rank
+            yticks = ax.get_yticks()
+            ax.set_yticks(yticks)
             ax.set_yticklabels(['%i\n(%s)' % (i, sorted(original_values)[int(i)-1])
                                 if i-1 in range(len(original_values)) else '%i' % i for i in ax.get_yticks()],
                                wrap=True)
