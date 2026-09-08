@@ -167,6 +167,7 @@ rtl_language = True if language in ['he', 'fa', 'ar', 'ur'] else False
 try:
     # because configparser cannot handle multiple values for a single key, split the values
     theme = config['Preferences']['theme'].split(',')
+    theme = [theme_name.strip() for theme_name in theme]
 except KeyError:
     theme = ''
 image_format = config['Preferences']['image_format']
