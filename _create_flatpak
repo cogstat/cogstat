@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+# Build and install Flatpak package locally for testing
+echo "Building Flatpak package..."
+flatpak-builder --user --install --force-clean build-dir org.cogstat.cogstat.yaml
+
+echo "Done! You can run the application with:"
+echo "flatpak run org.cogstat.cogstat"

@@ -1,0 +1,32 @@
+app-id: org.cogstat.cogstat
+runtime: org.kde.Platform
+runtime-version: '6.9'
+sdk: org.kde.Sdk
+command: cogstat
+
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=host
+  - --filesystem=xdg-run/dconf
+  - --talk-name=org.freedesktop.Notifications
+
+build-options:
+  build-args:
+    - --share=network
+  env:
+    PYTHONPATH: /app/lib/python3.12/site-packages
+
+modules:
+  - name: cogstat
+    buildsystem: simple
+    build-commands:
+      - pip3 install --prefix=/app --no-build-isolation ".[GUI]"
+      - install -Dm644 org.cogstat.cogstat.desktop /app/share/applications/org.cogstat.cogstat.desktop
+      - install -Dm644 org.cogstat.cogstat.metainfo.xml /app/share/metainfo/org.cogstat.cogstat.metainfo.xml
+      - install -Dm644 "cogstat/resources/CogStat icon.svg" /app/share/icons/hicolor/scalable/apps/org.cogstat.cogstat.svg
+    sources:
+      - type: dir
+        path: .

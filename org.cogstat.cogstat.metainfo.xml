@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.cogstat.cogstat</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>CogStat</name>
+  <summary>Simple statistics for researchers</summary>
+  
+  <description>
+    <p>
+      CogStat is a statistical software designed for researchers, teachers, and students.
+      It makes data analysis simple and straightforward by automatically choosing appropriate
+      statistical tests and generating publication-ready outputs.
+    </p>
+    <p>Key features:</p>
+    <ul>
+      <li>Automatic statistical test selection based on data characteristics</li>
+      <li>Descriptive statistics and hypothesis testing</li>
+      <li>Automatic generation of charts and visualizations</li>
+      <li>Easy import from spreadsheet and statistical file formats (CSV, Excel, SPSS, R, etc.)</li>
+      <li>Multilingual user interface</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">org.cogstat.cogstat.desktop</launchable>
+  <url type="homepage">https://www.cogstat.org</url>
+  <developer id="org.cogstat">
+    <name>Attila Krajcsi</name>
+  </developer>
+  
+  <provides>
+    <binary>cogstat</binary>
+  </provides>
+  
+  <content_rating type="oars-1.1" />
+
+  <releases>
+    <release version="2.6.dev0" date="2026-01-01" />
+  </releases>
+</component>

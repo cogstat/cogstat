@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=CogStat
+GenericName=Statistical Software
+Comment=Simple statistics for researchers
+Exec=cogstat
+Icon=org.cogstat.cogstat
+Terminal=false
+Categories=Science;Math;DataVisualization;
+Keywords=statistics;data;analysis;
+StartupNotify=true
