@@ -952,18 +952,18 @@ def repeated_measures_anova(pdf, var_names, factors=None):
         # ANOVA
         aov = pingouin.rm_anova(pdf[var_names], correction=True)
         if wp < 0.05:  # sphericity is violated
-            p = aov.loc[0, 'p-GG-corr']
+            p = aov.loc[0, 'p_GG_corr']
             text_result += '\n<cs_decision>'+_('Sphericity is violated.') + ' >> ' \
                            + _('Using Greenhouse–Geisser correction.') + '\n</cs_decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%0.3g, %0.3g) = %0.*f, %s\n' \
                            % (aov.loc[0, 'ddof1'] * aov.loc[0, 'eps'], aov.loc[0, 'ddof2'] * aov.loc[0, 'eps'],
-                              non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p-GG-corr']))
+                              non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p_GG_corr']))
         else:  # sphericity is not violated
-            p = aov.loc[0, 'p-unc']
+            p = aov.loc[0, 'p_unc']
             text_result += '\n<cs_decision>'+_('Sphericity is not violated. ') + '\n</cs_decision>' + \
                            _('Result of repeated measures ANOVA') + ': <i>F</i>(%d, %d) = %0.*f, %s\n' \
                            % (aov.loc[0, 'ddof1'], aov.loc[0, 'ddof2'],
-                              non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p-unc']))
+                              non_data_dim_precision, aov.loc[0, 'F'], print_p(aov.loc[0, 'p_unc']))
 
         # Post-hoc tests
         if p < 0.05:

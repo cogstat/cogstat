@@ -830,8 +830,8 @@ def multiple_variables_standard_effect_size(data, predictors, predicted, result,
         else:
             partial_result = pingouin.partial_corr(data, predictor, predicted, predictors_other)
             pdf_result_corr.loc[predictor + ', <i>r</i>'] = \
-                ['%0.3f' % (partial_result['r'].iloc[0]), '[%0.3f, %0.3f]' % (partial_result['CI95%'].iloc[0][0],
-                                                                              partial_result['CI95%'].iloc[0][1])]
+                ['%0.3f' % (partial_result['r'].iloc[0]), '[%0.3f, %0.3f]' % (partial_result['CI95'].iloc[0][0],
+                                                                              partial_result['CI95'].iloc[0][1])]
 
     standardized_effect_size_result += pdf_result_corr.to_html(bold_rows=False, escape=False).replace('\n', '')
 
@@ -1030,7 +1030,7 @@ def repeated_measures_effect_size(pdf, var_names, factors, meas_level, sample=Tr
                     pdf_result.loc[_("Cohen's d"), _('Value')] = \
                         pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='cohen')
                     pdf_result.loc[_("Eta-squared"), _('Value')] = \
-                        pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='eta-square')
+                        pingouin.compute_effsize(pdf[var_names[0]], pdf[var_names[1]], paired=True, eftype='eta_square')
                 else:  # ordinal or nominal variable
                     standardized_effect_size_result = None
             else:  # More than two variables
@@ -1159,7 +1159,7 @@ def compare_groups_effect_size(pdf, dependent_var_name, groups, meas_level, samp
                                                  paired=False, eftype='cohen')
                     pdf_result.loc[_("Eta-squared"), _('Value')] = \
                         pingouin.compute_effsize(grouped_data[0], grouped_data[1],
-                                                 paired=False, eftype='eta-square')
+                                                 paired=False, eftype='eta_square')
                 else:
                     standardized_effect_size_result = None
             else:
@@ -1310,9 +1310,9 @@ def reliability_interrater_calc(data, targets=None, raters=None, ratings=None, r
     row_labels = [_('ICC(k)'), _('ICC(A,k)'), _('ICC(C,k)')] if ratings_averaged \
         else [_('ICC(1)'), _('ICC(A,1)'), _('ICC(C,1)')]
 
-    pop_result_df = pd.DataFrame(icc.loc[slice_row][['ICC', 'CI95%']])
+    pop_result_df = pd.DataFrame(icc.loc[slice_row][['ICC', 'CI95']])
     pop_result_df['ICC'] = pop_result_df['ICC'].map('{:,.3f}'.format)
-    pop_result_df['CI95%'] = [['%0.3f, %0.3f' % (ci[0], ci[1])] for ci in pop_result_df['CI95%']]
+    pop_result_df['CI95'] = [['%0.3f, %0.3f' % (ci[0], ci[1])] for ci in pop_result_df['CI95']]
 
     pop_result_df.index = row_labels
     pop_result_df.columns = [_('Point estimation'), _('95% confidence interval')]
