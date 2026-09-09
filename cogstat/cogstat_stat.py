@@ -881,8 +881,12 @@ def vif_table(data, var_names):
 
     regressors = add_constant(data[var_names])
     table = _('Variance inflation factors of explanatory variables and constant')
-    vif_df = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
-                           for i in range(regressors.shape[1])], index=regressors.columns, columns=[_('VIF')]).round(3)
+    try:  # statsmodels 0.15.0 uses the standardized parameter, and the non-default False value is the old calculation
+        vif_df = pd.DataFrame([variance_inflation_factor(regressors.values, i, standardize=False) \
+                               for i in range(regressors.shape[1])], index=regressors.columns, columns=[_('VIF')]).round(3)
+    except:  # earlier statsmodels versions
+        vif_df = pd.DataFrame([variance_inflation_factor(regressors.values, i) \
+                               for i in range(regressors.shape[1])], index=regressors.columns, columns=[_('VIF')]).round(3)
     table += vif_df.to_html(bold_rows=False, escape=False).replace('\n', '') + '\n'
 
     multicollinearity = False
