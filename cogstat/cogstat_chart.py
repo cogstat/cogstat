@@ -259,8 +259,10 @@ def _create_default_mosaic_properties(data):
                       categories_levels[1] if Nlevels > 1 else [''])
     value = lzip(list(value),
                  categories_levels[2] if Nlevels > 2 else [''])
-    hatch = lzip(list(hatch),
-                 categories_levels[3] if Nlevels > 3 else [''])
+    if Nlevels > 3:
+        hatch = lzip(hatch[:len(categories_levels[3])], categories_levels[3])
+    else:
+        hatch = [(hatch[0], '')]
     # create the properties dictionary
     properties = {}
     for h, s, v, t in product(hue, saturation, value, hatch):
