@@ -1239,7 +1239,7 @@ def create_compare_groups_sample_chart(data_frame, meas_level, var_names, groupi
         # group the raw the data according to the level combinations
         variables = [data_frame[var_names[0]][(data_frame[grouping_variables] ==
                                                pd.Series({group: level for group, level in zip(grouping_variables, group_level)})).
-            all(axis=1)].dropna() for group_level in group_levels]
+            all(axis=1)].dropna().astype(float) for group_level in group_levels]
         if meas_level == 'ord':  # Calculate the rank information # FIXME is there a more efficient way to do this?
             index_ranks = dict(list(zip(pd.concat(variables).index, stats.rankdata(pd.concat(variables)))))
             variables_value = pd.concat(variables).values  # original values
