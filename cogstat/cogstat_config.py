@@ -91,14 +91,14 @@ try:
                                 # specific name (unlike R) is unlikely to exist in any directory the script is started
                                 # from
         os.environ['R_HOME'] = 'R_CS'
-    # Otherwise, use PATH or R_HOME which was set either by the R installation, or by the user
+    # Otherwise, use PATH or R_HOME which was set either by the R installation or by the user
     # (e.g., if they want to specify the version to use among several installed versions).
     # Note that R_HOME may not be set in Windows after installation. https://github.com/rpy2/rpy2/issues/796
 
-    # It is not trivial to check if R is available. We want to avoid Fatal error, and use exception instead. Also, what
+    # It is not trivial to check if R is available. We want to avoid Fatal error and use exception instead. Also, what
     # works on Linux, does not work on Windows, and the other way around. Specifically:
-    # - In Linux, robjects causes Fatal error, but rpy2.rinterface.initr() raises an exception.
-    # - In Windows, rpy2.rinterface.initr() raises _csv.Error even if the path is correct. So we can't use it in
+    # - In Linux, robjects causes a Fatal error, but rpy2.rinterface.initr() raises an exception.
+    # - In Windows, rpy2.rinterface.initr() raises _csv.Error even if the path is correct. So we can't use it on
     # Windows. However, when the R_HOME is incorrect, robjects raises OSError exception, so it can be used.
     # Note that initr() cannot be run multiple times, so this cannot be used repeatedly to check R availability.
     if sys.platform.startswith('linux') or sys.platform == 'darwin':
@@ -109,7 +109,7 @@ try:
     elif sys.platform == 'win32':
         import rpy2.robjects as robjects
         versions['r'] = robjects.r('version')[-2][0]
-except (ModuleNotFoundError, NameError, FileNotFoundError, OSError, ImportError):
+except (ModuleNotFoundError, NameError, FileNotFoundError, OSError, ImportError, ValueError):
     versions['r'] = None
 try:
     import rpy2
