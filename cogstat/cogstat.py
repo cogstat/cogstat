@@ -293,6 +293,8 @@ class CogStatData:
                                                  else measurement_levels[name].lower())
                                           for name in measurement_levels.keys()}
                     self.data_measlevs = {name: measurement_levels[name] for name in measurement_levels.keys()}
+                else:
+                    raise ValueError('Invalid measurement_levels type')
 
                 if len(self.data_frame.columns) != len(measurement_levels):
                     warning_text += '\n<cs_warning>' + \
