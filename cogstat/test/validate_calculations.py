@@ -14,6 +14,8 @@ if os.name == 'nt':
 
 from cogstat import cogstat as cs
 
+cs.csc.p_value_format = 'apa'  # current test cases expect APA format
+
 print(cs.__file__)
 print(cs.__version__)
 print(os.path.abspath(cs.__file__))
@@ -573,6 +575,7 @@ class CogStatTestCase(unittest.TestCase):
             # jasp 0.16.1   -0.685
         self.assertTrue("<td>Hedges' g</td>      <td>-0.685</td>      <td>-1.455</td>      <td>0.084</td>" in result['population effect size'])
             # jasp 0.16.1   W: 0.959 p: 0.683; W: 0.984 p: 0.991
+        print(result['hypothesis test'])
         self.assertTrue('(m: 1.0): <i>W</i> = 0.96, <i>p</i> = .683' in result['hypothesis test'])  # <i>W</i> = 0.959
         self.assertTrue('(m: 2.0): <i>W</i> = 0.98, <i>p</i> = .991' in result['hypothesis test'])  # <i>W</i> = 0.984
         self.assertTrue('<i>W</i> = 0.30, <i>p</i> = .585' in result['hypothesis test'])  # <i>W</i> = 0.305
