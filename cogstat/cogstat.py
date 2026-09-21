@@ -2231,7 +2231,7 @@ class CogStatData:
 
 def display(results):
     """
-    Display list of output given by CogStat analysis in IPython Notebook.
+    Display the dict of output given by CogStat analysis in IPython Notebook.
 
     Parameters
     ----------
@@ -2243,6 +2243,7 @@ def display(results):
 
     def display_item(item):
         if isinstance(item, str):
+            item = item.replace('class="dataframe"', '')  # otherwise, Jupyter notebook automatically removes the non-table parts
             display(HTML(item))
         else:
             display(item)
