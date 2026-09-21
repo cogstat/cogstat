@@ -648,9 +648,10 @@ class CogStatData:
 
         # Check preconditions
         # Run analysis only if variables are interval (or unkown) variables
-        if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'ord', 'nom'}):
-            results['warning'] = _('Only interval variables can be used for filtering') + '.'
-            return cs_util.convert_output(results)
+        if var_names:
+            if {self.data_measlevs[var_name] for var_name in var_names}.intersection({'ord', 'nom'}):
+                results['warning'] = _('Only interval variables can be used for filtering') + '.'
+                return cs_util.convert_output(results)
 
         results['sample chart'] = []
 
