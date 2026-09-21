@@ -610,7 +610,7 @@ class CogStatData:
         """
         Filter self.data_frame based on outliers.
 
-        With univariate methods, all variables are investigated independently and cases are excluded if any variables
+        With univariate methods, all variables are investigated independently and cases are excluded if any variable
         shows they are outliers.
         If mode is 'mahalanobis', then variables are jointly investigated for multivariate outliers.
         If var_names is None, then the filtering will be switched off (i.e. all cases will be used).
@@ -622,13 +622,10 @@ class CogStatData:
         var_names : None or list of str
             Names of the variables the exclusion is based on or None to include all cases.
             Variables must be interval (or unknown) measurement level variables.
-        mode : {'2.5mad', '2sd', 'mahalanobis'}
+        mode : {'2.5mad', 'mahalanobis'}
             Mode of the exclusion:
                 2.5mad: median +- 2.5 * MAD
-                2sd: mean +- 2 * SD
                 mahalanobis: Mahalanobis-MCD distance with .05 chi squared cut-off
-            CogStat uses the MAD method for single variable-based outlier, but for possible future code change, the
-            previous (2sd) version is also included.
 
         Returns
         -------
@@ -642,8 +639,7 @@ class CogStatData:
         """
         results = {key: None for key in ['analysis info', 'warning', 'sample chart']}
 
-        mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
-                      '2.5mad': _('Median ± 2.5 MAD'),
+        mode_names = {'2.5mad': _('Median ± 2.5 MAD'),  # Used in the output
                       'mahalanobis': _('Mahalanobis-MCD distance with .05 chi squared cut-off')}
 
         self.filtering_status = [var_names, mode]
@@ -665,23 +661,17 @@ class CogStatData:
             results['analysis info'] += _('Filtering is switched off.')
         else:  # Create a filtered dataframe based on the variable(s)
             remaining_cases_indexes = []
-            if mode in ['2sd', '2.5mad']:
+            if mode == '2.5mad':
                 for var_name in var_names:
                     # Find the lower and upper limit
-                    if mode == '2sd':
-                        mean = np.mean(self.orig_data_frame[var_name].dropna())
-                        sd = np.std(self.orig_data_frame[var_name].dropna(), ddof=1)
-                        lower_limit = mean - 2 * sd
-                        upper_limit = mean + 2 * sd
-                    elif mode == '2.5mad':
-                        # Python implementations:
-                        # https://www.statsmodels.org/stable/generated/statsmodels.robust.scale.mad.html
-                        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.median_absolute_deviation.html
-                        from statsmodels.robust.scale import mad as mad_function
-                        median = np.median(self.orig_data_frame[var_name].dropna())
-                        mad_value = mad_function(self.orig_data_frame[var_name].dropna())
-                        lower_limit = median - 2.5 * mad_value
-                        upper_limit = median + 2.5 * mad_value
+                    # Python implementations:
+                    # https://www.statsmodels.org/stable/generated/statsmodels.robust.scale.mad.html
+                    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.median_absolute_deviation.html
+                    from statsmodels.robust.scale import mad as mad_function
+                    median = np.median(self.orig_data_frame[var_name].dropna())
+                    mad_value = mad_function(self.orig_data_frame[var_name].dropna())
+                    lower_limit = median - 2.5 * mad_value
+                    upper_limit = median + 2.5 * mad_value
                     # Find the cases to be kept
                     remaining_cases_indexes.append(self.orig_data_frame[
                                                        (self.orig_data_frame[var_name] >= lower_limit) &
