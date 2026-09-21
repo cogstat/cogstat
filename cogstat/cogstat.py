@@ -606,13 +606,13 @@ class CogStatData:
 
         return cs_util.convert_output(results)
 
-    def filter_outlier(self, var_names=None, mode='2.5mad'):
+    def filter_outlier(self, var_names=None, mode='univariate'):
         """
         Filter self.data_frame based on outliers.
 
         With univariate methods, all variables are investigated independently and cases are excluded if any variable
         shows they are outliers.
-        If mode is 'mahalanobis', then variables are jointly investigated for multivariate outliers.
+        If mode is 'multivariate', then variables are jointly investigated for multivariate outliers.
         If var_names is None, then the filtering will be switched off (i.e. all cases will be used).
 
         If any values in the given variables are missing in a case, the whole case will also be excluded.
@@ -622,10 +622,10 @@ class CogStatData:
         var_names : None or list of str
             Names of the variables the exclusion is based on or None to include all cases.
             Variables must be interval (or unknown) measurement level variables.
-        mode : {'2.5mad', 'mahalanobis'}
+        mode : {'univariate', 'multivariate'}
             Mode of the exclusion:
-                2.5mad: median +- 2.5 * MAD
-                mahalanobis: Mahalanobis-MCD distance with .05 chi squared cut-off
+                univariate: median +- 2.5 * MAD
+                multivariate: Mahalanobis-MCD distance with .05 chi squared cut-off
 
         Returns
         -------
@@ -639,8 +639,8 @@ class CogStatData:
         """
         results = {key: None for key in ['analysis info', 'warning', 'sample chart']}
 
-        mode_names = {'2.5mad': _('Median ± 2.5 MAD'),  # Used in the output
-                      'mahalanobis': _('Mahalanobis-MCD distance with .05 chi squared cut-off')}
+        mode_names = {'univariate': _('Median ± 2.5 MAD'),  # Used in the output
+                      'multivariate': _('Mahalanobis-MCD distance with .05 chi squared cut-off')}
 
         self.filtering_status = [var_names, mode]
 
@@ -661,7 +661,7 @@ class CogStatData:
             results['analysis info'] += _('Filtering is switched off.')
         else:  # Create a filtered dataframe based on the variable(s)
             remaining_cases_indexes = []
-            if mode == '2.5mad':
+            if mode == 'univariate':
                 for var_name in var_names:
                     # Find the lower and upper limit
                     # Python implementations:
@@ -701,7 +701,7 @@ class CogStatData:
                         results['analysis info'] += _('No cases were excluded') + '.'
                     if var_name != var_names[-1]:
                         results['analysis info'] += '\n\n'
-            elif mode == 'mahalanobis':
+            elif mode == 'multivariate':
                 # Based on the robust Mahalanobis-MCD distance in Leys et al., 2017 and Rousseeuw, 1999
                 # Removing non-interval variables
 
@@ -765,9 +765,8 @@ class CogStatData:
             Filtering status to be printed. If filtering is off, then an empty string.
         """
 
-        mode_names = {'2sd': _('Mean ± 2 SD'),  # Used in the output
-                      '2.5mad': _('Median ± 2.5 MAD'),
-                      'mahalanobis': _('Mahalanobis-MCD distance with .05 chi squared cut-off')}
+        mode_names = {'univariate': _('Median ± 2.5 MAD'),  # Used in the output
+                      'multivariate': _('Mahalanobis-MCD distance with .05 chi squared cut-off')}
 
         if self.filtering_status[0] is None or self.filtering_status[0] == []:
             return ''
