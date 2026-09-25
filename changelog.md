@@ -5,11 +5,12 @@ Upcoming release
 ================
 ## New features
 - Custom y-axis label for repeated measures charts
-- Support importing Excel spreadsheet .xlsm and .xlsb files
+- Support for importing Excel spreadsheet .xlsm and .xlsb files
 - Faster import of spreadsheet files
 - Command menu to find appropriate menus easier
 - Variable names and values can include any Unicode characters
-- Option to display p-value not only in APA but in scientific format 
+- Option to display p-value not only in APA but in scientific format
+- Updated documentation for using CogStat as a Python package
 - New localization
     - Macedonian (Bisera Varoshlija)
     - Slovenian (Tia Križan)

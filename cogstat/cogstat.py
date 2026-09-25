@@ -1,34 +1,18 @@
 # -*- coding: utf-8 -*-
 
-"""This module is the main engine for CogStat.
+"""CogStat is a Python module and also a GUI-based application that analyzes the data automatically after the data (with
+their measurement levels) and the tasks are specified.
+
+- CogStat website: <https://www.cogstat.org/>
+- User documentation: <https://doc.cogstat.org/>
+- Use CogStat in Python scripts: <https://doc.cogstat.org/Jupyter-Notebook>
+"""
+
+"""
+This module is the main engine for CogStat.
 
 It includes the class for the CogStat data; initialization handles data import; methods implement some data handling,
 and they compile the appropriate statistics for the main analysis pipelines.
-"""
-
-"""
-The analyses return a dictionary (ordered).
-- The key is the name of the subsection, and the value is the output. 
-- Only the values will be displayed in the order as it is stored in the dictionary.
-- The values can include (html) str, pandas styler, matplotlib figure, or the list of any of these (but no nested list).
-
-The keys refer to the analysis section. Some typical keys, but if needed others can be used too (singular is preferred)
-- analysis
-  - warning
-- raw data
-- sample
-  - descriptives
-  - sample effect size
-- population
-  - assumption
-  - estimation
-  - population effect size
-  - hypothesis test
-orthogonally, you may add what type of information is included
-- info: includes headings and additional details of the analysis
-- table: results in table/numerical format
-- chart: results in charts
-- or no information type is added 
 
 For the analyses, headings (<cs_hx>) are included in this module.
 
@@ -79,65 +63,82 @@ warn_unknown_variable = '<cs_warning><b>' + _('Measurement level warning') + '</
 
 class CogStatData:
     """
-    Import data and create CogStat data object.
+    CogStat object (data) and the available main analyses.
 
-    The measurement levels are set in the following order:
+    The analysis methods return an ordered dictionary.
+    - The key is the name of the subsection, and the value is the output.
+    - Only the values will be displayed in the order as they are stored in the dictionary.
+    - The values can include HTML str, pandas styler, matplotlib figure, or the list of any of these (but no nested list).
 
-    - All variables are 'unknown'.
-    - Then, if import data includes measurement level, then that information will be used.
-    - Then, if measurement_levels parameter is set, then that will be used.
-    - Finally, constraints (e.g., string variables can be nominal variables) will overwrite measurement level.
+    The keys describe the analysis section. Some typical keys are (but others may also be used)
+    - analysis
+      - warning
+    - raw data
+    - sample
+      - descriptives
+      - sample effect size
+    - population
+      - assumption
+      - estimation
+      - population effect size
+      - hypothesis test
 
-    Parameters
-    ----------
-    data : pandas.DataFrame or str
-        Data to be imported. This can be:
-
-        - Pandas DataFrame
-        - Clipboard data from a spreadsheet (identified as multiline string)
-        - Filename (identified as one line text)
-
-    measurement_levels : None, list of {'nom', 'ord', 'int'} or dict of {str: {'nom', 'ord', 'int'}}
-        Optional measurement levels of the variables
-
-        - None: measurement level of the import file or the clipboard information will be used
-        - List of strings ('nom', 'ord', 'int'): measurement levels will be assigned to variables in that order. It
-        overwrites the import data information. Additional constraints (e.g., string variables can be nominal variables)
-        will overwrite this.
-        - Dictionary, items are variable name and measurement level pairs: measurement levels will be assigned to the
-        appropriate variables. It overwrites the import data information. Additional constraints (e.g., string variables
-        can be nominal variables) will overwrite this.
+    Orthogonally,type of information may also be included in the key:
+    - info: includes headings and additional details of the analysis
+    - table: results in table/numerical format
+    - chart: results in charts
+    - or no information type is added
     """
 
     def __init__(self, data, measurement_levels=None):
         """Initialize the cogstat data object.
 
-        In the input data:
+        In the spreaqdsheet or string input data:
         - First line should be the variable name
         --- If there are missing names, Unnamed:0, Unnamed:1, etc. names are given
         --- If there are repeating var names, new available numbers are added, e.g. a.1, a.2, etc.
-        - Second line could be the measuring level
+        - Second line could be the measurement level
+
+        The measurement levels are set in the following order:
+        - All variables are 'unknown'.
+        - Then, if import data includes measurement level, then that information will be used.
+        - Then, if measurement_levels parameter is set, then that will be used.
+        - Finally, constraints (e.g., string variables can be nominal variables) will overwrite measurement levels.
+
+        More information on data handling: <https://doc.cogstat.org/Handling-data>
 
         Data structure that is created:
-        self.orig_data_frame - pandas DataFrame, the original data without filtering
-        self.data_frame - pandas DataFrame, the actual data with optional filtering
-        self.data_measlevs - dictionary storing level of measurement of the variables (name:level):
-                'nom', 'ord', or 'int' (ratio is included in 'int')
-                'unk' - unknown: if no other level is given
-        self.filtering_status - list of two items:
-                                [0] list of the variables the filtering is based on (or None)
-                                [2] the name of the filtering method (or '')
-
-        self.import_source - list of 2 strings:
-                             [0]: import data type
-                             [1]: path to the data file or '' if the data source is not a file
-        self.import_message - text output of the imported process
-                              can't return anything to caller, since we're in an __init__ method, so store the message
-                              here
+        - self.orig_data_frame - pandas DataFrame, the original data without filtering
+        - self.data_frame - pandas DataFrame, the actual data with optional filtering
+        - self.data_measlevs - dictionary storing level of measurement of the variables (name:level):
+            - 'nom', 'ord', or 'int' (ratio is included in 'int')
+            - 'unk' - unknown: if no other level is given
+        - self.filtering_status - list of two items:
+            - [0] list of the variables the filtering is based on (or None)
+            - [1] the name of the filtering method (or '')
+        - self.import_source - list of 2 strings:
+            - [0]: import data type
+            - [1]: path to the data file or '' if the data source is not a file
+        - self.import_message - text output of the imported process
+            - can't return anything to caller, since we're in an __init__ method, so store the message here
 
         Parameters
         ----------
-        See the class docstring.
+        data : pandas.DataFrame or str
+            Data to be imported. This can be:
+            - Pandas DataFrame
+            - Clipboard data from a spreadsheet (identified as multiline string)
+            - Filename (identified as one line text)
+
+        measurement_levels : None, list of {'nom', 'ord', 'int'} or dict of {str: {'nom', 'ord', 'int'}}
+            Optional measurement levels of the variables
+            - None: measurement level of the import file or the clipboard information will be used
+            - List of strings ('nom', 'ord', 'int'): measurement levels will be assigned to variables in that order. It
+            overwrites the import data information. Additional constraints (e.g., string variables can be nominal variables)
+            will overwrite this.
+            - Dictionary, items are variable name and measurement level pairs: measurement levels will be assigned to the
+            appropriate variables. It overwrites the import data information. Additional constraints (e.g., string variables
+            can be nominal variables) will overwrite this.
 
         """
 
@@ -570,7 +571,7 @@ class CogStatData:
         show_heading : bool
             Add heading to the output string?
         brief : bool
-            Should only the first few cases or the whole data frame be displayed?
+            Should only the first few cases (True) or the whole data frame (False) be displayed?
 
         Returns
         -------
@@ -610,12 +611,15 @@ class CogStatData:
         """
         Filter self.data_frame based on outliers.
 
-        With univariate methods, all variables are investigated independently and cases are excluded if any variable
+        - With univariate methods, all variables are investigated independently and cases are excluded if any variable
         shows they are outliers.
-        If mode is 'multivariate', then variables are jointly investigated for multivariate outliers.
-        If var_names is None, then the filtering will be switched off (i.e. all cases will be used).
+        - If mode is 'multivariate', then variables are jointly investigated for multivariate outliers.
+        - If var_names is None or [], then the filtering will be switched off (i.e. all cases will be used).
+        - If any values in the given variables are missing in a case, the whole case will also be excluded.
 
-        If any values in the given variables are missing in a case, the whole case will also be excluded.
+        It modifies the self.filtering_status.
+
+        More information on CogStat outlier filtering: <https://doc.cogstat.org/Filter-outliers>
 
         Parameters
         ----------
@@ -634,8 +638,6 @@ class CogStatData:
             The method modifies the self.data_frame in place.
         list of charts
             If cases were filtered, then filtered and remaining cases are shown.
-
-        Modifies the self.filtering_status.
         """
         results = {key: None for key in ['analysis info', 'warning', 'sample chart']}
 
@@ -816,6 +818,8 @@ class CogStatData:
         """
         Explore a single variable.
 
+        More information: <https://doc.cogstat.org/Explore-variable>
+
         Parameters
         ----------
         var_name : str
@@ -823,12 +827,12 @@ class CogStatData:
         frequencies : bool
             Should the frequencies be shown?
         central_value : float
-            Test value for testing central tendency.
+            Test value for testing a central tendency.
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        dict
+            Results of the analysis
         """
         results = {key: None for key in ['analysis info', 'warning',
                                          'raw data info', 'raw data chart', 'sample info',
@@ -941,17 +945,19 @@ class CogStatData:
         Calculate internal consistency reliability using Cronbach's alpha, and it's confidence interval,
         as well as item-rest correlations and their confidence intervals.
 
+        More information: <https://doc.cogstat.org/Internal-consistency-reliability-analysis>
+
         Parameters
         ----------
         var_names : list of str
             Names of the variables or items.
         reverse_items : list of str
-            Subset of var_names. Names of reverse coded variables or items.
+            Subset of var_names. Names of reverse-coded variables or items.
 
         Returns
         -------
-        list of str and matplotlib image
-            Analysis results: str in HTML format
+        dict
+            Results of the analysis
         """
         results = {key: None for key in ['analysis info', 'warning',
                                          'raw data info', 'raw data chart',
@@ -1023,6 +1029,8 @@ class CogStatData:
         Calculate inter-rater reliability using intraclass correlation. Use the McGraw and Wong, 1996 terms. Follow the
         Liljequist et al. 2019 strategy and display three indexes.
 
+        More information: <https://doc.cogstat.org/Interrater-reliability-analysis>
+
         Parameters
         ----------
         var_names : list of str
@@ -1030,12 +1038,12 @@ class CogStatData:
         ratings_averaged : bool
             Are the ratings averaged?
         ylims : list of {int or float}
-            Limit of the y axis for interval and ordinal variables instead of using automatic values.
+            Limit of the y-axis for interval and ordinal variables instead of using automatic values.
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        dict
+            Results of the analysis
         """
         results = {key: None for key in ['analysis info', 'warning',
                                          'raw data info', 'raw data chart',
@@ -1150,7 +1158,9 @@ class CogStatData:
 
     def regression(self, predictors=None, predicted=None, xlims=[None, None], ylims=[None, None]):
         """
-        Explore a variable pair or multiple predictors and one predicted variable.
+        Explore a variable pair or explore multiple predictors and one predicted variable.
+
+        More information: <https://doc.cogstat.org/Explore-relation-of-variables>
 
         Parameters
         ----------
@@ -1165,8 +1175,8 @@ class CogStatData:
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        dict
+            Results of the analysis
         """
         results = {key: None for key in ['analysis info', 'warning',
                                          'raw data info', 'raw data chart',
@@ -1374,20 +1384,23 @@ class CogStatData:
 
     def pivot(self, depend_name='', row_names=None, col_names=None, page_names=None, function='Mean'):
         """
-        Compute pivot table.
+        Compute a pivot table.
+
+        More information: <https://doc.cogstat.org/Pivot-table>
 
         Parameters
         ----------
         depend_name : str
-            Variable serving as dependent variables.
+            Name of the dependent variables.
         row_names : list of str
             Variable names serving as row grouping variables.
         col_names : list of str
             Variable names serving as column grouping variables.
         page_names : list of str
-            Variable names serving as page  grouping variables.
+            Variable names serving as page grouping variables.
         function : {'N', 'Sum', 'Mean', 'Median', 'Lower quartile', 'Upper quartile', 'Standard deviation', 'Variance'}
-            Functions applied to pivot cells. Use localized version if CogStat is used in a non-English language.
+            Functions applied to pivot cells. Use localized version of the functions if CogStat is used in a
+            non-English language.
 
         Returns
         -------
@@ -1429,6 +1442,8 @@ class CogStatData:
 
         Dataframe should include a single trial in a case (row).
 
+        More information: <https://doc.cogstat.org/Behavioral-data-diffusion-analysis>
+
         Parameters
         ----------
         error_name : str
@@ -1443,15 +1458,15 @@ class CogStatData:
             Name(s) of the variable(s) storing conditions.
         correct_coding : {'0', '1'}
             Are correct responses noted with 0 or 1? Incorrect responses are noted with the other value.
+        reaction_time_in : {'sec', 'msec'}
+            Unit of the reaction times
         scaling_parameter : float
             Usually either 0.1 or 1
-        reaction_time_in : {'sec', 'msec'}
-            Unit of reaction time
 
         Returns
         -------
-        list of str and pandas Stylers
-            Analysis results in HTML format and tables
+        dict
+            Results of the analysis
         """
         results = {key: None for key in ['analysis info', 'warning', 'N', 'drift rate', 'threshold', 'nondecision time']}
 
@@ -1485,6 +1500,8 @@ class CogStatData:
         """
         Compare repeated measures variables.
 
+        More information: <https://doc.cogstat.org/Compare-repeated-measures-variables>
+
         Parameters
         ----------
         var_names: list of str
@@ -1503,8 +1520,8 @@ class CogStatData:
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        dict
+            Results of the analysis
         """
         results = {key: None for key in ['analysis info', 'warning',
                                          'raw data info', 'raw data chart',
@@ -1709,6 +1726,8 @@ class CogStatData:
         """
         Compare groups.
 
+        More information: <https://doc.cogstat.org/Compare-groups>
+
         Parameters
         ----------
         var_name : str
@@ -1726,8 +1745,8 @@ class CogStatData:
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        dict
+            Results of the analysis
         """
         results = {key: None for key in ['analysis info', 'warning',
                                          'raw data info', 'raw data chart',
@@ -1941,6 +1960,8 @@ class CogStatData:
                                  ylims=[None, None]):
         """ Compare mixed-design (repeated measures and groups) data.
 
+        More information: <https://doc.cogstat.org/Compare-repeated-measures-variables-and-groups>
+
         Parameters
         ----------
         var_names: list of str
@@ -1966,8 +1987,8 @@ class CogStatData:
 
         Returns
         -------
-        list of str and image
-            Analysis results in HTML format
+        dict
+            Results of the analysis
 
         """
         results = {key: None for key in ['analysis info', 'warning',
@@ -2223,7 +2244,7 @@ class CogStatData:
 
 def display(results):
     """
-    Display the dict of output given by CogStat analysis in IPython Notebook.
+    Display the result dictionary in Jupyter Notebook.
 
     Parameters
     ----------
