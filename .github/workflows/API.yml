@@ -32,11 +32,14 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install package dependencies
+        run: pip install -e .
+
       - name: Install pdoc
         run: pip install pdoc
 
       - name: Build documentation
-        run: pdoc -o ./docs/html cogstat/cogstat.py -d numpy --no-include-undocumented --no-show-source --logo 'https://raw.githubusercontent.com/cogstat/cogstat/refs/heads/devel/cogstat/resources/CogStat%20icon.svg' --skip-errors
+        run: pdoc -o ./docs/html cogstat/cogstat.py -d numpy --no-include-undocumented --no-show-source --logo 'https://raw.githubusercontent.com/cogstat/cogstat/refs/heads/devel/cogstat/resources/CogStat%20icon.svg'
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
