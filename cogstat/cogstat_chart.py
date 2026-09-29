@@ -746,7 +746,7 @@ def create_residual_chart(data, meas_lev, predictors, y):
                 # TODO histograms are the same for every variable, should we only display them once?
                 ax_hist.plot(normal_distribution, bins, "--")
                 # ax_hist.set_title(_plt("Histogram of residuals"))
-                ax_hist.set_xlabel("Freq")
+                ax_hist.set_xlabel(_plt("Freq"))
 
                 # Set histogram axis ticks invisible
                 plt.setp(ax_hist.get_yticklabels(), visible=False)
@@ -758,7 +758,7 @@ def create_residual_chart(data, meas_lev, predictors, y):
                 if i+1 > len(predictors):
                     break
 
-        fig.suptitle("Residual plot and histogram of residuals")
+        fig.suptitle(_plt("Residual plot and histogram of residuals"))
         fig.tight_layout()
         fig.subplots_adjust(wspace=0.05)
         graph = plt.gcf()
