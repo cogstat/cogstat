@@ -42,7 +42,7 @@ jobs:
         run: pip install 'pdoc==13.*'
 
       - name: Build documentation
-        run: pdoc -o ./docs/html cogstat/cogstat.py -d numpy --no-include-undocumented --no-show-source --logo 'https://raw.githubusercontent.com/cogstat/cogstat/refs/heads/devel/cogstat/resources/CogStat%20icon.svg'
+        run: pdoc -o ./docs/html cogstat/cogstat.py -d numpy --no-show-source --logo 'https://raw.githubusercontent.com/cogstat/cogstat/refs/heads/devel/cogstat/resources/CogStat%20icon.svg'
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
