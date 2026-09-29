@@ -32,6 +32,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set RPY2 environment variable
+        run: echo "RPY2_CFFI_MODE=ABI" >> $GITHUB_ENV
+
       - name: Install package dependencies
         run: pip install -e .
 
