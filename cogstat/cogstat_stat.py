@@ -635,7 +635,7 @@ def variable_pair_regression_coefficients(predictors, meas_lev, normality=None, 
         pdf_result.loc[_('Intercept')] = \
             ['%0.3f' % (result.params['const']), '[%0.3f, %0.3f]' % (cis.loc['const', 0], cis.loc['const', 1])]
         for predictor in predictors:
-            pdf_result.loc[-('Slope for %s') % predictor] = ['%0.3f' % (result.params[predictor]), '[%0.3f, %0.3f]' %
+            pdf_result.loc[_('Slope for %s') % predictor] = ['%0.3f' % (result.params[predictor]), '[%0.3f, %0.3f]' %
                                                           (cis.loc[predictor, 0], cis.loc[predictor, 1])]
     else:
         regression_coefficients = None
