@@ -41,11 +41,6 @@ if csc.versions['r']:
 t = gettext.translation('cogstat', os.path.dirname(os.path.abspath(__file__))+'/locale/', [csc.language], fallback=True)
 _ = t.gettext
 
-warn_unknown_variable = '<cs_warning>'+_('The properties of the variables are not set. Set them in your data source.') \
-                        + ' ' + _('Read more about this issue <a href = "%s">here</a>.') \
-                        % 'https://doc.cogstat.org/Handling-data' \
-                        + '\n</cs_warning>'  # TODO maybe this shouldn't be repeated, it's enough to show it at import
-
 non_data_dim_precision = 2
 
 
@@ -241,8 +236,6 @@ def one_t_test(pdf, data_measlevs, var_name, test_value=0):
     text_result = ''
     data = pdf[var_name]
     if data_measlevs[var_name] in ['int', 'unk']:
-        if data_measlevs[var_name] == 'unk':
-            text_result += warn_unknown_variable
         if len(set(data)) == 1:
             return _('One sample t-test cannot be run for constant variable') + '.\n', None
 
@@ -300,8 +293,6 @@ def wilcox_sign_test(pdf, data_measlevs, var_name, value=0):
 
     text_result = ''
     if data_measlevs[var_name] in ['int', 'ord', 'unk']:
-        if data_measlevs[var_name] == 'unk':
-            text_result += warn_unknown_variable
         '''if csc.versions['r']:
             # R version
             # http://ww2.coastal.edu/kingw/statistics/R-tutorials/singlesample-t.html
