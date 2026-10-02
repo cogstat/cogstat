@@ -2244,7 +2244,7 @@ class CogStatData:
 
 def display(results):
     """
-    Display the result dictionary in Jupyter Notebook.
+    Display the results dictionary in Jupyter Notebook.
 
     Parameters
     ----------
@@ -2258,6 +2258,10 @@ def display(results):
         if isinstance(item, str):
             item = item.replace('class="dataframe"', '')  # otherwise, Jupyter notebook automatically removes the non-table parts
             display(HTML(item))
+        elif isinstance(item, pd.io.formats.style.Styler):  # make sure that captions are displayed even when IDEs (such as PyCharm) etc. use a display method that removes captions
+            # TODO this solution is not ideal because if a notebook doesn't remove caption, caption will be displayed twice
+            caption = item.caption if getattr(item, 'caption', None) else ''
+            display(HTML(caption + item.to_html()))
         else:
             display(item)
 
