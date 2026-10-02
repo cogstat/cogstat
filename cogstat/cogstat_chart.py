@@ -486,7 +486,7 @@ def create_variable_raw_chart(pdf, data_measlevs, var_name):
 
 
 def create_histogram_chart(pdf, data_measlevs, var_name):
-    """Histogram with individual data and boxplot
+    """Histogram of a single variable showing individual cases and boxplot.
 
     Parameters
     ----------
@@ -547,7 +547,7 @@ def create_histogram_chart(pdf, data_measlevs, var_name):
         plt.ylabel(_plt('Frequency'))
         # Lower part showing the boxplot
         ax_low = plt.axes([0.1, 0.13, 0.8, 0.17], sharex=ax_up)
-        box1 = plt.boxplot(data.values, vert=0,
+        box1 = plt.boxplot(data.values, vert=False,
                            whis=[0, 100])  # .values needed, otherwise error when the first case is missing data
         plt.gca().axes.get_yaxis().set_visible(False)
         if data_measlevs[var_name] == 'ord':
