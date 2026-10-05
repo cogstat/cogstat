@@ -2242,7 +2242,7 @@ class CogStatData:
         return cs_util.convert_output(results)
 
 
-def display(results):
+def display(results, print_caption=True):
     """
     Display the results dictionary in Jupyter Notebook.
 
@@ -2250,6 +2250,8 @@ def display(results):
     ----------
     results : dict of {str, image, pandas styler, list}
         HTML results.
+    print_caption : bool, optional
+        Whether to print the pandas Styler caption. Useful in environments where the caption is not displayed. Default is True.
     """
     from IPython.display import display
     from IPython.display import HTML
@@ -2259,8 +2261,7 @@ def display(results):
             item = item.replace('class="dataframe"', '')  # otherwise, Jupyter notebook automatically removes the non-table parts
             display(HTML(item))
         elif isinstance(item, pd.io.formats.style.Styler):  # make sure that captions are displayed even when IDEs (such as PyCharm) etc. use a display method that removes captions
-            # TODO this solution is not ideal because if a notebook doesn't remove caption, caption will be displayed twice
-            caption = item.caption if getattr(item, 'caption', None) else ''
+            caption = item.caption if (getattr(item, 'caption', None) and print_caption) else ''
             display(HTML(caption + item.to_html()))
         else:
             display(item)
