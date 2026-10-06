@@ -586,8 +586,8 @@ class StatMainWindow(QtWidgets.QMainWindow):
                     pipe_func = lambda x: x
                 # 1. make row headers left aligned
                 # 2. headers use None formatter resulting in a format used in DataFrame.to_html() for floats
-                # 3. call pipe_func if availabe
-                # 4. convert to HTML, and remove \n-s
+                # 3. call pipe_func if available
+                # 4. convert to HTML and remove \n-s
                 pane.append(output.set_table_styles([{'selector': 'th.row_heading', 'props': 'text-align: left;'}]).
                             format_index(formatter='{}', axis=0).format_index(formatter='{}', axis=1).
                             pipe(pipe_func).
@@ -628,9 +628,11 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 data_to_display.index = data_to_display.index + 1
             # Add the variable type and measurement level to the dataframe.
             dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num',
-                             'object': 'str', 'string': 'str', 'category': 'str', 'datetime64[ns]': 'str'}
+                             'object': 'str', 'string': 'str', 'category': 'str'}
+            # also, any datetime64 dtype (e.g., 'datetime64[ns]') is handled in the code below
             data_to_display = pd.concat(
-               [pd.DataFrame([[dtype_convert[str(self.active_data.data_frame[name].dtype).lower()] for name in
+               [pd.DataFrame([['str' if str(self.active_data.data_frame[name].dtype).lower().startswith('datetime64')
+                               else dtype_convert[str(self.active_data.data_frame[name].dtype).lower()] for name in
                                self.active_data.data_frame.columns],
                               [self.active_data.data_measlevs[name] for name in self.active_data.data_frame.columns]],
                              columns=self.active_data.data_frame.columns,

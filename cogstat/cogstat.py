@@ -590,8 +590,11 @@ class CogStatData:
         results['analysis info'] += self._filtering_status()
 
         dtype_convert = {'int32': 'num', 'int64': 'num', 'float32': 'num', 'float64': 'num',
-                         'object': 'str', 'string': 'str', 'category': 'str', 'datetime64[ns]': 'str'}
-        data_prop = pd.DataFrame([[dtype_convert[str(self.data_frame[name].dtype).lower()] for name in self.data_frame.columns],
+                         'object': 'str', 'string': 'str', 'category': 'str'}
+        # also, any datetime64 dtype (e.g., 'datetime64[ns]') is handled in the code below
+        data_prop = pd.DataFrame([['str' if str(self.data_frame[name].dtype).lower().startswith('datetime64')
+                                   else dtype_convert[str(self.data_frame[name].dtype).lower()]
+                                   for name in self.data_frame.columns],
                                   [self.data_measlevs[name] for name in self.data_frame.columns]],
                                  columns=self.data_frame.columns)
         data_comb = pd.concat([data_prop, self.data_frame])
