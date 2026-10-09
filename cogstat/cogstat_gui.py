@@ -886,7 +886,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                 return
         if self._run_analysis(title=_('Filter outliers'), function_name='self.active_data.filter_outlier',
                               parameters={'var_names': var_names,
-                                          'mode': 'mahalanobis' if multivariate_outliers else '2.5mad'}):
+                                          'mode': 'multivariate' if multivariate_outliers else 'univariate'}):
             self._display_data()
 
     def print_data(self, brief=False):
