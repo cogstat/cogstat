@@ -1288,7 +1288,7 @@ class StatMainWindow(QtWidgets.QMainWindow):
                                     csc.versions['cogstat'] + ('<br>%s<br><br>Copyright © %s-%s Attila Krajcsi and CogStat contributors<br><br>'
                                                                '<a href = "https://www.cogstat.org">%s</a>' %
                                                                (_('Simple automatic data analysis software'),
-                                                                2012, 2024, _('Visit CogStat website'))))
+                                                                2012, 2026, _('Visit CogStat website'))))
 
     def print_versions(self):
         """Print the versions of the software components CogStat uses."""
