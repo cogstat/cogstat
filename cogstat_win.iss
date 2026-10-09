@@ -5,7 +5,7 @@
 #define MyAppVersion "2.6dev"
 #define MyAppPublisher "Attila Krajcsi"
 #define MyAppURL "https://www.cogstat.org"
-#define MySource "C:\Users\Attila\CogStat\cogstat_source\"
+#define MySource "dist\CogStat\"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -19,19 +19,22 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputBaseFilename=CogStat_Windows_installer_{#MyAppVersion}
 OutputDir=windows_installers
 Compression=lzma
-SetupIconFile="{#MySource}\cogstat\resources\CogStat.ico"
+SetupIconFile="{#MySource}\_internal\cogstat\resources\CogStat.ico"
 SolidCompression=yes
-WizardImageFile="{#MySource}\cogstat\resources\CogStat logo.bmp"
+WizardImageFile="{#MySource}\_internal\cogstat\resources\CogStat logo.bmp"
 WizardImageStretch=no
+WizardStyle=modern
 WizardImageBackColor=clWhite
+PrivilegesRequired=lowest
+PrivilegesRequiredOverridesAllowed=commandline dialog
 
 [Languages]
-; There are some unofficial language files, download them from http://www.jrsoftware.org/files/istrans/
+; There are unofficial isl files for some languages downloadable from http://www.jrsoftware.org/files/istrans/
 Name: "arabic"; MessagesFile: "compiler:Languages\Arabic.isl"
 Name: "bulgarian"; MessagesFile: "compiler:Languages\Bulgarian.isl"
 Name: "chinese"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
@@ -61,17 +64,16 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "{#MySource}run_cogstat_gui.py"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MySource}CogStat.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySource}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Attila\AppData\Local\Programs\Python\Python38\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Program Files\R\R-4.3.3\*"; DestDir: "{app}\R_CS\"; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: "C:\Program Files\R\R-4.3.3\*"; DestDir: "{app}\R_CS\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"
+Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\cogstat\resources\CogStat.ico"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName} {#MyAppVersion}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: quicklaunchicon
+Name: "{commondesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\pythonw.exe"; WorkingDir: "{app}"; Parameters: """{app}\run_cogstat_gui.py"""; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
+Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
