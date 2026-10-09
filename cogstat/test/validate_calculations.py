@@ -12,9 +12,11 @@ import pandas as pd
 if os.name == 'nt':
     os.environ['R_HOME'] = 'C:/Program Files/R/R-4.3.3/'
 
+from cogstat import cogstat_config as csc
+# current test cases expect APA format and English language
+csc.p_value_format = 'apa'
+csc.language = 'en'
 from cogstat import cogstat as cs
-
-cs.csc.p_value_format = 'apa'  # current test cases expect APA format
 
 print(cs.__file__)
 print(cs.__version__)
