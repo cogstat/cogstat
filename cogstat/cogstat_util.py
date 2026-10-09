@@ -19,6 +19,7 @@ def print_versions(main_window):
     text_output = '<cs_h1>' + _('System components') + '</cs_h1>'
     text_output += 'CogStat: %s\n' % csc.versions['cogstat']
     text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
+    text_output += 'CogStat user config path: %s\n' % csc.dirs.user_config_dir
     text_output += 'Platform: %s\n' % csc.versions['platform']
     text_output += 'Python: %s\n' % csc.versions['python']
     text_output += 'Python interpreter path: %s\n' % sys.executable
