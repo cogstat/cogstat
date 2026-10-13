@@ -30,8 +30,6 @@ import os
 import datetime
 import string
 
-__version__ = '2.6dev'
-
 import matplotlib
 matplotlib.use("qtagg")
 #print(matplotlib.get_backend())
@@ -41,7 +39,6 @@ import pandas as pd
 from scipy import stats
 
 from . import cogstat_config as csc
-csc.versions['cogstat'] = __version__
 from . import cogstat_util as cs_util
 from . import cogstat_stat as cs_stat
 from . import cogstat_hyp_test as cs_hyp_test

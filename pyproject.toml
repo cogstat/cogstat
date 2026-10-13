@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cogstat"
-version = "2.6.dev0"
+dynamic = ["version"]
 description = "Simple statistics for researchers."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -42,5 +42,8 @@ cogstat = "cogstat.cogstat_gui:main"
 
 [tool.setuptools]
 include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "cogstat._version.__version__"}
 
 [tool.setuptools.packages.find]

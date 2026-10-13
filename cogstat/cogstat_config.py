@@ -2,7 +2,7 @@
 
 The module includes the elements for configuring the behavior of CogStat.
 
-All settings that can be set from the Preferences in the GUI, are included in the .ini file.
+All settings that can be set from the Preferences in the GUI are included in the .ini file.
 """
 
 import os
@@ -22,7 +22,7 @@ os.environ['OUTDATED_IGNORE'] = '1'  # otherwise, old pingouin version warning i
 
 # 1. versions
 # Find the versions of the different components.
-# Used for diagnostic and for version specific codes.
+# Used for diagnostic and for version-specific codes.
 
 versions = {}  # To be modified from cogstat.py
 
@@ -30,6 +30,11 @@ versions['platform'] = platform.platform()
 
 # Python components
 versions['python'] = sys.version
+
+# CogStat version
+from ._version import __version__
+versions['cogstat'] = __version__
+
 try:
     import numpy
     versions['numpy'] = numpy.__version__
@@ -204,7 +209,7 @@ graph_title_size = 'medium'
 
 def save(config_key, value):
     """
-    Save the settings to cogstat.ini file. This should be called when Settings are changed in the Preferences.
+    Save the settings to the cogstat.ini file. This should be called when Settings are changed in the Preferences.
 
     Parameters
     ==========
