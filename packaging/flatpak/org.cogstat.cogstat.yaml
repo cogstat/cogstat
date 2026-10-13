@@ -24,9 +24,9 @@ modules:
     buildsystem: simple
     build-commands:
       - pip3 install --prefix=/app --no-build-isolation ".[GUI]"
-      - install -Dm644 org.cogstat.cogstat.desktop /app/share/applications/org.cogstat.cogstat.desktop
-      - install -Dm644 org.cogstat.cogstat.metainfo.xml /app/share/metainfo/org.cogstat.cogstat.metainfo.xml
+      - install -Dm644 packaging/flatpak/org.cogstat.cogstat.desktop /app/share/applications/org.cogstat.cogstat.desktop
+      - install -Dm644 packaging/flatpak/org.cogstat.cogstat.metainfo.xml /app/share/metainfo/org.cogstat.cogstat.metainfo.xml
       - install -Dm644 "cogstat/resources/CogStat icon.svg" /app/share/icons/hicolor/scalable/apps/org.cogstat.cogstat.svg
     sources:
       - type: dir
-        path: .
+        path: ../../.
