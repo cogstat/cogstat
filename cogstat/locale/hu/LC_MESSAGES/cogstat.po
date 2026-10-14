@@ -73,7 +73,7 @@ msgstr "Normalizált relatív gyakoriság"
 
 #: .././cogstat_chart.py:638
 msgid "Quantile-quantile plot"
-msgstr "Kvantilis-kvantilis ábra"
+msgstr "Kvantilis-kvantilis diagram"
 
 #: .././cogstat_hyp_test.py:273
 msgid "One sample t-test against %g"
@@ -130,7 +130,7 @@ msgstr "Változók pontfelhő diagramja"
 
 #: .././cogstat_chart.py:908 .././cogstat_chart.py:1151
 msgid "Mosaic plot of the variables"
-msgstr "A változók mozaik ábrája"
+msgstr "A változók mozaik diagramja"
 
 #: .././cogstat_chart.py:1118 .././cogstat_chart.py:1816
 msgid "Thickest line displays %d cases."
@@ -162,7 +162,7 @@ msgstr "Friedman próba eredménye: "
 
 #: .././cogstat_chart.py:1340
 msgid "Mosaic plot of the groups"
-msgstr "A csoportok mozaik ábrája"
+msgstr "A csoportok mozaik diagramja"
 
 #: .././cogstat_chart.py:1376
 msgid "Means and 95% confidence intervals for the groups"
@@ -210,7 +210,7 @@ msgstr "Ctrl+O"
 
 #: .././cogstat_gui.py:189
 msgid "&Paste data"
-msgstr "Adat &beillesztése"
+msgstr "Adat &beillesztése vágólapról"
 
 #: .././cogstat_gui.py:189
 msgid "Ctrl+V"
@@ -234,7 +234,7 @@ msgstr "Ctrl+2"
 
 #: .././cogstat_gui.py:230
 msgid "Pivot &table"
-msgstr "Kimutatá&s"
+msgstr "Kimutatá&s tábla"
 
 #: .././cogstat_gui.py:213
 msgid "Compare &groups"
@@ -295,7 +295,7 @@ msgstr "Ctrl+Q"
 
 #: .././cogstat.py:1419 .././cogstat_gui.py:1026 ../ui/pivot.py:160
 msgid "Pivot table"
-msgstr "Kimutatás"
+msgstr "Kimutatás tábla"
 
 #: .././cogstat_gui.py:1192
 msgid "Clear output"
@@ -506,7 +506,7 @@ msgstr "Eredmények mentése"
 msgid "Import failed"
 msgstr "Sikertelen beolvasás"
 
-#: .././cogstat_stat.py:360 .././cogstat_stat.py:363
+#: .././cogstat_stat.py:360 .././cogstat_stat.py:363 .././cogstat_chart.py:749
 msgid "Freq"
 msgstr "Gyak"
 
@@ -818,7 +818,7 @@ msgstr "Ismételt méréses változók összehasonlítása"
 #: .././cogstat.py:1606 .././cogstat.py:1824 .././cogstat.py:2100
 #: .././cogstat.py:2118
 msgid "N of missing cases"
-msgstr "Hiányzó esetek N"
+msgstr "Hiányzó esetek száma"
 
 #: .././cogstat_hyp_test.py:1221
 msgid "Choosing factorial ANOVA."
@@ -1007,7 +1007,7 @@ msgstr "Nyelv"
 
 #: ../ui/preferences.py:94
 msgid "Chart theme"
-msgstr "Ábrák témája (stílusa)"
+msgstr "Diagramok témája (stílusa)"
 
 #: ../ui/compare_groups_single_case_slope.py:82
 msgid "Compare groups - Single case slope"
@@ -1044,7 +1044,7 @@ msgstr "Változópárok kapcsolatának vizsgálata"
 
 #: .././cogstat_gui.py:192
 msgid "&Filter outliers"
-msgstr "&Kiugró adatok szűrése"
+msgstr "&Extrém adatok szűrése"
 
 #: .././cogstat_gui.py:192
 msgid "Ctrl+L"
@@ -1052,7 +1052,7 @@ msgstr "Ctrl+L"
 
 #: .././cogstat_gui.py:255
 msgid "Text is &editable"
-msgstr "Szerkeszthető sz&öveg"
+msgstr "Sz&öveg szerkesztése"
 
 #: .././cogstat_hyp_test.py:1013
 msgid "Main effect of %s"
@@ -1080,7 +1080,7 @@ msgstr "Nominális változók több faktorral."
 
 #: ../ui/filter_outlier.py:87
 msgid "Filter outlier"
-msgstr "Kiugró adatok szűrése"
+msgstr "Extrém adatok szűrése"
 
 #: ../ui/factors.py:48
 msgid "Factors"
@@ -1390,7 +1390,7 @@ msgstr "Kruskal–Wallis próba eredménye: "
 
 #: .././cogstat_hyp_test.py:1627
 msgid "Result of the Pearson's chi-squared test: "
-msgstr "Pearson Khí-négyzet próba eredménye: "
+msgstr "Pearson khí-négyzet próba eredménye: "
 
 #: .././cogstat.py:409 .././cogstat_gui.py:179 .././cogstat_gui.py:182
 msgid "Spreadsheet file"
@@ -1498,7 +1498,7 @@ msgstr "Hoppá, ez nem sikerült. A CogStat nem tudta lefuttatni az elemzést. A
 
 #: .././cogstat.py:649 .././cogstat_gui.py:885
 msgid "Filter outliers"
-msgstr "Kiugró adatok szűrése"
+msgstr "Extrém adatok szűrése"
 
 #: .././cogstat.py:848
 msgid "At least one variable should be set."
@@ -1771,7 +1771,7 @@ msgstr "Aktuális adat fájl újratöltése"
 
 #: .././cogstat.py:652 .././cogstat.py:785
 msgid "MMCD Mahalanobis distance with .05 chi squared cut-off"
-msgstr "MMCD Mahalnobis távolság 0.05 khí-négyzet határral"
+msgstr "MMCD Mahalanobis távolság 0.05 khí-négyzet határral"
 
 #: .././cogstat.py:967 ../ui/reliability_internal.py:88
 msgid "Internal consistency reliability"
@@ -1817,7 +1817,7 @@ msgstr "Multikollinearitás tesztelése"
 
 #: .././cogstat_chart.py:344
 msgid "Included and excluded cases"
-msgstr "Bevett és kizárt esetek"
+msgstr "Megtartott és kizárt esetek"
 
 #: .././cogstat_chart.py:382
 msgid "Scatterplots of item scores and total scores with item-removal"
@@ -2345,7 +2345,7 @@ msgstr "A CogStatot újra kell indítani az új nyelvi beállításokhoz"
 
 #: ../ui/filter_outlier.py:91
 msgid "&Multivariate outliers filtering"
-msgstr "&Többváltozós kiugró adat szűrés"
+msgstr "&Többváltozós extrém adatszűrés"
 
 #: .././cogstat_gui.py:408
 msgid "Find more information about CogStat on its <a href = \"https://www.cogstat.org\">webpage</a> or read the <a href=\"https://doc.cogstat.org/Quick-Start-Tutorial\">quick start tutorial.</a>"
@@ -2357,7 +2357,7 @@ msgstr "Pearson parciális korreláció a(z) %s változóra"
 
 #: .././cogstat_chart.py:1002
 msgid "Partial regression plots with regression lines"
-msgstr "Parciális regressziós ábra a regressziós görbével"
+msgstr "Parciális regressziós diagram a regressziós görbével"
 
 #: .././cogstat_chart.py:1004
 msgid "Sample scatterplots with model fitted lines"
@@ -2365,7 +2365,7 @@ msgstr "Minta pont diagramja a modell illesztett függvényével"
 
 #: .././cogstat_chart.py:1041 .././cogstat_chart.py:1042
 msgid "residuals"
-msgstr "residuálisok"
+msgstr "reziduálisok"
 
 #: .././cogstat_chart.py:1671 .././cogstat_chart.py:1672
 #: .././cogstat_chart.py:1703 .././cogstat_chart.py:1704
@@ -2965,4 +2965,8 @@ msgstr "0-Helyes 1-Helyetelen"
 #: .././cogstat_gui.py:270
 msgid "configuration"
 msgstr "beállítás"
+
+#: .././cogstat_chart.py:761
+msgid "Residual plot and histogram of residuals"
+msgstr "Reziduális diagram és a reziduálisok hisztogramja"
 
