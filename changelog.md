@@ -11,6 +11,8 @@ Upcoming release
 - Variable names and values can include any Unicode characters
 - Option to display p-value not only in APA but in scientific format
 - Updated documentation for using CogStat as a Python package
+- Installation updates
+    - More robust Python package installation 
 - New localization
     - Macedonian (Bisera Varoshlija)
     - Slovenian (Tia Križan)
@@ -23,7 +25,7 @@ Upcoming release
     - Turkish (Sude Demirer)
 
 ## Fixes
-- Output, localization, and GUI fixes
+- Output, localization, installation, and GUI fixes
 - SVG images now display correctly in exported HTML files (Akshay Lakhi)
 
 2.5 (10 July 2024)
