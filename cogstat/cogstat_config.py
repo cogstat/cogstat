@@ -31,10 +31,6 @@ versions['platform'] = platform.platform()
 # Python components
 versions['python'] = sys.version
 
-# CogStat version
-from ._version import __version__
-versions['cogstat'] = __version__
-
 try:
     import numpy
     versions['numpy'] = numpy.__version__

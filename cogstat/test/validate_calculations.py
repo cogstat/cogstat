@@ -19,7 +19,7 @@ csc.language = 'en'
 from cogstat import cogstat as cs
 
 print(cs.__file__)
-print(cs.csc.versions['cogstat'])
+print(cs.__version__)
 print(os.path.abspath(cs.__file__))
 
 """

@@ -38,7 +38,9 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
+from ._version import __version__
 from . import cogstat_config as csc
+csc.versions['cogstat'] = __version__
 from . import cogstat_util as cs_util
 from . import cogstat_stat as cs_stat
 from . import cogstat_hyp_test as cs_hyp_test
