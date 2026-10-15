@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "CogStat"
-#define MyAppVersion "2.6dev"
+#define MyAppVersion "2.6.0a2"
 #define MyAppPublisher "Attila Krajcsi"
 #define MyAppURL "https://www.cogstat.org"
 #define MySource "..\pyinstaller\dist\CogStat\"
@@ -23,13 +23,11 @@ DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputBaseFilename=CogStat_Windows_installer_{#MyAppVersion}
 OutputDir=windows_installers
-Compression=lzma
 SetupIconFile="{#MySource}\_internal\cogstat\resources\CogStat.ico"
 SolidCompression=yes
+WizardStyle=modern
 WizardImageFile="{#MySource}\_internal\cogstat\resources\CogStat logo.bmp"
 WizardImageStretch=no
-WizardStyle=modern
-WizardImageBackColor=clWhite
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline dialog
 
@@ -51,29 +49,32 @@ Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 Name: "kazakh"; MessagesFile: "compiler:Languages\Kazakh.isl"
 Name: "korean"; MessagesFile: "compiler:Languages\Korean.isl"
 Name: "malay"; MessagesFile: "compiler:Languages\Malaysian.isl"
+Name: "macedonian"; MessagesFile: "compiler:Languages\Macedonian.isl"
 Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
 Name: "romanian"; MessagesFile: "compiler:Languages\Romanian.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "slovak"; MessagesFile: "compiler:Languages\Slovak.isl"
+Name: "slovenian"; MessagesFile: "compiler:Languages\Slovenian.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "swedish"; MessagesFile: "compiler:Languages\Swedish.isl"
 Name: "thai"; MessagesFile: "compiler:Languages\Thai.isl"
 Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
+Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
+Name: "urdu"; MessagesFile: "compiler:Languages\Urdu.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
+Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#MySource}CogStat.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySource}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-;Source: "C:\Program Files\R\R-4.3.3\*"; DestDir: "{app}\R_CS\"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+;Source: "..\..\..\portable-r-4.6.1-win-x64\*"; DestDir: "{app}\R_CS\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\cogstat\resources\CogStat.ico"
+Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName} {#MyAppVersion}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\cogstat\resources\CogStat.ico"; Tasks: quicklaunchicon
+Name: "{commondesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: shellexec postinstall skipifsilent
+Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
