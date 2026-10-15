@@ -18,6 +18,8 @@ from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 
 app = QtWidgets.QApplication(sys.argv)
+if hasattr(Qt, 'ColorScheme'):
+    app.styleHints().setColorScheme(Qt.ColorScheme.Light)
 #app.setAttribute(Qt.AA_UseHighDpiPixmaps)  # TODO we don't need this anymore?
 pixmap = QtGui.QPixmap(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources',
                                     'CogStat splash screen.png'), 'PNG')

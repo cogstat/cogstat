@@ -35,7 +35,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-GUI = ["PyQt6"]
+GUI = ["PyQt6 >=6.8"]
 
 [project.scripts]
 cogstat = "cogstat.cogstat_gui:main"
