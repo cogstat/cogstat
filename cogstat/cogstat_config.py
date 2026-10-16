@@ -80,7 +80,72 @@ except (ModuleNotFoundError, NameError):
     # versions['pyqtstyle'] = None
 
 # R components
+# rpy2
+try:
+    # detect rpy without importing it; importing rpy may crash CogStat
+    from importlib.metadata import version, PackageNotFoundError
+    versions['rpy2'] = version('rpy2')
+except (PackageNotFoundError, ImportError):
+    versions['rpy2'] = None
+
+import json
+import subprocess
+# Check R availability and packages via an isolated subprocess probe so that possible segfault cannot crash CogStat
 versions['r'] = None
+versions['car'] = None
+versions['ez'] = None
+
+if versions['rpy2']:
+    # Set R_HOME for portable/bundled CogStat if present
+    if os.path.exists('R_CS'):
+        os.environ['R_HOME'] = os.path.abspath('R_CS')
+
+    # Python script executed in the isolated child process
+    probe_code = """
+import json
+import sys
+
+res = {'r_version': None, 'packages': {}}
+try:
+    import rpy2.robjects as robjects
+    res['r_version'] = robjects.r('version')[-2][0]
+
+    # Optional: check specific required R packages
+    for pkg in ['car', 'ez']:
+        try:
+            from rpy2.robjects.packages import importr
+            importr(pkg)
+            res['packages'][pkg] = True
+        except Exception:
+            res['packages'][pkg] = False
+except Exception as e:
+    pass
+
+print(json.dumps(res))
+"""
+
+    try:
+        # Run probe out-of-process with a 5-second timeout
+        probe_result = subprocess.run(
+            [sys.executable, '-c', probe_code],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            env=os.environ.copy()
+        )
+
+        if probe_result.returncode == 0 and probe_result.stdout.strip():
+            probe_data = json.loads(probe_result.stdout.strip())
+            versions['r'] = probe_data.get('r_version')
+            for pkg, is_available in probe_data.get('packages', {}).items():
+                versions[pkg] = is_available if is_available else None
+    except (subprocess.TimeoutExpired, subprocess.SubprocessError, json.JSONDecodeError, OSError):
+        versions['r'] = None
+    #print(versions)
+
+
+# Older versions; remove if the new versions work across OSs, etc.
+"""versions['r'] = None
 try:
     # rpy2 tries to find R in PATH or in R_HOME https://rpy2.github.io/doc/v3.5.x/html/rinterface.html
     # "If calling initr() returns an error stating that R_HOME is not defined, you should either have the R executable
@@ -124,6 +189,7 @@ try:
             versions['rpy2'] = None
 except (ModuleNotFoundError, NameError):
     versions['rpy2'] = None
+#"""
 '''
 try:
     from rpy2.robjects.packages import importr
