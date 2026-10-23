@@ -80,12 +80,6 @@ except (ModuleNotFoundError, NameError):
     # versions['pyqtstyle'] = None
 
 # R components
-# Set R_HOME for portable/bundled CogStat if present
-r_cs_path = os.path.join(os.path.dirname(__file__), '..', 'R_CS')
-if os.path.exists(r_cs_path):
-    pass
-    #os.environ['R_HOME'] = os.path.abspath(r_cs_path)
-
 # rpy2
 try:
     # detect rpy without importing it; importing rpy may crash CogStat
@@ -95,24 +89,30 @@ except (PackageNotFoundError, ImportError):
     versions['rpy2'] = None
 
 # R
-versions['r'] = None
-versions['r_info'] = ''
-try:
-    import subprocess
-    result = subprocess.run(
-        [os.path.join(os.path.abspath(r_cs_path), 'bin', 'R') if os.path.exists(r_cs_path) else "R", "--version"] ,
-        capture_output=True,
-        text=True,
-        timeout=5
-    )
-    if result.returncode == 0:
-        # Extract version from first line
-        versions['r'] = result.stdout.split('\n')[0]
-except Exception as e:
-    versions['r_info'] = f'{e}'
-if os.path.exists(r_cs_path):
-    versions['r_info'] += ' (bundled)'
-#print(versions)
+if versions['rpy2']:
+    # Set R_HOME for portable/bundled CogStat if present
+    r_cs_path = os.path.join(os.path.dirname(__file__), '..', 'R_CS')
+    if os.path.exists(r_cs_path):
+        os.environ['R_HOME'] = os.path.abspath(r_cs_path)
+
+    versions['r'] = None
+    versions['r_info'] = ''
+    try:
+        import subprocess
+        result = subprocess.run(
+            [os.path.join(os.path.abspath(r_cs_path), 'bin', 'R') if os.path.exists(r_cs_path) else "R", "--version"] ,
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode == 0:
+            # Extract version from first line
+            versions['r'] = result.stdout.split('\n')[0]
+    except Exception as e:
+        versions['r_info'] = f'{e}'
+    if os.path.exists(r_cs_path):
+        versions['r_info'] += ' (bundled)'
+    #print(versions)
 
 
 # Older versions; remove if the new versions work across OSs, etc.
