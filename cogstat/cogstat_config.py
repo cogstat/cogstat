@@ -106,7 +106,8 @@ try:
     )
     if result.returncode == 0:
         # Extract version from first line
-        versions['r'] = result.stdout.split('\n')[0]
+        # stdout on Linux, stderr on Windows
+        versions['r'] = (result.stdout + result.stderr).split('\n')[0]
 except Exception as e:
     versions['r_info'] = f'{e}'
 if os.path.exists(r_cs_path):
