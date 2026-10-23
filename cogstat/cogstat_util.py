@@ -39,7 +39,7 @@ def print_versions(main_window):
     text_output += 'Matplotlib backend: %s\n' % csc.versions['matplotlib_backend']
     text_output += 'PyQt: %s\n' % csc.versions['pyqt']
     text_output += 'PyQt QStyle:%s\n' % main_window.style().metaObject().className()
-    text_output += 'R: %s\n' % csc.versions['r']
+    text_output += 'R: %s %s\n' % (csc.versions['r'], csc.versions['r_info'])
     text_output += 'Rpy2: %s\n' % csc.versions['rpy2']
 
 #    text_output += '\n'
