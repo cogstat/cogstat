@@ -6,6 +6,7 @@ on:
     paths:
       - 'cogstat/**'
       - '.github/workflows/API.yml'
+      - 'pyproject.toml'
   workflow_dispatch:
 
 permissions:
