@@ -68,7 +68,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "{#MySource}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-;Source: "..\..\..\portable-r-4.6.1-win-x64\*"; DestDir: "{app}\R_CS\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\..\portable-r-4.6.1-win-x64\*"; DestDir: "{app}\R_CS\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"

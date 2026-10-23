@@ -81,7 +81,7 @@ except (ModuleNotFoundError, NameError):
 
 # R components
 # Set R_HOME for portable/bundled CogStat if present
-r_cs_path = os.path.join(os.path.dirname(__file__), '..', 'R_CS')
+r_cs_path = os.path.join(os.path.dirname(__file__), '..', '..', 'R_CS')
 if os.path.exists(r_cs_path):
     os.environ['R_HOME'] = os.path.abspath(r_cs_path)
 
