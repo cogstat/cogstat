@@ -98,11 +98,15 @@ versions['r'] = None
 versions['r_info'] = ''
 try:
     import subprocess
+    kwargs = {}
+    if sys.platform == 'win32':
+        kwargs['creationflags'] = subprocess.CREATE_NO_WINDOW
     result = subprocess.run(
-        [os.path.join(os.path.abspath(r_cs_path), 'bin', 'R') if os.path.exists(r_cs_path) else "R", "--version"] ,
+        [os.path.join(os.path.abspath(r_cs_path), 'bin', 'R') if os.path.exists(r_cs_path) else "R", "--version"],
         capture_output=True,
         text=True,
-        timeout=5
+        timeout=5,
+        **kwargs
     )
     if result.returncode == 0:
         # Extract version from first line
