@@ -31,7 +31,7 @@ dependencies = [
     "Jupyter",
     "scikit-learn",
     "svgutils",
-    "rpy2 <=3.5.17",
+    "rpy2 <3.6",
 ]
 
 [project.optional-dependencies]

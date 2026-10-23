@@ -81,8 +81,9 @@ except (ModuleNotFoundError, NameError):
 
 # R components
 # Set R_HOME for portable/bundled CogStat if present
-if os.path.exists('R_CS'):
-    os.environ['R_HOME'] = os.path.abspath('R_CS')
+r_cs_path = os.path.join(os.path.dirname(__file__), '..', 'R_CS')
+if os.path.exists(r_cs_path):
+    os.environ['R_HOME'] = os.path.abspath(r_cs_path)
 
 # rpy2
 try:
@@ -98,7 +99,7 @@ versions['r_info'] = ''
 try:
     import subprocess
     result = subprocess.run(
-        [os.path.join(os.path.abspath('R_CS'), 'bin', 'R') if os.path.exists('R_CS') else "R", "--version"] ,
+        [os.path.join(os.path.abspath(r_cs_path), 'bin', 'R') if os.path.exists(r_cs_path) else "R", "--version"] ,
         capture_output=True,
         text=True,
         timeout=5
@@ -108,7 +109,7 @@ try:
         versions['r'] = result.stdout.split('\n')[0]
 except Exception as e:
     versions['r_info'] = f'{e}'
-if os.path.exists('R_CS'):
+if os.path.exists(r_cs_path):
     versions['r_info'] += ' (bundled)'
 #print(versions)
 
