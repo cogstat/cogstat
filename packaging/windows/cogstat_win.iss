@@ -73,8 +73,7 @@ Source: "..\..\..\portable-r-4.6.1-win-x64\*"; DestDir: "{app}\R_CS\"; Flags: ig
 [Icons]
 Name: "{group}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName} {#MyAppVersion}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"; Tasks: quicklaunchicon
+Name: "{autodesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; IconFilename: "{app}\_internal\cogstat\resources\CogStat.ico"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\CogStat.exe"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
