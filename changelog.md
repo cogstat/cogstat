@@ -12,7 +12,9 @@ Upcoming release
 - Option to display p-value not only in APA but in scientific format
 - Updated documentation for using CogStat as a Python package
 - Installation updates
-    - More robust Python package installation 
+    - Updated (more flexible, smaller, faster, and more robust) Windows installer 
+    - More robust Python package installation
+    - CogStat is available from PyPI
 - New localization
     - Macedonian (Bisera Varoshlija)
     - Slovenian (Tia Križan)
