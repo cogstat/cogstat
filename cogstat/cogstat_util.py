@@ -17,12 +17,12 @@ _ = t.gettext
 
 def print_versions(main_window):
     text_output = '<cs_h1>' + _('System components') + '</cs_h1>'
-    text_output += 'CogStat: %s\n' % csc.versions['cogstat']
+    text_output += 'CogStat version: %s\n' % csc.versions['cogstat']
     text_output += 'CogStat path: %s\n' % os.path.dirname(os.path.abspath(__file__))
     text_output += 'CogStat user config path: %s\n' % csc.dirs.user_config_dir
     text_output += 'Current working directory: %s\n' % os.getcwd()
     text_output += 'Platform: %s\n' % csc.versions['platform']
-    text_output += 'Python: %s\n' % csc.versions['python']
+    text_output += 'Python version: %s\n' % csc.versions['python']
     text_output += 'Python interpreter path: %s\n' % sys.executable
     try:
         text_output += 'Stdout encoding: %s\n' % str(sys.stdout.encoding)
