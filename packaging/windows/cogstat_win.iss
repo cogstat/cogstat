@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "CogStat"
-#define MyAppVersion "2.6.0a2"
+#define MyAppVersion "2.6.0a3"
 #define MyAppPublisher "Attila Krajcsi"
 #define MyAppURL "https://www.cogstat.org"
 #define MySource "..\pyinstaller\dist\CogStat\"
